@@ -15,7 +15,8 @@ const SearchableSelect = ({ value, onChange, options, placeholder, className }) 
     setSearch('');
   };
 
-  const handleClear = () => {
+  const handleClear = (e) => {
+    e.stopPropagation();
     onChange('');
     setSearch('');
   };
@@ -35,7 +36,8 @@ const SearchableSelect = ({ value, onChange, options, placeholder, className }) 
         {value && (
           <button
             onClick={handleClear}
-            className="p-2 bg-red-600 hover:bg-red-700 rounded"
+            className="p-2 bg-red-600 hover:bg-red-700 rounded transition-colors"
+            type="button"
           >
             <X size={16} />
           </button>

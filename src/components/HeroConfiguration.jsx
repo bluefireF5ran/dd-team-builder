@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { AlertTriangle } from 'lucide-react';
+import { AlertTriangle, ChevronDown, ChevronUp } from 'lucide-react';
 import { HERO_CLASSES } from '../data/heroes';
 import { TRINKETS } from '../data/trinkets';
 import { POSITIVE_QUIRKS, NEGATIVE_QUIRKS } from '../data/quirks';
@@ -7,13 +7,14 @@ import { validateHero } from '../utils/validation';
 import SearchableSelect from './SearchableSelect';
 import QuirkSlot from './QuirkSlot';
 import QuirkSelector from './QuirkSelector';
-import StatusBadge from './StatusBadge';
 
 const HeroConfiguration = ({ hero, position, onUpdate }) => {
   const [showPositiveQuirkSelector, setShowPositiveQuirkSelector] = useState(false);
   const [showNegativeQuirkSelector, setShowNegativeQuirkSelector] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(true);
 
   const validation = validateHero(hero);
+
   const updateHero = (field, value) => {
     onUpdate({ ...hero, [field]: value });
   };
@@ -124,10 +125,19 @@ const HeroConfiguration = ({ hero, position, onUpdate }) => {
               <span>✓ Ready</span>
             </div>
           )}
+
+          {hero.heroClass && (
+            <button
+              onClick={() => setIsExpanded(!isExpanded)}
+              className="p-2 bg-gray-700 hover:bg-gray-600 rounded transition-colors"
+            >
+              {isExpanded ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+            </button>
+          )}
         </div>
       </div>
 
-      {hero.heroClass && (
+      {hero.heroClass && isExpanded && (
         <div className="grid grid-cols-3 gap-4">
           <div className="space-y-4">
             <div>
