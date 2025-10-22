@@ -1,0 +1,92 @@
+export const HERO_CLASSES = {
+  'Abomination': {
+    skills: ['Transform', 'Manacles', 'Beast\'s Bile', 'Absolution', 'Rake', 'Rage', 'Slam'],
+    campSkills: ['Encourage', 'Wound Care', 'Pep Talk', 'Anger Management', 'Psych Up', 'The Quickening', 'Eldritch Blood'],
+    image: 'abomination.png'
+  },
+  'Antiquarian': {
+    skills: ['Nervous Stab', 'Festering Vapours', 'Get Down!', 'Flashpowder', 'Fortifying Vapours', 'Invigorating Vapours', 'Protect Me'],
+    campSkills: ['Encourage', 'Wound Care', 'Pep Talk', 'Resupply', 'Trinket Scrounge', 'Strange Powders', 'Curious Incantation'],
+    image: 'antiquarian.png'
+  },
+  'Arbalest': {
+    skills: ['Sniper Shot', 'Suppressing Fire', 'Sniper\'s Mark', 'Bola', 'Blindfire', 'Battlefield Bandage', 'Rallying Flare'],
+    campSkills: ['Encourage', 'Wound Care', 'Pep Talk', 'Restring Crossbow', 'Field Dressing', 'Marching Plan', 'Triage'],
+    image: 'arbalest.png'
+  },
+  'Bounty Hunter': {
+    skills: ['Collect Bounty', 'Mark for Death', 'Come Hither', 'Flashbang', 'Uppercut', 'Finish Him', 'Caltrops'],
+    campSkills: ['Encourage', 'Wound Care', 'Pep Talk', 'This Is How We Do It', 'Tracking', 'Planned Takedown', 'Scout Ahead'],
+    image: 'bounty_hunter.png'
+  },
+  'Crusader': {
+    skills: ['Smite', 'Zealous Accusation', 'Stunning Blow', 'Bulwark of Faith', 'Battle Heal', 'Holy Lance', 'Inspiring Cry'],
+    campSkills: ['Encourage', 'Wound Care', 'Pep Talk', 'Unshakeable Leader', 'Stand Tall', 'Zealous Speech', 'Zealous Vigil'],
+    image: 'crusader.png'
+  },
+  'Flagellant': {
+    skills: ['Punish', 'Rain of Sorrows', 'Exsanguinate', 'Redeem', 'Reclaim', 'Suffer', 'Endure'],
+    campSkills: ['Lash\'s Anger', 'Lash\'s Solace', 'Lash\'s Kiss', 'Lash\'s Cure'], 
+    image: 'flagellant.png'
+  },
+  'Grave Robber': {
+    skills: ['Pick to the Face', 'Thrown Dagger', 'Poison Dart', 'Flashing Daggers', 'Lunge', 'Shadow Fade', 'Toxin Trickery'],
+    campSkills: ['Encourage', 'Wound Care', 'Pep Talk', 'Snuff Box', 'Gallows Humor', 'Night Moves', 'Pilfer'],
+    image: 'grave_robber.png'
+  },
+  'Hellion': {
+    skills: ['Wicked Hack', 'Iron Swan', 'Barbaric YAWP!', 'If It Bleeds', 'Breakthrough', 'Bleed Out', 'Adrenaline Rush'],
+    campSkills: ['Encourage', 'Wound Care', 'Pep Talk', 'Battle Trance', 'Reject the Gods', 'Sharpen Spear', 'Revel'],
+    image: 'hellion.png'
+  },
+  'Highwayman': {
+    skills: ['Wicked Slice', 'Pistol Shot', 'Point Blank Shot', 'Grapeshot Blast', 'Take Aim', 'Duelist\'s Advance', 'Open Vein'],
+    campSkills: ['Encourage', 'Wound Care', 'Pep Talk', 'Gallows Humor', 'Unparalleled Finesse', 'Clean Guns', 'Bandit\'s Sense'],
+    image: 'highwayman.png'
+  },
+  'Houndmaster': {
+    skills: ['Hound\'s Rush', 'Target Whistle', 'Cry Havoc', 'Guard Dog', 'Blackjack', 'Lick Wounds', 'Harry'],
+    campSkills: ['Encourage', 'Wound Care', 'Pep Talk', 'Hound\'s Watch', 'Therapy Dog', 'Man\'s Best Friend', 'Release the Hound'],
+    image: 'houndmaster.png'
+  },
+  'Jester': {
+    skills: ['Dirk Stab', 'Harvest', 'Slice Off', 'Solo', 'Battle Ballad', 'Inspiring Tune', 'Finale'],
+    campSkills: ['Encourage', 'Wound Care', 'Pep Talk', 'Turn Back Time', 'Every Rose Has Its Thorn', 'Tiger\'s Eye', 'Mockery'],
+    image: 'jester.png'
+  },
+  'Leper': {
+    skills: ['Chop', 'Hew', 'Purge', 'Withstand', 'Intimidate', 'Solemnity', 'Revenge'],
+    campSkills: ['Encourage', 'Wound Care', 'Pep Talk', 'Let the Mask Down', 'Bloody Shroud', 'Reflection', 'Quarantine'],
+    image: 'leper.png'
+  },
+  'Man at Arms': {
+    skills: ['Crush', 'Defender', 'Rampart', 'Bolster', 'Command', 'Retribution', 'Bellow'],
+    campSkills: ['Encourage', 'Wound Care', 'Pep Talk', 'Maintain Equipment', 'Tactics', 'Instruction', 'Weapons Practice'],
+    image: 'man_at_arms.png'
+  },
+  'Musketeer': {
+    skills: ['Sniper Shot', 'Sniper\'s Mark', 'Battlefield Bandage', 'Rallying Flare', 'Bola', 'Suppressing Fire', 'Blindfire'],
+    campSkills: ['Encourage', 'Wound Care', 'Pep Talk', 'Clean Musket', 'Field Dressing', 'Marching Plan', 'Triage'],
+    image: 'musketeer.png'
+  },
+  'Occultist': {
+    skills: ['Sacrificial Stab', 'Wyrd Reconstruction', 'Hands from the Abyss', 'Abyssal Artillery', 'Weakening Curse', 'Vulnerability Hex', 'Daemon\'s Pull'],
+    campSkills: ['Encourage', 'Wound Care', 'Pep Talk', 'Abandon Hope', 'Dark Ritual', 'Dark Strength', 'Unspeakable Commune'],
+    image: 'occultist.png'
+  },
+  'Plague Doctor': {
+    skills: ['Noxious Blast', 'Plague Grenade', 'Blinding Gas', 'Incision', 'Battlefield Medicine', 'Emboldening Vapours', 'Disorienting Blast'],
+    campSkills: ['Encourage', 'Wound Care', 'Pep Talk', 'Experimental Vapours', 'Leeches', 'The Cure', 'Self-Medicate'],
+    image: 'plague_doctor.png'
+  },
+  'Shieldbreaker': {
+    skills: ['Pierce', 'Puncture', 'Impale', 'Expose', 'Adder\'s Kiss', 'Serpent Sway', 'Captivate'],
+    campSkills: ['Encourage', 'Wound Care', 'Pep Talk', 'Snake Eyes', 'Snake Skin', 'Sandstorm', 'Adder\'s Embrace'],
+    image: 'shieldbreaker.png'
+  },
+  'Vestal': {
+    skills: ['Mace Bash', 'Judgment', 'Dazzling Light', 'Divine Grace', 'Divine Comfort', 'Hand of Light', 'Illumination'],
+    campSkills: ['Encourage', 'Wound Care', 'Pep Talk', 'Bless', 'Chant', 'Pray', 'Sanctuary'],
+    image: 'vestal.png'
+  }
+};
