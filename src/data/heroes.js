@@ -80,7 +80,7 @@ export const HERO_CLASSES = {
     image: 'plague_doctor.png'
   },
   'Shieldbreaker': {
-    skills: ['Pierce', 'Puncture', 'Impale', 'Expose', 'Adder\'s Kiss', 'Captivate', 'Serpent Sway'],
+    skills: ['Pierce', 'Puncture', 'Adder\'s Kiss', 'Impale', 'Expose', 'Captivate', 'Serpent Sway'],
     campSkills: ['Encourage', 'Wound Care', 'Pep Talk', 'Snake Eyes', 'Snake Skin', 'Sandstorm', 'Adder\'s Embrace'],
     image: 'shieldbreaker.png'
   },
