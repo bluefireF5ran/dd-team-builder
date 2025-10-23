@@ -4,9 +4,9 @@ import { getHeroImagePath, getSkillImagePath, getCampSkillImagePath, getTrinketI
 
 const PartyComposition = ({ heroes }) => {
   return (
-    <div className="bg-gray-800 rounded-lg p-4 mb-6 border-2 border-gray-700">
-      <h3 className="text-xl font-semibold mb-3 text-center">Party Composition</h3>
-      <div className="grid grid-cols-4 gap-4">
+    <div className="bg-gray-800 rounded-lg p-6 mb-6 border-2 border-gray-700">
+      <h3 className="text-3xl font-bold mb-6 text-center text-red-600">Party Composition</h3>
+      <div className="grid grid-cols-4 gap-6">
         {[...heroes].reverse().map((hero, idx) => {
           const position = 4 - idx;
           const heroData = HERO_CLASSES[hero.heroClass];
@@ -14,133 +14,56 @@ const PartyComposition = ({ heroes }) => {
           const activeCampSkills = hero.activeCampSkills || [];
 
           return (
-            <div key={position} className="text-center">
-              <div className="bg-gray-700 rounded-lg p-3 border-2 border-gray-600">
-                <div className="text-lg font-bold text-yellow-400 mb-2">Position {position}</div>
-                
-                <div className="flex gap-2">
-                  {/* Left side - Hero portrait */}
-                  <div className="flex-shrink-0">
-                    {hero.heroClass ? (
-                      <>
-                        <img 
-                          src={getHeroImagePath(hero.heroClass)} 
-                          alt={hero.heroClass}
-                          className="w-[85px] h-[85px] object-contain rounded border-2 border-gray-600"
-                          onError={(e) => {
-                            e.target.style.display = 'none';
-                            e.target.nextSibling.style.display = 'flex';
-                          }}
-                        />
-                        <div 
-                          className="w-[85px] h-[85px] items-center justify-center bg-gray-600 rounded border-2 border-gray-600"
-                          style={{display: 'none'}}
-                        >
-                          <span className="text-3xl text-gray-500">{position}</span>
-                        </div>
-                      </>
-                    ) : (
-                      <div className="w-[85px] h-[85px] flex items-center justify-center bg-gray-600 rounded border-2 border-gray-600">
-                        <span className="text-3xl text-gray-500">{position}</span>
-                      </div>
-                    )}
-                    <div className="text-xs text-gray-300 font-semibold mt-1 truncate w-[85px]">
-                      {hero.heroClass || 'Empty'}
-                    </div>
-                  </div>
+            <div key={position} className="relative">
+              <div className="bg-gray-700 rounded-lg p-4 border-2 border-gray-600">
+                {/* Position Badge - Top Right Corner */}
+                <div className="absolute -top-3 -right-3 w-12 h-12 bg-yellow-500 rounded-full flex items-center justify-center border-4 border-gray-800 shadow-lg z-10">
+                  <span className="text-2xl font-black text-gray-900">{position}</span>
+                </div>
 
-                  {/* Middle - Skills and Camp Skills */}
-                  {hero.heroClass && (
-                    <div className="flex-1 flex flex-col gap-2">
-                      {/* Combat Skills */}
-                      <div>
-                        <div className="text-xs text-gray-400 mb-1 font-semibold">Skills</div>
-                        <div className="grid grid-cols-2 gap-1">
-                          {activeSkills.slice(0, 4).map((skill, idx) => (
-                            <div 
-                              key={idx}
-                              className="relative group"
-                            >
-                              <img 
-                                src={getSkillImagePath(skill)}
-                                alt={skill}
-                                className="w-[36px] h-[36px] object-contain rounded border-2 border-green-700/50 bg-gray-800"
-                                title={skill}
-                                onError={(e) => {
-                                  e.target.style.display = 'none';
-                                  e.target.nextSibling.style.display = 'flex';
-                                }}
-                              />
-                              <div 
-                                className="w-[36px] h-[36px] items-center justify-center bg-green-900/40 border-2 border-green-700/50 rounded text-xs text-green-300"
-                                style={{display: 'none'}}
-                                title={skill}
-                              >
-                                ?
-                              </div>
-                            </div>
-                          ))}
-                          {Array(Math.max(0, 4 - activeSkills.length)).fill(null).map((_, idx) => (
-                            <div 
-                              key={`empty-skill-${idx}`}
-                              className="w-[36px] h-[36px] flex items-center justify-center bg-gray-600/40 border-2 border-gray-600 rounded"
-                            >
-                              <span className="text-xs text-gray-500">-</span>
-                            </div>
-                          ))}
-                        </div>
+                {/* Hero Portrait and Name */}
+                <div className="flex flex-col items-center mb-4">
+                  {hero.heroClass ? (
+                    <>
+                      <img 
+                        src={getHeroImagePath(hero.heroClass)} 
+                        alt={hero.heroClass}
+                        className="w-[120px] h-[120px] object-contain rounded-lg border-4 border-gray-600 bg-gray-800 shadow-lg"
+                        onError={(e) => {
+                          e.target.style.display = 'none';
+                          e.target.nextSibling.style.display = 'flex';
+                        }}
+                      />
+                      <div 
+                        className="w-[120px] h-[120px] items-center justify-center bg-gray-600 rounded-lg border-4 border-gray-600"
+                        style={{display: 'none'}}
+                      >
+                        <span className="text-5xl text-gray-500">{position}</span>
                       </div>
-
-                      {/* Camp Skills */}
-                      <div>
-                        <div className="text-xs text-gray-400 mb-1 font-semibold">Camp</div>
-                        <div className="grid grid-cols-2 gap-1">
-                          {activeCampSkills.slice(0, 4).map((skill, idx) => (
-                            <div 
-                              key={idx}
-                              className="relative group"
-                            >
-                              <img 
-                                src={getCampSkillImagePath(skill)}
-                                alt={skill}
-                                className="w-[36px] h-[36px] object-contain rounded border-2 border-purple-700/50 bg-gray-800"
-                                title={skill}
-                                onError={(e) => {
-                                  e.target.style.display = 'none';
-                                  e.target.nextSibling.style.display = 'flex';
-                                }}
-                              />
-                              <div 
-                                className="w-[36px] h-[36px] items-center justify-center bg-purple-900/40 border-2 border-purple-700/50 rounded text-xs text-purple-300"
-                                style={{display: 'none'}}
-                                title={skill}
-                              >
-                                ?
-                              </div>
-                            </div>
-                          ))}
-                          {activeCampSkills.length === 0 && (
-                            <div className="col-span-2 w-full h-[36px] flex items-center justify-center bg-gray-600/40 border-2 border-gray-600 rounded">
-                              <span className="text-xs text-gray-500">None</span>
-                            </div>
-                          )}
-                        </div>
-                      </div>
+                    </>
+                  ) : (
+                    <div className="w-[120px] h-[120px] flex items-center justify-center bg-gray-600 rounded-lg border-4 border-gray-600">
+                      <span className="text-5xl text-gray-500">{position}</span>
                     </div>
                   )}
+                  <div className="text-sm text-gray-200 font-bold mt-2 text-center px-2 py-1 bg-gray-800 rounded">
+                    {hero.heroClass || 'Empty'}
+                  </div>
+                </div>
 
-                  {/* Right side - Trinkets (lado a lado) */}
-                  {hero.heroClass && (
-                    <div className="flex-shrink-0">
-                      <div className="text-xs text-gray-400 mb-1 font-semibold">Trinkets</div>
-                      <div className="flex gap-1">
+                {hero.heroClass && (
+                  <>
+                    {/* Trinkets Row */}
+                    <div className="mb-4">
+                      <div className="text-xs text-gray-400 mb-2 font-bold text-center uppercase tracking-wider">Trinkets</div>
+                      <div className="flex justify-center gap-2">
                         {/* Trinket 1 */}
                         {hero.trinket1 ? (
                           <div className="relative group">
                             <img 
                               src={getTrinketImagePath(hero.trinket1)}
                               alt={hero.trinket1}
-                              className="w-[36px] h-[72px] object-contain rounded border-2 border-purple-700/50 bg-gray-800"
+                              className="w-[60px] h-[120px] object-contain rounded border-3 border-purple-600 bg-gray-800 shadow-md"
                               title={hero.trinket1}
                               onError={(e) => {
                                 e.target.style.display = 'none';
@@ -148,7 +71,7 @@ const PartyComposition = ({ heroes }) => {
                               }}
                             />
                             <div 
-                              className="w-[36px] h-[72px] items-center justify-center bg-purple-900/40 border-2 border-purple-700/50 rounded text-xs text-purple-300"
+                              className="w-[60px] h-[120px] items-center justify-center bg-purple-900/40 border-3 border-purple-600 rounded text-lg text-purple-300 font-bold"
                               style={{display: 'none'}}
                               title={hero.trinket1}
                             >
@@ -156,8 +79,8 @@ const PartyComposition = ({ heroes }) => {
                             </div>
                           </div>
                         ) : (
-                          <div className="w-[36px] h-[72px] flex items-center justify-center bg-gray-600/40 border-2 border-gray-600 rounded">
-                            <span className="text-xs text-gray-500">-</span>
+                          <div className="w-[60px] h-[120px] flex items-center justify-center bg-gray-600/40 border-3 border-gray-600 rounded">
+                            <span className="text-lg text-gray-500 font-bold">-</span>
                           </div>
                         )}
 
@@ -167,7 +90,7 @@ const PartyComposition = ({ heroes }) => {
                             <img 
                               src={getTrinketImagePath(hero.trinket2)}
                               alt={hero.trinket2}
-                              className="w-[36px] h-[72px] object-contain rounded border-2 border-purple-700/50 bg-gray-800"
+                              className="w-[60px] h-[120px] object-contain rounded border-3 border-purple-600 bg-gray-800 shadow-md"
                               title={hero.trinket2}
                               onError={(e) => {
                                 e.target.style.display = 'none';
@@ -175,7 +98,7 @@ const PartyComposition = ({ heroes }) => {
                               }}
                             />
                             <div 
-                              className="w-[36px] h-[72px] items-center justify-center bg-purple-900/40 border-2 border-purple-700/50 rounded text-xs text-purple-300"
+                              className="w-[60px] h-[120px] items-center justify-center bg-purple-900/40 border-3 border-purple-600 rounded text-lg text-purple-300 font-bold"
                               style={{display: 'none'}}
                               title={hero.trinket2}
                             >
@@ -183,14 +106,98 @@ const PartyComposition = ({ heroes }) => {
                             </div>
                           </div>
                         ) : (
-                          <div className="w-[36px] h-[36px] flex items-center justify-center bg-gray-600/40 border-2 border-gray-600 rounded">
-                            <span className="text-xs text-gray-500">-</span>
+                          <div className="w-[60px] h-[120px] flex items-center justify-center bg-gray-600/40 border-3 border-gray-600 rounded">
+                            <span className="text-lg text-gray-500 font-bold">-</span>
                           </div>
                         )}
                       </div>
                     </div>
-                  )}
-                </div>
+
+                    {/* Combat Skills */}
+                    <div className="mb-3">
+                      <div className="text-xs text-gray-400 mb-2 font-bold text-center uppercase tracking-wider">Skills</div>
+                      <div className="flex justify-center gap-1.5">
+                        {activeSkills.slice(0, 4).map((skill, idx) => (
+                          <div 
+                            key={idx}
+                            className="relative group"
+                          >
+                            <img 
+                              src={getSkillImagePath(skill)}
+                              alt={skill}
+                              className="w-[64px] h-[64px] object-contain rounded border-3 border-green-600 bg-gray-800 shadow-md hover:scale-110 transition-transform"
+                              title={skill}
+                              onError={(e) => {
+                                e.target.style.display = 'none';
+                                e.target.nextSibling.style.display = 'flex';
+                              }}
+                            />
+                            <div 
+                              className="w-[64px] h-[64px] items-center justify-center bg-green-900/40 border-3 border-green-600 rounded text-lg text-green-300 font-bold"
+                              style={{display: 'none'}}
+                              title={skill}
+                            >
+                              ?
+                            </div>
+                          </div>
+                        ))}
+                        {Array(Math.max(0, 4 - activeSkills.length)).fill(null).map((_, idx) => (
+                          <div 
+                            key={`empty-skill-${idx}`}
+                            className="w-[64px] h-[64px] flex items-center justify-center bg-gray-600/40 border-3 border-gray-600 rounded"
+                          >
+                            <span className="text-lg text-gray-500 font-bold">-</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Camp Skills */}
+                    <div>
+                      <div className="text-xs text-gray-400 mb-2 font-bold text-center uppercase tracking-wider">Camp</div>
+                      <div className="flex justify-center gap-1.5">
+                        {activeCampSkills.slice(0, 4).map((skill, idx) => (
+                          <div 
+                            key={idx}
+                            className="relative group"
+                          >
+                            <img 
+                              src={getCampSkillImagePath(skill)}
+                              alt={skill}
+                              className="w-[64px] h-[64px] object-contain rounded border-3 border-purple-600 bg-gray-800 shadow-md hover:scale-110 transition-transform"
+                              title={skill}
+                              onError={(e) => {
+                                e.target.style.display = 'none';
+                                e.target.nextSibling.style.display = 'flex';
+                              }}
+                            />
+                            <div 
+                              className="w-[64px] h-[64px] items-center justify-center bg-purple-900/40 border-3 border-purple-600 rounded text-lg text-purple-300 font-bold"
+                              style={{display: 'none'}}
+                              title={skill}
+                            >
+                              ?
+                            </div>
+                          </div>
+                        ))}
+                        {activeCampSkills.length === 0 ? (
+                          <div className="w-full h-[64px] flex items-center justify-center bg-gray-600/40 border-3 border-gray-600 rounded">
+                            <span className="text-sm text-gray-500 font-bold">None</span>
+                          </div>
+                        ) : (
+                          Array(Math.max(0, 4 - activeCampSkills.length)).fill(null).map((_, idx) => (
+                            <div 
+                              key={`empty-camp-${idx}`}
+                              className="w-[64px] h-[64px] flex items-center justify-center bg-gray-600/40 border-3 border-gray-600 rounded"
+                            >
+                              <span className="text-lg text-gray-500 font-bold">-</span>
+                            </div>
+                          ))
+                        )}
+                      </div>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
           );

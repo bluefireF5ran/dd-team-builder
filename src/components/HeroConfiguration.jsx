@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { AlertTriangle, ChevronDown, ChevronUp } from 'lucide-react';
+import { AlertTriangle, ChevronDown, ChevronUp, RotateCcw } from 'lucide-react';
 import { HERO_CLASSES } from '../data/heroes';
 import { TRINKETS } from '../data/trinkets';
 import { POSITIVE_QUIRKS, NEGATIVE_QUIRKS } from '../data/quirks';
@@ -17,6 +17,54 @@ const HeroConfiguration = ({ hero, position, onUpdate }) => {
 
   const updateHero = (field, value) => {
     onUpdate({ ...hero, [field]: value });
+  };
+
+  const handleHeroClassChange = (newClass) => {
+    if (hero.heroClass && hero.heroClass !== newClass) {
+      const hasConfiguration = 
+        (hero.activeSkills && hero.activeSkills.length > 0) ||
+        (hero.activeCampSkills && hero.activeCampSkills.length > 0) ||
+        hero.trinket1 || hero.trinket2 ||
+        (hero.quirks?.positive && hero.quirks.positive.length > 0) ||
+        (hero.quirks?.negative && hero.quirks.negative.length > 0);
+
+      if (hasConfiguration) {
+        const confirmed = window.confirm(
+          'Changing hero class will reset all configuration (skills, camp skills, trinkets, and quirks). Continue?'
+        );
+        if (!confirmed) {
+          return;
+        }
+      }
+    }
+
+    // Reset all configuration
+    onUpdate({
+      heroClass: newClass,
+      activeSkills: [],
+      activeCampSkills: [],
+      trinket1: '',
+      trinket2: '',
+      quirks: { positive: [], negative: [] },
+      lockedQuirks: { positive: [], negative: [] }
+    });
+  };
+
+  const handleResetConfiguration = () => {
+    const confirmed = window.confirm(
+      'This will reset all configuration for this hero (skills, camp skills, trinkets, and quirks). Continue?'
+    );
+    if (confirmed) {
+      onUpdate({
+        heroClass: '',
+        activeSkills: [],
+        activeCampSkills: [],
+        trinket1: '',
+        trinket2: '',
+        quirks: { positive: [], negative: [] },
+        lockedQuirks: { positive: [], negative: [] }
+      });
+    }
   };
 
   const toggleSkill = (skill) => {
@@ -104,7 +152,7 @@ const HeroConfiguration = ({ hero, position, onUpdate }) => {
           <span className="text-2xl font-bold text-yellow-400">Position {position}</span>
           <select
             value={hero.heroClass}
-            onChange={(e) => updateHero('heroClass', e.target.value)}
+            onChange={(e) => handleHeroClassChange(e.target.value)}
             className="bg-gray-700 text-white px-3 py-2 rounded border border-gray-600 flex-1"
           >
             <option value="">Select Hero Class</option>
@@ -113,6 +161,16 @@ const HeroConfiguration = ({ hero, position, onUpdate }) => {
             ))}
           </select>
           
+          {hero.heroClass && (
+            <button
+              onClick={handleResetConfiguration}
+              className="p-2 bg-red-600 hover:bg-red-700 text-white rounded transition-colors"
+              title="Reset Configuration"
+            >
+              <RotateCcw size={20} />
+            </button>
+          )}
+
           {hero.heroClass && !validation.isComplete && (
             <div className="flex items-center gap-2 px-3 py-2 bg-yellow-900/30 border border-yellow-700/50 rounded text-yellow-400 text-sm">
               <AlertTriangle size={16} />
@@ -219,12 +277,16 @@ const HeroConfiguration = ({ hero, position, onUpdate }) => {
               <div className="space-y-1">
                 {positiveSlots.map((quirk, idx) => (
                   <QuirkSlot
-                    key={idx}
+                    key={`positive-${idx}-${quirk || 'empty'}`}
                     quirk={quirk}
                     isPositive={true}
                     isLocked={quirk && lockedQuirks.positive.includes(quirk)}
-                    onToggleLock={() => quirk && toggleQuirkLock(quirk, true)}
-                    onRemove={() => quirk && removeQuirk(quirk, true)}
+                    onToggleLock={() => {
+                      if (quirk) toggleQuirkLock(quirk, true);
+                    }}
+                    onRemove={() => {
+                      if (quirk) removeQuirk(quirk, true);
+                    }}
                   />
                 ))}
               </div>
@@ -253,12 +315,16 @@ const HeroConfiguration = ({ hero, position, onUpdate }) => {
               <div className="space-y-1">
                 {negativeSlots.map((quirk, idx) => (
                   <QuirkSlot
-                    key={idx}
+                    key={`negative-${idx}-${quirk || 'empty'}`}
                     quirk={quirk}
                     isPositive={false}
                     isLocked={quirk && lockedQuirks.negative.includes(quirk)}
-                    onToggleLock={() => quirk && toggleQuirkLock(quirk, false)}
-                    onRemove={() => quirk && removeQuirk(quirk, false)}
+                    onToggleLock={() => {
+                      if (quirk) toggleQuirkLock(quirk, false);
+                    }}
+                    onRemove={() => {
+                      if (quirk) removeQuirk(quirk, false);
+                    }}
                   />
                 ))}
               </div>
