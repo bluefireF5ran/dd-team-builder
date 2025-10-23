@@ -11,7 +11,7 @@ export const HERO_CLASSES = {
   },
   'Arbalest': {
     skills: ['Sniper Shot', 'Suppressing Fire', 'Sniper\'s Mark', 'Bola', 'Blindfire', 'Battlefield Bandage', 'Rallying Flare'],
-    campSkills: ['Encourage', 'Wound Care', 'Pep Talk', 'Restring Crossbow', 'Field Dressing', 'Marching Plan', 'Triage'],
+    campSkills: ['Encourage', 'Wound Care', 'Pep Talk', 'Field Dressing', 'Restring Crossbow', 'Marching Plan', 'Triage'],
     image: 'arbalest.png'
   },
   'Bounty Hunter': {
@@ -36,7 +36,7 @@ export const HERO_CLASSES = {
   },
   'Hellion': {
     skills: ['Wicked Hack', 'Iron Swan', 'Barbaric YAWP!', 'If It Bleeds', 'Breakthrough', 'Adrenaline Rush', 'Bleed Out'],
-    campSkills: ['Encourage', 'Wound Care', 'Pep Talk', 'Battle Trance', 'Reject the Gods', 'Sharpen Spear', 'Revel'],
+    campSkills: ['Encourage', 'Wound Care', 'Pep Talk', 'Battle Trance', 'Reject the Gods', 'Revel', 'Sharpen Spear'],
     image: 'hellion.png'
   },
   'Highwayman': {
