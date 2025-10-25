@@ -11,7 +11,7 @@ export const HERO_CLASSES = {
   },
   'Arbalest': {
     skills: ['Sniper Shot', 'Suppressing Fire', 'Sniper\'s Mark', 'Bola', 'Blindfire', 'Battlefield Bandage', 'Rallying Flare'],
-    campSkills: ['Encourage', 'Wound Care', 'Pep Talk', 'Field Dressing', 'Restring Crossbow', 'Marching Plan', 'Triage'],
+    campSkills: ['Encourage', 'Wound Care', 'Pep Talk', 'Field Dressing', 'Marching Plan', 'Restring Crossbow', 'Triage'],
     image: 'arbalest.png'
   },
   'Bounty Hunter': {
@@ -25,7 +25,7 @@ export const HERO_CLASSES = {
     image: 'crusader.png'
   },
   'Flagellant': {
-    skills: ['Punish', 'Rain of Sorrows', 'Exsanguinate', 'Redeem', 'Reclaim', 'Endure', 'Suffer'],
+    skills: ['Punish', 'Rain of Sorrows', 'Exsanguinate', 'Reclaim', 'Redeem', 'Endure', 'Suffer'],
     campSkills: ['Lash\'s Anger', 'Lash\'s Solace', 'Lash\'s Kiss', 'Lash\'s Cure'], 
     image: 'flagellant.png'
   },
@@ -66,7 +66,7 @@ export const HERO_CLASSES = {
   },
   'Musketeer': {
     skills: ['Aimed Shot', 'Smokescreen', 'Call the Shot', 'Buckshot', 'Sidearm', 'Patch Up', 'Skeet Shot'],
-    campSkills: ['Encourage', 'Wound Care', 'Pep Talk', 'Clean Musket', 'Field Dressing', 'Marching Plan', 'Triage'],
+    campSkills: ['Encourage', 'Wound Care', 'Pep Talk', 'Field Dressing', 'Marching Plan', 'Clean Musket', 'Triage'],
     image: 'musketeer.png'
   },
   'Occultist': {
