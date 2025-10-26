@@ -5,6 +5,8 @@ import { saveTeamToFile, loadTeamFromFile } from '../utils/storageHelper';
 export const useTeam = () => {
   const [teamName, setTeamName] = useState('My Team');
   const [location, setLocation] = useState('The Ruins');
+  const [showBackerTrinkets, setShowBackerTrinkets] = useState(false);
+  const [showModdedHeroes, setShowModdedHeroes] = useState(false);
   const [heroes, setHeroes] = useState(
     Array(PARTY_CONFIG.MAX_HEROES).fill(null).map(() => ({ ...EMPTY_HERO }))
   );
@@ -34,6 +36,14 @@ export const useTeam = () => {
     }
   }, []);
 
+  const toggleBackerTrinkets = useCallback(() => {
+    setShowBackerTrinkets(prev => !prev);
+  }, []);
+
+  const toggleModdedHeroes = useCallback(() => {
+    setShowModdedHeroes(prev => !prev);
+  }, []);
+
   return {
     teamName,
     setTeamName,
@@ -42,6 +52,10 @@ export const useTeam = () => {
     heroes,
     updateHero,
     saveTeam,
-    loadTeam
+    loadTeam,
+    showBackerTrinkets,
+    toggleBackerTrinkets,
+    showModdedHeroes,
+    toggleModdedHeroes
   };
 };

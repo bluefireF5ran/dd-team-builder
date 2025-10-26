@@ -1,14 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Search, X } from 'lucide-react';
 import { HERO_CLASSES } from '../../data/heroes';
+import { MODDED_HERO_CLASSES } from '../../data/modded_heroes';
 import { getHeroImagePath } from '../../utils/imageHelper';
 
-const HeroSelector = ({ value, onChange, className }) => {
+const HeroSelector = ({ value, onChange, className, showModdedHeroes }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState('');
 
-  const heroOptions = Object.keys(HERO_CLASSES);
-  const filteredOptions = heroOptions.filter(hero => 
+  // Combinar héroes vanilla y modded
+  const allHeroes = useMemo(() => {
+    const vanilla = Object.keys(HERO_CLASSES);
+    if (showModdedHeroes) {
+      const modded = Object.keys(MODDED_HERO_CLASSES);
+      return { vanilla, modded };
+    }
+    return { vanilla, modded: [] };
+  }, [showModdedHeroes]);
+
+  const filteredVanilla = allHeroes.vanilla.filter(hero => 
+    hero.toLowerCase().includes(search.toLowerCase())
+  );
+
+  const filteredModded = allHeroes.modded.filter(hero => 
     hero.toLowerCase().includes(search.toLowerCase())
   );
 
@@ -64,7 +78,7 @@ const HeroSelector = ({ value, onChange, className }) => {
             onClick={() => setIsOpen(false)}
           />
           <div className="absolute z-20 mt-1 w-full bg-gray-700 border border-gray-600 rounded shadow-lg max-h-96 overflow-hidden">
-            <div className="p-2 border-b border-gray-600 sticky top-0 bg-gray-700">
+            <div className="p-2 border-b border-gray-600 sticky top-0 bg-gray-700 z-30">
               <input
                 type="text"
                 value={search}
@@ -75,22 +89,61 @@ const HeroSelector = ({ value, onChange, className }) => {
               />
             </div>
             <div className="overflow-y-auto max-h-80">
-              {filteredOptions.map(hero => (
-                <div
-                  key={hero}
-                  onClick={() => handleSelect(hero)}
-                  className="px-3 py-2 hover:bg-gray-600 cursor-pointer text-white flex items-center gap-3 transition-colors"
-                >
-                  <img 
-                    src={getHeroImagePath(hero)}
-                    alt={hero}
-                    className="w-10 h-10 object-contain rounded border border-gray-600"
-                    onError={(e) => e.target.style.display = 'none'}
-                  />
-                  <span className="font-medium">{hero}</span>
-                </div>
-              ))}
-              {filteredOptions.length === 0 && (
+              {/* Vanilla Heroes */}
+              {filteredVanilla.length > 0 && (
+                <>
+                  {showModdedHeroes && (
+                    <div className="px-3 py-1 bg-gray-600 border-b border-gray-500 sticky top-0">
+                      <span className="text-xs font-bold text-gray-300 uppercase tracking-wider">
+                        Vanilla Heroes
+                      </span>
+                    </div>
+                  )}
+                  {filteredVanilla.map(hero => (
+                    <div
+                      key={hero}
+                      onClick={() => handleSelect(hero)}
+                      className="px-3 py-2 hover:bg-gray-600 cursor-pointer text-white flex items-center gap-3 transition-colors"
+                    >
+                      <img 
+                        src={getHeroImagePath(hero)}
+                        alt={hero}
+                        className="w-10 h-10 object-contain rounded border border-gray-600"
+                        onError={(e) => e.target.style.display = 'none'}
+                      />
+                      <span className="font-medium">{hero}</span>
+                    </div>
+                  ))}
+                </>
+              )}
+
+              {/* Modded Heroes */}
+              {showModdedHeroes && filteredModded.length > 0 && (
+                <>
+                  <div className="px-3 py-1 bg-purple-900/30 border-y border-purple-700/50 sticky top-0">
+                    <span className="text-xs font-bold text-purple-400 uppercase tracking-wider">
+                      🧩 Modded Heroes
+                    </span>
+                  </div>
+                  {filteredModded.map(hero => (
+                    <div
+                      key={hero}
+                      onClick={() => handleSelect(hero)}
+                      className="px-3 py-2 hover:bg-gray-600 cursor-pointer text-white flex items-center gap-3 transition-colors"
+                    >
+                      <img 
+                        src={getHeroImagePath(hero)}
+                        alt={hero}
+                        className="w-10 h-10 object-contain rounded border border-purple-600"
+                        onError={(e) => e.target.style.display = 'none'}
+                      />
+                      <span className="font-medium">{hero}</span>
+                    </div>
+                  ))}
+                </>
+              )}
+
+              {filteredVanilla.length === 0 && filteredModded.length === 0 && (
                 <div className="px-3 py-4 text-gray-400 text-center">No heroes found</div>
               )}
             </div>

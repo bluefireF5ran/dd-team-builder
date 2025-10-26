@@ -21,3 +21,10 @@ export const EMPTY_HERO = {
   quirks: { positive: [], negative: [] },
   lockedQuirks: { positive: [], negative: [] }
 };
+
+// Nuevos tipos de contenido
+export const CONTENT_TYPES = {
+  VANILLA: 'vanilla',
+  BACKER: 'backer',
+  MODDED: 'modded'
+};

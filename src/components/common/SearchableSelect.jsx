@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Search, X } from 'lucide-react';
 
-const SearchableSelect = ({ value, onChange, options, placeholder, className }) => {
+const SearchableSelect = ({ value, onChange, options, placeholder, className, showSeparator = false, separatorIndex = 0 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState('');
 
@@ -62,14 +62,22 @@ const SearchableSelect = ({ value, onChange, options, placeholder, className }) 
               />
             </div>
             <div className="overflow-y-auto max-h-48">
-              {filteredOptions.map(opt => (
-                <div
-                  key={opt}
-                  onClick={() => handleSelect(opt)}
-                  className="px-3 py-2 hover:bg-gray-600 cursor-pointer text-white"
-                >
-                  {opt}
-                </div>
+              {filteredOptions.map((opt, idx) => (
+                <React.Fragment key={opt}>
+                  {showSeparator && idx === separatorIndex && (
+                    <div className="px-3 py-1 bg-amber-900/30 border-y border-amber-700/50">
+                      <span className="text-xs font-bold text-amber-400 uppercase tracking-wider">
+                        ⭐ Backer Trinkets
+                      </span>
+                    </div>
+                  )}
+                  <div
+                    onClick={() => handleSelect(opt)}
+                    className="px-3 py-2 hover:bg-gray-600 cursor-pointer text-white"
+                  >
+                    {opt}
+                  </div>
+                </React.Fragment>
               ))}
               {filteredOptions.length === 0 && (
                 <div className="px-3 py-2 text-gray-400">No results found</div>

@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { AlertTriangle, ChevronDown, ChevronUp, RotateCcw } from 'lucide-react';
 import { HERO_CLASSES } from '../../data/heroes';
+import { MODDED_HERO_CLASSES, MODDED_GENERAL_TRINKETS } from '../../data/modded_heroes'; 
 import { TRINKETS } from '../../data/trinkets';
+import { BACKER_TRINKETS } from '../../data/backer_trinkets';
 import { POSITIVE_QUIRKS, NEGATIVE_QUIRKS } from '../../data/quirks';
 import { validateHero } from '../../utils/validation';
 import SearchableSelect from '../common/SearchableSelect';
@@ -9,13 +11,19 @@ import HeroSelector from './HeroSelector';
 import QuirkSlot from '../quirks/QuirkSlot';
 import QuirkSelector from '../quirks/QuirkSelector';
 
-const HeroConfiguration = ({ hero, position, onUpdate }) => {
+const HeroConfiguration = ({ hero, position, onUpdate, showBackerTrinkets, showModdedHeroes }) => { 
   const [showPositiveQuirkSelector, setShowPositiveQuirkSelector] = useState(false);
   const [showNegativeQuirkSelector, setShowNegativeQuirkSelector] = useState(false);
   const [isExpanded, setIsExpanded] = useState(true);
+  const allHeroClasses = useMemo(() => {
+    if (showModdedHeroes) {
+      return { ...HERO_CLASSES, ...MODDED_HERO_CLASSES };
+    }
+    return HERO_CLASSES;
+  }, [showModdedHeroes]);
 
   const validation = validateHero(hero);
-  const heroData = HERO_CLASSES[hero.heroClass];
+  const heroData = allHeroClasses[hero.heroClass];
   const isAlwaysActive = heroData?.alwaysActive || false;
 
   // Auto-activar todas las skills si el héroe tiene alwaysActive
@@ -54,8 +62,10 @@ const HeroConfiguration = ({ hero, position, onUpdate }) => {
       }
     }
 
+    
+
     // Si el nuevo héroe tiene alwaysActive, activar todas las skills
-    const newHeroData = HERO_CLASSES[newClass];
+    const newHeroData = allHeroClasses[newClass];
     const activeSkills = newHeroData?.alwaysActive ? (newHeroData.skills || []) : [];
 
     onUpdate({
@@ -152,6 +162,32 @@ const HeroConfiguration = ({ hero, position, onUpdate }) => {
     updateHero('lockedQuirks', { ...locks, [type]: newLocks });
   };
 
+  // Combinar trinkets normales, backer y modded
+  const availableTrinkets = useMemo(() => {
+    let trinkets = [...TRINKETS];
+    
+    if (showBackerTrinkets) {
+      trinkets = [...trinkets, ...BACKER_TRINKETS];
+    }
+    
+    // Añadir trinkets específicos de clase modded
+    if (hero.heroClass && MODDED_HERO_CLASSES[hero.heroClass]) {
+      const moddedHero = MODDED_HERO_CLASSES[hero.heroClass];
+      if (moddedHero.classSpecificTrinkets) {
+        trinkets = [...trinkets, ...moddedHero.classSpecificTrinkets];
+      }
+    }
+    
+    // Añadir trinkets generales modded
+    if (showModdedHeroes) {
+      trinkets = [...trinkets, ...MODDED_GENERAL_TRINKETS];
+    }
+    
+    return trinkets;
+  }, [showBackerTrinkets, showModdedHeroes, hero.heroClass]);
+
+  const separatorIndex = showBackerTrinkets ? TRINKETS.length : 0;
+
   const heroSkills = heroData?.skills || [];
   const heroCampSkills = heroData?.campSkills || [];
   const activeSkills = hero.activeSkills || [];
@@ -176,6 +212,7 @@ const HeroConfiguration = ({ hero, position, onUpdate }) => {
             value={hero.heroClass}
             onChange={handleHeroClassChange}
             className="flex-1"
+            showModdedHeroes={showModdedHeroes}
           />
           
           {hero.heroClass && (
@@ -278,16 +315,20 @@ const HeroConfiguration = ({ hero, position, onUpdate }) => {
                 <SearchableSelect
                   value={hero.trinket1 || ''}
                   onChange={(value) => updateHero('trinket1', value)}
-                  options={TRINKETS}
+                  options={availableTrinkets}
                   placeholder="Trinket Slot 1"
                   className="w-full"
+                  showSeparator={showBackerTrinkets}
+                  separatorIndex={separatorIndex}
                 />
                 <SearchableSelect
                   value={hero.trinket2 || ''}
                   onChange={(value) => updateHero('trinket2', value)}
-                  options={TRINKETS}
+                  options={availableTrinkets}
                   placeholder="Trinket Slot 2"
                   className="w-full"
+                  showSeparator={showBackerTrinkets}
+                  separatorIndex={separatorIndex}
                 />
               </div>
             </div>

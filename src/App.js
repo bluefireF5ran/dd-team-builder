@@ -14,7 +14,11 @@ const App = () => {
     heroes,
     updateHero,
     saveTeam,
-    loadTeam
+    loadTeam,
+    showBackerTrinkets,
+    toggleBackerTrinkets,
+    showModdedHeroes,         
+    toggleModdedHeroes        
   } = useTeam();
 
   return (
@@ -38,6 +42,10 @@ const App = () => {
             heroes={heroes}
             onSave={saveTeam}
             onLoad={loadTeam}
+            showBackerTrinkets={showBackerTrinkets}
+            onToggleBackerTrinkets={toggleBackerTrinkets}
+            showModdedHeroes={showModdedHeroes}
+            onToggleModdedHeroes={toggleModdedHeroes}
           />
         </div>
 
@@ -53,6 +61,8 @@ const App = () => {
                 hero={hero}
                 position={position}
                 onUpdate={(updatedHero) => updateHero(actualIndex, updatedHero)}
+                showBackerTrinkets={showBackerTrinkets}
+                showModdedHeroes={showModdedHeroes}
               />
             );
           })}
