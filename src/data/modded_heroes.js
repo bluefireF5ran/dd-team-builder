@@ -1,4 +1,4 @@
-export const HERO_CLASSES = {
+export const MOD_HERO_CLASSES = {
   'Abomination': {
     skills: ['Transform', 'Manacles', 'Beast\'s Bile', 'Absolution', 'Rake', 'Rage', 'Slam'],
     campSkills: ['Encourage', 'Wound Care', 'Pep Talk', 'Anger Management', 'Psych Up', 'The Quickening', 'Eldritch Blood'],

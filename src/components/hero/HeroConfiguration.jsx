@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AlertTriangle, ChevronDown, ChevronUp, RotateCcw } from 'lucide-react';
-import { HERO_CLASSES } from '../data/heroes';
-import { TRINKETS } from '../data/trinkets';
-import { POSITIVE_QUIRKS, NEGATIVE_QUIRKS } from '../data/quirks';
-import { validateHero } from '../utils/validation';
-import SearchableSelect from './SearchableSelect';
-import QuirkSlot from './QuirkSlot';
-import QuirkSelector from './QuirkSelector';
+import { HERO_CLASSES } from '../../data/heroes';
+import { TRINKETS } from '../../data/trinkets';
+import { POSITIVE_QUIRKS, NEGATIVE_QUIRKS } from '../../data/quirks';
+import { validateHero } from '../../utils/validation';
+import SearchableSelect from '../common/SearchableSelect';
+import HeroSelector from './HeroSelector';
+import QuirkSlot from '../quirks/QuirkSlot';
+import QuirkSelector from '../quirks/QuirkSelector';
 
 const HeroConfiguration = ({ hero, position, onUpdate }) => {
   const [showPositiveQuirkSelector, setShowPositiveQuirkSelector] = useState(false);
@@ -14,6 +15,21 @@ const HeroConfiguration = ({ hero, position, onUpdate }) => {
   const [isExpanded, setIsExpanded] = useState(true);
 
   const validation = validateHero(hero);
+  const heroData = HERO_CLASSES[hero.heroClass];
+  const isAlwaysActive = heroData?.alwaysActive || false;
+
+  // Auto-activar todas las skills si el héroe tiene alwaysActive
+  useEffect(() => {
+    if (hero.heroClass && isAlwaysActive) {
+      const allSkills = heroData.skills || [];
+      const currentSkills = hero.activeSkills || [];
+      
+      // Solo actualizar si no están todas activas
+      if (currentSkills.length !== allSkills.length) {
+        updateHero('activeSkills', allSkills);
+      }
+    }
+  }, [hero.heroClass, isAlwaysActive]);
 
   const updateHero = (field, value) => {
     onUpdate({ ...hero, [field]: value });
@@ -38,10 +54,13 @@ const HeroConfiguration = ({ hero, position, onUpdate }) => {
       }
     }
 
-    // Reset all configuration
+    // Si el nuevo héroe tiene alwaysActive, activar todas las skills
+    const newHeroData = HERO_CLASSES[newClass];
+    const activeSkills = newHeroData?.alwaysActive ? (newHeroData.skills || []) : [];
+
     onUpdate({
       heroClass: newClass,
-      activeSkills: [],
+      activeSkills: activeSkills,
       activeCampSkills: [],
       trinket1: '',
       trinket2: '',
@@ -68,6 +87,9 @@ const HeroConfiguration = ({ hero, position, onUpdate }) => {
   };
 
   const toggleSkill = (skill) => {
+    // Si es alwaysActive, no permitir toggle
+    if (isAlwaysActive) return;
+
     const activeSkills = hero.activeSkills || [];
     const newActive = activeSkills.includes(skill)
       ? activeSkills.filter(s => s !== skill)
@@ -130,7 +152,6 @@ const HeroConfiguration = ({ hero, position, onUpdate }) => {
     updateHero('lockedQuirks', { ...locks, [type]: newLocks });
   };
 
-  const heroData = HERO_CLASSES[hero.heroClass];
   const heroSkills = heroData?.skills || [];
   const heroCampSkills = heroData?.campSkills || [];
   const activeSkills = hero.activeSkills || [];
@@ -150,16 +171,12 @@ const HeroConfiguration = ({ hero, position, onUpdate }) => {
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-3 flex-1">
           <span className="text-2xl font-bold text-yellow-400">Position {position}</span>
-          <select
+          
+          <HeroSelector
             value={hero.heroClass}
-            onChange={(e) => handleHeroClassChange(e.target.value)}
-            className="bg-gray-700 text-white px-3 py-2 rounded border border-gray-600 flex-1"
-          >
-            <option value="">Select Hero Class</option>
-            {Object.keys(HERO_CLASSES).map(cls => (
-              <option key={cls} value={cls}>{cls}</option>
-            ))}
-          </select>
+            onChange={handleHeroClassChange}
+            className="flex-1"
+          />
           
           {hero.heroClass && (
             <button
@@ -199,7 +216,9 @@ const HeroConfiguration = ({ hero, position, onUpdate }) => {
         <div className="grid grid-cols-3 gap-4">
           <div className="space-y-4">
             <div>
-              <h4 className="font-semibold text-white mb-2">Combat Skills (4)</h4>
+              <h4 className="font-semibold text-white mb-2">
+                Combat Skills {isAlwaysActive ? '(7 - All Active)' : '(4)'}
+              </h4>
               <div className="space-y-1">
                 {heroSkills.map(skill => {
                   const isActive = activeSkills.includes(skill);
@@ -207,20 +226,23 @@ const HeroConfiguration = ({ hero, position, onUpdate }) => {
                     <button
                       key={skill}
                       onClick={() => toggleSkill(skill)}
+                      disabled={isAlwaysActive}
                       className={`w-full px-3 py-2 rounded text-sm transition-colors text-left ${
                         isActive
                           ? 'bg-green-600 hover:bg-green-700 text-white font-semibold'
                           : 'bg-gray-700 hover:bg-gray-600 text-gray-300'
-                      }`}
+                      } ${isAlwaysActive ? 'cursor-not-allowed opacity-90' : 'cursor-pointer'}`}
                     >
                       {skill}
                     </button>
                   );
                 })}
               </div>
-              <p className="text-xs text-gray-400 mt-1">
-                Selected: {activeSkills.length}/4
-              </p>
+              {!isAlwaysActive && (
+                <p className="text-xs text-gray-400 mt-1">
+                  Selected: {activeSkills.length}/4
+                </p>
+              )}
             </div>
           </div>
 
