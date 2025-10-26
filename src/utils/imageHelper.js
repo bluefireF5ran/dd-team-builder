@@ -55,14 +55,23 @@ export const getSkillImagePath = (skillName, heroClass = null) => {
 export const getCampSkillImagePath = (skillName, heroClass = null) => {
   if (!skillName) return null;
   
-  const modId = heroClass ? getModIdFromHeroClass(heroClass) : null;
   const fileName = toImageFileName(skillName);
   
-  // Si es un héroe modded, usar carpeta modded/camp_skills con prefijo
-  if (modId) {
+  // Si es un héroe modded, verificar si la camp skill es vanilla
+  if (heroClass && isModdedHero(heroClass)) {
+    const moddedHero = MODDED_HERO_CLASSES[heroClass];
+    
+    // Si está en vanillaCampSkills, usar la imagen vanilla
+    if (moddedHero.vanillaCampSkills?.includes(skillName)) {
+      return `/images/camp_skills/${fileName}.png`;
+    }
+    
+    // Si no, usar la imagen modded con prefijo
+    const modId = moddedHero.modId;
     return `/images/modded/camp_skills/${modId}_${fileName}.png`;
   }
   
+  // Para héroes vanilla, siempre usar carpeta vanilla
   return `/images/camp_skills/${fileName}.png`;
 };
 
