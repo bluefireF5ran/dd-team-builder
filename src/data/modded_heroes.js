@@ -22,7 +22,7 @@ export const MODDED_HERO_CLASSES = {
     ]
   },
   'Red Mage': {
-    modId: '868109272', // ← ID único del mod
+    modId: '868109272', 
     skills: [
       'Attack',
       'Fira',          
@@ -39,7 +39,28 @@ export const MODDED_HERO_CLASSES = {
       'Unspeakable Commune'
     ],
     image: '868109272.png',
-    classSpecificTrinkets: [    // ← Trinkets exclusivos de esta clase
+    classSpecificTrinkets: [   
+    ]
+  },
+  'Pit Fighter': {
+    modId: '886635500',
+    skills: [
+      'In the Kisser',
+      'Come On',          
+      'Headbutt',
+      'Jaw Breaker',
+      'Nose Bleeder',
+      'Ya Mum',
+      'Dash In'
+    ],
+    campSkills: [
+      'Eye of Tiger',
+      'Fist Pump',
+      'Pain Killer',
+      'RoughHousing'
+    ],
+    image: '886635500.png',
+    classSpecificTrinkets: [    
     ]
   }
 };
