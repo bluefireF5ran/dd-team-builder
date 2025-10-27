@@ -5,9 +5,9 @@ import { getHeroImagePath, getSkillImagePath, getCampSkillImagePath, getTrinketI
 
 const PartyHeroCard = ({ hero, position }) => {
   const heroData = HERO_CLASSES[hero.heroClass] || MODDED_HERO_CLASSES[hero.heroClass];
+  const isAlwaysActive = heroData?.alwaysActive || false;
   const activeSkills = hero.activeSkills || [];
   const activeCampSkills = hero.activeCampSkills || [];
-  const isAlwaysActive = heroData?.alwaysActive || false;
   const maxSkills = isAlwaysActive ? 7 : 4;
 
   // Dividir skills en dos filas si son 7
