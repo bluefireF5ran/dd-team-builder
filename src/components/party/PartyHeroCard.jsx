@@ -3,6 +3,7 @@ import { HERO_CLASSES } from '../../data/heroes';
 import { MODDED_HERO_CLASSES } from '../../data/modded_heroes';
 import { getHeroImagePath, getSkillImagePath, getCampSkillImagePath, getTrinketImagePath } from '../../utils/imageHelper';
 
+
 const PartyHeroCard = ({ hero, position }) => {
   const heroData = HERO_CLASSES[hero.heroClass] || MODDED_HERO_CLASSES[hero.heroClass];
   const isAlwaysActive = heroData?.alwaysActive || false;
@@ -133,7 +134,7 @@ const PartyHeroCard = ({ hero, position }) => {
                     {secondRowSkills.map((skill, idx) => (
                       <div key={idx} className="relative group">
                         <img 
-                          src={getSkillImagePath(skill)}
+                          src={getSkillImagePath(skill, hero.heroClass)}
                           alt={skill}
                           className="w-[64px] h-[64px] object-contain rounded border-3 border-green-600 bg-gray-800 shadow-md hover:scale-110 transition-transform"
                           title={skill}

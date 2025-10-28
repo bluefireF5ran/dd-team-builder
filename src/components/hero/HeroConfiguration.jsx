@@ -37,7 +37,7 @@ const HeroConfiguration = ({ hero, position, onUpdate, showBackerTrinkets, showM
         updateHero('activeSkills', allSkills);
       }
     }
-  }, [hero.heroClass, isAlwaysActive]);
+  }, [hero.heroClass, isAlwaysActive, heroData]);
 
   const updateHero = (field, value) => {
     onUpdate({ ...hero, [field]: value });
@@ -62,10 +62,8 @@ const HeroConfiguration = ({ hero, position, onUpdate, showBackerTrinkets, showM
       }
     }
 
-    
-
     // Si el nuevo héroe tiene alwaysActive, activar todas las skills
-    const newHeroData = allHeroClasses[newClass];
+    const newHeroData = allHeroClasses[newClass]; // ← Debe ser allHeroClasses
     const activeSkills = newHeroData?.alwaysActive ? (newHeroData.skills || []) : [];
 
     onUpdate({

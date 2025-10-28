@@ -60,15 +60,6 @@ const HeroSelector = ({ value, onChange, className, showModdedHeroes }) => {
           </div>
           <Search size={16} className="text-gray-400" />
         </div>
-        {value && (
-          <button
-            onClick={handleClear}
-            className="p-2 bg-red-600 hover:bg-red-700 rounded transition-colors"
-            type="button"
-          >
-            <X size={16} />
-          </button>
-        )}
       </div>
       
       {isOpen && (
@@ -92,7 +83,7 @@ const HeroSelector = ({ value, onChange, className, showModdedHeroes }) => {
               {/* Vanilla Heroes */}
               {filteredVanilla.length > 0 && (
                 <>
-                  {showModdedHeroes && (
+                  {showModdedHeroes && filteredModded.length > 0 && (
                     <div className="px-3 py-1 bg-gray-600 border-b border-gray-500 sticky top-0">
                       <span className="text-xs font-bold text-gray-300 uppercase tracking-wider">
                         Vanilla Heroes
