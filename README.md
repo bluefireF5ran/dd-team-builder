@@ -1,74 +1,136 @@
-<<<<<<< HEAD
-# dd-team-builder
-=======
-# Getting Started with Create React App
+# DD Team Builder
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A team composition planner for **Darkest Dungeon 1**. Build and save your party compositions with heroes, skills, trinkets, and quirks.
 
-## Available Scripts
+![Darkest Dungeon](https://img.shields.io/badge/Darkest%20Dungeon-1-8B0000?style=flat-square)
+![React](https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind-3-38B2AC?style=flat-square&logo=tailwind-css)
 
-In the project directory, you can run:
+## ✨ Features
 
-### `npm start`
+- 🎭 **Hero Selection** - All 18 base game heroes + modded heroes support
+- ⚔️ **Skill Configuration** - Select up to 4 combat skills and 4 camping skills per hero
+- 💎 **Trinket System** - Equip 2 trinkets per hero from the full trinket database
+- 🎲 **Quirk Management** - Add positive and negative quirks with locking support
+- 🔄 **Drag & Drop** - Reorder heroes in your party composition
+- 💾 **Auto-Save** - Teams are saved to localStorage automatically
+- 📱 **Responsive Design** - Works on desktop and mobile
+- 🎨 **Darkest Dungeon Theme** - Gothic styling with the DwarvenAxe font
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## 🚀 Getting Started
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Prerequisites
 
-### `npm test`
+- Node.js 18+ 
+- npm or yarn
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Installation
 
-### `npm run build`
+```bash
+# Clone the repository
+git clone https://github.com/bluefireF5ran/dd-team-builder.git
+cd dd-team-builder
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+# Install dependencies
+npm install
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+# Start development server
+npm start
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+The app will open at [http://localhost:3000](http://localhost:3000)
 
-### `npm run eject`
+### Build for Production
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```bash
+npm run build
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 📁 Project Structure
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```
+src/
+├── components/
+│   ├── common/          # Shared UI components
+│   ├── hero/            # Hero selection and configuration
+│   ├── party/           # Party composition display
+│   ├── quirks/          # Quirk management
+│   └── team/            # Team controls and header
+├── config/
+│   └── assets.js        # Asset URL configuration
+├── constants/           # App constants
+├── data/                # Hero, trinket, quirk data
+├── hooks/               # Custom React hooks
+└── utils/               # Helper functions
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## 🖼️ Assets Repository
 
-## Learn More
+Images are served from a separate repository to keep this codebase lightweight:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+**Assets Repository:** [dd-team-builder-assets](https://github.com/bluefireF5ran/dd-team-builder-assets)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Asset Configuration
 
-### Code Splitting
+The asset loading is configured in `src/config/assets.js`:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```javascript
+// Toggle between local and external assets
+const USE_EXTERNAL_ASSETS = true;
 
-### Analyzing the Bundle Size
+// External assets URL (GitHub raw)
+const GITHUB_ASSETS = 'https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main';
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### Local Development with Assets
 
-### Making a Progressive Web App
+If you want to develop with local assets:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+1. Clone the assets repository:
+   ```bash
+   git clone https://github.com/bluefireF5ran/dd-team-builder-assets.git
+   ```
 
-### Advanced Configuration
+2. Copy the `images` folder to `public/`:
+   ```bash
+   cp -r dd-team-builder-assets/images public/
+   ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+3. Set `USE_EXTERNAL_ASSETS = false` in `src/config/assets.js`
 
-### Deployment
+### Adding New Assets
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+1. Add images to the [assets repository](https://github.com/bluefireF5ran/dd-team-builder-assets)
+2. Follow the naming convention: `lowercase_with_underscores.png`
+3. Place in the appropriate folder:
+   - `images/heroes/` - Hero portraits
+   - `images/skills/` - Combat skill icons
+   - `images/camp_skills/` - Camping skill icons
+   - `images/trinkets/` - Trinket icons
+   - `images/quirks/` - Quirk icons
+   - `images/modded/` - Modded content (with workshop ID prefix)
 
-### `npm run build` fails to minify
+## 🎮 Adding Modded Heroes
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
->>>>>>> 28728b8 (Initialize project using Create React App)
+Modded heroes are defined in `src/data/modded_heroes.js`. Each hero needs:
+
+- Workshop ID (from Steam Workshop URL)
+- Hero class definition with skills, trinkets, and camping skills
+- Images in the assets repo under `images/modded/`
+
+## 🛠️ Tech Stack
+
+- **React 18** - UI framework
+- **Tailwind CSS** - Styling
+- **@hello-pangea/dnd** - Drag and drop
+- **localStorage** - Data persistence
+
+## 📝 License
+
+This project is for personal/fan use. Darkest Dungeon is a trademark of Red Hook Studios.
+
+## 🙏 Acknowledgments
+
+- [Red Hook Studios](https://www.darkestdungeon.com/) for creating Darkest Dungeon
+- The DD modding community for workshop content
+- DwarvenAxe font for the gothic typography
