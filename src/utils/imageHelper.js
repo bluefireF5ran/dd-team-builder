@@ -1,6 +1,4 @@
-import { TRINKETS } from '../data/trinkets';
 import { BACKER_TRINKETS } from '../data/backer_trinkets';
-import { HERO_CLASSES } from '../data/heroes';
 import { MODDED_HERO_CLASSES, MODDED_GENERAL_TRINKETS } from '../data/modded_heroes';
 
 // Función para convertir nombres a formato de archivo
