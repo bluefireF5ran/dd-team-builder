@@ -1,5 +1,6 @@
 import { BACKER_TRINKETS } from '../data/backer_trinkets';
 import { MODDED_HERO_CLASSES, MODDED_GENERAL_TRINKETS } from '../data/modded_heroes';
+import { getAssetUrl } from '../config/assets';
 
 // Función para convertir nombres a formato de archivo
 export const toImageFileName = (name) => {
@@ -30,10 +31,10 @@ export const getHeroImagePath = (heroClass) => {
   
   // Si es modded, usar carpeta modded/heroes
   if (isModdedHero(heroClass)) {
-    return `/images/modded/heroes/${fileName}.png`;
+    return getAssetUrl(`/images/modded/heroes/${fileName}.png`);
   }
   
-  return `/images/heroes/${fileName}.png`;
+  return getAssetUrl(`/images/heroes/${fileName}.png`);
 };
 
 export const getSkillImagePath = (skillName, heroClass = null) => {
@@ -44,10 +45,10 @@ export const getSkillImagePath = (skillName, heroClass = null) => {
   
   // Si es un héroe modded, usar carpeta modded/skills con prefijo
   if (modId) {
-    return `/images/modded/skills/${modId}_${fileName}.png`;
+    return getAssetUrl(`/images/modded/skills/${modId}_${fileName}.png`);
   }
   
-  return `/images/skills/${fileName}.png`;
+  return getAssetUrl(`/images/skills/${fileName}.png`);
 };
 
 export const getCampSkillImagePath = (skillName, heroClass = null) => {
@@ -61,16 +62,16 @@ export const getCampSkillImagePath = (skillName, heroClass = null) => {
     
     // Si está en vanillaCampSkills, usar la imagen vanilla
     if (moddedHero.vanillaCampSkills?.includes(skillName)) {
-      return `/images/camp_skills/${fileName}.png`;
+      return getAssetUrl(`/images/camp_skills/${fileName}.png`);
     }
     
     // Si no, usar la imagen modded con prefijo
     const modId = moddedHero.modId;
-    return `/images/modded/camp_skills/${modId}_${fileName}.png`;
+    return getAssetUrl(`/images/modded/camp_skills/${modId}_${fileName}.png`);
   }
   
   // Para héroes vanilla, siempre usar carpeta vanilla
-  return `/images/camp_skills/${fileName}.png`;
+  return getAssetUrl(`/images/camp_skills/${fileName}.png`);
 };
 
 export const getTrinketImagePath = (trinketName, heroClass = null) => {
@@ -79,22 +80,22 @@ export const getTrinketImagePath = (trinketName, heroClass = null) => {
   
   // Verificar si es un backer trinket
   if (BACKER_TRINKETS.includes(trinketName)) {
-    return `/images/backer_trinkets/${fileName}.png`;
+    return getAssetUrl(`/images/backer_trinkets/${fileName}.png`);
   }
   
   // Verificar si es un trinket específico de clase modded
   if (heroClass && isModdedHero(heroClass)) {
     const moddedHero = MODDED_HERO_CLASSES[heroClass];
     if (moddedHero.classSpecificTrinkets?.includes(trinketName)) {
-      return `/images/modded/trinkets/class_specific/${moddedHero.modId}_${fileName}.png`;
+      return getAssetUrl(`/images/modded/trinkets/class_specific/${moddedHero.modId}_${fileName}.png`);
     }
   }
   
   // Verificar si es un trinket general modded
   if (MODDED_GENERAL_TRINKETS.includes(trinketName)) {
-    return `/images/modded/trinkets/${fileName}.png`;
+    return getAssetUrl(`/images/modded/trinkets/${fileName}.png`);
   }
   
   // Trinket vanilla por defecto
-  return `/images/trinkets/${fileName}.png`;
+  return getAssetUrl(`/images/trinkets/${fileName}.png`);
 };

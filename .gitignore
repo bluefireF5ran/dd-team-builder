@@ -18,5 +18,8 @@ Thumbs.db
 .env.*
 !.env.example
 
-# Imagenes
+# Imagenes (se sirven desde repo externo)
 public/images
+
+# Repositorio de assets (es un repo separado)
+dd-team-builder-assets/
