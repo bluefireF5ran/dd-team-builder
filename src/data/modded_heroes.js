@@ -1109,6 +1109,7 @@ export const MODDED_HERO_CLASSES = {
     vanillaCampSkills: [
 
     ],
+    alwaysActive: true,
     image: '1130829365.png',
     classSpecificTrinkets: [
       'Caregivers Ring',

@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Search, X } from 'lucide-react';
+import { Search } from 'lucide-react';
 import { HERO_CLASSES } from '../../data/heroes';
 import { MODDED_HERO_CLASSES } from '../../data/modded_heroes';
 import { getHeroImagePath } from '../../utils/imageHelper';
@@ -29,12 +29,6 @@ const HeroSelector = ({ value, onChange, className, showModdedHeroes }) => {
   const handleSelect = (hero) => {
     onChange(hero);
     setIsOpen(false);
-    setSearch('');
-  };
-
-  const handleClear = (e) => {
-    e.stopPropagation();
-    onChange('');
     setSearch('');
   };
 
@@ -82,9 +76,9 @@ const HeroSelector = ({ value, onChange, className, showModdedHeroes }) => {
             <div className="overflow-y-auto max-h-80">
               {/* Vanilla Heroes */}
               {filteredVanilla.length > 0 && (
-                <>
+                <div>
                   {showModdedHeroes && filteredModded.length > 0 && (
-                    <div className="px-3 py-1 bg-gray-600 border-b border-gray-500 sticky top-0">
+                    <div className="px-3 py-1.5 bg-gray-600 border-b border-gray-500">
                       <span className="text-xs font-bold text-gray-300 uppercase tracking-wider">
                         Vanilla Heroes
                       </span>
@@ -105,13 +99,13 @@ const HeroSelector = ({ value, onChange, className, showModdedHeroes }) => {
                       <span className="font-medium">{hero}</span>
                     </div>
                   ))}
-                </>
+                </div>
               )}
 
               {/* Modded Heroes */}
               {showModdedHeroes && filteredModded.length > 0 && (
-                <>
-                  <div className="px-3 py-1 bg-purple-900/30 border-y border-purple-700/50 sticky top-0">
+                <div>
+                  <div className="px-3 py-1.5 bg-purple-900/50 border-y border-purple-700/50">
                     <span className="text-xs font-bold text-purple-400 uppercase tracking-wider">
                       🧩 Modded Heroes
                     </span>
@@ -131,7 +125,7 @@ const HeroSelector = ({ value, onChange, className, showModdedHeroes }) => {
                       <span className="font-medium">{hero}</span>
                     </div>
                   ))}
-                </>
+                </div>
               )}
 
               {filteredVanilla.length === 0 && filteredModded.length === 0 && (

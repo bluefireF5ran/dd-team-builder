@@ -1,4 +1,5 @@
 import React from 'react';
+import { Lock } from 'lucide-react';
 import { HERO_CLASSES } from '../../data/heroes';
 import { MODDED_HERO_CLASSES } from '../../data/modded_heroes';
 import { getHeroImagePath, getSkillImagePath, getCampSkillImagePath, getTrinketImagePath } from '../../utils/imageHelper';
@@ -9,7 +10,9 @@ const PartyHeroCard = ({ hero, position }) => {
   const isAlwaysActive = heroData?.alwaysActive || false;
   const activeSkills = hero.activeSkills || [];
   const activeCampSkills = hero.activeCampSkills || [];
-  const maxSkills = isAlwaysActive ? 7 : 4;
+  const quirks = hero.quirks || { positive: [], negative: [] };
+  const lockedQuirks = hero.lockedQuirks || { positive: [], negative: [] };
+  const hasQuirks = quirks.positive.length > 0 || quirks.negative.length > 0;
 
   // Dividir skills en dos filas si son 7
   const firstRowSkills = activeSkills.slice(0, 4);
@@ -55,42 +58,6 @@ const PartyHeroCard = ({ hero, position }) => {
 
         {hero.heroClass && (
           <>
-            {/* Trinkets */}
-            <div className="mb-4">
-              <div className="text-xs text-gray-400 mb-2 font-bold text-center uppercase tracking-wider">Trinkets</div>
-              <div className="flex justify-center gap-2">
-                {[hero.trinket1, hero.trinket2].map((trinket, idx) => (
-                  <div key={idx}>
-                    {trinket ? (
-                      <div className="relative group">
-                        <img 
-                          src={getTrinketImagePath(trinket)}
-                          alt={trinket}
-                          className="w-[60px] h-[120px] object-contain rounded border-3 border-purple-600 bg-gray-800 shadow-md"
-                          title={trinket}
-                          onError={(e) => {
-                            e.target.style.display = 'none';
-                            e.target.nextSibling.style.display = 'flex';
-                          }}
-                        />
-                        <div 
-                          className="w-[60px] h-[120px] items-center justify-center bg-purple-900/40 border-3 border-purple-600 rounded text-lg text-purple-300 font-bold"
-                          style={{display: 'none'}}
-                          title={trinket}
-                        >
-                          ?
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="w-[60px] h-[120px] flex items-center justify-center bg-gray-600/40 border-3 border-gray-600 rounded">
-                        <span className="text-lg text-gray-500 font-bold">-</span>
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-
             {/* Combat Skills */}
             <div className="mb-3">
               <div className="text-xs text-gray-400 mb-2 font-bold text-center uppercase tracking-wider">Skills</div>
@@ -158,7 +125,7 @@ const PartyHeroCard = ({ hero, position }) => {
             </div>
 
             {/* Camp Skills */}
-            <div>
+            <div className="mb-3">
               <div className="text-xs text-gray-400 mb-2 font-bold text-center uppercase tracking-wider">Camp</div>
               <div className="flex justify-center gap-1.5">
                 {activeCampSkills.slice(0, 4).map((skill, idx) => (
@@ -198,6 +165,81 @@ const PartyHeroCard = ({ hero, position }) => {
                 )}
               </div>
             </div>
+
+            {/* Trinkets */}
+            <div className="mb-3">
+              <div className="text-xs text-gray-400 mb-2 font-bold text-center uppercase tracking-wider">Trinkets</div>
+              <div className="flex justify-center gap-2">
+                {[hero.trinket1, hero.trinket2].map((trinket, idx) => (
+                  <div key={idx}>
+                    {trinket ? (
+                      <div className="relative group">
+                        <img 
+                          src={getTrinketImagePath(trinket)}
+                          alt={trinket}
+                          className="w-[60px] h-[120px] object-contain rounded border-3 border-amber-600 bg-gray-800 shadow-md"
+                          title={trinket}
+                          onError={(e) => {
+                            e.target.style.display = 'none';
+                            e.target.nextSibling.style.display = 'flex';
+                          }}
+                        />
+                        <div 
+                          className="w-[60px] h-[120px] items-center justify-center bg-amber-900/40 border-3 border-amber-600 rounded text-lg text-amber-300 font-bold"
+                          style={{display: 'none'}}
+                          title={trinket}
+                        >
+                          ?
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="w-[60px] h-[120px] flex items-center justify-center bg-gray-600/40 border-3 border-gray-600 rounded">
+                        <span className="text-lg text-gray-500 font-bold">-</span>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Quirks - Only shown if there are any */}
+            {hasQuirks && (
+              <div>
+                <div className="text-xs text-gray-400 mb-2 font-bold text-center uppercase tracking-wider">Quirks</div>
+                <div className="space-y-1">
+                  {/* Positive Quirks */}
+                  {quirks.positive.length > 0 && (
+                    <div className="flex flex-wrap justify-center gap-1">
+                      {quirks.positive.map((quirk, idx) => (
+                        <div 
+                          key={`pos-${idx}`}
+                          className="flex items-center gap-1 px-2 py-0.5 bg-yellow-900/50 border border-yellow-700/50 rounded text-xs text-yellow-300"
+                          title={quirk}
+                        >
+                          {lockedQuirks.positive.includes(quirk) && <Lock size={10} />}
+                          <span className="truncate max-w-[80px]">{quirk}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  {/* Negative Quirks */}
+                  {quirks.negative.length > 0 && (
+                    <div className="flex flex-wrap justify-center gap-1">
+                      {quirks.negative.map((quirk, idx) => (
+                        <div 
+                          key={`neg-${idx}`}
+                          className="flex items-center gap-1 px-2 py-0.5 bg-red-900/50 border border-red-700/50 rounded text-xs text-red-300"
+                          title={quirk}
+                        >
+                          {lockedQuirks.negative.includes(quirk) && <Lock size={10} />}
+                          <span className="truncate max-w-[80px]">{quirk}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
           </>
         )}
       </div>

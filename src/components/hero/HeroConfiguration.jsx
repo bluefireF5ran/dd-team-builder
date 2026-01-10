@@ -28,16 +28,17 @@ const HeroConfiguration = ({ hero, position, onUpdate, showBackerTrinkets, showM
 
   // Auto-activar todas las skills si el héroe tiene alwaysActive
   useEffect(() => {
-    if (hero.heroClass && isAlwaysActive) {
+    if (hero.heroClass && isAlwaysActive && heroData) {
       const allSkills = heroData.skills || [];
       const currentSkills = hero.activeSkills || [];
       
       // Solo actualizar si no están todas activas
       if (currentSkills.length !== allSkills.length) {
-        updateHero('activeSkills', allSkills);
+        onUpdate({ ...hero, activeSkills: allSkills });
       }
     }
-  }, [hero.heroClass, isAlwaysActive, heroData]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hero.heroClass, isAlwaysActive]);
 
   const updateHero = (field, value) => {
     onUpdate({ ...hero, [field]: value });
@@ -135,14 +136,17 @@ const HeroConfiguration = ({ hero, position, onUpdate, showBackerTrinkets, showM
     const locks = hero.lockedQuirks || { positive: [], negative: [] };
     const type = isPositive ? 'positive' : 'negative';
     
-    updateHero('quirks', {
-      ...quirks,
-      [type]: quirks[type].filter(q => q !== quirk)
-    });
-    
-    updateHero('lockedQuirks', {
-      ...locks,
-      [type]: locks[type].filter(q => q !== quirk)
+    // Update both quirks and lockedQuirks in a single update to avoid race conditions
+    onUpdate({
+      ...hero,
+      quirks: {
+        ...quirks,
+        [type]: quirks[type].filter(q => q !== quirk)
+      },
+      lockedQuirks: {
+        ...locks,
+        [type]: locks[type].filter(q => q !== quirk)
+      }
     });
   };
 
