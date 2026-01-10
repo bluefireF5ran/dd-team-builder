@@ -201,64 +201,66 @@ const HeroConfiguration = ({ hero, position, onUpdate, showBackerTrinkets, showM
   const negativeSlots = Array(5).fill(null).map((_, i) => quirks.negative[i] || null);
 
   return (
-    <div className={`bg-gray-800 rounded-lg p-4 border-2 ${
-      validation.isComplete ? 'border-green-700' : 
-      validation.hasClass ? 'border-yellow-700' : 
+    <div className={`bg-gradient-to-b from-gray-800 to-gray-900 rounded-lg p-3 sm:p-4 border-2 transition-all duration-300 ${
+      validation.isComplete ? 'border-green-700/80 shadow-[0_0_10px_rgba(34,197,94,0.2)]' : 
+      validation.hasClass ? 'border-yellow-700/80' : 
       'border-gray-700'
     }`}>
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-3 flex-1">
-          <span className="text-2xl font-bold text-yellow-400">Position {position}</span>
+      {/* Header - Responsive */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-3 mb-3 sm:mb-4">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full">
+          <span className="text-lg sm:text-2xl font-bold text-dd-gold font-darkest tracking-wide">#{position}</span>
           
           <HeroSelector
             value={hero.heroClass}
             onChange={handleHeroClassChange}
-            className="flex-1"
+            className="flex-1 min-w-[150px]"
             showModdedHeroes={showModdedHeroes}
           />
           
           {hero.heroClass && (
             <button
               onClick={handleResetConfiguration}
-              className="p-2 bg-red-600 hover:bg-red-700 text-white rounded transition-colors"
+              className="p-1.5 sm:p-2 bg-red-700/80 hover:bg-red-600 text-dd-parchment rounded transition-colors border border-red-600"
               title="Reset Configuration"
             >
-              <RotateCcw size={20} />
+              <RotateCcw size={16} className="sm:w-5 sm:h-5" />
             </button>
           )}
 
           {hero.heroClass && !validation.isComplete && (
-            <div className="flex items-center gap-2 px-3 py-2 bg-yellow-900/30 border border-yellow-700/50 rounded text-yellow-400 text-sm">
-              <AlertTriangle size={16} />
-              <span>Incomplete Configuration</span>
+            <div className="hidden md:flex items-center gap-2 px-2 sm:px-3 py-1 sm:py-2 bg-yellow-900/30 border border-yellow-700/50 rounded text-yellow-400 text-xs sm:text-sm">
+              <AlertTriangle size={14} className="sm:w-4 sm:h-4" />
+              <span className="hidden lg:inline">Incomplete</span>
             </div>
           )}
 
           {hero.heroClass && validation.isComplete && (
-            <div className="flex items-center gap-2 px-3 py-2 bg-green-900/30 border border-green-700/50 rounded text-green-400 text-sm">
-              <span>✓ Ready</span>
+            <div className="hidden md:flex items-center gap-2 px-2 sm:px-3 py-1 sm:py-2 bg-green-900/30 border border-green-700/50 rounded text-green-400 text-xs sm:text-sm">
+              <span>✓</span>
+              <span className="hidden lg:inline">Ready</span>
             </div>
           )}
 
           {hero.heroClass && (
             <button
               onClick={() => setIsExpanded(!isExpanded)}
-              className="p-2 bg-gray-700 hover:bg-gray-600 rounded transition-colors"
+              className="p-1.5 sm:p-2 bg-gray-700 hover:bg-gray-600 rounded transition-colors ml-auto sm:ml-0"
             >
-              {isExpanded ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+              {isExpanded ? <ChevronUp size={16} className="sm:w-5 sm:h-5" /> : <ChevronDown size={16} className="sm:w-5 sm:h-5" />}
             </button>
           )}
         </div>
       </div>
 
       {hero.heroClass && isExpanded && (
-        <div className="grid grid-cols-3 gap-4">
-          <div className="space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+          <div className="space-y-3 sm:space-y-4">
             <div>
-              <h4 className="font-semibold text-white mb-2">
-                Combat Skills {isAlwaysActive ? '(7 - All Active)' : '(4)'}
+              <h4 className="font-semibold text-dd-parchment mb-2 text-sm sm:text-base font-darkest tracking-wide">
+                Combat Skills {isAlwaysActive ? '(7)' : '(4)'}
               </h4>
-              <div className="space-y-1">
+              <div className="space-y-1 max-h-[200px] sm:max-h-none overflow-y-auto">
                 {heroSkills.map(skill => {
                   const isActive = activeSkills.includes(skill);
                   return (
@@ -266,10 +268,10 @@ const HeroConfiguration = ({ hero, position, onUpdate, showBackerTrinkets, showM
                       key={skill}
                       onClick={() => toggleSkill(skill)}
                       disabled={isAlwaysActive}
-                      className={`w-full px-3 py-2 rounded text-sm transition-colors text-left ${
+                      className={`w-full px-2 sm:px-3 py-1.5 sm:py-2 rounded text-xs sm:text-sm transition-colors text-left ${
                         isActive
-                          ? 'bg-green-600 hover:bg-green-700 text-white font-semibold'
-                          : 'bg-gray-700 hover:bg-gray-600 text-gray-300'
+                          ? 'bg-green-700/80 hover:bg-green-600 text-dd-parchment font-semibold border border-green-600'
+                          : 'bg-gray-700/80 hover:bg-gray-600 text-gray-300 border border-gray-600'
                       } ${isAlwaysActive ? 'cursor-not-allowed opacity-90' : 'cursor-pointer'}`}
                     >
                       {skill}
@@ -278,27 +280,27 @@ const HeroConfiguration = ({ hero, position, onUpdate, showBackerTrinkets, showM
                 })}
               </div>
               {!isAlwaysActive && (
-                <p className="text-xs text-gray-400 mt-1">
+                <p className="text-[10px] sm:text-xs text-gray-400 mt-1">
                   Selected: {activeSkills.length}/4
                 </p>
               )}
             </div>
           </div>
 
-          <div className="space-y-4">
+          <div className="space-y-3 sm:space-y-4">
             <div>
-              <h4 className="font-semibold text-white mb-2">Camp Skills (4 max)</h4>
-              <div className="space-y-1">
+              <h4 className="font-semibold text-purple-400 mb-2 text-sm sm:text-base font-darkest tracking-wide">Camp Skills (4)</h4>
+              <div className="space-y-1 max-h-[150px] sm:max-h-none overflow-y-auto">
                 {heroCampSkills.map(skill => {
                   const isActive = activeCampSkills.includes(skill);
                   return (
                     <button
                       key={skill}
                       onClick={() => toggleCampSkill(skill)}
-                      className={`w-full px-3 py-2 rounded text-sm transition-colors text-left ${
+                      className={`w-full px-2 sm:px-3 py-1.5 sm:py-2 rounded text-xs sm:text-sm transition-colors text-left ${
                         isActive
-                          ? 'bg-purple-600 hover:bg-purple-700 text-white font-semibold'
-                          : 'bg-gray-700 hover:bg-gray-600 text-gray-300'
+                          ? 'bg-purple-700/80 hover:bg-purple-600 text-dd-parchment font-semibold border border-purple-600'
+                          : 'bg-gray-700/80 hover:bg-gray-600 text-gray-300 border border-gray-600'
                       }`}
                     >
                       {skill}
@@ -306,19 +308,19 @@ const HeroConfiguration = ({ hero, position, onUpdate, showBackerTrinkets, showM
                   );
                 })}
               </div>
-              <p className="text-xs text-gray-400 mt-1">
+              <p className="text-[10px] sm:text-xs text-gray-400 mt-1">
                 Selected: {activeCampSkills.length}/4
               </p>
             </div>
 
             <div>
-              <h4 className="font-semibold text-white mb-2">Trinkets</h4>
+              <h4 className="font-semibold text-amber-400 mb-2 text-sm sm:text-base font-darkest tracking-wide">Trinkets</h4>
               <div className="space-y-2">
                 <SearchableSelect
                   value={hero.trinket1 || ''}
                   onChange={(value) => updateHero('trinket1', value)}
                   options={availableTrinkets}
-                  placeholder="Trinket Slot 1"
+                  placeholder="Trinket 1"
                   className="w-full"
                   showSeparator={showBackerTrinkets}
                   separatorIndex={separatorIndex}
@@ -327,7 +329,7 @@ const HeroConfiguration = ({ hero, position, onUpdate, showBackerTrinkets, showM
                   value={hero.trinket2 || ''}
                   onChange={(value) => updateHero('trinket2', value)}
                   options={availableTrinkets}
-                  placeholder="Trinket Slot 2"
+                  placeholder="Trinket 2"
                   className="w-full"
                   showSeparator={showBackerTrinkets}
                   separatorIndex={separatorIndex}
@@ -336,10 +338,10 @@ const HeroConfiguration = ({ hero, position, onUpdate, showBackerTrinkets, showM
             </div>
           </div>
 
-          <div className="space-y-4">
+          <div className="space-y-3 sm:space-y-4 md:col-span-2 lg:col-span-1">
             <div>
-              <h4 className="font-semibold text-yellow-400 mb-2">Positive Quirks</h4>
-              <div className="space-y-1">
+              <h4 className="font-semibold text-yellow-400 mb-2 text-sm sm:text-base font-darkest tracking-wide">Positive Quirks</h4>
+              <div className="grid grid-cols-2 sm:grid-cols-1 gap-1">
                 {positiveSlots.map((quirk, idx) => (
                   <QuirkSlot
                     key={`positive-${idx}-${quirk || 'empty'}`}
@@ -358,9 +360,9 @@ const HeroConfiguration = ({ hero, position, onUpdate, showBackerTrinkets, showM
               {quirks.positive.length < 5 && (
                 <button
                   onClick={() => setShowPositiveQuirkSelector(!showPositiveQuirkSelector)}
-                  className="w-full mt-2 px-3 py-2 bg-yellow-700 hover:bg-yellow-600 text-white rounded text-sm"
+                  className="w-full mt-2 px-2 sm:px-3 py-1.5 sm:py-2 bg-yellow-700/80 hover:bg-yellow-600 text-dd-parchment rounded text-xs sm:text-sm border border-yellow-600 transition-colors"
                 >
-                  {showPositiveQuirkSelector ? 'Cancel' : 'Add Quirk'}
+                  {showPositiveQuirkSelector ? 'Cancel' : '+ Add'}
                 </button>
               )}
               {showPositiveQuirkSelector && (
@@ -376,8 +378,8 @@ const HeroConfiguration = ({ hero, position, onUpdate, showBackerTrinkets, showM
             </div>
 
             <div>
-              <h4 className="font-semibold text-red-400 mb-2">Negative Quirks</h4>
-              <div className="space-y-1">
+              <h4 className="font-semibold text-red-400 mb-2 text-sm sm:text-base font-darkest tracking-wide">Negative Quirks</h4>
+              <div className="grid grid-cols-2 sm:grid-cols-1 gap-1">
                 {negativeSlots.map((quirk, idx) => (
                   <QuirkSlot
                     key={`negative-${idx}-${quirk || 'empty'}`}
@@ -396,9 +398,9 @@ const HeroConfiguration = ({ hero, position, onUpdate, showBackerTrinkets, showM
               {quirks.negative.length < 5 && (
                 <button
                   onClick={() => setShowNegativeQuirkSelector(!showNegativeQuirkSelector)}
-                  className="w-full mt-2 px-3 py-2 bg-red-700 hover:bg-red-600 text-white rounded text-sm"
+                  className="w-full mt-2 px-2 sm:px-3 py-1.5 sm:py-2 bg-red-700/80 hover:bg-red-600 text-dd-parchment rounded text-xs sm:text-sm border border-red-600 transition-colors"
                 >
-                  {showNegativeQuirkSelector ? 'Cancel' : 'Add Quirk'}
+                  {showNegativeQuirkSelector ? 'Cancel' : '+ Add'}
                 </button>
               )}
               {showNegativeQuirkSelector && (

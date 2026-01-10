@@ -1,3 +1,212 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Fuente Darkest Dungeon */
+@font-face {
+  font-family: 'DwarvenAxe';
+  src: url('../public/font/DwarvenAxe BB W00 Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Variables CSS globales */
+:root {
+  --dd-red: #8B0000;
+  --dd-red-light: #DC2626;
+  --dd-gold: #D4AF37;
+  --dd-gold-dark: #8B7355;
+  --dd-parchment: #F5DEB3;
+  --torch-color: #FF6B35;
+}
+
+/* Estilos base */
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: #111827;
+  overflow-x: hidden;
+}
+
+/* Clase para fuente gótica de títulos */
+.font-darkest {
+  font-family: 'DwarvenAxe', 'Times New Roman', serif;
+  letter-spacing: 0.05em;
+}
+
+/* Efecto de parpadeo de antorcha */
+@keyframes torch-flicker {
+  0%, 100% { 
+    box-shadow: 0 0 20px rgba(255, 107, 53, 0.3), 
+                0 0 40px rgba(255, 107, 53, 0.2),
+                inset 0 0 20px rgba(255, 107, 53, 0.05);
+  }
+  25% { 
+    box-shadow: 0 0 25px rgba(255, 107, 53, 0.4), 
+                0 0 50px rgba(255, 107, 53, 0.25),
+                inset 0 0 25px rgba(255, 107, 53, 0.08);
+  }
+  50% { 
+    box-shadow: 0 0 15px rgba(255, 107, 53, 0.25), 
+                0 0 35px rgba(255, 107, 53, 0.15),
+                inset 0 0 15px rgba(255, 107, 53, 0.03);
+  }
+  75% { 
+    box-shadow: 0 0 22px rgba(255, 107, 53, 0.35), 
+                0 0 45px rgba(255, 107, 53, 0.2),
+                inset 0 0 22px rgba(255, 107, 53, 0.06);
+  }
+}
+
+.torch-border {
+  animation: torch-flicker 3s ease-in-out infinite;
+}
+
+/* Efecto de brillo sutil para cards */
+@keyframes subtle-glow {
+  0%, 100% { 
+    border-color: rgba(139, 0, 0, 0.5);
+  }
+  50% { 
+    border-color: rgba(139, 0, 0, 0.8);
+  }
+}
+
+.glow-border {
+  animation: subtle-glow 4s ease-in-out infinite;
+}
+
+/* Tooltips personalizados */
+.tooltip {
+  @apply invisible absolute z-50 px-3 py-2 text-sm text-white bg-gray-900 rounded-lg shadow-lg border border-gray-700;
+  @apply opacity-0 transition-all duration-200;
+  @apply -top-2 left-1/2 -translate-x-1/2 -translate-y-full;
+  white-space: nowrap;
+  max-width: 250px;
+  white-space: normal;
+}
+
+.tooltip::after {
+  content: '';
+  @apply absolute top-full left-1/2 -translate-x-1/2;
+  border-width: 6px;
+  border-style: solid;
+  border-color: #374151 transparent transparent transparent;
+}
+
+.has-tooltip:hover .tooltip {
+  @apply visible opacity-100;
+}
+
+/* Scrollbar personalizado estilo DD */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1f2937;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #4b5563;
+  border-radius: 5px;
+  border: 2px solid #1f2937;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #6b7280;
+}
+
+/* Efecto de hover para cards de héroe */
+.hero-card {
+  @apply transition-all duration-300 ease-out;
+}
+
+.hero-card:hover {
+  @apply transform scale-[1.02];
+}
+
+/* Animación de entrada */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.4s ease-out forwards;
+}
+
+/* Efecto para íconos de skills */
+.skill-icon {
+  @apply transition-all duration-200;
+}
+
+.skill-icon:hover {
+  @apply transform scale-110 brightness-110;
+  filter: drop-shadow(0 0 8px rgba(34, 197, 94, 0.5));
+}
+
+/* Efecto para trinkets */
+.trinket-icon:hover {
+  filter: drop-shadow(0 0 8px rgba(217, 119, 6, 0.6));
+}
+
+/* Botones con efecto de presión */
+.btn-press {
+  @apply transition-transform duration-100;
+}
+
+.btn-press:active {
+  @apply transform scale-95;
+}
+
+/* Overlay oscuro animado */
+.dark-overlay {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 0, 0, 0.9) 0%,
+    rgba(17, 24, 39, 0.85) 50%,
+    rgba(0, 0, 0, 0.9) 100%
+  );
+}
+
+/* Mobile-specific utilities */
+@media (max-width: 640px) {
+  .mobile-text-sm {
+    font-size: 0.875rem;
+  }
+  
+  .mobile-p-2 {
+    padding: 0.5rem;
+  }
+  
+  .mobile-gap-2 {
+    gap: 0.5rem;
+  }
+}
+
+/* Efecto de viñeta oscura en los bordes */
+.vignette {
+  box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.5);
+}
+
+/* Separador estilizado */
+.dd-separator {
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(139, 0, 0, 0.5) 20%,
+    rgba(139, 0, 0, 0.8) 50%,
+    rgba(139, 0, 0, 0.5) 80%,
+    transparent 100%
+  );
+}

@@ -17,28 +17,32 @@ const QuirkSlot = ({ quirk, isPositive, onToggleLock, isLocked, onRemove }) => {
   };
 
   return (
-    <div className={`flex items-center justify-between px-3 py-2 rounded ${
-      isPositive ? 'bg-yellow-900/40 border border-yellow-700/50' : 'bg-red-900/40 border border-red-700/50'
+    <div className={`flex items-center justify-between px-2 sm:px-3 py-1.5 sm:py-2 rounded transition-all ${
+      isPositive 
+        ? 'bg-yellow-900/40 border border-yellow-700/50 hover:border-yellow-600' 
+        : 'bg-red-900/40 border border-red-700/50 hover:border-red-600'
     }`}>
-      <span className={`text-sm ${isPositive ? 'text-yellow-300' : 'text-red-300'}`}>
-        {quirk || 'Empty Slot'}
+      <span className={`text-xs sm:text-sm truncate max-w-[100px] sm:max-w-none ${isPositive ? 'text-yellow-300' : 'text-red-300'}`}>
+        {quirk || 'Empty'}
       </span>
-      <div className="flex gap-1">
+      <div className="flex gap-0.5 sm:gap-1 ml-1">
         {quirk && (
           <>
             <button
               onClick={handleToggleLock}
               type="button"
-              className={`p-1 rounded ${isLocked ? (isPositive ? 'text-yellow-400' : 'text-red-400') : 'text-gray-500'}`}
+              className={`p-0.5 sm:p-1 rounded transition-colors ${isLocked ? (isPositive ? 'text-yellow-400' : 'text-red-400') : 'text-gray-500 hover:text-gray-300'}`}
+              title={isLocked ? 'Unlock' : 'Lock'}
             >
-              {isLocked ? <Lock size={14} /> : <Unlock size={14} />}
+              {isLocked ? <Lock size={12} className="sm:w-[14px] sm:h-[14px]" /> : <Unlock size={12} className="sm:w-[14px] sm:h-[14px]" />}
             </button>
             <button
               onClick={handleRemove}
               type="button"
-              className="p-1 text-gray-400 hover:text-white"
+              className="p-0.5 sm:p-1 text-gray-400 hover:text-red-400 transition-colors"
+              title="Remove"
             >
-              <X size={14} />
+              <X size={12} className="sm:w-[14px] sm:h-[14px]" />
             </button>
           </>
         )}

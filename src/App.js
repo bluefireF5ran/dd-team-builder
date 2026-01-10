@@ -47,20 +47,28 @@ const App = () => {
 
   return (
     <div 
-      className="min-h-screen bg-gray-900 text-white p-6 bg-cover bg-center bg-fixed"
+      className="min-h-screen bg-gray-900 text-white p-3 sm:p-6 bg-cover bg-center bg-fixed vignette"
       style={{ 
         backgroundImage: `linear-gradient(rgba(17, 24, 39, 0.85), rgba(17, 24, 39, 0.95)), url('${backgroundImage}')` 
       }}
     >
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-4xl font-bold text-center mb-2 text-red-600">
-          Darkest Dungeon Team Builder
-        </h1>
-        <p className="text-center text-gray-400 mb-6">
-          Craft your perfect party composition
-        </p>
+        {/* Header con fuente gótica */}
+        <header className="mb-6 sm:mb-8 animate-fade-in-up">
+          <h1 className="font-darkest text-3xl sm:text-5xl lg:text-6xl text-center mb-2 text-dd-red-light drop-shadow-lg tracking-wider">
+            Darkest Dungeon
+          </h1>
+          <h2 className="font-darkest text-xl sm:text-2xl lg:text-3xl text-center text-dd-gold tracking-wide">
+            Team Builder
+          </h2>
+          <div className="dd-separator mt-4 mb-2"></div>
+          <p className="text-center text-gray-400 text-sm sm:text-base italic">
+            "Remind yourself that overconfidence is a slow and insidious killer."
+          </p>
+        </header>
 
-        <div className="bg-gray-800 rounded-lg p-6 mb-6 border-2 border-gray-700">
+        {/* Panel de controles */}
+        <div className="bg-gray-800/90 backdrop-blur-sm rounded-lg p-3 sm:p-6 mb-4 sm:mb-6 border-2 border-dd-red/30 torch-border">
           <TeamHeader
             teamName={teamName}
             onTeamNameChange={setTeamName}
@@ -81,9 +89,11 @@ const App = () => {
           />
         </div>
 
+        {/* Party Composition */}
         <PartyComposition heroes={heroes} onSwapHeroes={swapHeroes} />
 
-        <div className="space-y-6">
+        {/* Hero Configuration Cards */}
+        <div className="space-y-4 sm:space-y-6">
           {[...heroes].reverse().map((hero, idx) => {
             const position = 4 - idx;
             const actualIndex = heroes.length - 1 - idx;
@@ -99,6 +109,14 @@ const App = () => {
             );
           })}
         </div>
+
+        {/* Footer */}
+        <footer className="mt-8 text-center text-gray-500 text-xs sm:text-sm pb-4">
+          <div className="dd-separator mb-4"></div>
+          <p className="font-darkest text-dd-gold/60 tracking-wider">
+            Darkest Dungeon © Red Hook Studios
+          </p>
+        </footer>
       </div>
     </div>
   );
