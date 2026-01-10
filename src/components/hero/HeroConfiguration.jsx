@@ -257,7 +257,7 @@ const HeroConfiguration = ({ hero, position, onUpdate, showBackerTrinkets, showM
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
           <div className="space-y-3 sm:space-y-4">
             <div>
-              <h4 className="font-semibold text-dd-parchment mb-2 text-sm sm:text-base font-darkest tracking-wide">
+              <h4 className="font-semibold text-dd-parchment mb-2 text-base sm:text-lg font-darkest tracking-wide">
                 Combat Skills {isAlwaysActive ? '(7)' : '(4)'}
               </h4>
               <div className="space-y-1 max-h-[200px] sm:max-h-none overflow-y-auto">
@@ -289,7 +289,7 @@ const HeroConfiguration = ({ hero, position, onUpdate, showBackerTrinkets, showM
 
           <div className="space-y-3 sm:space-y-4">
             <div>
-              <h4 className="font-semibold text-purple-400 mb-2 text-sm sm:text-base font-darkest tracking-wide">Camp Skills (4)</h4>
+              <h4 className="font-semibold text-purple-400 mb-2 text-base sm:text-lg font-darkest tracking-wide">Camp Skills (4)</h4>
               <div className="space-y-1 max-h-[150px] sm:max-h-none overflow-y-auto">
                 {heroCampSkills.map(skill => {
                   const isActive = activeCampSkills.includes(skill);
@@ -314,7 +314,7 @@ const HeroConfiguration = ({ hero, position, onUpdate, showBackerTrinkets, showM
             </div>
 
             <div>
-              <h4 className="font-semibold text-amber-400 mb-2 text-sm sm:text-base font-darkest tracking-wide">Trinkets</h4>
+              <h4 className="font-semibold text-amber-400 mb-2 text-base sm:text-lg font-darkest tracking-wide">Trinkets</h4>
               <div className="space-y-2">
                 <SearchableSelect
                   value={hero.trinket1 || ''}
@@ -340,7 +340,7 @@ const HeroConfiguration = ({ hero, position, onUpdate, showBackerTrinkets, showM
 
           <div className="space-y-3 sm:space-y-4 md:col-span-2 lg:col-span-1">
             <div>
-              <h4 className="font-semibold text-yellow-400 mb-2 text-sm sm:text-base font-darkest tracking-wide">Positive Quirks</h4>
+              <h4 className="font-semibold text-yellow-400 mb-2 text-base sm:text-lg font-darkest tracking-wide">Positive Quirks</h4>
               <div className="grid grid-cols-2 sm:grid-cols-1 gap-1">
                 {positiveSlots.map((quirk, idx) => (
                   <QuirkSlot
@@ -378,7 +378,7 @@ const HeroConfiguration = ({ hero, position, onUpdate, showBackerTrinkets, showM
             </div>
 
             <div>
-              <h4 className="font-semibold text-red-400 mb-2 text-sm sm:text-base font-darkest tracking-wide">Negative Quirks</h4>
+              <h4 className="font-semibold text-red-400 mb-2 text-base sm:text-lg font-darkest tracking-wide">Negative Quirks</h4>
               <div className="grid grid-cols-2 sm:grid-cols-1 gap-1">
                 {negativeSlots.map((quirk, idx) => (
                   <QuirkSlot

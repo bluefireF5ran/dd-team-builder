@@ -22,7 +22,7 @@ const QuirkSlot = ({ quirk, isPositive, onToggleLock, isLocked, onRemove }) => {
         ? 'bg-yellow-900/40 border border-yellow-700/50 hover:border-yellow-600' 
         : 'bg-red-900/40 border border-red-700/50 hover:border-red-600'
     }`}>
-      <span className={`text-xs sm:text-sm truncate max-w-[100px] sm:max-w-none ${isPositive ? 'text-yellow-300' : 'text-red-300'}`}>
+      <span className={`text-sm sm:text-base truncate max-w-[100px] sm:max-w-none ${isPositive ? 'text-yellow-300' : 'text-red-300'}`}>
         {quirk || 'Empty'}
       </span>
       <div className="flex gap-0.5 sm:gap-1 ml-1">

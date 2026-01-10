@@ -35,7 +35,7 @@ const PartyComposition = ({ heroes, onSwapHeroes }) => {
 
   return (
     <div className="bg-gray-800/90 backdrop-blur-sm rounded-lg p-3 sm:p-6 mb-4 sm:mb-6 border-2 border-dd-red/30 torch-border">
-      <h3 className="font-darkest text-2xl sm:text-3xl mb-2 text-center text-dd-red-light tracking-wide">
+      <h3 className="font-darkest text-3xl sm:text-4xl mb-2 text-center text-dd-red-light tracking-wide">
         Party Composition
       </h3>
       <p className="text-center text-gray-400 text-xs sm:text-sm mb-4 sm:mb-6">

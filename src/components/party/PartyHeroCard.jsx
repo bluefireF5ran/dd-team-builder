@@ -51,7 +51,7 @@ const PartyHeroCard = ({ hero, position }) => {
               <span className="text-3xl sm:text-5xl text-gray-500">{position}</span>
             </div>
           )}
-          <div className="text-xs sm:text-sm text-dd-parchment font-bold mt-1 sm:mt-2 text-center px-2 py-0.5 sm:py-1 bg-gray-800/80 rounded font-darkest tracking-wide">
+          <div className="text-sm sm:text-lg text-dd-parchment font-bold mt-1 sm:mt-2 text-center px-2 py-0.5 sm:py-1 bg-gray-800/80 rounded font-darkest tracking-wide">
             {hero.heroClass || 'Empty'}
           </div>
         </div>
@@ -60,7 +60,7 @@ const PartyHeroCard = ({ hero, position }) => {
           <>
             {/* Combat Skills */}
             <div className="mb-2 sm:mb-3">
-              <div className="text-[10px] sm:text-xs text-dd-gold mb-1 sm:mb-2 font-bold text-center uppercase tracking-wider font-darkest">Skills</div>
+              <div className="text-xs sm:text-sm text-dd-gold mb-1 sm:mb-2 font-bold text-center uppercase tracking-wider font-darkest">Skills</div>
               <div className="space-y-1 sm:space-y-1.5">
                 {/* Primera fila - 4 skills */}
                 <div className="flex justify-center gap-1 sm:gap-1.5">
@@ -126,7 +126,7 @@ const PartyHeroCard = ({ hero, position }) => {
 
             {/* Camp Skills */}
             <div className="mb-2 sm:mb-3">
-              <div className="text-[10px] sm:text-xs text-purple-400 mb-1 sm:mb-2 font-bold text-center uppercase tracking-wider font-darkest">Camp</div>
+              <div className="text-xs sm:text-sm text-purple-400 mb-1 sm:mb-2 font-bold text-center uppercase tracking-wider font-darkest">Camp</div>
               <div className="flex justify-center gap-1 sm:gap-1.5">
                 {activeCampSkills.slice(0, 4).map((skill, idx) => (
                   <div key={idx} className="relative group">
@@ -168,7 +168,7 @@ const PartyHeroCard = ({ hero, position }) => {
 
             {/* Trinkets */}
             <div className="mb-2 sm:mb-3">
-              <div className="text-[10px] sm:text-xs text-amber-400 mb-1 sm:mb-2 font-bold text-center uppercase tracking-wider font-darkest">Trinkets</div>
+              <div className="text-xs sm:text-sm text-amber-400 mb-1 sm:mb-2 font-bold text-center uppercase tracking-wider font-darkest">Trinkets</div>
               <div className="flex justify-center gap-1 sm:gap-2">
                 {[hero.trinket1, hero.trinket2].map((trinket, idx) => (
                   <div key={idx}>
@@ -205,7 +205,7 @@ const PartyHeroCard = ({ hero, position }) => {
             {/* Quirks - Only shown if there are any */}
             {hasQuirks && (
               <div>
-                <div className="text-[10px] sm:text-xs text-gray-400 mb-1 sm:mb-2 font-bold text-center uppercase tracking-wider font-darkest">Quirks</div>
+                <div className="text-xs sm:text-sm text-gray-400 mb-1 sm:mb-2 font-bold text-center uppercase tracking-wider font-darkest">Quirks</div>
                 <div className="space-y-1">
                   {/* Positive Quirks */}
                   {quirks.positive.length > 0 && (
