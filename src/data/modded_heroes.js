@@ -133,7 +133,7 @@ export const MODDED_HERO_CLASSES = {
       'Bushido',
       'Tea Ceremony',
       'Honor',
-      'Bewitched Blades Curse'
+      'Sudoku'
     ],
     vanillaCampSkills: [
       'Encourage',
@@ -828,7 +828,7 @@ export const MODDED_HERO_CLASSES = {
       'Etching',
       'Spiritual Unity',
       'Warm Things',
-      'Swreath'
+      'Wreath'
     ],
     vanillaCampSkills: [
 
@@ -1556,16 +1556,22 @@ export const MODDED_HERO_CLASSES = {
       'Party Transcend'
     ],
     campSkills: [
-      'Imba First Aid',
-      'Imba Encourage',
-      'Imba Pep Talk',
-      'Imba Unshakeable Leader',
-      'Imba Stand Tall',
-      'Imba Zealous Speech',
-      'Imba Zealous Vigil'
+      'First Aid',
+      'Encourage',
+      'Pep Talk',
+      'Unshakeable Leader',
+      'Stand Tall',
+      'Zealous Speech',
+      'Zealous Vigil'
     ],
     vanillaCampSkills: [
-
+      'First Aid',
+      'Encourage',
+      'Pep Talk',
+      'Unshakeable Leader',
+      'Stand Tall',
+      'Zealous Speech',
+      'Zealous Vigil'
     ],
     image: '1564548636.png',
     classSpecificTrinkets: [
@@ -1589,16 +1595,16 @@ export const MODDED_HERO_CLASSES = {
       'Redemption',
     ],
     campSkills: [
+      'Encourage',
+      'Wound Care',
+      'Pep Talk',
       'Sanctuary',
-      'Pray',
-      'Have Courage',
-      'All Right',
-      'Youll Get Better',
-      'Its Safe In The Holy Light',
-      'Light, Give Me Strength.'
+      'Pray'
     ],
     vanillaCampSkills: [
-
+      'Encourage',
+      'Wound Care',
+      'Pep Talk'
     ],
     image: '1596685165.png',
     classSpecificTrinkets: [
@@ -1795,7 +1801,7 @@ export const MODDED_HERO_CLASSES = {
       'Wound Care',
       'Encourage',
       'Pep Talk',
-      'Cleanse',
+      'Cleanse Incense',
       'Acupressure',
       'Tranquility',
       'Conviction Mantra'
