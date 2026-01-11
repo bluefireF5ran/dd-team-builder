@@ -241,11 +241,11 @@ export const MODDED_HERO_CLASSES = {
       'False insight',
       'Release',
       'Unknown touch',
-      'Mark of the Codena',
+      'Mark of the Condena',
       'On Its Own',
       'Afflicted: Release',
       'Afflicted: Unknown touch',
-      'Afflicted: Mark of the Codena',
+      'Afflicted: Mark of the Condena',
       'Afflicted: On Its Own'
     ],
     campSkills: [
@@ -433,7 +433,7 @@ export const MODDED_HERO_CLASSES = {
       'Verdict',
       'Midline disruptor',
       'Shared desire',
-      'Longilus Wound'
+      'Longinus Wound'
     ],
     campSkills: [
       'Encourage',
@@ -458,7 +458,7 @@ export const MODDED_HERO_CLASSES = {
       'Improvised Machinery',
       'Corrupted Bleed',
       'Prevention Aid',
-      'Forbiden Arts',
+      'Forbidden Arts',
       'Stolen Banner',
       'Frypan of Power'
     ],
@@ -1343,7 +1343,7 @@ export const MODDED_HERO_CLASSES = {
     campSkills: [
       'Admit Fear',
       'Dark Comfort',
-      'Bloodletting Tehcniques',
+      'Bloodletting Techniques',
       'Sky Ritual',
       'Eldritch Pact'
     ],
@@ -1444,7 +1444,7 @@ export const MODDED_HERO_CLASSES = {
       'Pep Talk',
       'Tracking',
       'Zealous Speech',
-      'Sharpen Shear'
+      'Sharpen Spear'
     ],
     vanillaCampSkills: [
       'Encourage',
@@ -1452,7 +1452,7 @@ export const MODDED_HERO_CLASSES = {
       'Pep Talk',
       'Tracking',
       'Zealous Speech',
-      'Sharpen Shear'
+      'Sharpen Spear'
     ],
     image: '1196273779.png',
     classSpecificTrinkets: [
@@ -1469,7 +1469,7 @@ export const MODDED_HERO_CLASSES = {
       'Tome Jet Du Sort'
     ]
   },
-  'Reaver Brigrand': {
+  'Reaver Brigand': {
     modId: '948931447',
     skills: [
       'Aimed Shot',
@@ -1819,27 +1819,21 @@ export const MODDED_HERO_CLASSES = {
       'Avenger',
       'Guardian',
       'Mending Touch',
-      'Indomitable',
-      'Krzyżowe cięcie',
-      'Strzeż frontu',
-      'Uderzenie tarczą',
-      'Mścicielka',
-      'Gwardzistka',
-      'Nakładanie rąk',
-      'Nieustraszenie'
+      'Indomitable'
     ],
     campSkills: [
+      'Encourage',
+      'Wound Care',
+      'Pep Talk',
       'Watchful March',
       'Lay Of Hands',
       'Shield Up',
-      'Guardian Angel',
-      'Czujny Marsz',
-      'Nakładanie Rąk',
-      'Wyżej Tarczę',
-      'Anioł Stróż'
+      'Guardian Angel'
     ],
     vanillaCampSkills: [
-
+      'Encourage',
+      'Wound Care',
+      'Pep Talk'
     ],
     image: '963658853.png',
     classSpecificTrinkets: [
@@ -2026,8 +2020,7 @@ export const MODDED_HERO_CLASSES = {
       'Outflank Them!',
       'Regroup!',
       'Advance!',
-      'Retreat!',
-      'Alter Stratagem'
+      'Retreat!'
     ],
     campSkills: [
       'Tireless Study',
@@ -2037,6 +2030,7 @@ export const MODDED_HERO_CLASSES = {
     vanillaCampSkills: [
 
     ],
+    alwaysActive: true,
     image: '1265562734.png',
     classSpecificTrinkets: [
 

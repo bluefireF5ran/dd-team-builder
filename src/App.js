@@ -1,9 +1,10 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useTeam } from './hooks/useTeam';
 import TeamHeader from './components/team/TeamHeader';
 import TeamControls from './components/team/TeamControls';
 import PartyComposition from './components/party/PartyComposition';
 import HeroConfiguration from './components/hero/HeroConfiguration';
+import ImageTester from './components/debug/ImageTester';
 
 // Map locations to background images
 const LOCATION_BACKGROUNDS = {
@@ -22,6 +23,7 @@ const LOCATION_BACKGROUNDS = {
 };
 
 const App = () => {
+  const [showImageTester, setShowImageTester] = useState(false);
   const {
     teamName,
     setTeamName,
@@ -116,7 +118,18 @@ const App = () => {
           <p className="font-darkest text-dd-gold/60 tracking-wider">
             Darkest Dungeon © Red Hook Studios
           </p>
+          <button
+            onClick={() => setShowImageTester(true)}
+            className="mt-2 text-gray-600 hover:text-gray-400 text-xs underline"
+          >
+            Test Images
+          </button>
         </footer>
+
+        {/* Image Tester Modal */}
+        {showImageTester && (
+          <ImageTester onClose={() => setShowImageTester(false)} />
+        )}
       </div>
     </div>
   );

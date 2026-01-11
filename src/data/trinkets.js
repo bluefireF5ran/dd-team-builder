@@ -254,7 +254,7 @@ export const TRINKETS = [
   "Berserk Charm",
   "Beast Slayer's Ring",
   "Sharpening Sheath",
-  "Sacrifical Cauldron",
+  "Sacrificial Cauldron",
   "Recovery Charm",
   "Rampart Shield",
   "Quick Draw Charm",
