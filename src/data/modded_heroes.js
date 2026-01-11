@@ -115,7 +115,7 @@ export const MODDED_HERO_CLASSES = {
       'Accursed Orb'
     ]
   },
-  'Alonne': {
+  'Sir Alonne (Samurai)': {
     modId: '1558105232',
     skills: [
       'Elegant Strike',
@@ -1544,7 +1544,7 @@ export const MODDED_HERO_CLASSES = {
       'The Hypnotists Personal Journal'
     ]
   },
-  'IMBA Crusader': {
+  'Inbalanced Crusader': {
     modId: '1564548636',
     skills: [
       'Noch tödlicher',
@@ -2490,7 +2490,7 @@ export const MODDED_HERO_CLASSES = {
       'Charred Breastplate'
     ]
   },
-  'Shadow Dancer': {
+  'Shadow Dancer Kunoichi': {
     modId: '1561254303',
     skills: [
       'Assassinate',
