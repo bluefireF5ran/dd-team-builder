@@ -1544,7 +1544,7 @@ export const MODDED_HERO_CLASSES = {
       'The Hypnotists Personal Journal'
     ]
   },
-  'Inbalanced Crusader': {
+  'Imbalanced Crusader': {
     modId: '1564548636',
     skills: [
       'Noch tödlicher',
