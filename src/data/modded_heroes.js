@@ -3559,7 +3559,7 @@ export const MODDED_HERO_CLASSES = {
         '??? Head'
       ]
     },
-    'Warden': {
+    'Warden of the North': {
       modId: '1709484026',
       skills: [
         'Indictment',
@@ -3763,7 +3763,7 @@ export const MODDED_HERO_CLASSES = {
         'Sharing is Caring'
       ]
     },
-    'Fairy': {
+    'Fairy (Ciela)': {
       modId: '1763011936',
       skills: [
         'Guard Me',
@@ -3776,6 +3776,7 @@ export const MODDED_HERO_CLASSES = {
       ],
       campSkills: [
         'Encourage',
+        'Wound Care',
         'Pep Talk',
         'Vision',
         'Revive',
@@ -3783,7 +3784,9 @@ export const MODDED_HERO_CLASSES = {
         'Remember'
       ],
       vanillaCampSkills: [
-  
+        'Encourage',
+        'Pep Talk',
+        'Wound Care'
       ],
       image: '1763011936.png',
       classSpecificTrinkets: [
@@ -3893,7 +3896,7 @@ export const MODDED_HERO_CLASSES = {
         'Spellbook: Ice Barrier'
       ]
     },
-    'Fleshgolem': {
+    'Homunculus Rework': {
       modId: '1811578299',
       skills: [
         'Eldritch Comfort',
