@@ -3830,7 +3830,7 @@ export const MODDED_HERO_CLASSES = {
         'Black Obi'
       ]
     },
-    'Crow': {
+    'Crow (Scraw)': {
       modId: '1786463222',
       skills: [
         'Peck',
@@ -4069,7 +4069,7 @@ export const MODDED_HERO_CLASSES = {
         'Faded Lamp'
       ]
     },
-    'Piglet': {
+    'Little Piglet': {
       modId: '1835702185',
       skills: [
         'Squeal',
@@ -4091,7 +4091,7 @@ export const MODDED_HERO_CLASSES = {
   
       ]
     },
-    'Spirit Lancer': {
+    'Spirit Lancer (Rebalanced)': {
       modId: '1836051076',
       skills: [
         'Exonerate',
@@ -4305,7 +4305,7 @@ export const MODDED_HERO_CLASSES = {
         'Arcane Shrine Bells'
       ]
     },
-    'Clobber': {
+    'Clobber (Apostate Shroom)': {
       modId: '1867479147',
       skills: [
         'Obliterate',
