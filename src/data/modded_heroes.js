@@ -4341,3 +4341,8 @@ export const MODDED_HERO_CLASSES = {
     ]
   }
 };
+
+
+
+// Trinkets generales de mods (no específicos de clase)
+export const MODDED_GENERAL_TRINKETS = [];

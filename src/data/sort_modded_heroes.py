@@ -20,18 +20,47 @@ def sort_modded_heroes():
     
     header = header_match.group(1)
     
-    # Encontrar el cierre del objeto
-    footer = '\n};\n'
-    
-    # Extraer el contenido del objeto (sin header ni footer)
+    # Encontrar el cierre del objeto MODDED_HERO_CLASSES (el primero)
+    # Buscamos el }; que cierra MODDED_HERO_CLASSES, no el último del archivo
     obj_start = header_match.end()
-    obj_end = content.rfind('};')
     
-    if obj_end == -1:
+    # Encontrar el cierre correcto contando llaves
+    brace_count = 1  # Ya estamos dentro del objeto principal
+    obj_end = obj_start
+    in_string = False
+    escape_next = False
+    
+    for i, char in enumerate(content[obj_start:]):
+        if escape_next:
+            escape_next = False
+            continue
+        if char == '\\':
+            escape_next = True
+            continue
+        if char == "'" and not in_string:
+            in_string = True
+        elif char == "'" and in_string:
+            in_string = False
+        elif not in_string:
+            if char == '{':
+                brace_count += 1
+            elif char == '}':
+                brace_count -= 1
+                if brace_count == 0:
+                    obj_end = obj_start + i
+                    break
+    
+    if obj_end == obj_start:
         print("No se encontró el cierre del objeto")
         return
     
     obj_content = content[obj_start:obj_end]
+    
+    # Guardar todo lo que viene después del cierre de MODDED_HERO_CLASSES
+    remaining_content = content[obj_end + 1:]  # +1 para saltar el }
+    # Quitar el ; inicial si existe
+    if remaining_content.startswith(';'):
+        remaining_content = remaining_content[1:]
     
     # Parsear las clases individuales
     # Cada clase empieza con 'NombreClase': { y termina con },
@@ -106,6 +135,9 @@ def sort_modded_heroes():
         sorted_content += '\n'
     
     sorted_content += '};\n'
+    
+    # Agregar el contenido restante (MODDED_GENERAL_TRINKETS, etc.)
+    sorted_content += remaining_content
     
     # Guardar el archivo ordenado
     with open(file_path, 'w', encoding='utf-8') as f:
