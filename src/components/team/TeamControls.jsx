@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Save, Upload, AlertCircle, CheckCircle, Star, Puzzle, FolderOpen, Trash2, Download, ChevronDown } from 'lucide-react';
+import { Save, Upload, AlertCircle, CheckCircle, Star, Puzzle, FolderOpen, Trash2, Download, ChevronDown, Image } from 'lucide-react';
 import { validateTeam } from '../../utils/validation';
 
 const TeamControls = ({ 
@@ -12,7 +12,8 @@ const TeamControls = ({
   showBackerTrinkets, 
   onToggleBackerTrinkets,
   showModdedHeroes,
-  onToggleModdedHeroes
+  onToggleModdedHeroes,
+  onExportPNG
 }) => {
   const teamValidation = validateTeam(heroes);
   const [showSavedTeams, setShowSavedTeams] = useState(false);
@@ -55,6 +56,16 @@ const TeamControls = ({
         >
           <Download size={16} className="sm:w-[18px] sm:h-[18px]" />
           Export
+        </button>
+
+        {/* Export to PNG */}
+        <button
+          onClick={onExportPNG}
+          className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-2 bg-violet-700/80 hover:bg-violet-600 text-dd-parchment rounded border border-violet-600 transition-colors text-sm sm:text-base"
+          title="Export party composition as PNG image"
+        >
+          <Image size={16} className="sm:w-[18px] sm:h-[18px]" />
+          <span className="hidden xs:inline">PNG</span>
         </button>
         
         {/* Load from File */}

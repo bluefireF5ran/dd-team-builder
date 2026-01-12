@@ -164,31 +164,55 @@ const HeroConfiguration = ({ hero, position, onUpdate, showBackerTrinkets, showM
     updateHero('lockedQuirks', { ...locks, [type]: newLocks });
   };
 
-  // Combinar trinkets normales, backer y modded
-  const availableTrinkets = useMemo(() => {
-    let trinkets = [...TRINKETS];
+  // Combinar trinkets: hero-specific primero, luego genéricos, backer al final
+  const { availableTrinkets, heroSpecificCount, backerStartIndex } = useMemo(() => {
+    let heroSpecificTrinkets = [];
+    let genericTrinkets = [...TRINKETS];
+    let backerTrinkets = [];
+    let moddedGeneralTrinkets = [];
     
-    if (showBackerTrinkets) {
-      trinkets = [...trinkets, ...BACKER_TRINKETS];
-    }
-    
-    // Añadir trinkets específicos de clase modded
-    if (hero.heroClass && MODDED_HERO_CLASSES[hero.heroClass]) {
-      const moddedHero = MODDED_HERO_CLASSES[hero.heroClass];
-      if (moddedHero.classSpecificTrinkets) {
-        trinkets = [...trinkets, ...moddedHero.classSpecificTrinkets];
+    // Obtener trinkets específicos de clase vanilla (aparecen primero)
+    if (hero.heroClass && HERO_CLASSES[hero.heroClass]) {
+      const vanillaHero = HERO_CLASSES[hero.heroClass];
+      if (vanillaHero.classSpecificTrinkets) {
+        heroSpecificTrinkets = [...heroSpecificTrinkets, ...vanillaHero.classSpecificTrinkets];
       }
     }
     
-    // Añadir trinkets generales modded
-    if (showModdedHeroes) {
-      trinkets = [...trinkets, ...MODDED_GENERAL_TRINKETS];
+    // Obtener trinkets específicos de clase modded (también primero)
+    if (hero.heroClass && MODDED_HERO_CLASSES[hero.heroClass]) {
+      const moddedHero = MODDED_HERO_CLASSES[hero.heroClass];
+      if (moddedHero.classSpecificTrinkets) {
+        heroSpecificTrinkets = [...heroSpecificTrinkets, ...moddedHero.classSpecificTrinkets];
+      }
     }
     
-    return trinkets;
+    // Añadir trinkets generales modded (después de genéricos)
+    if (showModdedHeroes) {
+      moddedGeneralTrinkets = [...MODDED_GENERAL_TRINKETS];
+    }
+    
+    // Añadir backer trinkets al final
+    if (showBackerTrinkets) {
+      backerTrinkets = [...BACKER_TRINKETS];
+    }
+    
+    // Calcular índice donde empiezan los backer trinkets
+    const backerStart = showBackerTrinkets 
+      ? heroSpecificTrinkets.length + genericTrinkets.length + moddedGeneralTrinkets.length 
+      : -1;
+    
+    // Hero-specific primero, luego genéricos, modded, y backer al final
+    return {
+      availableTrinkets: [...heroSpecificTrinkets, ...genericTrinkets, ...moddedGeneralTrinkets, ...backerTrinkets],
+      heroSpecificCount: heroSpecificTrinkets.length,
+      backerStartIndex: backerStart
+    };
   }, [showBackerTrinkets, showModdedHeroes, hero.heroClass]);
 
-  const separatorIndex = showBackerTrinkets ? TRINKETS.length : 0;
+  // Separador después de hero-specific trinkets si los hay
+  const separatorIndex = heroSpecificCount > 0 ? heroSpecificCount : 0;
+  const showSeparator = heroSpecificCount > 0;
 
   const heroSkills = heroData?.skills || [];
   const heroCampSkills = heroData?.campSkills || [];
@@ -322,8 +346,10 @@ const HeroConfiguration = ({ hero, position, onUpdate, showBackerTrinkets, showM
                   options={availableTrinkets}
                   placeholder="Trinket 1"
                   className="w-full"
-                  showSeparator={showBackerTrinkets}
+                  showSeparator={showSeparator}
                   separatorIndex={separatorIndex}
+                  separatorLabel="Hero Specific"
+                  backerStartIndex={backerStartIndex}
                 />
                 <SearchableSelect
                   value={hero.trinket2 || ''}
@@ -331,8 +357,10 @@ const HeroConfiguration = ({ hero, position, onUpdate, showBackerTrinkets, showM
                   options={availableTrinkets}
                   placeholder="Trinket 2"
                   className="w-full"
-                  showSeparator={showBackerTrinkets}
+                  showSeparator={showSeparator}
                   separatorIndex={separatorIndex}
+                  separatorLabel="Hero Specific"
+                  backerStartIndex={backerStartIndex}
                 />
               </div>
             </div>

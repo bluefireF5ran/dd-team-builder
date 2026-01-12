@@ -23,7 +23,9 @@ const PartyHeroCard = ({ hero, position }) => {
       <div className="bg-gradient-to-b from-gray-800 to-gray-900 rounded-lg p-2 sm:p-4 border-2 border-gray-700 hover:border-dd-gold/50 transition-all duration-300 shadow-inner-dark">
         {/* Position Badge */}
         <div className="absolute -top-2 -right-2 sm:-top-3 sm:-right-3 w-8 h-8 sm:w-12 sm:h-12 bg-gradient-to-br from-dd-gold to-amber-600 rounded-full flex items-center justify-center border-2 sm:border-4 border-gray-900 shadow-torch z-10">
-          <span className="text-lg sm:text-2xl font-black text-gray-900 font-darkest">{position}</span>
+          <span className="position-badge text-lg sm:text-2xl font-black text-gray-900 leading-none">
+            {position}
+          </span>
         </div>
 
         {/* Hero Portrait */}

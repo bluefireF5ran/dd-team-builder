@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, forwardRef } from 'react';
 import PartyHeroCard from './PartyHeroCard';
 
-const PartyComposition = ({ heroes, onSwapHeroes }) => {
+const PartyComposition = forwardRef(({ heroes, onSwapHeroes, teamName, location }, ref) => {
   const [draggedIndex, setDraggedIndex] = useState(null);
   const [dragOverIndex, setDragOverIndex] = useState(null);
 
@@ -34,7 +34,20 @@ const PartyComposition = ({ heroes, onSwapHeroes }) => {
   };
 
   return (
-    <div className="bg-gray-800/90 backdrop-blur-sm rounded-lg p-3 sm:p-6 mb-4 sm:mb-6 border-2 border-dd-red/30 torch-border">
+    <div 
+      ref={ref}
+      className="bg-gray-800/90 backdrop-blur-sm rounded-lg p-3 sm:p-6 mb-4 sm:mb-6 border-2 border-dd-red/30 torch-border"
+    >
+      {/* Team info header for export */}
+      {teamName && (
+        <div className="text-center mb-2">
+          <h2 className="font-darkest text-2xl sm:text-3xl text-dd-gold tracking-wide">{teamName}</h2>
+          {location && (
+            <p className="text-gray-400 text-sm italic">{location}</p>
+          )}
+        </div>
+      )}
+      
       <h3 className="font-darkest text-3xl sm:text-4xl mb-2 text-center text-dd-red-light tracking-wide">
         Party Composition
       </h3>
@@ -73,6 +86,6 @@ const PartyComposition = ({ heroes, onSwapHeroes }) => {
       </div>
     </div>
   );
-};
+});
 
 export default PartyComposition;

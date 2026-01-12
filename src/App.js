@@ -1,10 +1,12 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useRef, useCallback } from 'react';
 import { useTeam } from './hooks/useTeam';
 import TeamHeader from './components/team/TeamHeader';
 import TeamControls from './components/team/TeamControls';
 import PartyComposition from './components/party/PartyComposition';
 import HeroConfiguration from './components/hero/HeroConfiguration';
 import ImageTester from './components/debug/ImageTester';
+import { getAssetUrl } from './config/assets';
+import html2canvas from 'html2canvas';
 
 // Map locations to background images
 const LOCATION_BACKGROUNDS = {
@@ -44,8 +46,50 @@ const App = () => {
   } = useTeam();
 
   const backgroundImage = useMemo(() => {
-    return LOCATION_BACKGROUNDS[location] || LOCATION_BACKGROUNDS['The Ruins'];
+    const bgPath = LOCATION_BACKGROUNDS[location] || LOCATION_BACKGROUNDS['The Ruins'];
+    return getAssetUrl(bgPath);
   }, [location]);
+
+  // Ref for party composition export
+  const partyRef = useRef(null);
+
+  // Export party composition to PNG
+  const exportToPNG = useCallback(async () => {
+    if (!partyRef.current) return;
+    
+    try {
+      // Temporarily adjust position badges for better rendering in html2canvas
+      const badges = partyRef.current.querySelectorAll('.position-badge');
+      const originalStyles = [];
+      badges.forEach((badge) => {
+        originalStyles.push(badge.style.cssText);
+        badge.style.marginTop = '-15px';
+        badge.style.fontFamily = 'Arial, sans-serif';
+      });
+
+      const canvas = await html2canvas(partyRef.current, {
+        backgroundColor: '#1f2937', // gray-800
+        scale: 2, // Higher quality
+        useCORS: true, // For external images
+        allowTaint: true,
+        logging: false
+      });
+      
+      // Restore original styles
+      badges.forEach((badge, idx) => {
+        badge.style.cssText = originalStyles[idx];
+      });
+      
+      const link = document.createElement('a');
+      const fileName = teamName ? `${teamName.replace(/[^a-z0-9]/gi, '_')}.png` : 'party_composition.png';
+      link.download = fileName;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    } catch (error) {
+      console.error('Error exporting to PNG:', error);
+      alert('Error exporting image. Please try again.');
+    }
+  }, [teamName]);
 
   return (
     <div 
@@ -88,11 +132,18 @@ const App = () => {
             onToggleBackerTrinkets={toggleBackerTrinkets}
             showModdedHeroes={showModdedHeroes}
             onToggleModdedHeroes={toggleModdedHeroes}
+            onExportPNG={exportToPNG}
           />
         </div>
 
         {/* Party Composition */}
-        <PartyComposition heroes={heroes} onSwapHeroes={swapHeroes} />
+        <PartyComposition 
+          ref={partyRef}
+          heroes={heroes} 
+          onSwapHeroes={swapHeroes}
+          teamName={teamName}
+          location={location}
+        />
 
         {/* Hero Configuration Cards */}
         <div className="space-y-4 sm:space-y-6">
