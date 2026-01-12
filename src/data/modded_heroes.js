@@ -115,36 +115,42 @@ export const MODDED_HERO_CLASSES = {
       'Accursed Orb'
     ]
   },
-  'Sir Alonne (Samurai)': {
-    modId: '1558105232',
-    skills: [
-      'Elegant Strike',
-      'Backslash',
-      'Gliding Stab',
-      'Bewitched Bloodthirst',
-      'Piercing Assault',
-      'Zen',
-      'Lunge',
-    ],
-    campSkills: [
-      'Encourage',
-      'Wound Care',
-      'Pep Talk',
-      'Bushido',
-      'Tea Ceremony',
-      'Honor',
-      'Sudoku'
-    ],
-    vanillaCampSkills: [
-      'Encourage',
-      'Wound Care',
-      'Pep Talk'
-    ],
-    image: '1558105232.png',
-    classSpecificTrinkets: [
-
-    ]
-  },
+  'Alraune': {
+      modId: '1739004957',
+      skills: [
+        'Strike',
+        'Shunt',
+        'Petrify',
+        'Shelter',
+        'Timber',
+        'Brambles',
+        'Brace'
+      ],
+      campSkills: [
+        'Encourage',
+        'First Aid',
+        'Pep Talk',
+        'Uproot',
+        'Reminisce',
+        'Growth',
+        'Bird Song'
+      ],
+      vanillaCampSkills: [
+  
+      ],
+      image: '1739004957.png',
+      classSpecificTrinkets: [
+        'Nurtured Soil',
+        'Fungicide',
+        'Infested Wraps',
+        'Craftsman\'s Tools',
+        'Necklace of Kin',
+        'Psilocybin',
+        'Timeworn Work Boots',
+        'Ruby',
+        'Tome of the Order'
+      ]
+    },
   'Apothecary': {
     modId: '1417602267',
     skills: [
@@ -220,6 +226,84 @@ export const MODDED_HERO_CLASSES = {
       'Akasha Threads'
     ]
   },
+  'Arcanist': {
+      modId: '1800025310',
+      skills: [
+        'Frostfire Bolt',
+        'Dragon\'s Breath',
+        'Frost Nova',
+        'Decurse',
+        'Time Warp',
+        'Invisibility',
+        'Arcane Knowledge'
+      ],
+      campSkills: [
+        'Conjure Food',
+        'Presence Of Mind',
+        'Combustion',
+        'Arcane Intellect'
+      ],
+      vanillaCampSkills: [
+        'Encourage',
+        'Wound Care',
+        'Pep Talk'
+      ],
+      image: '1800025310.png',
+      classSpecificTrinkets: [
+        'Crystal Ice Shard',
+        'Black Ice Shard',
+        'Eternal Candle',
+        'Cauterizing Frostflame',
+        'Frozen Robes',
+        'Frozen Skull',
+        'Enchanted Compass',
+        'Ring of the Red Dragon',
+        'Dark Shard of Ice',
+        'Unstable Artifact',
+        'Time Lord\'s Pocket Watch',
+        'Spellbook: Ice Barrier'
+      ]
+    },
+  'Beastmaster': {
+      modId: '1747389796',
+      skills: [
+        'Feral Cuts',
+        'Unwavering',
+        'Ravenous',
+        'Cycle of Life',
+        'Cougar\'s Leap',
+        'Bird of Prey',
+        'Spirit of the Hunt'
+      ],
+      campSkills: [
+        'Encourage',
+        'First Aid',
+        'Shamanism',
+        'Totemic Guidance',
+        'Big Game Hunt',
+        'Prey Stalker',
+        'Wildlife Expertise'
+      ],
+      vanillaCampSkills: [
+  
+      ],
+      image: '1747389796.png',
+      classSpecificTrinkets: [
+        'beastmaster_trinkets1',
+        'beastmaster_trinkets2',
+        'Shellcracker Shrimp',
+        'Winged Guide',
+        'Maze Rats',
+        'Ferocious Friends',
+        'Skyhunter',
+        'Familiar\'s Ink',
+        'Bloody Omen',
+        'Eternal Seed',
+        'Twisted Specimen',
+        'Mukanda\'s Head',
+        'King of the Rivers'
+      ]
+    },
   'Butcher': {
     modId: '1100230439',
     skills: [
@@ -348,6 +432,44 @@ export const MODDED_HERO_CLASSES = {
       'Unholy Writings'
     ]
   },
+  'Clobber (Apostate Shroom)': {
+      modId: '1867479147',
+      skills: [
+        'Obliterate',
+        'Flexing Muscles',
+        'Intimidating Flex',
+        'Protection Flex',
+        'Penetrating Punch',
+        'Personal Trainer',
+        'Punchout'
+      ],
+      campSkills: [
+        'Man Of The Forest',
+        'Retaliating Punch',
+        'Myconian Support',
+        'Bioluminescence'
+      ],
+      vanillaCampSkills: [
+        'Encourage',
+        'Pep Talk',
+        'Wound Care'
+      ],
+      image: '1867479147.png',
+      classSpecificTrinkets: [
+        'Cordyceps Vitreuscael',
+        'Testament Of Corruption',
+        'Reclaimed Evil',
+        'Morchella Esculenta',
+        'Amanita Muscaria',
+        '1Up!',
+        'Cantharellus Cibarius',
+        'Coprinopsis Atramentaria',
+        'Hydnellum Peckii',
+        'Clathrus Archeri',
+        'Toadstool\'s Cap',
+        'Golden Yokozuna Figure'
+      ]
+    },
   'Commissar': {
     modId: '955795133',
     skills: [
@@ -404,6 +526,36 @@ export const MODDED_HERO_CLASSES = {
 
     ]
   },
+  'Conqueror': {
+      modId: '1759328270',
+      skills: [
+        'Achtloser Schwung',
+        'Einschüchtern',
+        'Nussknacker',
+        'Flourish',
+        'Stärke',
+        'Ziehen',
+        'Abschlachten'
+      ],
+      campSkills: [
+        'Encourage',
+        'First Aid',
+        'Equipment Maintenance',
+        'Underground Contact',
+        'Convict\'s Tale',
+        'Germanic Folklore',
+        'Verstärken'
+      ],
+      vanillaCampSkills: [
+  
+      ],
+      image: '1759328270.png',
+      classSpecificTrinkets: [
+        'Armor Crusher',
+        'Proper Equipment',
+        'Proper Instructions'
+      ]
+    },
   'Conquistador': {
     modId: '1114545692',
     skills: [
@@ -433,6 +585,34 @@ export const MODDED_HERO_CLASSES = {
       'Grenade Shrapnel'
     ]
   },
+  'Crow (Scraw)': {
+      modId: '1786463222',
+      skills: [
+        'Peck',
+        'Caw',
+        'Call the Murder',
+        'Regurgitate',
+        'Shrieking Flight',
+        'Protect the Nest',
+        'Swallow'
+      ],
+      campSkills: [
+        'Natural Selection',
+        'Discard The Weak',
+        'Explore',
+        'Fetch',
+        'Anger',
+        'Anger',
+        'Anger'
+      ],
+      vanillaCampSkills: [
+  
+      ],
+      image: '1786463222.png',
+      classSpecificTrinkets: [
+        'Giant Egg'
+      ]
+    },
   'Dark Mage': {
     modId: '847481187', // ← ID único del mod
     skills: [
@@ -602,6 +782,33 @@ export const MODDED_HERO_CLASSES = {
     image: '1342714768.png',
     classSpecificTrinkets: []
   },
+  'Daughter of the Fourth': {
+    modId: '1342714768',
+    skills: [
+      'Sharing Curse',
+      'Last Guardian',
+      'Lifes Gift',
+      'Beyond Limits',
+      'The Hug',
+      'Self Catalyst',
+      'Reclaim'
+    ],
+    campSkills: [
+      'Encourage',
+      'Wound Care',
+      'Pep Talk',
+      'Force The Affliction',
+      'The Fourths right hand',
+      'The Fourths left hand',
+    ],
+    vanillaCampSkills: [
+      'Encourage',
+      'Wound Care',
+      'Pep Talk'
+    ],
+    image: '1342714768.png',
+    classSpecificTrinkets: []
+  },
   'Daughter of the Second': {
     modId: '1342714768',
     skills: [
@@ -650,33 +857,6 @@ export const MODDED_HERO_CLASSES = {
       'Last Night'
     ],
     vanillaCampSkills: [],
-    image: '1342714768.png',
-    classSpecificTrinkets: []
-  },
-  'Daughter of the Fourth': {
-    modId: '1342714768',
-    skills: [
-      'Sharing Curse',
-      'Last Guardian',
-      'Lifes Gift',
-      'Beyond Limits',
-      'The Hug',
-      'Self Catalyst',
-      'Reclaim'
-    ],
-    campSkills: [
-      'Encourage',
-      'Wound Care',
-      'Pep Talk',
-      'Force The Affliction',
-      'The Fourths right hand',
-      'The Fourths left hand',
-    ],
-    vanillaCampSkills: [
-      'Encourage',
-      'Wound Care',
-      'Pep Talk'
-    ],
     image: '1342714768.png',
     classSpecificTrinkets: []
   },
@@ -784,35 +964,6 @@ export const MODDED_HERO_CLASSES = {
       'Ancient Scale'
     ]
   },
-  'Druid': {
-    modId: '1110338003',
-    skills: [
-      'Drain Life',
-      'Healing Mist',
-      'Tremors',
-      'Entangle',
-      'Summon Thorn',
-      'Rejuvenate',
-      'Cleansing Rain'
-    ],
-    campSkills: [
-      'Cleanse Campsite',
-      'Commune With Nature',
-      'Loud Complaining',
-      'Make Soup'
-    ],
-    vanillaCampSkills: [
-
-    ],
-    image: '1110338003.png',
-    classSpecificTrinkets: [
-      'Sweet Smelling Herbs',
-      'Scrying Bowl',
-      'Soup Spoon',
-      'Ritual Compost',
-      'Sacrificial Knife'
-    ]
-  },
   'Drowner': {
     modId: '1595760408',
     skills: [
@@ -845,6 +996,35 @@ export const MODDED_HERO_CLASSES = {
       'Mark of Aram',
       'ED-E',
       'Fluorescent Iron'
+    ]
+  },
+  'Druid': {
+    modId: '1110338003',
+    skills: [
+      'Drain Life',
+      'Healing Mist',
+      'Tremors',
+      'Entangle',
+      'Summon Thorn',
+      'Rejuvenate',
+      'Cleansing Rain'
+    ],
+    campSkills: [
+      'Cleanse Campsite',
+      'Commune With Nature',
+      'Loud Complaining',
+      'Make Soup'
+    ],
+    vanillaCampSkills: [
+
+    ],
+    image: '1110338003.png',
+    classSpecificTrinkets: [
+      'Sweet Smelling Herbs',
+      'Scrying Bowl',
+      'Soup Spoon',
+      'Ritual Compost',
+      'Sacrificial Knife'
     ]
   },
   'Enigma': {
@@ -981,6 +1161,36 @@ export const MODDED_HERO_CLASSES = {
       'Royal Award'
     ]
   },
+  'Fairy (Ciela)': {
+      modId: '1763011936',
+      skills: [
+        'Guard Me',
+        'Guidance',
+        'Pack A Punch',
+        'Weak Spot',
+        'Wake Up',
+        'Phantom Sphere',
+        'Stop Time'
+      ],
+      campSkills: [
+        'Encourage',
+        'Wound Care',
+        'Pep Talk',
+        'Vision',
+        'Revive',
+        'Split Soul',
+        'Remember'
+      ],
+      vanillaCampSkills: [
+        'Encourage',
+        'Pep Talk',
+        'Wound Care'
+      ],
+      image: '1763011936.png',
+      classSpecificTrinkets: [
+  
+      ]
+    },
   'Falconer': {
     modId: '1089257023',
     skills: [
@@ -1135,6 +1345,32 @@ export const MODDED_HERO_CLASSES = {
       'Otherwordly Flea'
     ]
   },
+  'Fiend': {
+      modId: '1762618539',
+      skills: [
+        'Shredding Strike',
+        'Reave',
+        'Damning Howl',
+        'CHAOS',
+        'Call of Despair',
+        'Regain Humanity',
+        'Blood Elixir'
+      ],
+      campSkills: [
+        'Releasement',
+        'Empowerment',
+        'Acceptance',
+        'Beginnings',
+        'Calming Vapours'
+      ],
+      vanillaCampSkills: [
+        'Wound Care'
+      ],
+      image: '1762618539.png',
+      classSpecificTrinkets: [
+        'Sharing is Caring'
+      ]
+    },
   'Fury': {
     modId: '1100450515',
     skills: [
@@ -1197,6 +1433,70 @@ export const MODDED_HERO_CLASSES = {
     classSpecificTrinkets: [    
     ]
   },
+  'Grove Tender': {
+      modId: '1835237651',
+      skills: [
+        'Homi Strike',
+        'Absorbing Light',
+        'Laxification\'s Hug',
+        'Diluted Elixir',
+        'Lotus Shield',
+        'Lantern\'s Console',
+        'Root Powder'
+      ],
+      campSkills: [
+        'Herb In Elixir',
+        'Mint In Pillow',
+        'Bedtime Story',
+        'Foreseeing Risk'
+      ],
+      vanillaCampSkills: [
+        'Encourage',
+        'Wound Care',
+        'Pep Talk'
+      ],
+      image: '1835237651.png',
+      classSpecificTrinkets: [
+        'Toy Trowel',
+        'Wooden Bowl',
+        'Graceful Nambawi',
+        'Goldenfish Ornament',
+        'Favorite Snack',
+        'Awake Catastro-flower seed',
+        'Birthday Present',
+        'Mom\'s Treasure',
+        'Faded Lamp'
+      ]
+    },
+  'Guardsman': {
+    modId: '1195632927',
+    skills: [
+      'Aimed Shot',
+      'Blind Shot',
+      'Frag Grenade',
+      'Krak Grenade',
+      'Photon Grenade',
+      'Firm Faith',
+      'Reload'
+    ],
+    campSkills: [
+      'Imperial Cult',
+      'Reload',
+      'On Guard',
+      'Additional Ration'
+    ],
+    vanillaCampSkills: [
+
+    ],
+    image: '1195632927.png',
+    classSpecificTrinkets: [
+      'Additional Ammunition',
+      'Scope',
+      'Tactical Knife',
+      'Medical bag',
+      'Codex Astra Militarum'
+    ]
+  },
   'Guqin': {
     modId: '1446914431',
     skills: [
@@ -1226,35 +1526,6 @@ export const MODDED_HERO_CLASSES = {
       'Expeditious Raiment',
       'Dragon Figurine',
       'Time-worn Healing Scroll'
-    ]
-  },
-  'Guardsman': {
-    modId: '1195632927',
-    skills: [
-      'Aimed Shot',
-      'Blind Shot',
-      'Frag Grenade',
-      'Krak Grenade',
-      'Photon Grenade',
-      'Firm Faith',
-      'Reload'
-    ],
-    campSkills: [
-      'Imperial Cult',
-      'Reload',
-      'On Guard',
-      'Additional Ration'
-    ],
-    vanillaCampSkills: [
-
-    ],
-    image: '1195632927.png',
-    classSpecificTrinkets: [
-      'Additional Ammunition',
-      'Scope',
-      'Tactical Knife',
-      'Medical bag',
-      'Codex Astra Militarum'
     ]
   },
   'Guts the Black Swordman': {
@@ -1326,6 +1597,42 @@ export const MODDED_HERO_CLASSES = {
       'Winters Bane'
     ]
   },
+  'Harlot': {
+      modId: '1860840141',
+      skills: [
+        'Hands Off!',
+        'Silk Hiding Steel',
+        'Kiss of Death',
+        'Heart of Gold',
+        'Flashin\' the Goods',
+        'On the Prowl',
+        'Hold Me Close'
+      ],
+      campSkills: [
+        'Always Use Protection',
+        'Wanton Whispers',
+        'Powder My Nose',
+        'Working Girl'
+      ],
+      vanillaCampSkills: [
+        'Encourage',
+        'Wound Care',
+        'Pep Talk'
+      ],
+      image: '1860840141.png',
+      classSpecificTrinkets: [
+        'Delilah’s Head',
+        'Lipstick',
+        'Mirror & Powder Puff',
+        'Sultry Love Notes',
+        'Expensive Perfume',
+        'Little Black Book',
+        'Wedding Veil',
+        'Portrait from the Past',
+        'Kinky Crystal Boots',
+        'Tea Set & Geisha Fan'
+      ]
+    },
   'Hero (tLoZ Link)': {
     modId: '1586965131',
     skills: [
@@ -1442,6 +1749,82 @@ export const MODDED_HERO_CLASSES = {
       'Void Shard'
     ]
   },
+  'Homunculus': {
+      modId: '1665671496',
+      skills: [
+        'Eldritch Comfort',
+        'Flesh Veil',
+        'Dangerous Game',
+        'Mind Shot',
+        'Keening',
+        'Wither',
+        'Scourge'
+      ],
+      campSkills: [
+        'Eldritch Flesh',
+        'Open Your Mind!',
+        'A Fair Trade?',
+        'A Strange Gift'
+      ],
+      vanillaCampSkills: [
+  
+      ],
+      image: '1665671496.png',
+      classSpecificTrinkets: [
+        'Empty Brain',
+        'A lost part',
+        'Protean Shell',
+        'Vicious Axe',
+        'Forgotten Tome',
+        'Monstrous Crossbow',
+        'Akward Vial',
+        'Unholy Zeal',
+        'Rejuvenant Mask',
+        'Living Shield',
+        'Ancient Idol',
+        'Gore Atune',
+        '??? Head'
+      ]
+    },
+  'Homunculus Rework': {
+      modId: '1811578299',
+      skills: [
+        'Eldritch Comfort',
+        'Flesh Veil',
+        'Dangerous Game',
+        'Infested Shot',
+        'Keening',
+        'Wither',
+        'Scourge'
+      ],
+      campSkills: [
+        'Eldritch Flesh',
+        'Flesh Command: Awake',
+        'Flesh Command: Reinforce',
+        'A Strange Gift'
+      ],
+      vanillaCampSkills: [
+  
+      ],
+      image: '1811578299.png',
+      classSpecificTrinkets: [
+        'Empty Brain',
+        'A Lost Part',
+        'Protean Shell',
+        'Vicious Axe',
+        'Forgotten Tome',
+        'Monstrous Crossbow',
+        'Unstable Vial',
+        'Unholy Zeal',
+        'Protector Mask',
+        'Living Shield',
+        'Ancient Idol',
+        'Gore Attunement',
+        'Beats from the Void',
+        'Toughts from the Void',
+        'Alphonse\'s Head'
+      ]
+    },
   'Hood': {
     modId: '1157520643',
     skills: [
@@ -1724,6 +2107,28 @@ export const MODDED_HERO_CLASSES = {
       'Mirror Shield'
     ]
   },
+  'Little Piglet': {
+      modId: '1835702185',
+      skills: [
+        'Squeal',
+        'End This One',
+        'End These Two',
+        'Bit o\' Squeal'
+      ],
+      campSkills: [
+        'Encourage?',
+        'Wound Care?',
+        'Pep Talk?',
+        'Hobby?'
+      ],
+      vanillaCampSkills: [
+  
+      ],
+      image: '1835702185.png',
+      classSpecificTrinkets: [
+  
+      ]
+    },
   'Lords Blade': {
     modId: '1433161277',
     skills: [
@@ -1758,6 +2163,42 @@ export const MODDED_HERO_CLASSES = {
       'Ambush Ring'
     ]
   },
+  'Mambo': {
+      modId: '1865154690',
+      skills: [
+        'Papa Ghede\'s Blessing',
+        'You Dare!?',
+        'Baron Samedi\'s Tobacco',
+        'Papa Legba’s Shadow',
+        'Husband’s Embrace',
+        'Baron Kriminel’s Whip',
+        'A Little Pinprick'
+      ],
+      campSkills: [
+        'When The Rooster Crows',
+        'Gumbo Zabe',
+        'Lucky Feather',
+        'Lemme Do Yo\' Hair'
+      ],
+      vanillaCampSkills: [
+        'Encourage',
+        'Wound Care',
+        'Pep Talk'
+      ],
+      image: '1865154690.png',
+      classSpecificTrinkets: [
+        'My Good Headscarf',
+        'Sugar Dusted Beignet',
+        'Stillborn\'s Blanket',
+        'Grigri Talisman',
+        'A Beaded Gourd',
+        'Vial of Christophe Glapion\'s teeth',
+        'Freedom Papers',
+        'Locket of Christophe',
+        'Crystalized Pepper Rum',
+        'Arcane Shrine Bells'
+      ]
+    },
   'Martyr': {
     modId: '932344353',
     skills: [
@@ -2023,6 +2464,43 @@ export const MODDED_HERO_CLASSES = {
       'Snatchers Kamas'
     ]
   },
+  'Picaroon': {
+      modId: '1856292904',
+      skills: [
+        'Tumultuous Cannon',
+        'Prurient Kiss',
+        'Noxious Bomb',
+        'For The Sunken',
+        'Piercing Volley',
+        'Shredding Bomb',
+        'Dancing Shot'
+      ],
+      campSkills: [
+        'Sea Legs',
+        'Shark\'S Blood Extract',
+        'Wayfinder',
+        'Night Of Gambling',
+        'X Marks The Spot',
+        'Gun Cleaning',
+        'Scurvy Ward'
+      ],
+      vanillaCampSkills: [
+  
+      ],
+      image: '1856292904.png',
+      classSpecificTrinkets: [
+        'Pilar\'s Head',
+        'Marine Chronometer',
+        'Seafarer\'s Spyglass',
+        'Treasure Map',
+        'Captain\'s Hat',
+        'Kracken\'s Hook',
+        'Mister Jack',
+        'Cursed Lantern',
+        'Mate O\'Donnell',
+        'Aged Painting'
+      ]
+    },
   'Pit Fighter': {
     modId: '886635500',
     skills: [
@@ -2052,6 +2530,41 @@ export const MODDED_HERO_CLASSES = {
     classSpecificTrinkets: [    
     ]
   },
+  'Pony': {
+      modId: '1834579489',
+      skills: [
+        'Rainbow',
+        'Purifying Glow',
+        'Blessed Wind',
+        'Enfeeble',
+        'Horsebuck',
+        'Pony Ride',
+        'Unveil'
+      ],
+      campSkills: [
+        'Petting Zoo',
+        'Touch Of Purity',
+        'Dark Instinct',
+        'Mystical Mending'
+      ],
+      vanillaCampSkills: [
+        'Encourage',
+        'Wound Care',
+        'Pep Talk'
+      ],
+      image: '1834579489.png',
+      classSpecificTrinkets: [
+        'Faded Figurine',
+        'Prism Crystal',
+        'Twilicane',
+        'Suspicious Cupcake',
+        'Alicorn Amulet',
+        'Harmony Sigil',
+        'Worn Doll',
+        'The Star in Yellow',
+        'Crystal Heart'
+      ]
+    },
   'Prodigy': {
     modId: '924245318',
     skills: [
@@ -2161,28 +2674,6 @@ export const MODDED_HERO_CLASSES = {
       'Brigands Emblem'
     ]
   },
-  'Relic Hunter': {
-    modId: '1483613165',
-    skills: [
-      'Ring Blast',
-      'Debilitating Mark',
-      'Devistating Uppercut',
-      'Ancient Shield',
-      'invigoration',
-      'Ripping Force',
-      'Inspiration'
-    ],
-    campSkills: [
-
-    ],
-    vanillaCampSkills: [
-
-    ],
-    image: '1483613165.png',
-    classSpecificTrinkets: [
-
-    ]
-  },
   'Red Mage': {
     modId: '868109272', 
     skills: [
@@ -2208,6 +2699,28 @@ export const MODDED_HERO_CLASSES = {
     ],
     image: '868109272.png',
     classSpecificTrinkets: []
+  },
+  'Relic Hunter': {
+    modId: '1483613165',
+    skills: [
+      'Ring Blast',
+      'Debilitating Mark',
+      'Devistating Uppercut',
+      'Ancient Shield',
+      'invigoration',
+      'Ripping Force',
+      'Inspiration'
+    ],
+    campSkills: [
+
+    ],
+    vanillaCampSkills: [
+
+    ],
+    image: '1483613165.png',
+    classSpecificTrinkets: [
+
+    ]
   },
   'Revenant': {
     modId: '913178378',
@@ -2605,6 +3118,67 @@ export const MODDED_HERO_CLASSES = {
 
     ]
   },
+  'Shrapnel': {
+    modId: '1203645088',
+    skills: [
+      'Vent',
+      'Overclocking',
+      'Entrenchement',
+      'Fragmentation',
+      'Flush Out',
+      'Mow Down',
+      'Expunge'
+    ],
+    campSkills: [
+      'Maintenance',
+      'Despicable',
+      'Honed',
+      'Renewed Hatred'
+    ],
+    vanillaCampSkills: [
+
+    ],
+    image: '1203645088.png',
+    classSpecificTrinkets: [
+      'Surplus Rounds',
+      'Homemade Oil',
+      'Hollow Points',
+      'Silver Casings',
+      'Vvulfs Letter',
+      'Raiders Booty',
+      'Black Hole Casings'
+    ]
+  },
+  'Sir Alonne (Samurai)': {
+    modId: '1558105232',
+    skills: [
+      'Elegant Strike',
+      'Backslash',
+      'Gliding Stab',
+      'Bewitched Bloodthirst',
+      'Piercing Assault',
+      'Zen',
+      'Lunge',
+    ],
+    campSkills: [
+      'Encourage',
+      'Wound Care',
+      'Pep Talk',
+      'Bushido',
+      'Tea Ceremony',
+      'Honor',
+      'Sudoku'
+    ],
+    vanillaCampSkills: [
+      'Encourage',
+      'Wound Care',
+      'Pep Talk'
+    ],
+    image: '1558105232.png',
+    classSpecificTrinkets: [
+
+    ]
+  },
   'Sisters': {
     modId: '1440822424',
     skills: [
@@ -2636,37 +3210,6 @@ export const MODDED_HERO_CLASSES = {
       'Twin-Edged Blade',
       'Soulbound Pact',
       'Eternal Blossom'
-    ]
-  },
-  'Shrapnel': {
-    modId: '1203645088',
-    skills: [
-      'Vent',
-      'Overclocking',
-      'Entrenchement',
-      'Fragmentation',
-      'Flush Out',
-      'Mow Down',
-      'Expunge'
-    ],
-    campSkills: [
-      'Maintenance',
-      'Despicable',
-      'Honed',
-      'Renewed Hatred'
-    ],
-    vanillaCampSkills: [
-
-    ],
-    image: '1203645088.png',
-    classSpecificTrinkets: [
-      'Surplus Rounds',
-      'Homemade Oil',
-      'Hollow Points',
-      'Silver Casings',
-      'Vvulfs Letter',
-      'Raiders Booty',
-      'Black Hole Casings'
     ]
   },
   'Skeleton': {
@@ -2807,6 +3350,43 @@ export const MODDED_HERO_CLASSES = {
       'Sleeping Pills'
     ]
   },
+  'Soothsayer': {
+      modId: '1834134425',
+      skills: [
+        'Dream Eater',
+        'Shattered Psyche',
+        'Psyshock',
+        'Calm Mind',
+        'Miracle Eye',
+        'Future Sight',
+        'Confusion'
+      ],
+      campSkills: [
+        'Extrasensory',
+        'Hypnosis',
+        'Amnesia',
+        'Psycho Boost'
+      ],
+      vanillaCampSkills: [
+        'Encourage',
+        'Wound Care',
+        'Pep Talk'
+      ],
+      image: '1834134425.png',
+      classSpecificTrinkets: [
+        'Golden Brazalet',
+        'Lucky Coin',
+        'Magic Incense',
+        'Book of Palmistry',
+        'Dream Catcher',
+        'Tarot Cards',
+        'Shattered Orb',
+        'Cursed Skull',
+        'Argent Necklace',
+        'Cassandra\'s Head',
+        'Arrow of Miko'
+      ]
+    },
   'Space marine': {
     modId: '1247612309',
     skills: [
@@ -2876,6 +3456,42 @@ export const MODDED_HERO_CLASSES = {
       'Winged-Horse Coin'
     ]
   },
+  'Spirit Lancer (Rebalanced)': {
+      modId: '1836051076',
+      skills: [
+        'Exonerate',
+        'Perforate',
+        'Serrate',
+        'Debilitate',
+        'Agitate',
+        'Eradicate',
+        'Actuate'
+      ],
+      campSkills: [
+        'Light Dance',
+        'Enchant',
+        'Fluidity Test',
+        'Exessive Pride'
+      ],
+      vanillaCampSkills: [
+        'Wound Care',
+        'Encourage',
+        'Pep Talk'
+      ],
+      image: '1836051076.png',
+      classSpecificTrinkets: [
+        'Ornamented Jewel',
+        'Elyrian Armor',
+        'Improved Omni-Lance',
+        'Spirit Animal',
+        'The Family Mark',
+        'greave',
+        'Symbol of possession',
+        'Meteor tail',
+        'Grand Champion Trophy',
+        'ambrosia'
+      ]
+    },
   'Sunlight Warrior': {
     modId: '1122828159',
     skills: [
@@ -2975,6 +3591,105 @@ export const MODDED_HERO_CLASSES = {
       'Researches Of Evil Creatures'
     ]
   },
+  'The Struggler (Berserk)': {
+      modId: '1823497798',
+      skills: [
+        'Decrescent Moon',
+        'Eclipse',
+        'Vital Wound',
+        'Hidden Trick',
+        'Instinct',
+        'Call of the Beast',
+        'Blood Mark'
+      ],
+      campSkills: [
+        'Intensify Mark',
+        'Enrage',
+        'Inhuman Healing',
+        'Night\'s Call'
+      ],
+      vanillaCampSkills: [
+        'Encourage',
+        'Wound Care',
+        'Pep Talk'
+      ],
+      image: '1823497798.png',
+      classSpecificTrinkets: [
+  
+      ]
+    },
+  'Thedivinity': {
+      modId: '1845068884',
+      skills: [
+        'Reality Binding',
+        'Assumptio',
+        'Kyrie Eleison',
+        'Metropathy',
+        'Rule of Nature',
+        'Oblation',
+        'Redemptio',
+        'Awakening',
+        'Martyrize',
+        'Equilibrium'
+      ],
+      campSkills: [
+        'Encourage',
+        'First Aid',
+        'Pep Talk',
+        'Purify',
+        'Bright Blood',
+        'Tithe',
+        'Wrath Of God'
+      ],
+      vanillaCampSkills: [
+  
+      ],
+      alwaysActive: true,
+      image: '1845068884.png',
+      classSpecificTrinkets: [
+        'Seed of the Believers',
+        'Faithful Drop',
+        'God\'s Covenant',
+        'Transcendence Touch',
+        'Hand of the Outsider'
+      ]
+    },
+  'Thorn': {
+      modId: '1785514611',
+      skills: [
+        'Fencer Stance',
+        'Thrust',
+        'Single Out',
+        'Blossom',
+        'Hearken',
+        'Perforate',
+        'Dare'
+      ],
+      campSkills: [
+        'Hone Senses',
+        'Sparring Session',
+        'Warning Bells',
+        'Hearing Focus'
+      ],
+      vanillaCampSkills: [
+        'Encourage',
+        'Wound Care',
+        'Pep Talk'
+      ],
+      image: '1785514611.png',
+      classSpecificTrinkets: [
+        'Headband',
+        'Potpourri',
+        'Main Gauche',
+        'Fencer\'s Precepts',
+        'Loner\'s Signet Ring',
+        'Favourite\'s Emblem',
+        'Champion\'s Rapier Guard',
+        'Shattered Bell',
+        'Marlene\'s Head',
+        'Black Obi'
+      ]
+    },
   'Thrall': {
     modId: '1175904375',
     skills: [
@@ -3005,40 +3720,6 @@ export const MODDED_HERO_CLASSES = {
       'The Masters Lash',
       'The Crowd Favorite',
       'Meteor Gauntlet'
-    ]
-  },
-  'Transcended': {
-    modId: '1426877091',
-    skills: [
-      'Chop',
-      'Hew',
-      'Purge',
-      'Revenge',
-      'Solemnity',
-      'Withstand',
-      'Intimidate'
-    ],
-    campSkills: [
-      'Encourage',
-      'Wound Care',
-      'Pep Talk',
-      'Let The Mask Down',
-      'Bloody Shroud',
-      'Reflection',
-      'Quarantine'
-    ],
-    vanillaCampSkills: [
-      'Encourage',
-      'Wound Care',
-      'Pep Talk',
-      'Let The Mask Down',
-      'Bloody Shroud',
-      'Reflection',
-      'Quarantine'
-    ],
-    image: '1426877091.png',
-    classSpecificTrinkets: [
-
     ]
   },
   'Thrall (Legacy)': {
@@ -3136,6 +3817,40 @@ export const MODDED_HERO_CLASSES = {
       'Prayer Book',
       'Sacred Incense',
       'Blessed Lantern'
+    ]
+  },
+  'Transcended': {
+    modId: '1426877091',
+    skills: [
+      'Chop',
+      'Hew',
+      'Purge',
+      'Revenge',
+      'Solemnity',
+      'Withstand',
+      'Intimidate'
+    ],
+    campSkills: [
+      'Encourage',
+      'Wound Care',
+      'Pep Talk',
+      'Let The Mask Down',
+      'Bloody Shroud',
+      'Reflection',
+      'Quarantine'
+    ],
+    vanillaCampSkills: [
+      'Encourage',
+      'Wound Care',
+      'Pep Talk',
+      'Let The Mask Down',
+      'Bloody Shroud',
+      'Reflection',
+      'Quarantine'
+    ],
+    image: '1426877091.png',
+    classSpecificTrinkets: [
+
     ]
   },
   'Trap Maker': {
@@ -3323,6 +4038,43 @@ export const MODDED_HERO_CLASSES = {
     classSpecificTrinkets: [    
     ]
   },
+  'Warden of the North': {
+      modId: '1709484026',
+      skills: [
+        'Indictment',
+        'Execution Sentence',
+        'Call Direwolf',
+        'Rally Bannermen',
+        'Honor',
+        'Prayer',
+        'Leadership'
+      ],
+      campSkills: [
+        'War Stories',
+        'Pointy End',
+        'Winter Is Coming',
+        'Experienced Commander'
+      ],
+      vanillaCampSkills: [
+        'Encourage',
+        'Wound Care',
+        'Pep Talk'
+      ],
+      image: '1709484026.png',
+      classSpecificTrinkets: [
+        'King\'s Final Letter',
+        'Walking Stick',
+        'Weirwood Branch',
+        'Ice',
+        'Dawn',
+        'Ned\'s Head',
+        'Weathered Sigil',
+        'War-Bred Direwolf',
+        'Hand of the King',
+        'The Lineages and Histories of the Great Houses of the Seven Kingdoms',
+        'Direwolf Pelt Armor'
+      ]
+    },
   'Warlock': {
     modId: '945983081',
     skills: [
@@ -3421,6 +4173,40 @@ export const MODDED_HERO_CLASSES = {
       'Broken Reflector'
     ]
   },
+  'Windcaller': {
+      modId: '1751539235',
+      skills: [
+        'Whack',
+        'Ringing Echo',
+        'Calming Breeze',
+        'Tripping Twister',
+        'Wild Whirlwind',
+        'Storming Slingshot',
+        'Whisk To Safety'
+      ],
+      campSkills: [
+        'Travel Downwind',
+        'Buffering Gale',
+        'Tailwind',
+        'Cure The Meat'
+      ],
+      vanillaCampSkills: [
+        'Encourage',
+        'Wound Care',
+        'Pep Talk'
+      ],
+      image: '1751539235.png',
+      classSpecificTrinkets: [
+        'Simple Necklace',
+        'Fur Cap',
+        'Bronze Wind Chime',
+        'Silver Bracelet',
+        'Silver Wind Chime',
+        'Father\'s Hunting Knife',
+        'Mother\'s Fur Pelt',
+        'Strange Flying Toy'
+      ]
+    },
   'Witcher': {
     modId: '967618008',
     skills: [
@@ -3491,678 +4277,7 @@ export const MODDED_HERO_CLASSES = {
       'Intangible Edge'
     ]
   },
-  'Zealot': {
-    modId: '1129127265',
-    skills: [
-      'Hateful Bash',
-      'Condemnation',
-      'Consecrate',
-      'Ardent Hammer',
-      'Burning Brand',
-      'Sentence The Guilty',
-      'Seethe'
-    ],
-    campSkills: [
-      'Annointment',
-      'Make Penance',
-      'Inquisition',
-      'Grudge Of The Blood'
-    ],
-    vanillaCampSkills: [
-
-    ],
-    image: '1129127265.png',
-    classSpecificTrinkets: [
-      'Blessed Crozius',
-      'Inquisitors Seal',
-      'Witch Hunters Stake',
-      'Hallowed Oil',
-      'The Maledictum'
-    ]
-  },
-  
-    'Homunculus': {
-      modId: '1665671496',
-      skills: [
-        'Eldritch Comfort',
-        'Flesh Veil',
-        'Dangerous Game',
-        'Mind Shot',
-        'Keening',
-        'Wither',
-        'Scourge',
-        'Dissolve'
-      ],
-      campSkills: [
-        'Eldritch Flesh',
-        'Open Your Mind!',
-        'A Fair Trade?',
-        'A Strange Gift'
-      ],
-      vanillaCampSkills: [
-  
-      ],
-      image: '1665671496.png',
-      classSpecificTrinkets: [
-        'Empty Brain',
-        'A lost part',
-        'Protean Shell',
-        'Vicious Axe',
-        'Forgotten Tome',
-        'Monstrous Crossbow',
-        'Akward Vial',
-        'Unholy Zeal',
-        'Rejuvenant Mask',
-        'Living Shield',
-        'Ancient Idol',
-        'Gore Atune',
-        '??? Head'
-      ]
-    },
-    'Warden of the North': {
-      modId: '1709484026',
-      skills: [
-        'Indictment',
-        'Execution Sentence',
-        'Call Direwolf',
-        'Rally Bannermen',
-        'Honor',
-        'Prayer',
-        'Leadership'
-      ],
-      campSkills: [
-        'War Stories',
-        'Pointy End',
-        'Winter Is Coming',
-        'Experienced Commander'
-      ],
-      vanillaCampSkills: [
-        'Encourage',
-        'Wound Care',
-        'Pep Talk'
-      ],
-      image: '1709484026.png',
-      classSpecificTrinkets: [
-        'King\'s Final Letter',
-        'Walking Stick',
-        'Weirwood Branch',
-        'Ice',
-        'Dawn',
-        'Ned\'s Head',
-        'Weathered Sigil',
-        'War-Bred Direwolf',
-        'Hand of the King',
-        'The Lineages and Histories of the Great Houses of the Seven Kingdoms',
-        'Direwolf Pelt Armor'
-      ]
-    },
-    'Alraune': {
-      modId: '1739004957',
-      skills: [
-        'Strike',
-        'Shunt',
-        'Petrify',
-        'Shelter',
-        'Timber',
-        'Brambles',
-        'Brace'
-      ],
-      campSkills: [
-        'Encourage',
-        'First Aid',
-        'Pep Talk',
-        'Uproot',
-        'Reminisce',
-        'Growth',
-        'Bird Song'
-      ],
-      vanillaCampSkills: [
-  
-      ],
-      image: '1739004957.png',
-      classSpecificTrinkets: [
-        'Nurtured Soil',
-        'Fungicide',
-        'Infested Wraps',
-        'Craftsman\'s Tools',
-        'Necklace of Kin',
-        'Psilocybin',
-        'Timeworn Work Boots',
-        'Ruby',
-        'Tome of the Order'
-      ]
-    },
-    'Beastmaster': {
-      modId: '1747389796',
-      skills: [
-        'Feral Cuts',
-        'Unwavering',
-        'Ravenous',
-        'Cycle of Life',
-        'Cougar\'s Leap',
-        'Bird of Prey',
-        'Spirit of the Hunt',
-        'Prowl'
-      ],
-      campSkills: [
-        'Encourage',
-        'First Aid',
-        'Shamanism',
-        'Totemic Guidance',
-        'Big Game Hunt',
-        'Prey Stalker',
-        'Wildlife Expertise'
-      ],
-      vanillaCampSkills: [
-  
-      ],
-      image: '1747389796.png',
-      classSpecificTrinkets: [
-        'beastmaster_trinkets1',
-        'beastmaster_trinkets2',
-        'Shellcracker Shrimp',
-        'Winged Guide',
-        'Maze Rats',
-        'Ferocious Friends',
-        'Skyhunter',
-        'Familiar\'s Ink',
-        'Bloody Omen',
-        'Eternal Seed',
-        'Twisted Specimen',
-        'Mukanda\'s Head',
-        'King of the Rivers'
-      ]
-    },
-    'Windcaller': {
-      modId: '1751539235',
-      skills: [
-        'Whack',
-        'Ringing Echo',
-        'Calming Breeze',
-        'Tripping Twister',
-        'Wild Whirlwind',
-        'Storming Slingshot',
-        'Whisk To Safety'
-      ],
-      campSkills: [
-        'Travel Downwind',
-        'Buffering Gale',
-        'Tailwind',
-        'Cure The Meat'
-      ],
-      vanillaCampSkills: [
-        'Encourage',
-        'Wound Care',
-        'Pep Talk'
-      ],
-      image: '1751539235.png',
-      classSpecificTrinkets: [
-        'Simple Necklace',
-        'Fur Cap',
-        'Bronze Wind Chime',
-        'Silver Bracelet',
-        'Silver Wind Chime',
-        'Father\'s Hunting Knife',
-        'Mother\'s Fur Pelt',
-        'Strange Flying Toy'
-      ]
-    },
-    'Conqueror': {
-      modId: '1759328270',
-      skills: [
-        'Achtloser Schwung',
-        'Einschüchtern',
-        'Nussknacker',
-        'Flourish',
-        'Stärke',
-        'Ziehen',
-        'Abschlachten'
-      ],
-      campSkills: [
-        'Encourage',
-        'First Aid',
-        'Equipment Maintenance',
-        'Underground Contact',
-        'Convict\'S Tale',
-        'Germanic Folklore',
-        'Verstärken'
-      ],
-      vanillaCampSkills: [
-  
-      ],
-      image: '1759328270.png',
-      classSpecificTrinkets: [
-        'Armor Crusher',
-        'Proper Equipment',
-        'Proper Instructions'
-      ]
-    },
-    'Fiend': {
-      modId: '1762618539',
-      skills: [
-        'Shredding Strike',
-        'Reave',
-        'Damning Howl',
-        'CHAOS',
-        'Call of Despair',
-        'Regain Humanity',
-        'Blood Elixir'
-      ],
-      campSkills: [
-        'Releasement',
-        'Empowerment',
-        'Acceptance',
-        'Beginnings',
-        'Calming Vapours'
-      ],
-      vanillaCampSkills: [
-        'Wound Care'
-      ],
-      image: '1762618539.png',
-      classSpecificTrinkets: [
-        'Sharing is Caring'
-      ]
-    },
-    'Fairy (Ciela)': {
-      modId: '1763011936',
-      skills: [
-        'Guard Me',
-        'Guidance',
-        'Pack A Punch',
-        'Weak Spot',
-        'Wake Up',
-        'Phantom Sphere',
-        'Stop Time'
-      ],
-      campSkills: [
-        'Encourage',
-        'Wound Care',
-        'Pep Talk',
-        'Vision',
-        'Revive',
-        'Split Soul',
-        'Remember'
-      ],
-      vanillaCampSkills: [
-        'Encourage',
-        'Pep Talk',
-        'Wound Care'
-      ],
-      image: '1763011936.png',
-      classSpecificTrinkets: [
-  
-      ]
-    },
-    'Thorn': {
-      modId: '1785514611',
-      skills: [
-        'Fencer Stance',
-        'Thrust',
-        'Single Out',
-        'Blossom',
-        'Hearken',
-        'Perforate',
-        'Dare',
-        'Wilt'
-      ],
-      campSkills: [
-        'Hone Senses',
-        'Sparring Session',
-        'Warning Bells',
-        'Hearing Focus'
-      ],
-      vanillaCampSkills: [
-        'Encourage',
-        'Wound Care',
-        'Pep Talk'
-      ],
-      image: '1785514611.png',
-      classSpecificTrinkets: [
-        'Headband',
-        'Potpourri',
-        'Main Gauche',
-        'Fencer\'s Precepts',
-        'Loner\'s Signet Ring',
-        'Favourite\'s Emblem',
-        'Champion\'s Rapier Guard',
-        'Shattered Bell',
-        'Marlene\'s Head',
-        'Black Obi'
-      ]
-    },
-    'Crow (Scraw)': {
-      modId: '1786463222',
-      skills: [
-        'Peck',
-        'Caw',
-        'Call the Murder',
-        'Regurgitate',
-        'Shrieking Flight',
-        'Protect the Nest',
-        'Swallow'
-      ],
-      campSkills: [
-        'Natural Selection',
-        'Discard The Weak',
-        'Explore',
-        'Fetch',
-        'Anger',
-        'Anger',
-        'Anger'
-      ],
-      vanillaCampSkills: [
-  
-      ],
-      image: '1786463222.png',
-      classSpecificTrinkets: [
-        'Giant Egg'
-      ]
-    },
-    'Arcanist': {
-      modId: '1800025310',
-      skills: [
-        'Frostfire Bolt',
-        'Dragon\'s Breath',
-        'Frost Nova',
-        'Decurse',
-        'Time Warp',
-        'Invisibility',
-        'Arcane Knowledge'
-      ],
-      campSkills: [
-        'Conjure Food',
-        'Presence Of Mind',
-        'Combustion',
-        'Arcane Intellect'
-      ],
-      vanillaCampSkills: [
-        'Encourage',
-        'Wound Care',
-        'Pep Talk'
-      ],
-      image: '1800025310.png',
-      classSpecificTrinkets: [
-        'Crystal Ice Shard',
-        'Black Ice Shard',
-        'Eternal Candle',
-        'Cauterizing Frostflame',
-        'Frozen Robes',
-        'Frozen Skull',
-        'Enchanted Compass',
-        'Ring of the Red Dragon',
-        'Dark Shard of Ice',
-        'Unstable Artifact',
-        'Time Lord\'s Pocket Watch',
-        'Spellbook: Ice Barrier'
-      ]
-    },
-    'Homunculus Rework': {
-      modId: '1811578299',
-      skills: [
-        'Eldritch Comfort',
-        'Flesh Veil',
-        'Dangerous Game',
-        'Infested Shot',
-        'Keening',
-        'Wither',
-        'Scourge'
-      ],
-      campSkills: [
-        'Eldritch Flesh',
-        'Flesh Command: Awake',
-        'Flesh Command: Reinforce',
-        'A Strange Gift'
-      ],
-      vanillaCampSkills: [
-  
-      ],
-      image: '1811578299.png',
-      classSpecificTrinkets: [
-        'Empty Brain',
-        'A Lost Part',
-        'Protean Shell',
-        'Vicious Axe',
-        'Forgotten Tome',
-        'Monstrous Crossbow',
-        'Unstable Vial',
-        'Unholy Zeal',
-        'Protector Mask',
-        'Living Shield',
-        'Ancient Idol',
-        'Gore Attunement',
-        'Beats from the Void',
-        'Toughts from the Void',
-        'Alphonse\'s Head'
-      ]
-    },
-    'The Gberserk': {
-      modId: '1823497798',
-      skills: [
-        'Decrescent Moon',
-        'Eclipse',
-        'Vital Wound',
-        'Hidden Trick',
-        'Instinct',
-        'Call of the Beast',
-        'Blood Mark'
-      ],
-      campSkills: [
-        'Intensify Mark',
-        'Enrage',
-        'Inhuman Healing',
-        'Night\'S Call'
-      ],
-      vanillaCampSkills: [
-        'Encourage',
-        'Wound Care',
-        'Pep Talk'
-      ],
-      image: '1823497798.png',
-      classSpecificTrinkets: [
-  
-      ]
-    },
-    'Soothsayer': {
-      modId: '1834134425',
-      skills: [
-        'Dream Eater',
-        'Shattered Psyche',
-        'Psyshock',
-        'Calm Mind',
-        'Miracle Eye',
-        'Future Sight',
-        'Confusion'
-      ],
-      campSkills: [
-        'Extrasensory',
-        'Hypnosis',
-        'Amnesia',
-        'Psycho Boost'
-      ],
-      vanillaCampSkills: [
-        'Encourage',
-        'Wound Care',
-        'Pep Talk'
-      ],
-      image: '1834134425.png',
-      classSpecificTrinkets: [
-        'Golden Brazalet',
-        'Lucky Coin',
-        'Magic Incense',
-        'Book of Palmistry',
-        'Dream Catcher',
-        'Tarot Cards',
-        'Shattered Orb',
-        'Cursed Skull',
-        'Argent Necklace',
-        'Cassandra\'s Head',
-        'Arrow of Miko'
-      ]
-    },
-    'Pony': {
-      modId: '1834579489',
-      skills: [
-        'Rainbow',
-        'Purifying Glow',
-        'Blessed Wind',
-        'Enfeeblement',
-        'Horsebuck',
-        'Pony Ride',
-        'Unveil'
-      ],
-      campSkills: [
-        'Petting Zoo',
-        'Touch Of Purity',
-        'Dark Instinct',
-        'Mystical Mending'
-      ],
-      vanillaCampSkills: [
-        'Encourage',
-        'Wound Care',
-        'Pep Talk'
-      ],
-      image: '1834579489.png',
-      classSpecificTrinkets: [
-        'Faded Figurine',
-        'Prism Crystal',
-        'Twilicane',
-        'Suspicious Cupcake',
-        'Alicorn Amulet',
-        'Harmony Sigil',
-        'Worn Doll',
-        'The Star in Yellow',
-        'Crystal Heart'
-      ]
-    },
-    'Grove Tender': {
-      modId: '1835237651',
-      skills: [
-        'Homi Strike',
-        'Absorbing Light',
-        'Laxification\'s Hug',
-        'Diluted Elixir',
-        'Lotus Shield',
-        'Lantern\'s Console',
-        'Root Powder'
-      ],
-      campSkills: [
-        'Herb In Elixir',
-        'Mint In Pillow',
-        'Bedtime Story',
-        'Foreseeing Risk'
-      ],
-      vanillaCampSkills: [
-        'Encourage',
-        'Wound Care',
-        'Pep Talk'
-      ],
-      image: '1835237651.png',
-      classSpecificTrinkets: [
-        'Toy Trowel',
-        'Wooden Bowl',
-        'Graceful Nambawi',
-        'Goldenfish Ornament',
-        'Favorite Snack',
-        'Awake Catastro-flower seed',
-        'Birthday Present',
-        'Mom\'s Treasure',
-        'Faded Lamp'
-      ]
-    },
-    'Little Piglet': {
-      modId: '1835702185',
-      skills: [
-        'Squeal',
-        'End This One',
-        'End These Two',
-        'Bit o\' Squeal'
-      ],
-      campSkills: [
-        'Encourage?',
-        'Wound Care?',
-        'Pep Talk?',
-        'Hobby?'
-      ],
-      vanillaCampSkills: [
-  
-      ],
-      image: '1835702185.png',
-      classSpecificTrinkets: [
-  
-      ]
-    },
-    'Spirit Lancer (Rebalanced)': {
-      modId: '1836051076',
-      skills: [
-        'Exonerate',
-        'Perforate',
-        'Serrate',
-        'Debilitate',
-        'Agitate',
-        'Eradicate',
-        'Actuate'
-      ],
-      campSkills: [
-        'Light Dance',
-        'Enchant',
-        'Fluidity Test',
-        'Exessive Pride'
-      ],
-      vanillaCampSkills: [
-        'Wound Care',
-        'Encourage',
-        'Pep Talk'
-      ],
-      image: '1836051076.png',
-      classSpecificTrinkets: [
-        'Ornamented Jewel',
-        'Elyrian Armor',
-        'Improved Omni-Lance',
-        'Spirit Animal',
-        'The Family Mark',
-        'greave',
-        'Symbol of possession',
-        'Meteor tail',
-        'Grand Champion Trophy',
-        'ambrosia'
-      ]
-    },
-    'Thedivinity': {
-      modId: '1845068884',
-      skills: [
-        'Reality Binding',
-        'Assumptio',
-        'Kyrie Eleison',
-        'Metropathy',
-        'Rule of Nature',
-        'Oblation',
-        'Redemptio',
-        'Awakening',
-        'Martyrize',
-        'Equilibrium'
-      ],
-      campSkills: [
-        'Encourage',
-        'First Aid',
-        'Pep Talk',
-        '{Colour_Start|Divinity_Text}Purify{Colour_End}',
-        '{Colour_Start|Divinity_Text2}Bright Blood{Colour_End}',
-        '{Colour_Start|Divinity_Text}Tithe{Colour_End}',
-        '{Colour_Start|Divinity_Text2}Wrath Of God{Colour_End}'
-      ],
-      vanillaCampSkills: [
-  
-      ],
-      image: '1845068884.png',
-      classSpecificTrinkets: [
-        '{colour_start|notable}Seed of the Believers{colour_end}',
-        '{colour_start|notable}Faithful Drop{colour_end}',
-        '{colour_start|notable}God\'s Covenant{colour_end}',
-        '{colour_start|notable}Transcendence Touch{colour_end}',
-        '{colour_start|notable}Hand of the Outsider{colour_end}'
-      ]
-    },
-    'Wretch': {
+  'Wretch': {
       modId: '1849364138',
       skills: [
         'Sickly Stab',
@@ -4196,154 +4311,33 @@ export const MODDED_HERO_CLASSES = {
         'Tesso Statuette'
       ]
     },
-    'Picaroon': {
-      modId: '1856292904',
-      skills: [
-        'Tumultuous Cannon',
-        'Prurient Kiss',
-        'Noxious Bomb',
-        'For The Sunken',
-        'Piercing Volley',
-        'Shredding Bomb',
-        'Dancing Shot'
-      ],
-      campSkills: [
-        'Sea Legs',
-        'Shark\'S Blood Extract',
-        'Wayfinder',
-        'Night Of Gambling',
-        'X Marks The Spot',
-        'Gun Cleaning',
-        'Scurvy Ward'
-      ],
-      vanillaCampSkills: [
-  
-      ],
-      image: '1856292904.png',
-      classSpecificTrinkets: [
-        'Pilar\'s Head',
-        'Marine Chronometer',
-        'Seafarer\'s Spyglass',
-        'Treasure Map',
-        'Captain\'s Hat',
-        'Kracken\'s Hook',
-        'Mister Jack',
-        'Cursed Lantern',
-        'Mate O\'Donnell',
-        'Aged Painting'
-      ]
-    },
-    'Harlot': {
-      modId: '1860840141',
-      skills: [
-        'Hands Off!',
-        'Silk Hiding Steel',
-        'Kiss of Death',
-        'Heart of Gold',
-        'Flashin\' the Goods',
-        'On the Prowl',
-        'Hold Me Close'
-      ],
-      campSkills: [
-        'Always Use Protection',
-        'Wanton Whispers',
-        'Powder My Nose',
-        'Working Girl'
-      ],
-      vanillaCampSkills: [
-        'Encourage',
-        'Wound Care',
-        'Pep Talk'
-      ],
-      image: '1860840141.png',
-      classSpecificTrinkets: [
-        'Delilah’s Head',
-        'Lipstick',
-        'Mirror & Powder Puff',
-        'Sultry Love Notes',
-        'Expensive Perfume',
-        'Little Black Book',
-        'Wedding Veil',
-        'Portrait from the Past',
-        'Kinky Crystal Boots',
-        'Tea Set & Geisha Fan'
-      ]
-    },
-    'Mambo': {
-      modId: '1865154690',
-      skills: [
-        'Papa Ghede\'s Blessing',
-        'You Dare!?',
-        'Baron Samedi\'s Tobacco',
-        'Papa Legba’s Shadow',
-        'Husband’s Embrace',
-        'Baron Kriminel’s Whip',
-        'A Little Pinprick'
-      ],
-      campSkills: [
-        'When The Rooster Crows',
-        'Gumbo Zabe',
-        'Lucky Feather',
-        'Lemme Do Yo\' Hair'
-      ],
-      vanillaCampSkills: [
-        'Encourage',
-        'Wound Care',
-        'Pep Talk'
-      ],
-      image: '1865154690.png',
-      classSpecificTrinkets: [
-        'My Good Headscarf',
-        'Sugar Dusted Beignet',
-        'Stillborn\'s Blanket',
-        'Grigri Talisman',
-        'A Beaded Gourd',
-        'Vial of Christophe Glapion\'s teeth',
-        'Freedom Papers',
-        'Locket of Christophe',
-        'Crystalized Pepper Rum',
-        'Arcane Shrine Bells'
-      ]
-    },
-    'Clobber (Apostate Shroom)': {
-      modId: '1867479147',
-      skills: [
-        'Obliterate',
-        'Flexing Muscles',
-        'Intimidating Flex',
-        'Protection Flex',
-        'Penetrating Punch',
-        '¦¦¦ Personal Trainer',
-        'Punchout'
-      ],
-      campSkills: [
-        'Man Of The Forest',
-        'Retaliating Punch',
-        'Myconian Support',
-        'Bioluminescence'
-      ],
-      vanillaCampSkills: [
-        'Encourage',
-        'Pep Talk',
-        'Wound Care'
-      ],
-      image: '1867479147.png',
-      classSpecificTrinkets: [
-        'Cordyceps Vitreuscael',
-        'Testament Of Corruption',
-        'Reclaimed Evil',
-        'Morchella Esculenta',
-        'Amanita Muscaria',
-        '1Up!',
-        'Cantharellus Cibarius',
-        'Coprinopsis Atramentaria',
-        'Hydnellum Peckii',
-        'Clathrus Archeri',
-        'Toadstool\'s Cap',
-        'Golden Yokozuna Figure'
-      ]
-    },
-};
+  'Zealot': {
+    modId: '1129127265',
+    skills: [
+      'Hateful Bash',
+      'Condemnation',
+      'Consecrate',
+      'Ardent Hammer',
+      'Burning Brand',
+      'Sentence The Guilty',
+      'Seethe'
+    ],
+    campSkills: [
+      'Annointment',
+      'Make Penance',
+      'Inquisition',
+      'Grudge Of The Blood'
+    ],
+    vanillaCampSkills: [
 
-// Trinkets generales de mods (no específicos de clase)
-export const MODDED_GENERAL_TRINKETS = [];
+    ],
+    image: '1129127265.png',
+    classSpecificTrinkets: [
+      'Blessed Crozius',
+      'Inquisitors Seal',
+      'Witch Hunters Stake',
+      'Hallowed Oil',
+      'The Maledictum'
+    ]
+  }
+};
