@@ -25,7 +25,7 @@ export const MODDED_HERO_CLASSES = {
       'Wound Care',
       'Pep Talk'
     ],
-    image: '2956674159.png',
+    image: 'manowar.png',
     classSpecificTrinkets: [
       'Reactive Plating',
       'Executioner\'s Cleaver',
@@ -66,7 +66,7 @@ export const MODDED_HERO_CLASSES = {
       'Wound Care',
       'Pep Talk'
     ],
-    image: '1910957100.png',
+    image: 'wolfknight.png',
     classSpecificTrinkets: [
       'Wolf Ring',
       'Silver Pendant',
@@ -456,7 +456,7 @@ export const MODDED_HERO_CLASSES = {
       'Wound Care',
       'Pep Talk'
     ],
-    image: '2378584809.png',
+    image: 'anoint.png',
     classSpecificTrinkets: [
       'Worn Holy Symbol',
       'Cherished Prayerbook',
@@ -529,7 +529,7 @@ export const MODDED_HERO_CLASSES = {
     vanillaCampSkills: [
 
     ],
-    image: '3521026447.png',
+    image: 'antiquarian.png',
     classSpecificTrinkets: [
 
     ]
@@ -698,7 +698,7 @@ export const MODDED_HERO_CLASSES = {
       'Wound Care',
       'Pep Talk'
     ],
-    image: '3114223399.png',
+    image: 'eagle.png',
     classSpecificTrinkets: [
       'Full Metal Jacket',
       'Barristan\'s Badge',
@@ -737,7 +737,7 @@ export const MODDED_HERO_CLASSES = {
       'Wound Care',
       'Pep Talk'
     ],
-    image: '3089081092.png',
+    image: 'mule_elf.png',
     classSpecificTrinkets: [
       'Ear Covers',
       'Beastkin Fur Plush',
@@ -924,7 +924,7 @@ export const MODDED_HERO_CLASSES = {
     vanillaCampSkills: [
 
     ],
-    image: '1946681830.png',
+    image: 'kratos.png',
     classSpecificTrinkets: [
       'Symbol of the Sharp Wolf',
       'Symbol of the White Bear',
@@ -959,7 +959,7 @@ export const MODDED_HERO_CLASSES = {
     vanillaCampSkills: [
 
     ],
-    image: '3509459063.png',
+    image: 'kk_asp.png',
     classSpecificTrinkets: [
 
     ]
@@ -990,7 +990,7 @@ export const MODDED_HERO_CLASSES = {
       'Wound Care',
       'Pep Talk'
     ],
-    image: '2487626836.png',
+    image: 'nin_robber.png',
     classSpecificTrinkets: [
       'Tactical package',
       '{colour_start|stun}Secret script of treasure hunt{colour_end}',
@@ -1075,7 +1075,7 @@ export const MODDED_HERO_CLASSES = {
     vanillaCampSkills: [
 
     ],
-    image: '3341653593.png',
+    image: 'airou_def.png',
     classSpecificTrinkets: [
       'Felyne Flower',
       'Felyne Hummer',
@@ -1225,7 +1225,7 @@ export const MODDED_HERO_CLASSES = {
       'Wound Care',
       'Pep Talk'
     ],
-    image: '2389811450.png',
+    image: 'babicka.png',
     classSpecificTrinkets: [
       'Hunter\'s Scope',
       'Field Medic\'s Gloves',
@@ -2025,7 +2025,7 @@ Dedicated to Black Reliquary',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '2988623203.png',
+    image: 'kot.png',
     classSpecificTrinkets: [
       'White Powder (Unidentified)',
       'Hyorogan',
@@ -2224,7 +2224,7 @@ Dedicated to Black Reliquary',
       'Encourage',
       'Pep Talk'
     ],
-    image: '2182716765.png',
+    image: 'ushiro.png',
     classSpecificTrinkets: [
       'Beast\'s Jaw',
       'Yata no Kagami',
@@ -2604,7 +2604,7 @@ Dedicated to Black Reliquary',
     vanillaCampSkills: [
 
     ],
-    image: '2992965516.png',
+    image: 'bloodyhunter.png',
     classSpecificTrinkets: [
       '{colour_start|debuff}æ¤°é¦ç«ç®{colour_end}',
       '{colour_start|virtue}é´ä¸-å¤§å{colour_end}',
@@ -2745,7 +2745,7 @@ Dedicated to Black Reliquary',
     vanillaCampSkills: [
 
     ],
-    image: '2658773801.png',
+    image: 'leper.png',
     classSpecificTrinkets: [
 
     ]
@@ -2775,7 +2775,7 @@ Dedicated to Black Reliquary',
       'Encourage',
       'Pep Talk'
     ],
-    image: '2085895105.png',
+    image: 'bluesman_bet.png',
     classSpecificTrinkets: [
       'Whiskey Bottle',
       'Harmonica Repair Kit',
@@ -3030,7 +3030,7 @@ Dedicated to Black Reliquary',
     vanillaCampSkills: [
 
     ],
-    image: '3531691154.png',
+    image: 'bounty_hunter.png',
     classSpecificTrinkets: [
 
     ]
@@ -3202,7 +3202,7 @@ Dedicated to Black Reliquary',
     vanillaCampSkills: [
 
     ],
-    image: '3278110052.png',
+    image: 'skeleton_defender.png',
     classSpecificTrinkets: [
       'Hair comb',
       'Soul essence'
@@ -3381,7 +3381,7 @@ Dedicated to Black Reliquary',
     vanillaCampSkills: [
 
     ],
-    image: '3562970800.png',
+    image: 'elai.png',
     classSpecificTrinkets: [
 
     ]
@@ -3414,7 +3414,7 @@ Dedicated to Black Reliquary',
       'Zealous Speech',
       'Clean Guns'
     ],
-    image: '3594462174.png',
+    image: 'carbineer.png',
     classSpecificTrinkets: [
       'Paralyzer\'s Crest',
       'Powderhorn Straps',
@@ -3444,7 +3444,7 @@ Dedicated to Black Reliquary',
     vanillaCampSkills: [
 
     ],
-    image: '3531576668.png',
+    image: 'xiadie.png',
     classSpecificTrinkets: [
       'Tiane Doll',
       'Luoling Doll',
@@ -3495,7 +3495,7 @@ Dedicated to Black Reliquary',
     vanillaCampSkills: [
 
     ],
-    image: '2871377238.png',
+    image: 'tenshi.png',
     classSpecificTrinkets: [
       'Nawi Provisions',
       'Stonegrowth Hammer',
@@ -3571,7 +3571,7 @@ Dedicated to Black Reliquary',
       'Encourage',
       'Pep Talk'
     ],
-    image: '2202784638.png',
+    image: 'coso.png',
     classSpecificTrinkets: [
       '"Bleeding Helmet"',
       '"Damocles Dagger"',
@@ -3704,7 +3704,7 @@ Dedicated to Black Reliquary',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '2435798182.png',
+    image: 'chaplain1.png',
     classSpecificTrinkets: [
       'Medic\'s Satchel',
       'Spiked Pommel',
@@ -3743,7 +3743,7 @@ Dedicated to Black Reliquary',
       'Encourage',
       'Wound Care'
     ],
-    image: '2823681766.png',
+    image: 'chacha.png',
     classSpecificTrinkets: [
       'Transposition Bowtie',
       'Deck of Trick Cards',
@@ -4029,7 +4029,7 @@ Dedicated to Black Reliquary',
       'Encourage',
       'Pep Talk'
     ],
-    image: '2091777102.png',
+    image: 'hqclaimants.png',
     classSpecificTrinkets: [
       'Meager Legacy',
       'Forgotten Conquest',
@@ -4241,7 +4241,7 @@ Dedicated to Black Reliquary',
     vanillaCampSkills: [
 
     ],
-    image: '1933508847.png',
+    image: 'collector.png',
     classSpecificTrinkets: [
       'The Collector\'s Cloak',
       'Dismas\' Deadpipe',
@@ -4557,7 +4557,7 @@ Dedicated to Black Reliquary',
     vanillaCampSkills: [
 
     ],
-    image: '1959183997.png',
+    image: 'crocodile.png',
     classSpecificTrinkets: [
       'Crocodilian\'s Vial of Blood',
       'Crocodilian Teeth necklace'
@@ -4917,7 +4917,7 @@ Dedicated to Black Reliquary',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '3485727389.png',
+    image: 'greymane.png',
     classSpecificTrinkets: [
       'Gilnean Standard',
       'Dalaran Sabre',
@@ -5341,7 +5341,7 @@ Dedicated to Black Reliquary',
       'Wound Care',
       'Stand Tall'
     ],
-    image: '2600064801.png',
+    image: 'john_souls.png',
     classSpecificTrinkets: [
 
     ]
@@ -5378,7 +5378,7 @@ Dedicated to Black Reliquary',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '3059321932.png',
+    image: 'sawtooth.png',
     classSpecificTrinkets: [
       'Long Pig Ribeye',
       'Bottom-feeder Rum',
@@ -5457,7 +5457,7 @@ Dedicated to Black Reliquary',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '3683945035.png',
+    image: 'murphy.png',
     classSpecificTrinkets: [
       'Slumber Beneath the Glacier',
       'Shrouded Birth'
@@ -5487,7 +5487,7 @@ Dedicated to Black Reliquary',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '3630756885.png',
+    image: 'curse_shooter.png',
     classSpecificTrinkets: [
       'Broken Heart',
       'Designate Target',
@@ -5739,7 +5739,7 @@ Dedicated to Black Reliquary',
       'Gallows Humor',
       'Tactics'
     ],
-    image: '3595507195.png',
+    image: 'doppelsoldner.png',
     classSpecificTrinkets: [
       'Superstitious Buckle',
       'Drifter\'s Buckle',
@@ -5781,7 +5781,7 @@ Dedicated to Black Reliquary',
       'Gallows Humor',
       'Tactics'
     ],
-    image: '2952526653.png',
+    image: 'doppelsoldner.png',
     classSpecificTrinkets: [
       'Superstitious Buckle',
       'Drifter\'s Buckle',
@@ -5823,7 +5823,7 @@ Dedicated to Black Reliquary',
       'Clean Guns',
       'Bandit\'s Sense'
     ],
-    image: '2881216132.png',
+    image: 'livesey.png',
     classSpecificTrinkets: [
 
     ]
@@ -5960,7 +5960,7 @@ Dedicated to Black Reliquary',
     vanillaCampSkills: [
 
     ],
-    image: '3510281797.png',
+    image: 'dragonsaint.png',
     classSpecificTrinkets: [
       'Horn of Plenty',
       'Thorned Perennial',
@@ -6330,7 +6330,7 @@ Dedicated to Black Reliquary',
     vanillaCampSkills: [
 
     ],
-    image: '3671373469.png',
+    image: 'io_dummy.png',
     classSpecificTrinkets: [
 
     ]
@@ -6360,7 +6360,7 @@ Dedicated to Black Reliquary',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '3130801219.png',
+    image: 'dchef.png',
     classSpecificTrinkets: [
       'Grilled Living Armor',
       'Basilisk Omelette',
@@ -6497,7 +6497,7 @@ Dedicated to Black Reliquary',
     vanillaCampSkills: [
 
     ],
-    image: '3341632263.png',
+    image: 'lev_enchantress.png',
     classSpecificTrinkets: [
       'Defector\'s Blood Payment',
       'Moonlit Earrings',
@@ -6882,7 +6882,7 @@ Dedicated to Black Reliquary',
     vanillaCampSkills: [
 
     ],
-    image: '2998367658.png',
+    image: 'dd2exanimate.png',
     classSpecificTrinkets: [
       'Emancipation',
       'His Prison',
@@ -6976,7 +6976,7 @@ Dedicated to Black Reliquary',
     vanillaCampSkills: [
 
     ],
-    image: '2101866853.png',
+    image: 'siexiled.png',
     classSpecificTrinkets: [
       'Odium',
       'Mask of Benevolence',
@@ -7569,7 +7569,7 @@ Dedicated to Black Reliquary',
     vanillaCampSkills: [
 
     ],
-    image: '3315700072.png',
+    image: 'lyzm.png',
     classSpecificTrinkets: [
       'Sunlit Amber',
       'Radiant Lens',
@@ -7609,7 +7609,7 @@ Dedicated to Black Reliquary',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '2967224760.png',
+    image: 'fafnir.png',
     classSpecificTrinkets: [
       'Luck Necklace',
       'Spiked Gauntlet',
@@ -8027,7 +8027,7 @@ Dedicated to Black Reliquary',
     vanillaCampSkills: [
 
     ],
-    image: '3241910248.png',
+    image: 'chiyofox.png',
     classSpecificTrinkets: [
 
     ]
@@ -8057,7 +8057,7 @@ Dedicated to Black Reliquary',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '2953323847.png',
+    image: 'axolotl.png',
     classSpecificTrinkets: [
       'Arm Wraps',
       'Comfy Gloves',
@@ -8219,7 +8219,7 @@ Dedicated to Black Reliquary',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '3424145711.png',
+    image: 'snor_wakamo.png',
     classSpecificTrinkets: [
       'My Shirt',
       'Ceremonial Blade',
@@ -8255,7 +8255,7 @@ Dedicated to Black Reliquary',
       'Encourage',
       'Wound Care'
     ],
-    image: '2170826391.png',
+    image: 'qipaofox.png',
     classSpecificTrinkets: [
       'Letters from home',
       'Jade Pendant：Phoenix',
@@ -8484,7 +8484,7 @@ Dedicated to Black Reliquary',
     vanillaCampSkills: [
 
     ],
-    image: '3341653593.png',
+    image: 'airou_def.png',
     classSpecificTrinkets: [
       'Felyne Flower',
       'Felyne Hummer',
@@ -8585,7 +8585,7 @@ Dedicated to Black Reliquary',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '3179713703.png',
+    image: 'kobold.png',
     classSpecificTrinkets: [
       'Diggs\' Lucky Loupe',
       'Gem-Inlaid Mallet',
@@ -8627,7 +8627,7 @@ Dedicated to Black Reliquary',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '3093381718.png',
+    image: 'spas.png',
     classSpecificTrinkets: [
       'G52-Tactical Light Shield',
       'Selfless Savior',
@@ -8809,7 +8809,7 @@ Dedicated to Black Reliquary',
     vanillaCampSkills: [
 
     ],
-    image: '3538150570.png',
+    image: 'grave_robber.png',
     classSpecificTrinkets: [
 
     ]
@@ -8955,7 +8955,7 @@ Dedicated to Black Reliquary',
     vanillaCampSkills: [
 
     ],
-    image: '3341653593.png',
+    image: 'airou_def.png',
     classSpecificTrinkets: [
       'Felyne Flower',
       'Felyne Hummer',
@@ -9075,7 +9075,7 @@ Dedicated to Black Reliquary',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '3181881842.png',
+    image: 'comradewitch.png',
     classSpecificTrinkets: [
       'Preserved Eye',
       'Strange Powder',
@@ -9143,7 +9143,7 @@ Dedicated to Black Reliquary',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '3026772660.png',
+    image: 'half-foot.png',
     classSpecificTrinkets: [
       'Coin Bug Cracker',
       'Child-Sized Hip Pouch',
@@ -9302,7 +9302,7 @@ Dedicated to Black Reliquary',
     vanillaCampSkills: [
 
     ],
-    image: '3341653593.png',
+    image: 'airou_def.png',
     classSpecificTrinkets: [
       'Felyne Flower',
       'Felyne Hummer',
@@ -9444,7 +9444,7 @@ Dedicated to Black Reliquary',
       'Zealous Speech',
       'Zealous Vigil'
     ],
-    image: '3213805245.png',
+    image: 'Hell Crusader.png',
     classSpecificTrinkets: [
 
     ]
@@ -9720,7 +9720,7 @@ Dedicated to Black Reliquary',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '3366899368.png',
+    image: 'snor_ui.png',
     classSpecificTrinkets: [
       'Encyclopedia',
       'Lightweight Gun Parts',
@@ -9971,7 +9971,7 @@ Dedicated to Black Reliquary',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '3495138540.png',
+    image: 'fcrusader.png',
     classSpecificTrinkets: [
       'Votive Charm',
       'Weathered Prayerbook',
@@ -10076,7 +10076,7 @@ Dedicated to Black Reliquary',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '3558118422.png',
+    image: 'rys_hwarang.png',
     classSpecificTrinkets: [
       'Whetstone',
       'Ritual Swords',
@@ -10150,7 +10150,7 @@ Dedicated to Black Reliquary',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '2419040138.png',
+    image: 'lumi.png',
     classSpecificTrinkets: [
       'Steady Candleholder',
       'Perforated Snuffer',
@@ -10381,7 +10381,7 @@ Dedicated to Black Reliquary',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '2500880141.png',
+    image: 'innoc.png',
     classSpecificTrinkets: [
       'Baby\'s Blanket',
       'Brother\'s Little Knight',
@@ -10457,7 +10457,7 @@ Dedicated to Black Reliquary',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '3549395034.png',
+    image: 'snor_kokonut.png',
     classSpecificTrinkets: [
       'Lucky Charm',
       'Megaphone',
@@ -10795,7 +10795,7 @@ Dedicated to Black Reliquary',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '1978083682.png',
+    image: 'cook.png',
     classSpecificTrinkets: [
       'Fish Bones',
       'Cleaver',
@@ -10898,7 +10898,7 @@ Dedicated to Black Reliquary',
     vanillaCampSkills: [
 
     ],
-    image: '3659801657.png',
+    image: 'jester.png',
     classSpecificTrinkets: [
 
     ]
@@ -11130,7 +11130,7 @@ Dedicated to Black Reliquary',
     vanillaCampSkills: [
 
     ],
-    image: '3378345529.png',
+    image: 'akmudrock.png',
     classSpecificTrinkets: [
       'Resonating Gramophone',
       'Insurgence Ribbon',
@@ -11170,7 +11170,7 @@ Dedicated to Black Reliquary',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '3455945112.png',
+    image: 'fang.png',
     classSpecificTrinkets: [
       'Golden Nugget',
       'Amber and Greeny',
@@ -11229,7 +11229,7 @@ Dedicated to Black Reliquary',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '3493199293.png',
+    image: 'madoka.png',
     classSpecificTrinkets: [
 
     ]
@@ -11441,7 +11441,7 @@ Dedicated to Black Reliquary',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '2606931475.png',
+    image: 'cainknight.png',
     classSpecificTrinkets: [
       'Odd Tempering Blood Gems',
       'Cursed Dirty Damp Blood Gems',
@@ -11735,7 +11735,7 @@ Dedicated to Black Reliquary',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '3063258394.png',
+    image: 'lawbringer_fh.png',
     classSpecificTrinkets: [
       'Ad Mortem Citius',
       'Reinforced Armor',
@@ -11812,7 +11812,7 @@ Dedicated to Black Reliquary',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '3490289903.png',
+    image: 'lclcbgregor.png',
     classSpecificTrinkets: [
       'Shoddy Dressing',
       'Festered Fragment',
@@ -11979,7 +11979,7 @@ Dedicated to Black Reliquary',
     vanillaCampSkills: [
 
     ],
-    image: '2169263454.png',
+    image: 'pdtemplar.png',
     classSpecificTrinkets: [
       'Lucky Coin'
     ]
@@ -12004,7 +12004,7 @@ Dedicated to Black Reliquary',
     vanillaCampSkills: [
 
     ],
-    image: '2169263454.png',
+    image: 'pdtemplar.png',
     classSpecificTrinkets: [
       'Lucky Coin'
     ]
@@ -12026,7 +12026,7 @@ Dedicated to Black Reliquary',
     vanillaCampSkills: [
 
     ],
-    image: '3656747152.png',
+    image: 'leper.png',
     classSpecificTrinkets: [
 
     ]
@@ -12127,7 +12127,7 @@ Dedicated to Black Reliquary',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '3494598746.png',
+    image: 'renshu.png',
     classSpecificTrinkets: [
       'Hannya Mask',
       'Whetstone of Venom',
@@ -12684,7 +12684,7 @@ Dedicated to Black Reliquary',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '2200558948.png',
+    image: 'deovolente.png',
     classSpecificTrinkets: [
       'Ring Of Mind Shielding',
       'Ioun Stone(Protection)',
@@ -13132,7 +13132,7 @@ Dedicated to Black Reliquary',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '3516900111.png',
+    image: 'millap_ranni.png',
     classSpecificTrinkets: [
       'Small Doll',
       'Helm of the Tarnished',
@@ -13198,7 +13198,7 @@ Dedicated to Black Reliquary',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '1890263557.png',
+    image: 'helli.png',
     classSpecificTrinkets: [
       'Fox Mask',
       'Ring of Swiftness',
@@ -13248,7 +13248,7 @@ Dedicated to Black Reliquary',
     vanillaCampSkills: [
 
     ],
-    image: '2166141580.png',
+    image: 'legion_crab.png',
     classSpecificTrinkets: [
       'Lucky Coin'
     ]
@@ -13411,7 +13411,7 @@ Dedicated to Black Reliquary',
       'Lash\'S Anger',
       'Lash\'S Kiss'
     ],
-    image: '2985374503.png',
+    image: 'blighted_flagellant.png',
     classSpecificTrinkets: [
       'Blood Red Memento',
       'Bubonic Hood',
@@ -13450,7 +13450,7 @@ Dedicated to Black Reliquary',
     vanillaCampSkills: [
 
     ],
-    image: '3416185615.png',
+    image: 'wusheng.png',
     classSpecificTrinkets: [
       'Hot Wine',
       'Spring and Autumn Annals',
@@ -13516,7 +13516,7 @@ Dedicated to Black Reliquary',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '3450987382.png',
+    image: 'dragon_matriarch.png',
     classSpecificTrinkets: [
       'Handmade Tea Set',
       'Pristine Tail Plating',
@@ -13661,7 +13661,7 @@ Dedicated to Black Reliquary',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '3193998901.png',
+    image: 'dwarfu.png',
     classSpecificTrinkets: [
       'Skull Helmet',
       'High Quality Whetstone',
@@ -13902,7 +13902,7 @@ Dedicated to Black Reliquary',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '2792735077.png',
+    image: 'iris_miller.png',
     classSpecificTrinkets: [
       'Scythe of Reaping',
       'Small Grain Bag',
@@ -14294,7 +14294,7 @@ Dedicated to Black Reliquary',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '2643052555.png',
+    image: 'moon_rider.png',
     classSpecificTrinkets: [
       'Lunar Laurel',
       'Lunisolar',
@@ -14415,7 +14415,7 @@ Dedicated to Black Reliquary',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '3532910651.png',
+    image: 'quixote.png',
     classSpecificTrinkets: [
       'The Undertaker\'s Tale',
       'Faded Family Portrait',
@@ -14630,7 +14630,7 @@ Dedicated to Black Reliquary',
     vanillaCampSkills: [
 
     ],
-    image: '2618638449.png',
+    image: 'buffed_nun.png',
     classSpecificTrinkets: [
       'Annotated Versebook',
       'Black Iron Cross',
@@ -14667,7 +14667,7 @@ Dedicated to Black Reliquary',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '3527258116.png',
+    image: 'snor_nurse.png',
     classSpecificTrinkets: [
       'Medical Diploma',
       'Serrated Saw',
@@ -14725,7 +14725,7 @@ Dedicated to Black Reliquary',
     vanillaCampSkills: [
 
     ],
-    image: '3654738622.png',
+    image: 'occultist.png',
     classSpecificTrinkets: [
 
     ]
@@ -14841,7 +14841,7 @@ Dedicated to Black Reliquary',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '3296165629.png',
+    image: 'yuugi.png',
     classSpecificTrinkets: [
       'Festival Lantern',
       'Whale Warmer',
@@ -15120,7 +15120,7 @@ Dedicated to Black Reliquary',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '2442033354.png',
+    image: 'orphan_thief.png',
     classSpecificTrinkets: [
       'Catnip',
       'Pilfered Pouch',
@@ -15208,7 +15208,7 @@ Dedicated to Black Reliquary',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '2497069197.png',
+    image: 'nbb_owlwing.png',
     classSpecificTrinkets: [
       'Hukuroume’s Tabi',
       'Broken Necklace',
@@ -15251,7 +15251,7 @@ Dedicated to Black Reliquary',
       'Reflection',
       'Quarantine'
     ],
-    image: '3258191615.png',
+    image: 'conductor.png',
     classSpecificTrinkets: [
       'Perfection Demands',
       'Flee, Run, Hide',
@@ -15361,7 +15361,7 @@ Dedicated to Black Reliquary',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '2703319645.png',
+    image: 'exile_reaver.png',
     classSpecificTrinkets: [
       'The Paradox Head',
       'Bloodsoaked Shroud',
@@ -15475,7 +15475,7 @@ Dedicated to Black Reliquary',
     vanillaCampSkills: [
 
     ],
-    image: '3597055116.png',
+    image: 'fishman_idol.png',
     classSpecificTrinkets: [
       'Eerie Mural',
       'Coral Reef',
@@ -15512,7 +15512,7 @@ Dedicated to Black Reliquary',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '3152738823.png',
+    image: 'millapsae.png',
     classSpecificTrinkets: [
       'Worn Letter Paper',
       'Oriental Brush',
@@ -15807,7 +15807,7 @@ Dedicated to Black Reliquary',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '3422016949.png',
+    image: 'qf_pepe.png',
     classSpecificTrinkets: [
       'Fungal Food',
       'Dairy Cube',
@@ -16281,7 +16281,7 @@ CD:2',
     vanillaCampSkills: [
 
     ],
-    image: '3120441222.png',
+    image: 'newlucia.png',
     classSpecificTrinkets: [
       'Memory Data·Patton',
       'Memory Data·Darwin',
@@ -16434,7 +16434,7 @@ CD:2',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '2890236177.png',
+    image: 'diabolist.png',
     classSpecificTrinkets: [
       'Amulet of Balance',
       'Ring of Mora',
@@ -16475,7 +16475,7 @@ CD:2',
       'Dark Strength',
       'Abandon Hope'
     ],
-    image: '2784732681.png',
+    image: 'cult_priestess.png',
     classSpecificTrinkets: [
       'Shambler\'s Eyeball',
       'Shambler\'s Spore',
@@ -16763,7 +16763,7 @@ CD:2',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '3615603795.png',
+    image: 'falin.png',
     classSpecificTrinkets: [
       'Handful of Berries',
       'Grasshopper',
@@ -16826,7 +16826,7 @@ CD:2',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '3455563349.png',
+    image: 'raanataki.png',
     classSpecificTrinkets: [
       '立希的耳机',
       '立希的唇膏',
@@ -16904,7 +16904,7 @@ CD:2',
       'Zealous Speech',
       'Zealous Vigil'
     ],
-    image: '3022117153.png',
+    image: 'Radiant Crusader.png',
     classSpecificTrinkets: [
 
     ]
@@ -17047,7 +17047,7 @@ CD:2',
     vanillaCampSkills: [
 
     ],
-    image: '1921321071.png',
+    image: 'rapturous.png',
     classSpecificTrinkets: [
       'Pride Of The Templar',
       'Kernel Of Truth',
@@ -17268,7 +17268,7 @@ CD:2',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '3347307257.png',
+    image: 'buruaka_mine.png',
     classSpecificTrinkets: [
       'Porcelain Teacup',
       'Medic\'s Satchel',
@@ -17744,7 +17744,7 @@ CD:2',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '3428245706.png',
+    image: 'wildlander_ripperkin.png',
     classSpecificTrinkets: [
       'Sharpening Stone',
       'Rider\'s Headpiece',
@@ -17781,7 +17781,7 @@ CD:2',
     vanillaCampSkills: [
 
     ],
-    image: '3523632107.png',
+    image: 'fermint_rogue.png',
     classSpecificTrinkets: [
       'Dueling Dagger',
       'Kill Tally',
@@ -17924,7 +17924,7 @@ CD:2',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '2971614345.png',
+    image: 'jinyi.png',
     classSpecificTrinkets: [
       'Buddhist beads',
       'Apotropaic hanging',
@@ -18090,7 +18090,7 @@ CD:2',
     vanillaCampSkills: [
 
     ],
-    image: '3429073045.png',
+    image: 'cassetti.png',
     classSpecificTrinkets: [
       'Biogenerative Battery',
       'Hearts-Powered Jewel',
@@ -18121,7 +18121,7 @@ CD:2',
       'Encourage',
       'Pep Talk'
     ],
-    image: '3030309036.png',
+    image: 'velvet.png',
     classSpecificTrinkets: [
       'Duttrell\'s ring
  The key to the crystal Furnace',
@@ -18158,7 +18158,7 @@ CD:2',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '2204287440.png',
+    image: 'salad.png',
     classSpecificTrinkets: [
       'Assorted Scrap',
       'Heated Needle',
@@ -18223,7 +18223,7 @@ CD:2',
     vanillaCampSkills: [
 
     ],
-    image: '2786772131.png',
+    image: 'saria_hero.png',
     classSpecificTrinkets: [
       'Hard shield',
       'Electric shock baton',
@@ -18447,7 +18447,7 @@ CD:2',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '3535411590.png',
+    image: 'seeker.png',
     classSpecificTrinkets: [
       'Hoof Oil',
       'Spiked Shin Guard',
@@ -18557,7 +18557,7 @@ CD:2',
     vanillaCampSkills: [
       'Encourage'
     ],
-    image: '2825636596.png',
+    image: 'serpent.png',
     classSpecificTrinkets: [
       'Pendant of Double Snakes',
       'Sceptre of Golden Snake',
@@ -18886,7 +18886,7 @@ CD:2',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '2090496171.png',
+    image: 'marksman.png',
     classSpecificTrinkets: [
       'watchmaker\'s tools',
       'monocle',
@@ -19018,7 +19018,7 @@ CD:2',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '2881423898.png',
+    image: 'botan.png',
     classSpecificTrinkets: [
       'Ancient Ammunition',
       'Clumsy Camouflage',
@@ -19144,7 +19144,7 @@ CD:2',
     vanillaCampSkills: [
 
     ],
-    image: '2860665485.png',
+    image: 'shuten.png',
     classSpecificTrinkets: [
       'The poisoned wine that killed the gods',
       'The end of the Dharma girl',
@@ -19183,7 +19183,7 @@ CD:2',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '3490076588.png',
+    image: 'sibyl_ms.png',
     classSpecificTrinkets: [
       'Petal Pouch',
       'Rotweed Bouquet',
@@ -19259,7 +19259,7 @@ CD:2',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '3049487504.png',
+    image: 'silent_sts.png',
     classSpecificTrinkets: [
       'Ring of the Snake',
       'Snecko Skull',
@@ -19431,7 +19431,7 @@ CD:2',
       'Encourage',
       'Wound Care'
     ],
-    image: '2731935606.png',
+    image: 'red_sikadi.png',
     classSpecificTrinkets: [
       'Heart of the Seaborn Firstborn',
       'MEGA11',
@@ -19713,7 +19713,7 @@ CD:2',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '2961889945.png',
+    image: 'qf_sniper.png',
     classSpecificTrinkets: [
       'Feathered Blowpipe',
       'Ornate Wooden Stock',
@@ -20385,7 +20385,7 @@ CD:2',
       'Pray',
       'Sanctuary'
     ],
-    image: '1984808265.png',
+    image: 'lancer.png',
     classSpecificTrinkets: [
       'Ornamented Jewel',
       'Elyrian Armor',
@@ -20495,7 +20495,7 @@ CD:2',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '2874084750.png',
+    image: 'hero_squiffy.png',
     classSpecificTrinkets: [
       'Master\'s Viol',
       'Rotting Rum',
@@ -20570,7 +20570,7 @@ CD:2',
       'Pep Talk',
       'Encourage'
     ],
-    image: '1592074273.png',
+    image: 'soraka.png',
     classSpecificTrinkets: [
       'Spellthief\'s Edge',
       'Remnant of the Watchers',
@@ -20804,7 +20804,7 @@ CD:2',
       'Leeches',
       'Self-Medicate'
     ],
-    image: '3539176693.png',
+    image: 'kk_surg.png',
     classSpecificTrinkets: [
 
     ]
@@ -20927,7 +20927,7 @@ CD:2',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '3301559781.png',
+    image: 'snor_commando.png',
     classSpecificTrinkets: [
       'Focus Crystal',
       'Backup Magazine',
@@ -21198,7 +21198,7 @@ CD:2',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '2761286369.png',
+    image: 'fountain_statue.png',
     classSpecificTrinkets: [
       'B-water type force field expansion insert',
       'Myrrh\'s token',
@@ -21342,7 +21342,7 @@ CD:2',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '3033009726.png',
+    image: 'heroname.png',
     classSpecificTrinkets: [
 
     ]
@@ -21372,7 +21372,7 @@ CD:2',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '2673853139.png',
+    image: 'psi_templar.png',
     classSpecificTrinkets: [
       'Desolator',
       'Red Crystal Necklace',
@@ -21596,7 +21596,7 @@ CD:2',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '3607014604.png',
+    image: 'initiator.png',
     classSpecificTrinkets: [
       'Speed loader',
       'Dog tag',
@@ -21735,7 +21735,7 @@ CD:2',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '3168979292.png',
+    image: 'psychiatrist.png',
     classSpecificTrinkets: [
       'Brand-new Pocket Watch',
       'Modern Man in Search of a Soul',
@@ -22177,7 +22177,7 @@ CD:2',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '3362800212.png',
+    image: 'dis_trapper.png',
     classSpecificTrinkets: [
       'Serrated Jaws',
       'Tincture of Lime',
@@ -22350,7 +22350,7 @@ CD:2',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '3288434323.png',
+    image: 'faust.png',
     classSpecificTrinkets: [
       'Package With Packages',
       'Plush Friend',
@@ -22513,7 +22513,7 @@ CD:2',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '2331075079.png',
+    image: 'upuat.png',
     classSpecificTrinkets: [
       'Blessed Linen',
       'Heka Scroll',
@@ -22551,7 +22551,7 @@ CD:2',
       'Pep Talk',
       'Pilfer'
     ],
-    image: '2944364678.png',
+    image: 'valeera_sanguinar.png',
     classSpecificTrinkets: [
 
     ]
@@ -22689,7 +22689,7 @@ CD:2',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '3684901795.png',
+    image: 'vermilion.png',
     classSpecificTrinkets: [
       'Leaded Polish',
       'Lesnik Iron Scraps',
@@ -22730,7 +22730,7 @@ CD:2',
       'Encourage',
       'Wound Care'
     ],
-    image: '2982167948.png',
+    image: 'hk_knight.png',
     classSpecificTrinkets: [
       'Petrified Kingsoul',
       'King\'s Brand',
@@ -22887,7 +22887,7 @@ CD:2',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '3374894648.png',
+    image: 'vixen.png',
     classSpecificTrinkets: [
       'Silk and Needle',
       'Weighted Equipment',
@@ -23191,7 +23191,7 @@ CD:2',
     vanillaCampSkills: [
 
     ],
-    image: '3244441102.png',
+    image: 'dragon_watcher.png',
     classSpecificTrinkets: [
       'Sharpening Stone',
       'Flowing Frock',
@@ -23223,7 +23223,7 @@ CD:2',
     vanillaCampSkills: [
 
     ],
-    image: '3244578322.png',
+    image: 'waylaid.png',
     classSpecificTrinkets: [
       'Blessed Survivor',
       'Writ of Passage'
@@ -23332,7 +23332,7 @@ CD:2',
     vanillaCampSkills: [
 
     ],
-    image: '3304939861.png',
+    image: 'wplily.png',
     classSpecificTrinkets: [
       'Snowdrop Bracelet',
       'Executioner\'s Gloves',
@@ -23405,7 +23405,7 @@ CD:2',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '2989272915.png',
+    image: 'wildcat.png',
     classSpecificTrinkets: [
       'Tatami Nap Mat',
       'Old Champion\'s Belt',
@@ -23961,7 +23961,7 @@ CD:2',
     vanillaCampSkills: [
 
     ],
-    image: '3182753700.png',
+    image: 'yuzao.png',
     classSpecificTrinkets: [
 
     ]
@@ -24068,7 +24068,7 @@ CD:2',
       'Encourage',
       'Pep Talk'
     ],
-    image: '2373253920.png',
+    image: 'polishsoldier.png',
     classSpecificTrinkets: [
 
     ]
@@ -24096,7 +24096,7 @@ CD:2',
     vanillaCampSkills: [
 
     ],
-    image: '2991603143.png',
+    image: 'bloodyhunter.png',
     classSpecificTrinkets: [
       'è¿æ·é»é´',
       'ç½é¶å­å¼¹ä¸åæ²¹',
@@ -24133,7 +24133,7 @@ CD:2',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '2882385295.png',
+    image: 'paracausalist.png',
     classSpecificTrinkets: [
       '스펙트럼 초월 고글',
       '코일 안정기',
@@ -24173,7 +24173,7 @@ CD:2',
       'Wound Care',
       'Pep Talk'
     ],
-    image: '3045881665.png',
+    image: 'croc.png',
     classSpecificTrinkets: [
       '이교도의 스태프',
       '심해의 가시',
