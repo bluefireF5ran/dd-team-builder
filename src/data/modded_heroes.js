@@ -8441,7 +8441,7 @@ Dedicated to Black Reliquary',
     vanillaCampSkills: [
 
     ],
-    image: '3609040904.png',
+    image: 'gatherer.png',
     classSpecificTrinkets: [
       'Herb-filled Acorns',
       'Potent Acorns',
@@ -16795,7 +16795,7 @@ CD:2',
     vanillaCampSkills: [
 
     ],
-    image: '3486487550.png',
+    image: 'qf_sniper.png',
     classSpecificTrinkets: [
 
     ]
@@ -18263,7 +18263,7 @@ CD:2',
       'Devour',
       'Tougher Skin'
     ],
-    image: '1221561346.png',
+    image: 'abomination.png',
     classSpecificTrinkets: [
 
     ]
@@ -20998,7 +20998,7 @@ CD:2',
     vanillaCampSkills: [
 
     ],
-    image: '2832452821.png',
+    image: 'swordswoman.png',
     classSpecificTrinkets: [
       'Weigu Scroll',
       'Millstone',
@@ -22464,7 +22464,7 @@ CD:2',
     vanillaCampSkills: [
 
     ],
-    image: '3611958999.png',
+    image: 'unicorn.png',
     classSpecificTrinkets: [
       '彩云',
       'F6F地狱猫HVAR搭载型T0',
