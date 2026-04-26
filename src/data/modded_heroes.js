@@ -426,9 +426,7 @@ export const MODDED_HERO_CLASSES = {
       '知晓真相',
       '果神',
       '肉筋仙人',
-      '平庸嗜血之辈
-时间令一切复原具有隐藏流血效果
-1/2~1/4流血'
+      '平庸嗜血之辈 时间令一切复原具有隐藏流血效果 1/2~1/4流血'
     ]
   },
   'Anointed': {
@@ -2606,11 +2604,11 @@ Dedicated to Black Reliquary',
     ],
     image: 'bloodyhunter.png',
     classSpecificTrinkets: [
-      '{colour_start|debuff}æ¤°é¦ç«ç®{colour_end}',
-      '{colour_start|virtue}é´ä¸-å¤§å{colour_end}',
+      '{colour_start|debuff}æ°é¦ç«ç®{colour_end}',
+      '{colour_start|virtue}é´ä¸-å§å{colour_end}',
       '{colour_start|white}ç½é¶å­å¼¹{colour_end}',
       '{colour_start|stun}éè²å­å¼¹{colour_end}',
-      '{colour_start|stun}å¿«é¤åºå{colour_end}',
+      '{colour_start|stun}å¿«éåºå{colour_end}',
       '{colour_start|afflicted}å°æ¶é­æç¯·{colour_end}',
       '{colour_start|buff}éå©é»ç³å{colour_end}',
       '{colour_start|stealth}æé»é¢ç½©{colour_end}'
@@ -2705,11 +2703,11 @@ Dedicated to Black Reliquary',
     ],
     image: 'bloodyhunter.png',
     classSpecificTrinkets: [
-      '{colour_start|debuff}æ¤°é¦ç«ç®{colour_end}',
-      '{colour_start|virtue}é´ä¸-å¤§å{colour_end}',
+      '{colour_start|debuff}æ°é¦ç«ç®{colour_end}',
+      '{colour_start|virtue}é´ä¸-å§å{colour_end}',
       '{colour_start|white}ç½é¶å­å¼¹{colour_end}',
       '{colour_start|stun}éè²å­å¼¹{colour_end}',
-      '{colour_start|stun}å¿«é¤åºå{colour_end}',
+      '{colour_start|stun}å¿«éåºå{colour_end}',
       '{colour_start|afflicted}å°æ¶é­æç¯·{colour_end}',
       '{colour_start|buff}éå©é»ç³å{colour_end}',
       '{colour_start|stealth}æé»é¢ç½©{colour_end}',
@@ -6421,11 +6419,11 @@ Dedicated to Black Reliquary',
       '彩虹计划',
       '炮击',
       '雷击',
-      '¤¦¤¦¤ ¤
+      '¦¦ 
 烟雾弹',
-      '¤ ¤ ¤ ¤
+      '   
 伤害控制小组_改',
-      '¤ ¤ ¤ ¤
+      '   
 电磁共振',
       '电气功率MAX！',
       '移动'
@@ -6452,11 +6450,11 @@ Dedicated to Black Reliquary',
       '彩虹计划',
       '炮击',
       '雷击',
-      '¤¦¤¦¤ ¤
+      '¦¦ 
 烟雾弹',
-      '¤ ¤ ¤ ¤
+      '   
 伤害控制小组_改',
-      '¤ ¤ ¤ ¤
+      '   
 电磁共振',
       '电气功率MAX！',
       '移动'
@@ -24103,9 +24101,9 @@ CD:2',
       'é»éå­å¼¹ä¸åæ²¹',
       'è¡æ¶²æåå¨',
       'ä¾¿æºå¼å­å¼¹',
-      'è¡çå¤§å¸æç¯·',
+      'è¡çå§å¸æç¯·',
       'è¡ç¥­ççä¹æ',
-      'é¢åº§å¤§é­ä¹å¿'
+      'é¢åº§å§é­ä¹å¿'
     ]
   },
   '심령학자': {

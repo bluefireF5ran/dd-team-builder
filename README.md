@@ -3,7 +3,7 @@
 A team composition planner for **Darkest Dungeon 1**. Build and save your party compositions with heroes, skills, trinkets, and quirks.
 
 ![Darkest Dungeon](https://img.shields.io/badge/Darkest%20Dungeon-1-8B0000?style=flat-square)
-![React](https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react)
+![React](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-3-38B2AC?style=flat-square&logo=tailwind-css)
 
 ## ✨ Features
@@ -120,9 +120,9 @@ Modded heroes are defined in `src/data/modded_heroes.js`. Each hero needs:
 
 ## 🛠️ Tech Stack
 
-- **React 18** - UI framework
-- **Tailwind CSS** - Styling
-- **@hello-pangea/dnd** - Drag and drop
+- **React 19** - UI framework
+- **Tailwind CSS 3** - Styling
+- **html2canvas** - PNG export
 - **localStorage** - Data persistence
 
 ## 📝 License
