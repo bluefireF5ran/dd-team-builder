@@ -815,7 +815,7 @@ export const MODDED_HERO_CLASSES = {
       'Wound Care',
       'Pep Talk'
     ],
-    image: '2988627846.png',
+    image: 'arch_wizard.png',
     classSpecificTrinkets: [
       'XP Potion',
       'Mystical Cape',
@@ -4453,7 +4453,7 @@ export const MODDED_HERO_CLASSES = {
     vanillaCampSkills: [
 
     ],
-    image: '1114545692.png',
+    image: 'conquistador.png',
     classSpecificTrinkets: [
       'Paper Cartridge',
       'Cursed Coin',
@@ -4564,7 +4564,7 @@ export const MODDED_HERO_CLASSES = {
     vanillaCampSkills: [
 
     ],
-    image: '3467159384.png',
+    image: 'crusader.png',
     classSpecificTrinkets: [
 
     ]
@@ -7597,7 +7597,7 @@ export const MODDED_HERO_CLASSES = {
       'Wound Care',
       'Pep Talk'
     ],
-    image: '3628324761.png',
+    image: 'falconer.png',
     classSpecificTrinkets: [
       'Raptor Charm',
       'Bloodshot Trophy',
@@ -7799,7 +7799,7 @@ export const MODDED_HERO_CLASSES = {
     vanillaCampSkills: [
 
     ],
-    image: '3488128235.png',
+    image: 'fire_conqueror.png',
     classSpecificTrinkets: [
       'Liquified Flame',
       'Ring of The Flame Prince',
@@ -9180,7 +9180,7 @@ export const MODDED_HERO_CLASSES = {
       'Wound Care',
       'Pep Talk'
     ],
-    image: '3579896525.png',
+    image: 'head_manager.png',
     classSpecificTrinkets: [
       'Smokes and Wires',
       'G Corp Rations',
@@ -9366,7 +9366,7 @@ export const MODDED_HERO_CLASSES = {
       'Zealous Speech',
       'Zealous Vigil'
     ],
-    image: 'Hell Crusader.png',
+    image: 'hell crusader.png',
     classSpecificTrinkets: [
 
     ]
@@ -9775,7 +9775,7 @@ export const MODDED_HERO_CLASSES = {
       vanillaCampSkills: [
   
       ],
-      image: '1811578299.png',
+      image: 'homunculus_rework.png',
       classSpecificTrinkets: [
         'Empty Brain',
         'A Lost Part',
@@ -9814,7 +9814,7 @@ export const MODDED_HERO_CLASSES = {
     vanillaCampSkills: [
 
     ],
-    image: '1157520643.png',
+    image: 'hood.png',
     classSpecificTrinkets: [
       'Big Finger',
       'Mocking Bird Effigy',
@@ -12769,7 +12769,7 @@ export const MODDED_HERO_CLASSES = {
     vanillaCampSkills: [
 
     ],
-    image: '2950029348.png',
+    image: 'livia.png',
     classSpecificTrinkets: [
       'Unremarkable Whetstone',
       'Popular Literature',
@@ -13284,7 +13284,7 @@ export const MODDED_HERO_CLASSES = {
     vanillaCampSkills: [
 
     ],
-    image: '3655327391.png',
+    image: 'man_at_arms.png',
     classSpecificTrinkets: [
 
     ]
@@ -15660,7 +15660,7 @@ export const MODDED_HERO_CLASSES = {
       'Encourage',
       'Pep Talk'        
     ],
-    image: '886635500.png',
+    image: 'pit_fighter.png',
     classSpecificTrinkets: [    
     ]
   },
@@ -16220,7 +16220,7 @@ export const MODDED_HERO_CLASSES = {
       'Wound Care',
       'Pep Talk'
     ],
-    image: '2203158200.png',
+    image: 'practitioner.png',
     classSpecificTrinkets: [
       'Serpentine Magatama',
       'Box of Mandarins',
@@ -16496,7 +16496,7 @@ export const MODDED_HERO_CLASSES = {
       'Zealous Speech',
       'Sharpen Spear'
     ],
-    image: '1196273779.png',
+    image: 'prophte.png',
     classSpecificTrinkets: [
       'Charme de Rapace',
       'Pendentif dOeil de Faucon',
@@ -16769,7 +16769,7 @@ export const MODDED_HERO_CLASSES = {
       'Zealous Speech',
       'Zealous Vigil'
     ],
-    image: 'Radiant Crusader.png',
+    image: 'radiant crusader.png',
     classSpecificTrinkets: [
 
     ]
@@ -19843,7 +19843,7 @@ export const MODDED_HERO_CLASSES = {
     vanillaCampSkills: [
       'Wound Care'
     ],
-    image: '2781833439.png',
+    image: 'sorceress.png',
     classSpecificTrinkets: [
       'Djinn',
       'Cursed Scroll',
@@ -21562,7 +21562,7 @@ export const MODDED_HERO_CLASSES = {
     vanillaCampSkills: [
 
     ],
-    image: '2338765889.png',
+    image: 'thedivinity.png',
     classSpecificTrinkets: [
       'Seed of the Believers',
       'Faithful Drop',
@@ -21666,7 +21666,7 @@ export const MODDED_HERO_CLASSES = {
     vanillaCampSkills: [
 
     ],
-    image: '3628356366.png',
+    image: 'thrall.png',
     classSpecificTrinkets: [
       'Mazekeeper\'s Buckle',
       'Tormentor\'s Helmet',
@@ -22919,7 +22919,7 @@ export const MODDED_HERO_CLASSES = {
       'Maintain Equipment',
       'Zealous Speech'
     ],
-    image: '2615162542.png',
+    image: 'wargin.png',
     classSpecificTrinkets: [
       'Chant of Valiant',
       'Banner of LightBearer',
@@ -23357,7 +23357,7 @@ export const MODDED_HERO_CLASSES = {
         'Strange Flying Toy'
       ]
     },
-  'Witch': {
+  'The Void Witch': {
     modId: '2168601201',
     skills: [
       'Cursed Scythe',
@@ -23380,7 +23380,7 @@ export const MODDED_HERO_CLASSES = {
       'Wound Care',
       'Encourage'
     ],
-    image: '2168601201.png',
+    image: 'witch.png',
     classSpecificTrinkets: [
       'Lucky Coin'
     ]
@@ -23611,7 +23611,7 @@ export const MODDED_HERO_CLASSES = {
     vanillaCampSkills: [
 
     ],
-    image: '3666727765.png',
+    image: 'xgpolarisfd.png',
     classSpecificTrinkets: [
 
     ]
