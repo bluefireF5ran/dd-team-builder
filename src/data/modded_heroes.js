@@ -905,7 +905,7 @@ export const MODDED_HERO_CLASSES = {
       'Leviathan\'s Bite',
       'Spartan Rage',
       'Leviathan\'s Drift',
-      '¦¦ Suffering Desire',
+      'Suffering Desire',
       'Guardian\'s Bash',
       'Heal Me!',
       'Quick Advance'
@@ -1519,12 +1519,10 @@ export const MODDED_HERO_CLASSES = {
       '锋利钻石剑',
       '暗黑面罩',
       'Shocking Sword Handle',
-      'Half a bottle of opium tincture
-Paranoid body',
+      'Half a bottle of opium tincture Paranoid body',
       'steel plate',
       'bra',
-      'Disfigured person
-Paranoid body',
+      'Disfigured person Paranoid body',
       'Dragon Tiger spring',
       'loudspeaker',
       'Ghost SharkPillow',
@@ -1584,23 +1582,18 @@ Paranoid body',
       '圣神-坚固护膝',
       '圣神-水晶挂坠',
       '兼职修女同款玻璃水',
-      'Mechanical dismantling tools
-Dedicated to Black Reliquary',
+      'Mechanical dismantling tools Dedicated to Black Reliquary',
       '锋利附魔书',
       '莉薇娅同款拐杖',
-      '小黑暗沐浴玩具
-（说明：黑暗--dark）',
+      '小黑暗沐浴玩具 （说明：黑暗--dark）',
       '没有鞋的高跟鞋',
       '高礼帽',
       '斟茶抱枕',
       '一把致命的刀',
       '15%抱枕',
       '专业偶像运营团体',
-      '腐女同好之证
-喷射战士',
-      '坚固的推进器
-
-任意攻击技能：自己前进1',
+      '腐女同好之证 喷射战士',
+      '坚固的推进器  任意攻击技能：自己前进1',
       '史上第二鲱鱼罐头',
       '义刃与铁拳',
       '有序的混沌',
@@ -1635,8 +1628,7 @@ Dedicated to Black Reliquary',
       '被回压立牌',
       '恐吓立牌',
       '没有立牌',
-      '错误
-死亡将至',
+      '错误 死亡将至',
       '老师的头',
       '鲱鱼罐头',
       '铲子',
@@ -1699,9 +1691,7 @@ Dedicated to Black Reliquary',
       '夏雨荷高光时刻',
       '每天一个养生小知识',
       '革命时代故事会',
-      '鸽鸽的爱
-
-使用任意技能，不会因自身或敌人原因受伤',
+      '鸽鸽的爱  使用任意技能，不会因自身或敌人原因受伤',
       '血祭缓冲垫',
       'cos粉毛笨蛋',
       '蛇毒之瓶',
@@ -1761,12 +1751,10 @@ Dedicated to Black Reliquary',
       '锋利钻石剑',
       '暗黑面罩',
       'Shocking Sword Handle',
-      'Half a bottle of opium tincture
-Paranoid body',
+      'Half a bottle of opium tincture Paranoid body',
       'steel plate',
       'bra',
-      'Disfigured person
-Paranoid body',
+      'Disfigured person Paranoid body',
       'Dragon Tiger spring',
       'loudspeaker',
       'Ghost SharkPillow',
@@ -1826,23 +1814,18 @@ Paranoid body',
       '圣神-坚固护膝',
       '圣神-水晶挂坠',
       '兼职修女同款玻璃水',
-      'Mechanical dismantling tools
-Dedicated to Black Reliquary',
+      'Mechanical dismantling tools Dedicated to Black Reliquary',
       '锋利附魔书',
       '莉薇娅同款拐杖',
-      '小黑暗沐浴玩具
-（说明：黑暗--dark）',
+      '小黑暗沐浴玩具 （说明：黑暗--dark）',
       '没有鞋的高跟鞋',
       '高礼帽',
       '斟茶抱枕',
       '一把致命的刀',
       '15%抱枕',
       '专业偶像运营团体',
-      '腐女同好之证
-喷射战士',
-      '坚固的推进器
-
-任意攻击技能：自己前进1',
+      '腐女同好之证 喷射战士',
+      '坚固的推进器  任意攻击技能：自己前进1',
       '史上第二鲱鱼罐头',
       '义刃与铁拳',
       '有序的混沌',
@@ -1877,8 +1860,7 @@ Dedicated to Black Reliquary',
       '被回压立牌',
       '恐吓立牌',
       '没有立牌',
-      '错误
-死亡将至',
+      '错误 死亡将至',
       '老师的头',
       '鲱鱼罐头',
       '铲子',
@@ -1941,9 +1923,7 @@ Dedicated to Black Reliquary',
       '夏雨荷高光时刻',
       '每天一个养生小知识',
       '革命时代故事会',
-      '鸽鸽的爱
-
-使用任意技能，不会因自身或敌人原因受伤',
+      '鸽鸽的爱  使用任意技能，不会因自身或敌人原因受伤',
       '血祭缓冲垫',
       'cos粉毛笨蛋',
       '蛇毒之瓶',
@@ -2092,7 +2072,7 @@ Dedicated to Black Reliquary',
       'Panic attack',
       'The refrigerator opened',
       'Purring',
-      '¦¦¦ Defense',
+      'Defense',
       'Static electricity',
       'Cat bite',
       'Electrified'
@@ -2127,7 +2107,7 @@ Dedicated to Black Reliquary',
       'Panic attack',
       'The refrigerator opened',
       'Purring',
-      '¦¦¦ Defense',
+      'Defense',
       'Static electricity',
       'Cat bite',
       'Electrified'
@@ -2240,7 +2220,7 @@ Dedicated to Black Reliquary',
     modId: '1990986165',
     skills: [
       'Diseased Sludge',
-      '¦¦¦ Encouraging Laughter',
+      'Encouraging Laughter',
       'Eroding Aura',
       'Layered Mold',
       'Buzz of Decay',
@@ -2332,12 +2312,10 @@ Dedicated to Black Reliquary',
       '{colour_start|buff}锋利钻石剑{colour_end}',
       '{colour_start|stealth}暗黑面罩{colour_end}',
       'Shocking Sword Handle',
-      'Half a bottle of opium tincture
-{colour_start|red}Paranoid body{colour_end}',
+      'Half a bottle of opium tincture {colour_start|red}Paranoid body{colour_end}',
       'steel plate',
       'bra',
-      'Disfigured person
-{colour_start|red}Paranoid body{colour_end}',
+      'Disfigured person {colour_start|red}Paranoid body{colour_end}',
       '{colour_start|red}Dragon Tiger spring{colour_end}',
       'loudspeaker',
       '{colour_start|bleed}Ghost Shark{colour_end}Pillow',
@@ -2364,8 +2342,7 @@ Dedicated to Black Reliquary',
       '钻石镐',
       '祈愿全保底',
       '老革命之证',
-      'Mechanical dismantling tools
-Dedicated to Black Reliquary',
+      'Mechanical dismantling tools Dedicated to Black Reliquary',
       '{colour_start|stealth}Dark Depths{colour_end}{colour_start|red}Li Huo Wang{colour_end}',
       '{colour_start|stealth}Unseen Habits{colour_end}',
       '{colour_start|debuff}Dubious Mind{colour_end}',
@@ -2380,9 +2357,7 @@ Dedicated to Black Reliquary',
       '{colour_start|stun}夏雨荷高光时刻{colour_end}',
       '{colour_start|healhp}每天一个养生小知识{colour_end}',
       '{colour_start|red}革命时代故事会{colour_end}',
-      '鸽鸽的爱
-
-{colour_start|white}使用任意技能，不会因自身或敌人原因受伤{colour_end}',
+      '鸽鸽的爱  {colour_start|white}使用任意技能，不会因自身或敌人原因受伤{colour_end}',
       '{colour_start|bleed}血祭缓冲垫{colour_end}',
       '{colour_start|buff}cos{colour_end}{colour_start|wc_plague_doctor_F}粉毛{colour_end}笨蛋'
     ]
@@ -2424,12 +2399,10 @@ Dedicated to Black Reliquary',
       '{colour_start|buff}锋利钻石剑{colour_end}',
       '{colour_start|stealth}暗黑面罩{colour_end}',
       'Shocking Sword Handle',
-      'Half a bottle of opium tincture
-{colour_start|red}Paranoid body{colour_end}',
+      'Half a bottle of opium tincture {colour_start|red}Paranoid body{colour_end}',
       'steel plate',
       'bra',
-      'Disfigured person
-{colour_start|red}Paranoid body{colour_end}',
+      'Disfigured person {colour_start|red}Paranoid body{colour_end}',
       '{colour_start|red}Dragon Tiger spring{colour_end}',
       'loudspeaker',
       '{colour_start|bleed}Ghost Shark{colour_end}Pillow',
@@ -2456,8 +2429,7 @@ Dedicated to Black Reliquary',
       '钻石镐',
       '祈愿全保底',
       '老革命之证',
-      'Mechanical dismantling tools
-Dedicated to Black Reliquary',
+      'Mechanical dismantling tools Dedicated to Black Reliquary',
       '{colour_start|stealth}Dark Depths{colour_end}{colour_start|red}Li Huo Wang{colour_end}',
       '{colour_start|stealth}Unseen Habits{colour_end}',
       '{colour_start|debuff}Dubious Mind{colour_end}',
@@ -2472,9 +2444,7 @@ Dedicated to Black Reliquary',
       '{colour_start|stun}夏雨荷高光时刻{colour_end}',
       '{colour_start|healhp}每天一个养生小知识{colour_end}',
       '{colour_start|red}革命时代故事会{colour_end}',
-      '鸽鸽的爱
-
-{colour_start|white}使用任意技能，不会因自身或敌人原因受伤{colour_end}',
+      '鸽鸽的爱  {colour_start|white}使用任意技能，不会因自身或敌人原因受伤{colour_end}',
       '{colour_start|bleed}血祭缓冲垫{colour_end}',
       '{colour_start|buff}cos{colour_end}{colour_start|wc_plague_doctor_F}粉毛{colour_end}笨蛋'
     ]
@@ -2559,9 +2529,7 @@ Dedicated to Black Reliquary',
       '夏雨荷高光时刻',
       '每天一个养生小知识',
       '革命时代故事会',
-      '鸽鸽的爱
-
-使用任意技能，不会因自身或敌人原因受伤',
+      '鸽鸽的爱  使用任意技能，不会因自身或敌人原因受伤',
       '血祭缓冲垫',
       'cos粉毛笨蛋',
       '蛇毒之瓶',
@@ -2596,15 +2564,15 @@ Dedicated to Black Reliquary',
       'ÇÈÅÇ«',
       'Å½ÅÄ¹È¡',
       'Å®Å®Å£Æ­',
-      'Ç¬¬Ä¸ÈÅ¸¦',
-      'ÆÇ¥Ä¹Æ¢¦'
+      'Ç¬¬Ä¸ÈÅ¸',
+      'ÆÇ¥Ä¹Æ¢'
     ],
     vanillaCampSkills: [
 
     ],
     image: 'bloodyhunter.png',
     classSpecificTrinkets: [
-      '{colour_start|debuff}æ°é¦ç«ç®{colour_end}',
+      '{colour_start|debuff}æ°éç«ç®{colour_end}',
       '{colour_start|virtue}é´ä¸-å§å{colour_end}',
       '{colour_start|white}ç½é¶å­å¼¹{colour_end}',
       '{colour_start|stun}éè²å­å¼¹{colour_end}',
@@ -2717,9 +2685,7 @@ Dedicated to Black Reliquary',
       '{colour_start|stun}夏雨荷高光时刻{colour_end}',
       '{colour_start|healhp}每天一个养生小知识{colour_end}',
       '{colour_start|red}革命时代故事会{colour_end}',
-      '鸽鸽的爱
-
-{colour_start|white}使用任意技能，不会因自身或敌人原因受伤{colour_end}',
+      '鸽鸽的爱  {colour_start|white}使用任意技能，不会因自身或敌人原因受伤{colour_end}',
       '{colour_start|bleed}血祭缓冲垫{colour_end}',
       '{colour_start|buff}cos{colour_end}{colour_start|wc_plague_doctor_F}粉毛{colour_end}笨蛋'
     ]
@@ -3091,9 +3057,7 @@ Dedicated to Black Reliquary',
       'Raucous Drinkig',
       'Stashed Brew',
       'Friendly Sparring',
-      'Book Of Jokes]></Entry>
-
-		<Entry Id="Str_Bark_Raucous_Drinking"><![Cdata[Now Let\'S Show These Bastards How We Can Have Fun!'
+      'Book Of Jokes]></Entry>  <Entry Id="Str_Bark_Raucous_Drinking"><![Cdata[Now Let\'S Show These Bastards How We Can Have Fun!',
     ],
     vanillaCampSkills: [
       'Wound Care',
@@ -4313,7 +4277,7 @@ Dedicated to Black Reliquary',
   'Commander': {
     modId: '2384801499',
     skills: [
-      '¦¦¦ Time acceleration',
+      'Time acceleration',
       'Reorganization',
       'Grasp of Death',
       'Chain of thunderbolts/The interdimensional side',
@@ -4621,8 +4585,7 @@ Dedicated to Black Reliquary',
       'Wound Care',
       'Pep Talk',
       'Tempered Steel Plate',
-      'Line Of Work
-{Colour_Start|Green}Reconnaissance Warrior{Colour_End}',
+      'Line Of Work {Colour_Start|Green}Reconnaissance Warrior{Colour_End}',
       'Motivational Speech',
       'Ignore'
     ],
@@ -4643,12 +4606,10 @@ Dedicated to Black Reliquary',
       '{colour_start|buff}锋利钻石剑{colour_end}',
       '{colour_start|stealth}暗黑面罩{colour_end}',
       'Shocking Sword Handle',
-      'Half a bottle of opium tincture
-{colour_start|red}Paranoid body{colour_end}',
+      'Half a bottle of opium tincture {colour_start|red}Paranoid body{colour_end}',
       'steel plate',
       'bra',
-      'Disfigured person
-{colour_start|red}Paranoid body{colour_end}',
+      'Disfigured person {colour_start|red}Paranoid body{colour_end}',
       '{colour_start|red}Dragon Tiger spring{colour_end}',
       'loudspeaker',
       '{colour_start|bleed}Ghost Shark{colour_end}Pillow',
@@ -4675,8 +4636,7 @@ Dedicated to Black Reliquary',
       '钻石镐',
       '祈愿全保底',
       '老革命之证',
-      'Mechanical dismantling tools
-Dedicated to Black Reliquary',
+      'Mechanical dismantling tools Dedicated to Black Reliquary',
       '{colour_start|stealth}Dark Depths{colour_end}{colour_start|red}Li Huo Wang{colour_end}',
       '{colour_start|stealth}Unseen Habits{colour_end}',
       '{colour_start|debuff}Dubious Mind{colour_end}',
@@ -4691,9 +4651,7 @@ Dedicated to Black Reliquary',
       '{colour_start|stun}夏雨荷高光时刻{colour_end}',
       '{colour_start|healhp}每天一个养生小知识{colour_end}',
       '{colour_start|red}革命时代故事会{colour_end}',
-      '鸽鸽的爱
-
-{colour_start|white}使用任意技能，不会因自身或敌人原因受伤{colour_end}',
+      '鸽鸽的爱  {colour_start|white}使用任意技能，不会因自身或敌人原因受伤{colour_end}',
       '{colour_start|bleed}血祭缓冲垫{colour_end}',
       '{colour_start|buff}cos{colour_end}{colour_start|wc_plague_doctor_F}粉毛{colour_end}笨蛋'
     ]
@@ -4714,8 +4672,7 @@ Dedicated to Black Reliquary',
       'Wound Care',
       'Pep Talk',
       'Tempered Steel Plate',
-      'Line Of Work
-{Colour_Start|Green}Reconnaissance Warrior{Colour_End}',
+      'Line Of Work {Colour_Start|Green}Reconnaissance Warrior{Colour_End}',
       'Motivational Speech',
       'Ignore'
     ],
@@ -4736,12 +4693,10 @@ Dedicated to Black Reliquary',
       '{colour_start|buff}锋利钻石剑{colour_end}',
       '{colour_start|stealth}暗黑面罩{colour_end}',
       'Shocking Sword Handle',
-      'Half a bottle of opium tincture
-{colour_start|red}Paranoid body{colour_end}',
+      'Half a bottle of opium tincture {colour_start|red}Paranoid body{colour_end}',
       'steel plate',
       'bra',
-      'Disfigured person
-{colour_start|red}Paranoid body{colour_end}',
+      'Disfigured person {colour_start|red}Paranoid body{colour_end}',
       '{colour_start|red}Dragon Tiger spring{colour_end}',
       'loudspeaker',
       '{colour_start|bleed}Ghost Shark{colour_end}Pillow',
@@ -4768,8 +4723,7 @@ Dedicated to Black Reliquary',
       '钻石镐',
       '祈愿全保底',
       '老革命之证',
-      'Mechanical dismantling tools
-Dedicated to Black Reliquary',
+      'Mechanical dismantling tools Dedicated to Black Reliquary',
       '{colour_start|stealth}Dark Depths{colour_end}{colour_start|red}Li Huo Wang{colour_end}',
       '{colour_start|stealth}Unseen Habits{colour_end}',
       '{colour_start|debuff}Dubious Mind{colour_end}',
@@ -4784,9 +4738,7 @@ Dedicated to Black Reliquary',
       '{colour_start|stun}夏雨荷高光时刻{colour_end}',
       '{colour_start|healhp}每天一个养生小知识{colour_end}',
       '{colour_start|red}革命时代故事会{colour_end}',
-      '鸽鸽的爱
-
-{colour_start|white}使用任意技能，不会因自身或敌人原因受伤{colour_end}',
+      '鸽鸽的爱  {colour_start|white}使用任意技能，不会因自身或敌人原因受伤{colour_end}',
       '{colour_start|bleed}血祭缓冲垫{colour_end}',
       '{colour_start|buff}cos{colour_end}{colour_start|wc_plague_doctor_F}粉毛{colour_end}笨蛋'
     ]
@@ -5438,8 +5390,8 @@ Dedicated to Black Reliquary',
       'Vortex Reversed',
       'Divine Maiden\'s Birth',
       'Delusion\'s Heir',
-      '¦¦¦ Made Into Being',
-      '¦¦¦ Oath of Liberation'
+      'Made Into Being',
+      'Oath of Liberation'
     ],
     campSkills: [
       'Encourage',
@@ -6419,12 +6371,9 @@ Dedicated to Black Reliquary',
       '彩虹计划',
       '炮击',
       '雷击',
-      '¦¦ 
-烟雾弹',
-      '   
-伤害控制小组_改',
-      '   
-电磁共振',
+      '烟雾弹',
+      '伤害控制小组_改',
+      '电磁共振',
       '电气功率MAX！',
       '移动'
     ],
@@ -6450,12 +6399,9 @@ Dedicated to Black Reliquary',
       '彩虹计划',
       '炮击',
       '雷击',
-      '¦¦ 
-烟雾弹',
-      '   
-伤害控制小组_改',
-      '   
-电磁共振',
+      '烟雾弹',
+      '伤害控制小组_改',
+      '电磁共振',
       '电气功率MAX！',
       '移动'
     ],
@@ -6753,8 +6699,8 @@ Dedicated to Black Reliquary',
       'Wither',
       'Rejuvenate',
       'Eternal Plague',
-      '¦ Glaring Aegis',
-      '¦¦¦ Haruspex'
+      'Glaring Aegis',
+      'Haruspex'
     ],
     campSkills: [
       'Encourage',
@@ -7039,8 +6985,7 @@ Dedicated to Black Reliquary',
       '一、二、三，啊、啊、淦！',
       '狂者护佑',
       '炫目圣光',
-      '在此宣判
-附带审判dot'
+      '在此宣判 附带审判dot',
     ],
     campSkills: [
       'Encourage',
@@ -7068,12 +7013,10 @@ Dedicated to Black Reliquary',
       '锋利钻石剑',
       '暗黑面罩',
       'Shocking Sword Handle',
-      'Half a bottle of opium tincture
-Paranoid body',
+      'Half a bottle of opium tincture Paranoid body',
       'steel plate',
       'bra',
-      'Disfigured person
-Paranoid body',
+      'Disfigured person Paranoid body',
       'Dragon Tiger spring',
       'loudspeaker',
       'Ghost SharkPillow',
@@ -7133,23 +7076,18 @@ Paranoid body',
       '圣神-坚固护膝',
       '圣神-水晶挂坠',
       '兼职修女同款玻璃水',
-      'Mechanical dismantling tools
-Dedicated to Black Reliquary',
+      'Mechanical dismantling tools Dedicated to Black Reliquary',
       '锋利附魔书',
       '莉薇娅同款拐杖',
-      '小黑暗沐浴玩具
-（说明：黑暗--dark）',
+      '小黑暗沐浴玩具 （说明：黑暗--dark）',
       '没有鞋的高跟鞋',
       '高礼帽',
       '斟茶抱枕',
       '一把致命的刀',
       '15%抱枕',
       '专业偶像运营团体',
-      '腐女同好之证
-喷射战士',
-      '坚固的推进器
-
-任意攻击技能：自己前进1',
+      '腐女同好之证 喷射战士',
+      '坚固的推进器  任意攻击技能：自己前进1',
       '史上第二鲱鱼罐头',
       '义刃与铁拳',
       '有序的混沌',
@@ -7184,8 +7122,7 @@ Dedicated to Black Reliquary',
       '被回压立牌',
       '恐吓立牌',
       '没有立牌',
-      '错误
-死亡将至',
+      '错误 死亡将至',
       '老师的头',
       '鲱鱼罐头',
       '铲子',
@@ -7248,9 +7185,7 @@ Dedicated to Black Reliquary',
       '夏雨荷高光时刻',
       '每天一个养生小知识',
       '革命时代故事会',
-      '鸽鸽的爱
-
-使用任意技能，不会因自身或敌人原因受伤',
+      '鸽鸽的爱  使用任意技能，不会因自身或敌人原因受伤',
       '血祭缓冲垫',
       'cos粉毛笨蛋',
       '蛇毒之瓶',
@@ -7277,8 +7212,7 @@ Dedicated to Black Reliquary',
       '一、二、三，啊、啊、淦！',
       '狂者护佑',
       '炫目圣光',
-      '在此宣判
-附带审判dot'
+      '在此宣判 附带审判dot',
     ],
     campSkills: [
       'Encourage',
@@ -7306,12 +7240,10 @@ Dedicated to Black Reliquary',
       '锋利钻石剑',
       '暗黑面罩',
       'Shocking Sword Handle',
-      'Half a bottle of opium tincture
-Paranoid body',
+      'Half a bottle of opium tincture Paranoid body',
       'steel plate',
       'bra',
-      'Disfigured person
-Paranoid body',
+      'Disfigured person Paranoid body',
       'Dragon Tiger spring',
       'loudspeaker',
       'Ghost SharkPillow',
@@ -7371,23 +7303,18 @@ Paranoid body',
       '圣神-坚固护膝',
       '圣神-水晶挂坠',
       '兼职修女同款玻璃水',
-      'Mechanical dismantling tools
-Dedicated to Black Reliquary',
+      'Mechanical dismantling tools Dedicated to Black Reliquary',
       '锋利附魔书',
       '莉薇娅同款拐杖',
-      '小黑暗沐浴玩具
-（说明：黑暗--dark）',
+      '小黑暗沐浴玩具 （说明：黑暗--dark）',
       '没有鞋的高跟鞋',
       '高礼帽',
       '斟茶抱枕',
       '一把致命的刀',
       '15%抱枕',
       '专业偶像运营团体',
-      '腐女同好之证
-喷射战士',
-      '坚固的推进器
-
-任意攻击技能：自己前进1',
+      '腐女同好之证 喷射战士',
+      '坚固的推进器  任意攻击技能：自己前进1',
       '史上第二鲱鱼罐头',
       '义刃与铁拳',
       '有序的混沌',
@@ -7422,8 +7349,7 @@ Dedicated to Black Reliquary',
       '被回压立牌',
       '恐吓立牌',
       '没有立牌',
-      '错误
-死亡将至',
+      '错误 死亡将至',
       '老师的头',
       '鲱鱼罐头',
       '铲子',
@@ -7486,9 +7412,7 @@ Dedicated to Black Reliquary',
       '夏雨荷高光时刻',
       '每天一个养生小知识',
       '革命时代故事会',
-      '鸽鸽的爱
-
-使用任意技能，不会因自身或敌人原因受伤',
+      '鸽鸽的爱  使用任意技能，不会因自身或敌人原因受伤',
       '血祭缓冲垫',
       'cos粉毛笨蛋',
       '蛇毒之瓶',
@@ -7514,7 +7438,7 @@ Dedicated to Black Reliquary',
       'Trap',
       'Smoke Out',
       'Exterminate Them',
-      '¦¦¦ Sanitize',
+      'Sanitize',
       'Stomp Out'
     ],
     campSkills: [
@@ -9609,7 +9533,7 @@ Dedicated to Black Reliquary',
       'Excruciating Pain',
       'Putrefied Flesh',
       'Eroded Mind',
-      '¦¦¦ Ichor Incantation'
+      'Ichor Incantation'
     ],
     campSkills: [
       'Cannibalize Corpses',
@@ -9699,7 +9623,7 @@ Dedicated to Black Reliquary',
       'Noise Control',
       'Ancient Research',
       'Ancient Texts',
-      '¦¦ Imparting Knowledge',
+      'Imparting Knowledge',
       'Careful Mending',
       'Shield of Knowledge',
       'Hands-on Learning'
@@ -10388,8 +10312,7 @@ Dedicated to Black Reliquary',
       'Auntie\'s Fine China',
       'Mum\'s Ring',
       'Papa\'s Monocle',
-      'Phantasmal Veil
-	{colour_start|inventory_unselectable}(!See FAQ!){colour_end}',
+      'Phantasmal Veil {colour_start|inventory_unselectable}(!See FAQ!){colour_end}',
       'Gaudium Vincula',
       'Lotus Pin'
     ]
@@ -10848,8 +10771,8 @@ Dedicated to Black Reliquary',
       'Brace the Gun',
       'Thin the Herd',
       'Tempered Slash',
-      '¦¦¦ Song of Valor',
-      '¦¦¦ One Man Band',
+      'Song of Valor',
+      'One Man Band',
       'Brothers in Arms'
     ],
     campSkills: [
@@ -12157,8 +12080,7 @@ Dedicated to Black Reliquary',
       'Black Tai Sui Treats',
       'Mixed Chongqing',
       'Exorcist’S Unique Aura',
-      'Introduction Text
-Passive: At Hp <= 50%%, Team +2%% Acc And +2%% Crit.'
+      'Introduction Text Passive: At Hp <= 50%%, Team +2%% Acc And +2%% Crit.',
     ],
     vanillaCampSkills: [
       'Encourage',
@@ -12177,12 +12099,10 @@ Passive: At Hp <= 50%%, Team +2%% Acc And +2%% Crit.'
       '{colour_start|buff}锋利钻石剑{colour_end}',
       '{colour_start|stealth}暗黑面罩{colour_end}',
       'Shocking Sword Handle',
-      'Half a bottle of opium tincture
-{colour_start|red}Paranoid body{colour_end}',
+      'Half a bottle of opium tincture {colour_start|red}Paranoid body{colour_end}',
       'steel plate',
       'bra',
-      'Disfigured person
-{colour_start|red}Paranoid body{colour_end}',
+      'Disfigured person {colour_start|red}Paranoid body{colour_end}',
       '{colour_start|red}Dragon Tiger spring{colour_end}',
       'loudspeaker',
       '{colour_start|bleed}Ghost Shark{colour_end}Pillow',
@@ -12209,8 +12129,7 @@ Passive: At Hp <= 50%%, Team +2%% Acc And +2%% Crit.'
       '钻石镐',
       '祈愿全保底',
       '老革命之证',
-      'Mechanical dismantling tools
-Dedicated to Black Reliquary',
+      'Mechanical dismantling tools Dedicated to Black Reliquary',
       '{colour_start|stealth}Dark Depths{colour_end}{colour_start|red}Li Huo Wang{colour_end}',
       '{colour_start|stealth}Unseen Habits{colour_end}',
       '{colour_start|debuff}Dubious Mind{colour_end}',
@@ -12225,9 +12144,7 @@ Dedicated to Black Reliquary',
       '{colour_start|stun}夏雨荷高光时刻{colour_end}',
       '{colour_start|healhp}每天一个养生小知识{colour_end}',
       '{colour_start|red}革命时代故事会{colour_end}',
-      '鸽鸽的爱
-
-{colour_start|white}使用任意技能，不会因自身或敌人原因受伤{colour_end}',
+      '鸽鸽的爱  {colour_start|white}使用任意技能，不会因自身或敌人原因受伤{colour_end}',
       '{colour_start|bleed}血祭缓冲垫{colour_end}',
       '{colour_start|buff}cos{colour_end}{colour_start|wc_plague_doctor_F}粉毛{colour_end}笨蛋'
     ]
@@ -12252,8 +12169,7 @@ Dedicated to Black Reliquary',
       'Black Tai Sui Treats',
       'Mixed Chongqing',
       'Exorcist’S Unique Aura',
-      'Introduction Text
-Passive: At Hp <= 50%%, Team +2%% Acc And +2%% Crit.'
+      'Introduction Text Passive: At Hp <= 50%%, Team +2%% Acc And +2%% Crit.',
     ],
     vanillaCampSkills: [
       'Encourage',
@@ -12272,12 +12188,10 @@ Passive: At Hp <= 50%%, Team +2%% Acc And +2%% Crit.'
       '{colour_start|buff}锋利钻石剑{colour_end}',
       '{colour_start|stealth}暗黑面罩{colour_end}',
       'Shocking Sword Handle',
-      'Half a bottle of opium tincture
-{colour_start|red}Paranoid body{colour_end}',
+      'Half a bottle of opium tincture {colour_start|red}Paranoid body{colour_end}',
       'steel plate',
       'bra',
-      'Disfigured person
-{colour_start|red}Paranoid body{colour_end}',
+      'Disfigured person {colour_start|red}Paranoid body{colour_end}',
       '{colour_start|red}Dragon Tiger spring{colour_end}',
       'loudspeaker',
       '{colour_start|bleed}Ghost Shark{colour_end}Pillow',
@@ -12304,8 +12218,7 @@ Passive: At Hp <= 50%%, Team +2%% Acc And +2%% Crit.'
       '钻石镐',
       '祈愿全保底',
       '老革命之证',
-      'Mechanical dismantling tools
-Dedicated to Black Reliquary',
+      'Mechanical dismantling tools Dedicated to Black Reliquary',
       '{colour_start|stealth}Dark Depths{colour_end}{colour_start|red}Li Huo Wang{colour_end}',
       '{colour_start|stealth}Unseen Habits{colour_end}',
       '{colour_start|debuff}Dubious Mind{colour_end}',
@@ -12320,9 +12233,7 @@ Dedicated to Black Reliquary',
       '{colour_start|stun}夏雨荷高光时刻{colour_end}',
       '{colour_start|healhp}每天一个养生小知识{colour_end}',
       '{colour_start|red}革命时代故事会{colour_end}',
-      '鸽鸽的爱
-
-{colour_start|white}使用任意技能，不会因自身或敌人原因受伤{colour_end}',
+      '鸽鸽的爱  {colour_start|white}使用任意技能，不会因自身或敌人原因受伤{colour_end}',
       '{colour_start|bleed}血祭缓冲垫{colour_end}',
       '{colour_start|buff}cos{colour_end}{colour_start|wc_plague_doctor_F}粉毛{colour_end}笨蛋'
     ]
@@ -12455,12 +12366,10 @@ Dedicated to Black Reliquary',
       '锋利钻石剑',
       '暗黑面罩',
       'Shocking Sword Handle',
-      'Half a bottle of opium tincture
-Paranoid body',
+      'Half a bottle of opium tincture Paranoid body',
       'steel plate',
       'bra',
-      'Disfigured person
-Paranoid body',
+      'Disfigured person Paranoid body',
       'Dragon Tiger spring',
       'loudspeaker',
       'Ghost SharkPillow',
@@ -12520,23 +12429,18 @@ Paranoid body',
       '圣神-坚固护膝',
       '圣神-水晶挂坠',
       '兼职修女同款玻璃水',
-      'Mechanical dismantling tools
-Dedicated to Black Reliquary',
+      'Mechanical dismantling tools Dedicated to Black Reliquary',
       '锋利附魔书',
       '莉薇娅同款拐杖',
-      '小黑暗沐浴玩具
-（说明：黑暗--dark）',
+      '小黑暗沐浴玩具 （说明：黑暗--dark）',
       '没有鞋的高跟鞋',
       '高礼帽',
       '斟茶抱枕',
       '一把致命的刀',
       '15%抱枕',
       '专业偶像运营团体',
-      '腐女同好之证
-喷射战士',
-      '坚固的推进器
-
-任意攻击技能：自己前进1',
+      '腐女同好之证 喷射战士',
+      '坚固的推进器  任意攻击技能：自己前进1',
       '史上第二鲱鱼罐头',
       '义刃与铁拳',
       '有序的混沌',
@@ -12571,8 +12475,7 @@ Dedicated to Black Reliquary',
       '被回压立牌',
       '恐吓立牌',
       '没有立牌',
-      '错误
-死亡将至',
+      '错误 死亡将至',
       '老师的头',
       '鲱鱼罐头',
       '铲子',
@@ -12635,9 +12538,7 @@ Dedicated to Black Reliquary',
       '夏雨荷高光时刻',
       '每天一个养生小知识',
       '革命时代故事会',
-      '鸽鸽的爱
-
-使用任意技能，不会因自身或敌人原因受伤',
+      '鸽鸽的爱  使用任意技能，不会因自身或敌人原因受伤',
       '血祭缓冲垫',
       'cos粉毛笨蛋',
       '蛇毒之瓶',
@@ -13839,8 +13740,8 @@ Dedicated to Black Reliquary',
       'Cosmic Trident',
       'Celestial Javelin',
       'Comet\'s Kindness',
-      '¦ Dust Breath',
-      '¦ Dust Downwind',
+      'Dust Breath',
+      'Dust Downwind',
       'Glimmering Butterfly',
       'Crystalizing Talon'
     ],
@@ -14102,7 +14003,7 @@ Dedicated to Black Reliquary',
       'Shadow Strike',
       'Sweeping Kick',
       'Spirit Block',
-      '¦¦¦ Mantram',
+      'Mantram',
       'Inner Fire'
     ],
     campSkills: [
@@ -14753,16 +14654,11 @@ Dedicated to Black Reliquary',
     image: 'octopus.png',
     classSpecificTrinkets: [
       'Shining icosahedron',
-      'Burning souls lantern
-	{colour_start|bleed}[only use for not the ancient ones]{colour_end}',
-      'Torn apocalypse
-	{colour_start|bleed}[only use for not the ancient ones]{colour_end}',
-      'Minar\'s Star Stone
-	{colour_start|bleed}[only use for not the ancient ones]{colour_end}',
-      'Tide Armor
-	{colour_start|bleed}[only use for not the ancient ones]{colour_end}',
-      'Glimmer Fragment Bottle
-	{colour_start|bleed}[only use for not the ancient ones]{colour_end}',
+      'Burning souls lantern {colour_start|bleed}[only use for not the ancient ones]{colour_end}',
+      'Torn apocalypse {colour_start|bleed}[only use for not the ancient ones]{colour_end}',
+      'Minar\'s Star Stone {colour_start|bleed}[only use for not the ancient ones]{colour_end}',
+      'Tide Armor {colour_start|bleed}[only use for not the ancient ones]{colour_end}',
+      'Glimmer Fragment Bottle {colour_start|bleed}[only use for not the ancient ones]{colour_end}',
       'Dreamland Crystallizer',
       '???'
     ]
@@ -14875,11 +14771,9 @@ Dedicated to Black Reliquary',
       '处理伤口',
       '保养武器',
       '守御灵',
-      '算命小姐
-随机获得一个下述效果',
+      '算命小姐 随机获得一个下述效果',
       '饿鬼出没',
-      '酒气弥漫
-(无酒精)'
+      '酒气弥漫 (无酒精)',
     ],
     vanillaCampSkills: [
 
@@ -14904,11 +14798,9 @@ Dedicated to Black Reliquary',
       '重力舞鞋',
       '异世界冒险终端',
       'VF-17海盗中队',
-      '试作舰载型FW-190;A-6/R6
-自动反击 难以失手',
+      '试作舰载型FW-190;A-6/R6 自动反击 难以失手',
       '开拓者奖章',
-      '液压弹射装置
-被命中：0.25概率飞机巡航加4',
+      '液压弹射装置 被命中：0.25概率飞机巡航加4',
       '维修工具',
       'VH装甲钢板T0',
       '高性能舵机',
@@ -14945,11 +14837,9 @@ Dedicated to Black Reliquary',
       '处理伤口',
       '保养武器',
       '守御灵',
-      '算命小姐
-随机获得一个下述效果',
+      '算命小姐 随机获得一个下述效果',
       '饿鬼出没',
-      '酒气弥漫
-(无酒精)'
+      '酒气弥漫 (无酒精)',
     ],
     vanillaCampSkills: [
 
@@ -14974,11 +14864,9 @@ Dedicated to Black Reliquary',
       '重力舞鞋',
       '异世界冒险终端',
       'VF-17海盗中队',
-      '试作舰载型FW-190;A-6/R6
-自动反击 难以失手',
+      '试作舰载型FW-190;A-6/R6 自动反击 难以失手',
       '开拓者奖章',
-      '液压弹射装置
-被命中：0.25概率飞机巡航加4',
+      '液压弹射装置 被命中：0.25概率飞机巡航加4',
       '维修工具',
       'VH装甲钢板T0',
       '高性能舵机',
@@ -15721,10 +15609,8 @@ Dedicated to Black Reliquary',
     skills: [
       '野猪轰鸣',
       '往这打！',
-      '啊哈！
-欧美双标！',
-      '再来一次
-放权',
+      '啊哈！ 欧美双标！',
+      '再来一次 放权',
       '怒斩',
       '碾压',
       '爪击',
@@ -15857,12 +15743,10 @@ Dedicated to Black Reliquary',
       '{colour_start|buff}锋利钻石剑{colour_end}',
       '{colour_start|stealth}暗黑面罩{colour_end}',
       'Shocking Sword Handle',
-      'Half a bottle of opium tincture
-{colour_start|red}Paranoid body{colour_end}',
+      'Half a bottle of opium tincture {colour_start|red}Paranoid body{colour_end}',
       'steel plate',
       'bra',
-      'Disfigured person
-{colour_start|red}Paranoid body{colour_end}',
+      'Disfigured person {colour_start|red}Paranoid body{colour_end}',
       '{colour_start|red}Dragon Tiger spring{colour_end}',
       'loudspeaker',
       '{colour_start|bleed}Ghost Shark{colour_end}Pillow',
@@ -15889,8 +15773,7 @@ Dedicated to Black Reliquary',
       '钻石镐',
       '祈愿全保底',
       '老革命之证',
-      'Mechanical dismantling tools
-Dedicated to Black Reliquary',
+      'Mechanical dismantling tools Dedicated to Black Reliquary',
       '{colour_start|stealth}Dark Depths{colour_end}{colour_start|red}Li Huo Wang{colour_end}',
       '{colour_start|stealth}Unseen Habits{colour_end}',
       '{colour_start|debuff}Dubious Mind{colour_end}',
@@ -15905,9 +15788,7 @@ Dedicated to Black Reliquary',
       '{colour_start|stun}夏雨荷高光时刻{colour_end}',
       '{colour_start|healhp}每天一个养生小知识{colour_end}',
       '{colour_start|red}革命时代故事会{colour_end}',
-      '鸽鸽的爱
-
-{colour_start|white}使用任意技能，不会因自身或敌人原因受伤{colour_end}',
+      '鸽鸽的爱  {colour_start|white}使用任意技能，不会因自身或敌人原因受伤{colour_end}',
       '{colour_start|bleed}血祭缓冲垫{colour_end}',
       '{colour_start|buff}cos{colour_end}{colour_start|wc_plague_doctor_F}粉毛{colour_end}笨蛋'
     ]
@@ -15916,12 +15797,10 @@ Dedicated to Black Reliquary',
     modId: '3397134362',
     skills: [
       '腐女文化传播',
-      '玩坏了！
-CD:2',
+      '玩坏了！ CD:2',
       '捆绑Play',
       '老扎心了',
-      '充阳寿术
-当HP低于33%时不卖血',
+      '充阳寿术 当HP低于33%时不卖血',
       '熬夜者的福音',
       '疲惫共享'
     ],
@@ -15950,12 +15829,10 @@ CD:2',
       '锋利钻石剑',
       '暗黑面罩',
       'Shocking Sword Handle',
-      'Half a bottle of opium tincture
-Paranoid body',
+      'Half a bottle of opium tincture Paranoid body',
       'steel plate',
       'bra',
-      'Disfigured person
-Paranoid body',
+      'Disfigured person Paranoid body',
       'Dragon Tiger spring',
       'loudspeaker',
       'Ghost SharkPillow',
@@ -16015,23 +15892,18 @@ Paranoid body',
       '圣神-坚固护膝',
       '圣神-水晶挂坠',
       '兼职修女同款玻璃水',
-      'Mechanical dismantling tools
-Dedicated to Black Reliquary',
+      'Mechanical dismantling tools Dedicated to Black Reliquary',
       '锋利附魔书',
       '莉薇娅同款拐杖',
-      '小黑暗沐浴玩具
-（说明：黑暗--dark）',
+      '小黑暗沐浴玩具 （说明：黑暗--dark）',
       '没有鞋的高跟鞋',
       '高礼帽',
       '斟茶抱枕',
       '一把致命的刀',
       '15%抱枕',
       '专业偶像运营团体',
-      '腐女同好之证
-喷射战士',
-      '坚固的推进器
-
-任意攻击技能：自己前进1',
+      '腐女同好之证 喷射战士',
+      '坚固的推进器  任意攻击技能：自己前进1',
       '史上第二鲱鱼罐头',
       '义刃与铁拳',
       '有序的混沌',
@@ -16066,8 +15938,7 @@ Dedicated to Black Reliquary',
       '被回压立牌',
       '恐吓立牌',
       '没有立牌',
-      '错误
-死亡将至',
+      '错误 死亡将至',
       '老师的头',
       '鲱鱼罐头',
       '铲子',
@@ -16130,9 +16001,7 @@ Dedicated to Black Reliquary',
       '夏雨荷高光时刻',
       '每天一个养生小知识',
       '革命时代故事会',
-      '鸽鸽的爱
-
-使用任意技能，不会因自身或敌人原因受伤',
+      '鸽鸽的爱  使用任意技能，不会因自身或敌人原因受伤',
       '血祭缓冲垫',
       'cos粉毛笨蛋',
       '蛇毒之瓶',
@@ -16154,12 +16023,10 @@ Dedicated to Black Reliquary',
     modId: '3124755746',
     skills: [
       '腐女文化传播',
-      '玩坏了！
-CD:2',
+      '玩坏了！ CD:2',
       '坤绑Play',
       '老扎心了',
-      '充阳寿术
-当HP低于33%时不卖血',
+      '充阳寿术 当HP低于33%时不卖血',
       '熬夜者的福音',
       '疲惫共享'
     ],
@@ -17250,7 +17117,7 @@ CD:2',
       'Duty of a Knight',
       'Necessary Measures',
       'Knights\' Support',
-      '¦¦¦ Knight\'s Will'
+      'Knight\'s Will'
     ],
     campSkills: [
       'Encourage',
@@ -17286,8 +17153,7 @@ CD:2',
       '小憩',
       '午夜狂欢',
       '餐前准备',
-      '餐前小食
-吸血',
+      '餐前小食 吸血',
       '拆解包装',
       '承担痛苦'
     ],
@@ -17298,8 +17164,7 @@ CD:2',
       '麦当劳特快',
       '老妹的鬼畜视频',
       '大小姐睡大觉',
-      '夜誓视野
-（可以透视）'
+      '夜誓视野 （可以透视）',
     ],
     vanillaCampSkills: [
       'Encourage',
@@ -17314,8 +17179,7 @@ CD:2',
       '红茶？',
       '多看一眼就会爆炸',
       '苦痛的欢愉',
-      '二小姐
-坏挡神器，卧槽呀！的玩具',
+      '二小姐 坏挡神器，卧槽呀！的玩具',
       'Pharmacists'
     ]
   },
@@ -18121,8 +17985,7 @@ CD:2',
     ],
     image: 'velvet.png',
     classSpecificTrinkets: [
-      'Duttrell\'s ring
- The key to the crystal Furnace',
+      'Duttrell\'s ring The key to the crystal Furnace',
       'The prophecy of the end',
       'Red magic stone chain',
       'Fatherland coin',
@@ -18429,7 +18292,7 @@ CD:2',
       'Gravity Well',
       'Warding Flare',
       'Cloven Cross',
-      '¦¦¦ Fury from Beyond'
+      'Fury from Beyond'
     ],
     campSkills: [
       'Encourage',
@@ -21131,7 +20994,7 @@ CD:2',
       'Targeted Toss',
       'Drive Me Closer!',
       'Prodding Shot',
-      '¦¦¦ Brother\'s Keeper',
+      'Brother\'s Keeper',
       'Field Repair'
     ],
     campSkills: [
@@ -24088,8 +23951,8 @@ CD:2',
       'ÇÈÅÇ«',
       'Å½ÅÄ¹È¡',
       'Å®Å®Å£Æ­',
-      'Ç¬¬Ä¸ÈÅ¸¦',
-      'ÆÇ¥Ä¹Æ¢¦'
+      'Ç¬¬Ä¸ÈÅ¸',
+      'ÆÇ¥Ä¹Æ¢'
     ],
     vanillaCampSkills: [
 
