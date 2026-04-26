@@ -2098,7 +2098,7 @@ export const MODDED_HERO_CLASSES = {
       'Commemorative coin',
       'Revelation',
       'The shield of contradiction',
-      'Сollar with medallion of life'
+      'Collar with medallion of life'
     ]
   },
   'Black Cat': {
@@ -2133,7 +2133,7 @@ export const MODDED_HERO_CLASSES = {
       'Commemorative coin',
       'Revelation',
       'The shield of contradiction',
-      'Сollar with medallion of life'
+      'Collar with medallion of life'
     ]
   },
   'Blackguard': {
@@ -2933,13 +2933,13 @@ export const MODDED_HERO_CLASSES = {
       'Herbal Infusion',
       'Root Infusion',
       'Nightshade Brew',
-      'Подрезание',
-      'Гербицид',
-      'Помешивание',
-      'Споровый отвар',
-      'Травяной настой',
-      'Настой корня',
-      'Отвар паслена',
+      'Pruning',
+      'Herbicide',
+      'Stirring',
+      'Spore Decoction',
+      'Herbal Infusion',
+      'Root Infusion',
+      'Nightshade Decoction',
       'Pruning',
       'Herbicide',
       'Knock',
@@ -22218,7 +22218,7 @@ export const MODDED_HERO_CLASSES = {
       'Still Living Flower',
       'Scalpel Gloves',
       'Shining Trumpet',
-      'Fourleaf Сlover',
+      'Fourleaf Clover',
       'Royal Vaccine',
       'Patients Medical Record',
       'Crushed Crystal Antidote',
