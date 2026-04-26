@@ -3,6 +3,6 @@ import App from './App';
 
 test('renders app title', () => {
   render(<App />);
-  const titleElement = screen.getByText(/Darkest Dungeon/i);
+  const titleElement = screen.getByRole('heading', { level: 1, name: /Darkest Dungeon/i });
   expect(titleElement).toBeInTheDocument();
 });

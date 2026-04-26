@@ -5,7 +5,7 @@
 - **Create React App** (react-scripts 5), **React 19**, **Tailwind CSS 3**, **PostCSS**, **Autoprefixer**
 - No TypeScript, no router, no state library — plain JSX + React hooks + localStorage
 - Entry: `src/index.js` → `src/App.js`
-- Font: DwarvenAxe in `public/font/` (loaded via `@font-face` in `src/index.css`)
+- Font: DwarvenAxe in `src/font/` (loaded via `@font-face` in `src/index.css`)
 
 ## Commands
 
@@ -34,9 +34,7 @@ Images are served from a **separate GitHub repo** (`dd-team-builder-assets`). To
 
 ## Quirks & Gotchas
 
-- **Stale test**: `src/App.test.js` still has the CRA boilerplate (`renders learn react link`) — it will fail against the actual app.
-- **README outdated**: says React 18, package.json has React 19. Mentions `@hello-pangea/dnd` but it's not in dependencies.
-- **Font path**: `src/index.css` references `../public/font/...` — works in dev but may break in production builds (CRA serves `public/` at root, so `/font/...` would be correct).
+- **Font**: DwarvenAxe lives in `src/font/` (copied from `public/font/` for CRA production build compatibility), referenced as `url('./font/...')` in `src/index.css`.
 - **Modded hero data**: `src/data/modded_heroes.js` has `.bak` / `.bak2` / `.bak3` backup files — ignore them.
 - **PNG export**: Uses `html2canvas` with `useCORS: true` — external images must support CORS (GitHub raw does).
 - **`alwaysActive` heroes** (Abomination, Flagellant) have 7 skills, must all be selected for validation to pass.
