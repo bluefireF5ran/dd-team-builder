@@ -9157,7 +9157,7 @@ export const MODDED_HERO_CLASSES = {
         'Tea Set & Geisha Fan'
       ]
     },
-  'Head Manager': {
+  'Gcorp Head Manager': {
     modId: '3579896525',
     skills: [
       'Mind Wave',
