@@ -13329,13 +13329,13 @@ export const MODDED_HERO_CLASSES = {
       'Peerless Beard',
       'Towering Presence',
       'Azure Dragon’s Ascension',
-      '청룡의 갈퀴',
-      '주위상계',
-      '청룡의 포효',
-      '술이 식기 전에...',
-      '빼어난 수염',
-      '우뚝 솟은 위세',
-      '청룡의 승천'
+      'Azure Dragon’s Talons',
+      'Situational Awareness',
+      'Azure Dragon’s Roar',
+      'Before the Ale Cools...',
+      'Outstanding Whiskers',
+      'Towering Presence',
+      'Azure Dragon’s Ascension'
     ],
     campSkills: [
       'Encourage',
@@ -14101,13 +14101,13 @@ export const MODDED_HERO_CLASSES = {
       'Healing Magic',
       'Retreat & Rethink',
       'Indomitable',
-      '최고급 부위',
-      '개 흉내 내기',
-      '말 쳐내기',
-      '몬스터 지식',
-      '치유 마법',
-      '후퇴 후 재고려하기',
-      '불굴의 의지'
+      'Premium Cut',
+      'Dog Imitation',
+      'Parry',
+      'Monster Knowledge',
+      'Healing Magic',
+      'Retreat and Reconsider',
+      'Indomitable Will'
     ],
     campSkills: [
       'Encourage',
@@ -15186,22 +15186,22 @@ export const MODDED_HERO_CLASSES = {
   'Paracausalist': {
     modId: '1960445714',
     skills: [
-      '양자광선',
-      '관찰 탐지경',
-      '점발사격',
-      '플라즈마 과충전',
-      '중성자 끈',
-      '광자 섬광',
-      '유물 해방'
+      'Quantum Beam',
+      'Observation Scope',
+      'Spot Fire',
+      'Plasma Overcharge',
+      'Neutron String',
+      'Photon Flash',
+      'Artifact Liberation'
     ],
     campSkills: [
       'Encourage',
       'Wound Care',
       'Pep Talk',
-      '천두술',
-      '엔진 수리',
-      '과학적 설명',
-      '문서 정리'
+      'Telepathy',
+      'Engine Repair',
+      'Scientific Explanation',
+      'Document Organization'
     ],
     vanillaCampSkills: [
       'Encourage',
@@ -15210,16 +15210,16 @@ export const MODDED_HERO_CLASSES = {
     ],
     image: 'paracausalist.png',
     classSpecificTrinkets: [
-      '스펙트럼 초월 고글',
-      '코일 안정기',
-      '증강된 탐지경',
-      '보안경',
-      '브란트의 혼령 도감',
-      '위상 변이 초점 렌즈',
+      'Spectrum Transcendence Goggles',
+      'Coil Stabilizer',
+      'Enhanced Scope',
+      'Safety Goggles',
+      'Brandt’s Spirit Guidebook',
+      'Phase Shift Focus Lens',
       '카\'타크의 기계장치',
-      '일렉트로플라즘 연결망',
-      '불가사의한 브릴 축전기',
-      '월귤나무의 봄'
+      'Electroplasm Network',
+      'Mysterious Brill Capacitor',
+      'Spring of the Lingonberry Tree'
     ]
   },
   'Paradox': {
@@ -23934,7 +23934,7 @@ export const MODDED_HERO_CLASSES = {
 
     ]
   },
-  'è¡ç¥­çäºº': {
+  'Blood Hunter': {
     modId: '2991603143',
     skills: [
       'é¶æå¥³çÂ·ç»ç»',
@@ -23969,25 +23969,25 @@ export const MODDED_HERO_CLASSES = {
       'é¢åº§å§é­ä¹å¿'
     ]
   },
-  '심령학자': {
+  'Psychic Scholar': {
     modId: '2882385295',
     skills: [
-      '양자광선',
-      '관찰 탐지경',
-      '점발사격',
-      '플라즈마 과충전',
-      '중성자 끈',
-      '광자 섬광',
-      '유물 해방'
+      'Quantum Beam',
+      'Observation Scope',
+      'Spot Fire',
+      'Plasma Overcharge',
+      'Neutron String',
+      'Photon Flash',
+      'Artifact Liberation'
     ],
     campSkills: [
       'Encourage',
       'Wound Care',
       'Pep Talk',
-      '천두술',
-      '엔진 수리',
-      '과학적 설명',
-      '문서 정리'
+      'Telepathy',
+      'Engine Repair',
+      'Scientific Explanation',
+      'Document Organization'
     ],
     vanillaCampSkills: [
       'Encourage',
@@ -23996,38 +23996,38 @@ export const MODDED_HERO_CLASSES = {
     ],
     image: 'paracausalist.png',
     classSpecificTrinkets: [
-      '스펙트럼 초월 고글',
-      '코일 안정기',
-      '증강된 탐지경',
-      '보안경',
-      '브란트의 혼령 도감',
-      '위상 변이 초점 렌즈',
+      'Spectrum Transcendence Goggles',
+      'Coil Stabilizer',
+      'Enhanced Scope',
+      'Safety Goggles',
+      'Brandt’s Spirit Guidebook',
+      'Phase Shift Focus Lens',
       '카\'타크의 기계장치',
-      '일렉트로플라즘 연결망',
-      '불가사의한 브릴 축전기',
-      '월귤나무의 봄'
+      'Electroplasm Network',
+      'Mysterious Brill Capacitor',
+      'Spring of the Lingonberry Tree'
     ]
   },
-  '전리품 사냥꾼': {
+  'Loot Hunter': {
     modId: '3045881665',
     skills: [
-      '물어뜯는 칼날',
-      '이빨 갈퀴',
-      '삼지창 꽂기',
-      '최상위 포식자',
-      '충격과 공포',
-      '핏빛 야망',
-      '사냥의 짜릿함',
-      '기어오는 공포'
+      'Gnawing Blade',
+      'Tooth Rake',
+      'Trident Stab',
+      'Apex Predator',
+      'Shock and Awe',
+      'Bloody Ambition',
+      'Thrill of the Hunt',
+      'Crawling Fear'
     ],
     campSkills: [
       'Encourage',
       'Wound Care',
       'Pep Talk',
-      '헤드 헌터',
-      '두꺼운 비늘',
-      '늪의 포식자',
-      '공생관계'
+      'Head Hunter',
+      'Thick Scales',
+      'Swamp Predator',
+      'Symbiotic Relationship'
     ],
     vanillaCampSkills: [
       'Encourage',
@@ -24036,15 +24036,15 @@ export const MODDED_HERO_CLASSES = {
     ],
     image: 'croc.png',
     classSpecificTrinkets: [
-      '이교도의 스태프',
-      '심해의 가시',
-      '포자 버섯',
-      '약탈한 우상',
-      '가죽사냥꾼의 투창',
-      '악어충의 머리',
-      '악어충의 이빨',
-      '잠든 자의 눈알',
-      '경화된 비늘'
+      'Heretic’s Staff',
+      'Deep Sea Thorn',
+      'Spore Mushroom',
+      'Pillaged Idol',
+      'Leather Hunter’s Javelin',
+      'Crocodile Bug’s Head',
+      'Crocodile Bug’s Tooth',
+      'Sleeper’s Eyeball',
+      'Hardened Scales'
     ]
   }
 };
