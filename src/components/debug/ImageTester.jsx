@@ -1,91 +1,56 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { HERO_CLASSES } from '../../data/heroes';
 import { MODDED_HERO_CLASSES } from '../../data/modded_heroes';
 import { TRINKETS } from '../../data/trinkets';
 import { BACKER_TRINKETS } from '../../data/backer_trinkets';
 import { getHeroImagePath, getSkillImagePath, getCampSkillImagePath, getTrinketImagePath } from '../../utils/imageHelper';
 
+const BATCH_SIZE = 20;
+
+const buildAllImages = () => {
+  const images = [];
+
+  Object.keys(HERO_CLASSES).forEach(heroClass => {
+    images.push({ type: 'hero', name: heroClass, url: getHeroImagePath(heroClass) });
+    HERO_CLASSES[heroClass].skills?.forEach(skill => {
+      images.push({ type: 'skill', name: `${heroClass} - ${skill}`, url: getSkillImagePath(skill, heroClass) });
+    });
+    HERO_CLASSES[heroClass].campSkills?.forEach(skill => {
+      images.push({ type: 'camp', name: `${heroClass} - ${skill}`, url: getCampSkillImagePath(skill, heroClass) });
+    });
+  });
+
+  Object.keys(MODDED_HERO_CLASSES).forEach(heroClass => {
+    images.push({ type: 'hero', name: `[MOD] ${heroClass}`, url: getHeroImagePath(heroClass) });
+    MODDED_HERO_CLASSES[heroClass].skills?.forEach(skill => {
+      images.push({ type: 'skill', name: `[MOD] ${heroClass} - ${skill}`, url: getSkillImagePath(skill, heroClass) });
+    });
+    MODDED_HERO_CLASSES[heroClass].campSkills?.forEach(skill => {
+      images.push({ type: 'camp', name: `[MOD] ${heroClass} - ${skill}`, url: getCampSkillImagePath(skill, heroClass) });
+    });
+  });
+
+  TRINKETS.forEach(trinket => {
+    images.push({ type: 'trinket', name: trinket, url: getTrinketImagePath(trinket) });
+  });
+
+  BACKER_TRINKETS.forEach(trinket => {
+    images.push({ type: 'trinket', name: `[BACKER] ${trinket}`, url: getTrinketImagePath(trinket) });
+  });
+
+  return images;
+};
+
 const ImageTester = ({ onClose }) => {
   const [results, setResults] = useState({ loaded: 0, failed: 0, total: 0 });
   const [failedImages, setFailedImages] = useState([]);
   const [testing, setTesting] = useState(true);
-  const [filter, setFilter] = useState('all'); // all, failed, heroes, skills, camp, trinkets
+  const [filter, setFilter] = useState('all');
 
-  // Recopilar todas las imágenes
-  const allImages = [];
-
-  // Heroes
-  Object.keys(HERO_CLASSES).forEach(heroClass => {
-    allImages.push({ 
-      type: 'hero', 
-      name: heroClass, 
-      url: getHeroImagePath(heroClass) 
-    });
-    
-    // Skills
-    HERO_CLASSES[heroClass].skills?.forEach(skill => {
-      allImages.push({ 
-        type: 'skill', 
-        name: `${heroClass} - ${skill}`, 
-        url: getSkillImagePath(skill, heroClass) 
-      });
-    });
-    
-    // Camp Skills
-    HERO_CLASSES[heroClass].campSkills?.forEach(skill => {
-      allImages.push({ 
-        type: 'camp', 
-        name: `${heroClass} - ${skill}`, 
-        url: getCampSkillImagePath(skill, heroClass) 
-      });
-    });
-  });
-
-  // Modded Heroes
-  Object.keys(MODDED_HERO_CLASSES).forEach(heroClass => {
-    allImages.push({ 
-      type: 'hero', 
-      name: `[MOD] ${heroClass}`, 
-      url: getHeroImagePath(heroClass) 
-    });
-    
-    MODDED_HERO_CLASSES[heroClass].skills?.forEach(skill => {
-      allImages.push({ 
-        type: 'skill', 
-        name: `[MOD] ${heroClass} - ${skill}`, 
-        url: getSkillImagePath(skill, heroClass) 
-      });
-    });
-    
-    MODDED_HERO_CLASSES[heroClass].campSkills?.forEach(skill => {
-      allImages.push({ 
-        type: 'camp', 
-        name: `[MOD] ${heroClass} - ${skill}`, 
-        url: getCampSkillImagePath(skill, heroClass) 
-      });
-    });
-  });
-
-  // Trinkets
-  TRINKETS.forEach(trinket => {
-    allImages.push({ 
-      type: 'trinket', 
-      name: trinket, 
-      url: getTrinketImagePath(trinket) 
-    });
-  });
-
-  // Backer Trinkets (use same function - it detects backer trinkets internally)
-  BACKER_TRINKETS.forEach(trinket => {
-    allImages.push({ 
-      type: 'trinket', 
-      name: `[BACKER] ${trinket}`, 
-      url: getTrinketImagePath(trinket) 
-    });
-  });
+  const allImages = useMemo(buildAllImages, []);
 
   const [imageStatuses, setImageStatuses] = useState(
-    allImages.map(img => ({ ...img, status: 'pending' }))
+    () => allImages.map(img => ({ ...img, status: 'pending' }))
   );
 
   useEffect(() => {
@@ -122,23 +87,22 @@ const ImageTester = ({ onClose }) => {
       });
     };
 
-    // Test images in batches to avoid overwhelming the browser
-    const testBatch = async (startIdx, batchSize) => {
+    const testBatch = async (startIdx) => {
       const promises = [];
-      for (let i = startIdx; i < Math.min(startIdx + batchSize, allImages.length); i++) {
+      for (let i = startIdx; i < Math.min(startIdx + BATCH_SIZE, allImages.length); i++) {
         promises.push(checkImage(allImages[i], i));
       }
       await Promise.all(promises);
-      
-      if (startIdx + batchSize < allImages.length) {
-        setTimeout(() => testBatch(startIdx + batchSize, batchSize), 100);
+
+      if (startIdx + BATCH_SIZE < allImages.length) {
+        setTimeout(() => testBatch(startIdx + BATCH_SIZE), 100);
       } else {
         setTesting(false);
       }
     };
 
-    testBatch(0, 20);
-  }, []);
+    testBatch(0);
+  }, [allImages]);
 
   const filteredImages = imageStatuses.filter(img => {
     if (filter === 'all') return true;

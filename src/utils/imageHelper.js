@@ -1,5 +1,6 @@
 import { BACKER_TRINKETS } from '../data/backer_trinkets';
 import { MODDED_HERO_CLASSES, MODDED_GENERAL_TRINKETS } from '../data/modded_heroes';
+import { COMMON_VANILLA_CAMP_SKILLS } from '../constants';
 import { getAssetUrl } from '../config/assets';
 
 // Función para convertir nombres a formato de archivo
@@ -10,7 +11,8 @@ export const toImageFileName = (name) => {
     .toLowerCase()
     .replace(/'/g, '')
     .replace(/\s+/g, '_')
-    .replace(/[^\w_]/g, '');
+    .replace(/[^-\w_]/g, '')
+    .replace(/^_+|_+$/g, '');
 };
 
 // Obtener el modId de un héroe
@@ -27,13 +29,14 @@ export const isModdedHero = (heroClass) => {
 // Rutas de imágenes
 export const getHeroImagePath = (heroClass) => {
   if (!heroClass) return null;
-  const fileName = toImageFileName(heroClass);
   
-  // Si es modded, usar carpeta modded/heroes
   if (isModdedHero(heroClass)) {
-    return getAssetUrl(`/images/modded/heroes/${fileName}.png`);
+    const moddedHero = MODDED_HERO_CLASSES[heroClass];
+    const fileName = moddedHero?.image || `${toImageFileName(heroClass)}.png`;
+    return getAssetUrl(`/images/modded/heroes/${fileName}`);
   }
   
+  const fileName = toImageFileName(heroClass);
   return getAssetUrl(`/images/heroes/${fileName}.png`);
 };
 
@@ -60,8 +63,8 @@ export const getCampSkillImagePath = (skillName, heroClass = null) => {
   if (heroClass && isModdedHero(heroClass)) {
     const moddedHero = MODDED_HERO_CLASSES[heroClass];
     
-    // Si está en vanillaCampSkills, usar la imagen vanilla
-    if (moddedHero.vanillaCampSkills?.includes(skillName)) {
+    // Si está en vanillaCampSkills o es una skill vanilla común, usar imagen vanilla
+    if (moddedHero.vanillaCampSkills?.includes(skillName) || COMMON_VANILLA_CAMP_SKILLS.includes(skillName)) {
       return getAssetUrl(`/images/camp_skills/${fileName}.png`);
     }
     

@@ -21,6 +21,50 @@
   --torch-color: #FF6B35;
 }
 
+/* Theme: Bloodmoon (redder, more crimson) */
+.theme-bloodmoon {
+  --dd-red: #A00000;
+  --dd-red-light: #EF4444;
+  --dd-gold: #C53030;
+  --dd-gold-dark: #9B2C2C;
+  --dd-parchment: #FED7D7;
+  --torch-color: #FC8181;
+}
+
+.theme-bloodmoon .bg-gray-900 {
+  background-color: #1a0a0a;
+}
+
+.theme-bloodmoon .bg-gray-800 {
+  background-color: #2d1010;
+}
+
+.theme-bloodmoon .bg-gray-800\/90 {
+  background-color: rgba(45, 16, 16, 0.9);
+}
+
+/* Theme: Frost (bluer, colder) */
+.theme-frost {
+  --dd-red: #1E3A5F;
+  --dd-red-light: #3B82F6;
+  --dd-gold: #93C5FD;
+  --dd-gold-dark: #60A5FA;
+  --dd-parchment: #E0F2FE;
+  --torch-color: #7DD3FC;
+}
+
+.theme-frost .bg-gray-900 {
+  background-color: #0a0f1a;
+}
+
+.theme-frost .bg-gray-800 {
+  background-color: #0f172a;
+}
+
+.theme-frost .bg-gray-800\/90 {
+  background-color: rgba(15, 23, 42, 0.9);
+}
+
 /* Estilos base */
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -60,42 +104,6 @@ body {
 
 .torch-border {
   animation: torch-flicker 3s ease-in-out infinite;
-}
-
-/* Efecto de brillo sutil para cards */
-@keyframes subtle-glow {
-  0%, 100% { 
-    border-color: rgba(139, 0, 0, 0.5);
-  }
-  50% { 
-    border-color: rgba(139, 0, 0, 0.8);
-  }
-}
-
-.glow-border {
-  animation: subtle-glow 4s ease-in-out infinite;
-}
-
-/* Tooltips personalizados */
-.tooltip {
-  @apply invisible absolute z-50 px-3 py-2 text-sm text-white bg-gray-900 rounded-lg shadow-lg border border-gray-700;
-  @apply opacity-0 transition-all duration-200;
-  @apply -top-2 left-1/2 -translate-x-1/2 -translate-y-full;
-  white-space: nowrap;
-  max-width: 250px;
-  white-space: normal;
-}
-
-.tooltip::after {
-  content: '';
-  @apply absolute top-full left-1/2 -translate-x-1/2;
-  border-width: 6px;
-  border-style: solid;
-  border-color: #374151 transparent transparent transparent;
-}
-
-.has-tooltip:hover .tooltip {
-  @apply visible opacity-100;
 }
 
 /* Scrollbar personalizado estilo DD */

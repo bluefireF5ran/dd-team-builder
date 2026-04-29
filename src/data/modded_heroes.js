@@ -1,6 +1,6 @@
 // Cada mod tiene un ID único que se usa como prefijo
 export const MODDED_HERO_CLASSES = {
-  ' War': {
+  'War': {
     modId: '2956674159',
     skills: [
       'Devastating Strike',
@@ -42,15 +42,13 @@ export const MODDED_HERO_CLASSES = {
     modId: '1910957100',
     skills: [
       'Darkwraith\'s Bane',
-      'Savage Leap',
-      'Loyalty',
       'Swordsman\'s Gambit',
+      'Loyalty',
       'Gliding Thrust',
+      'Savage Leap',
       'Wrath of the Abyss',
       'Gliding Slash',
-      'Savage Strike',
-      'Hurricane Swing',
-      'Salvation'
+      'Counterattack',
     ],
     campSkills: [
       'Encourage',
@@ -66,6 +64,7 @@ export const MODDED_HERO_CLASSES = {
       'Wound Care',
       'Pep Talk'
     ],
+    alwaysActive: true,
     image: 'wolfknight.png',
     classSpecificTrinkets: [
       'Wolf Ring',
@@ -163,24 +162,24 @@ export const MODDED_HERO_CLASSES = {
       'Ellight',
       'Nosferatu',
       'Valaura',
-      'əəəə Protector of Beauty',
+      'Protector of Beauty',
       'Falling Light',
-      'ɚɛɛɜ Matrona',
+      'Matrona',
       'Elsilence'
     ],
     campSkills: [
       'Encourage',
       'Pep Talk',
-      'Hobby',
+      'Wound Care',
       'Banquet For The Eyes',
       'Ashera\'S Blessing',
       'Admirable Poise',
-      'Loving Protection',
-      'Additional Information'
+      'Loving Protection'
     ],
     vanillaCampSkills: [
       'Encourage',
-      'Pep Talk'
+      'Pep Talk',
+      'Wound Care'
     ],
     image: 'aesthete.png',
     classSpecificTrinkets: [
@@ -334,15 +333,13 @@ export const MODDED_HERO_CLASSES = {
   'Altria': {
     modId: '2056696179',
     skills: [
-      'fawn strike',
-      'gift',
-      'Saint area of fawn',
-      'Step conversion',
-      'Dropper Lance',
-      'Burst！Ata beam',
-      'lightless chop',
-      'riposte',
-      'mode switch'
+      'Smite',
+      'Holy Shield',
+      'Protection',
+      'Arc Light',
+      'Holy Lance',
+      'Holy Light',
+      'Sacrifice'
     ],
     campSkills: [
       'Encourage',
@@ -358,6 +355,7 @@ export const MODDED_HERO_CLASSES = {
       'Wound Care',
       'Pep Talk'
     ],
+    alwaysActive: true,
     image: 'altria.png',
     classSpecificTrinkets: [
 
@@ -368,12 +366,11 @@ export const MODDED_HERO_CLASSES = {
     skills: [
       'Clones Flank',
       'Clones Salvo',
-      'Pouring Hatred',
       'Cannonade',
+      'Pouring Hatred',
       'Hadean Revival',
       'Song of Siren',
-      'Kindred Spirits',
-      'Cosmic Touch'
+      'Kindred Spirits'
     ],
     campSkills: [
       'Dark Strength',
@@ -388,6 +385,7 @@ export const MODDED_HERO_CLASSES = {
       'Dark Strength',
       'Gallows Humor'
     ],
+    alwaysActive: true,
     image: 'ancestor.png',
     classSpecificTrinkets: [
 
@@ -406,16 +404,16 @@ export const MODDED_HERO_CLASSES = {
       'Time Heals All Wounds'
     ],
     campSkills: [
-      'Encourage',
+      'Ancestors Encourage',
+      'Ancestors Pep Talk',
       'Share Rice Ball',
-      'Pep Talk',
       'Vulgar Taste',
-      'Weapon Maintenance, Cannon Loading',
+      'Weapon Maintenance',
+      'Cannon Loading',
       'Dark Whisper',
       'Know But Stay Silent'
     ],
     vanillaCampSkills: [
-
     ],
     image: 'ancestor.png',
     classSpecificTrinkets: [
@@ -508,28 +506,6 @@ export const MODDED_HERO_CLASSES = {
       'The Other Half\'s Performance Costume',
       'Anon\'s Playing Cards',
       'Past Photograph'
-    ]
-  },
-  'Antiquarian (Rework)': {
-    modId: '3521026447',
-    skills: [
-      'Nervous Stab',
-      'Festering Vapours',
-      'Fortifying Vapours',
-      'Invigorating Vapours',
-      'Flashpowder',
-      'Get Down!',
-      'Protect Me'
-    ],
-    campSkills: [
-
-    ],
-    vanillaCampSkills: [
-
-    ],
-    image: 'antiquarian.png',
-    classSpecificTrinkets: [
-
     ]
   },
   'Apostate': {
@@ -4389,7 +4365,7 @@ export const MODDED_HERO_CLASSES = {
       'Afflicted: On Its Own'
     ],
     campSkills: [
-      'Martyrs Empathy',
+      "Martyr's Empathy",
       'Assimilate',
       'Old Covenant',
       'Bless',
@@ -4553,22 +4529,6 @@ export const MODDED_HERO_CLASSES = {
         'Giant Egg'
       ]
     },
-  'Crusader': {
-    modId: '3467159384',
-    skills: [
-
-    ],
-    campSkills: [
-
-    ],
-    vanillaCampSkills: [
-
-    ],
-    image: 'crusader.png',
-    classSpecificTrinkets: [
-
-    ]
-  },
   'Crusader (Kaze)': {
     modId: '3397134362',
     skills: [
@@ -6866,7 +6826,7 @@ export const MODDED_HERO_CLASSES = {
       'Royal Award'
     ]
   },
-  'executioner': {
+  'Executioner (Alt)': {
     modId: '3330678696',
     skills: [
       'Bloody Slice',
@@ -10323,10 +10283,10 @@ export const MODDED_HERO_CLASSES = {
       'Fanatic Crush',
       'Fervor',
       'Exorcism',
-      'Holly Asylum',
+      'Holy Asylum',
       'Banishment',
       'Soul Trial',
-      'Martry'
+      'Martyr'
     ],
     campSkills: [
       'Help Brethren',
@@ -11171,7 +11131,7 @@ export const MODDED_HERO_CLASSES = {
       'Wound Care',
       'Pep Talk',
       'Baneful Pact',
-      'Martyr\'S Touch',
+      "Martyr's Touch",
       'Self-Exorcism',
       'Lonesome Communion'
     ],
@@ -18515,7 +18475,7 @@ export const MODDED_HERO_CLASSES = {
       'Pep Talk',
       'Cauterize',
       'Zealous Indoctrination',
-      'Martyr\'S Offering',
+      "Martyr's Offering",
       'Guardian Angel',
       'Additional Information'
     ],
@@ -18554,7 +18514,7 @@ export const MODDED_HERO_CLASSES = {
       'Guardian Angel',
       'Final Verdict',
       'Divine Being',
-      'Martyrs Offering'
+      "Martyr's Offering"
     ],
     vanillaCampSkills: [
       'Encourage',

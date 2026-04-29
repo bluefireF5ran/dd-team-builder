@@ -3,6 +3,7 @@ import { Lock } from 'lucide-react';
 import { HERO_CLASSES } from '../../data/heroes';
 import { MODDED_HERO_CLASSES } from '../../data/modded_heroes';
 import { getHeroImagePath, getSkillImagePath, getCampSkillImagePath, getTrinketImagePath } from '../../utils/imageHelper';
+import ImageWithFallback from '../common/ImageWithFallback';
 
 
 const PartyHeroCard = ({ hero, position }) => {
@@ -18,6 +19,12 @@ const PartyHeroCard = ({ hero, position }) => {
   const firstRowSkills = activeSkills.slice(0, 4);
   const secondRowSkills = activeSkills.slice(4, 7);
 
+  const heroPortraitFallback = (
+    <div className="w-[80px] h-[80px] sm:w-[120px] sm:h-[120px] flex items-center justify-center bg-gray-600 rounded-lg border-2 sm:border-4 border-gray-600">
+      <span className="text-3xl sm:text-5xl text-gray-500">{position}</span>
+    </div>
+  );
+
   return (
     <div className="relative hero-card">
       <div className="bg-gradient-to-b from-gray-800 to-gray-900 rounded-lg p-2 sm:p-4 border-2 border-gray-700 hover:border-dd-gold/50 transition-all duration-300 shadow-inner-dark">
@@ -31,23 +38,12 @@ const PartyHeroCard = ({ hero, position }) => {
         {/* Hero Portrait */}
         <div className="flex flex-col items-center mb-2 sm:mb-4">
           {hero.heroClass ? (
-            <>
-              <img 
-                src={getHeroImagePath(hero.heroClass)} 
-                alt={hero.heroClass}
-                className="w-[80px] h-[80px] sm:w-[120px] sm:h-[120px] object-contain rounded-lg border-2 sm:border-4 border-gray-600 bg-gray-800 shadow-lg"
-                onError={(e) => {
-                  e.target.style.display = 'none';
-                  e.target.nextSibling.style.display = 'flex';
-                }}
-              />
-              <div 
-                className="w-[80px] h-[80px] sm:w-[120px] sm:h-[120px] items-center justify-center bg-gray-600 rounded-lg border-2 sm:border-4 border-gray-600"
-                style={{display: 'none'}}
-              >
-                <span className="text-3xl sm:text-5xl text-gray-500">{position}</span>
-              </div>
-            </>
+            <ImageWithFallback
+              src={getHeroImagePath(hero.heroClass)}
+              alt={hero.heroClass}
+              className="w-[80px] h-[80px] sm:w-[120px] sm:h-[120px] object-contain rounded-lg border-2 sm:border-4 border-gray-600 bg-gray-800 shadow-lg"
+              fallback={heroPortraitFallback}
+            />
           ) : (
             <div className="w-[80px] h-[80px] sm:w-[120px] sm:h-[120px] flex items-center justify-center bg-gray-600 rounded-lg border-2 sm:border-4 border-gray-600">
               <span className="text-3xl sm:text-5xl text-gray-500">{position}</span>
@@ -67,28 +63,24 @@ const PartyHeroCard = ({ hero, position }) => {
                 {/* Primera fila - 4 skills */}
                 <div className="flex justify-center gap-1 sm:gap-1.5">
                   {firstRowSkills.map((skill, idx) => (
-                    <div key={idx} className="relative group">
-                      <img 
-                        src={getSkillImagePath(skill, hero.heroClass)}
-                        alt={skill}
-                        className="w-[40px] h-[40px] sm:w-[64px] sm:h-[64px] object-contain rounded border-2 sm:border-3 border-green-600 bg-gray-800 shadow-md hover:scale-110 transition-transform skill-icon"
-                        title={skill}
-                        onError={(e) => {
-                          e.target.style.display = 'none';
-                          e.target.nextSibling.style.display = 'flex';
-                        }}
-                      />
-                      <div 
-                        className="w-[40px] h-[40px] sm:w-[64px] sm:h-[64px] items-center justify-center bg-green-900/40 border-2 sm:border-3 border-green-600 rounded text-sm sm:text-lg text-green-300 font-bold"
-                        style={{display: 'none'}}
-                        title={skill}
-                      >
-                        ?
-                      </div>
-                    </div>
+                    <ImageWithFallback
+                      key={`skill-${idx}-${skill}`}
+                      src={getSkillImagePath(skill, hero.heroClass)}
+                      alt={skill}
+                      className="w-[40px] h-[40px] sm:w-[64px] sm:h-[64px] object-contain rounded border-2 sm:border-3 border-green-600 bg-gray-800 shadow-md hover:scale-110 transition-transform skill-icon"
+                      title={skill}
+                      fallback={(
+                        <div
+                          className="w-[40px] h-[40px] sm:w-[64px] sm:h-[64px] flex items-center justify-center bg-green-900/40 border-2 sm:border-3 border-green-600 rounded text-sm sm:text-lg text-green-300 font-bold"
+                          title={skill}
+                        >
+                          ?
+                        </div>
+                      )}
+                    />
                   ))}
                   {!isAlwaysActive && Array(Math.max(0, 4 - firstRowSkills.length)).fill(null).map((_, idx) => (
-                    <div 
+                    <div
                       key={`empty-skill-${idx}`}
                       className="w-[40px] h-[40px] sm:w-[64px] sm:h-[64px] flex items-center justify-center bg-gray-600/40 border-2 sm:border-3 border-gray-600 rounded"
                     >
@@ -101,25 +93,21 @@ const PartyHeroCard = ({ hero, position }) => {
                 {isAlwaysActive && secondRowSkills.length > 0 && (
                   <div className="flex justify-center gap-1 sm:gap-1.5">
                     {secondRowSkills.map((skill, idx) => (
-                      <div key={idx} className="relative group">
-                        <img 
-                          src={getSkillImagePath(skill, hero.heroClass)}
-                          alt={skill}
-                          className="w-[40px] h-[40px] sm:w-[64px] sm:h-[64px] object-contain rounded border-2 sm:border-3 border-green-600 bg-gray-800 shadow-md hover:scale-110 transition-transform skill-icon"
-                          title={skill}
-                          onError={(e) => {
-                            e.target.style.display = 'none';
-                            e.target.nextSibling.style.display = 'flex';
-                          }}
-                        />
-                        <div 
-                          className="w-[40px] h-[40px] sm:w-[64px] sm:h-[64px] items-center justify-center bg-green-900/40 border-2 sm:border-3 border-green-600 rounded text-sm sm:text-lg text-green-300 font-bold"
-                          style={{display: 'none'}}
-                          title={skill}
-                        >
-                          ?
-                        </div>
-                      </div>
+                      <ImageWithFallback
+                        key={`skill2-${idx}-${skill}`}
+                        src={getSkillImagePath(skill, hero.heroClass)}
+                        alt={skill}
+                        className="w-[40px] h-[40px] sm:w-[64px] sm:h-[64px] object-contain rounded border-2 sm:border-3 border-green-600 bg-gray-800 shadow-md hover:scale-110 transition-transform skill-icon"
+                        title={skill}
+                        fallback={(
+                          <div
+                            className="w-[40px] h-[40px] sm:w-[64px] sm:h-[64px] flex items-center justify-center bg-green-900/40 border-2 sm:border-3 border-green-600 rounded text-sm sm:text-lg text-green-300 font-bold"
+                            title={skill}
+                          >
+                            ?
+                          </div>
+                        )}
+                      />
                     ))}
                   </div>
                 )}
@@ -131,25 +119,21 @@ const PartyHeroCard = ({ hero, position }) => {
               <div className="text-xs sm:text-sm text-purple-400 mb-1 sm:mb-2 font-bold text-center uppercase tracking-wider font-darkest">Camp</div>
               <div className="flex justify-center gap-1 sm:gap-1.5">
                 {activeCampSkills.slice(0, 4).map((skill, idx) => (
-                  <div key={idx} className="relative group">
-                    <img 
-                      src={getCampSkillImagePath(skill, hero.heroClass)}
-                      alt={skill}
-                      className="w-[40px] h-[40px] sm:w-[64px] sm:h-[64px] object-contain rounded border-2 sm:border-3 border-purple-600 bg-gray-800 shadow-md hover:scale-110 transition-transform skill-icon"
-                      title={skill}
-                      onError={(e) => {
-                        e.target.style.display = 'none';
-                        e.target.nextSibling.style.display = 'flex';
-                      }}
-                    />
-                    <div 
-                      className="w-[40px] h-[40px] sm:w-[64px] sm:h-[64px] items-center justify-center bg-purple-900/40 border-2 sm:border-3 border-purple-600 rounded text-sm sm:text-lg text-purple-300 font-bold"
-                      style={{display: 'none'}}
-                      title={skill}
-                    >
-                      ?
-                    </div>
-                  </div>
+                  <ImageWithFallback
+                    key={`camp-${idx}-${skill}`}
+                    src={getCampSkillImagePath(skill, hero.heroClass)}
+                    alt={skill}
+                    className="w-[40px] h-[40px] sm:w-[64px] sm:h-[64px] object-contain rounded border-2 sm:border-3 border-purple-600 bg-gray-800 shadow-md hover:scale-110 transition-transform skill-icon"
+                    title={skill}
+                    fallback={(
+                      <div
+                        className="w-[40px] h-[40px] sm:w-[64px] sm:h-[64px] flex items-center justify-center bg-purple-900/40 border-2 sm:border-3 border-purple-600 rounded text-sm sm:text-lg text-purple-300 font-bold"
+                        title={skill}
+                      >
+                        ?
+                      </div>
+                    )}
+                  />
                 ))}
                 {activeCampSkills.length === 0 ? (
                   <div className="w-full h-[40px] sm:h-[64px] flex items-center justify-center bg-gray-600/40 border-2 sm:border-3 border-gray-600 rounded">
@@ -157,7 +141,7 @@ const PartyHeroCard = ({ hero, position }) => {
                   </div>
                 ) : (
                   Array(Math.max(0, 4 - activeCampSkills.length)).fill(null).map((_, idx) => (
-                    <div 
+                    <div
                       key={`empty-camp-${idx}`}
                       className="w-[40px] h-[40px] sm:w-[64px] sm:h-[64px] flex items-center justify-center bg-gray-600/40 border-2 sm:border-3 border-gray-600 rounded"
                     >
@@ -173,27 +157,22 @@ const PartyHeroCard = ({ hero, position }) => {
               <div className="text-xs sm:text-sm text-amber-400 mb-1 sm:mb-2 font-bold text-center uppercase tracking-wider font-darkest">Trinkets</div>
               <div className="flex justify-center gap-1 sm:gap-2">
                 {[hero.trinket1, hero.trinket2].map((trinket, idx) => (
-                  <div key={idx}>
+                  <div key={`trinket-${idx}`}>
                     {trinket ? (
-                      <div className="relative group">
-                        <img 
-                          src={getTrinketImagePath(trinket)}
-                          alt={trinket}
-                          className="w-[36px] h-[72px] sm:w-[60px] sm:h-[120px] object-contain rounded border-2 sm:border-3 border-amber-600 bg-gray-800 shadow-md trinket-icon"
-                          title={trinket}
-                          onError={(e) => {
-                            e.target.style.display = 'none';
-                            e.target.nextSibling.style.display = 'flex';
-                          }}
-                        />
-                        <div 
-                          className="w-[36px] h-[72px] sm:w-[60px] sm:h-[120px] items-center justify-center bg-amber-900/40 border-2 sm:border-3 border-amber-600 rounded text-sm sm:text-lg text-amber-300 font-bold"
-                          style={{display: 'none'}}
-                          title={trinket}
-                        >
-                          ?
-                        </div>
-                      </div>
+                      <ImageWithFallback
+                        src={getTrinketImagePath(trinket, hero.heroClass)}
+                        alt={trinket}
+                        className="w-[36px] h-[72px] sm:w-[60px] sm:h-[120px] object-contain rounded border-2 sm:border-3 border-amber-600 bg-gray-800 shadow-md trinket-icon"
+                        title={trinket}
+                        fallback={(
+                          <div
+                            className="w-[36px] h-[72px] sm:w-[60px] sm:h-[120px] flex items-center justify-center bg-amber-900/40 border-2 sm:border-3 border-amber-600 rounded text-sm sm:text-lg text-amber-300 font-bold"
+                            title={trinket}
+                          >
+                            ?
+                          </div>
+                        )}
+                      />
                     ) : (
                       <div className="w-[36px] h-[72px] sm:w-[60px] sm:h-[120px] flex items-center justify-center bg-gray-600/40 border-2 sm:border-3 border-gray-600 rounded">
                         <span className="text-sm sm:text-lg text-gray-500 font-bold">-</span>
@@ -213,7 +192,7 @@ const PartyHeroCard = ({ hero, position }) => {
                   {quirks.positive.length > 0 && (
                     <div className="flex flex-wrap justify-center gap-0.5 sm:gap-1">
                       {quirks.positive.map((quirk, idx) => (
-                        <div 
+                        <div
                           key={`pos-${idx}`}
                           className="flex items-center gap-0.5 sm:gap-1 px-1 sm:px-2 py-0.5 bg-yellow-900/50 border border-yellow-700/50 rounded text-[9px] sm:text-xs text-yellow-300"
                           title={quirk}
@@ -228,7 +207,7 @@ const PartyHeroCard = ({ hero, position }) => {
                   {quirks.negative.length > 0 && (
                     <div className="flex flex-wrap justify-center gap-0.5 sm:gap-1">
                       {quirks.negative.map((quirk, idx) => (
-                        <div 
+                        <div
                           key={`neg-${idx}`}
                           className="flex items-center gap-0.5 sm:gap-1 px-1 sm:px-2 py-0.5 bg-red-900/50 border border-red-700/50 rounded text-[9px] sm:text-xs text-red-300"
                           title={quirk}
@@ -249,4 +228,4 @@ const PartyHeroCard = ({ hero, position }) => {
   );
 };
 
-export default PartyHeroCard;
+export default React.memo(PartyHeroCard);

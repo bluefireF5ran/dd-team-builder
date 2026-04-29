@@ -31,6 +31,7 @@ const QuirkSlot = ({ quirk, isPositive, onToggleLock, isLocked, onRemove }) => {
             <button
               onClick={handleToggleLock}
               type="button"
+              aria-label={isLocked ? `Unlock ${quirk}` : `Lock ${quirk}`}
               className={`p-0.5 sm:p-1 rounded transition-colors ${isLocked ? (isPositive ? 'text-yellow-400' : 'text-red-400') : 'text-gray-500 hover:text-gray-300'}`}
               title={isLocked ? 'Unlock' : 'Lock'}
             >
@@ -39,6 +40,7 @@ const QuirkSlot = ({ quirk, isPositive, onToggleLock, isLocked, onRemove }) => {
             <button
               onClick={handleRemove}
               type="button"
+              aria-label={`Remove ${quirk}`}
               className="p-0.5 sm:p-1 text-gray-400 hover:text-red-400 transition-colors"
               title="Remove"
             >

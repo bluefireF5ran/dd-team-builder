@@ -1,12 +1,13 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { AlertTriangle, ChevronDown, ChevronUp, RotateCcw } from 'lucide-react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import { AlertTriangle, ChevronDown, ChevronUp, RotateCcw, UserPlus } from 'lucide-react';
 import { HERO_CLASSES } from '../../data/heroes';
-import { MODDED_HERO_CLASSES, MODDED_GENERAL_TRINKETS } from '../../data/modded_heroes'; 
+import { MODDED_HERO_CLASSES, MODDED_GENERAL_TRINKETS } from '../../data/modded_heroes';
 import { TRINKETS } from '../../data/trinkets';
 import { BACKER_TRINKETS } from '../../data/backer_trinkets';
 import { POSITIVE_QUIRKS, NEGATIVE_QUIRKS } from '../../data/quirks';
 import { validateHero } from '../../utils/validation';
 import SearchableSelect from '../common/SearchableSelect';
+import ConfirmDialog from '../common/ConfirmDialog';
 import HeroSelector from './HeroSelector';
 import QuirkSlot from '../quirks/QuirkSlot';
 import QuirkSelector from '../quirks/QuirkSelector';
@@ -15,6 +16,7 @@ const HeroConfiguration = ({ hero, position, onUpdate, showBackerTrinkets, showM
   const [showPositiveQuirkSelector, setShowPositiveQuirkSelector] = useState(false);
   const [showNegativeQuirkSelector, setShowNegativeQuirkSelector] = useState(false);
   const [isExpanded, setIsExpanded] = useState(true);
+  const [confirmState, setConfirmState] = useState({ isOpen: false, action: null, title: '', message: '' });
   const allHeroClasses = useMemo(() => {
     if (showModdedHeroes) {
       return { ...HERO_CLASSES, ...MODDED_HERO_CLASSES };
@@ -40,31 +42,12 @@ const HeroConfiguration = ({ hero, position, onUpdate, showBackerTrinkets, showM
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hero.heroClass, isAlwaysActive]);
 
-  const updateHero = (field, value) => {
+  const updateHero = useCallback((field, value) => {
     onUpdate({ ...hero, [field]: value });
-  };
+  }, [hero, onUpdate]);
 
-  const handleHeroClassChange = (newClass) => {
-    if (hero.heroClass && hero.heroClass !== newClass) {
-      const hasConfiguration = 
-        (hero.activeSkills && hero.activeSkills.length > 0) ||
-        (hero.activeCampSkills && hero.activeCampSkills.length > 0) ||
-        hero.trinket1 || hero.trinket2 ||
-        (hero.quirks?.positive && hero.quirks.positive.length > 0) ||
-        (hero.quirks?.negative && hero.quirks.negative.length > 0);
-
-      if (hasConfiguration) {
-        const confirmed = window.confirm(
-          'Changing hero class will reset all configuration (skills, camp skills, trinkets, and quirks). Continue?'
-        );
-        if (!confirmed) {
-          return;
-        }
-      }
-    }
-
-    // Si el nuevo héroe tiene alwaysActive, activar todas las skills
-    const newHeroData = allHeroClasses[newClass]; // ← Debe ser allHeroClasses
+  const doChangeHeroClass = (newClass) => {
+    const newHeroData = allHeroClasses[newClass];
     const activeSkills = newHeroData?.alwaysActive ? (newHeroData.skills || []) : [];
 
     onUpdate({
@@ -78,24 +61,51 @@ const HeroConfiguration = ({ hero, position, onUpdate, showBackerTrinkets, showM
     });
   };
 
-  const handleResetConfiguration = () => {
-    const confirmed = window.confirm(
-      'This will reset all configuration for this hero (skills, camp skills, trinkets, and quirks). Continue?'
-    );
-    if (confirmed) {
-      onUpdate({
-        heroClass: '',
-        activeSkills: [],
-        activeCampSkills: [],
-        trinket1: '',
-        trinket2: '',
-        quirks: { positive: [], negative: [] },
-        lockedQuirks: { positive: [], negative: [] }
-      });
+  const handleHeroClassChange = (newClass) => {
+    if (hero.heroClass && hero.heroClass !== newClass) {
+      const hasConfiguration =
+        (hero.activeSkills && hero.activeSkills.length > 0) ||
+        (hero.activeCampSkills && hero.activeCampSkills.length > 0) ||
+        hero.trinket1 || hero.trinket2 ||
+        (hero.quirks?.positive && hero.quirks.positive.length > 0) ||
+        (hero.quirks?.negative && hero.quirks.negative.length > 0);
+
+      if (hasConfiguration) {
+        setConfirmState({
+          isOpen: true,
+          action: () => doChangeHeroClass(newClass),
+          title: 'Change Hero Class',
+          message: 'Changing hero class will reset all configuration (skills, camp skills, trinkets, and quirks). Continue?'
+        });
+        return;
+      }
     }
+
+    doChangeHeroClass(newClass);
   };
 
-  const toggleSkill = (skill) => {
+  const doResetConfiguration = () => {
+    onUpdate({
+      heroClass: '',
+      activeSkills: [],
+      activeCampSkills: [],
+      trinket1: '',
+      trinket2: '',
+      quirks: { positive: [], negative: [] },
+      lockedQuirks: { positive: [], negative: [] }
+    });
+  };
+
+  const handleResetConfiguration = () => {
+    setConfirmState({
+      isOpen: true,
+      action: doResetConfiguration,
+      title: 'Reset Configuration',
+      message: 'This will reset all configuration for this hero (skills, camp skills, trinkets, and quirks). Continue?'
+    });
+  };
+
+  const toggleSkill = useCallback((skill) => {
     // Si es alwaysActive, no permitir toggle
     if (isAlwaysActive) return;
 
@@ -106,9 +116,9 @@ const HeroConfiguration = ({ hero, position, onUpdate, showBackerTrinkets, showM
       ? [...activeSkills, skill]
       : activeSkills;
     updateHero('activeSkills', newActive);
-  };
+  }, [hero, isAlwaysActive, updateHero]);
 
-  const toggleCampSkill = (skill) => {
+  const toggleCampSkill = useCallback((skill) => {
     const activeCamp = hero.activeCampSkills || [];
     const newActive = activeCamp.includes(skill)
       ? activeCamp.filter(s => s !== skill)
@@ -116,26 +126,26 @@ const HeroConfiguration = ({ hero, position, onUpdate, showBackerTrinkets, showM
       ? [...activeCamp, skill]
       : activeCamp;
     updateHero('activeCampSkills', newActive);
-  };
+  }, [hero, updateHero]);
 
-  const addQuirk = (quirk, isPositive) => {
+  const addQuirk = useCallback((quirk, isPositive) => {
     const quirks = hero.quirks || { positive: [], negative: [] };
     const type = isPositive ? 'positive' : 'negative';
     const current = quirks[type] || [];
-    
+
     if (current.length < 5 && !current.includes(quirk)) {
       updateHero('quirks', { ...quirks, [type]: [...current, quirk] });
     }
-    
+
     if (isPositive) setShowPositiveQuirkSelector(false);
     else setShowNegativeQuirkSelector(false);
-  };
+  }, [hero, updateHero]);
 
-  const removeQuirk = (quirk, isPositive) => {
+  const removeQuirk = useCallback((quirk, isPositive) => {
     const quirks = hero.quirks || { positive: [], negative: [] };
     const locks = hero.lockedQuirks || { positive: [], negative: [] };
     const type = isPositive ? 'positive' : 'negative';
-    
+
     // Update both quirks and lockedQuirks in a single update to avoid race conditions
     onUpdate({
       ...hero,
@@ -148,21 +158,21 @@ const HeroConfiguration = ({ hero, position, onUpdate, showBackerTrinkets, showM
         [type]: locks[type].filter(q => q !== quirk)
       }
     });
-  };
+  }, [hero, onUpdate]);
 
-  const toggleQuirkLock = (quirk, isPositive) => {
+  const toggleQuirkLock = useCallback((quirk, isPositive) => {
     const locks = hero.lockedQuirks || { positive: [], negative: [] };
     const type = isPositive ? 'positive' : 'negative';
     const current = locks[type] || [];
-    
+
     const newLocks = current.includes(quirk)
       ? current.filter(q => q !== quirk)
       : current.length < 3
       ? [...current, quirk]
       : current;
-    
+
     updateHero('lockedQuirks', { ...locks, [type]: newLocks });
-  };
+  }, [hero, updateHero]);
 
   // Combinar trinkets: hero-specific primero, luego genéricos, backer al final
   const { availableTrinkets, heroSpecificCount, backerStartIndex } = useMemo(() => {
@@ -247,20 +257,21 @@ const HeroConfiguration = ({ hero, position, onUpdate, showBackerTrinkets, showM
               onClick={handleResetConfiguration}
               className="p-1.5 sm:p-2 bg-red-700/80 hover:bg-red-600 text-dd-parchment rounded transition-colors border border-red-600"
               title="Reset Configuration"
+              aria-label="Reset hero configuration"
             >
               <RotateCcw size={16} className="sm:w-5 sm:h-5" />
             </button>
           )}
 
           {hero.heroClass && !validation.isComplete && (
-            <div className="hidden md:flex items-center gap-2 px-2 sm:px-3 py-1 sm:py-2 bg-yellow-900/30 border border-yellow-700/50 rounded text-yellow-400 text-xs sm:text-sm">
+            <div className="flex items-center gap-2 px-2 sm:px-3 py-1 sm:py-2 bg-yellow-900/30 border border-yellow-700/50 rounded text-yellow-400 text-xs sm:text-sm">
               <AlertTriangle size={14} className="sm:w-4 sm:h-4" />
               <span className="hidden lg:inline">Incomplete</span>
             </div>
           )}
 
           {hero.heroClass && validation.isComplete && (
-            <div className="hidden md:flex items-center gap-2 px-2 sm:px-3 py-1 sm:py-2 bg-green-900/30 border border-green-700/50 rounded text-green-400 text-xs sm:text-sm">
+            <div className="flex items-center gap-2 px-2 sm:px-3 py-1 sm:py-2 bg-green-900/30 border border-green-700/50 rounded text-green-400 text-xs sm:text-sm">
               <span>✓</span>
               <span className="hidden lg:inline">Ready</span>
             </div>
@@ -270,6 +281,8 @@ const HeroConfiguration = ({ hero, position, onUpdate, showBackerTrinkets, showM
             <button
               onClick={() => setIsExpanded(!isExpanded)}
               className="p-1.5 sm:p-2 bg-gray-700 hover:bg-gray-600 rounded transition-colors ml-auto sm:ml-0"
+              aria-label={isExpanded ? 'Collapse hero configuration' : 'Expand hero configuration'}
+              aria-expanded={isExpanded}
             >
               {isExpanded ? <ChevronUp size={16} className="sm:w-5 sm:h-5" /> : <ChevronDown size={16} className="sm:w-5 sm:h-5" />}
             </button>
@@ -277,8 +290,17 @@ const HeroConfiguration = ({ hero, position, onUpdate, showBackerTrinkets, showM
         </div>
       </div>
 
-      {hero.heroClass && isExpanded && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+      {!hero.heroClass && (
+        <div className="flex flex-col items-center justify-center py-6 sm:py-8 text-gray-500">
+          <UserPlus size={32} className="mb-2 opacity-40" />
+          <p className="text-sm italic">Select a hero for position #{position}</p>
+        </div>
+      )}
+
+      {hero.heroClass && (
+        <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 transition-all duration-300 ease-in-out overflow-hidden ${
+          isExpanded ? 'max-h-[2000px] opacity-100 mt-3 sm:mt-4' : 'max-h-0 opacity-0'
+        }`}>
           <div className="space-y-3 sm:space-y-4">
             <div>
               <h4 className="font-semibold text-dd-parchment mb-2 text-base sm:text-lg font-darkest tracking-wide">
@@ -292,6 +314,7 @@ const HeroConfiguration = ({ hero, position, onUpdate, showBackerTrinkets, showM
                       key={skill}
                       onClick={() => toggleSkill(skill)}
                       disabled={isAlwaysActive}
+                      aria-pressed={isActive}
                       className={`w-full px-2 sm:px-3 py-1.5 sm:py-2 rounded text-xs sm:text-sm transition-colors text-left ${
                         isActive
                           ? 'bg-green-700/80 hover:bg-green-600 text-dd-parchment font-semibold border border-green-600'
@@ -445,6 +468,19 @@ const HeroConfiguration = ({ hero, position, onUpdate, showBackerTrinkets, showM
           </div>
         </div>
       )}
+
+      <ConfirmDialog
+        isOpen={confirmState.isOpen}
+        title={confirmState.title}
+        message={confirmState.message}
+        confirmLabel="Continue"
+        isDestructive={true}
+        onConfirm={() => {
+          confirmState.action?.();
+          setConfirmState({ isOpen: false, action: null, title: '', message: '' });
+        }}
+        onCancel={() => setConfirmState({ isOpen: false, action: null, title: '', message: '' })}
+      />
     </div>
   );
 };

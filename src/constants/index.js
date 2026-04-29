@@ -28,3 +28,12 @@ export const CONTENT_TYPES = {
   BACKER: 'backer',
   MODDED: 'modded'
 };
+
+// UI constants
+export const UI_CONFIG = {
+  IMAGE_TEST_BATCH_SIZE: 20,
+  TOAST_DURATION_MS: 3000
+};
+
+// Data constants
+export const COMMON_VANILLA_CAMP_SKILLS = ['Encourage', 'Wound Care', 'Pep Talk'];

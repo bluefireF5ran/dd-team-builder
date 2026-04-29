@@ -1,12 +1,14 @@
-import React, { useMemo, useState, useRef, useCallback } from 'react';
+import React, { useMemo, useState, useRef, useCallback, useEffect, lazy, Suspense } from 'react';
 import { useTeam } from './hooks/useTeam';
 import TeamHeader from './components/team/TeamHeader';
 import TeamControls from './components/team/TeamControls';
 import PartyComposition from './components/party/PartyComposition';
 import HeroConfiguration from './components/hero/HeroConfiguration';
-import ImageTester from './components/debug/ImageTester';
+import Toast from './components/common/Toast';
+import KeyboardShortcuts from './components/common/KeyboardShortcuts';
 import { getAssetUrl } from './config/assets';
-import html2canvas from 'html2canvas';
+
+const ImageTester = lazy(() => import('./components/debug/ImageTester'));
 
 // Map locations to background images
 const LOCATION_BACKGROUNDS = {
@@ -26,6 +28,10 @@ const LOCATION_BACKGROUNDS = {
 
 const App = () => {
   const [showImageTester, setShowImageTester] = useState(false);
+  const [showShortcuts, setShowShortcuts] = useState(false);
+  const [toast, setToast] = useState(null);
+  const [isExporting, setIsExporting] = useState(false);
+  const [theme, setTheme] = useState(() => localStorage.getItem('dd_theme') || 'default');
   const {
     teamName,
     setTeamName,
@@ -41,9 +47,31 @@ const App = () => {
     deleteSavedTeam,
     showBackerTrinkets,
     toggleBackerTrinkets,
-    showModdedHeroes,         
-    toggleModdedHeroes        
+    showModdedHeroes,
+    toggleModdedHeroes,
+    randomizeTeam,
+    undo,
+    redo,
+    canUndo,
+    canRedo,
+    importFromClipboard,
+    teamExists,
+    loadPreset,
+    backupAllTeams,
+    importBackup,
+    clearTeam
   } = useTeam();
+
+  const showToast = useCallback((message, type = 'success') => {
+    setToast({ message, type, key: Date.now() });
+  }, []);
+
+  const cycleTheme = useCallback(() => {
+    const themes = ['default', 'bloodmoon', 'frost'];
+    const next = themes[(themes.indexOf(theme) + 1) % themes.length];
+    setTheme(next);
+    localStorage.setItem('dd_theme', next);
+  }, [theme]);
 
   const backgroundImage = useMemo(() => {
     const bgPath = LOCATION_BACKGROUNDS[location] || LOCATION_BACKGROUNDS['The Ruins'];
@@ -55,9 +83,12 @@ const App = () => {
 
   // Export party composition to PNG
   const exportToPNG = useCallback(async () => {
-    if (!partyRef.current) return;
-    
+    if (!partyRef.current || isExporting) return;
+
+    setIsExporting(true);
     try {
+      const html2canvas = (await import('html2canvas')).default;
+
       // Temporarily adjust position badges for better rendering in html2canvas
       const badges = partyRef.current.querySelectorAll('.position-badge');
       const originalStyles = [];
@@ -87,15 +118,40 @@ const App = () => {
       link.click();
     } catch (error) {
       console.error('Error exporting to PNG:', error);
-      alert('Error exporting image. Please try again.');
+      showToast('Error exporting image. Please try again.', 'error');
+    } finally {
+      setIsExporting(false);
     }
-  }, [teamName]);
+  }, [teamName, isExporting, showToast]);
+
+  // Global keyboard shortcuts (using refs to avoid re-registering on every state change)
+  const handlersRef = useRef({ undo, redo, saveTeam, exportToPNG, showToast, teamName, location, heroes });
+  handlersRef.current = { undo, redo, saveTeam, exportToPNG, showToast, teamName, location, heroes };
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      const h = handlersRef.current;
+      if (e.ctrlKey || e.metaKey) {
+        if (e.key === 'z') { e.preventDefault(); h.undo(); }
+        else if (e.key === 'y') { e.preventDefault(); h.redo(); }
+        else if (e.key === 's') { e.preventDefault(); h.saveTeam(false); h.showToast('Team saved!', 'success'); }
+        else if (e.key === 'e') { e.preventDefault(); h.exportToPNG(); }
+        else if (e.shiftKey && e.key === 'C') {
+          e.preventDefault();
+          const data = JSON.stringify({ teamName: h.teamName, location: h.location, heroes: h.heroes });
+          navigator.clipboard.writeText(data).then(() => h.showToast('Team copied to clipboard!', 'success'));
+        }
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   return (
-    <div 
-      className="min-h-screen bg-gray-900 text-white p-3 sm:p-6 bg-cover bg-center bg-fixed vignette"
-      style={{ 
-        backgroundImage: `linear-gradient(rgba(17, 24, 39, 0.85), rgba(17, 24, 39, 0.95)), url('${backgroundImage}')` 
+    <div
+      className={`min-h-screen bg-gray-900 text-white p-3 sm:p-6 bg-cover bg-center bg-fixed vignette ${theme !== 'default' ? `theme-${theme}` : ''}`}
+      style={{
+        backgroundImage: `linear-gradient(rgba(17, 24, 39, 0.85), rgba(17, 24, 39, 0.95)), url('${backgroundImage}')`
       }}
     >
       <div className="max-w-7xl mx-auto">
@@ -123,6 +179,8 @@ const App = () => {
           />
           <TeamControls
             heroes={heroes}
+            teamName={teamName}
+            location={location}
             onSave={saveTeam}
             onLoad={loadTeam}
             savedTeams={savedTeams}
@@ -133,6 +191,22 @@ const App = () => {
             showModdedHeroes={showModdedHeroes}
             onToggleModdedHeroes={toggleModdedHeroes}
             onExportPNG={exportToPNG}
+            showToast={showToast}
+            isExporting={isExporting}
+            onRandomize={randomizeTeam}
+            onUndo={undo}
+            onRedo={redo}
+            canUndo={canUndo}
+            canRedo={canRedo}
+            onImportFromClipboard={importFromClipboard}
+            teamExists={teamExists}
+            onLoadPreset={loadPreset}
+            onBackupAll={backupAllTeams}
+            onImportBackup={importBackup}
+            onClearTeam={clearTeam}
+            savedTeamsCount={savedTeams.length}
+            onCycleTheme={cycleTheme}
+            currentTheme={theme}
           />
         </div>
 
@@ -175,11 +249,33 @@ const App = () => {
           >
             Test Images
           </button>
+          <span className="mx-2 text-gray-700">|</span>
+          <button
+            onClick={() => setShowShortcuts(true)}
+            className="mt-2 text-gray-600 hover:text-gray-400 text-xs underline"
+          >
+            Keyboard Shortcuts
+          </button>
         </footer>
 
         {/* Image Tester Modal */}
         {showImageTester && (
-          <ImageTester onClose={() => setShowImageTester(false)} />
+          <Suspense fallback={<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60"><div className="text-dd-parchment font-darkest">Loading...</div></div>}>
+            <ImageTester onClose={() => setShowImageTester(false)} />
+          </Suspense>
+        )}
+
+        {/* Keyboard Shortcuts Modal */}
+        <KeyboardShortcuts isOpen={showShortcuts} onClose={() => setShowShortcuts(false)} />
+
+        {/* Toast Notifications */}
+        {toast && (
+          <Toast
+            key={toast.key}
+            message={toast.message}
+            type={toast.type}
+            onClose={() => setToast(null)}
+          />
         )}
       </div>
     </div>
