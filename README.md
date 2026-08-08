@@ -62,7 +62,14 @@ src/
 ├── data/                # Hero, trinket, quirk data
 ├── hooks/               # Custom React hooks
 └── utils/               # Helper functions
+
+tools/
+└── data-migration/      # One-shot scripts that built src/data/ — not part of the build
 ```
+
+The scripts under `tools/data-migration/` extracted and reconciled the hero, skill and trinket
+data from the game files and from Steam Workshop mods. They are kept for provenance; nothing in
+`src/` imports them. See [their README](tools/data-migration/README.md).
 
 ## 🖼️ Assets Repository
 
