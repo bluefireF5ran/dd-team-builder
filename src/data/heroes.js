@@ -32,6 +32,12 @@ export const HERO_CLASSES = {
     image: 'crusader.png',
     classSpecificTrinkets: HERO_SPECIFIC_TRINKETS['Crusader'] || []
   },
+  'Duelist': {
+    skills: ['Anticipation', 'Touché', 'Feint', 'Disengage', 'Flèche', 'Coup de Grâce', 'The Boot'],
+    campSkills: ['Encourage', 'First Aid', 'Pep Talk', 'Meditation', 'Preparation', 'Ruthless Instruction', 'Again!'],
+    image: 'duelist.png',
+    classSpecificTrinkets: HERO_SPECIFIC_TRINKETS['Duelist'] || []
+  },
   'Flagellant': {
     skills: ['Punish', 'Rain of Sorrows', 'Exsanguinate', 'Reclaim', 'Redeem', 'Endure', 'Suffer'],
     campSkills: ['Lash\'s Anger', 'Lash\'s Solace', 'Lash\'s Kiss', 'Lash\'s Cure'],
@@ -98,6 +104,12 @@ export const HERO_CLASSES = {
     campSkills: ['Encourage', 'Wound Care', 'Pep Talk', 'Experimental Vapours', 'Leeches', 'The Cure', 'Self Medicate'],
     image: 'plague_doctor.png',
     classSpecificTrinkets: HERO_SPECIFIC_TRINKETS['Plague Doctor'] || []
+  },
+  'Runaway': {
+    skills: ['Searing Strike', 'Firefly', 'Run and Hide', 'Ransack', 'Hearthlight', 'Controlled Burn', 'Backdraft'],
+    campSkills: ['Encourage', 'First Aid', 'Pep Talk', 'Kindle', 'Cauterize', 'Play with Fire', 'Pick Pocket'],
+    image: 'runaway.png',
+    classSpecificTrinkets: HERO_SPECIFIC_TRINKETS['Runaway'] || []
   },
   'Shieldbreaker': {
     skills: ['Pierce', 'Puncture', 'Adder\'s Kiss', 'Impale', 'Expose', 'Captivate', 'Serpent Sway'],

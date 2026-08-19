@@ -411,7 +411,6 @@ export const MODDED_HERO_CLASSES = {
       'Weapon Maintenance',
       'Cannon Loading',
       'Dark Whisper',
-      'Know But Stay Silent'
     ],
     vanillaCampSkills: [
     ],
@@ -6179,7 +6178,7 @@ export const MODDED_HERO_CLASSES = {
       'What Was Lost'
     ]
   },
-  'Duelist': {
+  'Duelist (Modded)': {
     modId: '2371334111',
     skills: [
       'Blade from the Blue',
@@ -17854,7 +17853,7 @@ export const MODDED_HERO_CLASSES = {
 
     ]
   },
-  'Runaway': {
+  'Runaway (Modded)': {
     modId: '2887367965',
     skills: [
       'Searing Strike',

@@ -433,6 +433,33 @@ export const SHIELDBREAKER_BC_TRINKETS = [
   'Fang Talisman'               // +15% DMG +3% CRIT +10% DMG vs Blighted
 ];
 
+// Duelist-specific trinkets (Fire's Edge DLC)
+export const DUELIST_TRINKETS = [
+  'Steel-tip Boots',            // Common - Stun skill chance + Aggressive CRIT
+  'Blade Oil',                  // Uncommon - CRIT + on kill riposte buff
+  'Gilded Mantle',              // Uncommon - Crits received + Dodge vs Marked
+  'Razor Hilt',                 // Rare - ACC vs Bleeding + Bleed resist + riposte effects
+  "Champion's Mantle",          // Very Rare - Rank-based DMG + Dodge + riposte activation
+  "Académie Ring",              // Set - Académie Duello set piece
+  "Lover's Glove",              // Set - Académie Duello set piece
+  'Phantom Wit'                 // Very Rare - Ghastly miasma trinket
+];
+
+// Runaway-specific trinkets (Fire's Edge DLC)
+export const RUNAWAY_TRINKETS = [
+  'Warm Scarf',                 // Common - Dodge + progressive art on dodge
+  'Pyro Accelerant',            // Uncommon - Attack debuffs + self burn
+  'Charcoal Effigy',            // Uncommon - Self heal when hit + progressive art
+  "Rescuer's Rucksack",         // Rare - MAX HP + CRIT + friendly skill heal
+  'Infernal Coalstone',         // Very Rare - SPD + wildfire + knockback/pull
+  'Carved Toy',                 // Set - Runaway set piece
+  'Knitted Blanket',            // Set - Runaway set piece
+  'Inert Sunstone',             // Transforms into Heated Sunstone
+  'Heated Sunstone',            // Transforms into Scorching Sunstone
+  'Scorching Sunstone',         // Transforms into Searing Sunstone
+  'Searing Sunstone'            // Final form - perilous to bear
+];
+
 /**
  * Master map of hero class names to their specific trinkets
  * Combines base game trinkets with Butcher's Circus trinkets
@@ -443,6 +470,7 @@ export const HERO_SPECIFIC_TRINKETS = {
   'Arbalest': [...ARBALEST_TRINKETS, ...ARBALEST_BC_TRINKETS],
   'Bounty Hunter': [...BOUNTY_HUNTER_TRINKETS, ...BOUNTY_HUNTER_BC_TRINKETS],
   'Crusader': [...CRUSADER_TRINKETS, ...CRUSADER_BC_TRINKETS],
+  'Duelist': DUELIST_TRINKETS,
   'Flagellant': [...FLAGELLANT_TRINKETS, ...FLAGELLANT_BC_TRINKETS],
   'Grave Robber': [...GRAVE_ROBBER_TRINKETS, ...GRAVE_ROBBER_BC_TRINKETS],
   'Hellion': [...HELLION_TRINKETS, ...HELLION_BC_TRINKETS],
@@ -454,6 +482,7 @@ export const HERO_SPECIFIC_TRINKETS = {
   'Musketeer': [...MUSKETEER_TRINKETS, ...MUSKETEER_BC_TRINKETS],
   'Occultist': [...OCCULTIST_TRINKETS, ...OCCULTIST_BC_TRINKETS],
   'Plague Doctor': [...PLAGUE_DOCTOR_TRINKETS, ...PLAGUE_DOCTOR_BC_TRINKETS],
+  'Runaway': RUNAWAY_TRINKETS,
   'Shieldbreaker': [...SHIELDBREAKER_TRINKETS, ...SHIELDBREAKER_BC_TRINKETS],
   'Vestal': VESTAL_TRINKETS
 };

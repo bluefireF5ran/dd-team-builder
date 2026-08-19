@@ -230,7 +230,25 @@ export const TRINKETS = [
   'Silver Syringe',
   'Spiked Bat',
   'The Finisher',
-  'Treated Bandage'
+  'Treated Bandage',
+
+  // ===== FIRE'S EDGE DLC TRINKETS =====
+  // Generic (equippable by any hero)
+  'Pile of Ash',
+  'Jar of Ash',
+  'Offering Pendant',
+  'Focus Talisman',
+  'Nullifying Contract',
+  'Lifestyle Guide',
+  'Crier\'s Bell',
+  'Sunset Ring',
+  'Vice Crown',
+  'Slumber Pendant',
+  'Waking Pendant',
+  'Tinker Box',
+  'Flickering Lamplight',
+  'Crumbling Timekeeper',
+  'Dark Catalyst'
 ];
 
 /**
