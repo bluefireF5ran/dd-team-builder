@@ -74,7 +74,7 @@ const PartyComposition = forwardRef(({ heroes, onSwapHeroes, teamName, location 
   return (
     <div
       ref={ref}
-      className="bg-gray-800/90 backdrop-blur-sm rounded-lg p-3 sm:p-6 mb-4 sm:mb-6 border-2 border-dd-red/30 torch-border"
+      className="ornate-panel bg-gray-800/90 backdrop-blur-sm rounded-lg p-3 sm:p-6 mb-4 sm:mb-6 border-2 border-dd-red/30 torch-border"
     >
       {/* Team info header for export */}
       {teamName && (
@@ -113,11 +113,12 @@ const PartyComposition = forwardRef(({ heroes, onSwapHeroes, teamName, location 
               onDragLeave={handleDragLeave}
               onDrop={() => handleDrop(actualIndex)}
               onDragEnd={handleDragEnd}
-              className={`cursor-grab active:cursor-grabbing transition-all duration-200 hero-card outline-none ${
+              className={`reveal-stagger cursor-grab active:cursor-grabbing transition-all duration-200 hero-card outline-none ${
                 draggedIndex === actualIndex ? 'opacity-50 scale-95' : ''
               } ${
                 dragOverIndex === actualIndex || isSelected ? 'ring-2 ring-dd-gold ring-offset-2 ring-offset-gray-800 rounded-lg' : ''
               }`}
+              style={{ '--stagger': idx }}
             >
               <PartyHeroCard
                 hero={hero}

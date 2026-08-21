@@ -1,77 +1,63 @@
-Failed Images (354):
-[camp] [MOD] Aesthete - Additional Information
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3440294120_additional_information.png
-[camp] [MOD] Ancestor Narrator - Vulgar Taste
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3003019559_vulgar_taste.png
-[camp] [MOD] Ancestor Narrator - Share Rice Ball
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3003019559_share_rice_ball.png
-[camp] [MOD] Ancestor Narrator - Weapon Maintenance, Cannon Loading
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3003019559_weapon_maintenance_cannon_loading.png
-[camp] [MOD] Ancestor Narrator - Dark Whisper
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3003019559_dark_whisper.png
-[camp] [MOD] Ancestor Narrator - Know But Stay Silent
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3003019559_know_but_stay_silent.png
+Failed Images (334):
 [camp] [MOD] Battle Priest - Apply Band-Aid
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_apply_band-aid.png
 [camp] [MOD] Battle Priest - Chat Together
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_chat_together.png
-[camp] [MOD] Battle Priest - Doujin Work
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_doujin_work.png
-[camp] [MOD] Battle Priest - Holy Sanctuary
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_holy_sanctuary.png
 [camp] [MOD] Battle Priest - Main Job
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_main_job.png
+[camp] [MOD] Battle Priest - Holy Sanctuary
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_holy_sanctuary.png
 [camp] [MOD] Battle Priest - Heavy Crush
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_heavy_crush.png
+[camp] [MOD] Battle Priest - Doujin Work
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_doujin_work.png
 [camp] [MOD] Battle Priest (3397134362) - Apply Band-Aid
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_apply_band-aid.png
-[camp] [MOD] Battle Priest (3397134362) - Main Job
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_main_job.png
 [camp] [MOD] Battle Priest (3397134362) - Heavy Crush
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_heavy_crush.png
-[camp] [MOD] Battle Priest (3397134362) - Holy Sanctuary
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_holy_sanctuary.png
 [camp] [MOD] Battle Priest (3397134362) - Chat Together
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_chat_together.png
+[camp] [MOD] Battle Priest (3397134362) - Holy Sanctuary
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_holy_sanctuary.png
+[camp] [MOD] Battle Priest (3397134362) - Main Job
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_main_job.png
 [camp] [MOD] Battle Priest (3397134362) - Doujin Work
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_doujin_work.png
-[camp] [MOD] Blood Hunter (CN) (3397134362) - "The Tale of Van-sama Becoming a Maiden"
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_the_tale_of_van-sama_becoming_a_maiden.png
-[camp] [MOD] Blood Hunter (CN) - "The Tale of Van-sama Becoming a Maiden"
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_the_tale_of_van-sama_becoming_a_maiden.png
-[camp] [MOD] Blood Hunter (CN) (3397134362) - Enhanced Cytoplasm
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_enhanced_cytoplasm.png
 [camp] [MOD] Blood Hunter (CN) - Enhanced Cytoplasm
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_enhanced_cytoplasm.png
+[camp] [MOD] Blood Hunter (CN) (3397134362) - Enhanced Cytoplasm
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_enhanced_cytoplasm.png
+[camp] [MOD] Blood Hunter (CN) - "The Tale of Van-sama Becoming a Maiden"
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_the_tale_of_van-sama_becoming_a_maiden.png
+[camp] [MOD] Blood Hunter (CN) (3397134362) - "The Tale of Van-sama Becoming a Maiden"
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_the_tale_of_van-sama_becoming_a_maiden.png
 [camp] [MOD] Blood Hunter (CN) - Vulgar Taste
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_vulgar_taste.png
 [camp] [MOD] Blood Hunter (CN) (3397134362) - Vulgar Taste
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_vulgar_taste.png
-[camp] [MOD] Blood Hunter (CN) - Embrace
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_embrace.png
 [camp] [MOD] Blood Hunter (CN) (3397134362) - Embrace
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_embrace.png
-[camp] [MOD] Blood Hunter (CN2) - "The Tale of Van-sama Becoming a Maiden"
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3378560396_the_tale_of_van-sama_becoming_a_maiden.png
+[camp] [MOD] Blood Hunter (CN) - Embrace
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_embrace.png
 [camp] [MOD] Blood Hunter (CN2) - Enhanced Cytoplasm
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3378560396_enhanced_cytoplasm.png
-[camp] [MOD] Blood Hunter (CN2) - Vulgar Taste
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3378560396_vulgar_taste.png
+[camp] [MOD] Blood Hunter (CN2) - "The Tale of Van-sama Becoming a Maiden"
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3378560396_the_tale_of_van-sama_becoming_a_maiden.png
 [camp] [MOD] Blood Hunter (CN2) - Embrace
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3378560396_embrace.png
+[camp] [MOD] Blood Hunter (CN2) - Vulgar Taste
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3378560396_vulgar_taste.png
 [camp] [MOD] Bloodyhunter - Uncatchable
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3356668677_uncatchable.png
-[skill] [MOD] Botanist - Stirring
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/2837097062_stirring.png
-[camp] [MOD] Condena - Martyr's Empathy
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/1360707762_martyrs_empathy.png
 [camp] [MOD] Condena - Assimilate
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/1360707762_assimilate.png
+[camp] [MOD] Condena - Martyr's Empathy
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/1360707762_martyrs_empathy.png
 [camp] [MOD] Courtier - Every Rose
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/2757947103_every_rose.png
-[camp] [MOD] Crusader (Kaze) - Line Of Work Reconnaissance Warrior
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_line_of_work_reconnaissance_warrior.png
 [camp] [MOD] Crusader (Kaze) (3397134362) - Line Of Work Reconnaissance Warrior
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_line_of_work_reconnaissance_warrior.png
+[camp] [MOD] Crusader (Kaze) - Line Of Work Reconnaissance Warrior
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_line_of_work_reconnaissance_warrior.png
 [camp] [MOD] Dd2Exanimate - Lash Cure
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/2999479423_lash_cure.png
@@ -79,236 +65,216 @@ https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/imag
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/2999479423_lash_solace.png
 [camp] [MOD] Disaster Star - Self-Isolation
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3163227823_self-isolation.png
-[camp] [MOD] Disaster Star - Intimidate
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3163227823_intimidate.png
-[camp] [MOD] Disaster Star - Revive
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3163227823_revive.png
 [camp] [MOD] Disaster Star - Head Hits the Pillow
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3163227823_head_hits_the_pillow.png
 [camp] [MOD] Disaster Star - Gibberish
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3163227823_gibberish.png
-[camp] [MOD] Disaster Star (3163227823) - Revive
+[camp] [MOD] Disaster Star - Revive
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3163227823_revive.png
-[camp] [MOD] Disaster Star (3163227823) - Intimidate
+[camp] [MOD] Disaster Star - Intimidate
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3163227823_intimidate.png
 [camp] [MOD] Disaster Star (3163227823) - Self-Isolation
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3163227823_self-isolation.png
-[camp] [MOD] Disaster Star (3163227823) - Gibberish
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3163227823_gibberish.png
 [camp] [MOD] Disaster Star (3163227823) - Head Hits the Pillow
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3163227823_head_hits_the_pillow.png
-[camp] [MOD] Doppelsöldner - Uncatchable
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/2952526653_uncatchable.png
+[camp] [MOD] Disaster Star (3163227823) - Gibberish
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3163227823_gibberish.png
+[camp] [MOD] Disaster Star (3163227823) - Intimidate
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3163227823_intimidate.png
+[camp] [MOD] Disaster Star (3163227823) - Revive
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3163227823_revive.png
 [camp] [MOD] Doppelsoldner - Uncatchable
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3595507195_uncatchable.png
+[camp] [MOD] Doppelsöldner - Uncatchable
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/2952526653_uncatchable.png
 [camp] [MOD] Dr. Livesey - Uncatchable
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/2881216132_uncatchable.png
 [camp] [MOD] Dragon Rider - Lust - Dragon Riding
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3280184294_lust_-_dragon_riding.png
-[camp] [MOD] Dragon Rider - Sleep Talking
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3280184294_sleep_talking.png
 [camp] [MOD] Dragon Rider - Feast - Dragon Riding
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3280184294_feast_-_dragon_riding.png
 [camp] [MOD] Dragon Rider - Reverse Scale
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3280184294_reverse_scale.png
+[camp] [MOD] Dragon Rider - Sleep Talking
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3280184294_sleep_talking.png
 [camp] [MOD] Dragon Rider (3280184294) - Lust - Dragon Riding
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3280184294_lust_-_dragon_riding.png
-[camp] [MOD] Dragon Rider (3280184294) - Feast - Dragon Riding
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3280184294_feast_-_dragon_riding.png
-[camp] [MOD] Dragon Rider (3280184294) - Reverse Scale
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3280184294_reverse_scale.png
 [camp] [MOD] Dragon Rider (3280184294) - Sleep Talking
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3280184294_sleep_talking.png
-[camp] [MOD] Eldridge - Midnight Diner
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3707874770_midnight_diner.png
-[camp] [MOD] Eldridge (3707874770) - Midnight Diner
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3707874770_midnight_diner.png
-[camp] [MOD] Eldridge (3707874770) - Escort Mission
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3707874770_escort_mission.png
-[camp] [MOD] Eldridge - Escort Mission
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3707874770_escort_mission.png
+[camp] [MOD] Dragon Rider (3280184294) - Reverse Scale
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3280184294_reverse_scale.png
+[camp] [MOD] Dragon Rider (3280184294) - Feast - Dragon Riding
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3280184294_feast_-_dragon_riding.png
 [camp] [MOD] Eldridge (3707874770) - Treasure Hunting Iron Rod
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3707874770_treasure_hunting_iron_rod.png
 [camp] [MOD] Eldridge - Treasure Hunting Iron Rod
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3707874770_treasure_hunting_iron_rod.png
-[camp] [MOD] Exorcist (CN) - Bloodline-Specific Medicine Preparation
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_bloodline-specific_medicine_preparation.png
-[camp] [MOD] Exorcist (CN) - Bathed in Holy Light
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_bathed_in_holy_light.png
-[camp] [MOD] Exorcist (CN) - Prayer by Proxy
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_prayer_by_proxy.png
+[camp] [MOD] Eldridge - Escort Mission
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3707874770_escort_mission.png
+[camp] [MOD] Eldridge (3707874770) - Escort Mission
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3707874770_escort_mission.png
+[camp] [MOD] Eldridge - Midnight Diner
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3707874770_midnight_diner.png
+[camp] [MOD] Eldridge (3707874770) - Midnight Diner
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3707874770_midnight_diner.png
 [camp] [MOD] Exorcist (CN) - Zealot Charlatan
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_zealot_charlatan.png
+[camp] [MOD] Exorcist (CN) - Bathed in Holy Light
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_bathed_in_holy_light.png
+[camp] [MOD] Exorcist (CN) - Bloodline-Specific Medicine Preparation
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_bloodline-specific_medicine_preparation.png
+[camp] [MOD] Exorcist (CN) - Prayer by Proxy
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_prayer_by_proxy.png
 [camp] [MOD] Exorcist (CN) (3397134362) - Prayer by Proxy
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_prayer_by_proxy.png
+[camp] [MOD] Exorcist (CN) (3397134362) - Bloodline-Specific Medicine Preparation
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_bloodline-specific_medicine_preparation.png
 [camp] [MOD] Exorcist (CN) (3397134362) - Bathed in Holy Light
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_bathed_in_holy_light.png
 [camp] [MOD] Exorcist (CN) (3397134362) - Zealot Charlatan
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_zealot_charlatan.png
-[camp] [MOD] Exorcist (CN) (3397134362) - Bloodline-Specific Medicine Preparation
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_bloodline-specific_medicine_preparation.png
 [camp] [MOD] Fawn - Doe'S Lullaby
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/1109179698_does_lullaby.png
-[hero] [MOD] Fish Onmyoji
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/heroes/fish_onmyoji.png
-[skill] [MOD] Floss - Keep Your Distance
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3617180738_keep_your_distance.png
-[skill] [MOD] Floss - Snake
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3617180738_snake.png
-[skill] [MOD] Floss - Sever
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3617180738_sever.png
-[skill] [MOD] Floss - Shush
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3617180738_shush.png
-[skill] [MOD] Floss - Humor me
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3617180738_humor_me.png
 [skill] [MOD] Floss - Cause and Effect
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3617180738_cause_and_effect.png
+[skill] [MOD] Floss - Snake
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3617180738_snake.png
+[skill] [MOD] Floss - Keep Your Distance
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3617180738_keep_your_distance.png
+[skill] [MOD] Floss - Shush
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3617180738_shush.png
 [skill] [MOD] Floss - Sever·Fin
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3617180738_severfin.png
+[skill] [MOD] Floss - Humor me
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3617180738_humor_me.png
+[skill] [MOD] Floss - Sever
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3617180738_sever.png
 [skill] [MOD] Floss - Decay
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3617180738_decay.png
 [skill] [MOD] Floss - Surrender to Death
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3617180738_surrender_to_death.png
+[skill] [MOD] Floss - Supernova·Order Fallen
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3617180738_supernovaorder_fallen.png
 [skill] [MOD] Floss - "Kaboom"
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3617180738_kaboom.png
 [skill] [MOD] Floss - Supernova·Order
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3617180738_supernovaorder.png
-[skill] [MOD] Floss - Supernova·Order Fallen
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3617180738_supernovaorder_fallen.png
 [camp] [MOD] Frozen Corpse - Hunting
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/2172937145_hunting.png
-[skill] [MOD] Gatherer - Toxic Acorn
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3609040904_toxic_acorn.png
-[camp] [MOD] Gatherer - Healthy Acorns
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3609040904_healthy_acorns.png
-[skill] [MOD] Gatherer - Healing Acorn
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3609040904_healing_acorn.png
 [camp] [MOD] Gatherer - Rare Acorns
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3609040904_rare_acorns.png
-[skill] [MOD] Goblin Huntress - Buck Shot
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3093381718_buck_shot.png
-[skill] [MOD] Goblin Huntress - Slug Shot
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3093381718_slug_shot.png
-[skill] [MOD] Goblin Huntress - Riot Control
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3093381718_riot_control.png
-[skill] [MOD] Goblin Huntress - Data Link
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3093381718_data_link.png
-[skill] [MOD] Goblin Huntress - Reload Shotgun
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3093381718_reload_shotgun.png
-[camp] [MOD] Goblin Huntress - Field Repair
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3093381718_field_repair.png
-[skill] [MOD] Goblin Huntress - Suppression
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3093381718_suppression.png
-[camp] [MOD] Goblin Huntress - Overclocking Fcs
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3093381718_overclocking_fcs.png
-[camp] [MOD] Goblin Huntress - Secret Savings
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3093381718_secret_savings.png
+[camp] [MOD] Gatherer - Healthy Acorns
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3609040904_healthy_acorns.png
 [camp] [MOD] Goblin Huntress - System Check
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3093381718_system_check.png
-[skill] [MOD] Grave Robber (Rework) - Pick to the Face
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3538150570_pick_to_the_face.png
+[camp] [MOD] Goblin Huntress - Secret Savings
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3093381718_secret_savings.png
+[camp] [MOD] Goblin Huntress - Overclocking Fcs
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3093381718_overclocking_fcs.png
+[camp] [MOD] Goblin Huntress - Field Repair
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3093381718_field_repair.png
 [skill] [MOD] Illusionist - Mind Cleave
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3631649848_mind_cleave.png
+[skill] [MOD] Illusionist - Illusory Light Surge
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3631649848_illusory_light_surge.png
 [skill] [MOD] Illusionist - Ethereal Arrow
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3631649848_ethereal_arrow.png
-[skill] [MOD] Illusionist - Illusory Light Surge
+[skill] [MOD] Illusionist - Eternal Mana Pool
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3631649848_eternal_mana_pool.png
+[skill] [MOD] Illusionist (3631649848) - Illusory Light Feast
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3631649848_illusory_light_feast.png
+[skill] [MOD] Illusionist - Illusory Light Feast
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3631649848_illusory_light_feast.png
+[skill] [MOD] Illusionist - Two-Faced Mirror Image
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3631649848_two-faced_mirror_image.png
+[skill] [MOD] Illusionist (3631649848) - Two-Faced Mirror Image
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3631649848_two-faced_mirror_image.png
+[skill] [MOD] Illusionist - Catastrophe Mana Pool
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3631649848_catastrophe_mana_pool.png
+[skill] [MOD] Illusionist - Premonition Mana Pool
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3631649848_premonition_mana_pool.png
+[skill] [MOD] Illusionist - Repulsion Dome
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3631649848_repulsion_dome.png
+[skill] [MOD] Illusionist - Time Distortion
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3631649848_time_distortion.png
+[skill] [MOD] Illusionist - Gravity Trap
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3631649848_gravity_trap.png
+[camp] [MOD] Illusionist - Infinite Vision
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3631649848_infinite_vision.png
+[camp] [MOD] Illusionist - Empress's Pride
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3631649848_empresss_pride.png
+[skill] [MOD] Illusionist - Mind Crush
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3631649848_mind_crush.png
+[skill] [MOD] Illusionist - Activate Emblem
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3631649848_activate_emblem.png
+[skill] [MOD] Illusionist (3631649848) - Mind Cleave
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3631649848_mind_cleave.png
+[skill] [MOD] Illusionist (3631649848) - Ethereal Arrow
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3631649848_ethereal_arrow.png
+[skill] [MOD] Illusionist (3631649848) - Illusory Light Surge
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3631649848_illusory_light_surge.png
 [skill] [MOD] Illusionist (3631649848) - Eternal Mana Pool
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3631649848_eternal_mana_pool.png
-[skill] [MOD] Illusionist - Eternal Mana Pool
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3631649848_eternal_mana_pool.png
-[skill] [MOD] Illusionist - Illusory Light Feast
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3631649848_illusory_light_feast.png
-[skill] [MOD] Illusionist (3631649848) - Illusory Light Feast
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3631649848_illusory_light_feast.png
-[skill] [MOD] Illusionist - Repulsion Dome
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3631649848_repulsion_dome.png
-[skill] [MOD] Illusionist - Catastrophe Mana Pool
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3631649848_catastrophe_mana_pool.png
-[skill] [MOD] Illusionist (3631649848) - Mind Cleave
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3631649848_mind_cleave.png
-[skill] [MOD] Illusionist - Two-Faced Mirror Image
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3631649848_two-faced_mirror_image.png
-[skill] [MOD] Illusionist (3631649848) - Illusory Light Surge
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3631649848_illusory_light_surge.png
-[skill] [MOD] Illusionist - Time Distortion
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3631649848_time_distortion.png
-[skill] [MOD] Illusionist (3631649848) - Ethereal Arrow
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3631649848_ethereal_arrow.png
-[skill] [MOD] Illusionist - Premonition Mana Pool
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3631649848_premonition_mana_pool.png
-[camp] [MOD] Illusionist - Empress's Pride
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3631649848_empresss_pride.png
-[skill] [MOD] Illusionist - Activate Emblem
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3631649848_activate_emblem.png
-[camp] [MOD] Illusionist - Psychic Power
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3631649848_psychic_power.png
-[skill] [MOD] Illusionist - Gravity Trap
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3631649848_gravity_trap.png
-[skill] [MOD] Illusionist - Mind Crush
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3631649848_mind_crush.png
-[camp] [MOD] Illusionist - Infinite Vision
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3631649848_infinite_vision.png
 [camp] [MOD] Illusionist - Return
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3631649848_return.png
-[skill] [MOD] Illusionist (3631649848) - Two-Faced Mirror Image
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3631649848_two-faced_mirror_image.png
+[camp] [MOD] Illusionist - Psychic Power
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3631649848_psychic_power.png
 [skill] [MOD] Illusionist (3631649848) - Catastrophe Mana Pool
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3631649848_catastrophe_mana_pool.png
-[camp] [MOD] Illusionist (3631649848) - Psychic Power
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3631649848_psychic_power.png
-[camp] [MOD] Illusionist (3631649848) - Infinite Vision
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3631649848_infinite_vision.png
-[camp] [MOD] Illusionist (3631649848) - Empress's Pride
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3631649848_empresss_pride.png
-[skill] [MOD] Illusionist (3631649848) - Activate Emblem
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3631649848_activate_emblem.png
-[skill] [MOD] Illusionist (3631649848) - Time Distortion
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3631649848_time_distortion.png
 [skill] [MOD] Illusionist (3631649848) - Repulsion Dome
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3631649848_repulsion_dome.png
 [skill] [MOD] Illusionist (3631649848) - Premonition Mana Pool
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3631649848_premonition_mana_pool.png
+[camp] [MOD] Illusionist (3631649848) - Empress's Pride
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3631649848_empresss_pride.png
+[skill] [MOD] Illusionist (3631649848) - Activate Emblem
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3631649848_activate_emblem.png
+[camp] [MOD] Illusionist (3631649848) - Infinite Vision
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3631649848_infinite_vision.png
+[camp] [MOD] Illusionist (3631649848) - Psychic Power
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3631649848_psychic_power.png
+[camp] [MOD] Illusionist (3631649848) - Return
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3631649848_return.png
+[skill] [MOD] Illusionist (3631649848) - Time Distortion
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3631649848_time_distortion.png
 [skill] [MOD] Illusionist (3631649848) - Gravity Trap
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3631649848_gravity_trap.png
 [skill] [MOD] Illusionist (3631649848) - Mind Crush
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3631649848_mind_crush.png
-[camp] [MOD] Illusionist (3631649848) - Return
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3631649848_return.png
 [skill] [MOD] Initiator - Pull the Trigger
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3670454697_pull_the_trigger.png
-[skill] [MOD] Initiator - Double the Dosage
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3670454697_double_the_dosage.png
-[camp] [MOD] Initiator - Night Vigil
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3670454697_night_vigil.png
-[camp] [MOD] Initiator - Military-Grade Binoculars
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3670454697_military-grade_binoculars.png
-[skill] [MOD] Initiator - Draw the Target
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3670454697_draw_the_target.png
+[skill] [MOD] Initiator - Crush the Vanguard
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3670454697_crush_the_vanguard.png
+[skill] [MOD] Initiator - Finish the Job
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3670454697_finish_the_job.png
+[skill] [MOD] Initiator - Set the Perimeter
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3670454697_set_the_perimeter.png
 [camp] [MOD] Initiator - Narcotics Analgesics
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3670454697_narcotics_analgesics.png
+[skill] [MOD] Initiator - Double the Dosage
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3670454697_double_the_dosage.png
+[skill] [MOD] Initiator - Draw the Target
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3670454697_draw_the_target.png
+[camp] [MOD] Initiator - Night Vigil
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3670454697_night_vigil.png
 [skill] [MOD] Initiator - Maim the Linchpin
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3670454697_maim_the_linchpin.png
 [camp] [MOD] Initiator - Gun Cleaning Kit
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3670454697_gun_cleaning_kit.png
-[skill] [MOD] Initiator - Set the Perimeter
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3670454697_set_the_perimeter.png
-[skill] [MOD] Initiator - Finish the Job
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3670454697_finish_the_job.png
-[skill] [MOD] Initiator - Crush the Vanguard
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3670454697_crush_the_vanguard.png
+[camp] [MOD] Initiator - Military-Grade Binoculars
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3670454697_military-grade_binoculars.png
 [camp] [MOD] JiZai - Morale Boost
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/camp_skills/morale_boost.png
 [camp] [MOD] Keeper - Martyr's Touch
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/1688250816_martyrs_touch.png
 [camp] [MOD] Keeper - Baneful Pact
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/1688250816_baneful_pact.png
-[camp] [MOD] Kk Alch - Preventative Medicine
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3624783049_preventative_medicine.png
 [camp] [MOD] Kk Alch - Self-Medicate
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/camp_skills/self-medicate.png
 [camp] [MOD] Kk Surg - Self-Medicate
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/camp_skills/self-medicate.png
+[camp] [MOD] Kk Alch - Preventative Medicine
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3624783049_preventative_medicine.png
 [camp] [MOD] Kk Surg - Preventative Medicine
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3624783049_preventative_medicine.png
 [camp] [MOD] lancer - Help Hand
@@ -323,108 +289,102 @@ https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/imag
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3423234441_scout.png
 [camp] [MOD] Librarian (3357715659) - A Good Story
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3357715659_a_good_story.png
-[camp] [MOD] Librarian (3357715659) - Giggle
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3357715659_giggle.png
 [camp] [MOD] Librarian (3357715659) - I'm Gonna Beat You All!
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3357715659_im_gonna_beat_you_all.png
+[camp] [MOD] Librarian (3357715659) - Giggle
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3357715659_giggle.png
 [camp] [MOD] Librarian (3357715659) - You Small Fry!
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3357715659_you_small_fry.png
-[camp] [MOD] Librarian (CN) - Giggle
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_giggle.png
 [camp] [MOD] Librarian (CN) - I'm Gonna Beat You All!
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_im_gonna_beat_you_all.png
 [camp] [MOD] Librarian (CN) - You Small Fry!
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_you_small_fry.png
 [camp] [MOD] Librarian (CN) - A Good Story
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_a_good_story.png
-[skill] [MOD] Lilith (Rework) - Etherealize
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3607474042_etherealize.png
+[camp] [MOD] Librarian (CN) - Giggle
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_giggle.png
 [skill] [MOD] Lilith (Rework) - Dawn
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3607474042_dawn.png
+[skill] [MOD] Lilith (Rework) - Etherealize
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3607474042_etherealize.png
 [skill] [MOD] Lilith (Rework) - Starfall
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3607474042_starfall.png
 [skill] [MOD] Lilith (Rework) - Wine of Pride
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3607474042_wine_of_pride.png
-[skill] [MOD] Lilith (Rework) - Return to the Material Plane
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3607474042_return_to_the_material_plane.png
-[skill] [MOD] Lilith (Rework) - Nightfall
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3607474042_nightfall.png
 [skill] [MOD] Lilith (Rework) - Twilight
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3607474042_twilight.png
-[skill] [MOD] Lilith (Rework) - Demon's Mercy
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3607474042_demons_mercy.png
+[camp] [MOD] Lilith (Rework) - Mana Vision
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3607474042_mana_vision.png
+[camp] [MOD] Lilith (Rework) - Life-Draining Kiss
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3607474042_life-draining_kiss.png
 [camp] [MOD] Lilith (Rework) - Blade Demon Pact
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3607474042_blade_demon_pact.png
 [skill] [MOD] Lilith (Rework) - Instant Echo
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3607474042_instant_echo.png
+[skill] [MOD] Lilith (Rework) - Demon's Mercy
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3607474042_demons_mercy.png
+[skill] [MOD] Lilith (Rework) - Return to the Material Plane
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3607474042_return_to_the_material_plane.png
+[skill] [MOD] Lilith (Rework) - Nightfall
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3607474042_nightfall.png
 [camp] [MOD] Lilith (Rework) - Chloe's Gift
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3607474042_chloes_gift.png
-[camp] [MOD] Lilith (Rework) - Life-Draining Kiss
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3607474042_life-draining_kiss.png
-[camp] [MOD] Lilith (Rework) - Mana Vision
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3607474042_mana_vision.png
-[camp] [MOD] Linglan - Barrier · Sacrifice
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3277601171_barrier__sacrifice.png
 [camp] [MOD] Linglan - Barrier · Wither
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3277601171_barrier__wither.png
 [camp] [MOD] Linglan - Barrier · Cleanse
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3277601171_barrier__cleanse.png
 [camp] [MOD] Linglan - Fox Gotta Sleep
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3277601171_fox_gotta_sleep.png
-[camp] [MOD] Linglan - Barrier · Shelter
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3277601171_barrier__shelter.png
 [camp] [MOD] Linglan - Barrier · Past Life
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3277601171_barrier__past_life.png
+[camp] [MOD] Linglan - Barrier · Sacrifice
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3277601171_barrier__sacrifice.png
+[camp] [MOD] Linglan - Barrier · Shelter
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3277601171_barrier__shelter.png
 [camp] [MOD] Linglan - Barrier · Healing
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3277601171_barrier__healing.png
 [camp] [MOD] Magical Crab - Hunting
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/2166141580_hunting.png
-[camp] [MOD] Ninja of Budding - Sleep Well, Sleep Well
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3476262502_sleep_well_sleep_well.png
 [camp] [MOD] Ninja of Budding - Xiangpiaopiao Hot Drink
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3476262502_xiangpiaopiao_hot_drink.png
 [camp] [MOD] Ninja of Budding - Past Like Smoke Hand
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3476262502_past_like_smoke_hand.png
-[skill] [MOD] Occultist (Rework) - Sacrificial Stab
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3654738622_sacrificial_stab.png
-[skill] [MOD] Occultist (Rework) - Vulnerability Hex
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3654738622_vulnerability_hex.png
-[skill] [MOD] Occultist (Rework) - Hands from the Abyss
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3654738622_hands_from_the_abyss.png
+[camp] [MOD] Ninja of Budding - Sleep Well, Sleep Well
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3476262502_sleep_well_sleep_well.png
 [skill] [MOD] Octopus - Touch
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3352861439_touch.png
 [skill] [MOD] Octopus - Gaze Sight
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3352861439_gaze_sight.png
+[camp] [MOD] Octopus - Stare~
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3352861439_stare.png
+[camp] [MOD] Octopus - Fiddle
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3352861439_fiddle.png
+[camp] [MOD] Octopus - Ï¼
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3352861439_.png
+[camp] [MOD] Octopus - Dalance Sanity
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3352861439_dalance_sanity.png
+[skill] [MOD] Octopus - Beyond Crazy
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3352861439_beyond_crazy.png
 [skill] [MOD] Octopus - Disaster
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3352861439_disaster.png
 [skill] [MOD] Octopus - skill level up will drastically alter the effect
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3352861439_skill_level_up_will_drastically_alter_the_effect.png
-[skill] [MOD] Octopus - Beyond Crazy
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3352861439_beyond_crazy.png
-[camp] [MOD] Octopus - Dalance Sanity
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3352861439_dalance_sanity.png
 [skill] [MOD] Octopus - Catastrophe Torrent
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3352861439_catastrophe_torrent.png
-[camp] [MOD] Octopus - Ï¼
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3352861439_.png
-[camp] [MOD] Octopus - Fiddle
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3352861439_fiddle.png
 [skill] [MOD] Octopus - Colorless
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3352861439_colorless.png
-[camp] [MOD] Octopus - Stare~
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3352861439_stare.png
-[camp] [MOD] Oni Swordsman - Weapon Maintenance
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3315284734_weapon_maintenance.png
 [camp] [MOD] Oni Swordsman - Inspire
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3315284734_inspire.png
 [camp] [MOD] Oni Swordsman - Treat Wounds
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3315284734_treat_wounds.png
+[camp] [MOD] Oni Swordsman - Weapon Maintenance
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3315284734_weapon_maintenance.png
+[camp] [MOD] Oni Swordsman - Alcohol Fumes (Non-Alcoholic)
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3315284734_alcohol_fumes_non-alcoholic.png
 [camp] [MOD] Oni Swordsman - Guardian Spirit
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3315284734_guardian_spirit.png
 [camp] [MOD] Oni Swordsman - Fortune Teller Miss - Randomly gain one of the following effects
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3315284734_fortune_teller_miss_-_randomly_gain_one_of_the_following_effects.png
-[camp] [MOD] Oni Swordsman - Alcohol Fumes (Non-Alcoholic)
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3315284734_alcohol_fumes_non-alcoholic.png
 [camp] [MOD] Oni Swordsman - Hungry Ghost Haunting
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3315284734_hungry_ghost_haunting.png
 [camp] [MOD] Oni Swordsman (3315284734) - Inspire
@@ -435,10 +395,10 @@ https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/imag
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3315284734_treat_wounds.png
 [camp] [MOD] Oni Swordsman (3315284734) - Guardian Spirit
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3315284734_guardian_spirit.png
-[camp] [MOD] Oni Swordsman (3315284734) - Fortune Teller Miss - Randomly gain one of the following effects
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3315284734_fortune_teller_miss_-_randomly_gain_one_of_the_following_effects.png
 [camp] [MOD] Oni Swordsman (3315284734) - Hungry Ghost Haunting
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3315284734_hungry_ghost_haunting.png
+[camp] [MOD] Oni Swordsman (3315284734) - Fortune Teller Miss - Randomly gain one of the following effects
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3315284734_fortune_teller_miss_-_randomly_gain_one_of_the_following_effects.png
 [camp] [MOD] Oni Swordsman (3315284734) - Alcohol Fumes (Non-Alcoholic)
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3315284734_alcohol_fumes_non-alcoholic.png
 [camp] [MOD] Paracausalist - Telepathy
@@ -447,52 +407,52 @@ https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/imag
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/1960445714_engine_repair.png
 [camp] [MOD] Paracausalist - Document Organization
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/1960445714_document_organization.png
-[camp] [MOD] Physician - Self-Medicate
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/camp_skills/self-medicate.png
 [camp] [MOD] Physician - Preventative Medicine
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3624783049_preventative_medicine.png
-[camp] [MOD] Pig Boss - Treat Wounds
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3028580969_treat_wounds.png
+[camp] [MOD] Physician - Self-Medicate
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/camp_skills/self-medicate.png
 [camp] [MOD] Pig Boss - Know My Comfort
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3028580969_know_my_comfort.png
+[camp] [MOD] Pig Boss - Treat Wounds
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3028580969_treat_wounds.png
 [camp] [MOD] Pig Boss - Blah Blah (Pep Talk?)
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3028580969_blah_blah_pep_talk.png
-[camp] [MOD] Plague Doctor (WC2) - Dove Brother's Egg
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_dove_brothers_egg.png
-[camp] [MOD] Plague Doctor (WC2) - Imperial Harem Drama
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_imperial_harem_drama.png
-[camp] [MOD] Plague Doctor (WC2) - Red Story
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_red_story.png
-[camp] [MOD] Plague Doctor (WC2) - College Girl Forum
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_college_girl_forum.png
 [camp] [MOD] Plague Doctor (WC2) - Date A Live
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_date_a_live.png
+[camp] [MOD] Plague Doctor (WC2) - Red Story
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_red_story.png
+[camp] [MOD] Plague Doctor (WC2) - Dove Brother's Egg
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_dove_brothers_egg.png
 [camp] [MOD] Plague Doctor (WC2) - Young and Dangerous
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_young_and_dangerous.png
+[camp] [MOD] Plague Doctor (WC2) - Imperial Harem Drama
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_imperial_harem_drama.png
+[camp] [MOD] Plague Doctor (WC2) - College Girl Forum
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_college_girl_forum.png
 [camp] [MOD] Plague Doctor (WC2) - Potent Corruption
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_potent_corruption.png
-[camp] [MOD] Plague Doctor Fanatic - Dove Brother's Egg
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_dove_brothers_egg.png
 [camp] [MOD] Plague Doctor Fanatic - Imperial Harem Drama
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_imperial_harem_drama.png
+[camp] [MOD] Plague Doctor Fanatic - Dove Brother's Egg
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_dove_brothers_egg.png
 [camp] [MOD] Plague Doctor Fanatic - Young and Dangerous
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_young_and_dangerous.png
-[camp] [MOD] Plague Doctor Fanatic - Potent Corruption
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_potent_corruption.png
-[camp] [MOD] Plague Doctor Fanatic - Red Story
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_red_story.png
 [camp] [MOD] Plague Doctor Fanatic - Date A Live
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_date_a_live.png
+[camp] [MOD] Plague Doctor Fanatic - Red Story
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_red_story.png
 [camp] [MOD] Plague Doctor Fanatic - College Girl Forum
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_college_girl_forum.png
-[camp] [MOD] Plague Doctor Fanatic (3124755746) - Imperial Harem Drama
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3124755746_imperial_harem_drama.png
-[camp] [MOD] Plague Doctor Fanatic (3124755746) - Date A Live
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3124755746_date_a_live.png
+[camp] [MOD] Plague Doctor Fanatic - Potent Corruption
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3397134362_potent_corruption.png
 [camp] [MOD] Plague Doctor Fanatic (3124755746) - Red Story
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3124755746_red_story.png
+[camp] [MOD] Plague Doctor Fanatic (3124755746) - Date A Live
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3124755746_date_a_live.png
 [camp] [MOD] Plague Doctor Fanatic (3124755746) - Young and Dangerous
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3124755746_young_and_dangerous.png
+[camp] [MOD] Plague Doctor Fanatic (3124755746) - Imperial Harem Drama
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3124755746_imperial_harem_drama.png
 [camp] [MOD] Plague Doctor Fanatic (3124755746) - Potent Corruption
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3124755746_potent_corruption.png
 [camp] [MOD] Plague Doctor Fanatic (3124755746) - College Girl Forum
@@ -501,32 +461,32 @@ https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/imag
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3290790547_energy.png
 [camp] [MOD] Puni - Samsara
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3290790547_samsara.png
-[camp] [MOD] Remilia Scarlet - Young Lady Sleeps In
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3170796124_young_lady_sleeps_in.png
-[camp] [MOD] Remilia Scarlet - Night Oath Vision (Can See Through)
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3170796124_night_oath_vision_can_see_through.png
 [camp] [MOD] Remilia Scarlet - McDonald's Express
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3170796124_mcdonalds_express.png
 [camp] [MOD] Remilia Scarlet - Little Sister's Troll Video
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3170796124_little_sisters_troll_video.png
-[skill] [MOD] Ringmaster - Last Laugh
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/2572516217_last_laugh.png
-[skill] [MOD] Ringmaster - Grand Entrance
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/2572516217_grand_entrance.png
-[skill] [MOD] Ringmaster - Flummox!
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/2572516217_flummox.png
+[camp] [MOD] Remilia Scarlet - Night Oath Vision (Can See Through)
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3170796124_night_oath_vision_can_see_through.png
+[camp] [MOD] Remilia Scarlet - Young Lady Sleeps In
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3170796124_young_lady_sleeps_in.png
 [skill] [MOD] Ringmaster - Fan Favourite
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/2572516217_fan_favourite.png
-[skill] [MOD] Ringmaster - Take a Bow
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/2572516217_take_a_bow.png
-[skill] [MOD] Ringmaster - Kneel!
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/2572516217_kneel.png
-[camp] [MOD] Ringmaster - Coin Flip
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/2572516217_coin_flip.png
+[skill] [MOD] Ringmaster - Last Laugh
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/2572516217_last_laugh.png
 [camp] [MOD] Ringmaster - Prize Box
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/2572516217_prize_box.png
+[skill] [MOD] Ringmaster - Kneel!
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/2572516217_kneel.png
+[skill] [MOD] Ringmaster - Take a Bow
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/2572516217_take_a_bow.png
 [skill] [MOD] Ringmaster - Barry & Leon
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/2572516217_barry__leon.png
+[camp] [MOD] Ringmaster - Coin Flip
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/2572516217_coin_flip.png
+[skill] [MOD] Ringmaster - Flummox!
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/2572516217_flummox.png
+[skill] [MOD] Ringmaster - Grand Entrance
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/2572516217_grand_entrance.png
 [camp] [MOD] Ringmaster - Entertain
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/2572516217_entertain.png
 [camp] [MOD] Ringmaster - Prestigious Aura
@@ -535,18 +495,18 @@ https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/imag
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/2487750624_analyze.png
 [camp] [MOD] Rugal - Environment Search
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/2487750624_environment_search.png
-[camp] [MOD] Rugal - Sugar Supplement
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/2487750624_sugar_supplement.png
 [camp] [MOD] Rugal - Cognitive Correction
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/2487750624_cognitive_correction.png
-[camp] [MOD] Savage Monstrosity - Devour
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/camp_skills/devour.png
+[camp] [MOD] Rugal - Sugar Supplement
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/2487750624_sugar_supplement.png
 [camp] [MOD] Savage Monstrosity - Constraint The Beast
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/camp_skills/constraint_the_beast.png
-[camp] [MOD] Savage Monstrosity - Stronger Immune System
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/camp_skills/stronger_immune_system.png
 [camp] [MOD] Savage Monstrosity - Tougher Skin
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/camp_skills/tougher_skin.png
+[camp] [MOD] Savage Monstrosity - Devour
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/camp_skills/devour.png
+[camp] [MOD] Savage Monstrosity - Stronger Immune System
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/camp_skills/stronger_immune_system.png
 [camp] [MOD] Sentry - Way Of Serpent
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/2825636596_way_of_serpent.png
 [camp] [MOD] Sentry - Way Of Sway
@@ -555,28 +515,28 @@ https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/imag
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3434413170_martyrs_offering.png
 [camp] [MOD] Seraph - Additional Information
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3434413170_additional_information.png
-[camp] [MOD] Sixth Child - Pacing Tea Pourer
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3406827854_pacing_tea_pourer.png
 [camp] [MOD] Sixth Child - Self-Medicate
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3406827854_self-medicate.png
-[camp] [MOD] Sixth Child - Virtual Currency
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3406827854_virtual_currency.png
+[camp] [MOD] Sixth Child - Pacing Tea Pourer
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3406827854_pacing_tea_pourer.png
 [camp] [MOD] Sixth Child - Impression Enhancement
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3406827854_impression_enhancement.png
+[camp] [MOD] Sixth Child - Virtual Currency
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3406827854_virtual_currency.png
 [camp] [MOD] Spirit of the Shoals - Gathering Night Orchids
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3444615661_gathering_night_orchids.png
 [camp] [MOD] Spirit of the Shoals - Gazing at Night Orchids
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3444615661_gazing_at_night_orchids.png
-[camp] [MOD] Spirit of the Shoals - Immersive Healing
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3444615661_immersive_healing.png
-[camp] [MOD] Spirit of the Shoals - Entering Dreams in Darkness
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3444615661_entering_dreams_in_darkness.png
 [camp] [MOD] Spirit of the Shoals - Silent Glimpse
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3444615661_silent_glimpse.png
-[camp] [MOD] Spirit of the Shoals - Death Qi Transfer
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3444615661_death_qi_transfer.png
+[camp] [MOD] Spirit of the Shoals - Entering Dreams in Darkness
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3444615661_entering_dreams_in_darkness.png
+[camp] [MOD] Spirit of the Shoals - Immersive Healing
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3444615661_immersive_healing.png
 [camp] [MOD] Spirit of the Shoals - Dim Glow Lantern
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3444615661_dim_glow_lantern.png
+[camp] [MOD] Spirit of the Shoals - Death Qi Transfer
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3444615661_death_qi_transfer.png
 [camp] [MOD] Surgeon - Self-Medicate
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/camp_skills/self-medicate.png
 [camp] [MOD] Surgeon - Preventative Medicine
@@ -593,34 +553,34 @@ https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/imag
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/2832452821_curse_of_the_ages.png
 [skill] [MOD] Swordmaiden - Dragonflame Breath
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/2832452821_dragonflame_breath.png
+[skill] [MOD] Swordmaiden - Domain of the Swordmaiden
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/2832452821_domain_of_the_swordmaiden.png
 [skill] [MOD] Swordmaiden - Drink the Pain
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/2832452821_drink_the_pain.png
 [camp] [MOD] Swordmaiden - Isolated Host
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/2832452821_isolated_host.png
-[camp] [MOD] Swordmaiden - Nature Of Jealousy
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/2832452821_nature_of_jealousy.png
-[skill] [MOD] Swordmaiden - Domain of the Swordmaiden
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/2832452821_domain_of_the_swordmaiden.png
-[skill] [MOD] Swordmaiden - Soothe
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/2832452821_soothe.png
 [skill] [MOD] Swordmaiden - Extinguishing Dragon Lightning
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/2832452821_extinguishing_dragon_lightning.png
+[camp] [MOD] Swordmaiden - Complaining About The Status Quo
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/2832452821_complaining_about_the_status_quo.png
 [camp] [MOD] Swordmaiden - Lust For Love - Magic Sword
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/2832452821_lust_for_love_-_magic_sword.png
 [camp] [MOD] Swordmaiden - Original Sin Of Pride
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/2832452821_original_sin_of_pride.png
-[camp] [MOD] Swordmaiden - Complaining About The Status Quo
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/2832452821_complaining_about_the_status_quo.png
-[camp] [MOD] Swordmaiden - Affectionate Caress
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/2832452821_affectionate_caress.png
-[skill] [MOD] Swordmaiden - Dragon's Tooth Rift
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/2832452821_dragons_tooth_rift.png
+[camp] [MOD] Swordmaiden - Nature Of Jealousy
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/2832452821_nature_of_jealousy.png
+[skill] [MOD] Swordmaiden - Soothe
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/2832452821_soothe.png
 [camp] [MOD] Swordmaiden - Sword Saint Drapes
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/2832452821_sword_saint_drapes.png
-[camp] [MOD] Tamamo Witch - Prayer
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3266293876_prayer.png
+[skill] [MOD] Swordmaiden - Dragon's Tooth Rift
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/2832452821_dragons_tooth_rift.png
+[camp] [MOD] Swordmaiden - Affectionate Caress
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/2832452821_affectionate_caress.png
 [camp] [MOD] Tamamo Witch - Hymn
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3266293876_hymn.png
+[camp] [MOD] Tamamo Witch - Prayer
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3266293876_prayer.png
 [camp] [MOD] Tamamo Witch (3266293876) - Hymn
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3266293876_hymn.png
 [camp] [MOD] Tamamo Witch (3266293876) - Prayer
@@ -635,68 +595,68 @@ https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/imag
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3473657743_plunder_supplies.png
 [camp] [MOD] Terror Screamer - Anger
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3473657743_anger.png
-[camp] [MOD] Terror Screamer (3473657743) - Anger
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3473657743_anger.png
-[camp] [MOD] Terror Screamer (3473657743) - Anger
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3473657743_anger.png
-[camp] [MOD] Terror Screamer (3473657743) - Anger
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3473657743_anger.png
 [camp] [MOD] Terror Screamer - Anger
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3473657743_anger.png
 [camp] [MOD] Terror Screamer - Anger
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3473657743_anger.png
-[camp] [MOD] Terror Screamer (3473657743) - Devour Completely
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3473657743_devour_completely.png
+[camp] [MOD] Terror Screamer (3473657743) - Anger
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3473657743_anger.png
+[camp] [MOD] Terror Screamer (3473657743) - Anger
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3473657743_anger.png
+[camp] [MOD] Terror Screamer (3473657743) - Anger
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3473657743_anger.png
 [camp] [MOD] Terror Screamer (3473657743) - Natural Selection
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3473657743_natural_selection.png
-[camp] [MOD] Terror Screamer (3473657743) - Territory Reconnaissance
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3473657743_territory_reconnaissance.png
 [camp] [MOD] Terror Screamer (3473657743) - Plunder Supplies
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3473657743_plunder_supplies.png
+[camp] [MOD] Terror Screamer (3473657743) - Devour Completely
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3473657743_devour_completely.png
+[camp] [MOD] Terror Screamer (3473657743) - Territory Reconnaissance
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3473657743_territory_reconnaissance.png
 [camp] [MOD] Tomb Prospector - Notebook
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3439907840_notebook.png
 [camp] [MOD] Uncrowneds - Cold Blood
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3233465820_cold_blood.png
 [camp] [MOD] Understudy - Every Rose
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3238734310_every_rose.png
-[camp] [MOD] Unicorn (Rework) - Unicorn's Support
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3315284734_unicorns_support.png
-[camp] [MOD] Unicorn (Rework) - Beast of Possibility
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3315284734_beast_of_possibility.png
 [camp] [MOD] Unicorn (Rework) - Lovely Lunch Box
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3315284734_lovely_lunch_box.png
-[camp] [MOD] Unicorn (Rework) - Cool Reading Time
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3315284734_cool_reading_time.png
 [skill] [MOD] Unicorn (Rework) (3611958999) - Firepower Limit Release
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3611958999_firepower_limit_release.png
 [skill] [MOD] Unicorn (Rework) (3611958999) - Little Star Songstress
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3611958999_little_star_songstress.png
+[camp] [MOD] Unicorn (Rework) - Unicorn's Support
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3315284734_unicorns_support.png
+[camp] [MOD] Unicorn (Rework) - Beast of Possibility
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3315284734_beast_of_possibility.png
+[skill] [MOD] Unicorn (Rework) (3611958999) - Happiness Movement
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3611958999_happiness_movement.png
+[camp] [MOD] Unicorn (Rework) - Cool Reading Time
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3315284734_cool_reading_time.png
 [skill] [MOD] Unicorn (Rework) (3611958999) - Night of the Angel's Descent
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3611958999_night_of_the_angels_descent.png
 [skill] [MOD] Unicorn (Rework) (3611958999) - Wishing Snow and Plum
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3611958999_wishing_snow_and_plum.png
-[skill] [MOD] Unicorn (Rework) (3611958999) - Happiness Movement
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3611958999_happiness_movement.png
 [skill] [MOD] Unicorn (Rework) (3611958999) - Nursing Time
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3611958999_nursing_time.png
-[skill] [MOD] Unicorn (Rework) (3611958999) - Move
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3611958999_move.png
 [skill] [MOD] Unicorn (Rework) (3611958999) - Eternal Wings
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3611958999_eternal_wings.png
-[camp] [MOD] Unicorn (Rework) (3611958999) - Cool Reading Time
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3611958999_cool_reading_time.png
 [camp] [MOD] Unicorn (Rework) (3611958999) - Lovely Lunch Box
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3611958999_lovely_lunch_box.png
+[camp] [MOD] Unicorn (Rework) (3611958999) - Cool Reading Time
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3611958999_cool_reading_time.png
+[skill] [MOD] Unicorn (Rework) (3611958999) - Move
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/skills/3611958999_move.png
 [camp] [MOD] Unicorn (Rework) (3611958999) - Unicorn's Support
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3611958999_unicorns_support.png
 [camp] [MOD] Unicorn (Rework) (3611958999) - Beast of Possibility
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3611958999_beast_of_possibility.png
 [camp] [MOD] Psychic Scholar - Document Organization
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/2882385295_document_organization.png
-[camp] [MOD] Psychic Scholar - Engine Repair
-https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/2882385295_engine_repair.png
 [camp] [MOD] Psychic Scholar - Telepathy
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/2882385295_telepathy.png
+[camp] [MOD] Psychic Scholar - Engine Repair
+https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/2882385295_engine_repair.png
 [camp] [MOD] Loot Hunter - Swamp Predator
 https://raw.githubusercontent.com/bluefireF5ran/dd-team-builder-assets/main/images/modded/camp_skills/3045881665_swamp_predator.png
 [camp] [MOD] Loot Hunter - Symbiotic Relationship

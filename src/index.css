@@ -1,6 +1,25 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+/* Tailwind v4 theme tokens — migrated from tailwind.config.js */
+@theme {
+  --font-darkest: "DwarvenAxe", "Times New Roman", serif;
+
+  --color-dd-red: #8B0000;
+  --color-dd-red-light: #DC2626;
+  --color-dd-red-dark: #5C0000;
+  --color-dd-gold: #D4AF37;
+  --color-dd-gold-dark: #8B7355;
+  --color-dd-gold-light: #FFD700;
+  --color-dd-parchment: #F5DEB3;
+  --color-torch: #FF6B35;
+
+  --animate-torch-flicker: torch-flicker 3s ease-in-out infinite;
+  --animate-fade-in: fade-in-up 0.4s ease-out forwards;
+  --animate-pulse-slow: pulse 3s ease-in-out infinite;
+
+  --shadow-torch: 0 0 20px rgba(255, 107, 53, 0.3), 0 0 40px rgba(255, 107, 53, 0.2);
+  --shadow-inner-dark: inset 0 0 50px rgba(0, 0, 0, 0.5);
+}
 
 /* Fuente Darkest Dungeon */
 @font-face {
@@ -134,6 +153,7 @@ body {
 
 .hero-card:hover {
   @apply transform scale-[1.02];
+  box-shadow: 0 18px 40px -16px rgba(255, 107, 53, 0.35), 0 8px 20px -10px rgba(0, 0, 0, 0.6);
 }
 
 /* Animación de entrada */
@@ -159,12 +179,17 @@ body {
 
 .skill-icon:hover {
   @apply transform scale-110 brightness-110;
-  filter: drop-shadow(0 0 8px rgba(34, 197, 94, 0.5));
+  filter: drop-shadow(0 0 10px rgba(34, 197, 94, 0.65));
 }
 
 /* Efecto para trinkets */
+.trinket-icon {
+  transition: filter 0.2s ease-out, transform 0.2s ease-out;
+}
+
 .trinket-icon:hover {
-  filter: drop-shadow(0 0 8px rgba(217, 119, 6, 0.6));
+  transform: translateY(-2px);
+  filter: drop-shadow(0 0 10px rgba(217, 119, 6, 0.75));
 }
 
 /* Botones con efecto de presión */
@@ -208,6 +233,7 @@ body {
 
 /* Separador estilizado */
 .dd-separator {
+  position: relative;
   height: 2px;
   background: linear-gradient(
     90deg,
@@ -217,4 +243,100 @@ body {
     rgba(139, 0, 0, 0.5) 80%,
     transparent 100%
   );
+}
+
+.dd-separator::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  transform: translate(-50%, -50%) rotate(45deg);
+  background: var(--dd-gold);
+  box-shadow: 0 0 8px rgba(212, 175, 55, 0.6);
+  opacity: 0.75;
+}
+
+/* ───────── Atmospheric grain overlay ───────── */
+/* Kills the flat digital look with a fine film-grain layer. */
+.dd-grain::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+  opacity: 0.035;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+/* ───────── Ornate panel frame ───────── */
+/* Gilded inner hairline + top sheen for the major panels. */
+.ornate-panel {
+  position: relative;
+  box-shadow:
+    inset 0 1px 0 0 rgba(212, 175, 55, 0.16),
+    inset 0 0 0 1px rgba(212, 175, 55, 0.07),
+    inset 0 0 60px rgba(0, 0, 0, 0.35),
+    0 24px 60px -24px rgba(0, 0, 0, 0.85);
+}
+
+.ornate-panel::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent 14%);
+}
+
+/* ───────── Hero card frame ───────── */
+/* Inset gilded hairline + deeper recess for the party cards. */
+.hero-frame {
+  position: relative;
+  box-shadow:
+    inset 0 0 0 1px rgba(212, 175, 55, 0.14),
+    inset 0 0 28px rgba(0, 0, 0, 0.45),
+    0 14px 32px -14px rgba(0, 0, 0, 0.75);
+}
+
+/* ───────── Staggered reveal ───────── */
+/* `backwards` fill keeps the element hidden during the delay, then
+   reverts to base CSS so hover/drag transforms keep working after. */
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.reveal-stagger {
+  animation: reveal-up 0.5s ease-out backwards;
+  animation-delay: calc(var(--stagger, 0) * 75ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-stagger { animation: none; }
+  .torch-border { animation: none; }
+}
+
+/* ───────── Portrait torch-glow ───────── */
+.portrait-glow {
+  position: relative;
+}
+
+.portrait-glow::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: inherit;
+  background: radial-gradient(circle at 50% 35%, rgba(255, 107, 53, 0.18), transparent 68%);
+  pointer-events: none;
+  z-index: 0;
 }

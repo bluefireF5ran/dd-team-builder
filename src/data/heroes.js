@@ -36,6 +36,7 @@ export const HERO_CLASSES = {
     skills: ['Anticipation', 'Touché', 'Feint', 'Disengage', 'Flèche', 'Coup de Grâce', 'The Boot'],
     campSkills: ['Encourage', 'First Aid', 'Pep Talk', 'Meditation', 'Preparation', 'Ruthless Instruction', 'Again!'],
     image: 'duelist.png',
+    alwaysActive: true,
     classSpecificTrinkets: HERO_SPECIFIC_TRINKETS['Duelist'] || []
   },
   'Flagellant': {

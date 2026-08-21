@@ -19003,45 +19003,8 @@ export const MODDED_HERO_CLASSES = {
       'Wound Care',
       'Pep Talk'
     ],
-    image: 'sibyl_ms.png',
-    classSpecificTrinkets: [
-      'Petal Pouch',
-      'Rotweed Bouquet',
-      'Protective Veil',
-      'Sun-scorched Petals',
-      'Lunar Veil',
-      'Sun-bleached Hairlock',
-      'Bloody Soil',
-      'Bottled Twilight'
-    ]
-  },
-  'Sibyl Ms': {
-    modId: '3493504963',
-    skills: [
-      'Alignment',
-      'Moonlight Touch',
-      'Moonlight Embrace',
-      'Banish',
-      'Faerie Fire',
-      'Solar Ray',
-      'Solar Flare'
-    ],
-    campSkills: [
-      'Encourage',
-      'Wound Care',
-      'Pep Talk',
-      'Midnight Stroll',
-      'In Her Radiance',
-      'Garden Harvest',
-      'Panacea',
-      'Additional Information'
-    ],
-    vanillaCampSkills: [
-      'Encourage',
-      'Wound Care',
-      'Pep Talk'
-    ],
-    image: 'sibyl_ms.png',
+    image: 'sibyl.png',
+    alwaysActive: true,
     classSpecificTrinkets: [
       'Petal Pouch',
       'Rotweed Bouquet',

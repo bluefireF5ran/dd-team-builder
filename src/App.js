@@ -149,7 +149,7 @@ const App = () => {
 
   return (
     <div
-      className={`min-h-screen bg-gray-900 text-white p-3 sm:p-6 bg-cover bg-center bg-fixed vignette ${theme !== 'default' ? `theme-${theme}` : ''}`}
+      className={`min-h-screen bg-gray-900 text-white p-3 sm:p-6 bg-cover bg-center bg-fixed vignette dd-grain ${theme !== 'default' ? `theme-${theme}` : ''}`}
       style={{
         backgroundImage: `linear-gradient(rgba(17, 24, 39, 0.85), rgba(17, 24, 39, 0.95)), url('${backgroundImage}')`
       }}
@@ -170,7 +170,7 @@ const App = () => {
         </header>
 
         {/* Panel de controles */}
-        <div className="bg-gray-800/90 backdrop-blur-sm rounded-lg p-3 sm:p-6 mb-4 sm:mb-6 border-2 border-dd-red/30 torch-border">
+        <div className="ornate-panel bg-gray-800/90 backdrop-blur-sm rounded-lg p-3 sm:p-6 mb-4 sm:mb-6 border-2 border-dd-red/30 torch-border">
           <TeamHeader
             teamName={teamName}
             onTeamNameChange={setTeamName}
@@ -225,14 +225,15 @@ const App = () => {
             const position = 4 - idx;
             const actualIndex = heroes.length - 1 - idx;
             return (
-              <HeroConfiguration
-                key={position}
-                hero={hero}
-                position={position}
-                onUpdate={(updatedHero) => updateHero(actualIndex, updatedHero)}
-                showBackerTrinkets={showBackerTrinkets}
-                showModdedHeroes={showModdedHeroes}
-              />
+              <div key={position} className="reveal-stagger" style={{ '--stagger': idx }}>
+                <HeroConfiguration
+                  hero={hero}
+                  position={position}
+                  onUpdate={(updatedHero) => updateHero(actualIndex, updatedHero)}
+                  showBackerTrinkets={showBackerTrinkets}
+                  showModdedHeroes={showModdedHeroes}
+                />
+              </div>
             );
           })}
         </div>
