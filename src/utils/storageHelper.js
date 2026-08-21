@@ -1,4 +1,5 @@
 import { validateTeamSchema } from './validation';
+import { canonicalizeTeam } from './nameNormalizer';
 
 const STORAGE_KEY = 'dd_team_builder_teams';
 
@@ -30,7 +31,7 @@ export const loadTeamFromFile = (file) => {
           reject(new Error('Invalid team file: ' + errors.join(', ')));
           return;
         }
-        resolve(team);
+        resolve(canonicalizeTeam(team));
       } catch (error) {
         reject(new Error('Invalid team file format'));
       }
@@ -146,7 +147,7 @@ export const importTeamsFromFile = (file) => {
         teams.forEach((team, idx) => {
           const { valid, errors: teamErrors } = validateTeamSchema(team);
           if (valid) {
-            validTeams.push(team);
+            validTeams.push(canonicalizeTeam(team));
           } else {
             errors.push(`Team ${idx + 1}: ${teamErrors.join(', ')}`);
           }

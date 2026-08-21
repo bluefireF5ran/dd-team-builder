@@ -1,0 +1,106 @@
+{
+  "teamName": "Hell’s Belles",
+  "location": "The Warrens",
+  "heroes": [
+    {
+      "heroClass": "Hellion",
+      "activeSkills": [
+        "Wicked Hack",
+        "Iron Swan",
+        "Breakthrough",
+        "Adrenaline Rush"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Battle Trance",
+        "Revel",
+        "Sharpen Spear"
+      ],
+      "trinket1": "Thirsting Blade",
+      "trinket2": "Heaven's Hairpin",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Hellion",
+      "activeSkills": [
+        "Wicked Hack",
+        "Iron Swan",
+        "Breakthrough",
+        "Adrenaline Rush"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Battle Trance",
+        "Revel",
+        "Sharpen Spear"
+      ],
+      "trinket1": "Ancestor's Candle",
+      "trinket2": "Heaven's Hairpin",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Hellion",
+      "activeSkills": [
+        "Wicked Hack",
+        "Iron Swan",
+        "Breakthrough",
+        "Adrenaline Rush"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Battle Trance",
+        "Revel",
+        "Sharpen Spear"
+      ],
+      "trinket1": "Crescendo Box",
+      "trinket2": "Heaven's Hairpin",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Hellion",
+      "activeSkills": [
+        "Wicked Hack",
+        "Iron Swan",
+        "Breakthrough",
+        "Adrenaline Rush"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Battle Trance",
+        "Revel",
+        "Sharpen Spear"
+      ],
+      "trinket1": "Ancestor's Lantern",
+      "trinket2": "Heaven's Hairpin",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    }
+  ]
+}

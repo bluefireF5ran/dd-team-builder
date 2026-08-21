@@ -1,0 +1,106 @@
+{
+  "teamName": "Battlefield 4",
+  "location": "The Ruins",
+  "heroes": [
+    {
+      "heroClass": "Abomination",
+      "activeSkills": [
+        "Transform",
+        "Rake",
+        "Rage",
+        "Slam"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Anger Management",
+        "The Quickening",
+        "Eldritch Blood"
+      ],
+      "trinket1": "Ancestor's Pen",
+      "trinket2": "Focus Ring",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Abomination",
+      "activeSkills": [
+        "Transform",
+        "Manacles",
+        "Beast's Bile",
+        "Absolution"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Anger Management",
+        "The Quickening",
+        "Eldritch Blood"
+      ],
+      "trinket1": "Broken Key",
+      "trinket2": "Padlock of Transference",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Bounty Hunter",
+      "activeSkills": [
+        "Collect Bounty",
+        "Mark for Death",
+        "Come Hither",
+        "Finish Him"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "This Is How We Do It",
+        "Tracking"
+      ],
+      "trinket1": "Debuff Amulet",
+      "trinket2": "Vengeful Kill List",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Crusader",
+      "activeSkills": [
+        "Smite",
+        "Battle Heal",
+        "Holy Lance",
+        "Inspiring Cry"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Stand Tall",
+        "Zealous Speech",
+        "Zealous Vigil"
+      ],
+      "trinket1": "Ancestor's Scroll",
+      "trinket2": "Signed Conscription",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    }
+  ]
+}

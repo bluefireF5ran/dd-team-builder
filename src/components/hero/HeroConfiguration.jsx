@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { AlertTriangle, ChevronDown, ChevronUp, RotateCcw, UserPlus } from 'lucide-react';
+import { AlertTriangle, ChevronDown, ChevronUp, RotateCcw, UserPlus, X } from 'lucide-react';
 import { HERO_CLASSES } from '../../data/heroes';
-import { MODDED_HERO_CLASSES, MODDED_GENERAL_TRINKETS } from '../../data/modded_heroes';
-import { TRINKETS } from '../../data/trinkets';
-import { BACKER_TRINKETS } from '../../data/backer_trinkets';
+import { MODDED_HERO_CLASSES } from '../../data/modded_heroes';
 import { POSITIVE_QUIRKS, NEGATIVE_QUIRKS } from '../../data/quirks';
 import { validateHero } from '../../utils/validation';
-import SearchableSelect from '../common/SearchableSelect';
+import { getTrinketImagePath } from '../../utils/imageHelper';
+import ImageWithFallback from '../common/ImageWithFallback';
 import ConfirmDialog from '../common/ConfirmDialog';
 import HeroSelector from './HeroSelector';
+import TrinketPicker from './TrinketPicker';
 import QuirkSlot from '../quirks/QuirkSlot';
 import QuirkSelector from '../quirks/QuirkSelector';
 
@@ -17,6 +17,7 @@ const HeroConfiguration = ({ hero, position, onUpdate, showBackerTrinkets, showM
   const [showNegativeQuirkSelector, setShowNegativeQuirkSelector] = useState(false);
   const [isExpanded, setIsExpanded] = useState(true);
   const [confirmState, setConfirmState] = useState({ isOpen: false, action: null, title: '', message: '' });
+  const [trinketPickerSlot, setTrinketPickerSlot] = useState(null); // 1 | 2 | null
   const allHeroClasses = useMemo(() => {
     if (showModdedHeroes) {
       return { ...HERO_CLASSES, ...MODDED_HERO_CLASSES };
@@ -174,56 +175,6 @@ const HeroConfiguration = ({ hero, position, onUpdate, showBackerTrinkets, showM
     updateHero('lockedQuirks', { ...locks, [type]: newLocks });
   }, [hero, updateHero]);
 
-  // Combinar trinkets: hero-specific primero, luego genéricos, backer al final
-  const { availableTrinkets, heroSpecificCount, backerStartIndex } = useMemo(() => {
-    let heroSpecificTrinkets = [];
-    let genericTrinkets = [...TRINKETS];
-    let backerTrinkets = [];
-    let moddedGeneralTrinkets = [];
-    
-    // Obtener trinkets específicos de clase vanilla (aparecen primero)
-    if (hero.heroClass && HERO_CLASSES[hero.heroClass]) {
-      const vanillaHero = HERO_CLASSES[hero.heroClass];
-      if (vanillaHero.classSpecificTrinkets) {
-        heroSpecificTrinkets = [...heroSpecificTrinkets, ...vanillaHero.classSpecificTrinkets];
-      }
-    }
-    
-    // Obtener trinkets específicos de clase modded (también primero)
-    if (hero.heroClass && MODDED_HERO_CLASSES[hero.heroClass]) {
-      const moddedHero = MODDED_HERO_CLASSES[hero.heroClass];
-      if (moddedHero.classSpecificTrinkets) {
-        heroSpecificTrinkets = [...heroSpecificTrinkets, ...moddedHero.classSpecificTrinkets];
-      }
-    }
-    
-    // Añadir trinkets generales modded (después de genéricos)
-    if (showModdedHeroes) {
-      moddedGeneralTrinkets = [...MODDED_GENERAL_TRINKETS];
-    }
-    
-    // Añadir backer trinkets al final
-    if (showBackerTrinkets) {
-      backerTrinkets = [...BACKER_TRINKETS];
-    }
-    
-    // Calcular índice donde empiezan los backer trinkets
-    const backerStart = showBackerTrinkets 
-      ? heroSpecificTrinkets.length + genericTrinkets.length + moddedGeneralTrinkets.length 
-      : -1;
-    
-    // Hero-specific primero, luego genéricos, modded, y backer al final
-    return {
-      availableTrinkets: [...heroSpecificTrinkets, ...genericTrinkets, ...moddedGeneralTrinkets, ...backerTrinkets],
-      heroSpecificCount: heroSpecificTrinkets.length,
-      backerStartIndex: backerStart
-    };
-  }, [showBackerTrinkets, showModdedHeroes, hero.heroClass]);
-
-  // Separador después de hero-specific trinkets si los hay
-  const separatorIndex = heroSpecificCount > 0 ? heroSpecificCount : 0;
-  const showSeparator = heroSpecificCount > 0;
-
   const heroSkills = heroData?.skills || [];
   const heroCampSkills = heroData?.campSkills || [];
   const activeSkills = hero.activeSkills || [];
@@ -363,27 +314,19 @@ const HeroConfiguration = ({ hero, position, onUpdate, showBackerTrinkets, showM
             <div>
               <h4 className="font-semibold text-amber-400 mb-2 text-base sm:text-lg font-darkest tracking-wide">Trinkets</h4>
               <div className="space-y-2">
-                <SearchableSelect
-                  value={hero.trinket1 || ''}
-                  onChange={(value) => updateHero('trinket1', value)}
-                  options={availableTrinkets}
+                <TrinketSlotButton
+                  trinketName={hero.trinket1}
+                  heroClass={hero.heroClass}
                   placeholder="Trinket 1"
-                  className="w-full"
-                  showSeparator={showSeparator}
-                  separatorIndex={separatorIndex}
-                  separatorLabel="Hero Specific"
-                  backerStartIndex={backerStartIndex}
+                  onOpen={() => setTrinketPickerSlot(1)}
+                  onClear={() => updateHero('trinket1', '')}
                 />
-                <SearchableSelect
-                  value={hero.trinket2 || ''}
-                  onChange={(value) => updateHero('trinket2', value)}
-                  options={availableTrinkets}
+                <TrinketSlotButton
+                  trinketName={hero.trinket2}
+                  heroClass={hero.heroClass}
                   placeholder="Trinket 2"
-                  className="w-full"
-                  showSeparator={showSeparator}
-                  separatorIndex={separatorIndex}
-                  separatorLabel="Hero Specific"
-                  backerStartIndex={backerStartIndex}
+                  onOpen={() => setTrinketPickerSlot(2)}
+                  onClear={() => updateHero('trinket2', '')}
                 />
               </div>
             </div>
@@ -423,6 +366,7 @@ const HeroConfiguration = ({ hero, position, onUpdate, showBackerTrinkets, showM
                     currentQuirks={quirks.positive}
                     onSelect={(q) => addQuirk(q, true)}
                     isPositive={true}
+                    heroClass={hero.heroClass}
                   />
                 </div>
               )}
@@ -461,6 +405,7 @@ const HeroConfiguration = ({ hero, position, onUpdate, showBackerTrinkets, showM
                     currentQuirks={quirks.negative}
                     onSelect={(q) => addQuirk(q, false)}
                     isPositive={false}
+                    heroClass={hero.heroClass}
                   />
                 </div>
               )}
@@ -481,8 +426,66 @@ const HeroConfiguration = ({ hero, position, onUpdate, showBackerTrinkets, showM
         }}
         onCancel={() => setConfirmState({ isOpen: false, action: null, title: '', message: '' })}
       />
+
+      <TrinketPicker
+        isOpen={trinketPickerSlot !== null}
+        onClose={() => setTrinketPickerSlot(null)}
+        value={trinketPickerSlot === 1 ? hero.trinket1 : hero.trinket2}
+        onChange={(v) => updateHero(trinketPickerSlot === 1 ? 'trinket1' : 'trinket2', v)}
+        heroClass={hero.heroClass}
+        showBackerTrinkets={showBackerTrinkets}
+        showModdedHeroes={showModdedHeroes}
+        slotLabel={trinketPickerSlot === 1 ? 'Trinket 1' : 'Trinket 2'}
+      />
     </div>
   );
 };
+
+const TrinketSlotButton = ({ trinketName, heroClass, placeholder, onOpen, onClear }) => (
+  <div className="flex items-center gap-1.5 sm:gap-2">
+    <div
+      onClick={onOpen}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onOpen();
+        }
+      }}
+      className="flex-1 flex items-center gap-2 bg-gray-800/80 px-2 py-1.5 rounded border-2 border-gray-700 hover:border-dd-gold/50 cursor-pointer transition-colors min-w-0"
+    >
+      {trinketName ? (
+        <>
+          <ImageWithFallback
+            src={getTrinketImagePath(trinketName, heroClass)}
+            alt={trinketName}
+            loading="lazy"
+            decoding="async"
+            className="w-7 h-10 sm:w-8 sm:h-11 object-contain flex-shrink-0"
+            fallback={
+              <div className="w-7 h-10 sm:w-8 sm:h-11 flex items-center justify-center bg-amber-900/30 text-amber-300 text-[9px] flex-shrink-0">
+                ?
+              </div>
+            }
+          />
+          <span className="text-xs sm:text-sm text-dd-parchment truncate">{trinketName}</span>
+        </>
+      ) : (
+        <span className="text-xs sm:text-sm text-gray-500">{placeholder}</span>
+      )}
+    </div>
+    {trinketName && (
+      <button
+        onClick={onClear}
+        type="button"
+        className="p-1.5 sm:p-2 bg-red-700/80 hover:bg-red-600 rounded transition-colors border border-red-600 flex-shrink-0"
+        title="Clear"
+      >
+        <X size={14} className="text-dd-parchment" />
+      </button>
+    )}
+  </div>
+);
 
 export default HeroConfiguration;

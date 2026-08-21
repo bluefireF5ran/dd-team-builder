@@ -18,7 +18,7 @@ export const TEAM_PRESETS = [
     location: 'The Ruins',
     heroes: [
       createHero('Crusader', ['Smite', 'Zealous Accusation', 'Stunning Blow', 'Holy Lance'], ['Encourage', 'Wound Care', 'Pep Talk', 'Zealous Vigil'], 'Focus Ring', 'Holy Orders'),
-      createHero('Vestal', ['Judgment', 'Dazzling Light', 'Divine Grace', 'Divine Comfort'], ['Encourage', 'Wound Care', 'Pep Talk', 'Pray'], 'Junia\'s Head', 'Surgical Gloves'),
+      createHero('Vestal', ['Judgement', 'Dazzling Light', 'Divine Grace', 'Divine Comfort'], ['Encourage', 'Wound Care', 'Pep Talk', 'Pray'], 'Junia\'s Head', 'Surgical Gloves'),
       createHero('Plague Doctor', ['Noxious Blast', 'Plague Grenade', 'Blinding Gas', 'Battlefield Medicine'], ['Encourage', 'Wound Care', 'Pep Talk', 'The Cure'], 'Blasphemous Vial', 'Stun Amulet'),
       createHero('Hellion', ['Wicked Hack', 'Iron Swan', 'Barbaric YAWP!', 'If It Bleeds'], ['Encourage', 'Wound Care', 'Pep Talk', 'Battle Trance'], 'Hell\'s Hairpin', 'Berserk Charm')
     ]
@@ -41,7 +41,7 @@ export const TEAM_PRESETS = [
     heroes: [
       createHero('Man at Arms', ['Crush', 'Defender', 'Bellow', 'Rampart'], ['Encourage', 'Wound Care', 'Pep Talk', 'Weapons Practice'], 'Cleansing Eyepatch', 'Guardian\'s Shield'),
       createHero('Crusader', ['Smite', 'Stunning Blow', 'Bulwark of Faith', 'Battle Heal'], ['Encourage', 'Wound Care', 'Pep Talk', 'Unshakeable Leader'], 'Knight\'s Crest', 'Focus Ring'),
-      createHero('Vestal', ['Judgment', 'Dazzling Light', 'Divine Grace', 'Divine Comfort'], ['Encourage', 'Wound Care', 'Pep Talk', 'Sanctuary'], 'Tome of Holy Healing', 'Surgical Gloves'),
+      createHero('Vestal', ['Judgement', 'Dazzling Light', 'Divine Grace', 'Divine Comfort'], ['Encourage', 'Wound Care', 'Pep Talk', 'Sanctuary'], 'Tome of Holy Healing', 'Surgical Gloves'),
       createHero('Jester', ['Slice Off', 'Solo', 'Battle Ballad', 'Finale'], ['Encourage', 'Wound Care', 'Pep Talk', 'Turn Back Time'], 'Bright Tambourine', 'Ancestor\'s Coat')
     ]
   },
@@ -63,7 +63,7 @@ export const TEAM_PRESETS = [
     heroes: [
       createHero('Man at Arms', ['Crush', 'Command', 'Bellow', 'Rampart'], ['Encourage', 'Wound Care', 'Pep Talk', 'Weapons Practice'], 'Cleansing Eyepatch', 'Guardian\'s Shield'),
       createHero('Arbalest', ['Sniper Shot', 'Suppressing Fire', 'Sniper\'s Mark', 'Battlefield Bandage'], ['Encourage', 'Wound Care', 'Pep Talk', 'Triage'], 'Rampart Shield', 'Glittering Spaulders'),
-      createHero('Vestal', ['Judgment', 'Dazzling Light', 'Divine Grace', 'Divine Comfort'], ['Encourage', 'Wound Care', 'Pep Talk', 'Sanctuary'], 'Tome of Holy Healing', 'Surgical Gloves'),
+      createHero('Vestal', ['Judgement', 'Dazzling Light', 'Divine Grace', 'Divine Comfort'], ['Encourage', 'Wound Care', 'Pep Talk', 'Sanctuary'], 'Tome of Holy Healing', 'Surgical Gloves'),
       createHero('Houndmaster', ['Hound\'s Rush', 'Target Whistle', 'Guard Dog', 'Lick Wounds'], ['Encourage', 'Wound Care', 'Pep Talk', 'Hound\'s Watch'], 'Spiked Collar', 'Protective Collar')
     ]
   },
@@ -74,7 +74,7 @@ export const TEAM_PRESETS = [
     heroes: [
       createHero('Plague Doctor', ['Noxious Blast', 'Blinding Gas', 'Incision', 'Battlefield Medicine'], ['Encourage', 'Wound Care', 'Pep Talk', 'The Cure'], 'Blasphemous Vial', 'Stun Amulet'),
       createHero('Bounty Hunter', ['Collect Bounty', 'Uppercut', 'Flashbang', 'Finish Him'], ['Encourage', 'Wound Care', 'Pep Talk', 'Planned Takedown'], 'Focus Ring', 'Legendary Bracer'),
-      createHero('Vestal', ['Judgment', 'Dazzling Light', 'Divine Grace', 'Divine Comfort'], ['Encourage', 'Wound Care', 'Pep Talk', 'Pray'], 'Junia\'s Head', 'Surgical Gloves'),
+      createHero('Vestal', ['Judgement', 'Dazzling Light', 'Divine Grace', 'Divine Comfort'], ['Encourage', 'Wound Care', 'Pep Talk', 'Pray'], 'Junia\'s Head', 'Surgical Gloves'),
       createHero('Crusader', ['Smite', 'Zealous Accusation', 'Stunning Blow', 'Holy Lance'], ['Encourage', 'Wound Care', 'Pep Talk', 'Zealous Vigil'], 'Focus Ring', 'Holy Orders')
     ]
   }

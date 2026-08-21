@@ -1,8 +1,8 @@
 import React, { useState, useMemo } from 'react';
-import { Save, Upload, AlertCircle, CheckCircle, Star, Puzzle, FolderOpen, Trash2, Download, ChevronDown, Image, Loader2, Clipboard, Dice5, Undo2, Redo2, ClipboardPaste, BookOpen, Archive, XCircle, Palette } from 'lucide-react';
+import { Save, Upload, AlertCircle, CheckCircle, Star, Puzzle, Download, Image, Loader2, Clipboard, Dice5, Undo2, Redo2, ClipboardPaste, BookOpen, Archive, XCircle, Palette } from 'lucide-react';
 import { validateTeam } from '../../utils/validation';
-import { TEAM_PRESETS } from '../../data/teamPresets';
 import ConfirmDialog from '../common/ConfirmDialog';
+import LoadCompModal from './LoadCompModal';
 
 const TeamControls = ({
   heroes,
@@ -36,10 +36,8 @@ const TeamControls = ({
   currentTheme = 'default'
 }) => {
   const teamValidation = useMemo(() => validateTeam(heroes), [heroes]);
-  const [showSavedTeams, setShowSavedTeams] = useState(false);
-  const [confirmState, setConfirmState] = useState({ isOpen: false, teamName: '' });
+  const [showLoadModal, setShowLoadModal] = useState(false);
   const [overwriteState, setOverwriteState] = useState({ isOpen: false, saveToFile: false });
-  const [showPresets, setShowPresets] = useState(false);
   const [clearConfirm, setClearConfirm] = useState(false);
 
   const handleBackupFile = async (e) => {
@@ -245,92 +243,15 @@ const TeamControls = ({
           </button>
         )}
 
-        {/* Presets Dropdown */}
-        {onLoadPreset && TEAM_PRESETS.length > 0 && (
-          <div className="relative">
-            <button
-              onClick={() => { setShowPresets(!showPresets); setShowSavedTeams(false); }}
-              className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-2 bg-amber-700/80 hover:bg-amber-600 text-dd-parchment rounded border border-amber-600 transition-colors text-sm sm:text-base"
-            >
-              <BookOpen size={16} className="sm:w-[18px] sm:h-[18px]" />
-              <span className="hidden sm:inline">Presets</span>
-              <ChevronDown size={14} className={`transform transition-transform ${showPresets ? 'rotate-180' : ''}`} />
-            </button>
-
-            {showPresets && (
-              <>
-                <div className="fixed inset-0 z-10" onClick={() => setShowPresets(false)} />
-                <div className="absolute left-0 sm:left-auto sm:right-0 mt-1 w-72 bg-gray-800 border-2 border-gray-700 rounded shadow-lg z-20 max-h-64 overflow-y-auto">
-                  {TEAM_PRESETS.map((preset, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => {
-                        onLoadPreset(preset);
-                        setShowPresets(false);
-                        showToast?.(`Loaded "${preset.name}" preset!`, 'success');
-                      }}
-                      className="w-full text-left px-3 py-2 hover:bg-gray-700 border-b border-gray-700 last:border-b-0 transition-colors"
-                    >
-                      <div className="font-darkest text-dd-parchment text-sm">{preset.name}</div>
-                      <div className="text-xs text-gray-400 mt-0.5">{preset.description}</div>
-                    </button>
-                  ))}
-                </div>
-              </>
-            )}
-          </div>
-        )}
-
-        {/* Saved Teams Dropdown */}
-        {savedTeams.length > 0 && (
-          <div className="relative">
-            <button
-              onClick={() => setShowSavedTeams(!showSavedTeams)}
-              className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-2 bg-indigo-700/80 hover:bg-indigo-600 text-dd-parchment rounded border border-indigo-600 transition-colors text-sm sm:text-base"
-            >
-              <FolderOpen size={16} className="sm:w-[18px] sm:h-[18px]" />
-              <span className="hidden sm:inline">Saved</span> ({savedTeams.length})
-              <ChevronDown size={14} className={`transform transition-transform ${showSavedTeams ? 'rotate-180' : ''}`} />
-            </button>
-
-            {showSavedTeams && (
-              <>
-                <div
-                  className="fixed inset-0 z-10"
-                  onClick={() => setShowSavedTeams(false)}
-                />
-                <div className="absolute left-0 sm:left-auto sm:right-0 mt-1 w-64 sm:w-72 bg-gray-800 border-2 border-gray-700 rounded shadow-lg z-20 max-h-64 overflow-y-auto">
-                  {savedTeams.map((team, idx) => (
-                    <div
-                      key={idx}
-                      className="flex items-center justify-between px-3 py-2 hover:bg-gray-700 border-b border-gray-700 last:border-b-0"
-                    >
-                      <button
-                        onClick={() => {
-                          onLoadSavedTeam(team.teamName);
-                          setShowSavedTeams(false);
-                        }}
-                        className="flex-1 text-left text-dd-parchment hover:text-dd-gold transition-colors truncate font-darkest"
-                      >
-                        {team.teamName}
-                      </button>
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setConfirmState({ isOpen: true, teamName: team.teamName });
-                        }}
-                        className="p-1 text-gray-400 hover:text-red-400 transition-colors ml-2"
-                        title="Delete team"
-                      >
-                        <Trash2 size={16} />
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              </>
-            )}
-          </div>
-        )}
+        {/* Load Comp (Saved Teams + Comp Library) */}
+        <button
+          onClick={() => setShowLoadModal(true)}
+          className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-2 bg-amber-700/80 hover:bg-amber-600 text-dd-parchment rounded border border-amber-600 transition-colors text-sm sm:text-base"
+        >
+          <BookOpen size={16} className="sm:w-[18px] sm:h-[18px]" />
+          <span className="hidden sm:inline">Load Comp</span>
+          <span className="sm:hidden">Load</span>
+        </button>
 
         {/* Backup All Teams */}
         {onBackupAll && savedTeamsCount > 0 && (
@@ -434,17 +355,14 @@ const TeamControls = ({
         </div>
       </div>
 
-      <ConfirmDialog
-        isOpen={confirmState.isOpen}
-        title="Delete Team"
-        message={`Delete "${confirmState.teamName}"? This cannot be undone.`}
-        confirmLabel="Delete"
-        isDestructive={true}
-        onConfirm={() => {
-          onDeleteSavedTeam(confirmState.teamName);
-          setConfirmState({ isOpen: false, teamName: '' });
-        }}
-        onCancel={() => setConfirmState({ isOpen: false, teamName: '' })}
+      <LoadCompModal
+        isOpen={showLoadModal}
+        onClose={() => setShowLoadModal(false)}
+        savedTeams={savedTeams}
+        onLoadSavedTeam={onLoadSavedTeam}
+        onDeleteSavedTeam={onDeleteSavedTeam}
+        onLoadPreset={onLoadPreset}
+        showToast={showToast}
       />
 
       <ConfirmDialog

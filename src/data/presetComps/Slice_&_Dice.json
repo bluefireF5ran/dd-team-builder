@@ -1,0 +1,106 @@
+{
+  "teamName": "Slice & Dice",
+  "location": "The Ruins",
+  "heroes": [
+    {
+      "heroClass": "Occultist",
+      "activeSkills": [
+        "Sacrificial Stab",
+        "Wyrd Reconstruction",
+        "Vulnerability Hex",
+        "Hands from the Abyss"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Dark Ritual",
+        "Unspeakable Commune"
+      ],
+      "trinket1": "Demon's Cauldron",
+      "trinket2": "Ancestor's Signet Ring",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Arbalest",
+      "activeSkills": [
+        "Sniper Shot",
+        "Bola",
+        "Battlefield Bandage",
+        "Rallying Flare"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Marching Plan",
+        "Triage"
+      ],
+      "trinket1": "Fuseman's Matchstick",
+      "trinket2": "Ancestor's Map",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Jester",
+      "activeSkills": [
+        "Dirk Stab",
+        "Finale",
+        "Solo",
+        "Inspiring Tune"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Turn Back Time",
+        "Every Rose Has Its Thorn",
+        "Tiger's Eye"
+      ],
+      "trinket1": "Ancestor's Coat",
+      "trinket2": "Tyrant's Fingerbone",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Grave Robber",
+      "activeSkills": [
+        "Lunge",
+        "Shadow Fade",
+        "Poison Darts",
+        "Toxin Trickery"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Snuff Box",
+        "Gallows Humor"
+      ],
+      "trinket1": "Sharpened Letter Opener",
+      "trinket2": "Topshelf Tonic",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    }
+  ]
+}

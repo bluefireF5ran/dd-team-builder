@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { AlertTriangle } from 'lucide-react';
 
 const ConfirmDialog = ({ isOpen, title, message, onConfirm, onCancel, confirmLabel = 'Confirm', isDestructive = false }) => {
@@ -21,7 +22,7 @@ const ConfirmDialog = ({ isOpen, title, message, onConfirm, onCancel, confirmLab
 
   if (!isOpen) return null;
 
-  return (
+  return createPortal(
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={onCancel}>
       <div className="fixed inset-0 bg-black/60 backdrop-blur-sm" />
       <div
@@ -58,7 +59,8 @@ const ConfirmDialog = ({ isOpen, title, message, onConfirm, onCancel, confirmLab
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 

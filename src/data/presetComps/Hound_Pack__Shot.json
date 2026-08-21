@@ -1,0 +1,105 @@
+{
+  "teamName": "Hound Pack: Shot",
+  "location": "The Warrens",
+  "heroes": [
+    {
+      "heroClass": "Flagellant",
+      "activeSkills": [
+        "Punish",
+        "Reclaim",
+        "Redeem",
+        "Endure"
+      ],
+      "activeCampSkills": [
+        "Lash's Solace",
+        "Lash's Kiss",
+        "Lash's Cure"
+      ],
+      "trinket1": "Flesh's Heart",
+      "trinket2": "Siren's Conch",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Houndmaster",
+      "activeSkills": [
+        "Hound's Rush",
+        "Target Whistle",
+        "Lick Wounds",
+        "Blackjack"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Hound's Watch",
+        "Therapy Dog",
+        "Man's Best Friend"
+      ],
+      "trinket1": "Ancestor's Map",
+      "trinket2": "Ancestor's Pistol",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Houndmaster",
+      "activeSkills": [
+        "Hound's Rush",
+        "Target Whistle",
+        "Cry Havoc",
+        "Lick Wounds"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Hound's Watch",
+        "Therapy Dog",
+        "Man's Best Friend"
+      ],
+      "trinket1": "Evidence of Corruption",
+      "trinket2": "Battered Lawman's Badge",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Musketeer",
+      "activeSkills": [
+        "Aimed Shot",
+        "Sidearm",
+        "Patch Up",
+        "Skeet Shot"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Clean Musket",
+        "Triage"
+      ],
+      "trinket1": "Prophet's Eye",
+      "trinket2": "Fuseman's Matchstick",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    }
+  ]
+}

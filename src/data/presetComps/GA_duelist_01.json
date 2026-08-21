@@ -1,0 +1,148 @@
+{
+ "teamName": "GA duelist 01",
+ "location": "The Ruins",
+ "heroes": [
+  {
+   "heroClass": "Flagellant",
+   "activeSkills": [
+    "Endure",
+    "Rain of Sorrows",
+    "Reclaim",
+    "Redeem"
+   ],
+   "activeCampSkills": [
+    "Lash'S Anger",
+    "Lash's Cure",
+    "Lash's Kiss",
+    "Lash's Solace"
+   ],
+   "trinket1": "Blight Charm",
+   "trinket2": "Fuseman's Matchstick",
+   "quirks": {
+    "positive": [
+     "Irrepressible"
+    ],
+    "negative": []
+   },
+   "lockedQuirks": {
+    "positive": [],
+    "negative": []
+   }
+  },
+  {
+   "heroClass": "Duelist",
+   "activeSkills": [
+    "Anticipation",
+    "Coup de Grâce",
+    "Disengage",
+    "Feint",
+    "Flèche",
+    "The Boot",
+    "Touché"
+   ],
+   "activeCampSkills": [
+    "Again!",
+    "Meditation",
+    "Preparation",
+    "Ruthless Instruction"
+   ],
+   "trinket1": "Ancestor's Candle",
+   "trinket2": "Gilded Mantle",
+   "quirks": {
+    "positive": [
+     "Evasive",
+     "Luminous"
+    ],
+    "negative": []
+   },
+   "lockedQuirks": {
+    "positive": [],
+    "negative": []
+   }
+  },
+  {
+   "heroClass": "Plague Doctor",
+   "activeSkills": [
+    "Battlefield Medicine",
+    "Blinding Gas",
+    "Noxious Blast",
+    "Plague Grenade"
+   ],
+   "activeCampSkills": [
+    "Encourage",
+    "Experimental Vapours",
+    "Leeches",
+    "The Cure"
+   ],
+   "trinket1": "Blasphemous Vial",
+   "trinket2": "Ashen Distillation",
+   "quirks": {
+    "positive": [
+     "Early Riser",
+     "Luminous",
+     "Quick Reflexes"
+    ],
+    "negative": []
+   },
+   "lockedQuirks": {
+    "positive": [],
+    "negative": []
+   }
+  },
+  {
+   "heroClass": "Grave Robber",
+   "activeSkills": [
+    "Lunge",
+    "Pick to the Face",
+    "Thrown Dagger",
+    "Toxin Trickery"
+   ],
+   "activeCampSkills": [
+    "Encourage",
+    "Snuff Box",
+    "Gallows Humor",
+    "Night Moves"
+   ],
+   "trinket1": "Sharpened Letter Opener",
+   "trinket2": "",
+   "quirks": {
+    "positive": [
+     "Evasive",
+     "Luminous"
+    ],
+    "negative": []
+   },
+   "lockedQuirks": {
+    "positive": [],
+    "negative": []
+   }
+  }
+ ],
+ "gaProvenance": {
+  "tag": "duelist",
+  "model": "models/dd_combat_ppo_full_expedition.zip",
+  "generations": 10,
+  "population": 32,
+  "gaSeed": 0,
+  "validationSeed": 9999,
+  "zones": [
+   "crypts"
+  ],
+  "tier": 5,
+  "lengthBand": "medium",
+  "numCombats": 8,
+  "resolveLevel": 6,
+  "requiredClass": "duelist",
+  "generatedUtc": "2026-08-21T22:26:47Z",
+  "measured": {
+   "successRate": 0.875,
+   "standardError": 0.0523,
+   "completionRate": 0.975,
+   "zeroDeathRate": 0.875,
+   "meanDeaths": 0.2,
+   "meanFinalStress": 15.8,
+   "episodes": 40
+  },
+  "readThisFirst": "successRate is P(this POLICY completes the run), a lower bound on a good human, and standardError is one sigma on it. Rank comps by it; do not read it as a percentage."
+ }
+}

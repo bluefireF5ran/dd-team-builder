@@ -47,7 +47,7 @@ export const HERO_CLASSES = {
     classSpecificTrinkets: HERO_SPECIFIC_TRINKETS['Flagellant'] || []
   },
   'Grave Robber': {
-    skills: ['Pick to the Face', 'Lunge', 'Flashing Daggers',  'Shadow Fade', 'Thrown Dagger', 'Poison Dart', 'Toxin Trickery'],
+    skills: ['Pick to the Face', 'Lunge', 'Flashing Daggers',  'Shadow Fade', 'Thrown Dagger', 'Poison Darts', 'Toxin Trickery'],
     campSkills: ['Encourage', 'Wound Care', 'Pep Talk', 'Snuff Box', 'Gallows Humor', 'Night Moves', 'Pilfer'],
     image: 'grave_robber.png',
     classSpecificTrinkets: HERO_SPECIFIC_TRINKETS['Grave Robber'] || []
@@ -119,7 +119,7 @@ export const HERO_CLASSES = {
     classSpecificTrinkets: HERO_SPECIFIC_TRINKETS['Shieldbreaker'] || []
   },
   'Vestal': {
-    skills: ['Mace Bash', 'Judgment', 'Dazzling Light', 'Divine Grace', 'Divine Comfort', 'Illumination', 'Hand of Light'],
+    skills: ['Mace Bash', 'Judgement', 'Dazzling Light', 'Divine Grace', 'Divine Comfort', 'Illumination', 'Hand of Light'],
     campSkills: ['Encourage', 'Wound Care', 'Pep Talk', 'Bless', 'Chant', 'Pray', 'Sanctuary'],
     image: 'vestal.png',
     classSpecificTrinkets: HERO_SPECIFIC_TRINKETS['Vestal'] || []

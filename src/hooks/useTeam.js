@@ -3,6 +3,7 @@ import { PARTY_CONFIG, EMPTY_HERO } from '../constants';
 import { saveTeamToFile, loadTeamFromFile, saveTeamToLocalStorage, loadTeamsFromLocalStorage, deleteTeamFromLocalStorage, saveAllTeamsToFile, importTeamsFromFile } from '../utils/storageHelper';
 import { generateRandomTeam } from '../utils/randomTeam';
 import { validateTeamSchema } from '../utils/validation';
+import { canonicalizeTeam } from '../utils/nameNormalizer';
 
 const MAX_HISTORY = 20;
 
@@ -145,11 +146,12 @@ export const useTeam = () => {
 
   const importFromClipboard = useCallback(async () => {
     const text = await navigator.clipboard.readText();
-    const team = JSON.parse(text);
-    const { valid, errors } = validateTeamSchema(team);
+    const raw = JSON.parse(text);
+    const { valid, errors } = validateTeamSchema(raw);
     if (!valid) {
       throw new Error('Invalid team data: ' + errors.join(', '));
     }
+    const team = canonicalizeTeam(raw);
     setTeamName(team.teamName || 'My Team');
     setLocation(team.location || 'The Ruins');
     setHeroes(prev => {
@@ -165,7 +167,8 @@ export const useTeam = () => {
     setHeroes(prev => {
       historyRef.current.past.push(JSON.parse(JSON.stringify(prev)));
       historyRef.current.future = [];
-      return preset.heroes;
+      // Clonar: los heroes del preset son objetos compartidos del bundle.
+      return JSON.parse(JSON.stringify(preset.heroes));
     });
   }, []);
 

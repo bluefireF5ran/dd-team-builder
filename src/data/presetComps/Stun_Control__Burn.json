@@ -1,0 +1,127 @@
+{
+  "teamName": "Stun Control: Burn",
+  "location": "The Cove",
+  "heroes": [
+    {
+      "heroClass": "Crusader",
+      "activeSkills": [
+        "Smite",
+        "Stunning Blow",
+        "Battle Heal",
+        "Inspiring Cry"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Stand Tall",
+        "Zealous Speech",
+        "Zealous Vigil"
+      ],
+      "trinket1": "Ancestor's Scroll",
+      "trinket2": "Ancestor's Map",
+      "quirks": {
+        "positive": [
+          "Corvids Eye",
+          "Hard Skinned",
+          "Luminous",
+          "Hippocratic"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Abomination",
+      "activeSkills": [
+        "Transform",
+        "Manacles",
+        "Beast's Bile",
+        "Absolution",
+        "Rake",
+        "Rage",
+        "Slam"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Anger Management",
+        "The Quickening",
+        "Eldritch Blood"
+      ],
+      "trinket1": "Broken Key",
+      "trinket2": "Padlock of Transference",
+      "quirks": {
+        "positive": [
+          "Corvids Eye",
+          "Luminous",
+          "Quick Reflexes"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Runaway",
+      "activeSkills": [
+        "Firefly",
+        "Run and Hide",
+        "Hearthlight",
+        "Backdraft"
+      ],
+      "activeCampSkills": [
+        "Kindle",
+        "Cauterize",
+        "Play with Fire",
+        "Pick Pocket"
+      ],
+      "trinket1": "Searing Sunstone",
+      "trinket2": "Ancestor's Signet Ring",
+      "quirks": {
+        "positive": [
+          "Corvids Eye",
+          "Evasive",
+          "Luminous"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Plague Doctor",
+      "activeSkills": [
+        "Noxious Blast",
+        "Plague Grenade",
+        "Blinding Gas",
+        "Battlefield Medicine"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Experimental Vapours",
+        "The Cure",
+        "Leeches"
+      ],
+      "trinket1": "Blasphemous Vial",
+      "trinket2": "Ashen Distillation",
+      "quirks": {
+        "positive": [
+          "Early Riser",
+          "Luminous",
+          "Quick Reflexes",
+          "Corvids Eye"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    }
+  ]
+}

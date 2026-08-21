@@ -1,0 +1,150 @@
+{
+  "teamName": "Shadowed Purse Strings",
+  "location": "The Ruins",
+  "heroes": [
+    {
+      "heroClass": "Grave Robber",
+      "activeSkills": [
+        "Lunge",
+        "Flashing Daggers",
+        "Shadow Fade",
+        "Poison Darts"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Snuff Box",
+        "Gallows Humor"
+      ],
+      "trinket1": "Topshelf Tonic",
+      "trinket2": "Lucky Talisman",
+      "quirks": {
+        "positive": [
+          "Corvids Grace",
+          "Evasive",
+          "Luminous",
+          "Corvids Eye"
+        ],
+        "negative": [
+          "Resolution"
+        ]
+      },
+      "lockedQuirks": {
+        "positive": [
+          "Corvids Grace",
+          "Evasive",
+          "Luminous"
+        ],
+        "negative": [
+          "Resolution"
+        ]
+      }
+    },
+    {
+      "heroClass": "Antiquarian",
+      "activeSkills": [
+        "Festering Vapours",
+        "Fortifying Vapours",
+        "Invigorating Vapours",
+        "Protect Me"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Strange Powders",
+        "Curious Incantation"
+      ],
+      "trinket1": "Tempting Goblet",
+      "trinket2": "Ancestor's Map",
+      "quirks": {
+        "positive": [
+          "Corvids Grace",
+          "Luminous",
+          "Quick Reflexes",
+          "Evasive"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [
+          "Corvids Grace",
+          "Luminous",
+          "Quick Reflexes"
+        ],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Highwayman",
+      "activeSkills": [
+        "Pistol Shot",
+        "Point Blank Shot",
+        "Duelist's Advance",
+        "Open Vein"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Gallows Humor",
+        "Clean Guns",
+        "Bandit's Sense"
+      ],
+      "trinket1": "Wilbur's Flag",
+      "trinket2": "Shameful Locket",
+      "quirks": {
+        "positive": [
+          "Hard Noggin",
+          "Hot to Trot",
+          "Luminous",
+          "Corvids Eye"
+        ],
+        "negative": [
+          "Known Cheat"
+        ]
+      },
+      "lockedQuirks": {
+        "positive": [
+          "Hard Noggin",
+          "Hot to Trot",
+          "Luminous"
+        ],
+        "negative": [
+          "Known Cheat"
+        ]
+      }
+    },
+    {
+      "heroClass": "Antiquarian",
+      "activeSkills": [
+        "Festering Vapours",
+        "Fortifying Vapours",
+        "Invigorating Vapours",
+        "Protect Me"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Strange Powders",
+        "Curious Incantation"
+      ],
+      "trinket1": "Smoking Skull",
+      "trinket2": "Sun Cloak",
+      "quirks": {
+        "positive": [
+          "Corvids Grace",
+          "Evasive",
+          "Luminous",
+          "Quick Reflexes"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [
+          "Corvids Grace",
+          "Evasive",
+          "Luminous"
+        ],
+        "negative": []
+      }
+    }
+  ]
+}

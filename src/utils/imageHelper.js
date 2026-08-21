@@ -11,7 +11,7 @@ export const toImageFileName = (name) => {
     .toLowerCase()
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
-    .replace(/'/g, '')
+    .replace(/['\u2018\u2019\u201A\u201B\u02BC\u02B9\u2032\u00B4\u0060]/g, '')
     .replace(/\s+/g, '_')
     .replace(/[^-\w_]/g, '')
     .replace(/^_+|_+$/g, '');
