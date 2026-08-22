@@ -1,0 +1,107 @@
+{
+  "teamName": "Money Quartet",
+  "alias": "Antiques Roadshow",
+  "location": "The Ruins",
+  "heroes": [
+    {
+      "heroClass": "Antiquarian",
+      "activeSkills": [
+        "Nervous Stab",
+        "Festering Vapours",
+        "Flashpowder",
+        "Protect Me"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Strange Powders",
+        "Curious Incantation"
+      ],
+      "trinket1": "Sun Cloak",
+      "trinket2": "Wilbur's Flag",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Antiquarian",
+      "activeSkills": [
+        "Nervous Stab",
+        "Festering Vapours",
+        "Flashpowder",
+        "Protect Me"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Strange Powders",
+        "Curious Incantation"
+      ],
+      "trinket1": "Sun Cloak",
+      "trinket2": "Camouflage Cloak",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Antiquarian",
+      "activeSkills": [
+        "Festering Vapours",
+        "Get Down!",
+        "Fortifying Vapours",
+        "Invigorating Vapours"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Resupply",
+        "Strange Powders"
+      ],
+      "trinket1": "Smoking Skull",
+      "trinket2": "Ancestor's Map",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Antiquarian",
+      "activeSkills": [
+        "Festering Vapours",
+        "Get Down!",
+        "Fortifying Vapours",
+        "Invigorating Vapours"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Resupply",
+        "Curious Incantation"
+      ],
+      "trinket1": "Sun Cloak",
+      "trinket2": "Ancestor's Coat",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    }
+  ]
+}

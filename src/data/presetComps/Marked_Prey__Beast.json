@@ -1,23 +1,24 @@
 {
   "teamName": "Marked Prey: Beast",
+  "alias": "All Good Hellion v2.0",
   "location": "The Ruins",
   "heroes": [
     {
-      "heroClass": "Occultist",
+      "heroClass": "Hellion",
       "activeSkills": [
-        "Sacrificial Stab",
-        "Wyrd Reconstruction",
-        "Vulnerability Hex",
-        "Hands from the Abyss"
+        "Wicked Hack",
+        "Iron Swan",
+        "Barbaric YAWP!",
+        "If It Bleeds"
       ],
       "activeCampSkills": [
         "Encourage",
-        "Wound Care",
-        "Dark Ritual",
-        "Unspeakable Commune"
+        "Battle Trance",
+        "Revel",
+        "Sharpen Spear"
       ],
-      "trinket1": "Demon's Cauldron",
-      "trinket2": "Ancestor's Pistol",
+      "trinket1": "Thirsting Blade",
+      "trinket2": "Ancestor's Candle",
       "quirks": {
         "positive": [],
         "negative": []
@@ -32,42 +33,14 @@
       "activeSkills": [
         "Transform",
         "Manacles",
-        "Absolution",
-        "Rage"
+        "Beast's Bile",
+        "Absolution"
       ],
       "activeCampSkills": [
-        "Encourage",
-        "Wound Care",
-        "The Quickening",
-        "Eldritch Blood"
+        "Encourage"
       ],
       "trinket1": "Broken Key",
       "trinket2": "Padlock of Transference",
-      "quirks": {
-        "positive": [],
-        "negative": []
-      },
-      "lockedQuirks": {
-        "positive": [],
-        "negative": []
-      }
-    },
-    {
-      "heroClass": "Houndmaster",
-      "activeSkills": [
-        "Hound's Rush",
-        "Target Whistle",
-        "Cry Havoc",
-        "Guard Dog"
-      ],
-      "activeCampSkills": [
-        "Encourage",
-        "Hound's Watch",
-        "Therapy Dog",
-        "Man's Best Friend"
-      ],
-      "trinket1": "Ancestor's Map",
-      "trinket2": "Ancestor's Signet Ring",
       "quirks": {
         "positive": [],
         "negative": []
@@ -87,12 +60,37 @@
       ],
       "activeCampSkills": [
         "Encourage",
-        "Marching Plan",
+        "Wound Care",
         "Restring Crossbow",
-        "Triage"
+        "Marching Plan"
       ],
-      "trinket1": "Ancestor's Musket Ball",
+      "trinket1": "Ancestor's Map",
       "trinket2": "Focus Ring",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Arbalest",
+      "activeSkills": [
+        "Sniper Shot",
+        "Sniper's Mark",
+        "Battlefield Bandage",
+        "Rallying Flare"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Restring Crossbow",
+        "Marching Plan"
+      ],
+      "trinket1": "Fuseman's Matchstick",
+      "trinket2": "Prophet's Eye",
       "quirks": {
         "positive": [],
         "negative": []

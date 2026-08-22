@@ -1,0 +1,107 @@
+{
+  "teamName": "Hex Battery: Royal",
+  "alias": "Ballad Spam, ENCORE!!",
+  "location": "The Ruins",
+  "heroes": [
+    {
+      "heroClass": "Leper",
+      "activeSkills": [
+        "Chop",
+        "Purge",
+        "Solemnity",
+        "Intimidate"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Bloody Shroud",
+        "Reflection",
+        "Quarantine"
+      ],
+      "trinket1": "Focus Ring",
+      "trinket2": "Debuff Amulet",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Occultist",
+      "activeSkills": [
+        "Weakening Curse",
+        "Wyrd Reconstruction",
+        "Vulnerability Hex",
+        "Hands from the Abyss"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Dark Strength",
+        "Unspeakable Commune"
+      ],
+      "trinket1": "Demon's Cauldron",
+      "trinket2": "Vial of Sand",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Jester",
+      "activeSkills": [
+        "Dirk Stab",
+        "Finale",
+        "Battle Ballad",
+        "Inspiring Tune"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Turn Back Time",
+        "Every Rose Has Its Thorn",
+        "Tiger's Eye"
+      ],
+      "trinket1": "Ancestor's Map",
+      "trinket2": "Tempting Goblet",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Arbalest",
+      "activeSkills": [
+        "Sniper Shot",
+        "Bola",
+        "Battlefield Bandage",
+        "Rallying Flare"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Marching Plan",
+        "Restring Crossbow",
+        "Triage"
+      ],
+      "trinket1": "Fuseman's Matchstick",
+      "trinket2": "Ancestor's Musket Ball",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    }
+  ]
+}

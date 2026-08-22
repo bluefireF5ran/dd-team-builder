@@ -1,0 +1,106 @@
+{
+  "teamName": "Holy Hymn: Sand",
+  "location": "The Ruins",
+  "heroes": [
+    {
+      "heroClass": "Shieldbreaker",
+      "activeSkills": [
+        "Pierce",
+        "Puncture",
+        "Expose",
+        "Serpent Sway"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Snake Skin",
+        "Sandstorm"
+      ],
+      "trinket1": "Move Amulet",
+      "trinket2": "Ancestor's Signet Ring",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Crusader",
+      "activeSkills": [
+        "Smite",
+        "Bulwark of Faith",
+        "Holy Lance",
+        "Inspiring Cry"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Stand Tall",
+        "Zealous Speech",
+        "Zealous Vigil"
+      ],
+      "trinket1": "Junia's Head",
+      "trinket2": "Ancestor's Map",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Highwayman",
+      "activeSkills": [
+        "Pistol Shot",
+        "Point Blank Shot",
+        "Duelist's Advance",
+        "Open Vein"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Gallows Humor",
+        "Clean Guns",
+        "Bandit's Sense"
+      ],
+      "trinket1": "Ancestor's Candle",
+      "trinket2": "Shameful Locket",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Vestal",
+      "activeSkills": [
+        "Judgement",
+        "Dazzling Light",
+        "Divine Grace",
+        "Divine Comfort"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Bless",
+        "Sanctuary"
+      ],
+      "trinket1": "Atonement Beads",
+      "trinket2": "Salacious Diary",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    }
+  ]
+}

@@ -3,21 +3,21 @@
   "location": "The Cove",
   "heroes": [
     {
-      "heroClass": "Hellion",
+      "heroClass": "Shieldbreaker",
       "activeSkills": [
-        "Wicked Hack",
-        "Iron Swan",
-        "Barbaric YAWP!",
-        "If It Bleeds"
+        "Pierce",
+        "Puncture",
+        "Expose",
+        "Serpent Sway"
       ],
       "activeCampSkills": [
         "Encourage",
-        "Battle Trance",
-        "Revel",
-        "Sharpen Spear"
+        "Wound Care",
+        "Snake Skin",
+        "Sandstorm"
       ],
-      "trinket1": "Thirsting Blade",
-      "trinket2": "Ancestor's Candle",
+      "trinket1": "Ancestor's Pen",
+      "trinket2": "Surgical Gloves",
       "quirks": {
         "positive": [],
         "negative": []
@@ -28,21 +28,21 @@
       }
     },
     {
-      "heroClass": "Abomination",
+      "heroClass": "Occultist",
       "activeSkills": [
-        "Transform",
-        "Manacles",
-        "Beast's Bile",
-        "Absolution"
+        "Sacrificial Stab",
+        "Wyrd Reconstruction",
+        "Hands from the Abyss",
+        "Daemon's Pull"
       ],
       "activeCampSkills": [
         "Encourage",
         "Wound Care",
-        "The Quickening",
-        "Eldritch Blood"
+        "Dark Strength",
+        "Unspeakable Commune"
       ],
-      "trinket1": "Broken Key",
-      "trinket2": "Padlock of Transference",
+      "trinket1": "Demon's Cauldron",
+      "trinket2": "Vial of Sand",
       "quirks": {
         "positive": [],
         "negative": []
@@ -66,8 +66,8 @@
         "Every Rose Has Its Thorn",
         "Tiger's Eye"
       ],
-      "trinket1": "Ancestor's Map",
-      "trinket2": "Ancestor's Lantern",
+      "trinket1": "Ancestor's Lantern",
+      "trinket2": "Ancestor's Map",
       "quirks": {
         "positive": [],
         "negative": []

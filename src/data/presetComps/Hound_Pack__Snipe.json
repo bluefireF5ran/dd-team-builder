@@ -1,0 +1,106 @@
+{
+  "teamName": "Hound Pack: Snipe",
+  "location": "The Weald",
+  "heroes": [
+    {
+      "heroClass": "Man at Arms",
+      "activeSkills": [
+        "Crush",
+        "Rampart",
+        "Bellow",
+        "Defender"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Tactics",
+        "Weapons Practice"
+      ],
+      "trinket1": "Mildred's Locket",
+      "trinket2": "Cleansing Crystal",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Houndmaster",
+      "activeSkills": [
+        "Hound's Rush",
+        "Target Whistle",
+        "Guard Dog",
+        "Blackjack"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Hound's Watch",
+        "Therapy Dog",
+        "Man's Best Friend"
+      ],
+      "trinket1": "Cudgel Weight",
+      "trinket2": "Dazzling Charm",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Houndmaster",
+      "activeSkills": [
+        "Hound's Rush",
+        "Target Whistle",
+        "Cry Havoc",
+        "Guard Dog"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Hound's Watch",
+        "Therapy Dog",
+        "Man's Best Friend"
+      ],
+      "trinket1": "Evidence of Corruption",
+      "trinket2": "Ancestor's Map",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Musketeer",
+      "activeSkills": [
+        "Aimed Shot",
+        "Sidearm",
+        "Patch Up",
+        "Skeet Shot"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Clean Musket",
+        "Triage"
+      ],
+      "trinket1": "Medic's Boots",
+      "trinket2": "Second Place Trophy",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    }
+  ]
+}

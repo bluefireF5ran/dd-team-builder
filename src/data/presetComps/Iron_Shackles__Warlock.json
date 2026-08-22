@@ -1,0 +1,106 @@
+{
+  "teamName": "Iron Shackles: Warlock",
+  "location": "The Ruins",
+  "heroes": [
+    {
+      "heroClass": "Occultist",
+      "activeSkills": [
+        "Sacrificial Stab",
+        "Weakening Curse",
+        "Wyrd Reconstruction",
+        "Hands from the Abyss"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Dark Strength",
+        "Unspeakable Commune"
+      ],
+      "trinket1": "Demon's Cauldron",
+      "trinket2": "Ancestor's Signet Ring",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Abomination",
+      "activeSkills": [
+        "Transform",
+        "Manacles",
+        "Beast's Bile",
+        "Absolution"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "The Quickening",
+        "Eldritch Blood"
+      ],
+      "trinket1": "Broken Key",
+      "trinket2": "Padlock of Transference",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Plague Doctor",
+      "activeSkills": [
+        "Noxious Blast",
+        "Blinding Gas",
+        "Battlefield Medicine",
+        "Disorienting Blast"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Leeches",
+        "The Cure"
+      ],
+      "trinket1": "Blasphemous Vial",
+      "trinket2": "Ancestor's Map",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Crusader",
+      "activeSkills": [
+        "Smite",
+        "Stunning Blow",
+        "Holy Lance",
+        "Inspiring Cry"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Stand Tall",
+        "Zealous Speech",
+        "Zealous Vigil"
+      ],
+      "trinket1": "Ancestor's Pen",
+      "trinket2": "Focus Ring",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    }
+  ]
+}

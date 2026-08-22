@@ -1,48 +1,24 @@
 {
   "teamName": "Marked Prey: Bulwark",
-  "location": "The Weald",
+  "alias": "Battlefield 2",
+  "location": "The Warrens",
   "heroes": [
     {
-      "heroClass": "Man at Arms",
+      "heroClass": "Leper",
       "activeSkills": [
-        "Crush",
-        "Rampart",
-        "Defender",
-        "Bolster"
+        "Chop",
+        "Hew",
+        "Revenge",
+        "Solemnity"
       ],
       "activeCampSkills": [
         "Encourage",
-        "Wound Care",
-        "Tactics",
-        "Weapons Practice"
+        "Let the Mask Down",
+        "Reflection",
+        "Quarantine"
       ],
-      "trinket1": "Mildred's Locket",
-      "trinket2": "Rampart Shield",
-      "quirks": {
-        "positive": [],
-        "negative": []
-      },
-      "lockedQuirks": {
-        "positive": [],
-        "negative": []
-      }
-    },
-    {
-      "heroClass": "Occultist",
-      "activeSkills": [
-        "Weakening Curse",
-        "Wyrd Reconstruction",
-        "Vulnerability Hex",
-        "Hands from the Abyss"
-      ],
-      "activeCampSkills": [
-        "Encourage",
-        "Wound Care",
-        "Dark Ritual",
-        "Unspeakable Commune"
-      ],
-      "trinket1": "Demon's Cauldron",
-      "trinket2": "Ancestor's Pistol",
+      "trinket1": "Focus Ring",
+      "trinket2": "Dismas' Head",
       "quirks": {
         "positive": [],
         "negative": []
@@ -57,8 +33,8 @@
       "activeSkills": [
         "Hound's Rush",
         "Target Whistle",
-        "Cry Havoc",
-        "Guard Dog"
+        "Lick Wounds",
+        "Blackjack"
       ],
       "activeCampSkills": [
         "Encourage",
@@ -66,8 +42,8 @@
         "Therapy Dog",
         "Man's Best Friend"
       ],
-      "trinket1": "Evidence of Corruption",
-      "trinket2": "Steady Bracer",
+      "trinket1": "Ancestor's Pistol",
+      "trinket2": "Evidence of Corruption",
       "quirks": {
         "positive": [],
         "negative": []
@@ -81,18 +57,43 @@
       "heroClass": "Arbalest",
       "activeSkills": [
         "Sniper Shot",
-        "Bola",
-        "Battlefield Bandage",
-        "Rallying Flare"
+        "Suppressing Fire",
+        "Blindfire",
+        "Battlefield Bandage"
       ],
       "activeCampSkills": [
         "Encourage",
+        "Wound Care",
         "Marching Plan",
-        "Restring Crossbow",
         "Triage"
       ],
-      "trinket1": "Fuseman's Matchstick",
-      "trinket2": "Prophet's Eye",
+      "trinket1": "Childhood Treasure",
+      "trinket2": "Bedtime Story",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Man at Arms",
+      "activeSkills": [
+        "Bellow",
+        "Defender",
+        "Command",
+        "Bolster"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Tactics",
+        "Weapons Practice"
+      ],
+      "trinket1": "Wilbur's Flag",
+      "trinket2": "Guardian's Shield",
       "quirks": {
         "positive": [],
         "negative": []

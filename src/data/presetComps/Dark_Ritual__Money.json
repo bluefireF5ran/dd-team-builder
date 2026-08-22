@@ -1,0 +1,106 @@
+{
+  "teamName": "Dark Ritual: Money",
+  "location": "The Ruins",
+  "heroes": [
+    {
+      "heroClass": "Occultist",
+      "activeSkills": [
+        "Sacrificial Stab",
+        "Weakening Curse",
+        "Wyrd Reconstruction",
+        "Hands from the Abyss"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Dark Ritual",
+        "Unspeakable Commune"
+      ],
+      "trinket1": "Demon's Cauldron",
+      "trinket2": "Steady Bracer",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Antiquarian",
+      "activeSkills": [
+        "Nervous Stab",
+        "Festering Vapours",
+        "Fortifying Vapours",
+        "Protect Me"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Resupply",
+        "Trinket Scrounge"
+      ],
+      "trinket1": "Seer Stone",
+      "trinket2": "Survival Guide",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Plague Doctor",
+      "activeSkills": [
+        "Noxious Blast",
+        "Blinding Gas",
+        "Battlefield Medicine",
+        "Disorienting Blast"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Leeches",
+        "The Cure"
+      ],
+      "trinket1": "Blasphemous Vial",
+      "trinket2": "Swift Cloak",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Crusader",
+      "activeSkills": [
+        "Smite",
+        "Stunning Blow",
+        "Holy Lance",
+        "Inspiring Cry"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Stand Tall",
+        "Zealous Speech",
+        "Zealous Vigil"
+      ],
+      "trinket1": "Warrior's Cap",
+      "trinket2": "Seer Stone",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    }
+  ]
+}

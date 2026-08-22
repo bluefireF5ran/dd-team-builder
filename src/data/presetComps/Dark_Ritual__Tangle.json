@@ -1,0 +1,106 @@
+{
+  "teamName": "Dark Ritual: Tangle",
+  "location": "The Cove",
+  "heroes": [
+    {
+      "heroClass": "Hellion",
+      "activeSkills": [
+        "Wicked Hack",
+        "Iron Swan",
+        "Barbaric YAWP!",
+        "If It Bleeds"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Battle Trance",
+        "Revel",
+        "Sharpen Spear"
+      ],
+      "trinket1": "Thirsting Blade",
+      "trinket2": "Ancestor's Candle",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Occultist",
+      "activeSkills": [
+        "Sacrificial Stab",
+        "Wyrd Reconstruction",
+        "Hands from the Abyss",
+        "Daemon's Pull"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Dark Strength",
+        "Unspeakable Commune"
+      ],
+      "trinket1": "Demon's Cauldron",
+      "trinket2": "Ancestor's Signet Ring",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Bounty Hunter",
+      "activeSkills": [
+        "Collect Bounty",
+        "Come Hither",
+        "Flashbang",
+        "Finish Him"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "This Is How We Do It",
+        "Tracking"
+      ],
+      "trinket1": "Surgical Gloves",
+      "trinket2": "Hunter's Talons",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Plague Doctor",
+      "activeSkills": [
+        "Noxious Blast",
+        "Blinding Gas",
+        "Battlefield Medicine",
+        "Disorienting Blast"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Leeches",
+        "The Cure"
+      ],
+      "trinket1": "Blasphemous Vial",
+      "trinket2": "Witch's Vial",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    }
+  ]
+}

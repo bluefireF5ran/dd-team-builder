@@ -1,0 +1,107 @@
+{
+  "teamName": "Grim Bastion: Bulwark",
+  "alias": "Battlefield",
+  "location": "The Ruins",
+  "heroes": [
+    {
+      "heroClass": "Leper",
+      "activeSkills": [
+        "Chop",
+        "Purge",
+        "Revenge",
+        "Solemnity"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Bloody Shroud",
+        "Reflection",
+        "Quarantine"
+      ],
+      "trinket1": "Ancestor's Pen",
+      "trinket2": "Surgical Gloves",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Crusader",
+      "activeSkills": [
+        "Smite",
+        "Bulwark of Faith",
+        "Battle Heal",
+        "Inspiring Cry"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Stand Tall",
+        "Zealous Speech",
+        "Zealous Vigil"
+      ],
+      "trinket1": "Heavy Boots",
+      "trinket2": "Glittering Spaulders",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Houndmaster",
+      "activeSkills": [
+        "Hound's Rush",
+        "Cry Havoc",
+        "Guard Dog",
+        "Lick Wounds"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Hound's Watch",
+        "Therapy Dog",
+        "Man's Best Friend"
+      ],
+      "trinket1": "Ancestor's Coat",
+      "trinket2": "Camouflage Cloak",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Man at Arms",
+      "activeSkills": [
+        "Bellow",
+        "Defender",
+        "Command",
+        "Bolster"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Tactics",
+        "Weapons Practice"
+      ],
+      "trinket1": "Prophet's Eye",
+      "trinket2": "Ancestor's Map",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    }
+  ]
+}

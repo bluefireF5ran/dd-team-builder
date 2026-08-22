@@ -1,0 +1,107 @@
+{
+  "teamName": "Feral Contract: Royal",
+  "alias": "All Good Leper",
+  "location": "The Ruins",
+  "heroes": [
+    {
+      "heroClass": "Leper",
+      "activeSkills": [
+        "Chop",
+        "Purge",
+        "Solemnity",
+        "Intimidate"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Bloody Shroud",
+        "Reflection",
+        "Quarantine"
+      ],
+      "trinket1": "Focus Ring",
+      "trinket2": "Debuff Amulet",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Abomination",
+      "activeSkills": [
+        "Transform",
+        "Manacles",
+        "Beast's Bile",
+        "Absolution"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Anger Management",
+        "The Quickening",
+        "Eldritch Blood"
+      ],
+      "trinket1": "Broken Key",
+      "trinket2": "Padlock of Transference",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Houndmaster",
+      "activeSkills": [
+        "Hound's Rush",
+        "Target Whistle",
+        "Cry Havoc",
+        "Guard Dog"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Hound's Watch",
+        "Therapy Dog",
+        "Man's Best Friend"
+      ],
+      "trinket1": "Ancestor's Map",
+      "trinket2": "Ancestor's Pistol",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Arbalest",
+      "activeSkills": [
+        "Sniper Shot",
+        "Bola",
+        "Battlefield Bandage",
+        "Rallying Flare"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Marching Plan",
+        "Triage",
+        "Restring Crossbow"
+      ],
+      "trinket1": "Medic's Greaves",
+      "trinket2": "Focus Ring",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    }
+  ]
+}

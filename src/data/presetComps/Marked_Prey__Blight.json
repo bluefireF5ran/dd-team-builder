@@ -1,23 +1,23 @@
 {
   "teamName": "Marked Prey: Blight",
-  "location": "The Warrens",
+  "location": "The Weald",
   "heroes": [
     {
-      "heroClass": "Occultist",
+      "heroClass": "Bounty Hunter",
       "activeSkills": [
-        "Weakening Curse",
-        "Wyrd Reconstruction",
-        "Vulnerability Hex",
-        "Hands from the Abyss"
+        "Collect Bounty",
+        "Mark for Death",
+        "Come Hither",
+        "Finish Him"
       ],
       "activeCampSkills": [
         "Encourage",
         "Wound Care",
-        "Dark Ritual",
-        "Unspeakable Commune"
+        "This Is How We Do It",
+        "Tracking"
       ],
-      "trinket1": "Demon's Cauldron",
-      "trinket2": "Ancestor's Pistol",
+      "trinket1": "Ancestor's Pen",
+      "trinket2": "Hunter's Talons",
       "quirks": {
         "positive": [],
         "negative": []
@@ -41,8 +41,8 @@
         "Therapy Dog",
         "Man's Best Friend"
       ],
-      "trinket1": "Ancestor's Map",
-      "trinket2": "Cudgel Weight",
+      "trinket1": "Camouflage Cloak",
+      "trinket2": "Ancestor's Coat",
       "quirks": {
         "positive": [],
         "negative": []
@@ -57,8 +57,8 @@
       "activeSkills": [
         "Blinding Gas",
         "Incision",
-        "Battlefield Medicine",
-        "Disorienting Blast"
+        "Disorienting Blast",
+        "Emboldening Vapours"
       ],
       "activeCampSkills": [
         "Encourage",
@@ -81,7 +81,7 @@
       "heroClass": "Arbalest",
       "activeSkills": [
         "Sniper Shot",
-        "Bola",
+        "Blindfire",
         "Battlefield Bandage",
         "Rallying Flare"
       ],
@@ -91,8 +91,8 @@
         "Restring Crossbow",
         "Triage"
       ],
-      "trinket1": "Fuseman's Matchstick",
-      "trinket2": "Prophet's Eye",
+      "trinket1": "Medic's Greaves",
+      "trinket2": "Childhood Treasure",
       "quirks": {
         "positive": [],
         "negative": []
