@@ -1,0 +1,105 @@
+{
+  "teamName": "Rabid Devotion: Faith",
+  "location": "The Darkest Dungeon II",
+  "heroes": [
+    {
+      "heroClass": "Man at Arms",
+      "activeSkills": [
+        "Crush",
+        "Rampart",
+        "Defender",
+        "Bolster"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Tactics",
+        "Weapons Practice"
+      ],
+      "trinket1": "Talisman of the Flame",
+      "trinket2": "Wilbur's Flag",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Flagellant",
+      "activeSkills": [
+        "Punish",
+        "Rain of Sorrows",
+        "Redeem",
+        "Endure"
+      ],
+      "activeCampSkills": [
+        "Lash's Solace",
+        "Lash's Kiss",
+        "Lash's Cure"
+      ],
+      "trinket1": "Talisman of the Flame",
+      "trinket2": "Shard of Glass",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Houndmaster",
+      "activeSkills": [
+        "Hound's Rush",
+        "Cry Havoc",
+        "Guard Dog",
+        "Lick Wounds"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Hound's Watch",
+        "Therapy Dog",
+        "Man's Best Friend"
+      ],
+      "trinket1": "Talisman of the Flame",
+      "trinket2": "Ancestor's Pistol",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Vestal",
+      "activeSkills": [
+        "Judgement",
+        "Dazzling Light",
+        "Divine Grace",
+        "Divine Comfort"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Bless",
+        "Sanctuary"
+      ],
+      "trinket1": "Atonement Beads",
+      "trinket2": "Salacious Diary",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    }
+  ]
+}

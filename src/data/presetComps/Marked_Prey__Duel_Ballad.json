@@ -1,0 +1,137 @@
+{
+  "teamName": "Marked Prey: Duel & Ballad",
+  "alias": "Solo Duel",
+  "location": "The Ruins",
+  "heroes": [
+    {
+      "heroClass": "Houndmaster",
+      "activeSkills": [
+        "Hound's Rush",
+        "Target Whistle",
+        "Guard Dog",
+        "Blackjack"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Hound's Watch",
+        "Therapy Dog"
+      ],
+      "trinket1": "Ancestor's Coat",
+      "trinket2": "Wilbur's Flag",
+      "quirks": {
+        "positive": [
+          "Corvids Eye",
+          "Corvids Grace",
+          "Luminous",
+          "Evasive"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Duelist",
+      "activeSkills": [
+        "Anticipation",
+        "Touché",
+        "Feint",
+        "Disengage",
+        "Flèche",
+        "Coup de Grâce",
+        "The Boot"
+      ],
+      "activeCampSkills": [
+        "Meditation",
+        "Preparation",
+        "Ruthless Instruction",
+        "Again!"
+      ],
+      "trinket1": "Ancestor's Candle",
+      "trinket2": "Gilded Mantle",
+      "quirks": {
+        "positive": [
+          "Corvids Eye",
+          "Evasive",
+          "Luminous",
+          "Corvids Grace"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Jester",
+      "activeSkills": [
+        "Dirk Stab",
+        "Finale",
+        "Solo",
+        "Inspiring Tune"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Every Rose Has Its Thorn",
+        "Tiger's Eye"
+      ],
+      "trinket1": "Camouflage Cloak",
+      "trinket2": "Tempting Goblet",
+      "quirks": {
+        "positive": [
+          "Corvids Eye",
+          "Corvids Grace",
+          "Luminous",
+          "Evasive"
+        ],
+        "negative": [
+          "Deviant Tastes",
+          "Resolution",
+          "Unquiet Mind"
+        ]
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Arbalest",
+      "activeSkills": [
+        "Sniper Shot",
+        "Suppressing Fire",
+        "Bola",
+        "Battlefield Bandage"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Marching Plan",
+        "Restring Crossbow"
+      ],
+      "trinket1": "Bedtime Story",
+      "trinket2": "Ancestor's Map",
+      "quirks": {
+        "positive": [
+          "Corvids Eye",
+          "Hippocratic",
+          "Eagle Eye",
+          "Luminous"
+        ],
+        "negative": [
+          "Bad Gambler",
+          "Enlightened"
+        ]
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    }
+  ]
+}

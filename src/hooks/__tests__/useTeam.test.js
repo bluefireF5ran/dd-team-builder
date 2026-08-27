@@ -12,8 +12,21 @@ describe('useTeam', () => {
     expect(result.current.teamName).toBe('My Team');
     expect(result.current.location).toBe('The Ruins');
     expect(result.current.heroes).toHaveLength(4);
-    expect(result.current.showBackerTrinkets).toBe(false);
-    expect(result.current.showModdedHeroes).toBe(false);
+  });
+
+  // El contenido opcional es una preferencia y vive en useSettings; useTeam ya
+  // no lo conoce, solo lo recibe como argumento donde hace falta.
+  test('does not own the optional-content switches', () => {
+    const { result } = renderHook(() => useTeam());
+    expect(result.current.showBackerTrinkets).toBeUndefined();
+    expect(result.current.showModdedHeroes).toBeUndefined();
+    expect(result.current.toggleBackerTrinkets).toBeUndefined();
+    expect(result.current.toggleModdedHeroes).toBeUndefined();
+  });
+
+  test('starts in the location the settings ask for', () => {
+    const { result } = renderHook(() => useTeam({ defaultLocation: 'The Cove' }));
+    expect(result.current.location).toBe('The Cove');
   });
 
   test('initializes heroes as empty', () => {
@@ -142,32 +155,17 @@ describe('useTeam', () => {
     expect(result.current.savedTeams).toHaveLength(0);
   });
 
-  test('toggleBackerTrinkets toggles the state', () => {
-    const { result } = renderHook(() => useTeam());
+  test('clearTeam returns to the configured default location', () => {
+    const { result } = renderHook(() => useTeam({ defaultLocation: 'The Weald' }));
 
     act(() => {
-      result.current.toggleBackerTrinkets();
+      result.current.setLocation('The Cove');
     });
-    expect(result.current.showBackerTrinkets).toBe(true);
-
     act(() => {
-      result.current.toggleBackerTrinkets();
+      result.current.clearTeam();
     });
-    expect(result.current.showBackerTrinkets).toBe(false);
-  });
 
-  test('toggleModdedHeroes toggles the state', () => {
-    const { result } = renderHook(() => useTeam());
-
-    act(() => {
-      result.current.toggleModdedHeroes();
-    });
-    expect(result.current.showModdedHeroes).toBe(true);
-
-    act(() => {
-      result.current.toggleModdedHeroes();
-    });
-    expect(result.current.showModdedHeroes).toBe(false);
+    expect(result.current.location).toBe('The Weald');
   });
 
   describe('undo/redo', () => {

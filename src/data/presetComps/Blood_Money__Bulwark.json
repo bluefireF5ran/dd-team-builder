@@ -32,6 +32,9 @@
       "heroClass": "Abomination",
       "activeSkills": [
         "Transform",
+        "Manacles",
+        "Beast's Bile",
+        "Absolution",
         "Rake",
         "Rage",
         "Slam"

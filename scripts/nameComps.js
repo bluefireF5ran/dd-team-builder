@@ -54,7 +54,9 @@ const loadEsm = (filePath) => {
   return mod.exports;
 };
 
-const { assignCompNames, longestName } = loadEsm(path.join(ROOT, 'src', 'utils', 'compNaming.js'));
+const { assignCompNames, longestName, toCompFileName } = loadEsm(path.join(ROOT, 'src', 'utils', 'compNaming.js'));
+const { NAME_LIMITS } = loadEsm(path.join(ROOT, 'src', 'data', 'compTaxonomy.js'));
+const NAME_BUDGET = NAME_LIMITS.family + NAME_LIMITS.separator.length + NAME_LIMITS.variant;
 
 // --- Entrada ---
 const readComps = () =>
@@ -63,14 +65,6 @@ const readComps = () =>
     .filter((f) => f.endsWith('.json'))
     .sort((a, b) => a.localeCompare(b))
     .map((file) => ({ file, ...JSON.parse(fs.readFileSync(path.join(COMPS_DIR, file), 'utf8')) }));
-
-/** "Dark Ritual: Allure" -> "Dark_Ritual__Allure.json" (Windows no admite ":"). */
-const toFileName = (name) =>
-  `${name
-    .replace(/:\s*/g, '__')
-    .replace(/\s+/g, '_')
-    .replace(/[<>"/\\|?*]/g, '')
-    .replace(/_+$/, '')}.json`;
 
 // --- Informe ---
 const pad = (s, n) => String(s).padEnd(n);
@@ -110,6 +104,20 @@ const report = (records, mode) => {
     if (rs.length > 1) warnings.push(`COLISION  "${name}" <- ${rs.map((r) => r.file).join(', ')}`);
   });
 
+  // Dos comps con el MISMO cuerpo son la misma comp dos veces: la taxonomia no
+  // puede separarlas y una de las dos sobra. Se avisa aparte de "mismo roster",
+  // que es solo un parecido.
+  const bodyKey = (r) => JSON.stringify({ l: r.comp.location, h: r.comp.heroes });
+  const byBody = new Map();
+  records.forEach((r) => {
+    const k = bodyKey(r);
+    if (!byBody.has(k)) byBody.set(k, []);
+    byBody.get(k).push(r);
+  });
+  byBody.forEach((rs) => {
+    if (rs.length > 1) warnings.push(`DUPLICADA  ${rs.map((r) => r.file).join('  |  ')}  (cuerpo identico, sobra una)`);
+  });
+
   const rosterKey = (r) => [...r.analysis.classes].sort().join('|');
   const byRoster = new Map();
   records.forEach((r) => {
@@ -118,17 +126,17 @@ const report = (records, mode) => {
     byRoster.get(k).push(r);
   });
   byRoster.forEach((rs) => {
-    if (rs.length > 1) warnings.push(`MISMO ROSTER  ${rs.map((r) => r.originalName).join('  |  ')}`);
+    if (rs.length > 1) warnings.push(`MISMO ROSTER  ${rs.map((r) => r.name).join('  |  ')}`);
   });
 
   records
-    .filter((r) => r.family.source !== 'signature')
+    .filter((r) => !r.exempt && r.family.source !== 'signature')
     .forEach((r) =>
       warnings.push(`SIN FIRMA  ${pad(r.originalName, 30)} -> ${r.name}  (familia deducida de la mecanica)`)
     );
 
   records
-    .filter((r) => r.name.length > 34)
+    .filter((r) => r.name.length > NAME_BUDGET)
     .forEach((r) => warnings.push(`LARGO ${r.name.length}  ${r.name}`));
 
   if (warnings.length) {
@@ -148,7 +156,7 @@ const apply = (records) => {
   // Varios renombrados apuntan a un fichero que hoy ocupa OTRA comp
   // (Stun_Control__Money, Marked_Prey__Blight...). Renombrar de uno en uno
   // se comeria esos casos, asi que va en dos fases con nombres temporales.
-  const plan = records.map((r) => ({ record: r, from: r.file, to: toFileName(r.name) }));
+  const plan = records.map((r) => ({ record: r, from: r.file, to: r.exempt ? r.file : toCompFileName(r.name) }));
 
   const clashes = new Map();
   plan.forEach((p) => clashes.set(p.to, [...(clashes.get(p.to) || []), p.record.name]));
@@ -164,6 +172,9 @@ const apply = (records) => {
   plan.forEach(({ record, from }) => {
     const body = { teamName: record.name };
     if (record.alias) body.alias = record.alias;
+    // `taxonomy: false` es lo que mantiene a The Old Road fuera del renombrado:
+    // si se perdiera al reescribir el fichero, la siguiente pasada la renombraria.
+    if (record.exempt) body.taxonomy = false;
     body.location = record.comp.location;
     body.heroes = record.comp.heroes;
     fs.writeFileSync(path.join(COMPS_DIR, from), JSON.stringify(body, null, 2) + EOL, 'utf8');
@@ -176,6 +187,22 @@ const apply = (records) => {
     fs.renameSync(path.join(COMPS_DIR, p.from), path.join(COMPS_DIR, p.tmp));
   });
   moves.forEach((p) => fs.renameSync(path.join(COMPS_DIR, p.tmp), path.join(COMPS_DIR, p.to)));
+
+  // Comprobacion despues de mover. Un renombrado en dos fases que se deje un
+  // fichero por el camino no se nota hasta que la app no arranca, asi que se
+  // comprueba aqui: cada comp planificada tiene que estar en disco, y en el
+  // directorio no puede quedar nada mas.
+  const onDisk = new Set(fs.readdirSync(COMPS_DIR).filter((f) => f.endsWith('.json')));
+  const lost = plan.filter((p) => !onDisk.has(p.to)).map((p) => `${p.record.name} (${p.to})`);
+  const strays = [...onDisk].filter((f) => !plan.some((p) => p.to === f));
+  if (lost.length || strays.length) {
+    console.error('ERROR: el renombrado no cuadra.');
+    lost.forEach((l) => console.error(`  PERDIDA   ${l}`));
+    strays.forEach((f) => console.error(`  SOBRANTE  ${f}`));
+    console.error('Recupera con: git checkout -- src/data/presetComps');
+    process.exitCode = 1;
+    return;
+  }
 
   const manifest = plan.map(({ record, from, to }) => ({
     from,
@@ -219,6 +246,11 @@ if (args.includes('--json')) {
       2
     )
   );
+} else if (args.includes('--check')) {
+  // Para rebuild_taxonomy.bat: codigo 1 = hay renombrados pendientes.
+  const changed = records.filter((r) => r.changed).length;
+  console.log(changed ? `${changed} comps cambiarian de nombre.` : 'La taxonomia ya esta al dia.');
+  process.exitCode = changed ? 1 : 0;
 } else if (args.includes('--apply')) {
   apply(records);
 } else {

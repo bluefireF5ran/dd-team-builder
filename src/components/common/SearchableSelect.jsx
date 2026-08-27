@@ -1,5 +1,6 @@
 import React, { useState, useRef, useCallback } from 'react';
 import { Search, X } from 'lucide-react';
+import { nameMatchesSearch } from '../../utils/nameNormalizer';
 
 const SearchableSelect = ({
   value,
@@ -17,9 +18,7 @@ const SearchableSelect = ({
   const [focusedIndex, setFocusedIndex] = useState(-1);
   const listRef = useRef(null);
 
-  const filteredOptions = options.filter(opt =>
-    opt.toLowerCase().includes(search.toLowerCase())
-  );
+  const filteredOptions = options.filter(opt => nameMatchesSearch(opt, search));
 
   // Build index map once for O(1) lookup instead of O(n) indexOf per item
   const optionIndexMap = React.useMemo(() => {

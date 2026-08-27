@@ -1,7 +1,10 @@
 import { COMP_LIBRARY } from './compLibrary';
 
 const TOP_N_TRINKETS = 8;
-const TOP_N_QUIRKS = 10;
+// Five, and in usage order. A longer list stopped being a recommendation and
+// became a second copy of the roster: the tail of a ten-item list is quirks one
+// or two comps happened to carry, which reads as advice it is not.
+const TOP_N_QUIRKS = 5;
 
 const bumpCount = (map, key, name) => {
   if (!key || !name) return;
@@ -51,11 +54,16 @@ const buildRecommendations = () => {
   return { trinketsByClass, quirksByClass };
 };
 
-const { trinketsByClass: RECOMMENDED_TRINKETS_BY_CLASS, quirksByClass: RECOMMENDED_QUIRKS_BY_CLASS } = buildRecommendations();
+// Un barrido de las 139 comps al arrancar la app, para algo que solo hace falta
+// al abrir un selector de baratijas o de rarezas: se calcula la primera vez que
+// se pregunta y se guarda.
+let cache = null;
+const recommendations = () => {
+  if (!cache) cache = buildRecommendations();
+  return cache;
+};
 
-export { RECOMMENDED_TRINKETS_BY_CLASS, RECOMMENDED_QUIRKS_BY_CLASS };
-
-export const getRecommendedTrinkets = (heroClass) => RECOMMENDED_TRINKETS_BY_CLASS[heroClass] || [];
+export const getRecommendedTrinkets = (heroClass) => recommendations().trinketsByClass[heroClass] || [];
 
 export const getRecommendedQuirks = (heroClass) =>
-  RECOMMENDED_QUIRKS_BY_CLASS[heroClass] || { positive: [], negative: [] };
+  recommendations().quirksByClass[heroClass] || { positive: [], negative: [] };

@@ -1,0 +1,109 @@
+{
+  "teamName": "Mirage Dance: Ballad",
+  "location": "The Cove",
+  "heroes": [
+    {
+      "heroClass": "Crusader",
+      "activeSkills": [
+        "Smite",
+        "Stunning Blow",
+        "Battle Heal",
+        "Inspiring Cry"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Stand Tall",
+        "Zealous Speech",
+        "Zealous Vigil"
+      ],
+      "trinket1": "Ancestor's Scroll",
+      "trinket2": "Signed Conscription",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Abomination",
+      "activeSkills": [
+        "Transform",
+        "Manacles",
+        "Beast's Bile",
+        "Absolution",
+        "Rake",
+        "Rage",
+        "Slam"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "The Quickening",
+        "Eldritch Blood"
+      ],
+      "trinket1": "Broken Key",
+      "trinket2": "Padlock of Transference",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Jester",
+      "activeSkills": [
+        "Dirk Stab",
+        "Harvest",
+        "Battle Ballad",
+        "Inspiring Tune"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Turn Back Time",
+        "Every Rose Has Its Thorn",
+        "Tiger's Eye"
+      ],
+      "trinket1": "Ancestor's Map",
+      "trinket2": "Bleed Amulet",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Grave Robber",
+      "activeSkills": [
+        "Lunge",
+        "Shadow Fade",
+        "Poison Darts",
+        "Toxin Trickery"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Snuff Box",
+        "Gallows Humor"
+      ],
+      "trinket1": "Lucky Talisman",
+      "trinket2": "Debuff Amulet",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    }
+  ]
+}

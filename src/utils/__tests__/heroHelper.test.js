@@ -1,4 +1,4 @@
-import { createEmptyHero, resetHeroConfiguration, hasHeroConfiguration, cloneHero } from '../heroHelper';
+import { createEmptyHero, resetHeroConfiguration, hasHeroConfiguration, cloneHero, sortToRoster } from '../heroHelper';
 import { EMPTY_HERO } from '../../constants';
 
 describe('createEmptyHero', () => {
@@ -88,5 +88,38 @@ describe('cloneHero', () => {
     const clone = cloneHero(hero);
     expect(clone.quirks).toEqual({ positive: [], negative: [] });
     expect(clone.lockedQuirks).toEqual({ positive: [], negative: [] });
+  });
+});
+
+describe('sortToRoster', () => {
+  const roster = ['Smite', 'Zealous Accusation', 'Stunning Blow', 'Holy Lance', 'Battle Heal'];
+
+  test('puts a selection back into the order the class declares', () => {
+    expect(sortToRoster(['Holy Lance', 'Smite', 'Stunning Blow'], roster))
+      .toEqual(['Smite', 'Stunning Blow', 'Holy Lance']);
+  });
+
+  test('does not mutate the array it was handed', () => {
+    const picked = ['Holy Lance', 'Smite'];
+    sortToRoster(picked, roster);
+    expect(picked).toEqual(['Holy Lance', 'Smite']);
+  });
+
+  test('keeps a name the roster has never heard of, at the end', () => {
+    // Sorting must never lose a selection: a modded or renamed skill goes last
+    // rather than being dropped or floated to the front.
+    expect(sortToRoster(['Modded Strike', 'Holy Lance', 'Smite'], roster))
+      .toEqual(['Smite', 'Holy Lance', 'Modded Strike']);
+  });
+
+  test('keeps unknown names in the order they were picked', () => {
+    expect(sortToRoster(['Second Unknown', 'First Unknown'], roster))
+      .toEqual(['Second Unknown', 'First Unknown']);
+  });
+
+  test('copes with an empty or missing roster', () => {
+    expect(sortToRoster(['B', 'A'], [])).toEqual(['B', 'A']);
+    expect(sortToRoster(['B', 'A'], undefined)).toEqual(['B', 'A']);
+    expect(sortToRoster(undefined, roster)).toEqual([]);
   });
 });

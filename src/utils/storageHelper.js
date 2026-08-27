@@ -3,15 +3,23 @@ import { canonicalizeTeam } from './nameNormalizer';
 
 const STORAGE_KEY = 'dd_team_builder_teams';
 
-export const saveTeamToFile = (teamName, location, heroes) => {
-  const team = { teamName, location, heroes };
-  const dataStr = JSON.stringify(team, null, 2);
-  const dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
-  const exportFileDefaultName = `${teamName.replace(/\s+/g, '_')}.json`;
+/**
+ * Descarga la comp con el nombre que le da la taxonomia, lista para soltarla en
+ * src/data/presetComps. `teamName` es el nombre taxonomico y `alias` el que le
+ * habia puesto el usuario, que es como la recuerda y como la va a buscar.
+ * El formato es el mismo que lee `loadTeamFromFile`, asi que tambien se puede
+ * volver a importar sin pasar por el repo.
+ */
+export const savePresetToFile = ({ name, alias, fileName, location, heroes }) => {
+  const body = { teamName: name };
+  if (alias) body.alias = alias;
+  body.location = location;
+  body.heroes = heroes;
 
+  const dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(body, null, 2));
   const linkElement = document.createElement('a');
   linkElement.setAttribute('href', dataUri);
-  linkElement.setAttribute('download', exportFileDefaultName);
+  linkElement.setAttribute('download', fileName);
   linkElement.click();
 };
 

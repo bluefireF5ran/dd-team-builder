@@ -6,7 +6,11 @@ import { TRINKETS } from '../../data/trinkets';
 import { BACKER_TRINKETS } from '../../data/backer_trinkets';
 import { getRecommendedTrinkets } from '../../data/recommendations';
 import { getTrinketImagePath } from '../../utils/imageHelper';
+import { getTrinketEffect } from '../../data/trinketEffects';
+import { trinketHover } from '../../utils/hoverInfo';
+import { nameMatchesSearch } from '../../utils/nameNormalizer';
 import ImageWithFallback from '../common/ImageWithFallback';
+import HoverCard from '../common/HoverCard';
 
 const CATEGORY_META = {
   recommended: { label: 'Recommended', text: 'text-emerald-400' },
@@ -60,11 +64,11 @@ const TrinketPicker = ({
   }, [heroClass, showBackerTrinkets, showModdedHeroes]);
 
   const categories = useMemo(() => {
-    const q = search.trim().toLowerCase();
+    const q = search.trim();
     return baseCategories
       .map((cat) => ({
         ...cat,
-        items: q ? cat.items.filter((name) => name.toLowerCase().includes(q)) : cat.items
+        items: q ? cat.items.filter((name) => nameMatchesSearch(name, q)) : cat.items
       }))
       .filter((cat) => cat.items.length > 0);
   }, [baseCategories, search]);
@@ -120,13 +124,15 @@ const TrinketPicker = ({
                   {meta.label}
                 </h4>
                 <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2">
-                  {cat.items.map((name, idx) => (
+                  {cat.items.map((name, idx) => {
+                    const effect = getTrinketEffect(name);
+                    return (
+                    <HoverCard key={`${cat.key}-${name}-${idx}`} {...trinketHover(name)}>
                     <button
-                      key={`${cat.key}-${name}-${idx}`}
                       type="button"
                       onClick={() => { onChange(name); onClose(); }}
                       title={name}
-                      className={`flex flex-col items-center p-1.5 rounded border-2 transition-colors ${
+                      className={`w-full flex flex-col items-center p-1.5 rounded border-2 transition-colors ${
                         value === name ? 'border-dd-gold bg-dd-gold/10' : 'border-gray-700 hover:border-gray-500'
                       }`}
                     >
@@ -145,8 +151,15 @@ const TrinketPicker = ({
                       <span className="text-[10px] sm:text-xs text-dd-parchment text-center mt-1 line-clamp-2">
                         {name}
                       </span>
+                      {effect && (
+                        <span className="text-[9px] sm:text-[10px] text-gray-400 text-center leading-tight line-clamp-2 mt-0.5">
+                          {effect.effect}
+                        </span>
+                      )}
                     </button>
-                  ))}
+                    </HoverCard>
+                    );
+                  })}
                 </div>
               </div>
             );

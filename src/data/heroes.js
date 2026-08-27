@@ -43,7 +43,6 @@ export const HERO_CLASSES = {
     skills: ['Punish', 'Rain of Sorrows', 'Exsanguinate', 'Reclaim', 'Redeem', 'Endure', 'Suffer'],
     campSkills: ['Lash\'s Anger', 'Lash\'s Solace', 'Lash\'s Kiss', 'Lash\'s Cure'],
     image: 'flagellant.png',
-    alwaysActive: true,
     classSpecificTrinkets: HERO_SPECIFIC_TRINKETS['Flagellant'] || []
   },
   'Grave Robber': {

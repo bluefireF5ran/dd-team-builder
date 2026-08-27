@@ -1,8 +1,10 @@
 import React, { useState, useMemo } from 'react';
-import { Save, Upload, AlertCircle, CheckCircle, Star, Puzzle, Download, Image, Loader2, Clipboard, Dice5, Undo2, Redo2, ClipboardPaste, BookOpen, Archive, XCircle, Palette } from 'lucide-react';
+import { Save, Upload, AlertCircle, CheckCircle, Star, Puzzle, Image, Loader2, Clipboard, Dice5, Undo2, Redo2, ClipboardPaste, BookOpen, Archive, XCircle, Palette, Biohazard, Droplet, Settings } from 'lucide-react';
 import { validateTeam } from '../../utils/validation';
+import { copyTextToClipboard } from '../../utils/heroClipboard';
 import ConfirmDialog from '../common/ConfirmDialog';
 import LoadCompModal from './LoadCompModal';
+import SaveTeamModal from './SaveTeamModal';
 
 const TeamControls = ({
   heroes,
@@ -13,10 +15,9 @@ const TeamControls = ({
   savedTeams = [],
   onLoadSavedTeam,
   onDeleteSavedTeam,
-  showBackerTrinkets,
-  onToggleBackerTrinkets,
-  showModdedHeroes,
-  onToggleModdedHeroes,
+  settings = {},
+  onToggleSetting,
+  onOpenSettings,
   onExportPNG,
   showToast,
   isExporting = false,
@@ -27,17 +28,19 @@ const TeamControls = ({
   canRedo = false,
   onImportFromClipboard,
   teamExists,
+  describePreset,
+  onSavePresetFile,
   onLoadPreset,
   onBackupAll,
   onImportBackup,
   onClearTeam,
   savedTeamsCount = 0,
-  onCycleTheme,
-  currentTheme = 'default'
+  onCycleTheme
 }) => {
+  const currentTheme = settings.theme;
   const teamValidation = useMemo(() => validateTeam(heroes), [heroes]);
   const [showLoadModal, setShowLoadModal] = useState(false);
-  const [overwriteState, setOverwriteState] = useState({ isOpen: false, saveToFile: false });
+  const [showSaveModal, setShowSaveModal] = useState(false);
   const [clearConfirm, setClearConfirm] = useState(false);
 
   const handleBackupFile = async (e) => {
@@ -66,41 +69,26 @@ const TeamControls = ({
     }
   };
 
-  const handleQuickSave = () => {
-    if (teamExists?.(teamName)) {
-      setOverwriteState({ isOpen: true, saveToFile: false });
-    } else {
-      onSave(false);
-    }
+  // El dialogo ya avisa de que sobrescribe y de como se va a llamar el preset,
+  // asi que aqui solo queda guardar y cerrar.
+  const handleSaveToBrowser = () => {
+    onSave(false);
+    setShowSaveModal(false);
+    showToast?.(`Saved "${teamName}" to browser storage.`, 'success');
   };
 
-  const handleSaveToFile = () => {
-    if (teamExists?.(teamName)) {
-      setOverwriteState({ isOpen: true, saveToFile: true });
-    } else {
-      onSave(true);
-    }
+  const handleSavePresetFile = () => {
+    const preset = onSavePresetFile();
+    setShowSaveModal(false);
+    showToast?.(`Exported as "${preset.name}".`, 'success');
   };
 
   const handleCopyToClipboard = async () => {
-    const teamData = JSON.stringify({ teamName, location, heroes });
-    try {
-      await navigator.clipboard.writeText(teamData);
-      showToast?.('Team copied to clipboard!', 'success');
-    } catch {
-      // Fallback for older browsers
-      try {
-        const textarea = document.createElement('textarea');
-        textarea.value = teamData;
-        document.body.appendChild(textarea);
-        textarea.select();
-        document.execCommand('copy');
-        document.body.removeChild(textarea);
-        showToast?.('Team copied to clipboard!', 'success');
-      } catch {
-        showToast?.('Failed to copy to clipboard.', 'error');
-      }
-    }
+    const ok = await copyTextToClipboard(JSON.stringify({ teamName, location, heroes }));
+    showToast?.(
+      ok ? 'Team copied to clipboard!' : 'Failed to copy to clipboard.',
+      ok ? 'success' : 'error'
+    );
   };
 
   const handlePasteFromClipboard = async () => {
@@ -146,24 +134,14 @@ const TeamControls = ({
           </div>
         )}
 
-        {/* Quick Save */}
+        {/* Save: elige destino (navegador o fichero de comp preset) */}
         <button
-          onClick={handleQuickSave}
+          onClick={() => setShowSaveModal(true)}
           className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-2 bg-green-700/80 hover:bg-green-600 text-dd-parchment rounded border border-green-600 transition-colors text-sm sm:text-base"
-          title="Save to browser storage"
+          title="Save to browser storage or export as a taxonomy-named preset comp"
         >
           <Save size={16} className="sm:w-[18px] sm:h-[18px]" />
-          <span className="hidden xs:inline">Quick</span> Save
-        </button>
-        
-        {/* Export to File */}
-        <button
-          onClick={handleSaveToFile}
-          className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-2 bg-emerald-800/80 hover:bg-emerald-700 text-dd-parchment rounded border border-emerald-600 transition-colors text-sm sm:text-base"
-          title="Export to .json file"
-        >
-          <Download size={16} className="sm:w-[18px] sm:h-[18px]" />
-          Export
+          Save
         </button>
 
         {/* Copy to Clipboard */}
@@ -283,37 +261,54 @@ const TeamControls = ({
         )}
       </div>
 
-      {/* Second Row: Toggles and Status */}
+      {/* Second Row: optional content, theme and status. These four are the
+          quick switches; the Settings panel holds them and everything else. */}
       <div className="flex flex-wrap items-center gap-2">
-        {/* Modded Heroes Toggle */}
-        <button
-          onClick={onToggleModdedHeroes}
-          className={`flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-2 rounded transition-colors border-2 text-sm sm:text-base ${
-            showModdedHeroes
-              ? 'bg-purple-700/80 hover:bg-purple-600 border-purple-500 text-dd-parchment'
-              : 'bg-gray-800/80 hover:bg-gray-700 border-gray-600 text-gray-400'
-          }`}
+        <ContentToggle
+          on={settings.showModdedHeroes}
+          onClick={() => onToggleSetting('showModdedHeroes')}
           title="Toggle Modded Heroes"
-        >
-          <Puzzle size={16} className="sm:w-[18px] sm:h-[18px]" />
-          <span className="hidden sm:inline font-darkest">Modded</span>
-          <span className="sm:hidden">Mod</span>
-        </button>
+          icon={Puzzle}
+          label="Modded"
+          short="Mod"
+          onClasses="bg-purple-700/80 hover:bg-purple-600 border-purple-500 text-dd-parchment"
+        />
 
-        {/* Backer Trinkets Toggle */}
-        <button
-          onClick={onToggleBackerTrinkets}
-          className={`flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-2 rounded transition-colors border-2 text-sm sm:text-base ${
-            showBackerTrinkets
-              ? 'bg-amber-700/80 hover:bg-amber-600 border-amber-500 text-dd-parchment'
-              : 'bg-gray-800/80 hover:bg-gray-700 border-gray-600 text-gray-400'
-          }`}
+        <ContentToggle
+          on={settings.showBackerTrinkets}
+          onClick={() => onToggleSetting('showBackerTrinkets')}
           title="Toggle Backer Trinkets"
-        >
-          <Star size={16} className={`sm:w-[18px] sm:h-[18px] ${showBackerTrinkets ? 'fill-current' : ''}`} />
-          <span className="hidden sm:inline font-darkest">Backer</span>
-          <span className="sm:hidden">Bkr</span>
-        </button>
+          icon={Star}
+          label="Backer"
+          short="Bkr"
+          fillWhenOn
+          onClasses="bg-amber-700/80 hover:bg-amber-600 border-amber-500 text-dd-parchment"
+        />
+
+        <ContentToggle
+          on={settings.showDiseases}
+          onClick={() => onToggleSetting('showDiseases')}
+          title="Toggle Diseases"
+          icon={Biohazard}
+          label="Diseases"
+          short="Dis"
+          onClasses="bg-green-700/80 hover:bg-green-600 border-green-500 text-dd-parchment"
+        />
+
+        {/* Only offered once diseases are on: on its own it would toggle a
+            list nothing is showing. */}
+        {settings.showDiseases && (
+          <ContentToggle
+            on={settings.showCrimsonCourt}
+            onClick={() => onToggleSetting('showCrimsonCourt')}
+            title="Toggle Crimson Court diseases"
+            icon={Droplet}
+            label="Crimson"
+            short="CC"
+            fillWhenOn
+            onClasses="bg-red-800/80 hover:bg-red-700 border-red-500 text-red-100"
+          />
+        )}
 
         {/* Theme Toggle */}
         {onCycleTheme && (
@@ -332,6 +327,15 @@ const TeamControls = ({
             <span className="hidden sm:inline font-darkest">{currentTheme === 'bloodmoon' ? 'Blood' : currentTheme === 'frost' ? 'Frost' : 'Theme'}</span>
           </button>
         )}
+
+        <button
+          onClick={onOpenSettings}
+          className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-2 rounded transition-colors border-2 bg-gray-800/80 hover:bg-gray-700 border-gray-600 text-gray-300 text-sm sm:text-base"
+          title="Settings"
+        >
+          <Settings size={16} className="sm:w-[18px] sm:h-[18px]" />
+          <span className="hidden sm:inline font-darkest">Settings</span>
+        </button>
 
         {/* Team Status - Moves to its own line on mobile */}
         <div className={`flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-2 rounded text-sm sm:text-base ml-auto ${
@@ -363,19 +367,19 @@ const TeamControls = ({
         onDeleteSavedTeam={onDeleteSavedTeam}
         onLoadPreset={onLoadPreset}
         showToast={showToast}
+        defaultSort={settings.compSort}
+        defaultPageSize={settings.compPageSize}
       />
 
-      <ConfirmDialog
-        isOpen={overwriteState.isOpen}
-        title="Overwrite Team"
-        message={`A team named "${teamName}" already exists. Save and overwrite it?`}
-        confirmLabel="Overwrite"
-        isDestructive={true}
-        onConfirm={() => {
-          onSave(overwriteState.saveToFile);
-          setOverwriteState({ isOpen: false, saveToFile: false });
-        }}
-        onCancel={() => setOverwriteState({ isOpen: false, saveToFile: false })}
+      <SaveTeamModal
+        isOpen={showSaveModal}
+        onClose={() => setShowSaveModal(false)}
+        teamName={teamName}
+        onSaveToBrowser={handleSaveToBrowser}
+        onSavePresetFile={handleSavePresetFile}
+        describePreset={describePreset}
+        teamExists={teamExists}
+        isComplete={teamValidation.isComplete}
       />
 
       <ConfirmDialog
@@ -394,5 +398,22 @@ const TeamControls = ({
     </div>
   );
 };
+
+/** Un interruptor de contenido opcional: encendido tiene color, apagado gris. */
+const ContentToggle = ({ on, onClick, title, icon: Icon, label, short, onClasses, fillWhenOn }) => (
+  <button
+    onClick={onClick}
+    type="button"
+    aria-pressed={on}
+    className={`flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-2 rounded transition-colors border-2 text-sm sm:text-base ${
+      on ? onClasses : 'bg-gray-800/80 hover:bg-gray-700 border-gray-600 text-gray-400'
+    }`}
+    title={title}
+  >
+    <Icon size={16} className={`sm:w-[18px] sm:h-[18px] ${fillWhenOn && on ? 'fill-current' : ''}`} />
+    <span className="hidden sm:inline font-darkest">{label}</span>
+    <span className="sm:hidden">{short}</span>
+  </button>
+);
 
 export default TeamControls;

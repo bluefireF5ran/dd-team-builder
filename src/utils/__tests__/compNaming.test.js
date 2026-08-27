@@ -5,10 +5,22 @@ import {
   analyzeComp,
   matchFamily,
   assignCompNames,
+  nameCompAgainst,
+  toCompFileName,
   longestName
 } from '../compNaming';
-import { NAME_LIMITS } from '../../data/compTaxonomy';
+import {
+  NAME_LIMITS,
+  HERO_TOKENS,
+  MECHANICS,
+  CAMP_TERMS,
+  REGION_TOKENS,
+  RANK_WORDS,
+  FAMILIES,
+  MECHANIC_FAMILIES
+} from '../../data/compTaxonomy';
 import { PRESET_COMP_ENTRIES } from '../../data/presetComps/index';
+import { LOCATIONS } from '../../data/locations';
 
 const hero = (heroClass, activeSkills = [], activeCampSkills = []) => ({
   heroClass,
@@ -225,5 +237,154 @@ describe('the whole bundled library', () => {
 
   it('is deterministic', () => {
     expect(assignCompNames(comps).map((r) => r.name)).toEqual(records.map((r) => r.name));
+  });
+});
+
+describe('comps outside the taxonomy', () => {
+  // The Old Road es el tutorial del juego, no una comp de la comunidad: la
+  // taxonomia la renombraba a "Ragged Band: Heist" y la volvia irreconocible.
+  const oldRoad = { ...comp('The Old Road', [hero('Crusader'), hero('Highwayman')]), taxonomy: false };
+
+  it('keeps the name of a comp marked taxonomy:false', () => {
+    const [record] = assignCompNames([oldRoad]);
+    expect(record.name).toBe('The Old Road');
+    expect(record.changed).toBe(false);
+    expect(record.exempt).toBe(true);
+  });
+
+  it('does not let it compete for a variant with the rest', () => {
+    const records = assignCompNames([oldRoad, comp('a', [hero('Crusader'), hero('Highwayman')])]);
+    expect(records[0].name).toBe('The Old Road');
+    expect(records[1].name).not.toBe('The Old Road');
+  });
+});
+
+describe('one token, one class', () => {
+  const records = assignCompNames(PRESET_COMP_ENTRIES.map(({ data }) => data));
+
+  it('gives no word two meanings anywhere in the taxonomy', () => {
+    // `Hymn` fue a la vez apodo de la Vestal y etiqueta de la mecanica de estres,
+    // y "Feral Contract: Contract & Hymn" se leia como "lleva Vestal".
+    const buckets = {
+      token: Object.values(HERO_TOKENS).map((h) => h.token),
+      aka: Object.values(HERO_TOKENS).flatMap((h) => h.aka || []),
+      mechanic: MECHANICS.map((m) => m.label),
+      camp: CAMP_TERMS.map((t) => t.label),
+      region: Object.values(REGION_TOKENS),
+      rank: RANK_WORDS
+    };
+    const seen = new Map();
+    Object.entries(buckets).forEach(([kind, words]) =>
+      words.forEach((w) => seen.set(w, [...(seen.get(w) || []), kind]))
+    );
+    expect([...seen.entries()].filter(([, kinds]) => kinds.length > 1)).toEqual([]);
+  });
+
+  it('covers every dungeon with a region token', () => {
+    // Una zona sin token es un desempate que la taxonomia no puede usar, y una
+    // comp que se queda sin nombre propio por eso.
+    LOCATIONS.forEach((loc) => expect(REGION_TOKENS[loc]).toBeTruthy());
+  });
+
+  it('never spends an `aka` synonym on a name', () => {
+    // El fallo que rompio la taxonomia anterior: dentro de una misma familia el
+    // Musketeer salia como Snipe, Musket y Buckshot — tres nombres, un heroe.
+    const synonyms = new Set(Object.values(HERO_TOKENS).flatMap((h) => h.aka || []));
+    const used = records.flatMap((r) => r.variant.split(/ & | /));
+    expect(used.filter((token) => synonyms.has(token))).toEqual([]);
+  });
+
+  it('never hands a shared token to one sibling and something else to the rest', () => {
+    // El fallo viejo: tres comps con Leper y una llamada "Royal" a secas. Quien
+    // se lo quedaba era arbitrario y las otras dos ("Chop", "Solemn") ya no se
+    // podian leer. Un token compartido solo puede ir suelto si las hermanas que
+    // tambien lo llevan lo ALARGAN — "Beast" junto a "Beast & Ritual" se entiende.
+    const byFamily = new Map();
+    records.forEach((r) => byFamily.set(r.family.name, [...(byFamily.get(r.family.name) || []), r]));
+
+    const offenders = [];
+    byFamily.forEach((group) => {
+      group.forEach((rec) => {
+        if (rec.variant.includes(NAME_LIMITS.pairJoin)) return;
+        const rivals = group.filter(
+          (other) => other !== rec && other.candidates.some((c) => c.token === rec.variant)
+        );
+        rivals
+          .filter((other) => !other.variant.startsWith(rec.variant))
+          .forEach((other) => offenders.push(`${rec.name}  vs  ${other.name}`));
+      });
+    });
+    expect(offenders).toEqual([]);
+  });
+});
+
+describe('the fallback names stay recognisable as fallbacks', () => {
+  it('shares no name between a signature family and a mechanic one', () => {
+    // Si "Iron Shackles" se pudiera alcanzar por firma Y por mecanica, media
+    // familia no compartiria nada con la otra media y no habria como notarlo.
+    const signatures = new Set(FAMILIES.map((f) => f.name));
+    Object.values(MECHANIC_FAMILIES).forEach((name) => expect(signatures.has(name)).toBe(false));
+  });
+});
+
+describe('naming one comp against the library', () => {
+  const library = PRESET_COMP_ENTRIES.map(({ data }) => data);
+
+  it('never hands the new comp a name the library already uses', () => {
+    const taken = new Set(library.map((c) => c.teamName));
+    const clone = JSON.parse(JSON.stringify(library[0]));
+    expect(taken.has(nameCompAgainst(clone, library).name)).toBe(false);
+  });
+
+  it('renames nothing else', () => {
+    const before = library.map((c) => c.teamName);
+    nameCompAgainst(comp('mine', [hero('Occultist'), hero('Plague Doctor'), hero('Jester')]), library);
+    expect(library.map((c) => c.teamName)).toEqual(before);
+  });
+
+  it('turns a name into the file it belongs in', () => {
+    // El "&" se cae del fichero: es legal en Windows pero es un metacaracter de
+    // shell. Sigue en `teamName`, que es donde se lee el nombre de verdad.
+    expect(toCompFileName('Marked Prey: Royal & Bulwark')).toBe('Marked_Prey__Royal_Bulwark.json');
+    expect(toCompFileName('Hound Quartet')).toBe('Hound_Quartet.json');
+    expect(toCompFileName('Rabid Devotion: Beast Second')).toBe('Rabid_Devotion__Beast_Second.json');
+  });
+
+  it('gives every comp in the library its own file', () => {
+    const files = library.map((c) => toCompFileName(c.teamName));
+    expect(new Set(files).size).toBe(files.length);
+  });
+});
+
+describe('the naming is a fixed point', () => {
+  // Aplicar el renombrado cambia los teamName, y los teamName alimentan la
+  // pasada siguiente. Si el reparto dependiera de ellos, cada pase propondria
+  // otro nombre y `--check` no diria nunca "al dia".
+  const comps = PRESET_COMP_ENTRIES.map(({ data }) => data);
+  const first = assignCompNames(comps);
+
+  it('proposes nothing new when run again on its own output', () => {
+    const renamed = comps.map((comp, i) => ({
+      ...comp,
+      teamName: first[i].name,
+      alias: first[i].alias || undefined
+    }));
+    expect(assignCompNames(renamed).map((r) => r.name)).toEqual(first.map((r) => r.name));
+  });
+
+  it('lands on the same names from scratch, whatever the comps were called', () => {
+    // Mismo reparto partiendo de nombres libres: el nombre actual solo puede
+    // romper empates, nunca decidir.
+    const blank = comps.map((comp, i) => ({ ...comp, teamName: `zzz ${comps.length - i}`, alias: undefined }));
+    const fromScratch = assignCompNames(blank);
+    const exempt = new Set(comps.filter((c) => c.taxonomy === false).map((c) => c.location));
+    fromScratch.forEach((rec, i) => {
+      if (rec.exempt || exempt.size === 0) return;
+      expect(rec.family.name).toBe(first[i].family.name);
+    });
+  });
+
+  it('numbers nothing: every variant is made of words', () => {
+    first.forEach((rec) => expect(rec.variant).not.toMatch(/\s\d+$/));
   });
 });

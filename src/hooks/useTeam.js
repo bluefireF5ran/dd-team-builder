@@ -1,21 +1,28 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
-import { PARTY_CONFIG, EMPTY_HERO } from '../constants';
-import { saveTeamToFile, loadTeamFromFile, saveTeamToLocalStorage, loadTeamsFromLocalStorage, deleteTeamFromLocalStorage, saveAllTeamsToFile, importTeamsFromFile } from '../utils/storageHelper';
+import { PARTY_CONFIG } from '../constants';
+import { savePresetToFile, loadTeamFromFile, saveTeamToLocalStorage, loadTeamsFromLocalStorage, deleteTeamFromLocalStorage, saveAllTeamsToFile, importTeamsFromFile } from '../utils/storageHelper';
+import { nameCompAgainst, toCompFileName } from '../utils/compNaming';
+import { getRawComps } from '../data/compIndex';
 import { generateRandomTeam } from '../utils/randomTeam';
 import { validateTeamSchema } from '../utils/validation';
-import { canonicalizeTeam } from '../utils/nameNormalizer';
+import { canonicalizeTeam, canonicalizeHero } from '../utils/nameNormalizer';
+import { createEmptyHero } from '../utils/heroHelper';
 
 const MAX_HISTORY = 20;
 
-export const useTeam = () => {
+/** Cuatro huecos vacios e independientes: nada compartido entre ellos. */
+const emptyParty = () => Array(PARTY_CONFIG.MAX_HEROES).fill(null).map(createEmptyHero);
+
+/**
+ * El equipo que se esta construyendo. Lo que NO vive aqui son las preferencias
+ * (tema, contenido modded/backer/enfermedades, orden por defecto): esas son de
+ * `useSettings`, porque sobreviven a la comp que tengas abierta.
+ */
+export const useTeam = ({ defaultLocation = 'The Ruins' } = {}) => {
   const [teamName, setTeamName] = useState('My Team');
-  const [location, setLocation] = useState('The Ruins');
-  const [showBackerTrinkets, setShowBackerTrinkets] = useState(false);
-  const [showModdedHeroes, setShowModdedHeroes] = useState(false);
+  const [location, setLocation] = useState(defaultLocation);
   const [savedTeams, setSavedTeams] = useState([]);
-  const [heroes, setHeroes] = useState(
-    Array(PARTY_CONFIG.MAX_HEROES).fill(null).map(() => ({ ...EMPTY_HERO }))
-  );
+  const [heroes, setHeroes] = useState(emptyParty);
 
   // Undo/Redo history
   const historyRef = useRef({ past: [], future: [] });
@@ -81,16 +88,46 @@ export const useTeam = () => {
     });
   }, []);
 
-  const saveTeam = useCallback((saveToFile = true) => {
-    // Always save to localStorage
+  /**
+   * Guardar en el navegador, con TU nombre. La otra mitad del guardado (el
+   * fichero de comp preset, con el nombre que le da la taxonomia) es
+   * `savePresetFile`: son dos destinos con dos nombres, no dos formatos.
+   */
+  const saveTeam = useCallback(() => {
     saveTeamToLocalStorage(teamName, location, heroes);
     setSavedTeams(loadTeamsFromLocalStorage());
-
-    // Optionally also save to file
-    if (saveToFile) {
-      saveTeamToFile(teamName, location, heroes);
-    }
   }, [teamName, location, heroes]);
+
+  /**
+   * Que nombre le daria la taxonomia a este equipo, sin guardar nada. Es lo que
+   * el dialogo de guardado ensena antes de que elijas destino.
+   *
+   * La libreria del bundle se carga aqui y no al arrancar (mismo criterio que
+   * compIndex): quien nunca guarda un preset no paga por 157 comps.
+   */
+  const describePreset = useCallback(() => {
+    const comp = { teamName, alias: '', location, heroes };
+    const record = nameCompAgainst(comp, getRawComps());
+    return {
+      name: record.name,
+      // El nombre que le pusiste no se pierde: pasa a alias, salvo que ya fuera
+      // el taxonomico (guardar dos veces no debe dejar un alias que se repite).
+      alias: record.alias,
+      family: record.family.name,
+      variant: record.variant,
+      familySource: record.family.source,
+      fileName: toCompFileName(record.name),
+      location,
+      heroes
+    };
+  }, [teamName, location, heroes]);
+
+  /** Descarga el .json ya nombrado, listo para src/data/presetComps. */
+  const savePresetFile = useCallback(() => {
+    const preset = describePreset();
+    savePresetToFile(preset);
+    return preset;
+  }, [describePreset]);
 
   const teamExists = useCallback((name) => {
     const teams = loadTeamsFromLocalStorage();
@@ -100,49 +137,45 @@ export const useTeam = () => {
   const loadTeam = useCallback(async (file) => {
     const team = await loadTeamFromFile(file);
     setTeamName(team.teamName || 'My Team');
-    setLocation(team.location || 'The Ruins');
+    setLocation(team.location || defaultLocation);
     setHeroes(prev => {
       historyRef.current.past.push(JSON.parse(JSON.stringify(prev)));
       historyRef.current.future = [];
-      return team.heroes || Array(PARTY_CONFIG.MAX_HEROES).fill(null).map(() => ({ ...EMPTY_HERO }));
+      return team.heroes || emptyParty();
     });
     return true;
-  }, []);
+  }, [defaultLocation]);
 
   const loadSavedTeam = useCallback((savedTeamName) => {
     const teams = loadTeamsFromLocalStorage();
-    const team = teams.find(t => t.teamName === savedTeamName);
+    const stored = teams.find(t => t.teamName === savedTeamName);
+    // Equipos guardados antes de un renombrado (p. ej. "Vvulf's Tassle") se
+    // normalizan al cargarlos.
+    const team = stored && canonicalizeTeam(stored);
     if (team) {
       setTeamName(team.teamName);
-      setLocation(team.location || 'The Ruins');
+      setLocation(team.location || defaultLocation);
       setHeroes(prev => {
         historyRef.current.past.push(JSON.parse(JSON.stringify(prev)));
         historyRef.current.future = [];
-        return team.heroes || Array(PARTY_CONFIG.MAX_HEROES).fill(null).map(() => ({ ...EMPTY_HERO }));
+        return team.heroes || emptyParty();
       });
     }
-  }, []);
+  }, [defaultLocation]);
 
   const deleteSavedTeam = useCallback((savedTeamName) => {
     deleteTeamFromLocalStorage(savedTeamName);
     setSavedTeams(loadTeamsFromLocalStorage());
   }, []);
 
-  const toggleBackerTrinkets = useCallback(() => {
-    setShowBackerTrinkets(prev => !prev);
-  }, []);
-
-  const toggleModdedHeroes = useCallback(() => {
-    setShowModdedHeroes(prev => !prev);
-  }, []);
-
-  const randomizeTeam = useCallback(() => {
+  /** El interruptor de modded es una preferencia, asi que llega como argumento. */
+  const randomizeTeam = useCallback((showModdedHeroes = false) => {
     setHeroes(prev => {
       historyRef.current.past.push(JSON.parse(JSON.stringify(prev)));
       historyRef.current.future = [];
       return generateRandomTeam(showModdedHeroes);
     });
-  }, [showModdedHeroes]);
+  }, []);
 
   const importFromClipboard = useCallback(async () => {
     const text = await navigator.clipboard.readText();
@@ -153,24 +186,25 @@ export const useTeam = () => {
     }
     const team = canonicalizeTeam(raw);
     setTeamName(team.teamName || 'My Team');
-    setLocation(team.location || 'The Ruins');
+    setLocation(team.location || defaultLocation);
     setHeroes(prev => {
       historyRef.current.past.push(JSON.parse(JSON.stringify(prev)));
       historyRef.current.future = [];
-      return team.heroes || Array(PARTY_CONFIG.MAX_HEROES).fill(null).map(() => ({ ...EMPTY_HERO }));
+      return team.heroes || emptyParty();
     });
-  }, []);
+  }, [defaultLocation]);
 
   const loadPreset = useCallback((preset) => {
     setTeamName(preset.name);
-    setLocation(preset.location || 'The Ruins');
+    setLocation(preset.location || defaultLocation);
     setHeroes(prev => {
       historyRef.current.past.push(JSON.parse(JSON.stringify(prev)));
       historyRef.current.future = [];
       // Clonar: los heroes del preset son objetos compartidos del bundle.
-      return JSON.parse(JSON.stringify(preset.heroes));
+      // Se canonicaliza por si el preset trae una grafía antigua de algún nombre.
+      return JSON.parse(JSON.stringify(preset.heroes)).map(canonicalizeHero);
     });
-  }, []);
+  }, [defaultLocation]);
 
   const backupAllTeams = useCallback(() => {
     return saveAllTeamsToFile();
@@ -186,11 +220,11 @@ export const useTeam = () => {
     setHeroes(prev => {
       historyRef.current.past.push(JSON.parse(JSON.stringify(prev)));
       historyRef.current.future = [];
-      return Array(PARTY_CONFIG.MAX_HEROES).fill(null).map(() => ({ ...EMPTY_HERO }));
+      return emptyParty();
     });
     setTeamName('My Team');
-    setLocation('The Ruins');
-  }, []);
+    setLocation(defaultLocation);
+  }, [defaultLocation]);
 
   return {
     teamName,
@@ -205,10 +239,6 @@ export const useTeam = () => {
     savedTeams,
     loadSavedTeam,
     deleteSavedTeam,
-    showBackerTrinkets,
-    toggleBackerTrinkets,
-    showModdedHeroes,
-    toggleModdedHeroes,
     randomizeTeam,
     undo,
     redo,
@@ -216,6 +246,8 @@ export const useTeam = () => {
     canRedo,
     importFromClipboard,
     teamExists,
+    describePreset,
+    savePresetFile,
     loadPreset,
     backupAllTeams,
     importBackup,

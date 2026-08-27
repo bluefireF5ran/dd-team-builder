@@ -15,8 +15,12 @@
     "web-vitals": "^5.2.0"
   },
   "scripts": {
+    "comps:index": "node scripts/generatePresetCompsIndex.js",
+    "prestart": "node scripts/generatePresetCompsIndex.js",
     "start": "react-scripts start",
+    "prebuild": "node scripts/generatePresetCompsIndex.js",
     "build": "react-scripts build",
+    "pretest": "node scripts/generatePresetCompsIndex.js",
     "test": "react-scripts test",
     "lint": "npx eslint src/",
     "eject": "react-scripts eject",

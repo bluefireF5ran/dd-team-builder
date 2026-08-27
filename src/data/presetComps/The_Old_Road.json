@@ -1,0 +1,95 @@
+{
+  "teamName": "The Old Road",
+  "taxonomy": false,
+  "location": "The Weald",
+  "heroes": [
+    {
+      "heroClass": "Crusader",
+      "activeSkills": [
+        "Smite",
+        "Zealous Accusation",
+        "Stunning Blow",
+        "Bulwark of Faith"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Stand Tall",
+        "Zealous Speech"
+      ],
+      "trinket1": "",
+      "trinket2": "",
+      "quirks": {
+        "positive": [
+          "Warrior of Light"
+        ],
+        "negative": [
+          "Kleptomaniac",
+          "God Fearing"
+        ]
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Highwayman",
+      "activeSkills": [
+        "Open Vein",
+        "Pistol Shot",
+        "Grapeshot Blast",
+        "Tracking Shot"
+      ],
+      "activeCampSkills": [
+        "Wound Care",
+        "Clean Guns",
+        "Bandit's Sense"
+      ],
+      "trinket1": "",
+      "trinket2": "",
+      "quirks": {
+        "positive": [
+          "Hard Noggin",
+          "Quick Reflexes"
+        ],
+        "negative": [
+          "Known Cheat"
+        ]
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "",
+      "activeSkills": [],
+      "activeCampSkills": [],
+      "trinket1": "",
+      "trinket2": "",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "",
+      "activeSkills": [],
+      "activeCampSkills": [],
+      "trinket1": "",
+      "trinket2": "",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    }
+  ]
+}

@@ -1,0 +1,139 @@
+{
+  "teamName": "Hex Battery: Beast & Ballad",
+  "alias": "my team",
+  "location": "The Cove",
+  "heroes": [
+    {
+      "heroClass": "Occultist",
+      "activeSkills": [
+        "Sacrificial Stab",
+        "Hands from the Abyss",
+        "Weakening Curse",
+        "Wyrd Reconstruction"
+      ],
+      "activeCampSkills": [
+        "Pep Talk",
+        "Dark Ritual",
+        "Dark Strength",
+        "Unspeakable Commune"
+      ],
+      "trinket1": "Demon's Cauldron",
+      "trinket2": "Vial of Sand",
+      "quirks": {
+        "positive": [
+          "Eagle Eye",
+          "Fairweather Fighter",
+          "Tough",
+          "Balanced",
+          "Weald Adventurer"
+        ],
+        "negative": [
+          "Unquiet Mind"
+        ]
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Abomination",
+      "activeSkills": [
+        "Transform",
+        "Manacles",
+        "Beast's Bile",
+        "Absolution",
+        "Rake",
+        "Rage",
+        "Slam"
+      ],
+      "activeCampSkills": [
+        "The Quickening",
+        "Pep Talk",
+        "Anger Management"
+      ],
+      "trinket1": "Broken Key",
+      "trinket2": "Lock of Fury",
+      "quirks": {
+        "positive": [
+          "Musical",
+          "On Guard",
+          "Prismatic Stability",
+          "Mankind Hater",
+          "Beast Slayer"
+        ],
+        "negative": [
+          "Dipsomania",
+          "God Fearing"
+        ]
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Jester",
+      "activeSkills": [
+        "Dirk Stab",
+        "Finale",
+        "Battle Ballad",
+        "Inspiring Tune"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Every Rose Has Its Thorn",
+        "Tiger's Eye"
+      ],
+      "trinket1": "Feather Crystal",
+      "trinket2": "Bright Tambourine",
+      "quirks": {
+        "positive": [
+          "Irrepressible",
+          "Armor Tinker",
+          "Fated",
+          "Nymphomania"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Arbalest",
+      "activeSkills": [
+        "Sniper Shot",
+        "Suppressing Fire",
+        "Battlefield Bandage",
+        "Rallying Flare"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Field Dressing",
+        "Marching Plan",
+        "Restring Crossbow"
+      ],
+      "trinket1": "Childhood Treasure",
+      "trinket2": "Keening Bolts",
+      "quirks": {
+        "positive": [
+          "Eagle Eye",
+          "Tough",
+          "Early Riser",
+          "Robust",
+          "Skilled Gambler"
+        ],
+        "negative": [
+          "Hylomania",
+          "Resolution"
+        ]
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    }
+  ]
+}

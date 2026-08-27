@@ -4,7 +4,61 @@ import { HERO_CLASSES } from '../../data/heroes';
 import { MODDED_HERO_CLASSES } from '../../data/modded_heroes';
 import { getHeroImagePath, getSkillImagePath, getCampSkillImagePath, getTrinketImagePath } from '../../utils/imageHelper';
 import ImageWithFallback from '../common/ImageWithFallback';
+import HoverCard from '../common/HoverCard';
+import { skillHover, trinketHover, quirkHover } from '../../utils/hoverInfo';
+import { quirkClasses } from '../../utils/quirkStyle';
 
+// The four icon grids below differ only in art, colour and what the hover panel
+// reads from, so the icon itself is one component.
+const ICON = 'w-[40px] h-[40px] sm:w-[64px] sm:h-[64px]';
+
+const SkillIcon = ({ name, heroClass, camp }) => {
+  const colour = camp ? 'border-purple-600' : 'border-green-600';
+  const fallbackColour = camp ? 'bg-purple-900/40 text-purple-300' : 'bg-green-900/40 text-green-300';
+  return (
+    <HoverCard {...skillHover(name, heroClass)}>
+      <ImageWithFallback
+        src={camp ? getCampSkillImagePath(name, heroClass) : getSkillImagePath(name, heroClass)}
+        alt={name}
+        className={`${ICON} object-contain rounded border-2 sm:border-3 ${colour} bg-gray-800 shadow-md hover:scale-110 transition-transform skill-icon`}
+        fallback={(
+          <div className={`${ICON} flex items-center justify-center ${fallbackColour} border-2 sm:border-3 ${colour} rounded text-sm sm:text-lg font-bold`}>
+            ?
+          </div>
+        )}
+      />
+    </HoverCard>
+  );
+};
+
+// A quirk chip, in the colour of whatever it turned out to be: a prismatic
+// quirk sits in the positive list but is not yellow, and a disease is green.
+const QuirkChip = ({ name, tone, locked }) => (
+  <HoverCard {...quirkHover(name, tone)}>
+    <span
+      className={`flex items-center gap-0.5 sm:gap-1 px-1 sm:px-2 py-0.5 border rounded text-[9px] sm:text-xs ${quirkClasses(name, tone).chip}`}
+      title={name}
+    >
+      {locked && <Lock size={8} className="sm:w-[10px] sm:h-[10px]" />}
+      <span className="truncate max-w-[50px] sm:max-w-[80px]">{name}</span>
+    </span>
+  </HoverCard>
+);
+
+const TrinketIcon = ({ name, heroClass }) => (
+  <HoverCard {...trinketHover(name)}>
+    <ImageWithFallback
+      src={getTrinketImagePath(name, heroClass)}
+      alt={name}
+      className="w-[36px] h-[72px] sm:w-[60px] sm:h-[120px] object-contain rounded border-2 sm:border-3 border-amber-600 bg-gray-800 shadow-md trinket-icon"
+      fallback={(
+        <div className="w-[36px] h-[72px] sm:w-[60px] sm:h-[120px] flex items-center justify-center bg-amber-900/40 border-2 sm:border-3 border-amber-600 rounded text-sm sm:text-lg text-amber-300 font-bold">
+          ?
+        </div>
+      )}
+    />
+  </HoverCard>
+);
 
 const PartyHeroCard = ({ hero, position }) => {
   const heroData = HERO_CLASSES[hero.heroClass] || MODDED_HERO_CLASSES[hero.heroClass];
@@ -13,7 +67,8 @@ const PartyHeroCard = ({ hero, position }) => {
   const activeCampSkills = hero.activeCampSkills || [];
   const quirks = hero.quirks || { positive: [], negative: [] };
   const lockedQuirks = hero.lockedQuirks || { positive: [], negative: [] };
-  const hasQuirks = quirks.positive.length > 0 || quirks.negative.length > 0;
+  const diseases = hero.diseases || [];
+  const hasQuirks = quirks.positive.length > 0 || quirks.negative.length > 0 || diseases.length > 0;
 
   // Dividir skills en dos filas si son 7
   const firstRowSkills = activeSkills.slice(0, 4);
@@ -63,21 +118,7 @@ const PartyHeroCard = ({ hero, position }) => {
                 {/* Primera fila - 4 skills */}
                 <div className="flex justify-center gap-1 sm:gap-1.5">
                   {firstRowSkills.map((skill, idx) => (
-                    <ImageWithFallback
-                      key={`skill-${idx}-${skill}`}
-                      src={getSkillImagePath(skill, hero.heroClass)}
-                      alt={skill}
-                      className="w-[40px] h-[40px] sm:w-[64px] sm:h-[64px] object-contain rounded border-2 sm:border-3 border-green-600 bg-gray-800 shadow-md hover:scale-110 transition-transform skill-icon"
-                      title={skill}
-                      fallback={(
-                        <div
-                          className="w-[40px] h-[40px] sm:w-[64px] sm:h-[64px] flex items-center justify-center bg-green-900/40 border-2 sm:border-3 border-green-600 rounded text-sm sm:text-lg text-green-300 font-bold"
-                          title={skill}
-                        >
-                          ?
-                        </div>
-                      )}
-                    />
+                    <SkillIcon key={`skill-${idx}-${skill}`} name={skill} heroClass={hero.heroClass} />
                   ))}
                   {!isAlwaysActive && Array(Math.max(0, 4 - firstRowSkills.length)).fill(null).map((_, idx) => (
                     <div
@@ -93,21 +134,7 @@ const PartyHeroCard = ({ hero, position }) => {
                 {isAlwaysActive && secondRowSkills.length > 0 && (
                   <div className="flex justify-center gap-1 sm:gap-1.5">
                     {secondRowSkills.map((skill, idx) => (
-                      <ImageWithFallback
-                        key={`skill2-${idx}-${skill}`}
-                        src={getSkillImagePath(skill, hero.heroClass)}
-                        alt={skill}
-                        className="w-[40px] h-[40px] sm:w-[64px] sm:h-[64px] object-contain rounded border-2 sm:border-3 border-green-600 bg-gray-800 shadow-md hover:scale-110 transition-transform skill-icon"
-                        title={skill}
-                        fallback={(
-                          <div
-                            className="w-[40px] h-[40px] sm:w-[64px] sm:h-[64px] flex items-center justify-center bg-green-900/40 border-2 sm:border-3 border-green-600 rounded text-sm sm:text-lg text-green-300 font-bold"
-                            title={skill}
-                          >
-                            ?
-                          </div>
-                        )}
-                      />
+                      <SkillIcon key={`skill2-${idx}-${skill}`} name={skill} heroClass={hero.heroClass} />
                     ))}
                   </div>
                 )}
@@ -119,21 +146,7 @@ const PartyHeroCard = ({ hero, position }) => {
               <div className="text-xs sm:text-sm text-purple-400 mb-1 sm:mb-2 font-bold text-center uppercase tracking-wider font-darkest">Camp</div>
               <div className="flex justify-center gap-1 sm:gap-1.5">
                 {activeCampSkills.slice(0, 4).map((skill, idx) => (
-                  <ImageWithFallback
-                    key={`camp-${idx}-${skill}`}
-                    src={getCampSkillImagePath(skill, hero.heroClass)}
-                    alt={skill}
-                    className="w-[40px] h-[40px] sm:w-[64px] sm:h-[64px] object-contain rounded border-2 sm:border-3 border-purple-600 bg-gray-800 shadow-md hover:scale-110 transition-transform skill-icon"
-                    title={skill}
-                    fallback={(
-                      <div
-                        className="w-[40px] h-[40px] sm:w-[64px] sm:h-[64px] flex items-center justify-center bg-purple-900/40 border-2 sm:border-3 border-purple-600 rounded text-sm sm:text-lg text-purple-300 font-bold"
-                        title={skill}
-                      >
-                        ?
-                      </div>
-                    )}
-                  />
+                  <SkillIcon key={`camp-${idx}-${skill}`} name={skill} heroClass={hero.heroClass} camp />
                 ))}
                 {activeCampSkills.length === 0 ? (
                   <div className="w-full h-[40px] sm:h-[64px] flex items-center justify-center bg-gray-600/40 border-2 sm:border-3 border-gray-600 rounded">
@@ -159,20 +172,7 @@ const PartyHeroCard = ({ hero, position }) => {
                 {[hero.trinket1, hero.trinket2].map((trinket, idx) => (
                   <div key={`trinket-${idx}`}>
                     {trinket ? (
-                      <ImageWithFallback
-                        src={getTrinketImagePath(trinket, hero.heroClass)}
-                        alt={trinket}
-                        className="w-[36px] h-[72px] sm:w-[60px] sm:h-[120px] object-contain rounded border-2 sm:border-3 border-amber-600 bg-gray-800 shadow-md trinket-icon"
-                        title={trinket}
-                        fallback={(
-                          <div
-                            className="w-[36px] h-[72px] sm:w-[60px] sm:h-[120px] flex items-center justify-center bg-amber-900/40 border-2 sm:border-3 border-amber-600 rounded text-sm sm:text-lg text-amber-300 font-bold"
-                            title={trinket}
-                          >
-                            ?
-                          </div>
-                        )}
-                      />
+                      <TrinketIcon name={trinket} heroClass={hero.heroClass} />
                     ) : (
                       <div className="w-[36px] h-[72px] sm:w-[60px] sm:h-[120px] flex items-center justify-center bg-gray-600/40 border-2 sm:border-3 border-gray-600 rounded">
                         <span className="text-sm sm:text-lg text-gray-500 font-bold">-</span>
@@ -188,36 +188,22 @@ const PartyHeroCard = ({ hero, position }) => {
               <div>
                 <div className="text-xs sm:text-sm text-gray-400 mb-1 sm:mb-2 font-bold text-center uppercase tracking-wider font-darkest">Quirks</div>
                 <div className="space-y-1">
-                  {/* Positive Quirks */}
-                  {quirks.positive.length > 0 && (
-                    <div className="flex flex-wrap justify-center gap-0.5 sm:gap-1">
-                      {quirks.positive.map((quirk, idx) => (
-                        <div
-                          key={`pos-${idx}`}
-                          className="flex items-center gap-0.5 sm:gap-1 px-1 sm:px-2 py-0.5 bg-yellow-900/50 border border-yellow-700/50 rounded text-[9px] sm:text-xs text-yellow-300"
-                          title={quirk}
-                        >
-                          {lockedQuirks.positive.includes(quirk) && <Lock size={8} className="sm:w-[10px] sm:h-[10px]" />}
-                          <span className="truncate max-w-[50px] sm:max-w-[80px]">{quirk}</span>
-                        </div>
+                  {[
+                    { tone: 'positive', list: quirks.positive, locked: lockedQuirks.positive },
+                    { tone: 'negative', list: quirks.negative, locked: lockedQuirks.negative },
+                    { tone: 'disease', list: diseases, locked: [] }
+                  ].map(({ tone, list, locked }) => list.length > 0 && (
+                    <div key={tone} className="flex flex-wrap justify-center gap-0.5 sm:gap-1">
+                      {list.map((quirk, idx) => (
+                        <QuirkChip
+                          key={`${tone}-${idx}`}
+                          name={quirk}
+                          tone={tone}
+                          locked={locked.includes(quirk)}
+                        />
                       ))}
                     </div>
-                  )}
-                  {/* Negative Quirks */}
-                  {quirks.negative.length > 0 && (
-                    <div className="flex flex-wrap justify-center gap-0.5 sm:gap-1">
-                      {quirks.negative.map((quirk, idx) => (
-                        <div
-                          key={`neg-${idx}`}
-                          className="flex items-center gap-0.5 sm:gap-1 px-1 sm:px-2 py-0.5 bg-red-900/50 border border-red-700/50 rounded text-[9px] sm:text-xs text-red-300"
-                          title={quirk}
-                        >
-                          {lockedQuirks.negative.includes(quirk) && <Lock size={8} className="sm:w-[10px] sm:h-[10px]" />}
-                          <span className="truncate max-w-[50px] sm:max-w-[80px]">{quirk}</span>
-                        </div>
-                      ))}
-                    </div>
-                  )}
+                  ))}
                 </div>
               </div>
             )}

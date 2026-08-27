@@ -1,0 +1,107 @@
+{
+  "teamName": "Curious Coin: Heist & Lunge",
+  "alias": "Shadowed Purse Strings ALT",
+  "location": "The Cove",
+  "heroes": [
+    {
+      "heroClass": "Antiquarian",
+      "activeSkills": [
+        "Nervous Stab",
+        "Festering Vapours",
+        "Flashpowder",
+        "Protect Me"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Strange Powders",
+        "Curious Incantation"
+      ],
+      "trinket1": "Ancestor's Map",
+      "trinket2": "Speed Stone",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Highwayman",
+      "activeSkills": [
+        "Wicked Slice",
+        "Pistol Shot",
+        "Point Blank Shot",
+        "Duelist's Advance"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Gallows Humor",
+        "Clean Guns",
+        "Bandit's Sense"
+      ],
+      "trinket1": "Dismas' Head",
+      "trinket2": "Sun Ring",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Crusader",
+      "activeSkills": [
+        "Smite",
+        "Battle Heal",
+        "Holy Lance",
+        "Inspiring Cry"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Stand Tall",
+        "Zealous Speech",
+        "Zealous Vigil"
+      ],
+      "trinket1": "Ancestor's Scroll",
+      "trinket2": "Commander's Orders",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Grave Robber",
+      "activeSkills": [
+        "Pick to the Face",
+        "Lunge",
+        "Shadow Fade",
+        "Thrown Dagger"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Snuff Box",
+        "Gallows Humor"
+      ],
+      "trinket1": "Survival Guide",
+      "trinket2": "Speed Stone",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    }
+  ]
+}

@@ -1,6 +1,5 @@
 {
   "teamName": "Money Quartet",
-  "alias": "Antiques Roadshow",
   "location": "The Ruins",
   "heroes": [
     {
@@ -20,7 +19,12 @@
       "trinket1": "Sun Cloak",
       "trinket2": "Wilbur's Flag",
       "quirks": {
-        "positive": [],
+        "positive": [
+          "Corvids Eye",
+          "Corvids Grace",
+          "Evasive",
+          "Luminous"
+        ],
         "negative": []
       },
       "lockedQuirks": {
@@ -45,7 +49,12 @@
       "trinket1": "Sun Cloak",
       "trinket2": "Camouflage Cloak",
       "quirks": {
-        "positive": [],
+        "positive": [
+          "Corvids Eye",
+          "Corvids Grace",
+          "Evasive",
+          "Luminous"
+        ],
         "negative": []
       },
       "lockedQuirks": {
@@ -70,7 +79,12 @@
       "trinket1": "Smoking Skull",
       "trinket2": "Ancestor's Map",
       "quirks": {
-        "positive": [],
+        "positive": [
+          "Corvids Grace",
+          "Luminous",
+          "On Guard",
+          "Evasive"
+        ],
         "negative": []
       },
       "lockedQuirks": {
@@ -95,7 +109,12 @@
       "trinket1": "Sun Cloak",
       "trinket2": "Ancestor's Coat",
       "quirks": {
-        "positive": [],
+        "positive": [
+          "Corvids Grace",
+          "Luminous",
+          "On Guard",
+          "Evasive"
+        ],
         "negative": []
       },
       "lockedQuirks": {

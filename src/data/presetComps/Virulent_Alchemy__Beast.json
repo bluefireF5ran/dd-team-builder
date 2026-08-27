@@ -33,18 +33,26 @@
         "Transform",
         "Manacles",
         "Beast's Bile",
-        "Absolution"
+        "Absolution",
+        "Rake",
+        "Rage",
+        "Slam"
       ],
       "activeCampSkills": [
         "Encourage",
-        "Wound Care",
+        "Anger Management",
         "The Quickening",
         "Eldritch Blood"
       ],
       "trinket1": "Broken Key",
       "trinket2": "Padlock of Transference",
       "quirks": {
-        "positive": [],
+        "positive": [
+          "Luminous",
+          "Precise Striker",
+          "Slugger",
+          "Corvids Eye"
+        ],
         "negative": []
       },
       "lockedQuirks": {

@@ -1,5 +1,6 @@
 import React, { useMemo, useState, useRef, useCallback, useEffect, lazy, Suspense } from 'react';
 import { useTeam } from './hooks/useTeam';
+import { useSettings } from './hooks/useSettings';
 import TeamHeader from './components/team/TeamHeader';
 import TeamControls from './components/team/TeamControls';
 import PartyComposition from './components/party/PartyComposition';
@@ -9,6 +10,7 @@ import KeyboardShortcuts from './components/common/KeyboardShortcuts';
 import { getAssetUrl } from './config/assets';
 
 const ImageTester = lazy(() => import('./components/debug/ImageTester'));
+const SettingsModal = lazy(() => import('./components/settings/SettingsModal'));
 
 // Map locations to background images
 const LOCATION_BACKGROUNDS = {
@@ -30,8 +32,12 @@ const App = () => {
   const [showImageTester, setShowImageTester] = useState(false);
   const [showShortcuts, setShowShortcuts] = useState(false);
   const [toast, setToast] = useState(null);
+  const [showSettings, setShowSettings] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
-  const [theme, setTheme] = useState(() => localStorage.getItem('dd_theme') || 'default');
+
+  // Las preferencias mandan sobre el equipo, no al reves: useTeam solo necesita
+  // saber en que mazmorra empieza una comp nueva.
+  const { settings, setSetting, toggleSetting, resetSettings, cycleTheme } = useSettings();
   const {
     teamName,
     setTeamName,
@@ -45,10 +51,6 @@ const App = () => {
     savedTeams,
     loadSavedTeam,
     deleteSavedTeam,
-    showBackerTrinkets,
-    toggleBackerTrinkets,
-    showModdedHeroes,
-    toggleModdedHeroes,
     randomizeTeam,
     undo,
     redo,
@@ -56,22 +58,17 @@ const App = () => {
     canRedo,
     importFromClipboard,
     teamExists,
+    describePreset,
+    savePresetFile,
     loadPreset,
     backupAllTeams,
     importBackup,
     clearTeam
-  } = useTeam();
+  } = useTeam({ defaultLocation: settings.defaultLocation });
 
   const showToast = useCallback((message, type = 'success') => {
     setToast({ message, type, key: Date.now() });
   }, []);
-
-  const cycleTheme = useCallback(() => {
-    const themes = ['default', 'bloodmoon', 'frost'];
-    const next = themes[(themes.indexOf(theme) + 1) % themes.length];
-    setTheme(next);
-    localStorage.setItem('dd_theme', next);
-  }, [theme]);
 
   const backgroundImage = useMemo(() => {
     const bgPath = LOCATION_BACKGROUNDS[location] || LOCATION_BACKGROUNDS['The Ruins'];
@@ -134,7 +131,7 @@ const App = () => {
       if (e.ctrlKey || e.metaKey) {
         if (e.key === 'z') { e.preventDefault(); h.undo(); }
         else if (e.key === 'y') { e.preventDefault(); h.redo(); }
-        else if (e.key === 's') { e.preventDefault(); h.saveTeam(false); h.showToast('Team saved!', 'success'); }
+        else if (e.key === 's') { e.preventDefault(); h.saveTeam(); h.showToast('Team saved to browser storage!', 'success'); }
         else if (e.key === 'e') { e.preventDefault(); h.exportToPNG(); }
         else if (e.shiftKey && e.key === 'C') {
           e.preventDefault();
@@ -149,7 +146,7 @@ const App = () => {
 
   return (
     <div
-      className={`min-h-screen bg-gray-900 text-white p-3 sm:p-6 bg-cover bg-center bg-fixed vignette dd-grain ${theme !== 'default' ? `theme-${theme}` : ''}`}
+      className={`min-h-screen bg-gray-900 text-white p-3 sm:p-6 bg-cover bg-center bg-fixed vignette dd-grain ${settings.theme !== 'default' ? `theme-${settings.theme}` : ''}`}
       style={{
         backgroundImage: `linear-gradient(rgba(17, 24, 39, 0.85), rgba(17, 24, 39, 0.95)), url('${backgroundImage}')`
       }}
@@ -167,6 +164,14 @@ const App = () => {
           <p className="text-center text-gray-400 text-sm sm:text-base italic">
             "Remind yourself that overconfidence is a slow and insidious killer."
           </p>
+          <div className="flex justify-center mt-3">
+            <a
+              href="#/ranker"
+              className="px-3 py-1.5 text-xs rounded border border-dd-gold/50 bg-dd-gold/10 hover:bg-dd-gold/25 text-dd-gold transition-colors"
+            >
+              Ranking Engine →
+            </a>
+          </div>
         </header>
 
         {/* Panel de controles */}
@@ -186,27 +191,27 @@ const App = () => {
             savedTeams={savedTeams}
             onLoadSavedTeam={loadSavedTeam}
             onDeleteSavedTeam={deleteSavedTeam}
-            showBackerTrinkets={showBackerTrinkets}
-            onToggleBackerTrinkets={toggleBackerTrinkets}
-            showModdedHeroes={showModdedHeroes}
-            onToggleModdedHeroes={toggleModdedHeroes}
+            settings={settings}
+            onToggleSetting={toggleSetting}
+            onOpenSettings={() => setShowSettings(true)}
             onExportPNG={exportToPNG}
             showToast={showToast}
             isExporting={isExporting}
-            onRandomize={randomizeTeam}
+            onRandomize={() => randomizeTeam(settings.showModdedHeroes)}
             onUndo={undo}
             onRedo={redo}
             canUndo={canUndo}
             canRedo={canRedo}
             onImportFromClipboard={importFromClipboard}
             teamExists={teamExists}
+            describePreset={describePreset}
+            onSavePresetFile={savePresetFile}
             onLoadPreset={loadPreset}
             onBackupAll={backupAllTeams}
             onImportBackup={importBackup}
             onClearTeam={clearTeam}
             savedTeamsCount={savedTeams.length}
             onCycleTheme={cycleTheme}
-            currentTheme={theme}
           />
         </div>
 
@@ -230,8 +235,12 @@ const App = () => {
                   hero={hero}
                   position={position}
                   onUpdate={(updatedHero) => updateHero(actualIndex, updatedHero)}
-                  showBackerTrinkets={showBackerTrinkets}
-                  showModdedHeroes={showModdedHeroes}
+                  showBackerTrinkets={settings.showBackerTrinkets}
+                  showModdedHeroes={settings.showModdedHeroes}
+                  showDiseases={settings.showDiseases}
+                  showCrimsonCourt={settings.showCrimsonCourt}
+                  autoSortSkills={settings.autoSortSkills}
+                  showToast={showToast}
                 />
               </div>
             );
@@ -263,6 +272,20 @@ const App = () => {
         {showImageTester && (
           <Suspense fallback={<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60"><div className="text-dd-parchment font-darkest">Loading...</div></div>}>
             <ImageTester onClose={() => setShowImageTester(false)} />
+          </Suspense>
+        )}
+
+        {/* Settings Modal */}
+        {showSettings && (
+          <Suspense fallback={null}>
+            <SettingsModal
+              isOpen={showSettings}
+              onClose={() => setShowSettings(false)}
+              settings={settings}
+              setSetting={setSetting}
+              toggleSetting={toggleSetting}
+              resetSettings={resetSettings}
+            />
           </Suspense>
         )}
 
