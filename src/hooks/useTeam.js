@@ -117,8 +117,9 @@ export const useTeam = ({ defaultLocation = 'The Ruins' } = {}) => {
    * `savePresetFile`: son dos destinos con dos nombres, no dos formatos.
    */
   const saveTeam = useCallback(() => {
-    saveTeamToLocalStorage(teamName, location, heroes);
+    const result = saveTeamToLocalStorage(teamName, location, heroes);
     setSavedTeams(loadTeamsFromLocalStorage());
+    return result;
   }, [teamName, location, heroes]);
 
   /**
@@ -175,15 +176,18 @@ export const useTeam = ({ defaultLocation = 'The Ruins' } = {}) => {
     // Equipos guardados antes de un renombrado (p. ej. "Vvulf's Tassle") se
     // normalizan al cargarlos.
     const team = stored && canonicalizeTeam(stored);
-    if (team) {
-      setTeamName(team.teamName);
-      setLocation(team.location || defaultLocation);
-      setHeroes(prev => {
-        historyRef.current.past.push(JSON.parse(JSON.stringify(prev)));
-        historyRef.current.future = [];
-        return team.heroes || emptyParty();
-      });
-    }
+    // Devuelve si lo ha encontrado: otra pestana pudo borrarlo, y cerrar el
+    // modal sin decir nada hacia que un fallo y un exito se vieran igual.
+    if (!team) return false;
+
+    setTeamName(team.teamName);
+    setLocation(team.location || defaultLocation);
+    setHeroes(prev => {
+      historyRef.current.past.push(JSON.parse(JSON.stringify(prev)));
+      historyRef.current.future = [];
+      return team.heroes || emptyParty();
+    });
+    return true;
   }, [defaultLocation]);
 
   const deleteSavedTeam = useCallback((savedTeamName) => {

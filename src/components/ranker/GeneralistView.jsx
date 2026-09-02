@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { downloadJSON } from '../../utils/download';
 import { ClipboardCopy, Download, Scale, Search, SlidersHorizontal, TrendingDown, TrendingUp } from 'lucide-react';
 import ImageWithFallback from '../common/ImageWithFallback';
 import {
@@ -256,7 +257,7 @@ const GeneralistView = ({ savedResults = {}, onNotify }) => {
       .catch(() => onNotify?.('Could not access the clipboard', 'error'));
   };
 
-  const downloadJSON = () => {
+  const handleDownloadJSON = () => {
     const payload = {
       category,
       source: 'comp-library',
@@ -274,12 +275,7 @@ const GeneralistView = ({ savedResults = {}, onNotify }) => {
         owners: item.owners
       }))
     };
-    const uri =
-      'data:application/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(payload, null, 2));
-    const link = document.createElement('a');
-    link.setAttribute('href', uri);
-    link.setAttribute('download', `dd_generalist_${category}.json`);
-    link.click();
+    downloadJSON(`dd_generalist_${category}.json`, payload);
   };
 
   return (
@@ -400,7 +396,7 @@ const GeneralistView = ({ savedResults = {}, onNotify }) => {
               <ClipboardCopy size={13} /> Copy
             </button>
             <button
-              onClick={downloadJSON}
+              onClick={handleDownloadJSON}
               className="px-3 py-1.5 text-xs rounded border border-gray-600 bg-gray-700 hover:bg-gray-600 text-gray-200 transition-colors inline-flex items-center gap-1.5"
             >
               <Download size={13} /> JSON

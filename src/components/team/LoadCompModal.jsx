@@ -284,7 +284,16 @@ const LoadCompModal = ({
                     comp={comp}
                     onLoad={() => {
                       if (comp.source === 'saved') {
-                        onLoadSavedTeam(comp.name);
+                        // Otra pestana pudo borrarlo entre abrir el modal y
+                        // pulsar: sin este aviso, cargar y fallar se veian
+                        // exactamente igual (el modal se cerraba y ya).
+                        const loaded = onLoadSavedTeam(comp.name);
+                        showToast?.(
+                          loaded === false
+                            ? `"${comp.name}" is no longer in browser storage.`
+                            : `Loaded "${comp.name}"!`,
+                          loaded === false ? 'error' : 'success'
+                        );
                       } else {
                         onLoadPreset(comp);
                         showToast?.(`Loaded "${comp.name}"!`, 'success');

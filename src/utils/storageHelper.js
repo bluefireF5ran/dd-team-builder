@@ -1,5 +1,6 @@
 import { validateTeamSchema } from './validation';
 import { canonicalizeTeam } from './nameNormalizer';
+import { downloadJSON } from './download';
 
 const STORAGE_KEY = 'dd_team_builder_teams';
 
@@ -16,11 +17,7 @@ export const savePresetToFile = ({ name, alias, fileName, location, heroes }) =>
   body.location = location;
   body.heroes = heroes;
 
-  const dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(body, null, 2));
-  const linkElement = document.createElement('a');
-  linkElement.setAttribute('href', dataUri);
-  linkElement.setAttribute('download', fileName);
-  linkElement.click();
+  downloadJSON(fileName, body);
 };
 
 export const loadTeamFromFile = (file) => {
@@ -53,6 +50,17 @@ export const loadTeamFromFile = (file) => {
 };
 
 // LocalStorage functions
+/**
+ * Guarda en el navegador y CUENTA lo que ha pasado, que no siempre es "bien".
+ *
+ * Con la cuota llena hay tres finales distintos y el usuario tiene que poder
+ * distinguirlos: se guardo; se guardo pero hubo que tirar el equipo mas
+ * antiguo para hacer sitio; o no se guardo. Antes devolvia un booleano que
+ * nadie miraba, asi que las tres salidas se anunciaban igual ("Saved!") y el
+ * borrado del equipo mas viejo era completamente silencioso.
+ *
+ * @returns {{ok: boolean, prunedTeam: string|null}}
+ */
 export const saveTeamToLocalStorage = (teamName, location, heroes) => {
   try {
     const existingTeams = loadTeamsFromLocalStorage();
@@ -76,25 +84,24 @@ export const saveTeamToLocalStorage = (teamName, location, heroes) => {
       // Handle quota exceeded: try pruning oldest team and retry
       if (quotaError.name === 'QuotaExceededError' || quotaError.code === 22) {
         if (existingTeams.length > 1) {
-          existingTeams.shift(); // Remove oldest
+          const [oldest] = existingTeams.splice(0, 1);
           try {
             localStorage.setItem(STORAGE_KEY, JSON.stringify(existingTeams));
           } catch (retryError) {
             console.error('Storage still full after pruning:', retryError);
-            return false;
+            return { ok: false, prunedTeam: null };
           }
-        } else {
-          console.error('Storage quota exceeded:', quotaError);
-          return false;
+          return { ok: true, prunedTeam: oldest?.teamName || null };
         }
-      } else {
-        throw quotaError;
+        console.error('Storage quota exceeded:', quotaError);
+        return { ok: false, prunedTeam: null };
       }
+      throw quotaError;
     }
-    return true;
+    return { ok: true, prunedTeam: null };
   } catch (error) {
     console.error('Error saving to localStorage:', error);
-    return false;
+    return { ok: false, prunedTeam: null };
   }
 };
 
@@ -123,12 +130,7 @@ export const deleteTeamFromLocalStorage = (teamName) => {
 export const saveAllTeamsToFile = () => {
   const teams = loadTeamsFromLocalStorage();
   if (teams.length === 0) return false;
-  const dataStr = JSON.stringify({ version: 1, teams }, null, 2);
-  const dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
-  const link = document.createElement('a');
-  link.setAttribute('href', dataUri);
-  link.setAttribute('download', 'dd_teams_backup.json');
-  link.click();
+  downloadJSON('dd_teams_backup.json', { version: 1, teams });
   return true;
 };
 

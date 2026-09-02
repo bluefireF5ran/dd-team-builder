@@ -1,4 +1,6 @@
 import React, { useRef, useState } from 'react';
+import { downloadJSON } from '../../utils/download';
+import { buildRankingPayload } from '../../utils/rankerExport';
 import { ClipboardCopy, Download, Image as ImageIcon, RotateCcw, Save } from 'lucide-react';
 import ImageWithFallback from '../common/ImageWithFallback';
 import { getHeroImagePath } from '../../utils/imageHelper';
@@ -160,19 +162,11 @@ const ResultsView = ({
       .catch(() => onNotify?.('Could not access the clipboard', 'error'));
   };
 
-  const downloadJSON = () => {
-    const payload = {
-      category,
-      rankedAt: new Date().toISOString(),
-      exact,
-      comparisons,
-      ranking: ranking.map((item, i) => ({ rank: i + 1, name: item.name, classes: item.classes }))
-    };
-    const uri = 'data:application/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(payload, null, 2));
-    const link = document.createElement('a');
-    link.setAttribute('href', uri);
-    link.setAttribute('download', `dd_ranking_${category}.json`);
-    link.click();
+  const handleDownloadJSON = () => {
+    downloadJSON(
+      `dd_ranking_${category}.json`,
+      buildRankingPayload({ category, ranking, exact, comparisons })
+    );
   };
 
   const downloadPNG = async () => {
@@ -238,7 +232,7 @@ const ResultsView = ({
               <ClipboardCopy size={13} /> Copy
             </button>
             <button
-              onClick={downloadJSON}
+              onClick={handleDownloadJSON}
               className="px-3 py-1.5 text-xs rounded border border-gray-600 bg-gray-700 hover:bg-gray-600 text-gray-200 transition-colors inline-flex items-center gap-1.5"
             >
               <Download size={13} /> JSON

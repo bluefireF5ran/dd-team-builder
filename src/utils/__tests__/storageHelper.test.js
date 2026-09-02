@@ -39,12 +39,48 @@ describe('storageHelper', () => {
   });
 
   describe('saveTeamToLocalStorage', () => {
-    test('saves a new team', () => {
+    test('saves a new team and reports a clean save', () => {
       const result = saveTeamToLocalStorage('Team A', 'The Ruins', []);
-      expect(result).toBe(true);
+      expect(result).toEqual({ ok: true, prunedTeam: null });
       const teams = loadTeamsFromLocalStorage();
       expect(teams).toHaveLength(1);
       expect(teams[0].teamName).toBe('Team A');
+    });
+
+    // The three outcomes the caller has to be able to tell apart. They used to
+    // be one boolean nobody read, so all three toasted "Saved!".
+    describe('when storage is full', () => {
+      const quotaError = () => {
+        const error = new Error('quota');
+        error.name = 'QuotaExceededError';
+        return error;
+      };
+
+      afterEach(() => jest.restoreAllMocks());
+
+      test('names the team it dropped to make room', () => {
+        saveTeamToLocalStorage('Oldest', 'The Ruins', []);
+        saveTeamToLocalStorage('Newer', 'The Cove', []);
+
+        const setItem = jest.spyOn(Storage.prototype, 'setItem');
+        setItem.mockImplementationOnce(() => { throw quotaError(); });
+        jest.spyOn(console, 'error').mockImplementation(() => {});
+
+        const result = saveTeamToLocalStorage('Newest', 'The Weald', []);
+        expect(result).toEqual({ ok: true, prunedTeam: 'Oldest' });
+        expect(loadTeamsFromLocalStorage().map((t) => t.teamName)).not.toContain('Oldest');
+      });
+
+      test('reports failure when there is nothing left to prune', () => {
+        const setItem = jest.spyOn(Storage.prototype, 'setItem');
+        setItem.mockImplementation(() => { throw quotaError(); });
+        jest.spyOn(console, 'error').mockImplementation(() => {});
+
+        expect(saveTeamToLocalStorage('Only', 'The Ruins', [])).toEqual({
+          ok: false,
+          prunedTeam: null
+        });
+      });
     });
 
     test('updates existing team with same name', () => {

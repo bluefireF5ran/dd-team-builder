@@ -84,9 +84,18 @@ const TeamControls = ({
   // El dialogo ya avisa de que sobrescribe y de como se va a llamar el preset,
   // asi que aqui solo queda guardar y cerrar.
   const handleSaveToBrowser = () => {
-    onSave(false);
+    const result = onSave(false);
     setShowSaveModal(false);
-    showToast?.(`Saved "${teamName}" to browser storage.`, 'success');
+    if (result && result.ok === false) {
+      showToast?.(`Browser storage is full — "${teamName}" was not saved.`, 'error');
+    } else if (result?.prunedTeam) {
+      showToast?.(
+        `Saved "${teamName}", but storage was full so "${result.prunedTeam}" was removed.`,
+        'warning'
+      );
+    } else {
+      showToast?.(`Saved "${teamName}" to browser storage.`, 'success');
+    }
   };
 
   const handleSavePresetFile = () => {

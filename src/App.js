@@ -1,4 +1,5 @@
 import React, { useMemo, useState, useRef, useCallback, useEffect, lazy, Suspense } from 'react';
+import { copyTextToClipboard } from './utils/heroClipboard';
 import { useTeam } from './hooks/useTeam';
 import { useSettings } from './hooks/useSettings';
 import { useSaveProfile } from './hooks/useSaveProfile';
@@ -135,12 +136,30 @@ const App = () => {
       if (e.ctrlKey || e.metaKey) {
         if (e.key === 'z') { e.preventDefault(); h.undo(); }
         else if (e.key === 'y') { e.preventDefault(); h.redo(); }
-        else if (e.key === 's') { e.preventDefault(); h.saveTeam(); h.showToast('Team saved to browser storage!', 'success'); }
+        else if (e.key === 's') {
+          e.preventDefault();
+          const result = h.saveTeam();
+          if (result && result.ok === false) {
+            h.showToast(`Browser storage is full — "${h.teamName}" was not saved.`, 'error');
+          } else if (result?.prunedTeam) {
+            h.showToast(`Saved, but storage was full so "${result.prunedTeam}" was removed.`, 'warning');
+          } else {
+            h.showToast('Team saved to browser storage!', 'success');
+          }
+        }
         else if (e.key === 'e') { e.preventDefault(); h.exportToPNG(); }
         else if (e.shiftKey && e.key === 'C') {
           e.preventDefault();
           const data = JSON.stringify({ teamName: h.teamName, location: h.location, heroes: h.heroes });
-          navigator.clipboard.writeText(data).then(() => h.showToast('Team copied to clipboard!', 'success'));
+          // Via copyTextToClipboard, como el boton: trae el fallback de
+          // execCommand y, sobre todo, no deja la promesa sin capturar cuando
+          // el navegador deniega el portapapeles.
+          copyTextToClipboard(data).then((ok) =>
+            h.showToast(
+              ok ? 'Team copied to clipboard!' : 'Could not access the clipboard.',
+              ok ? 'success' : 'error'
+            )
+          );
         }
       }
     };
