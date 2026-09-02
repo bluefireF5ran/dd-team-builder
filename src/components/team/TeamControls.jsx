@@ -1,10 +1,12 @@
 import React, { useState, useMemo } from 'react';
-import { Save, Upload, AlertCircle, CheckCircle, Star, Puzzle, Image, Loader2, Clipboard, Dice5, Undo2, Redo2, ClipboardPaste, BookOpen, Archive, XCircle, Palette, Biohazard, Droplet, Settings } from 'lucide-react';
+import { Save, Upload, AlertCircle, CheckCircle, Star, Puzzle, Image, Loader2, Clipboard, Dice5, Undo2, Redo2, ClipboardPaste, BookOpen, Archive, XCircle, Palette, Biohazard, Droplet, Settings, Sparkles, FolderOpen } from 'lucide-react';
 import { validateTeam } from '../../utils/validation';
 import { copyTextToClipboard } from '../../utils/heroClipboard';
 import ConfirmDialog from '../common/ConfirmDialog';
 import LoadCompModal from './LoadCompModal';
 import SaveTeamModal from './SaveTeamModal';
+import SuggestCompModal from './SuggestCompModal';
+import ImportSaveModal from './ImportSaveModal';
 
 const TeamControls = ({
   heroes,
@@ -22,6 +24,7 @@ const TeamControls = ({
   showToast,
   isExporting = false,
   onRandomize,
+  onSuggest,
   onUndo,
   onRedo,
   canUndo = false,
@@ -35,12 +38,21 @@ const TeamControls = ({
   onImportBackup,
   onClearTeam,
   savedTeamsCount = 0,
-  onCycleTheme
+  onCycleTheme,
+  saveProfile = null,
+  onImportSaveFiles,
+  onClearSaveProfile,
+  onSendHeroesToParty
 }) => {
   const currentTheme = settings.theme;
   const teamValidation = useMemo(() => validateTeam(heroes), [heroes]);
   const [showLoadModal, setShowLoadModal] = useState(false);
   const [showSaveModal, setShowSaveModal] = useState(false);
+  const [showSuggestModal, setShowSuggestModal] = useState(false);
+  const [showImportSave, setShowImportSave] = useState(false);
+  // Set when the import modal hands its classes over; SuggestCompModal owns
+  // the storage, so it is passed the list rather than the key.
+  const [suggestRoster, setSuggestRoster] = useState(null);
   const [clearConfirm, setClearConfirm] = useState(false);
 
   const handleBackupFile = async (e) => {
@@ -151,7 +163,7 @@ const TeamControls = ({
           title="Copy team to clipboard"
         >
           <Clipboard size={16} className="sm:w-[18px] sm:h-[18px]" />
-          <span className="hidden xs:inline">Copy</span>
+          <span className="hidden sm:inline">Copy</span>
         </button>
 
         {/* Paste from Clipboard */}
@@ -162,7 +174,7 @@ const TeamControls = ({
             title="Import team from clipboard"
           >
             <ClipboardPaste size={16} className="sm:w-[18px] sm:h-[18px]" />
-            <span className="hidden xs:inline">Paste</span>
+            <span className="hidden sm:inline">Paste</span>
           </button>
         )}
 
@@ -182,7 +194,7 @@ const TeamControls = ({
           ) : (
             <Image size={16} className="sm:w-[18px] sm:h-[18px]" />
           )}
-          <span className="hidden xs:inline">{isExporting ? 'Exporting...' : 'PNG'}</span>
+          <span className="hidden sm:inline">{isExporting ? 'Exporting...' : 'PNG'}</span>
         </button>
         
         {/* Load from File */}
@@ -205,7 +217,42 @@ const TeamControls = ({
             title="Generate random team"
           >
             <Dice5 size={16} className="sm:w-[18px] sm:h-[18px]" />
-            <span className="hidden xs:inline">Random</span>
+            <span className="hidden sm:inline">Random</span>
+          </button>
+        )}
+
+        {/* Suggest from Roster */}
+        {onSuggest && (
+          <button
+            onClick={() => setShowSuggestModal(true)}
+            className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-2 bg-indigo-700/80 hover:bg-indigo-600 text-dd-parchment rounded border border-indigo-600 transition-colors text-sm sm:text-base"
+            title="Suggest a random comp from your available roster"
+          >
+            <Sparkles size={16} className="sm:w-[18px] sm:h-[18px]" />
+            <span className="hidden sm:inline">Suggest</span>
+          </button>
+        )}
+
+        {/* Import Save: the roster you actually own, out of the game itself. */}
+        {onImportSaveFiles && (
+          <button
+            onClick={() => setShowImportSave(true)}
+            className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-2 bg-emerald-800/80 hover:bg-emerald-700 text-dd-parchment rounded border border-emerald-600 transition-colors text-sm sm:text-base"
+            title={
+              saveProfile
+                ? `${saveProfile.heroes.length} heroes imported${saveProfile.estateName ? ` from ${saveProfile.estateName}` : ''}`
+                : 'Import your Darkest Dungeon save to build with the heroes you own'
+            }
+          >
+            <FolderOpen size={16} className="sm:w-[18px] sm:h-[18px]" />
+            {/* Not "Save": that is the team-save button two along. This one
+                names what you get out of it, not the file it reads. */}
+            <span className="hidden sm:inline">Roster</span>
+            {saveProfile && (
+              <span className="text-[10px] leading-none px-1 py-0.5 rounded bg-emerald-950/70 border border-emerald-500/50">
+                {saveProfile.heroes.length}
+              </span>
+            )}
           </button>
         )}
 
@@ -380,6 +427,53 @@ const TeamControls = ({
         describePreset={describePreset}
         teamExists={teamExists}
         isComplete={teamValidation.isComplete}
+      />
+
+      <ImportSaveModal
+        isOpen={showImportSave}
+        onClose={() => setShowImportSave(false)}
+        profile={saveProfile}
+        onImportFiles={onImportSaveFiles}
+        onClearProfile={onClearSaveProfile}
+        onSendToParty={onSendHeroesToParty}
+        onUseAsRoster={(classes) => {
+          setSuggestRoster(classes);
+          setShowImportSave(false);
+          setShowSuggestModal(true);
+        }}
+        showToast={showToast}
+      />
+
+      <SuggestCompModal
+        isOpen={showSuggestModal}
+        onClose={() => {
+          setShowSuggestModal(false);
+          // The hand-over is a one-shot. Left set, it would overwrite whatever
+          // the player edited by hand the next time they opened this modal.
+          setSuggestRoster(null);
+        }}
+        onSuggest={(roster, options) => {
+          const result = onSuggest(roster, settings.showModdedHeroes, {
+            // The comp is the build; these are the heroes it gets built on.
+            saveHeroes: saveProfile?.heroes || null,
+            ownedTrinkets: saveProfile?.ownedTrinkets || null,
+            ...options
+          });
+          if (result?.warning) {
+            showToast?.(result.warning, 'warning');
+          } else if (result?.assignedHeroes?.length) {
+            showToast?.(
+              `Suggested "${result.teamName}" with ${result.assignedHeroes.join(', ')}.`,
+              'success'
+            );
+          } else {
+            showToast?.('Random comp suggested from your roster!', 'success');
+          }
+        }}
+        showModdedHeroes={settings.showModdedHeroes}
+        saveProfile={saveProfile}
+        initialRoster={suggestRoster}
+        showToast={showToast}
       />
 
       <ConfirmDialog

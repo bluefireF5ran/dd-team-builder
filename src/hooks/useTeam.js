@@ -3,7 +3,7 @@ import { PARTY_CONFIG } from '../constants';
 import { savePresetToFile, loadTeamFromFile, saveTeamToLocalStorage, loadTeamsFromLocalStorage, deleteTeamFromLocalStorage, saveAllTeamsToFile, importTeamsFromFile } from '../utils/storageHelper';
 import { nameCompAgainst, toCompFileName } from '../utils/compNaming';
 import { getRawComps } from '../data/compIndex';
-import { generateRandomTeam } from '../utils/randomTeam';
+import { generateRandomTeam, generateRandomTeamFromRoster } from '../utils/randomTeam';
 import { validateTeamSchema } from '../utils/validation';
 import { canonicalizeTeam, canonicalizeHero } from '../utils/nameNormalizer';
 import { createEmptyHero } from '../utils/heroHelper';
@@ -68,6 +68,29 @@ export const useTeam = ({ defaultLocation = 'The Ruins' } = {}) => {
       const newHeroes = [...prev];
       newHeroes[index] = updatedHero;
       return newHeroes;
+    });
+  }, []);
+
+  /**
+   * Drops a run of heroes into the party from rank 1 onwards, in one undoable
+   * step. The Import Save modal hands over up to four at a time and a per-slot
+   * `updateHero` loop would leave four entries in the history for what the
+   * player did once. Slots past the end are left alone: sending two heroes
+   * fills ranks 1 and 2 and does not wipe the back line.
+   */
+  const placeHeroes = useCallback((incoming) => {
+    if (!Array.isArray(incoming) || !incoming.length) return;
+    setHeroes(prev => {
+      historyRef.current.past.push(JSON.parse(JSON.stringify(prev)));
+      if (historyRef.current.past.length > MAX_HISTORY) {
+        historyRef.current.past.shift();
+      }
+      historyRef.current.future = [];
+      const next = [...prev];
+      incoming.slice(0, PARTY_CONFIG.MAX_HEROES).forEach((hero, index) => {
+        next[index] = canonicalizeHero(hero);
+      });
+      return next;
     });
   }, []);
 
@@ -177,14 +200,51 @@ export const useTeam = ({ defaultLocation = 'The Ruins' } = {}) => {
     });
   }, []);
 
+  /**
+   * Genera una comp de preset (o fallback) con los héroes que el roster tiene
+   * de verdad: `rosterHeroNames` cuenta repeticiones, así que una comp de dos
+   * Doctores sólo sale si tienes dos.
+   *
+   * Devuelve lo que ha pasado (qué héroes tuyos la visten, qué trinkets te
+   * faltan, si hubo que ceder en algo) para que quien llama lo pueda contar.
+   */
+  const suggestTeam = useCallback((rosterHeroNames, showModdedHeroes = false, options = {}) => {
+    const suggestedHeroes = generateRandomTeamFromRoster(rosterHeroNames, showModdedHeroes, options);
+
+    if (suggestedHeroes.teamName) {
+      setTeamName(suggestedHeroes.teamName);
+    }
+    if (suggestedHeroes.location) {
+      setLocation(suggestedHeroes.location);
+    }
+
+    setHeroes(prev => {
+      historyRef.current.past.push(JSON.parse(JSON.stringify(prev)));
+      historyRef.current.future = [];
+      return suggestedHeroes;
+    });
+
+    return {
+      teamName: suggestedHeroes.teamName,
+      location: suggestedHeroes.location,
+      assignedHeroes: suggestedHeroes.assignedHeroes || [],
+      missingTrinkets: suggestedHeroes.missingTrinkets || [],
+      warning: suggestedHeroes.warning || '',
+      fromPreset: !!suggestedHeroes.fromPreset
+    };
+  }, []);
+
   const importFromClipboard = useCallback(async () => {
     const text = await navigator.clipboard.readText();
     const raw = JSON.parse(text);
-    const { valid, errors } = validateTeamSchema(raw);
+    // Canonicalizar antes de validar: repara grafías y alias (p. ej. la clase
+    // 'sibyl_ms' del mod -> 'Sibyl') para que los límites del esquema se
+    // comprueben ya con los datos que la app reconoce.
+    const team = canonicalizeTeam(raw);
+    const { valid, errors } = validateTeamSchema(team);
     if (!valid) {
       throw new Error('Invalid team data: ' + errors.join(', '));
     }
-    const team = canonicalizeTeam(raw);
     setTeamName(team.teamName || 'My Team');
     setLocation(team.location || defaultLocation);
     setHeroes(prev => {
@@ -233,6 +293,7 @@ export const useTeam = ({ defaultLocation = 'The Ruins' } = {}) => {
     setLocation,
     heroes,
     updateHero,
+    placeHeroes,
     swapHeroes,
     saveTeam,
     loadTeam,
@@ -240,6 +301,7 @@ export const useTeam = ({ defaultLocation = 'The Ruins' } = {}) => {
     loadSavedTeam,
     deleteSavedTeam,
     randomizeTeam,
+    suggestTeam,
     undo,
     redo,
     canUndo,

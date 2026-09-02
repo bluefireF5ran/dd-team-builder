@@ -1,6 +1,7 @@
 import React, { useMemo, useState, useRef, useCallback, useEffect, lazy, Suspense } from 'react';
 import { useTeam } from './hooks/useTeam';
 import { useSettings } from './hooks/useSettings';
+import { useSaveProfile } from './hooks/useSaveProfile';
 import TeamHeader from './components/team/TeamHeader';
 import TeamControls from './components/team/TeamControls';
 import PartyComposition from './components/party/PartyComposition';
@@ -38,6 +39,7 @@ const App = () => {
   // Las preferencias mandan sobre el equipo, no al reves: useTeam solo necesita
   // saber en que mazmorra empieza una comp nueva.
   const { settings, setSetting, toggleSetting, resetSettings, cycleTheme } = useSettings();
+  const { profile: saveProfile, importFiles: importSaveFiles, clearProfile: clearSaveProfile } = useSaveProfile();
   const {
     teamName,
     setTeamName,
@@ -45,6 +47,7 @@ const App = () => {
     setLocation,
     heroes,
     updateHero,
+    placeHeroes,
     swapHeroes,
     saveTeam,
     loadTeam,
@@ -52,6 +55,7 @@ const App = () => {
     loadSavedTeam,
     deleteSavedTeam,
     randomizeTeam,
+    suggestTeam,
     undo,
     redo,
     canUndo,
@@ -198,6 +202,7 @@ const App = () => {
             showToast={showToast}
             isExporting={isExporting}
             onRandomize={() => randomizeTeam(settings.showModdedHeroes)}
+            onSuggest={suggestTeam}
             onUndo={undo}
             onRedo={redo}
             canUndo={canUndo}
@@ -212,6 +217,10 @@ const App = () => {
             onClearTeam={clearTeam}
             savedTeamsCount={savedTeams.length}
             onCycleTheme={cycleTheme}
+            saveProfile={saveProfile}
+            onImportSaveFiles={importSaveFiles}
+            onClearSaveProfile={clearSaveProfile}
+            onSendHeroesToParty={placeHeroes}
           />
         </div>
 
@@ -240,6 +249,10 @@ const App = () => {
                   showDiseases={settings.showDiseases}
                   showCrimsonCourt={settings.showCrimsonCourt}
                   autoSortSkills={settings.autoSortSkills}
+                  showSkillTiers={settings.showSkillTiers}
+                  ownedTrinkets={saveProfile?.ownedTrinkets}
+                  ownedTrinketsOnly={settings.ownedTrinketsOnly}
+                  onToggleOwnedTrinketsOnly={() => toggleSetting('ownedTrinketsOnly')}
                   showToast={showToast}
                 />
               </div>

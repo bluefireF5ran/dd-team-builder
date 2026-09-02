@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { X, Palette, Puzzle, Star, Biohazard, Droplet, BookOpen, Swords, RotateCcw } from 'lucide-react';
+import { X, Palette, Puzzle, Star, Biohazard, Droplet, BookOpen, Swords, Trophy, RotateCcw, PackageCheck } from 'lucide-react';
 import { THEMES } from '../../hooks/useSettings';
 import { SORT_OPTIONS } from '../../utils/compFilters';
 import { LOCATIONS } from '../../data/locations';
@@ -207,6 +207,28 @@ const SettingsModal = ({ isOpen, onClose, settings, setSetting, toggleSetting, r
                 label="Auto-sort skills"
                 checked={settings.autoSortSkills}
                 onChange={() => toggleSetting('autoSortSkills')}
+              />
+            </Row>
+            <Row
+              icon={Trophy}
+              title="Skill tiers"
+              hint="Puts an S-D badge on each combat skill, from one community tier list. Opinion, not game data — and it only covers 17 classes, so Musketeer, Duelist and Runaway show nothing."
+            >
+              <Toggle
+                label="Skill tiers"
+                checked={settings.showSkillTiers}
+                onChange={() => toggleSetting('showSkillTiers')}
+              />
+            </Row>
+            <Row
+              icon={PackageCheck}
+              title="Owned trinkets only"
+              hint="Narrows the trinket picker to what your imported save actually holds. Does nothing until you import one, and never hides a trinket already equipped on a hero."
+            >
+              <Toggle
+                label="Owned trinkets only"
+                checked={settings.ownedTrinketsOnly}
+                onChange={() => toggleSetting('ownedTrinketsOnly')}
               />
             </Row>
             <Row icon={BookOpen} title="Default location" hint="Where a new or cleared team starts.">

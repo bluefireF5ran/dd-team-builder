@@ -8,6 +8,8 @@ import { HERO_CONFIG } from '../../constants';
 import { copyTextToClipboard, parseHeroClipboard, readClipboardText, serializeHero } from '../../utils/heroClipboard';
 import { getTrinketImagePath } from '../../utils/imageHelper';
 import { getTrinketEffect } from '../../data/trinketEffects';
+import { getModdedTrinketEffect, getSetBonus } from '../../data/moddedEffects';
+import { getSkillTier, getSkillTierMeta } from '../../data/skillTiers';
 import { skillHover, trinketHover } from '../../utils/hoverInfo';
 import ImageWithFallback from '../common/ImageWithFallback';
 import ConfirmDialog from '../common/ConfirmDialog';
@@ -17,15 +19,35 @@ import TrinketPicker from './TrinketPicker';
 import QuirkSlot from '../quirks/QuirkSlot';
 import QuirkPicker from '../quirks/QuirkPicker';
 
+// The community tier, when the setting asks for it. Untiered skills - camp
+// skills, modded classes and the three classes the tier list skipped - render
+// nothing at all rather than an empty slot.
+const SkillTierBadge = ({ tier }) => {
+  const meta = getSkillTierMeta(tier);
+  if (!meta) return null;
+  return (
+    <span
+      className={`flex-shrink-0 px-1.5 rounded border text-[10px] leading-4 font-bold ${meta.badge}`}
+      title={`Tier ${meta.id} — ${meta.label}`}
+    >
+      {meta.id}
+    </span>
+  );
+};
+
 const HeroConfiguration = ({
   hero,
   position,
   onUpdate,
   showBackerTrinkets,
   showModdedHeroes,
+  ownedTrinkets,
+  ownedTrinketsOnly,
+  onToggleOwnedTrinketsOnly,
   showDiseases = false,
   showCrimsonCourt = false,
   autoSortSkills = false,
+  showSkillTiers = false,
   showToast
 }) => {
   // Which list the picker is open on: 'positive' | 'negative' | 'disease' | null.
@@ -363,18 +385,23 @@ const HeroConfiguration = ({
                 {heroSkills.map(skill => {
                   const isActive = activeSkills.includes(skill);
                   return (
-                    <HoverCard key={skill} className="w-full" {...skillHover(skill, hero.heroClass)}>
+                    <HoverCard
+                      key={skill}
+                      className="w-full"
+                      {...skillHover(skill, hero.heroClass, { showTier: showSkillTiers })}
+                    >
                       <button
                         onClick={() => toggleSkill(skill)}
                         disabled={isAlwaysActive}
                         aria-pressed={isActive}
-                        className={`w-full px-2 sm:px-3 py-1.5 sm:py-2 rounded text-xs sm:text-sm transition-colors text-left ${
+                        className={`w-full px-2 sm:px-3 py-1.5 sm:py-2 rounded text-xs sm:text-sm transition-colors text-left flex items-center justify-between gap-2 ${
                           isActive
                             ? 'bg-green-700/80 hover:bg-green-600 text-dd-parchment font-semibold border border-green-600'
                             : 'bg-gray-700/80 hover:bg-gray-600 text-gray-300 border border-gray-600'
                         } ${isAlwaysActive ? 'cursor-not-allowed opacity-90' : 'cursor-pointer'}`}
                       >
-                        {skill}
+                        <span className="min-w-0 truncate">{skill}</span>
+                        {showSkillTiers && <SkillTierBadge tier={getSkillTier(hero.heroClass, skill)} />}
                       </button>
                     </HoverCard>
                   );
@@ -420,6 +447,7 @@ const HeroConfiguration = ({
               <div className="space-y-2">
                 <TrinketSlotButton
                   trinketName={hero.trinket1}
+                  otherTrinketName={hero.trinket2}
                   heroClass={hero.heroClass}
                   placeholder="Trinket 1"
                   onOpen={() => setTrinketPickerSlot(1)}
@@ -427,11 +455,13 @@ const HeroConfiguration = ({
                 />
                 <TrinketSlotButton
                   trinketName={hero.trinket2}
+                  otherTrinketName={hero.trinket1}
                   heroClass={hero.heroClass}
                   placeholder="Trinket 2"
                   onOpen={() => setTrinketPickerSlot(2)}
                   onClear={() => updateHero('trinket2', '')}
                 />
+                <TrinketSetLine trinket1={hero.trinket1} trinket2={hero.trinket2} />
               </div>
             </div>
           </div>
@@ -519,6 +549,9 @@ const HeroConfiguration = ({
         heroClass={hero.heroClass}
         showBackerTrinkets={showBackerTrinkets}
         showModdedHeroes={showModdedHeroes}
+        ownedTrinkets={ownedTrinkets}
+        ownedOnly={ownedTrinketsOnly}
+        onToggleOwnedOnly={onToggleOwnedTrinketsOnly}
         slotLabel={trinketPickerSlot === 1 ? 'Trinket 1' : 'Trinket 2'}
       />
     </div>
@@ -572,14 +605,34 @@ const QuirkList = ({
   </div>
 );
 
-const TrinketSlotButton = ({ trinketName, heroClass, placeholder, onOpen, onClear }) => {
+// The set bonus for the equipped pair: gold when both members are on, grey and
+// struck through when only one is (so you can see what the second half buys).
+const TrinketSetLine = ({ trinket1, trinket2 }) => {
+  const set = getSetBonus(trinket1, trinket2);
+  if (!set) return null;
+  const missing = set.members.find((m) => m !== trinket1 && m !== trinket2);
+  return (
+    <p
+      className={`text-[11px] leading-tight px-1 ${
+        set.active ? 'text-dd-gold' : 'text-gray-500 line-through'
+      }`}
+    >
+      <span className="font-darkest tracking-wide">{set.label}</span>
+      {!set.active && missing && <span className="no-underline"> (needs {missing})</span>}
+      {' — '}
+      {set.bonus}
+    </p>
+  );
+};
+
+const TrinketSlotButton = ({ trinketName, otherTrinketName, heroClass, placeholder, onOpen, onClear }) => {
   // Modded trinkets, and the handful the game ships with no buffs, have no
   // effect text — the slot then reads exactly as it did before, name only.
-  const trinketEffect = getTrinketEffect(trinketName);
+  const trinketEffect = getTrinketEffect(trinketName) || getModdedTrinketEffect(trinketName);
 
   return (
   <div className="flex items-center gap-1.5 sm:gap-2">
-    <HoverCard className="flex-1 min-w-0" {...(trinketName ? trinketHover(trinketName) : {})}>
+    <HoverCard className="flex-1 min-w-0" {...(trinketName ? trinketHover(trinketName, otherTrinketName) : {})}>
     <div
       onClick={onOpen}
       role="button"

@@ -32,12 +32,18 @@ export const DEFAULT_SETTINGS = {
   showDiseases: false,
   showCrimsonCourt: false,
 
+  // Narrows the trinket picker to what an imported save actually owns. Does
+  // nothing until a save is imported, and never hides a trinket already
+  // equipped on a hero - same rule the optional-content switches follow.
+  ownedTrinketsOnly: false,
+
   // Comp library
   compSort: 'name',
   compPageSize: 24,
 
   // Hero configuration
   autoSortSkills: false,
+  showSkillTiers: false,
   defaultLocation: 'The Ruins'
 };
 
