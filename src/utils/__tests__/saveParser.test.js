@@ -77,6 +77,11 @@ describe('dson', () => {
     expect(dismas.actor.current_hp).toBeCloseTo(27.6, 1);
     // `wallet.amount` is the counter-example: four bytes, but an integer.
     expect(parseDson(read(SAVE_FILES.estate)).wallet['0'].amount).toBe(7210);
+
+    // persist.game.json's play timer is seconds, and reads as 1153022976 if
+    // taken for an int - a plausible-looking counter that is nothing of the
+    // sort. 1485s of play sits inside the save's 28-minute wall clock.
+    expect(parseDson(read(SAVE_FILES.game)).totalelapsed).toBeCloseTo(1485.88, 1);
   });
 });
 

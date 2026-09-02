@@ -46,7 +46,15 @@ const HEADER_SIZE = 0x40;
 // floats have to be named. Everything else numeric reads as a signed int —
 // `wallet.amount` included, which is why "anything that looks like a float"
 // is not a workable rule.
-const FLOAT_FIELDS = new Set(['current_hp', 'm_Stress', 'damage_source_data', 'actor_hp']);
+const FLOAT_FIELDS = new Set([
+  'current_hp',
+  'm_Stress',
+  'damage_source_data',
+  'actor_hp',
+  // Seconds of play in persist.game.json. Read as an int it comes out as
+  // 1153022976, which looks like a plausible counter and is not one.
+  'totalelapsed'
+]);
 
 const toBytes = (input) => {
   if (input instanceof Uint8Array) return input;
