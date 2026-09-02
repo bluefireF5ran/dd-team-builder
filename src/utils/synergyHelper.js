@@ -1,3 +1,14 @@
+/**
+ * Advisory notes about a party, in the panel under the composition.
+ *
+ * The rank checks come first and come from `rankValidity`, which reads the
+ * launch/target data the game itself uses. Everything below them is a
+ * heuristic over class names - useful, but a guess. When the two disagree in
+ * severity the rank problem wins: a hero who cannot act at all is a broken
+ * party, whereas "no stress healer" is an opinion about long dungeons.
+ */
+import { rankWarnings } from './rankValidity';
+
 const HEALER_CLASSES = ['Vestal', 'Occultist'];
 const HEALER_SKILLS = {
   'Vestal': ['Divine Grace', 'Divine Comfort'],
@@ -26,9 +37,18 @@ export const analyzeSynergy = (heroes) => {
   const notes = [];
   let level = 'good';
 
-  const filledHeroes = heroes.filter(h => h.heroClass);
+  // Rank problems are checked before anything else, and even for a party of
+  // one: a Leper dropped into rank 4 is already wrong, and saying so while
+  // there is still an empty slot beside them is the useful moment.
+  rankWarnings(heroes).forEach((warning) => {
+    notes.push(warning.text);
+    if (warning.kind === 'stranded') level = 'danger';
+    else if (level === 'good') level = 'warning';
+  });
+
+  const filledHeroes = (heroes || []).filter(h => h && h.heroClass);
   if (filledHeroes.length < 2) {
-    return { level: 'good', notes: [] };
+    return { level, notes };
   }
 
   const classNames = filledHeroes.map(h => h.heroClass);

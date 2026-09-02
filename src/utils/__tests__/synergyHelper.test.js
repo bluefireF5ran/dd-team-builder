@@ -64,4 +64,47 @@ describe('analyzeSynergy', () => {
     const result = analyzeSynergy(heroes);
     expect(result.notes.some(n => n.includes('stress healer'))).toBe(true);
   });
+
+  // The rank checks read the game's own launch/target data, so they outrank
+  // the class-name heuristics around them.
+  describe('rank problems', () => {
+    const party = (...specs) =>
+      specs.map(([heroClass, activeSkills]) => ({ ...EMPTY_HERO, heroClass, activeSkills }));
+
+    test('a hero who cannot act makes the whole party danger', () => {
+      const heroes = party(
+        ['Crusader', ['Smite']],
+        ['Hellion', ['Wicked Hack']],
+        ['Vestal', ['Judgement']],
+        ['Leper', ['Hew', 'Chop']]
+      );
+      const result = analyzeSynergy(heroes);
+      expect(result.level).toBe('danger');
+      expect(result.notes[0]).toContain('Leper can use none');
+    });
+
+    test('speaks up before the party is even half built', () => {
+      // One misplaced hero is already wrong; waiting for a fourth to say so
+      // would be waiting until it is harder to fix.
+      const heroes = [
+        { ...EMPTY_HERO },
+        { ...EMPTY_HERO },
+        { ...EMPTY_HERO },
+        { ...EMPTY_HERO, heroClass: 'Leper', activeSkills: ['Hew'] }
+      ];
+      const result = analyzeSynergy(heroes);
+      expect(result.level).toBe('danger');
+      expect(result.notes.some((n) => n.includes('rank 4'))).toBe(true);
+    });
+
+    test('says nothing when everyone can reach something', () => {
+      const heroes = party(
+        ['Hellion', ['Wicked Hack', 'Iron Swan']],
+        ['Crusader', ['Smite', 'Battle Heal']],
+        ['Vestal', ['Dazzling Light', 'Divine Grace']],
+        ['Arbalest', ['Sniper Shot', 'Suppressing Fire']]
+      );
+      expect(analyzeSynergy(heroes).notes.some((n) => n.includes('rank'))).toBe(false);
+    });
+  });
 });

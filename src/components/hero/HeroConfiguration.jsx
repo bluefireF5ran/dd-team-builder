@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import { getSkillRanks } from '../../utils/rankValidity';
 import { AlertTriangle, ChevronDown, ChevronUp, Copy, ClipboardPaste, RotateCcw, UserPlus, X } from 'lucide-react';
 import { HERO_CLASSES } from '../../data/heroes';
 import { MODDED_HERO_CLASSES } from '../../data/modded_heroes';
@@ -384,6 +385,11 @@ const HeroConfiguration = ({
               <div className="space-y-1 max-h-[200px] sm:max-h-none overflow-y-auto">
                 {heroSkills.map(skill => {
                   const isActive = activeSkills.includes(skill);
+                  // `position` IS the rank: App renders the cards reversed and
+                  // passes 4-idx, so #1 is the front line. null means this app
+                  // has no rank data for the skill, which is not a fault.
+                  const ranks = getSkillRanks(hero.heroClass, skill);
+                  const outOfRank = isActive && ranks && !ranks.launch.includes(position);
                   return (
                     <HoverCard
                       key={skill}
@@ -398,10 +404,22 @@ const HeroConfiguration = ({
                           isActive
                             ? 'bg-green-700/80 hover:bg-green-600 text-dd-parchment font-semibold border border-green-600'
                             : 'bg-gray-700/80 hover:bg-gray-600 text-gray-300 border border-gray-600'
-                        } ${isAlwaysActive ? 'cursor-not-allowed opacity-90' : 'cursor-pointer'}`}
+                        } ${isAlwaysActive ? 'cursor-not-allowed opacity-90' : 'cursor-pointer'} ${
+                          outOfRank ? 'ring-1 ring-amber-500/70' : ''
+                        }`}
                       >
                         <span className="min-w-0 truncate">{skill}</span>
-                        {showSkillTiers && <SkillTierBadge tier={getSkillTier(hero.heroClass, skill)} />}
+                        <span className="flex items-center gap-1 shrink-0">
+                          {outOfRank && (
+                            <span
+                              className="text-[10px] leading-none px-1 py-0.5 rounded bg-amber-900/60 border border-amber-600/60 text-amber-300"
+                              title={`Cannot be used from rank ${position} — needs rank ${ranks.launch.join(' or ')}`}
+                            >
+                              rank {ranks.launch.join('·')}
+                            </span>
+                          )}
+                          {showSkillTiers && <SkillTierBadge tier={getSkillTier(hero.heroClass, skill)} />}
+                        </span>
                       </button>
                     </HoverCard>
                   );

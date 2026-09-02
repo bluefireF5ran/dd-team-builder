@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
-import { Save, Upload, AlertCircle, CheckCircle, Star, Puzzle, Image, Loader2, Clipboard, Dice5, Undo2, Redo2, ClipboardPaste, BookOpen, Archive, XCircle, Palette, Biohazard, Droplet, Settings, Sparkles, FolderOpen } from 'lucide-react';
+import { Save, Upload, AlertCircle, CheckCircle, Star, Puzzle, Image, Loader2, Clipboard, Dice5, Undo2, Redo2, ClipboardPaste, BookOpen, Archive, XCircle, Palette, Biohazard, Droplet, Settings, Sparkles, FolderOpen, AlertTriangle } from 'lucide-react';
 import { validateTeam } from '../../utils/validation';
+import { rankWarnings } from '../../utils/rankValidity';
 import { copyTextToClipboard } from '../../utils/heroClipboard';
 import ConfirmDialog from '../common/ConfirmDialog';
 import LoadCompModal from './LoadCompModal';
@@ -46,6 +47,10 @@ const TeamControls = ({
 }) => {
   const currentTheme = settings.theme;
   const teamValidation = useMemo(() => validateTeam(heroes), [heroes]);
+  // Completeness and correctness are different questions. validateTeam answers
+  // "is every slot filled in", which is why a full party of heroes who cannot
+  // reach anything still read as "Ready!". This is the second question.
+  const rankIssues = useMemo(() => rankWarnings(heroes), [heroes]);
   const [showLoadModal, setShowLoadModal] = useState(false);
   const [showSaveModal, setShowSaveModal] = useState(false);
   const [showSuggestModal, setShowSuggestModal] = useState(false);
@@ -394,12 +399,22 @@ const TeamControls = ({
         </button>
 
         {/* Team Status - Moves to its own line on mobile */}
-        <div className={`flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-2 rounded text-sm sm:text-base ml-auto ${
-          teamValidation.isComplete 
-            ? 'bg-green-900/50 border-2 border-green-700/50 text-green-400'
-            : 'bg-yellow-900/50 border-2 border-yellow-700/50 text-yellow-400'
-        }`}>
-          {teamValidation.isComplete ? (
+        <div
+          title={rankIssues.length ? rankIssues.map((w) => w.text).join(' ') : undefined}
+          className={`flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-2 rounded text-sm sm:text-base ml-auto ${
+            teamValidation.isComplete && !rankIssues.length
+              ? 'bg-green-900/50 border-2 border-green-700/50 text-green-400'
+              : teamValidation.isComplete
+              ? 'bg-amber-900/50 border-2 border-amber-700/50 text-amber-400'
+              : 'bg-yellow-900/50 border-2 border-yellow-700/50 text-yellow-400'
+          }`}
+        >
+          {teamValidation.isComplete && rankIssues.length ? (
+            <>
+              <AlertTriangle size={16} className="sm:w-[18px] sm:h-[18px]" />
+              <span className="font-darkest">Check ranks</span>
+            </>
+          ) : teamValidation.isComplete ? (
             <>
               <CheckCircle size={16} className="sm:w-[18px] sm:h-[18px]" />
               <span className="font-darkest">Ready!</span>
