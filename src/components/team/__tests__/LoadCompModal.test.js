@@ -201,4 +201,35 @@ describe('LoadCompModal', () => {
     setup();
     expect(within(cards()[0]).getAllByTitle(/^Rank [1-4]:/)).toHaveLength(4);
   });
+
+  // The library used to know nothing about what you own: 177 comps, no hint
+  // which of them you could actually put in the field.
+  describe('with an imported save', () => {
+    const saveProfile = {
+      // One of each: enough for an ordinary comp, not enough for a quartet.
+      heroes: ['Crusader', 'Vestal', 'Hellion', 'Jester', 'Arbalest', 'Occultist'].map(
+        (heroClass) => ({ heroClass, activity: '', isMissing: false })
+      )
+    };
+
+    test('offers no roster judgement without a save', () => {
+      setup();
+      expect(screen.queryByRole('button', { name: /Can field/i })).not.toBeInTheDocument();
+      expect(screen.queryByText(/needs \d/i)).not.toBeInTheDocument();
+    });
+
+    test('marks the comps you are short of, and says by how much', () => {
+      setup({ saveProfile });
+      // Ballad Quartet is four Jesters and this roster has one.
+      const badges = screen.getAllByText(/^needs /);
+      expect(badges.length).toBeGreaterThan(0);
+      expect(badges.some((b) => /needs 3× Jester/.test(b.textContent))).toBe(true);
+    });
+
+    test('Can field hides everything the roster cannot put out', () => {
+      setup({ saveProfile });
+      fireEvent.click(screen.getByRole('button', { name: /Can field/i }));
+      expect(screen.queryByText(/^needs /)).not.toBeInTheDocument();
+    });
+  });
 });

@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { X, Search, SlidersHorizontal, ChevronLeft, ChevronRight } from 'lucide-react';
+import { X, Search, SlidersHorizontal, ChevronLeft, ChevronRight, Users } from 'lucide-react';
 import CompCard from './CompCard';
+import { toRosterCounts, missingForComp, rosterFromHeroes } from '../../utils/rosterAvailability';
 import CompFilters from './CompFilters';
 import ConfirmDialog from '../common/ConfirmDialog';
 import { getCompEntries } from '../../data/compIndex';
@@ -33,7 +34,10 @@ const LoadCompModal = ({
   showToast,
   // Los ajustes deciden con que orden y cuantas por pagina se abre.
   defaultSort = 'name',
-  defaultPageSize = DEFAULT_PAGE_SIZE
+  defaultPageSize = DEFAULT_PAGE_SIZE,
+  // La partida importada, si la hay. Sin ella la libreria no hace ninguna
+  // afirmacion sobre lo que puedes o no puedes formar.
+  saveProfile = null
 }) => {
   const [activeTab, setActiveTab] = useState('library');
   const [search, setSearch] = useState('');
@@ -43,6 +47,14 @@ const LoadCompModal = ({
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(defaultPageSize);
   const [deleteConfirm, setDeleteConfirm] = useState({ isOpen: false, teamName: '' });
+  const [onlyFieldable, setOnlyFieldable] = useState(false);
+
+  // Cuenta por clase de los heroes vivos, incluidos los ocupados en el pueblo:
+  // aqui se esta planificando, no saliendo esta semana.
+  const rosterCounts = useMemo(
+    () => (saveProfile ? toRosterCounts(rosterFromHeroes(saveProfile.heroes, { includeBusy: true })) : null),
+    [saveProfile]
+  );
 
   // El indice de la libreria se construye la primera vez que se abre el modal,
   // no al arrancar la app: quien nunca abre la libreria no lo paga.
@@ -55,8 +67,16 @@ const LoadCompModal = ({
   const allEntries = activeTab === 'saved' ? savedEntries : libraryEntries;
 
   const filtered = useMemo(
-    () => sortComps(filterComps(allEntries, { ...filters, query: search }), sortId),
-    [allEntries, filters, search, sortId]
+    () =>
+      sortComps(
+        filterComps(allEntries, {
+          ...filters,
+          query: search,
+          rosterCounts: onlyFieldable ? rosterCounts : null
+        }),
+        sortId
+      ),
+    [allEntries, filters, search, sortId, onlyFieldable, rosterCounts]
   );
 
   /**
@@ -192,6 +212,21 @@ const LoadCompModal = ({
             <div className="flex flex-wrap gap-2 items-center">
               {tabButton('library', 'Library', libraryEntries.length, 'bg-amber-700/80 border-amber-600 text-dd-parchment')}
               {tabButton('saved', 'My Teams', savedTeams.length, 'bg-indigo-700/80 border-indigo-600 text-dd-parchment')}
+              {rosterCounts && (
+                <button
+                  type="button"
+                  onClick={() => { setOnlyFieldable((v) => !v); setPage(1); }}
+                  aria-pressed={onlyFieldable}
+                  title="Only comps your imported roster has the heroes for"
+                  className={`px-2.5 py-1.5 text-xs rounded border transition-colors inline-flex items-center gap-1.5 ${
+                    onlyFieldable
+                      ? 'border-emerald-500/60 bg-emerald-900/40 text-emerald-300'
+                      : 'border-gray-600 bg-gray-800 text-gray-400 hover:text-gray-200'
+                  }`}
+                >
+                  <Users size={12} /> Can field
+                </button>
+              )}
 
               <div className="relative flex-1 min-w-[10rem]">
                 <Search size={14} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-500" />
@@ -282,6 +317,7 @@ const LoadCompModal = ({
                   <CompCard
                     key={comp.id}
                     comp={comp}
+                    missing={rosterCounts ? missingForComp(comp, rosterCounts) : null}
                     onLoad={() => {
                       if (comp.source === 'saved') {
                         // Otra pestana pudo borrarlo entre abrir el modal y

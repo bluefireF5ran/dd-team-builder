@@ -12,6 +12,7 @@ import { analyzeComp, parseCompName, heroAka } from './compNaming';
 import { isModdedHero } from './imageHelper';
 import { HERO_TOKENS } from '../data/compTaxonomy';
 import { LOCATIONS, getLocationTheme } from '../data/locations';
+import { rosterCoversComp } from './rosterAvailability';
 
 /** Curacion de vida: si nadie la lleva, la comp merece el aviso `no-heal`. */
 const HEAL_SKILLS = new Set([
@@ -194,7 +195,10 @@ export const matchesQuery = (entry, terms) => terms.every((t) => entry.search.in
  * Los heroes son la excepcion: varios heroes significa "los lleva todos", que es
  * lo que uno quiere al buscar una pareja concreta.
  */
-export const filterComps = (entries, { query = '', heroes = [], regions = [], families = [], flags = [] } = {}) => {
+export const filterComps = (
+  entries,
+  { query = '', heroes = [], regions = [], families = [], flags = [], rosterCounts = null } = {}
+) => {
   const terms = parseQuery(query);
   const heroSet = heroes.length ? new Set(heroes) : null;
   const regionSet = regions.length ? new Set(regions) : null;
@@ -209,6 +213,9 @@ export const filterComps = (entries, { query = '', heroes = [], regions = [], fa
       for (const h of heroSet) if (!own.has(h)) return false;
     }
     if (flags.length && !flags.every((f) => entry.flags.includes(f))) return false;
+    // Cuenta, no pertenencia: una comp de cuatro Bufones solo pasa si tienes
+    // cuatro. Solo se aplica cuando hay una partida importada detras.
+    if (rosterCounts && !rosterCoversComp(entry, rosterCounts)) return false;
     return true;
   });
 };

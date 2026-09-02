@@ -30,14 +30,23 @@ const flagChipsFor = (flags = []) => {
   return [size, 'modded', 'no-heal', 'no-stress-heal', 'incomplete'].filter((f) => f && (f === size || flags.includes(f)));
 };
 
-const CompCard = ({ comp, onLoad, onDelete }) => {
+/**
+ * `missing` comes from `missingForComp`: the classes the imported save is short
+ * of, with how many the comp wants and how many you have. Null when no save is
+ * imported, which is why the whole thing is absent rather than empty - with no
+ * roster to compare against there is no claim to make.
+ */
+const CompCard = ({ comp, onLoad, onDelete, missing = null }) => {
   const { name, family, variant, alias, location, heroes = [], theme, mechanics = [], flags = [] } = comp;
   const chips = flagChipsFor(flags);
   const mechChips = mechanics.slice(0, 2);
+  const short = missing && missing.length ? missing : null;
 
   return (
     <div
-      className="group relative bg-gray-900/60 border border-gray-700 hover:border-dd-gold/60 rounded-lg overflow-hidden transition-colors focus-within:border-dd-gold/60"
+      className={`group relative bg-gray-900/60 border border-gray-700 hover:border-dd-gold/60 rounded-lg overflow-hidden transition-colors focus-within:border-dd-gold/60 ${
+        short ? 'opacity-60' : ''
+      }`}
       // El color de la zona entra por el borde izquierdo y un velo muy tenue:
       // basta para agrupar de un vistazo sin competir con los retratos.
       style={{ borderLeft: `3px solid ${theme.accent}`, background: `linear-gradient(100deg, ${theme.accent}14, transparent 55%)` }}
@@ -112,6 +121,18 @@ const CompCard = ({ comp, onLoad, onDelete }) => {
               {FLAG_CHIPS[f].label}
             </span>
           ))}
+          {short && (
+            <span
+              className="text-[10px] px-1 rounded border shrink-0 text-rose-300 border-rose-900/70 bg-rose-950/50"
+              title={short
+                .map((m) => `${m.heroClass}: needs ${m.need}, you have ${m.have}`)
+                .join(' · ')}
+            >
+              {short.length === 1
+                ? `needs ${short[0].need - short[0].have}× ${short[0].heroClass}`
+                : `needs ${short.length} heroes`}
+            </span>
+          )}
         </div>
       </button>
     </div>

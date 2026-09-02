@@ -106,6 +106,16 @@ export const missingForComp = (comp, counts) => {
 };
 
 /**
+ * Do you own the heroes this comp names?
+ *
+ * Deliberately weaker than `compFitsRoster`, which also demands a full party of
+ * four. The library asks a different question: browsing, "can I field this?"
+ * is about the classes the comp calls for, and a three-hero comp is flagged as
+ * `incomplete` elsewhere rather than being unfieldable.
+ */
+export const rosterCoversComp = (comp, counts) => missingForComp(comp, counts).length === 0;
+
+/**
  * A hero locked into an Abbey/Tavern/Sanitarium slot, or missing after a town
  * event, cannot go on a run this week — so "who can I field right now" is not
  * the same question as "who is on my roster".

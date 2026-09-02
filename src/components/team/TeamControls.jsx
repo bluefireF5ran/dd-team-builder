@@ -440,6 +440,7 @@ const TeamControls = ({
         showToast={showToast}
         defaultSort={settings.compSort}
         defaultPageSize={settings.compPageSize}
+        saveProfile={saveProfile}
       />
 
       <SaveTeamModal
