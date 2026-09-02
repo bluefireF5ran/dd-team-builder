@@ -28,15 +28,24 @@ const Toast = ({ message, type = 'success', onClose }) => {
   }, [onClose]);
 
   return (
+    // Every save, import, paste failure and suggest warning in the app arrives
+    // through here, and none of it was announced. An error interrupts; the
+    // rest waits for a pause, which is what `polite` is for.
     <div
+      role="status"
+      aria-live={type === 'error' ? 'assertive' : 'polite'}
       className={`fixed bottom-6 left-1/2 z-50 flex items-center gap-2 px-4 py-3 rounded-lg border shadow-xl backdrop-blur-sm transition-all duration-300 ${
         COLORS[type]
       } ${isVisible ? 'opacity-100 translate-y-0 -translate-x-1/2' : 'opacity-0 translate-y-4 -translate-x-1/2'}`}
     >
-      <Icon size={18} />
+      <Icon size={18} aria-hidden="true" />
       <span className="text-sm font-medium">{message}</span>
-      <button onClick={onClose} className="ml-2 opacity-60 hover:opacity-100 transition-opacity">
-        <X size={14} />
+      <button
+        onClick={onClose}
+        aria-label="Dismiss notification"
+        className="ml-2 opacity-60 hover:opacity-100 transition-opacity"
+      >
+        <X size={14} aria-hidden="true" />
       </button>
     </div>
   );

@@ -114,7 +114,10 @@ const App = () => {
         scale: 2, // Higher quality
         useCORS: true, // For external images
         allowTaint: true,
-        logging: false
+        logging: false,
+        // The reorder arrows live inside the captured element because they
+        // belong to the cards; they are controls, not composition.
+        ignoreElements: (el) => el.dataset?.exportIgnore === 'true'
       });
       
       // Restore original styles

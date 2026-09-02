@@ -5,7 +5,11 @@ import { TRINKETS } from '../../data/trinkets';
 import { BACKER_TRINKETS } from '../../data/backer_trinkets';
 import { getHeroImagePath, getSkillImagePath, getCampSkillImagePath, getTrinketImagePath } from '../../utils/imageHelper';
 
-const BATCH_SIZE = 20;
+import { UI_CONFIG } from '../../constants';
+
+// UI_CONFIG.IMAGE_TEST_BATCH_SIZE existed and went unused while this file
+// hardcoded its own copy of the same number.
+const BATCH_SIZE = UI_CONFIG.IMAGE_TEST_BATCH_SIZE;
 
 const buildAllImages = () => {
   const images = [];
@@ -42,6 +46,16 @@ const buildAllImages = () => {
 };
 
 const ImageTester = ({ onClose }) => {
+  // Not the shared Modal: this is a full-screen scrolling overlay rather than a
+  // centred panel, so it only wants the key handling.
+  useEffect(() => {
+    const onKeyDown = (e) => {
+      if (e.key === 'Escape') onClose?.();
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [onClose]);
+
   const [results, setResults] = useState({ loaded: 0, failed: 0, total: 0 });
   const [failedImages, setFailedImages] = useState([]);
   const [testing, setTesting] = useState(true);
