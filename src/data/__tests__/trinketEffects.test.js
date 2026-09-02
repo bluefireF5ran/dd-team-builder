@@ -1,4 +1,11 @@
-import { TRINKET_EFFECTS, getTrinketEffect, getTrinketEffectText } from '../trinketEffects';
+import {
+  TRINKET_EFFECTS,
+  TRINKET_SETS,
+  getTrinketEffect,
+  getTrinketEffectText,
+  getTrinketSet,
+  getSetBonus,
+} from '../trinketEffects';
 import { HERO_SPECIFIC_TRINKETS, ALL_HERO_SPECIFIC_TRINKETS } from '../hero_specific_trinkets';
 import { TRINKETS } from '../trinkets';
 import { BACKER_TRINKETS } from '../backer_trinkets';
@@ -135,6 +142,44 @@ describe('getTrinketEffect', () => {
     expect(getTrinketEffect('Not A Trinket')).toBeNull();
     expect(getTrinketEffect('')).toBeNull();
     expect(getTrinketEffect(undefined)).toBeNull();
+  });
+});
+
+describe('TRINKET_SETS', () => {
+  const roster = new Set(ROSTER);
+
+  it('every set has exactly two members, both on the roster with an effect', () => {
+    Object.entries(TRINKET_SETS).forEach(([id, set]) => {
+      expect({ id, count: set.members.length }).toEqual({ id, count: 2 });
+      set.members.forEach((name) => {
+        expect({ id, name, onRoster: roster.has(name) }).toEqual({ id, name, onRoster: true });
+        expect({ id, name, hasEffect: !!TRINKET_EFFECTS[name] }).toEqual({ id, name, hasEffect: true });
+      });
+      expect(set.bonus).toBeTruthy();
+    });
+  });
+
+  it('covers the Crimson Court, Shieldbreaker and Fire\'s Edge sets', () => {
+    const labels = new Set(Object.values(TRINKET_SETS).map((s) => s.label));
+    expect(labels).toEqual(new Set(['Crimson Court Set', 'Shieldbreaker Set', "Fire's Edge Set"]));
+    // 17 CC hero sets + 1 SB + 2 Fire's Edge.
+    expect(Object.keys(TRINKET_SETS).length).toBe(20);
+  });
+
+  it('getTrinketSet maps either member back to the set', () => {
+    const [, set] = Object.entries(TRINKET_SETS)[0];
+    expect(getTrinketSet(set.members[0]).members).toEqual(set.members);
+    expect(getTrinketSet(set.members[1]).members).toEqual(set.members);
+    expect(getTrinketSet('Bag of Marbles')).toBeNull();
+    expect(getTrinketSet('')).toBeNull();
+  });
+
+  it('getSetBonus is active only when both members are the equipped pair', () => {
+    const set = TRINKET_SETS.cc_abom;
+    expect(getSetBonus(set.members[0], set.members[1])).toMatchObject({ active: true, bonus: set.bonus });
+    expect(getSetBonus(set.members[0], 'Bag of Marbles')).toMatchObject({ active: false });
+    expect(getSetBonus(set.members[0], set.members[0])).toMatchObject({ active: false });
+    expect(getSetBonus('Bag of Marbles', 'Lock of Fury')).toBeNull();
   });
 });
 

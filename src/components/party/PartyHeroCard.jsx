@@ -45,8 +45,8 @@ const QuirkChip = ({ name, tone, locked }) => (
   </HoverCard>
 );
 
-const TrinketIcon = ({ name, heroClass }) => (
-  <HoverCard {...trinketHover(name)}>
+const TrinketIcon = ({ name, other, heroClass }) => (
+  <HoverCard {...trinketHover(name, other)}>
     <ImageWithFallback
       src={getTrinketImagePath(name, heroClass)}
       alt={name}
@@ -172,7 +172,11 @@ const PartyHeroCard = ({ hero, position }) => {
                 {[hero.trinket1, hero.trinket2].map((trinket, idx) => (
                   <div key={`trinket-${idx}`}>
                     {trinket ? (
-                      <TrinketIcon name={trinket} heroClass={hero.heroClass} />
+                      <TrinketIcon
+                        name={trinket}
+                        other={idx === 0 ? hero.trinket2 : hero.trinket1}
+                        heroClass={hero.heroClass}
+                      />
                     ) : (
                       <div className="w-[36px] h-[72px] sm:w-[60px] sm:h-[120px] flex items-center justify-center bg-gray-600/40 border-2 sm:border-3 border-gray-600 rounded">
                         <span className="text-sm sm:text-lg text-gray-500 font-bold">-</span>

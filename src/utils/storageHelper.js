@@ -33,13 +33,16 @@ export const loadTeamFromFile = (file) => {
     const reader = new FileReader();
     reader.onload = (event) => {
       try {
-        const team = JSON.parse(event.target.result);
+        // Canonicalizar antes de validar: los alias (p. ej. la clase 'sibyl_ms'
+        // del mod -> 'Sibyl') deben resolverse para que los límites del esquema
+        // se comprueben con los datos que la app reconoce.
+        const team = canonicalizeTeam(JSON.parse(event.target.result));
         const { valid, errors } = validateTeamSchema(team);
         if (!valid) {
           reject(new Error('Invalid team file: ' + errors.join(', ')));
           return;
         }
-        resolve(canonicalizeTeam(team));
+        resolve(team);
       } catch (error) {
         reject(new Error('Invalid team file format'));
       }
@@ -153,9 +156,10 @@ export const importTeamsFromFile = (file) => {
         const validTeams = [];
         const errors = [];
         teams.forEach((team, idx) => {
-          const { valid, errors: teamErrors } = validateTeamSchema(team);
+          const canon = canonicalizeTeam(team);
+          const { valid, errors: teamErrors } = validateTeamSchema(canon);
           if (valid) {
-            validTeams.push(canonicalizeTeam(team));
+            validTeams.push(canon);
           } else {
             errors.push(`Team ${idx + 1}: ${teamErrors.join(', ')}`);
           }

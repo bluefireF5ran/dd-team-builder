@@ -16,6 +16,12 @@
  * que aparecen en comps generadas fuera de aquí.
  */
 export const NAME_ALIASES = {
+  // ===== HERO CLASSES =====
+  // El id interno del mod de la Sibyl (Workshop 3490076588) es 'sibyl_ms' -es
+  // el que aparece en su página de Steam y en las loadouts exportadas por
+  // herramientas que leen los ficheros del mod-. La app la muestra como 'Sibyl'.
+  'Sibyl': ['sibyl_ms'],
+
   // ===== TRINKETS =====
   // str_inventory_title_trinketboss_tassle
   "Vvulf's Tassel": ["Vvulf's Tassle"],

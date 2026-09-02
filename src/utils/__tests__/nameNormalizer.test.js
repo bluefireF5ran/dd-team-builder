@@ -87,6 +87,25 @@ describe('canonicalizeTeam', () => {
     expect(raw.heroes[0].activeCampSkills[0]).toBe("Lash'S Anger");
   });
 
+  it("canonicalizes a Sibyl comp exported with the mod's class id", () => {
+    const raw = {
+      teamName: 'sibyl_ms Coverage 02',
+      location: 'The Ruins',
+      heroes: [
+        {
+          heroClass: 'sibyl_ms',
+          activeSkills: ['Alignment', 'Moonlight Touch'],
+          activeCampSkills: ['GARDEN HARVEST', 'IN HER RADIANCE', 'PANACEA'],
+          trinket1: 'Lunar Veil',
+          trinket2: 'Petal Pouch'
+        }
+      ]
+    };
+    const hero = canonicalizeTeam(raw).heroes[0];
+    expect(hero.heroClass).toBe('Sibyl');
+    expect(hero.activeCampSkills).toEqual(['Garden Harvest', 'In Her Radiance', 'Panacea']);
+  });
+
   it('passes through malformed input', () => {
     expect(canonicalizeTeam(null)).toBeNull();
     expect(canonicalizeTeam({ teamName: 'x' })).toEqual({ teamName: 'x' });
@@ -110,6 +129,12 @@ describe('name aliases', () => {
 
   it('resolves the internal game id emitted by external comp tools', () => {
     expect(canonicalizeTrinket('dd_trinket', 'Runaway')).toBe('Talisman of the Flame');
+  });
+
+  it("resolves the Sibyl mod's internal class id to the display name", () => {
+    expect(canonicalizeHeroClass('sibyl_ms')).toBe('Sibyl');
+    expect(canonicalizeHeroClass('SIBYL_MS')).toBe('Sibyl');
+    expect(canonicalizeHeroClass('Sibyl')).toBe('Sibyl');
   });
 
   it('resolves misspelled quirks to their in-game name', () => {

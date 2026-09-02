@@ -12,7 +12,12 @@
  * the order the game lists them.
  *
  * Butcher's Circus is the exception: its entries file ships encrypted, so those
- * 104 trinkets come from a wiki CSV export instead.
+ * 99 trinkets come from a wiki CSV export passed with --csv, or are
+ * carried over from the previous file when it is omitted.
+ *
+ * `TRINKET_SETS` at the bottom is the Crimson Court / Shieldbreaker / Fire's
+ * Edge set bonuses: the extra effect that applies only when both member
+ * trinkets are equipped on the same hero.
  *
  * `rarity` is the in-game tier or set, or `null` for the Runaway's Sunstone
  * chain, which transforms rather than dropping at a tier.
@@ -841,4 +846,60 @@ export function getTrinketEffectText(name) {
   const entry = getTrinketEffect(name);
   if (!entry) return '';
   return entry.rarity ? `${entry.rarity} \u2014 ${entry.effect}` : entry.effect;
+}
+
+/**
+ * Trinket set bonuses. A set's `bonus` applies only when both `members` are
+ * equipped on the same hero. Keyed by the game's internal set id.
+ * @type {Record<string, { label: string, members: string[], bonus: string }>}
+ */
+export const TRINKET_SETS = {
+  "cc_abom": { label: "Crimson Court Set", members: ["Shameful Shroud", "Osmond Chains"], bonus: "+20% DMG if in position 1" },
+  "cc_anti": { label: "Crimson Court Set", members: ["Two of Three", "The Master's Essence"], bonus: "+4 SPD | +10 DODGE" },
+  "cc_arb": { label: "Crimson Court Set", members: ["Bedtime Story", "Childhood Treasure"], bonus: "+25% PROT" },
+  "cc_bh": { label: "Crimson Court Set", members: ["Crime Lords' Molars", "Vengeful Kill List"], bonus: "+5% CRIT vs Marked | +5% CRIT vs Stunned | +5% CRIT vs Bleeding" },
+  "cc_cru": { label: "Crimson Court Set", members: ["Glittering Spaulders", "Signed Conscription"], bonus: "+20% MAX HP" },
+  "cc_flag": { label: "Crimson Court Set", members: ["Chipped Tooth", "Shard of Glass"], bonus: "+10% Death Blow Resist" },
+  "cc_gr": { label: "Crimson Court Set", members: ["Absinthe", "Sharpened Letter Opener"], bonus: "+5% CRIT" },
+  "cc_hel": { label: "Crimson Court Set", members: ["Lioness Warpaint", "Mark of the Outcast"], bonus: "+7 ACC | +7 DODGE" },
+  "cc_high": { label: "Crimson Court Set", members: ["Shameful Locket", "Bloodied Neckerchief"], bonus: "+45% Virtue Chance" },
+  "cc_hm": { label: "Crimson Court Set", members: ["Battered Lawman's Badge", "Evidence of Corruption"], bonus: "+25% DMG vs Bleeding | +5% CRIT vs Bleeding" },
+  "cc_jest": { label: "Crimson Court Set", members: ["Tyrant's Tasting Cup", "Tyrant's Fingerbone"], bonus: "+33% Stress Skills while Camping" },
+  "cc_lep": { label: "Crimson Court Set", members: ["Tin Flute", "Last Will and Testament"], bonus: "+15 ACC if HP above 60%" },
+  "cc_maa": { label: "Crimson Court Set", members: ["Old Unit Standard", "Toy Soldier"], bonus: "Riposte: +25% DMG | Riposte: +10 ACC" },
+  "cc_msk": { label: "Crimson Court Set", members: ["Silver Musket Ball", "Second Place Trophy"], bonus: "+25% PROT" },
+  "cc_occ": { label: "Crimson Court Set", members: ["Vial of Sand", "Blood Pact"], bonus: "+15 DODGE" },
+  "cc_pd": { label: "Crimson Court Set", members: ["Subject #40 Notes", "Dissection Kit"], bonus: "+15% Blight Skill Chance | +15% Stun Skill Chance" },
+  "cc_vest": { label: "Crimson Court Set", members: ["Atonement Beads", "Salacious Diary"], bonus: "+35% Debuff Skill Chance | +35% Stun Skill Chance" },
+  "duelist_set1": { label: "Fire's Edge Set", members: ["Académie Ring", "Lover's Glove"], bonus: "+33% DMG vs position 1" },
+  "rw_set1": { label: "Fire's Edge Set", members: ["Carved Toy", "Knitted Blanket"], bonus: "+50% Burn Skill Amount" },
+  "sb_set1": { label: "Shieldbreaker Set", members: ["Obsidian Dagger", "Severed Hand"], bonus: "+15% MAX HP | +10% PROT | Can't be Guarded" },
+};
+
+const TRINKET_TO_SET = {};
+for (const [id, set] of Object.entries(TRINKET_SETS)) {
+  for (const m of set.members) TRINKET_TO_SET[m] = { id, ...set };
+}
+
+/**
+ * The set a single trinket belongs to, or null. Present regardless of what
+ * else is equipped - the caller decides whether the bonus is active.
+ * @param {string} name - Exact trinket name.
+ */
+export function getTrinketSet(name) {
+  return (name && TRINKET_TO_SET[name]) || null;
+}
+
+/**
+ * The set bonus for a pair of trinkets, plus whether it is active (both
+ * members equipped). Returns null when neither trinket belongs to a set.
+ * @param {string} a - First equipped trinket name.
+ * @param {string} b - Second equipped trinket name.
+ * @returns {{ id: string, label: string, members: string[], bonus: string, active: boolean }|null}
+ */
+export function getSetBonus(a, b) {
+  const set = getTrinketSet(a) || getTrinketSet(b);
+  if (!set) return null;
+  const active = set.members.includes(a) && set.members.includes(b) && a !== b;
+  return { ...set, active };
 }

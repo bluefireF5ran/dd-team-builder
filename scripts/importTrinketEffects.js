@@ -105,6 +105,17 @@ walk(path.join(GAME, 'dlc'), (p) => { if (p.endsWith('.buffs.json')) loadBuffs(p
 loadEntries(path.join(GAME, 'trinkets/base.entries.trinkets.json'));
 walk(path.join(GAME, 'dlc'), (p) => { if (/entries\.trinkets\.json$/.test(p)) loadEntries(p); });
 
+// ---------------------------------------------------------------- sets
+// A set's bonus applies only when both of its trinkets are equipped on the
+// same hero. The `*.sets.trinkets.json` files list the buffs; membership is
+// the `set_id` on each entry.
+const SETS = [];
+function loadSets(p) {
+  try { for (const s of readJson(p).sets || []) SETS.push(s); } catch (e) { encrypted.push(p); }
+}
+walk(path.join(GAME, 'trinkets'), (p) => { if (/sets\.trinkets\.json$/.test(p)) loadSets(p); });
+walk(path.join(GAME, 'dlc'), (p) => { if (/sets\.trinkets\.json$/.test(p)) loadSets(p); });
+
 // -------------------------------------------------------------- buff -> text
 const plain = (s) => (s || '')
   .replace(/\{colour_start\|[^}]*\}/g, '')
@@ -376,6 +387,42 @@ for (const g of heroGroups) section(TITLE[g.name] || g.name.replace(/_/g, ' '), 
 section('Generic trinkets', generic);
 section('Backer trinkets', backer);
 
+// --------------------------------------------------------------- set bonuses
+const setLabel = (id) =>
+  id.startsWith('cc_') ? 'Crimson Court Set'
+  : id.startsWith('sb_') ? 'Shieldbreaker Set'
+  : /^(rw_|duelist_)/.test(id) ? "Fire's Edge Set"
+  : 'Trinket Set';
+
+const setRows = [];
+for (const s of SETS) {
+  const members = [...new Set(
+    ENTRIES.filter((e) => e.set_id === s.id).map((e) => nameOf(e.id)).filter(Boolean)
+  )];
+  if (members.length < 2) continue;
+  const bonus = [];
+  for (const id of s.buffs || []) {
+    const t = renderBuff(id);
+    if (t === null) continue;
+    const h = house(t);
+    if (h && !bonus.includes(h)) bonus.push(h);
+  }
+  if (!bonus.length) continue;
+  setRows.push({ id: s.id, label: setLabel(s.id), members, bonus: bonus.join(' | ') });
+}
+setRows.sort((a, b) => a.id.localeCompare(b.id));
+
+const setLines = setRows.map((s) =>
+  '  ' + q(s.id) + ': { label: ' + q(s.label)
+  + ', members: [' + s.members.map(q).join(', ') + ']'
+  + ', bonus: ' + q(s.bonus) + ' },'
+).join('\n');
+
+// Butcher's Circus count: live when a CSV was supplied, otherwise recovered
+// from the file we are about to rewrite so the header stays stable.
+const csvCount = stats.csv
+  || [...previous.values()].filter((v) => v.rarity === "Butcher's Circus").length;
+
 const text = `/**
  * Trinket effects - what each trinket actually does.
  *
@@ -390,7 +437,12 @@ const text = `/**
  * the order the game lists them.
  *
  * Butcher's Circus is the exception: its entries file ships encrypted, so those
- * ${stats.csv} trinkets come from a wiki CSV export instead.
+ * ${csvCount} trinkets come from a wiki CSV export passed with --csv, or are
+ * carried over from the previous file when it is omitted.
+ *
+ * \`TRINKET_SETS\` at the bottom is the Crimson Court / Shieldbreaker / Fire's
+ * Edge set bonuses: the extra effect that applies only when both member
+ * trinkets are equipped on the same hero.
  *
  * \`rarity\` is the in-game tier or set, or \`null\` for the Runaway's Sunstone
  * chain, which transforms rather than dropping at a tier.
@@ -424,6 +476,43 @@ export function getTrinketEffectText(name) {
   if (!entry) return '';
   return entry.rarity ? \`\${entry.rarity} \\u2014 \${entry.effect}\` : entry.effect;
 }
+
+/**
+ * Trinket set bonuses. A set's \`bonus\` applies only when both \`members\` are
+ * equipped on the same hero. Keyed by the game's internal set id.
+ * @type {Record<string, { label: string, members: string[], bonus: string }>}
+ */
+export const TRINKET_SETS = {
+${setLines}
+};
+
+const TRINKET_TO_SET = {};
+for (const [id, set] of Object.entries(TRINKET_SETS)) {
+  for (const m of set.members) TRINKET_TO_SET[m] = { id, ...set };
+}
+
+/**
+ * The set a single trinket belongs to, or null. Present regardless of what
+ * else is equipped - the caller decides whether the bonus is active.
+ * @param {string} name - Exact trinket name.
+ */
+export function getTrinketSet(name) {
+  return (name && TRINKET_TO_SET[name]) || null;
+}
+
+/**
+ * The set bonus for a pair of trinkets, plus whether it is active (both
+ * members equipped). Returns null when neither trinket belongs to a set.
+ * @param {string} a - First equipped trinket name.
+ * @param {string} b - Second equipped trinket name.
+ * @returns {{ id: string, label: string, members: string[], bonus: string, active: boolean }|null}
+ */
+export function getSetBonus(a, b) {
+  const set = getTrinketSet(a) || getTrinketSet(b);
+  if (!set) return null;
+  const active = set.members.includes(a) && set.members.includes(b) && a !== b;
+  return { ...set, active };
+}
 `;
 
 // -------------------------------------------------------------------- report
@@ -432,6 +521,7 @@ const added = [...out].filter(([n]) => !previous.has(n));
 console.log(`game entries ${ENTRIES.length}, buffs ${BUFFS.size}, strings ${STR.size}`);
 if (encrypted.length) console.log(`unreadable (encrypted) tables: ${encrypted.map((p) => path.basename(p)).join(', ')}`);
 console.log(`entries ${out.size}  (game ${stats.game}, csv ${stats.csv}, kept ${stats.kept})`);
+console.log(`sets ${setRows.length} of ${SETS.length}${SETS.length && !setRows.length ? ' (no buff text resolved)' : ''}`);
 console.log(`added ${added.length}, text changed ${changed.length}, no data ${skipped.length}${skipped.length ? ': ' + skipped.join(', ') : ''}`);
 
 if (CHECK) {
