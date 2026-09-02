@@ -17,7 +17,6 @@
  * | `persist.estate.json` | the trinket inventory |
  * | `persist.game.json` | estate name, game mode, DLC and applied mods |
  * | `persist.campaign_log.json` | the week number |
- * | `persist.town.json` | the graveyard, so the dead are not offered as heroes |
  *
  * Only the roster is required; a profile missing the rest still imports, with
  * the corresponding fields left empty.
@@ -43,8 +42,19 @@ export const SAVE_FILES = {
   roster: 'persist.roster.json',
   estate: 'persist.estate.json',
   game: 'persist.game.json',
-  campaignLog: 'persist.campaign_log.json',
-  town: 'persist.town.json'
+  campaignLog: 'persist.campaign_log.json'
+};
+
+/**
+ * `roster.status` on a hero entry. Verified against a save with eight deaths:
+ * the set of `DEAD` heroes matched persist.campaign_log.json's `died: true`
+ * records exactly, in both directions, and `IN_PARTY` matched
+ * `last_party.last_party_guids`.
+ */
+export const ROSTER_STATUS = {
+  IN_ROSTER: 0,
+  IN_PARTY: 1,
+  DEAD: 3
 };
 
 /** The one file without which there is nothing to import. */
@@ -147,45 +157,19 @@ const cap = (list, max) => (list.length > max ? list.slice(0, max) : list);
 /**
  * Who the Graveyard holds.
  *
- * A buried hero must never be offered as someone you can field, and the roster
- * file cannot say on its own: `persist.roster.json` records a status, an
- * activity and a missing-duration, and none of them marks a death.
+ * **The dead stay in `persist.roster.json`, marked `roster.status: 3`.** They
+ * are not moved anywhere, and `persist.town.json`'s `graveyard` building is not
+ * where to look — it decodes as empty even in a save with eight buried heroes,
+ * which is exactly the trap this code fell into first: an earlier version
+ * walked that node, found nothing, and happily offered the dead as heroes you
+ * could field.
  *
- * Every profile available while this was written had an **empty** graveyard, so
- * the record layout is unverified. Rather than invent field names for a
- * structure nobody has seen populated, the walk gathers candidates:
- *
- * - **Names** from any string anywhere under the node. Hero names are
- *   distinctive, and a stray `plague_doctor` or `week` cannot collide with one.
- * - **Guids** only from keys that say they are guids. Collecting every integer
- *   was the first attempt and it is far too greedy: a record carrying
- *   `resolve_level: 2` buried the hero with guid 2. Any level, week or id in a
- *   record would do the same.
- *
- * A hero is dropped when either matches, so an unknown layout still works as
- * long as it records the name or labels its reference.
+ * Confirmed on a save with eight deaths: the `status === 3` set matched
+ * `persist.campaign_log.json`'s `died: true` records exactly, in both
+ * directions. `status === 1` is the party currently selected for a quest —
+ * those heroes are alive and stay.
  */
-const GUID_KEY = /(^|_)(guid|hero_id)$|^id$/i;
-
-const collectGraveyard = (node, key = '', names = new Set(), guids = new Set(), depth = 0) => {
-  if (node === null || node === undefined || depth > 8) return { names, guids };
-  if (typeof node === 'string') {
-    const trimmed = node.trim();
-    if (trimmed) names.add(trimmed.toLowerCase());
-  } else if (typeof node === 'number') {
-    if (Number.isInteger(node) && node > 0 && GUID_KEY.test(key)) guids.add(String(node));
-  } else if (Array.isArray(node)) {
-    node.forEach((child) => collectGraveyard(child, key, names, guids, depth + 1));
-  } else if (typeof node === 'object') {
-    Object.entries(node).forEach(([childKey, child]) =>
-      collectGraveyard(child, childKey, names, guids, depth + 1)
-    );
-  }
-  return { names, guids };
-};
-
-/** The graveyard node, wherever the town file keeps it. */
-const graveyardOf = (town) => town?.buildings?.graveyard ?? town?.graveyard ?? null;
+const isDeadEntry = (data) => data?.['roster.status'] === ROSTER_STATUS.DEAD;
 
 const readHero = (guid, entry, unmatched) => {
   const data = entry?.hero_file_data?.raw_data;
@@ -311,14 +295,12 @@ export const parseSaveProfile = (buffers) => {
   const estateBuffer = get(SAVE_FILES.estate);
   const gameBuffer = get(SAVE_FILES.game);
   const logBuffer = get(SAVE_FILES.campaignLog);
-  const townBuffer = get(SAVE_FILES.town);
 
   return buildProfile({
     roster,
     estate: estateBuffer ? decode(estateBuffer, SAVE_FILES.estate) : null,
     game: gameBuffer ? decode(gameBuffer, SAVE_FILES.game) : null,
     log: logBuffer ? decode(logBuffer, SAVE_FILES.campaignLog) : null,
-    town: townBuffer ? decode(townBuffer, SAVE_FILES.town) : null,
     files: [...byName.keys()].sort()
   });
 };
@@ -327,30 +309,25 @@ export const parseSaveProfile = (buffers) => {
  * The profile, built from already-decoded save files.
  *
  * Split out from `parseSaveProfile` so the parts that need a *particular* save
- * state can be tested without one. There is no DSON encoder here, so a test
- * cannot synthesise a save with a populated graveyard - but it can hand this
- * one a town object with graveyard records in it, which is the same question.
+ * state can be tested without one: there is no DSON encoder here, so a case
+ * the available saves do not cover has to be handed in already decoded.
  */
-export const buildProfile = ({ roster, estate = null, game = null, log = null, town = null, files = [] }) => {
+export const buildProfile = ({ roster, estate = null, game = null, log = null, files = [] }) => {
   const unmatched = { heroClasses: [], skills: [], campSkills: [], quirks: [], trinkets: [] };
 
-  const buried = collectGraveyard(graveyardOf(town));
-
   const allHeroes = Object.entries(roster.heroes || {})
-    .map(([guid, entry]) => readHero(guid, entry, unmatched))
-    .filter(Boolean);
+    .map(([guid, entry]) => ({
+      hero: readHero(guid, entry, unmatched),
+      dead: isDeadEntry(entry?.hero_file_data?.raw_data)
+    }))
+    .filter((row) => row.hero);
 
-  // A hero the Graveyard names is dead, whatever the roster still says about
-  // them. Splitting rather than filtering so the count can be reported: going
-  // from nine heroes to six without a word would look like a parsing failure.
-  const isBuried = (hero) =>
-    buried.guids.has(hero.guid) || (hero.name && buried.names.has(hero.name.toLowerCase()));
-  const heroes = allHeroes.filter((hero) => !isBuried(hero));
-  const graveyard = allHeroes.filter(isBuried).map((hero) => ({
-    guid: hero.guid,
-    name: hero.name,
-    heroClass: hero.heroClass
-  }));
+  // Split rather than filter, so the count can be reported: quietly returning
+  // 32 heroes from a 40-hero roster would read as a parsing failure.
+  const heroes = allHeroes.filter((row) => !row.dead).map((row) => row.hero);
+  const graveyard = allHeroes
+    .filter((row) => row.dead)
+    .map(({ hero }) => ({ guid: hero.guid, name: hero.name, heroClass: hero.heroClass }));
 
   const inventory = readItemIds(estate?.trinkets).map((id) => {
     const name = lookup(TRINKET_INDEX, id) || TRINKET_ID_RENAMES[id];
@@ -378,7 +355,8 @@ export const buildProfile = ({ roster, estate = null, game = null, log = null, t
     dlc: readNamedList(game?.dlc),
     mods: readNamedList(game?.applied_ugcs_1_0),
     heroes,
-    // Read from the town file, and empty when it was not supplied.
+    // Heroes carrying roster.status 3. Their equipped trinkets are gone with
+    // them, which falls out of ownedTrinkets being built from `heroes`.
     graveyard,
     heroClasses: Object.keys(heroClassCounts).sort(),
     heroClassCounts,

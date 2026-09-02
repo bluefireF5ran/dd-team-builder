@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { parseDson, readFields, isDsonBuffer } from '../dson';
-import { parseSaveProfile, buildProfile, readSaveFiles, toBuilderHero, SAVE_FILES } from '../saveParser';
+import { parseSaveProfile, buildProfile, readSaveFiles, toBuilderHero, SAVE_FILES, ROSTER_STATUS } from '../saveParser';
 import { validateHeroSchema } from '../validation';
 import { HERO_CLASSES } from '../../data/heroes';
 
@@ -16,9 +16,14 @@ const buffers = () => ({
   [SAVE_FILES.roster]: read(SAVE_FILES.roster),
   [SAVE_FILES.estate]: read(SAVE_FILES.estate),
   [SAVE_FILES.game]: read(SAVE_FILES.game),
-  [SAVE_FILES.campaignLog]: read(SAVE_FILES.campaignLog),
-  [SAVE_FILES.town]: read(SAVE_FILES.town)
+  [SAVE_FILES.campaignLog]: read(SAVE_FILES.campaignLog)
 });
+
+// A later save of the same profile, forty heroes and eight of them buried.
+// The earlier fixture has nobody dead, which is exactly why the first attempt
+// at this went looking in the wrong file and found an empty graveyard.
+const DEAD_FIXTURES = path.join(__dirname, 'fixtures', 'save-with-deaths');
+const readDead = (name) => fs.readFileSync(path.join(DEAD_FIXTURES, name));
 
 describe('dson', () => {
   it('recognises a save file and rejects anything else', () => {
@@ -272,85 +277,102 @@ describe('readSaveFiles', () => {
   });
 });
 
-describe('the graveyard', () => {
-  // A buried hero must never be offered as someone you can field, and the
-  // roster file cannot say on its own: it records a status, an activity and a
-  // missing-duration, and none of them marks a death.
-  //
-  // buildProfile takes decoded files, so these can hand it a town object with
-  // graveyard records in it. There is no DSON encoder here, and every profile
-  // available has an empty graveyard, so this is the only way to exercise it.
-  const decoded = (townGraveyard) => ({
-    roster: parseDson(read(SAVE_FILES.roster)),
-    town: townGraveyard === undefined ? null : { buildings: { graveyard: townGraveyard } }
+describe('the dead', () => {
+  // DD does not move a dead hero anywhere. They stay in persist.roster.json
+  // with roster.status 3, and persist.town.json's `graveyard` building decodes
+  // as empty even in a save with eight of them - which is how an earlier
+  // version of this parser ended up offering corpses as heroes to field.
+  const deadProfile = () =>
+    parseSaveProfile({
+      [SAVE_FILES.roster]: readDead(SAVE_FILES.roster),
+      [SAVE_FILES.campaignLog]: readDead(SAVE_FILES.campaignLog)
+    });
+
+  it('keeps the dead out of the roster and reports them separately', () => {
+    const profile = deadProfile();
+    expect(profile.heroes).toHaveLength(32);
+    expect(profile.graveyard.map((h) => h.name).sort()).toEqual([
+      'Boisivon',
+      'Briouse',
+      'Buron',
+      'Campbell',
+      'Marci',
+      'Painel',
+      'Pastforeire',
+      'Simnel'
+    ]);
+    const living = profile.heroes.map((h) => h.name);
+    expect(living).not.toContain('Campbell');
+    expect(living).toContain('Dismas');
   });
 
-  it('is empty in this profile, and the real town file changes nothing', () => {
+  it('agrees with the campaign log, which is the independent record', () => {
+    // The log keeps a `died: true` entry per death. The two lists matching in
+    // both directions is what identifies status 3 as death rather than, say,
+    // "dismissed" or "in the stage coach".
+    const log = parseDson(readDead(SAVE_FILES.campaignLog));
+    const died = new Set();
+    const walk = (node) => {
+      if (!node || typeof node !== 'object') return;
+      if (node.died === true && node.name) died.add(node.name);
+      Object.values(node).forEach(walk);
+    };
+    walk(log);
+
+    expect([...died].sort()).toEqual(deadProfile().graveyard.map((h) => h.name).sort());
+  });
+
+  it('leaves a hero selected for a quest alone', () => {
+    // roster.status 1 is the party on the Quest Select screen - alive, and it
+    // matches last_party.last_party_guids.
+    const roster = parseDson(readDead(SAVE_FILES.roster));
+    expect(roster.last_party.last_party_guids.filter((g) => g > 0)).toEqual([1, 104]);
+
+    const living = deadProfile().heroes.map((h) => h.name);
+    expect(living).toContain('Reynauld');
+    expect(living).toContain('Rassent');
+  });
+
+  it('takes the class counts down with them', () => {
+    const profile = deadProfile();
+    // Campbell and Boisivon are both Plague Doctors and both dead, so no comp
+    // wanting a Plague Doctor should be offered on their account.
+    expect(profile.heroClassCounts['Plague Doctor']).toBeUndefined();
+    // Briouse was the only Man at Arms.
+    expect(profile.heroClassCounts['Man at Arms']).toBeUndefined();
+  });
+
+  it('reads status 3 and nothing else as death', () => {
+    const roster = parseDson(readDead(SAVE_FILES.roster));
+    const seen = new Set(
+      Object.values(roster.heroes).map((e) => e.hero_file_data.raw_data['roster.status'])
+    );
+    // Only three values occur in a real save, and only one of them is fatal.
+    expect([...seen].sort()).toEqual([
+      ROSTER_STATUS.IN_ROSTER,
+      ROSTER_STATUS.IN_PARTY,
+      ROSTER_STATUS.DEAD
+    ]);
+    expect(deadProfile().heroes).toHaveLength(
+      Object.values(roster.heroes).filter(
+        (e) => e.hero_file_data.raw_data['roster.status'] !== ROSTER_STATUS.DEAD
+      ).length
+    );
+  });
+
+  it('does not treat a hero as dead just for having no status', () => {
+    const profile = buildProfile({
+      roster: { heroes: { 1: { hero_file_data: { raw_data: {
+        heroClass: 'crusader', actor: { name: 'Reynauld' }, skills: {}, quirks: {}
+      } } } } }
+    });
+    expect(profile.heroes.map((h) => h.name)).toEqual(['Reynauld']);
+    expect(profile.graveyard).toEqual([]);
+  });
+
+  it('is empty for a profile where nobody has died yet', () => {
     const profile = parseSaveProfile(buffers());
     expect(profile.graveyard).toEqual([]);
     expect(profile.heroes).toHaveLength(9);
-  });
-
-  it('drops a hero the graveyard names', () => {
-    // The record layout is unverified, so the walk collects names and guids
-    // from anywhere under the node rather than guessing at field names.
-    const profile = buildProfile(
-      decoded({ records: { 0: { hero_name: 'Campbell', class_id: 'plague_doctor', resolve_level: 2 } } })
-    );
-    expect(profile.heroes.map((h) => h.name)).not.toContain('Campbell');
-    expect(profile.heroes).toHaveLength(8);
-    expect(profile.graveyard).toEqual([{ guid: '9', name: 'Campbell', heroClass: 'Plague Doctor' }]);
-  });
-
-  it('finds the name however deeply the record nests it', () => {
-    const profile = buildProfile(decoded({ a: { b: { c: [{ whatever: 'Boisivon' }] } } }));
-    expect(profile.graveyard.map((h) => h.name)).toEqual(['Boisivon']);
-  });
-
-  it('drops a hero named only by guid', () => {
-    // Guid 27 is Pastforeire.
-    const profile = buildProfile(decoded({ records: { 0: { guid: 27 } } }));
-    expect(profile.graveyard.map((h) => h.name)).toEqual(['Pastforeire']);
-    expect(profile.heroes.map((h) => h.name)).not.toContain('Pastforeire');
-  });
-
-  it('buries several at once, matching how they died', () => {
-    const profile = buildProfile(
-      decoded({ rows: { 0: { name: 'Campbell' }, 1: { name: 'Pastforeire' }, 2: { guid: 26 } } })
-    );
-    expect(profile.graveyard.map((h) => h.name).sort()).toEqual([
-      'Boisivon',
-      'Campbell',
-      'Pastforeire'
-    ]);
-    expect(profile.heroes).toHaveLength(6);
-  });
-
-  it('does not mistake a level or a week for a guid', () => {
-    // The first version of the walk collected every integer, so a record with
-    // resolve_level: 2 buried the hero with guid 2 - Dismas, who is alive.
-    const profile = buildProfile(
-      decoded({ records: { 0: { hero_name: 'Campbell', resolve_level: 2, week_died: 1 } } })
-    );
-    expect(profile.graveyard.map((h) => h.name)).toEqual(['Campbell']);
-    expect(profile.heroes.map((h) => h.name)).toContain('Dismas');
-    expect(profile.heroes.map((h) => h.name)).toContain('Reynauld');
-  });
-
-  it('takes the class count down with the hero', () => {
-    // Two Plague Doctors become one, so a comp fielding two is no longer
-    // offered - which is the whole point of excluding them.
-    const profile = buildProfile(decoded({ records: { 0: { name: 'Campbell' } } }));
-    expect(profile.heroClassCounts['Plague Doctor']).toBe(1);
-  });
-
-  it('keeps everyone when there is no town file to read', () => {
-    const profile = buildProfile(decoded(undefined));
-    expect(profile.heroes).toHaveLength(9);
-    expect(profile.graveyard).toEqual([]);
-  });
-
-  it('is not upset by an empty graveyard node', () => {
-    expect(buildProfile(decoded({})).heroes).toHaveLength(9);
   });
 });
