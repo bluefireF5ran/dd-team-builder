@@ -1,0 +1,131 @@
+{
+  "teamName": "Ember Trail: Ballad",
+  "alias": "GA wealdfinal 01",
+  "location": "The Weald",
+  "heroes": [
+    {
+      "heroClass": "Man at Arms",
+      "activeSkills": [
+        "Crush",
+        "Rampart",
+        "Defender",
+        "Command"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Tactics",
+        "Instruction",
+        "Weapons Practice"
+      ],
+      "trinket1": "Wilbur's Flag",
+      "trinket2": "Rampart Shield",
+      "quirks": {
+        "positive": [
+          "Luminous",
+          "Corvids Grace",
+          "Corvids Eye",
+          "Hard Noggin",
+          "Evasive"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Runaway",
+      "activeSkills": [
+        "Firefly",
+        "Run and Hide",
+        "Controlled Burn",
+        "Backdraft"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Cauterize",
+        "Play with Fire",
+        "Pick Pocket"
+      ],
+      "trinket1": "Carved Toy",
+      "trinket2": "Knitted Blanket",
+      "quirks": {
+        "positive": [
+          "Corvids Eye",
+          "Corvids Grace",
+          "Luminous",
+          "Evasive",
+          "Natural Swing"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Jester",
+      "activeSkills": [
+        "Dirk Stab",
+        "Finale",
+        "Solo",
+        "Slice Off"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Turn Back Time",
+        "Tiger's Eye"
+      ],
+      "trinket1": "The Tempting Goblet",
+      "trinket2": "Ancestor's Coat",
+      "quirks": {
+        "positive": [
+          "Corvids Eye",
+          "Luminous",
+          "Evasive",
+          "Quickdraw",
+          "Corvids Grace"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Plague Doctor",
+      "activeSkills": [
+        "Noxious Blast",
+        "Blinding Gas",
+        "Battlefield Medicine",
+        "Disorienting Blast"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Experimental Vapours",
+        "Leeches",
+        "Self Medicate"
+      ],
+      "trinket1": "Blasphemous Vial",
+      "trinket2": "Ancestor's Map",
+      "quirks": {
+        "positive": [
+          "Luminous",
+          "Corvids Eye",
+          "Corvids Grace",
+          "Evasive",
+          "Quick Reflexes"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    }
+  ]
+}
