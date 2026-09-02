@@ -1,4 +1,4 @@
-import { validateHero, validateTeam, validateTeamSchema } from '../validation';
+import { validateHero, validateTeam, validateTeamSchema, validateHeroSchema } from '../validation';
 import { EMPTY_HERO } from '../../constants';
 
 describe('validateHero', () => {
@@ -151,5 +151,35 @@ describe('validateTeamSchema', () => {
       heroes: Array(4).fill(null).map(() => ({ ...EMPTY_HERO }))
     });
     expect(result.valid).toBe(true);
+  });
+
+  // A comp built with a mod this app does not carry must survive the round
+  // trip. Rejecting it for having five skills means losing it entirely.
+  describe('a class this app has never heard of', () => {
+    const unknown = (skills) => ({
+      heroClass: 'Some Mod We Do Not Carry',
+      activeSkills: skills,
+      activeCampSkills: [],
+      trinket1: '',
+      trinket2: '',
+      quirks: { positive: [], negative: [] },
+      lockedQuirks: { positive: [], negative: [] },
+      diseases: []
+    });
+
+    test('is not held to the four-skill cap', () => {
+      const { valid, errors } = validateHeroSchema(unknown(['a', 'b', 'c', 'd', 'e', 'f', 'g']));
+      expect({ valid, errors }).toEqual({ valid: true, errors: [] });
+    });
+
+    test('still has a ceiling, so junk is caught', () => {
+      const { valid } = validateHeroSchema(unknown(Array.from({ length: 40 }, (_, i) => `s${i}`)));
+      expect(valid).toBe(false);
+    });
+
+    test('leaves the cap alone for classes we do know', () => {
+      const crusader = { ...unknown(['a', 'b', 'c', 'd', 'e']), heroClass: 'Crusader' };
+      expect(validateHeroSchema(crusader).errors).toContain('activeSkills exceeds max of 4');
+    });
   });
 });

@@ -1,5 +1,10 @@
 export const HERO_CONFIG = {
   MAX_SKILLS: 4,
+  // Ceiling for a class this app has never heard of - a mod the user has but
+  // the roster does not carry. Enforcing MAX_SKILLS there would reject a comp
+  // for being from a mod we lack, which is the opposite of what the rest of
+  // the app does with unknown names. Still a ceiling, so junk data is caught.
+  MAX_SKILLS_UNKNOWN_CLASS: 12,
   MAX_CAMP_SKILLS: 4,
   MAX_TRINKETS: 2,
   MAX_POSITIVE_QUIRKS: 5,

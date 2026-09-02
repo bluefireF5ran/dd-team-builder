@@ -60,8 +60,18 @@ export const validateHeroSchema = (hero) => {
     errors.push('activeSkills must be an array');
   } else {
     const heroData = HERO_CLASSES[hero.heroClass] || MODDED_HERO_CLASSES[hero.heroClass];
-    const isAlwaysActive = heroData?.alwaysActive || false;
-    const maxSkills = isAlwaysActive ? (heroData.skills?.length || 7) : HERO_CONFIG.MAX_SKILLS;
+    // An unrecognised class gets a loose ceiling rather than the four-skill
+    // cap. We cannot know what a mod we do not carry allows, and rejecting the
+    // comp for it would lose content the rest of the app is careful to keep -
+    // canonicalizeHeroClass deliberately hands back names it does not know.
+    // An empty heroClass is an unconfigured slot, not a foreign mod: it keeps
+    // the ordinary cap.
+    const isForeignClass = !heroData && typeof hero.heroClass === 'string' && hero.heroClass !== '';
+    const maxSkills = isForeignClass
+      ? HERO_CONFIG.MAX_SKILLS_UNKNOWN_CLASS
+      : heroData?.alwaysActive
+      ? heroData.skills?.length || 7
+      : HERO_CONFIG.MAX_SKILLS;
     if (hero.activeSkills.length > maxSkills) {
       errors.push(`activeSkills exceeds max of ${maxSkills}`);
     }
