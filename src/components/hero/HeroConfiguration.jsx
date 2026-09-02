@@ -339,16 +339,30 @@ const HeroConfiguration = ({
             </button>
           )}
 
+          {/* The word is `hidden lg:inline`, so under 1024px the state is a
+              colour and an icon. aria-label carries it at every width, and
+              data-status gives the tests something better to assert on than a
+              Tailwind class name. */}
           {hero.heroClass && !validation.isComplete && (
-            <div className="flex items-center gap-2 px-2 sm:px-3 py-1 sm:py-2 bg-yellow-900/30 border border-yellow-700/50 rounded text-yellow-400 text-xs sm:text-sm">
-              <AlertTriangle size={14} className="sm:w-4 sm:h-4" />
+            <div
+              data-testid="hero-status"
+              data-status="incomplete"
+              aria-label="Hero incomplete"
+              className="flex items-center gap-2 px-2 sm:px-3 py-1 sm:py-2 bg-yellow-900/30 border border-yellow-700/50 rounded text-yellow-400 text-xs sm:text-sm"
+            >
+              <AlertTriangle size={14} className="sm:w-4 sm:h-4" aria-hidden="true" />
               <span className="hidden lg:inline">Incomplete</span>
             </div>
           )}
 
           {hero.heroClass && validation.isComplete && (
-            <div className="flex items-center gap-2 px-2 sm:px-3 py-1 sm:py-2 bg-green-900/30 border border-green-700/50 rounded text-green-400 text-xs sm:text-sm">
-              <span>✓</span>
+            <div
+              data-testid="hero-status"
+              data-status="ready"
+              aria-label="Hero ready"
+              className="flex items-center gap-2 px-2 sm:px-3 py-1 sm:py-2 bg-green-900/30 border border-green-700/50 rounded text-green-400 text-xs sm:text-sm"
+            >
+              <span aria-hidden="true">✓</span>
               <span className="hidden lg:inline">Ready</span>
             </div>
           )}

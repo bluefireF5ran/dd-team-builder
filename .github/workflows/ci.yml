@@ -1,0 +1,31 @@
+# Runs the two commands that already have to pass before anything is worth
+# looking at. Not a deployment pipeline - this project is not published - just
+# a net for the failures you would otherwise find three weeks later.
+name: CI
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+      # `npm ci` runs the patch-package postinstall, which the react-scripts
+      # patch in patches/ depends on.
+      - run: npm ci
+      # Both go through npm so the prebuild/pretest hooks regenerate the preset
+      # comp barrel first; calling react-scripts directly would skip that and
+      # fail presetCompsIndex.test.js on a freshly added comp.
+      - run: npm test -- --watchAll=false
+        env:
+          CI: true
+      - run: npm run build
+        env:
+          CI: true

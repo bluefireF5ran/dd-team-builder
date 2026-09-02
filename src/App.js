@@ -12,6 +12,15 @@ import KeyboardShortcuts from './components/common/KeyboardShortcuts';
 import { getAssetUrl } from './config/assets';
 
 const ImageTester = lazy(() => import('./components/debug/ImageTester'));
+
+/**
+ * The image tester walks every modded class - 600-odd of them - and requests a
+ * portrait, a skill set and a trinket set for each, on the order of nine
+ * thousand requests to the assets repo. That is a maintenance tool, and it sat
+ * one click from the front page next to the keyboard-shortcuts link. It needs
+ * asking for now: `?debug=images`.
+ */
+const DEBUG_IMAGES = new URLSearchParams(window.location.search).get('debug') === 'images';
 const SettingsModal = lazy(() => import('./components/settings/SettingsModal'));
 
 // Map locations to background images
@@ -285,13 +294,15 @@ const App = () => {
           <p className="font-darkest text-dd-gold/60 tracking-wider">
             Darkest Dungeon © Red Hook Studios
           </p>
+          {DEBUG_IMAGES && (
           <button
             onClick={() => setShowImageTester(true)}
-            className="mt-2 text-gray-600 hover:text-gray-400 text-xs underline"
+            className="mt-2 text-gray-400 hover:text-dd-parchment text-xs underline"
           >
             Test Images
           </button>
-          <span className="mx-2 text-gray-700">|</span>
+          )}
+          {DEBUG_IMAGES && <span className="mx-2 text-gray-700">|</span>}
           <button
             onClick={() => setShowShortcuts(true)}
             className="mt-2 text-gray-600 hover:text-gray-400 text-xs underline"

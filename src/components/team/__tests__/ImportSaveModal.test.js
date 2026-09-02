@@ -26,7 +26,11 @@ const setup = (props = {}) => {
   return { ...handlers, ...view };
 };
 
-const rowFor = (name) => screen.getByText(name).closest('button');
+// A function matcher rather than a regex: the row's accessible name is its
+// own text; a backslash-b inside a template literal is a backspace character
+// rather than a word boundary, so the regex this replaced matched nothing.
+const rowFor = (name) =>
+  screen.getByRole('button', { name: (accessibleName) => accessibleName.includes(name) });
 
 describe('ImportSaveModal', () => {
   it('tells you where the save is when there is nothing imported yet', () => {

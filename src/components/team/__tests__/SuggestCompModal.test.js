@@ -17,7 +17,8 @@ const setup = (props = {}) => {
   return { ...handlers, ...view };
 };
 
-const tile = (name) => screen.getByText(name).closest('button');
+// Each tile is a button labelled with the class name (plus its count badge).
+const tile = (name) => screen.getByRole('button', { name: new RegExp(`^${name}`) });
 const suggest = () => screen.getByRole('button', { name: /Suggest Comp/i });
 const clear = () => fireEvent.click(screen.getByRole('button', { name: /Clear/i }));
 

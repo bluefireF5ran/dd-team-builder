@@ -78,9 +78,7 @@ describe('HeroConfiguration', () => {
   test('shows incomplete badge when hero is selected but not fully configured', () => {
     const hero = { ...EMPTY_HERO, heroClass: 'Crusader' };
     render(<HeroConfiguration {...defaultProps} hero={hero} />);
-    // Should show alert icon (Incomplete badge is visible on all sizes now)
-    const alertIcon = document.querySelector('.text-yellow-400');
-    expect(alertIcon).toBeInTheDocument();
+    expect(screen.getByTestId('hero-status')).toHaveAttribute('data-status', 'incomplete');
   });
 
   test('shows ready badge when hero is fully configured', () => {
@@ -93,9 +91,7 @@ describe('HeroConfiguration', () => {
       trinket2: 'Holy Orders',
     };
     render(<HeroConfiguration {...defaultProps} hero={hero} />);
-    // Should show check mark (Ready badge)
-    const readyBadge = document.querySelector('.text-green-400');
-    expect(readyBadge).toBeInTheDocument();
+    expect(screen.getByTestId('hero-status')).toHaveAttribute('data-status', 'ready');
   });
 
   test('collapse/expand toggle works', () => {
