@@ -234,5 +234,57 @@ describe('generateRandomTeamFromRoster', () => {
       expect(team).toHaveLength(PARTY_CONFIG.MAX_HEROES);
       expect(team.warning).toMatch(/fully equipped/i);
     });
+
+    // The comp names the trinkets it was built with. If you have imported a
+    // save you probably do not own them, and a comp you cannot equip is not
+    // advice - so they are swapped for the closest thing you do own.
+    describe('re-equipping from your own trinkets', () => {
+      const suggest = (options) =>
+        generateRandomTeamFromRoster(['Jester', 'Jester', 'Jester', 'Jester'], false, options);
+
+      test('leaves the comp alone unless asked', () => {
+        const team = suggest({ ownedTrinkets: ['Feather Crystal'] });
+        expect(team.trinketSwaps).toEqual([]);
+        // Whatever the comp asked for is still on it.
+        expect(team.some((hero) => hero.trinket1 || hero.trinket2)).toBe(true);
+      });
+
+      test('equips only what you own', () => {
+        const owned = ['Feather Crystal', 'Sun Ring', 'Legendary Bracer'];
+        const team = suggest({ ownedTrinkets: owned, reequip: true });
+        const worn = team.flatMap((hero) => [hero.trinket1, hero.trinket2]).filter(Boolean);
+        worn.forEach((trinket) => expect(owned).toContain(trinket));
+      });
+
+      test('never wears the same trinket twice across the party', () => {
+        const owned = ['Feather Crystal', 'Sun Ring', 'Legendary Bracer', 'Focus Ring'];
+        for (let i = 0; i < 20; i++) {
+          const worn = suggest({ ownedTrinkets: owned, reequip: true })
+            .flatMap((hero) => [hero.trinket1, hero.trinket2])
+            .filter(Boolean);
+          expect(new Set(worn).size).toBe(worn.length);
+        }
+      });
+
+      test('empties the slots when you own nothing', () => {
+        const team = suggest({ ownedTrinkets: [], reequip: true });
+        // An empty inventory means reequip has nothing to do, so the comp's own
+        // trinkets stay - there is no pool to draw from.
+        expect(team.trinketSwaps).toEqual([]);
+      });
+
+      test('reports the swaps so they can be explained', () => {
+        const team = suggest({
+          ownedTrinkets: ['Feather Crystal', 'Sun Ring', 'Legendary Bracer'],
+          reequip: true
+        });
+        expect(Array.isArray(team.trinketSwaps)).toBe(true);
+        team.trinketSwaps.forEach((swap) => {
+          expect(swap.wanted).toBeTruthy();
+          expect(swap.got).toBeTruthy();
+          expect(swap.got).not.toBe(swap.wanted);
+        });
+      });
+    });
   });
 });

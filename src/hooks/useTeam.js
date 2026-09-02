@@ -233,6 +233,8 @@ export const useTeam = ({ defaultLocation = 'The Ruins' } = {}) => {
       location: suggestedHeroes.location,
       assignedHeroes: suggestedHeroes.assignedHeroes || [],
       missingTrinkets: suggestedHeroes.missingTrinkets || [],
+      trinketSwaps: suggestedHeroes.trinketSwaps || [],
+      unequipped: suggestedHeroes.unequipped || 0,
       warning: suggestedHeroes.warning || '',
       fromPreset: !!suggestedHeroes.fromPreset
     };

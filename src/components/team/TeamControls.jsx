@@ -484,11 +484,16 @@ const TeamControls = ({
             ownedTrinkets: saveProfile?.ownedTrinkets || null,
             ...options
           });
+          const swapped = result?.trinketSwaps?.length
+            ? ` Re-equipped ${result.trinketSwaps.length} trinket${
+                result.trinketSwaps.length === 1 ? '' : 's'
+              } from your inventory${result.unequipped ? `, ${result.unequipped} slot(s) left empty` : ''}.`
+            : '';
           if (result?.warning) {
-            showToast?.(result.warning, 'warning');
+            showToast?.(result.warning + swapped, 'warning');
           } else if (result?.assignedHeroes?.length) {
             showToast?.(
-              `Suggested "${result.teamName}" with ${result.assignedHeroes.join(', ')}.`,
+              `Suggested "${result.teamName}" with ${result.assignedHeroes.join(', ')}.${swapped}`,
               'success'
             );
           } else {

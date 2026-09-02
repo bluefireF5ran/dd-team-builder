@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { Dice5, X, Check, Users, RotateCcw, Sparkles, Upload, FolderOpen, PackageCheck, BedDouble } from 'lucide-react';
+import { Dice5, X, Check, Users, RotateCcw, Sparkles, Upload, FolderOpen, PackageCheck, BedDouble, Gem } from 'lucide-react';
 import ImageWithFallback from '../common/ImageWithFallback';
 import {
   ALL_HERO_NAMES,
@@ -82,6 +82,7 @@ const SuggestCompModal = ({
   // Only meaningful with a save imported; both are remembered per session only.
   const [skipBusy, setSkipBusy] = useState(true);
   const [requireOwnedTrinkets, setRequireOwnedTrinkets] = useState(false);
+  const [reequip, setReequip] = useState(true);
 
   const counts = useMemo(() => toRosterCounts(roster), [roster]);
   const busyCount = useMemo(
@@ -209,7 +210,7 @@ const SuggestCompModal = ({
       showToast?.('Select at least 4 heroes in your roster', 'warning');
       return;
     }
-    onSuggest?.(roster, { requireOwnedTrinkets });
+    onSuggest?.(roster, { requireOwnedTrinkets, reequip });
     onClose?.();
   };
 
@@ -340,6 +341,15 @@ const SuggestCompModal = ({
                 icon={BedDouble}
                 label={`Skip ${busyCount} busy in town`}
                 title="A hero locked into the Abbey, Tavern or Sanitarium cannot go out this week"
+              />
+            )}
+            {saveProfile.ownedTrinkets?.length > 0 && (
+              <OptionToggle
+                on={reequip}
+                onClick={() => setReequip((prev) => !prev)}
+                icon={Gem}
+                label="Re-equip from my trinkets"
+                title="Swap the comp's trinkets for the closest thing you own — matched on what they do, not on the name"
               />
             )}
             {saveProfile.ownedTrinkets?.length > 0 && (

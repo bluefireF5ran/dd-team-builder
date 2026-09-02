@@ -137,7 +137,23 @@ describe('SuggestCompModal with an imported save', () => {
     fireEvent.click(screen.getByRole('button', { name: /Only comps I can fully equip/i }));
     fireEvent.click(suggest());
 
-    expect(onSuggest.mock.calls[0][1]).toEqual({ requireOwnedTrinkets: true });
+    expect(onSuggest.mock.calls[0][1]).toEqual({ requireOwnedTrinkets: true, reequip: true });
+  });
+
+  it('re-equips from your own trinkets by default, and can be told not to', () => {
+    const profile = saveProfile();
+    const { onSuggest } = setup({
+      saveProfile: { ...profile, ownedTrinkets: ["Ancestor's Bottle"] }
+    });
+    fireEvent.click(screen.getByRole('button', { name: /Use Save Roster/i }));
+    fireEvent.click(screen.getByRole('button', { name: /Re-equip from my trinkets/i }));
+    fireEvent.click(suggest());
+    expect(onSuggest.mock.calls[0][1]).toEqual({ requireOwnedTrinkets: false, reequip: false });
+  });
+
+  it('offers no trinket switches without an inventory', () => {
+    setup({ saveProfile: saveProfile() });
+    expect(screen.queryByRole('button', { name: /Re-equip/i })).not.toBeInTheDocument();
   });
 
   it('hides the trinket switch when the inventory is empty', () => {
