@@ -96,7 +96,7 @@ const CompCard = ({ comp, onLoad, onDelete, missing = null }) => {
                     }
                   />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center text-gray-600 text-xs">-</div>
+                  <div className="w-full h-full flex items-center justify-center text-gray-400 text-xs">-</div>
                 )}
                 <span className="absolute bottom-0 right-0 px-1 text-[8px] leading-[1.4] text-gray-400 bg-black/60 rounded-tl">
                   {rank}

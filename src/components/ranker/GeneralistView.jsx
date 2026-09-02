@@ -101,7 +101,7 @@ const Row = ({ item, swing, pairwiseRank }) => (
           : 'w-11 h-11 object-contain shrink-0'
       }
       fallback={
-        <span className="w-11 h-11 shrink-0 flex items-center justify-center rounded-sm border border-gray-700 bg-gray-900 text-gray-600">
+        <span className="w-11 h-11 shrink-0 flex items-center justify-center rounded-sm border border-gray-700 bg-gray-900 text-gray-400">
           {item.name.charAt(0)}
         </span>
       }

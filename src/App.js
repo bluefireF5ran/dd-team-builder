@@ -308,7 +308,7 @@ const App = () => {
           {DEBUG_IMAGES && <span className="mx-2 text-gray-700">|</span>}
           <button
             onClick={() => setShowShortcuts(true)}
-            className="mt-2 text-gray-600 hover:text-gray-400 text-xs underline"
+            className="mt-2 text-gray-400 hover:text-dd-parchment text-xs underline"
           >
             Keyboard Shortcuts
           </button>

@@ -353,7 +353,7 @@ const LoadCompModal = ({
                 ? 'No results'
                 : `${start + 1}–${Math.min(start + perPage, filtered.length)} of ${filtered.length}`}
               {filtered.length !== allEntries.length && (
-                <span className="text-gray-600"> (of {allEntries.length})</span>
+                <span className="text-gray-400"> (of {allEntries.length})</span>
               )}
             </span>
 

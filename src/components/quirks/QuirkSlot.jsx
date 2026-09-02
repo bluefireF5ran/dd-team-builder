@@ -26,7 +26,7 @@ const QuirkSlot = ({ quirk, tone = 'positive', onToggleLock, isLocked, onRemove,
     <div className={`w-full flex items-center justify-between px-2 sm:px-3 py-1.5 sm:py-2 rounded border transition-all ${
       quirk ? style.slot : 'bg-gray-800/40 border-gray-700/50'
     }`}>
-      <span className={`text-sm sm:text-base truncate max-w-[100px] sm:max-w-none ${quirk ? style.text : 'text-gray-600'}`}>
+      <span className={`text-sm sm:text-base truncate max-w-[100px] sm:max-w-none ${quirk ? style.text : 'text-gray-400'}`}>
         {quirk || 'Empty'}
       </span>
       <div className="flex gap-0.5 sm:gap-1 ml-1">

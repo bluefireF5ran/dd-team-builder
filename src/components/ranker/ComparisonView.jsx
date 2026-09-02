@@ -148,7 +148,7 @@ const ContenderCard = ({ item, category, side, onPick }) => {
               : 'w-[150px] h-[150px] sm:w-[190px] sm:h-[190px] object-contain drop-shadow-[0_6px_16px_rgba(0,0,0,0.8)] my-6 sm:my-10'
           }
           fallback={
-            <span className="w-[150px] h-[150px] sm:w-[190px] sm:h-[190px] my-6 sm:my-10 flex items-center justify-center rounded border border-gray-700 bg-gray-900 text-4xl text-gray-600">
+            <span className="w-[150px] h-[150px] sm:w-[190px] sm:h-[190px] my-6 sm:my-10 flex items-center justify-center rounded border border-gray-700 bg-gray-900 text-4xl text-gray-400">
               {item.name.charAt(0)}
             </span>
           }

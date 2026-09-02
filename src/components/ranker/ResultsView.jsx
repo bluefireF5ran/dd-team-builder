@@ -56,7 +56,7 @@ const RankRow = ({ item, position, category }) => {
             : 'w-12 h-12 object-contain shrink-0'
         }
         fallback={
-          <span className="w-12 h-12 shrink-0 flex items-center justify-center rounded-sm border border-gray-700 bg-gray-900 text-gray-600">
+          <span className="w-12 h-12 shrink-0 flex items-center justify-center rounded-sm border border-gray-700 bg-gray-900 text-gray-400">
             {item.name.charAt(0)}
           </span>
         }
@@ -122,7 +122,7 @@ const Podium = ({ items, category }) => (
                 : 'relative z-10 w-20 h-20 sm:w-28 sm:h-28 object-contain my-auto'
             }
             fallback={
-              <span className="relative z-10 my-auto text-4xl text-gray-600">{item.name.charAt(0)}</span>
+              <span className="relative z-10 my-auto text-4xl text-gray-400">{item.name.charAt(0)}</span>
             }
           />
           <span className="relative z-10 text-center mt-2">
