@@ -17,6 +17,7 @@
  * | `persist.estate.json` | the trinket inventory |
  * | `persist.game.json` | estate name, game mode, DLC and applied mods |
  * | `persist.campaign_log.json` | the week number |
+ * | `persist.town.json` | the graveyard, so the dead are not offered as heroes |
  *
  * Only the roster is required; a profile missing the rest still imports, with
  * the corresponding fields left empty.
@@ -42,7 +43,8 @@ export const SAVE_FILES = {
   roster: 'persist.roster.json',
   estate: 'persist.estate.json',
   game: 'persist.game.json',
-  campaignLog: 'persist.campaign_log.json'
+  campaignLog: 'persist.campaign_log.json',
+  town: 'persist.town.json'
 };
 
 /** The one file without which there is nothing to import. */
@@ -141,6 +143,49 @@ const readItemIds = (container) => {
 };
 
 const cap = (list, max) => (list.length > max ? list.slice(0, max) : list);
+
+/**
+ * Who the Graveyard holds.
+ *
+ * A buried hero must never be offered as someone you can field, and the roster
+ * file cannot say on its own: `persist.roster.json` records a status, an
+ * activity and a missing-duration, and none of them marks a death.
+ *
+ * Every profile available while this was written had an **empty** graveyard, so
+ * the record layout is unverified. Rather than invent field names for a
+ * structure nobody has seen populated, the walk gathers candidates:
+ *
+ * - **Names** from any string anywhere under the node. Hero names are
+ *   distinctive, and a stray `plague_doctor` or `week` cannot collide with one.
+ * - **Guids** only from keys that say they are guids. Collecting every integer
+ *   was the first attempt and it is far too greedy: a record carrying
+ *   `resolve_level: 2` buried the hero with guid 2. Any level, week or id in a
+ *   record would do the same.
+ *
+ * A hero is dropped when either matches, so an unknown layout still works as
+ * long as it records the name or labels its reference.
+ */
+const GUID_KEY = /(^|_)(guid|hero_id)$|^id$/i;
+
+const collectGraveyard = (node, key = '', names = new Set(), guids = new Set(), depth = 0) => {
+  if (node === null || node === undefined || depth > 8) return { names, guids };
+  if (typeof node === 'string') {
+    const trimmed = node.trim();
+    if (trimmed) names.add(trimmed.toLowerCase());
+  } else if (typeof node === 'number') {
+    if (Number.isInteger(node) && node > 0 && GUID_KEY.test(key)) guids.add(String(node));
+  } else if (Array.isArray(node)) {
+    node.forEach((child) => collectGraveyard(child, key, names, guids, depth + 1));
+  } else if (typeof node === 'object') {
+    Object.entries(node).forEach(([childKey, child]) =>
+      collectGraveyard(child, childKey, names, guids, depth + 1)
+    );
+  }
+  return { names, guids };
+};
+
+/** The graveyard node, wherever the town file keeps it. */
+const graveyardOf = (town) => town?.buildings?.graveyard ?? town?.graveyard ?? null;
 
 const readHero = (guid, entry, unmatched) => {
   const data = entry?.hero_file_data?.raw_data;
@@ -266,16 +311,46 @@ export const parseSaveProfile = (buffers) => {
   const estateBuffer = get(SAVE_FILES.estate);
   const gameBuffer = get(SAVE_FILES.game);
   const logBuffer = get(SAVE_FILES.campaignLog);
+  const townBuffer = get(SAVE_FILES.town);
 
-  const estate = estateBuffer ? decode(estateBuffer, SAVE_FILES.estate) : null;
-  const game = gameBuffer ? decode(gameBuffer, SAVE_FILES.game) : null;
-  const log = logBuffer ? decode(logBuffer, SAVE_FILES.campaignLog) : null;
+  return buildProfile({
+    roster,
+    estate: estateBuffer ? decode(estateBuffer, SAVE_FILES.estate) : null,
+    game: gameBuffer ? decode(gameBuffer, SAVE_FILES.game) : null,
+    log: logBuffer ? decode(logBuffer, SAVE_FILES.campaignLog) : null,
+    town: townBuffer ? decode(townBuffer, SAVE_FILES.town) : null,
+    files: [...byName.keys()].sort()
+  });
+};
 
+/**
+ * The profile, built from already-decoded save files.
+ *
+ * Split out from `parseSaveProfile` so the parts that need a *particular* save
+ * state can be tested without one. There is no DSON encoder here, so a test
+ * cannot synthesise a save with a populated graveyard - but it can hand this
+ * one a town object with graveyard records in it, which is the same question.
+ */
+export const buildProfile = ({ roster, estate = null, game = null, log = null, town = null, files = [] }) => {
   const unmatched = { heroClasses: [], skills: [], campSkills: [], quirks: [], trinkets: [] };
 
-  const heroes = Object.entries(roster.heroes || {})
+  const buried = collectGraveyard(graveyardOf(town));
+
+  const allHeroes = Object.entries(roster.heroes || {})
     .map(([guid, entry]) => readHero(guid, entry, unmatched))
     .filter(Boolean);
+
+  // A hero the Graveyard names is dead, whatever the roster still says about
+  // them. Splitting rather than filtering so the count can be reported: going
+  // from nine heroes to six without a word would look like a parsing failure.
+  const isBuried = (hero) =>
+    buried.guids.has(hero.guid) || (hero.name && buried.names.has(hero.name.toLowerCase()));
+  const heroes = allHeroes.filter((hero) => !isBuried(hero));
+  const graveyard = allHeroes.filter(isBuried).map((hero) => ({
+    guid: hero.guid,
+    name: hero.name,
+    heroClass: hero.heroClass
+  }));
 
   const inventory = readItemIds(estate?.trinkets).map((id) => {
     const name = lookup(TRINKET_INDEX, id) || TRINKET_ID_RENAMES[id];
@@ -303,6 +378,8 @@ export const parseSaveProfile = (buffers) => {
     dlc: readNamedList(game?.dlc),
     mods: readNamedList(game?.applied_ugcs_1_0),
     heroes,
+    // Read from the town file, and empty when it was not supplied.
+    graveyard,
     heroClasses: Object.keys(heroClassCounts).sort(),
     heroClassCounts,
     ownedTrinkets,
@@ -310,7 +387,7 @@ export const parseSaveProfile = (buffers) => {
     unmatched: Object.fromEntries(
       Object.entries(unmatched).map(([key, ids]) => [key, [...new Set(ids)].sort()])
     ),
-    files: [...byName.keys()].sort()
+    files
   };
 };
 

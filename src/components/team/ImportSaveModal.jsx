@@ -298,6 +298,9 @@ const ImportSaveModal = ({
                   {profile.week !== null ? ` · week ${profile.week}` : ''}
                   {profile.gameMode ? ` · ${profile.gameMode}` : ''}
                   {` · ${heroes.length} heroes`}
+                  {profile.graveyard?.length
+                    ? ` · ${profile.graveyard.length} buried`
+                    : ''}
                   {` · ${profile.ownedTrinkets.length} trinkets`}
                 </span>
               </div>
