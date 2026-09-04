@@ -1,43 +1,5 @@
 // Cada mod tiene un ID único que se usa como prefijo
 export const MODDED_HERO_CLASSES = {
-  'War': {
-    modId: '2956674159',
-    skills: [
-      'Devastating Strike',
-      'Bulldoze',
-      'Canister Shot',
-      'Hold the Line',
-      'Crimson Dynamo',
-      'Saturated Bombardment',
-      'Overheat'
-    ],
-    campSkills: [
-      'Encourage',
-      'Wound Care',
-      'Pep Talk',
-      'War Forged',
-      'Maintain Relic Armor',
-      'Noblesse Oblige',
-      'Uncompromising Might'
-    ],
-    vanillaCampSkills: [
-      'Encourage',
-      'Wound Care',
-      'Pep Talk'
-    ],
-    image: 'manowar.png',
-    classSpecificTrinkets: [
-      'Reactive Plating',
-      'Executioner\'s Cleaver',
-      'Siegebreaker Slug',
-      'Everfrost Halberd',
-      'Dread Visage',
-      'Noble\'s Ring',
-      'Broken Banner',
-      'Pelt of the Winterwolf',
-      'Ceremonial Shield'
-    ]
-  },
   'Abysswalker': {
     modId: '1910957100',
     skills: [
@@ -2248,6 +2210,41 @@ export const MODDED_HERO_CLASSES = {
       'Divine Fetish',
       'Kakuran no mushi',
       'Tsukumogami Emaki'
+    ]
+  },
+  'Blood Hunter': {
+    modId: '2991603143',
+    skills: [
+      'é¶æå¥³çÂ·ç»ç»',
+      'èµé³å¥³çÂ·ç»ç»',
+      'ç©çº¢çåÂ·è¿å»',
+      'ç»éçåÂ·ç»ç»',
+      'è¡è ¥å­å¼¹Â·è¿å»',
+      'è¿ éå¡«è£ Â·ç»ç»',
+      'è·èä¹èÂ·ç»ç»'
+    ],
+    campSkills: [
+      'Æªæ¢°Ä¿Å»',
+      'ÅÅÇ Ç£¨',
+      'ÇÈÅÇ«',
+      'Å½ÅÄ¹È¡',
+      'Å®Å®Å£Æ­',
+      'Ç¬¬Ä¸ÈÅ¸',
+      'ÆÇ¥Ä¹Æ¢'
+    ],
+    vanillaCampSkills: [
+
+    ],
+    image: 'bloodyhunter.png',
+    classSpecificTrinkets: [
+      'è¿æ·é»é´',
+      'ç½é¶å­å¼¹ä¸åæ²¹',
+      'é»éå­å¼¹ä¸åæ²¹',
+      'è¡æ¶²æåå¨',
+      'ä¾¿æºå¼å­å¼¹',
+      'è¡çå§å¸æç¯·',
+      'è¡ç¥­ççä¹æ',
+      'é¢åº§å§é­ä¹å¿'
     ]
   },
   'Blood Hunter (CN)': {
@@ -8394,6 +8391,42 @@ export const MODDED_HERO_CLASSES = {
       'Felyne Pirate'
     ]
   },
+  'Gcorp Head Manager': {
+    modId: '3579896525',
+    skills: [
+      'Mind Wave',
+      'Rampart Command',
+      'Crier',
+      'Onslaught Command',
+      'Flesh Surge',
+      'Dominate Mind',
+      'Harden'
+    ],
+    campSkills: [
+      'Encourage',
+      'Wound Care',
+      'Pep Talk',
+      'The 4Th Front Of The Smoke War',
+      'Wave The Flag'
+    ],
+    vanillaCampSkills: [
+      'Encourage',
+      'Wound Care',
+      'Pep Talk'
+    ],
+    image: 'head_manager.png',
+    classSpecificTrinkets: [
+      'Smokes and Wires',
+      'G Corp Rations',
+      'Propaganda Poster',
+      'False Halo',
+      'Broken Enkephalin Box',
+      'Medal of Honor',
+      'Unstable Genes',
+      'Lost Self',
+      'Spoils Of War'
+    ]
+  },
   'Geburah': {
     modId: '3398783460',
     skills: [
@@ -9116,42 +9149,6 @@ export const MODDED_HERO_CLASSES = {
         'Tea Set & Geisha Fan'
       ]
     },
-  'Gcorp Head Manager': {
-    modId: '3579896525',
-    skills: [
-      'Mind Wave',
-      'Rampart Command',
-      'Crier',
-      'Onslaught Command',
-      'Flesh Surge',
-      'Dominate Mind',
-      'Harden'
-    ],
-    campSkills: [
-      'Encourage',
-      'Wound Care',
-      'Pep Talk',
-      'The 4Th Front Of The Smoke War',
-      'Wave The Flag'
-    ],
-    vanillaCampSkills: [
-      'Encourage',
-      'Wound Care',
-      'Pep Talk'
-    ],
-    image: 'head_manager.png',
-    classSpecificTrinkets: [
-      'Smokes and Wires',
-      'G Corp Rations',
-      'Propaganda Poster',
-      'False Halo',
-      'Broken Enkephalin Box',
-      'Medal of Honor',
-      'Unstable Genes',
-      'Lost Self',
-      'Spoils Of War'
-    ]
-  },
   'Healer Felyne': {
     modId: '3341653593',
     skills: [
@@ -11414,6 +11411,43 @@ export const MODDED_HERO_CLASSES = {
       'Bloodthirsty Knowledge'
     ]
   },
+  'Kuuga': {
+    modId: '3463971564',
+    skills: [
+      'Henshin',
+      'Rider-punch',
+      'Rider-kick',
+      'TryChaser 2000',
+      'Rising BeatGouram',
+      'Titan Form',
+      'Dragon Form',
+      'Pegasus Form',
+      'Chouhenshin',
+      'BGM: Trembling',
+      'BGM: Urgent',
+      'BGM: Warrior',
+      'BGM: Fierce Fighting'
+    ],
+    campSkills: [
+      '"Warrior\'S Resolve"',
+      '"Sensitivity Of Water"',
+      '"Strengthen The Six Senses"',
+      '"The Armor Of Steel, The Strength Of The Earth"',
+      'Additional Information',
+      'Additional Information',
+      'Additional Information'
+    ],
+    vanillaCampSkills: [
+
+    ],
+    image: '3463971564.png',
+    classSpecificTrinkets: [
+      'The handlebar that was pulled out',
+      'Guardrails by the side of the road',
+      'Officer Ichijo\'s pistol',
+      'TryChaser 2000'
+    ]
+  },
   'Kwal': {
     modId: '3451046031',
     skills: [
@@ -12775,6 +12809,45 @@ export const MODDED_HERO_CLASSES = {
       'Fate\'s Promise',
       'Azure Souvenir',
       'Blinding Helm'
+    ]
+  },
+  'Loot Hunter': {
+    modId: '3045881665',
+    skills: [
+      'Gnawing Blade',
+      'Tooth Rake',
+      'Trident Stab',
+      'Apex Predator',
+      'Shock and Awe',
+      'Bloody Ambition',
+      'Thrill of the Hunt',
+      'Crawling Fear'
+    ],
+    campSkills: [
+      'Encourage',
+      'Wound Care',
+      'Pep Talk',
+      'Head Hunter',
+      'Thick Scales',
+      'Swamp Predator',
+      'Symbiotic Relationship'
+    ],
+    vanillaCampSkills: [
+      'Encourage',
+      'Wound Care',
+      'Pep Talk'
+    ],
+    image: 'croc.png',
+    classSpecificTrinkets: [
+      'Heretic’s Staff',
+      'Deep Sea Thorn',
+      'Spore Mushroom',
+      'Pillaged Idol',
+      'Leather Hunter’s Javelin',
+      'Crocodile Bug’s Head',
+      'Crocodile Bug’s Tooth',
+      'Sleeper’s Eyeball',
+      'Hardened Scales'
     ]
   },
   'Lords Blade': {
@@ -14162,6 +14235,41 @@ export const MODDED_HERO_CLASSES = {
       'Soul Ring',
       'Helm of Blood Moon',
       'Schism'
+    ]
+  },
+  'Mordekaiser': {
+    modId: '3144299757',
+    skills: [
+      'Mace of Spades',
+      'Obliterate',
+      'Indestructible',
+      'Death\'s Grasp',
+      'Realm of Death',
+      'Immortal Bastion',
+      'Siphon of Destruction',
+      'Children of the Grave'
+    ],
+    campSkills: [
+      'You Are Going To Brazil'
+    ],
+    vanillaCampSkills: [
+
+    ],
+    image: '3144299757.png',
+    classSpecificTrinkets: [
+      'Jak\'Sho, the Protean',
+      'Gargoyle Stoneplate',
+      'Riftmaker',
+      'Morellonomicon',
+      'Radiant Virtue',
+      'Spirit Visage',
+      'Void Staff',
+      'Rylai\'s Crystal Scepter',
+      'Shield of the Iron Revenant',
+      'Doran\'s Shield',
+      'Bramble Vest',
+      'Plated Steelcaps',
+      'Seeker\'s Armguard'
     ]
   },
   'Mutsumi': {
@@ -16468,6 +16576,45 @@ export const MODDED_HERO_CLASSES = {
       'Libram de Cigurosia',
       'Livre de Folizia',
       'Tome Jet Du Sort'
+    ]
+  },
+  'Psychic Scholar': {
+    modId: '2882385295',
+    skills: [
+      'Quantum Beam',
+      'Observation Scope',
+      'Spot Fire',
+      'Plasma Overcharge',
+      'Neutron String',
+      'Photon Flash',
+      'Artifact Liberation'
+    ],
+    campSkills: [
+      'Encourage',
+      'Wound Care',
+      'Pep Talk',
+      'Telepathy',
+      'Engine Repair',
+      'Scientific Explanation',
+      'Document Organization'
+    ],
+    vanillaCampSkills: [
+      'Encourage',
+      'Wound Care',
+      'Pep Talk'
+    ],
+    image: 'paracausalist.png',
+    classSpecificTrinkets: [
+      'Spectrum Transcendence Goggles',
+      'Coil Stabilizer',
+      'Enhanced Scope',
+      'Safety Goggles',
+      'Brandt’s Spirit Guidebook',
+      'Phase Shift Focus Lens',
+      '카\'타크의 기계장치',
+      'Electroplasm Network',
+      'Mysterious Brill Capacitor',
+      'Spring of the Lingonberry Tree'
     ]
   },
   'Psye': {
@@ -21458,6 +21605,34 @@ export const MODDED_HERO_CLASSES = {
   
       ]
     },
+  'The Void Witch': {
+    modId: '2168601201',
+    skills: [
+      'Cursed Scythe',
+      'Cold Artillery',
+      'Cursed Mortar',
+      'Greater Void Bolt',
+      'Life Hunt Scythe',
+      'Void Cloak',
+      'True Void Gate'
+    ],
+    campSkills: [
+      'Wound Care',
+      'Encourage',
+      'Pact Of The Void',
+      'Witch\'S Blessing',
+      'Void Dash',
+      'Void Clarity'
+    ],
+    vanillaCampSkills: [
+      'Wound Care',
+      'Encourage'
+    ],
+    image: 'witch.png',
+    classSpecificTrinkets: [
+      'Lucky Coin'
+    ]
+  },
   'Thedivinity': {
     modId: '2338765889',
     skills: [
@@ -22753,6 +22928,44 @@ export const MODDED_HERO_CLASSES = {
       'Kashas Ashes'
     ]
   },
+  'War': {
+    modId: '2956674159',
+    skills: [
+      'Devastating Strike',
+      'Bulldoze',
+      'Canister Shot',
+      'Hold the Line',
+      'Crimson Dynamo',
+      'Saturated Bombardment',
+      'Overheat'
+    ],
+    campSkills: [
+      'Encourage',
+      'Wound Care',
+      'Pep Talk',
+      'War Forged',
+      'Maintain Relic Armor',
+      'Noblesse Oblige',
+      'Uncompromising Might'
+    ],
+    vanillaCampSkills: [
+      'Encourage',
+      'Wound Care',
+      'Pep Talk'
+    ],
+    image: 'manowar.png',
+    classSpecificTrinkets: [
+      'Reactive Plating',
+      'Executioner\'s Cleaver',
+      'Siegebreaker Slug',
+      'Everfrost Halberd',
+      'Dread Visage',
+      'Noble\'s Ring',
+      'Broken Banner',
+      'Pelt of the Winterwolf',
+      'Ceremonial Shield'
+    ]
+  },
   'Warden': {
     modId: '1850812558',
     skills: [
@@ -23279,34 +23492,6 @@ export const MODDED_HERO_CLASSES = {
         'Strange Flying Toy'
       ]
     },
-  'The Void Witch': {
-    modId: '2168601201',
-    skills: [
-      'Cursed Scythe',
-      'Cold Artillery',
-      'Cursed Mortar',
-      'Greater Void Bolt',
-      'Life Hunt Scythe',
-      'Void Cloak',
-      'True Void Gate'
-    ],
-    campSkills: [
-      'Wound Care',
-      'Encourage',
-      'Pact Of The Void',
-      'Witch\'S Blessing',
-      'Void Dash',
-      'Void Clarity'
-    ],
-    vanillaCampSkills: [
-      'Wound Care',
-      'Encourage'
-    ],
-    image: 'witch.png',
-    classSpecificTrinkets: [
-      'Lucky Coin'
-    ]
-  },
   'Witcher': {
     modId: '967618008',
     skills: [
@@ -23855,121 +24040,11 @@ export const MODDED_HERO_CLASSES = {
     classSpecificTrinkets: [
 
     ]
-  },
-  'Blood Hunter': {
-    modId: '2991603143',
-    skills: [
-      'é¶æå¥³çÂ·ç»ç»',
-      'èµé³å¥³çÂ·ç»ç»',
-      'ç©çº¢çåÂ·è¿å»',
-      'ç»éçåÂ·ç»ç»',
-      'è¡è ¥å­å¼¹Â·è¿å»',
-      'è¿ éå¡«è£ Â·ç»ç»',
-      'è·èä¹èÂ·ç»ç»'
-    ],
-    campSkills: [
-      'Æªæ¢°Ä¿Å»',
-      'ÅÅÇ Ç£¨',
-      'ÇÈÅÇ«',
-      'Å½ÅÄ¹È¡',
-      'Å®Å®Å£Æ­',
-      'Ç¬¬Ä¸ÈÅ¸',
-      'ÆÇ¥Ä¹Æ¢'
-    ],
-    vanillaCampSkills: [
-
-    ],
-    image: 'bloodyhunter.png',
-    classSpecificTrinkets: [
-      'è¿æ·é»é´',
-      'ç½é¶å­å¼¹ä¸åæ²¹',
-      'é»éå­å¼¹ä¸åæ²¹',
-      'è¡æ¶²æåå¨',
-      'ä¾¿æºå¼å­å¼¹',
-      'è¡çå§å¸æç¯·',
-      'è¡ç¥­ççä¹æ',
-      'é¢åº§å§é­ä¹å¿'
-    ]
-  },
-  'Psychic Scholar': {
-    modId: '2882385295',
-    skills: [
-      'Quantum Beam',
-      'Observation Scope',
-      'Spot Fire',
-      'Plasma Overcharge',
-      'Neutron String',
-      'Photon Flash',
-      'Artifact Liberation'
-    ],
-    campSkills: [
-      'Encourage',
-      'Wound Care',
-      'Pep Talk',
-      'Telepathy',
-      'Engine Repair',
-      'Scientific Explanation',
-      'Document Organization'
-    ],
-    vanillaCampSkills: [
-      'Encourage',
-      'Wound Care',
-      'Pep Talk'
-    ],
-    image: 'paracausalist.png',
-    classSpecificTrinkets: [
-      'Spectrum Transcendence Goggles',
-      'Coil Stabilizer',
-      'Enhanced Scope',
-      'Safety Goggles',
-      'Brandt’s Spirit Guidebook',
-      'Phase Shift Focus Lens',
-      '카\'타크의 기계장치',
-      'Electroplasm Network',
-      'Mysterious Brill Capacitor',
-      'Spring of the Lingonberry Tree'
-    ]
-  },
-  'Loot Hunter': {
-    modId: '3045881665',
-    skills: [
-      'Gnawing Blade',
-      'Tooth Rake',
-      'Trident Stab',
-      'Apex Predator',
-      'Shock and Awe',
-      'Bloody Ambition',
-      'Thrill of the Hunt',
-      'Crawling Fear'
-    ],
-    campSkills: [
-      'Encourage',
-      'Wound Care',
-      'Pep Talk',
-      'Head Hunter',
-      'Thick Scales',
-      'Swamp Predator',
-      'Symbiotic Relationship'
-    ],
-    vanillaCampSkills: [
-      'Encourage',
-      'Wound Care',
-      'Pep Talk'
-    ],
-    image: 'croc.png',
-    classSpecificTrinkets: [
-      'Heretic’s Staff',
-      'Deep Sea Thorn',
-      'Spore Mushroom',
-      'Pillaged Idol',
-      'Leather Hunter’s Javelin',
-      'Crocodile Bug’s Head',
-      'Crocodile Bug’s Tooth',
-      'Sleeper’s Eyeball',
-      'Hardened Scales'
-    ]
   }
 };
+
+
+
 
 
 
