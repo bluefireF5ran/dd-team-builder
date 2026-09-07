@@ -2140,6 +2140,7 @@ export const MODDED_HERO_CLASSES = {
       'Pep Talk'
     ],
     image: 'ushiro.png',
+    alwaysActive: true,
     classSpecificTrinkets: [
       'Beast\'s Jaw',
       'Yata no Kagami',
@@ -6633,6 +6634,7 @@ export const MODDED_HERO_CLASSES = {
       'Pep Talk'
     ],
     image: 'estranged.png',
+    alwaysActive: true,
     classSpecificTrinkets: [
       'Heightened Ocelli',
       'Weighted Chains',
@@ -7554,6 +7556,7 @@ export const MODDED_HERO_CLASSES = {
       'Pep Talk'
     ],
     image: 'falconer.png',
+    alwaysActive: true,
     classSpecificTrinkets: [
       'Raptor Charm',
       'Bloodshot Trophy',
@@ -11527,6 +11530,7 @@ export const MODDED_HERO_CLASSES = {
       'Pep Talk'
     ],
     image: 'lamia.png',
+    alwaysActive: true,
     classSpecificTrinkets: [
       'Caregiver\'s Ring',
       'Deceiver\'s Hairband',
@@ -18631,6 +18635,7 @@ export const MODDED_HERO_CLASSES = {
       'Pep Talk'
     ],
     image: 'seraph.png',
+    alwaysActive: true,
     classSpecificTrinkets: [
       'Holy Chainmail',
       'Faithful Pendant',
@@ -18667,7 +18672,6 @@ export const MODDED_HERO_CLASSES = {
       'Wound Care',
       'Pep Talk'
     ],
-    alwaysActive: true,
     image: 'seraph_legacy.png',
     classSpecificTrinkets: [
       'Holy Chainmail',
