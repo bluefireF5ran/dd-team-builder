@@ -12,6 +12,12 @@ import {
 } from '../../utils/generalistStats';
 import { getUsageStats } from '../../data/generalistIndex';
 import {
+  MODEL_CATEGORIES,
+  USAGE_SOURCES,
+  getModelUsageStats,
+  hasModelUsage
+} from '../../data/modelUsageIndex';
+import {
   getCampSkillImagePath,
   getHeroImagePath,
   getSkillImagePath,
@@ -33,7 +39,8 @@ const DEFAULT_SETTINGS = {
   alpha: 0.5,
   unit: 'slots',
   heroClass: '',
-  scope: 'all'
+  scope: 'all',
+  source: 'library'
 };
 
 const readSettings = () => {
@@ -58,6 +65,15 @@ const imageFor = (item) => {
 };
 
 const subtitleFor = (item) => {
+  // Un heroe de la fuente `model` no trae rankCounts ni partners: la pregunta
+  // ahi no es cuanto sale en la libreria sino como le fue y cuanto de su kit
+  // llega a usar. `detail` es lo que trae en su lugar.
+  if (item.kind === 'heroes' && item.detail) {
+    const d = item.detail;
+    return `${d.comps} comps · run ${Math.round(d.runScore * 100)} ±${Math.round(
+      d.runScoreSe * 100
+    )} · plays ${d.skillsUsed} of the ${d.skillsOffered} it was offered`;
+  }
   if (item.kind === 'heroes') {
     const best = item.rankCounts.indexOf(Math.max(...item.rankCounts)) + 1;
     const partner = item.partners[0];
@@ -88,7 +104,7 @@ const RankDistribution = ({ counts }) => {
   );
 };
 
-const Row = ({ item, swing, pairwiseRank }) => (
+const Row = ({ item, swing, pairwiseRank, libraryRank }) => (
   <li className="flex items-center gap-3 p-2 rounded border border-gray-700/70 bg-gray-800/70">
     <span className="w-7 shrink-0 text-center font-darkest text-lg text-dd-parchment">{item.rank}</span>
 
@@ -120,7 +136,16 @@ const Row = ({ item, swing, pairwiseRank }) => (
       </span>
     </span>
 
-    {item.kind === 'heroes' && <RankDistribution counts={item.rankCounts} />}
+    {item.kind === 'heroes' && item.rankCounts && <RankDistribution counts={item.rankCounts} />}
+
+    {item.tier && (
+      <span
+        className="shrink-0 w-6 text-center font-darkest text-sm text-dd-gold/80 border border-dd-gold/30 rounded"
+        title={`One expert's tier list rates this ${item.tier}`}
+      >
+        {item.tier}
+      </span>
+    )}
 
     <span className="shrink-0 text-right w-24">
       <span className="block text-dd-gold font-darkest text-base leading-none">
@@ -155,6 +180,18 @@ const Row = ({ item, swing, pairwiseRank }) => (
           you: #{pairwiseRank}
         </span>
       )}
+      {/* El desacuerdo con la libreria es lo que se viene a mirar: donde el
+          modelo juega algo que las comps no llevan, y al reves. */}
+      {libraryRank != null && libraryRank !== item.rank && (
+        <span
+          className={`block text-[10px] ${
+            libraryRank > item.rank ? 'text-emerald-400' : 'text-torch'
+          }`}
+          title={`The comp library ranks it #${libraryRank}`}
+        >
+          lib: #{libraryRank}
+        </span>
+      )}
     </span>
   </li>
 );
@@ -178,13 +215,27 @@ const Toggle = ({ options, value, onChange }) => (
 );
 
 const GeneralistView = ({ savedResults = {}, onNotify }) => {
-  const stats = useMemo(() => getUsageStats(), []);
   const [settings, setSettings] = useState(readSettings);
   const [query, setQuery] = useState('');
   const [limit, setLimit] = useState(LIST_STEP);
 
-  const { category, alpha, unit, heroClass, scope } = settings;
+  const modelAvailable = hasModelUsage();
+  const source = modelAvailable && settings.source === 'model' ? 'model' : 'library';
+  // El modelo solo decide skills de combate, asi que las otras dos categorias
+  // no existen en esa fuente. Se cae a `skills` en vez de pintar una tabla
+  // vacia, que se leeria como "nunca las coge".
+  const category =
+    source === 'model' && !MODEL_CATEGORIES.includes(settings.category)
+      ? 'skills'
+      : settings.category;
+  const { alpha, unit, heroClass, scope } = settings;
   const update = (patch) => setSettings((prev) => ({ ...prev, ...patch }));
+
+  const libraryStats = useMemo(() => getUsageStats(), []);
+  const stats = useMemo(
+    () => (source === 'model' ? getModelUsageStats() : libraryStats),
+    [source, libraryStats]
+  );
 
   useEffect(() => {
     try {
@@ -194,10 +245,13 @@ const GeneralistView = ({ savedResults = {}, onNotify }) => {
     }
   }, [settings]);
 
-  useEffect(() => setLimit(LIST_STEP), [category, alpha, unit, heroClass, scope, query]);
+  useEffect(() => setLimit(LIST_STEP), [category, alpha, unit, heroClass, scope, query, source]);
 
   const priorStrength = defaultPriorStrength(stats, unit);
-  const activeHero = category === 'heroes' ? '' : heroClass;
+  // Una clase que solo existe en una de las dos fuentes dejaria el filtro
+  // puesto y la lista vacia al cambiar de fuente, que se lee como un fallo.
+  const activeHero =
+    category === 'heroes' || !stats.classes.includes(heroClass) ? '' : heroClass;
 
   const pool = useMemo(() => {
     const items = stats.items[category] || [];
@@ -216,8 +270,37 @@ const GeneralistView = ({ savedResults = {}, onNotify }) => {
     [alpha, unit, priorStrength, activeHero, stats.classUsage]
   );
 
-  const ranked = useMemo(() => scoreItems(pool, scoreOptions), [pool, scoreOptions]);
+  const scored = useMemo(() => scoreItems(pool, scoreOptions), [pool, scoreOptions]);
   const swings = useMemo(() => flattenSwing(pool, scoreOptions), [pool, scoreOptions]);
+
+  // Los heroes de la fuente `model` se reordenan por resultado. Su score de
+  // scoreItems es la cuota de decisiones que consume la clase, que la marca la
+  // velocidad y las comps en que sale, no el modelo: ordenar por ahi seria
+  // ordenar por otra cosa. La nota que se le puede pedir al modelo es como le
+  // fue con esa clase.
+  const ranked = useMemo(() => {
+    if (source !== 'model' || category !== 'heroes') return scored;
+    return [...scored]
+      .sort((a, b) => (b.detail?.runScore || 0) - (a.detail?.runScore || 0))
+      .map((row, index) => ({ ...row, rank: index + 1 }));
+  }, [scored, source, category]);
+
+  // Donde discrepan las dos fuentes. Se cruza por nombre, que es la clave que
+  // comparten; lo que el otro lado no tenga sale sin columna en vez de con un
+  // cero, porque "no existe alli" y "alli vale cero" no son lo mismo.
+  const libraryPositions = useMemo(() => {
+    if (source !== 'model') return null;
+    const items = libraryStats.items[category] || [];
+    if (!items.length) return null;
+    const rows = scoreItems(items, {
+      alpha,
+      unit,
+      priorStrength: defaultPriorStrength(libraryStats, unit),
+      heroClass: activeHero || null,
+      classUsage: libraryStats.classUsage
+    });
+    return new Map(rows.map((row) => [row.name, row.rank]));
+  }, [source, libraryStats, category, alpha, unit, activeHero]);
 
   // El ranking por parejas del usuario, para ver donde discrepa con la libreria.
   const pairwisePositions = useMemo(() => {
@@ -238,6 +321,8 @@ const GeneralistView = ({ savedResults = {}, onNotify }) => {
 
   const visible = filtered.slice(0, limit);
   const meta = USAGE_CATEGORIES.find((c) => c.id === category) || USAGE_CATEGORIES[0];
+  const sourceMeta = USAGE_SOURCES.find((s) => s.id === source) || USAGE_SOURCES[0];
+  const modelProvenance = (source === 'model' && stats.provenance) || {};
   const activePreset = FLATTEN_PRESETS.find((p) => Math.abs(p.alpha - alpha) < 0.001);
   const unitMeta = COUNT_UNITS.find((u) => u.id === unit) || COUNT_UNITS[0];
 
@@ -260,7 +345,8 @@ const GeneralistView = ({ savedResults = {}, onNotify }) => {
   const handleDownloadJSON = () => {
     const payload = {
       category,
-      source: 'comp-library',
+      source: source === 'model' ? 'trained-model' : 'comp-library',
+      provenance: source === 'model' ? stats.provenance : undefined,
       comps: stats.compCount,
       families: stats.familyCount,
       slots: stats.slotCount,
@@ -280,13 +366,52 @@ const GeneralistView = ({ savedResults = {}, onNotify }) => {
 
   return (
     <div className="space-y-4 animate-fade-in-up">
+      {modelAvailable && (
+        <div className="rounded-lg border-2 border-gray-700 bg-gray-800/70 p-3">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h3 className="font-darkest text-lg text-dd-gold tracking-wide">Counted from</h3>
+              <p className="text-[11px] text-gray-400 mt-0.5">{sourceMeta.blurb}</p>
+            </div>
+            <Toggle
+              options={USAGE_SOURCES}
+              value={source}
+              onChange={(id) => update({ source: id })}
+            />
+          </div>
+          {source === 'model' && (
+            <p className="text-[11px] text-gray-500 mt-2 leading-snug">
+              {modelProvenance.model} · {modelProvenance.classes} classes ·{' '}
+              {modelProvenance.comps} comps × {modelProvenance.episodes} episodes ·{' '}
+              {(modelProvenance.decisions || 0).toLocaleString()} decisions ·{' '}
+              {(modelProvenance.rankedAt || '').slice(0, 10)}.{' '}
+              <span className="text-gray-400">
+                A rate here is picks over the turns the skill was actually legal, so a
+                skill it rarely gets offered is not being called unpopular. A 0% over a
+                small denominator is not a verdict.
+              </span>
+            </p>
+          )}
+        </div>
+      )}
+
       <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-        {USAGE_CATEGORIES.map((cat) => (
+        {USAGE_CATEGORIES.map((cat) => {
+          const unavailable = source === 'model' && !MODEL_CATEGORIES.includes(cat.id);
+          return (
           <button
             key={cat.id}
-            onClick={() => update({ category: cat.id })}
+            onClick={() => !unavailable && update({ category: cat.id })}
+            disabled={unavailable}
+            title={
+              unavailable
+                ? 'The policy picks neither camp skills nor trinkets — they come with the comp'
+                : undefined
+            }
             className={`text-left rounded-lg border-2 p-3 transition-all duration-150 ${
-              cat.id === category
+              unavailable
+                ? 'border-gray-800 bg-gray-900/60 opacity-40 cursor-not-allowed'
+                : cat.id === category
                 ? 'border-dd-gold bg-gray-800/95 shadow-torch'
                 : 'border-gray-700 bg-gray-800/70 hover:border-dd-gold/50'
             }`}
@@ -301,9 +426,12 @@ const GeneralistView = ({ savedResults = {}, onNotify }) => {
                 {(stats.items[cat.id] || []).length}
               </span>
             </span>
-            <span className="block text-[11px] text-gray-400 mt-1 leading-snug">{cat.blurb}</span>
+            <span className="block text-[11px] text-gray-400 mt-1 leading-snug">
+              {unavailable ? 'The policy does not pick these.' : cat.blurb}
+            </span>
           </button>
-        ))}
+          );
+        })}
       </div>
 
       <div className="ornate-panel bg-gray-800/90 backdrop-blur-sm rounded-lg border-2 border-dd-red/30 p-4 space-y-4">
@@ -405,10 +533,23 @@ const GeneralistView = ({ savedResults = {}, onNotify }) => {
         </div>
 
         <p className="text-[11px] text-gray-500">
-          {stats.compCount} comps · {stats.familyCount} families · {stats.slotCount} hero slots.
+          {source === 'model'
+            ? `${stats.compCount} comps · ${stats.slotCount.toLocaleString()} decisions.`
+            : `${stats.compCount} comps · ${stats.familyCount} families · ${stats.slotCount} hero slots.`}{' '}
           Rates are smoothed towards the average with a prior worth {priorStrength} observations, so
           a 5-of-5 does not outrank a 50-of-50. The arrow shows how many places an entry moves
           between raw usage and pure adoption rate.
+          {source === 'model' && (
+            <>
+              {' '}
+              <span className="text-gray-400">
+                “lib” is where the comp library ranks the same entry — the gap is the
+                disagreement.
+              </span>{' '}
+              Filtering to one class changes the denominator to that class&apos;s turns, so
+              the column reads “share of its turns” instead of “of the times it could”.
+            </>
+          )}
         </p>
       </div>
 
@@ -423,6 +564,7 @@ const GeneralistView = ({ savedResults = {}, onNotify }) => {
                 item={item}
                 swing={swings.get(item.id) || 0}
                 pairwiseRank={pairwisePositions ? pairwisePositions.get(item.name) : null}
+                libraryRank={libraryPositions ? libraryPositions.get(item.name) : null}
               />
             ))}
           </ol>
