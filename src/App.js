@@ -1,5 +1,8 @@
 import React, { useMemo, useState, useRef, useCallback, useEffect, lazy, Suspense } from 'react';
+import { copyTextToClipboard } from './utils/heroClipboard';
 import { useTeam } from './hooks/useTeam';
+import { useSettings } from './hooks/useSettings';
+import { useSaveProfile } from './hooks/useSaveProfile';
 import TeamHeader from './components/team/TeamHeader';
 import TeamControls from './components/team/TeamControls';
 import PartyComposition from './components/party/PartyComposition';
@@ -9,6 +12,16 @@ import KeyboardShortcuts from './components/common/KeyboardShortcuts';
 import { getAssetUrl } from './config/assets';
 
 const ImageTester = lazy(() => import('./components/debug/ImageTester'));
+
+/**
+ * The image tester walks every modded class - 600-odd of them - and requests a
+ * portrait, a skill set and a trinket set for each, on the order of nine
+ * thousand requests to the assets repo. That is a maintenance tool, and it sat
+ * one click from the front page next to the keyboard-shortcuts link. It needs
+ * asking for now: `?debug=images`.
+ */
+const DEBUG_IMAGES = new URLSearchParams(window.location.search).get('debug') === 'images';
+const SettingsModal = lazy(() => import('./components/settings/SettingsModal'));
 
 // Map locations to background images
 const LOCATION_BACKGROUNDS = {
@@ -30,8 +43,13 @@ const App = () => {
   const [showImageTester, setShowImageTester] = useState(false);
   const [showShortcuts, setShowShortcuts] = useState(false);
   const [toast, setToast] = useState(null);
+  const [showSettings, setShowSettings] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
-  const [theme, setTheme] = useState(() => localStorage.getItem('dd_theme') || 'default');
+
+  // Las preferencias mandan sobre el equipo, no al reves: useTeam solo necesita
+  // saber en que mazmorra empieza una comp nueva.
+  const { settings, setSetting, toggleSetting, resetSettings, cycleTheme } = useSettings();
+  const { profile: saveProfile, importFiles: importSaveFiles, clearProfile: clearSaveProfile } = useSaveProfile();
   const {
     teamName,
     setTeamName,
@@ -39,39 +57,32 @@ const App = () => {
     setLocation,
     heroes,
     updateHero,
+    placeHeroes,
     swapHeroes,
     saveTeam,
     loadTeam,
     savedTeams,
     loadSavedTeam,
     deleteSavedTeam,
-    showBackerTrinkets,
-    toggleBackerTrinkets,
-    showModdedHeroes,
-    toggleModdedHeroes,
     randomizeTeam,
+    suggestTeam,
     undo,
     redo,
     canUndo,
     canRedo,
     importFromClipboard,
     teamExists,
+    describePreset,
+    savePresetFile,
     loadPreset,
     backupAllTeams,
     importBackup,
     clearTeam
-  } = useTeam();
+  } = useTeam({ defaultLocation: settings.defaultLocation });
 
   const showToast = useCallback((message, type = 'success') => {
     setToast({ message, type, key: Date.now() });
   }, []);
-
-  const cycleTheme = useCallback(() => {
-    const themes = ['default', 'bloodmoon', 'frost'];
-    const next = themes[(themes.indexOf(theme) + 1) % themes.length];
-    setTheme(next);
-    localStorage.setItem('dd_theme', next);
-  }, [theme]);
 
   const backgroundImage = useMemo(() => {
     const bgPath = LOCATION_BACKGROUNDS[location] || LOCATION_BACKGROUNDS['The Ruins'];
@@ -103,7 +114,10 @@ const App = () => {
         scale: 2, // Higher quality
         useCORS: true, // For external images
         allowTaint: true,
-        logging: false
+        logging: false,
+        // The reorder arrows live inside the captured element because they
+        // belong to the cards; they are controls, not composition.
+        ignoreElements: (el) => el.dataset?.exportIgnore === 'true'
       });
       
       // Restore original styles
@@ -134,12 +148,30 @@ const App = () => {
       if (e.ctrlKey || e.metaKey) {
         if (e.key === 'z') { e.preventDefault(); h.undo(); }
         else if (e.key === 'y') { e.preventDefault(); h.redo(); }
-        else if (e.key === 's') { e.preventDefault(); h.saveTeam(false); h.showToast('Team saved!', 'success'); }
+        else if (e.key === 's') {
+          e.preventDefault();
+          const result = h.saveTeam();
+          if (result && result.ok === false) {
+            h.showToast(`Browser storage is full — "${h.teamName}" was not saved.`, 'error');
+          } else if (result?.prunedTeam) {
+            h.showToast(`Saved, but storage was full so "${result.prunedTeam}" was removed.`, 'warning');
+          } else {
+            h.showToast('Team saved to browser storage!', 'success');
+          }
+        }
         else if (e.key === 'e') { e.preventDefault(); h.exportToPNG(); }
         else if (e.shiftKey && e.key === 'C') {
           e.preventDefault();
           const data = JSON.stringify({ teamName: h.teamName, location: h.location, heroes: h.heroes });
-          navigator.clipboard.writeText(data).then(() => h.showToast('Team copied to clipboard!', 'success'));
+          // Via copyTextToClipboard, como el boton: trae el fallback de
+          // execCommand y, sobre todo, no deja la promesa sin capturar cuando
+          // el navegador deniega el portapapeles.
+          copyTextToClipboard(data).then((ok) =>
+            h.showToast(
+              ok ? 'Team copied to clipboard!' : 'Could not access the clipboard.',
+              ok ? 'success' : 'error'
+            )
+          );
         }
       }
     };
@@ -149,7 +181,7 @@ const App = () => {
 
   return (
     <div
-      className={`min-h-screen bg-gray-900 text-white p-3 sm:p-6 bg-cover bg-center bg-fixed vignette dd-grain ${theme !== 'default' ? `theme-${theme}` : ''}`}
+      className={`min-h-screen bg-gray-900 text-white p-3 sm:p-6 bg-cover bg-center bg-fixed vignette dd-grain ${settings.theme !== 'default' ? `theme-${settings.theme}` : ''}`}
       style={{
         backgroundImage: `linear-gradient(rgba(17, 24, 39, 0.85), rgba(17, 24, 39, 0.95)), url('${backgroundImage}')`
       }}
@@ -167,6 +199,14 @@ const App = () => {
           <p className="text-center text-gray-400 text-sm sm:text-base italic">
             "Remind yourself that overconfidence is a slow and insidious killer."
           </p>
+          <div className="flex justify-center mt-3">
+            <a
+              href="#/ranker"
+              className="px-3 py-1.5 text-xs rounded border border-dd-gold/50 bg-dd-gold/10 hover:bg-dd-gold/25 text-dd-gold transition-colors"
+            >
+              Ranking Engine →
+            </a>
+          </div>
         </header>
 
         {/* Panel de controles */}
@@ -186,27 +226,32 @@ const App = () => {
             savedTeams={savedTeams}
             onLoadSavedTeam={loadSavedTeam}
             onDeleteSavedTeam={deleteSavedTeam}
-            showBackerTrinkets={showBackerTrinkets}
-            onToggleBackerTrinkets={toggleBackerTrinkets}
-            showModdedHeroes={showModdedHeroes}
-            onToggleModdedHeroes={toggleModdedHeroes}
+            settings={settings}
+            onToggleSetting={toggleSetting}
+            onOpenSettings={() => setShowSettings(true)}
             onExportPNG={exportToPNG}
             showToast={showToast}
             isExporting={isExporting}
-            onRandomize={randomizeTeam}
+            onRandomize={() => randomizeTeam(settings.showModdedHeroes)}
+            onSuggest={suggestTeam}
             onUndo={undo}
             onRedo={redo}
             canUndo={canUndo}
             canRedo={canRedo}
             onImportFromClipboard={importFromClipboard}
             teamExists={teamExists}
+            describePreset={describePreset}
+            onSavePresetFile={savePresetFile}
             onLoadPreset={loadPreset}
             onBackupAll={backupAllTeams}
             onImportBackup={importBackup}
             onClearTeam={clearTeam}
             savedTeamsCount={savedTeams.length}
             onCycleTheme={cycleTheme}
-            currentTheme={theme}
+            saveProfile={saveProfile}
+            onImportSaveFiles={importSaveFiles}
+            onClearSaveProfile={clearSaveProfile}
+            onSendHeroesToParty={placeHeroes}
           />
         </div>
 
@@ -230,8 +275,16 @@ const App = () => {
                   hero={hero}
                   position={position}
                   onUpdate={(updatedHero) => updateHero(actualIndex, updatedHero)}
-                  showBackerTrinkets={showBackerTrinkets}
-                  showModdedHeroes={showModdedHeroes}
+                  showBackerTrinkets={settings.showBackerTrinkets}
+                  showModdedHeroes={settings.showModdedHeroes}
+                  showDiseases={settings.showDiseases}
+                  showCrimsonCourt={settings.showCrimsonCourt}
+                  autoSortSkills={settings.autoSortSkills}
+                  showSkillTiers={settings.showSkillTiers}
+                  ownedTrinkets={saveProfile?.ownedTrinkets}
+                  ownedTrinketsOnly={settings.ownedTrinketsOnly}
+                  onToggleOwnedTrinketsOnly={() => toggleSetting('ownedTrinketsOnly')}
+                  showToast={showToast}
                 />
               </div>
             );
@@ -244,16 +297,18 @@ const App = () => {
           <p className="font-darkest text-dd-gold/60 tracking-wider">
             Darkest Dungeon © Red Hook Studios
           </p>
+          {DEBUG_IMAGES && (
           <button
             onClick={() => setShowImageTester(true)}
-            className="mt-2 text-gray-600 hover:text-gray-400 text-xs underline"
+            className="mt-2 text-gray-400 hover:text-dd-parchment text-xs underline"
           >
             Test Images
           </button>
-          <span className="mx-2 text-gray-700">|</span>
+          )}
+          {DEBUG_IMAGES && <span className="mx-2 text-gray-700">|</span>}
           <button
             onClick={() => setShowShortcuts(true)}
-            className="mt-2 text-gray-600 hover:text-gray-400 text-xs underline"
+            className="mt-2 text-gray-400 hover:text-dd-parchment text-xs underline"
           >
             Keyboard Shortcuts
           </button>
@@ -263,6 +318,20 @@ const App = () => {
         {showImageTester && (
           <Suspense fallback={<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60"><div className="text-dd-parchment font-darkest">Loading...</div></div>}>
             <ImageTester onClose={() => setShowImageTester(false)} />
+          </Suspense>
+        )}
+
+        {/* Settings Modal */}
+        {showSettings && (
+          <Suspense fallback={null}>
+            <SettingsModal
+              isOpen={showSettings}
+              onClose={() => setShowSettings(false)}
+              settings={settings}
+              setSetting={setSetting}
+              toggleSetting={toggleSetting}
+              resetSettings={resetSettings}
+            />
           </Suspense>
         )}
 

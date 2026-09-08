@@ -1,12 +1,37 @@
 import { BACKER_TRINKETS } from '../data/backer_trinkets';
-import { MODDED_HERO_CLASSES, MODDED_GENERAL_TRINKETS } from '../data/modded_heroes';
+import { MODDED_HERO_CLASSES, MODDED_GENERAL_TRINKETS, MODDED_GENERAL_TRINKET_MODS } from '../data/modded_heroes';
 import { COMMON_VANILLA_CAMP_SKILLS } from '../constants';
 import { getAssetUrl } from '../config/assets';
+
+// Nombres cuyo asset está subido con otra grafía. La clave es el nombre
+// canónico que se muestra en la UI; el valor, el nombre de archivo real.
+const IMAGE_FILE_NAME_OVERRIDES = {
+  "Vvulf's Tassel": 'vvulfs_tassle',
+  "Ancestor's Moustache Cream": 'ancestors_mustache_cream',
+  "Hunter's Talon": 'hunters_talons',
+  'The Tempting Goblet': 'tempting_goblet',
+  "Thing's Crystalline Fang": 'crystalline_fang',
+  "Thing's Phase Shifting Hide": 'phase_shifting_hide',
+  "AJ's Growling Tome of Maddness": 'ajs_growling_tome_of_madness',
+  'Crest of the 1100': 'crest_of_1100',
+  'K Scorpio Necklase': 'k_scorpio_necklace',
+  "Tome of Agh'Be": 'tome_of_agh_be',
+  // Estos no son cambios de nombre: el asset se guardó sin el guion (o sin la
+  // tilde) y toImageFileName sí los conserva.
+  'Oath-breakers Sheathe': 'oathbreakers_sheathe',
+  'Rough-hewn Heart': 'roughhewn_heart',
+  'Skin-bound Volume': 'skinbound_volume',
+  'Double-Edged Pendant': 'double_edged_pendant',
+  'Blood-red Coin': 'blood_red_coin',
+  'Minié Ball': 'mini_ball'
+};
 
 // Función para convertir nombres a formato de archivo
 export const toImageFileName = (name) => {
   if (!name) return '';
-  
+
+  if (IMAGE_FILE_NAME_OVERRIDES[name]) return IMAGE_FILE_NAME_OVERRIDES[name];
+
   return name
     .toLowerCase()
     .normalize('NFD')
@@ -96,9 +121,11 @@ export const getTrinketImagePath = (trinketName, heroClass = null) => {
     }
   }
   
-  // Verificar si es un trinket general modded
+  // Verificar si es un trinket general modded. Lleva prefijo de modId igual que
+  // el resto de assets modded: el nombre por sí solo no es único entre 800 mods.
   if (MODDED_GENERAL_TRINKETS.includes(trinketName)) {
-    return getAssetUrl(`/images/modded/trinkets/${fileName}.png`);
+    const modId = MODDED_GENERAL_TRINKET_MODS[trinketName];
+    return getAssetUrl(`/images/modded/trinkets/${modId ? `${modId}_` : ''}${fileName}.png`);
   }
   
   // Trinket vanilla por defecto

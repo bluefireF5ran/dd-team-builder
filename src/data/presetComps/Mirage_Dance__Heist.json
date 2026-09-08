@@ -1,0 +1,139 @@
+{
+  "teamName": "Mirage Dance: Heist",
+  "alias": "test",
+  "location": "The Cove",
+  "heroes": [
+    {
+      "heroClass": "Crusader",
+      "activeSkills": [
+        "Smite",
+        "Stunning Blow",
+        "Battle Heal",
+        "Inspiring Cry"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Stand Tall",
+        "Zealous Speech",
+        "Zealous Vigil"
+      ],
+      "trinket1": "Ancestor's Scroll",
+      "trinket2": "Signed Conscription",
+      "quirks": {
+        "positive": [
+          "Corvids Eye",
+          "Hard Skinned",
+          "Hippocratic",
+          "Luminous"
+        ],
+        "negative": [
+          "Bad Gambler",
+          "Known Cheat",
+          "Resolution"
+        ]
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Abomination",
+      "activeSkills": [
+        "Transform",
+        "Manacles",
+        "Beast's Bile",
+        "Absolution",
+        "Rake",
+        "Rage",
+        "Slam"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Anger Management",
+        "The Quickening",
+        "Eldritch Blood"
+      ],
+      "trinket1": "Broken Key",
+      "trinket2": "Padlock of Transference",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Highwayman",
+      "activeSkills": [
+        "Pistol Shot",
+        "Grapeshot Blast",
+        "Tracking Shot",
+        "Open Vein"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Unparalleled Finesse",
+        "Clean Guns",
+        "Bandit's Sense"
+      ],
+      "trinket1": "Gunslinger's Buckle",
+      "trinket2": "Bloodied Neckerchief",
+      "quirks": {
+        "positive": [
+          "Corvids Eye",
+          "Corvids Grace",
+          "Luminous",
+          "Evasive"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Grave Robber",
+      "activeSkills": [
+        "Flashing Daggers",
+        "Thrown Dagger",
+        "Poison Darts",
+        "Toxin Trickery"
+      ],
+      "activeCampSkills": [
+        "Wound Care",
+        "Snuff Box",
+        "Gallows Humor",
+        "Night Moves"
+      ],
+      "trinket1": "Topshelf Tonic",
+      "trinket2": "Lucky Talisman",
+      "quirks": {
+        "positive": [
+          "Corvids Grace",
+          "Evasive",
+          "Luminous",
+          "Corvids Eye"
+        ],
+        "negative": [
+          "Resolution",
+          "Deviant Tastes",
+          "Bad Gambler"
+        ]
+      },
+      "lockedQuirks": {
+        "positive": [
+          "Corvids Grace",
+          "Evasive",
+          "Luminous"
+        ],
+        "negative": [
+          "Resolution"
+        ]
+      }
+    }
+  ]
+}

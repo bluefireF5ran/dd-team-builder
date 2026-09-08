@@ -1,12 +1,17 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { X, Search } from 'lucide-react';
+import { X, Search, PackageCheck } from 'lucide-react';
 import { HERO_CLASSES } from '../../data/heroes';
 import { MODDED_HERO_CLASSES, MODDED_GENERAL_TRINKETS } from '../../data/modded_heroes';
 import { TRINKETS } from '../../data/trinkets';
 import { BACKER_TRINKETS } from '../../data/backer_trinkets';
 import { getRecommendedTrinkets } from '../../data/recommendations';
 import { getTrinketImagePath } from '../../utils/imageHelper';
+import { getTrinketEffect } from '../../data/trinketEffects';
+import { getModdedTrinketEffect } from '../../data/moddedEffects';
+import { trinketHover } from '../../utils/hoverInfo';
+import { nameMatchesSearch, nameKey } from '../../utils/nameNormalizer';
 import ImageWithFallback from '../common/ImageWithFallback';
+import HoverCard from '../common/HoverCard';
 
 const CATEGORY_META = {
   recommended: { label: 'Recommended', text: 'text-emerald-400' },
@@ -23,9 +28,18 @@ const TrinketPicker = ({
   heroClass,
   showBackerTrinkets,
   showModdedHeroes,
-  slotLabel
+  slotLabel,
+  ownedTrinkets = [],
+  ownedOnly = false,
+  onToggleOwnedOnly
 }) => {
   const [search, setSearch] = useState('');
+
+  // Matching on `nameKey` rather than the raw string, because an imported save
+  // and the app can spell the same trinket differently (apostrophes, accents).
+  const ownedKeys = useMemo(() => new Set(ownedTrinkets.map(nameKey)), [ownedTrinkets]);
+  const canFilterByOwned = ownedKeys.size > 0;
+  const filterOwned = canFilterByOwned && ownedOnly;
 
   useEffect(() => {
     if (!isOpen) return;
@@ -60,14 +74,15 @@ const TrinketPicker = ({
   }, [heroClass, showBackerTrinkets, showModdedHeroes]);
 
   const categories = useMemo(() => {
-    const q = search.trim().toLowerCase();
+    const q = search.trim();
     return baseCategories
-      .map((cat) => ({
-        ...cat,
-        items: q ? cat.items.filter((name) => name.toLowerCase().includes(q)) : cat.items
-      }))
+      .map((cat) => {
+        let items = q ? cat.items.filter((name) => nameMatchesSearch(name, q)) : cat.items;
+        if (filterOwned) items = items.filter((name) => ownedKeys.has(nameKey(name)));
+        return { ...cat, items };
+      })
       .filter((cat) => cat.items.length > 0);
-  }, [baseCategories, search]);
+  }, [baseCategories, search, filterOwned, ownedKeys]);
 
   if (!isOpen) return null;
 
@@ -106,11 +121,32 @@ const TrinketPicker = ({
               autoFocus
             />
           </div>
+
+          {canFilterByOwned && (
+            <button
+              type="button"
+              onClick={onToggleOwnedOnly}
+              aria-pressed={ownedOnly}
+              className={`mt-2 px-2.5 py-1 text-xs rounded border transition-colors inline-flex items-center gap-1.5 ${
+                ownedOnly
+                  ? 'border-emerald-500/60 bg-emerald-900/40 text-emerald-300'
+                  : 'border-gray-600 bg-gray-800 text-gray-400 hover:text-gray-200'
+              }`}
+              title="Show only the trinkets your imported save has"
+            >
+              <PackageCheck size={12} />
+              Owned only ({ownedKeys.size})
+            </button>
+          )}
         </div>
 
         <div className="flex-1 overflow-y-auto px-4 sm:px-6 pb-4 sm:pb-6 space-y-4">
           {categories.length === 0 && (
-            <div className="text-center text-gray-500 text-sm py-8">No trinkets match your search.</div>
+            <div className="text-center text-gray-500 text-sm py-8">
+              {filterOwned
+                ? 'None of the trinkets you own match. Turn "Owned only" off to see the rest.'
+                : 'No trinkets match your search.'}
+            </div>
           )}
           {categories.map((cat) => {
             const meta = CATEGORY_META[cat.key];
@@ -120,13 +156,15 @@ const TrinketPicker = ({
                   {meta.label}
                 </h4>
                 <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2">
-                  {cat.items.map((name, idx) => (
+                  {cat.items.map((name, idx) => {
+                    const effect = getTrinketEffect(name) || getModdedTrinketEffect(name);
+                    return (
+                    <HoverCard key={`${cat.key}-${name}-${idx}`} {...trinketHover(name)}>
                     <button
-                      key={`${cat.key}-${name}-${idx}`}
                       type="button"
                       onClick={() => { onChange(name); onClose(); }}
                       title={name}
-                      className={`flex flex-col items-center p-1.5 rounded border-2 transition-colors ${
+                      className={`w-full flex flex-col items-center p-1.5 rounded border-2 transition-colors ${
                         value === name ? 'border-dd-gold bg-dd-gold/10' : 'border-gray-700 hover:border-gray-500'
                       }`}
                     >
@@ -145,8 +183,15 @@ const TrinketPicker = ({
                       <span className="text-[10px] sm:text-xs text-dd-parchment text-center mt-1 line-clamp-2">
                         {name}
                       </span>
+                      {effect && (
+                        <span className="text-[9px] sm:text-[10px] text-gray-400 text-center leading-tight line-clamp-2 mt-0.5">
+                          {effect.effect}
+                        </span>
+                      )}
                     </button>
-                  ))}
+                    </HoverCard>
+                    );
+                  })}
                 </div>
               </div>
             );

@@ -1,18 +1,23 @@
 import { validateTeamSchema } from './validation';
 import { canonicalizeTeam } from './nameNormalizer';
+import { downloadJSON } from './download';
 
 const STORAGE_KEY = 'dd_team_builder_teams';
 
-export const saveTeamToFile = (teamName, location, heroes) => {
-  const team = { teamName, location, heroes };
-  const dataStr = JSON.stringify(team, null, 2);
-  const dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
-  const exportFileDefaultName = `${teamName.replace(/\s+/g, '_')}.json`;
+/**
+ * Descarga la comp con el nombre que le da la taxonomia, lista para soltarla en
+ * src/data/presetComps. `teamName` es el nombre taxonomico y `alias` el que le
+ * habia puesto el usuario, que es como la recuerda y como la va a buscar.
+ * El formato es el mismo que lee `loadTeamFromFile`, asi que tambien se puede
+ * volver a importar sin pasar por el repo.
+ */
+export const savePresetToFile = ({ name, alias, fileName, location, heroes }) => {
+  const body = { teamName: name };
+  if (alias) body.alias = alias;
+  body.location = location;
+  body.heroes = heroes;
 
-  const linkElement = document.createElement('a');
-  linkElement.setAttribute('href', dataUri);
-  linkElement.setAttribute('download', exportFileDefaultName);
-  linkElement.click();
+  downloadJSON(fileName, body);
 };
 
 export const loadTeamFromFile = (file) => {
@@ -25,13 +30,16 @@ export const loadTeamFromFile = (file) => {
     const reader = new FileReader();
     reader.onload = (event) => {
       try {
-        const team = JSON.parse(event.target.result);
+        // Canonicalizar antes de validar: los alias (p. ej. la clase 'sibyl_ms'
+        // del mod -> 'Sibyl') deben resolverse para que los límites del esquema
+        // se comprueben con los datos que la app reconoce.
+        const team = canonicalizeTeam(JSON.parse(event.target.result));
         const { valid, errors } = validateTeamSchema(team);
         if (!valid) {
           reject(new Error('Invalid team file: ' + errors.join(', ')));
           return;
         }
-        resolve(canonicalizeTeam(team));
+        resolve(team);
       } catch (error) {
         reject(new Error('Invalid team file format'));
       }
@@ -42,6 +50,17 @@ export const loadTeamFromFile = (file) => {
 };
 
 // LocalStorage functions
+/**
+ * Guarda en el navegador y CUENTA lo que ha pasado, que no siempre es "bien".
+ *
+ * Con la cuota llena hay tres finales distintos y el usuario tiene que poder
+ * distinguirlos: se guardo; se guardo pero hubo que tirar el equipo mas
+ * antiguo para hacer sitio; o no se guardo. Antes devolvia un booleano que
+ * nadie miraba, asi que las tres salidas se anunciaban igual ("Saved!") y el
+ * borrado del equipo mas viejo era completamente silencioso.
+ *
+ * @returns {{ok: boolean, prunedTeam: string|null}}
+ */
 export const saveTeamToLocalStorage = (teamName, location, heroes) => {
   try {
     const existingTeams = loadTeamsFromLocalStorage();
@@ -65,25 +84,24 @@ export const saveTeamToLocalStorage = (teamName, location, heroes) => {
       // Handle quota exceeded: try pruning oldest team and retry
       if (quotaError.name === 'QuotaExceededError' || quotaError.code === 22) {
         if (existingTeams.length > 1) {
-          existingTeams.shift(); // Remove oldest
+          const [oldest] = existingTeams.splice(0, 1);
           try {
             localStorage.setItem(STORAGE_KEY, JSON.stringify(existingTeams));
           } catch (retryError) {
             console.error('Storage still full after pruning:', retryError);
-            return false;
+            return { ok: false, prunedTeam: null };
           }
-        } else {
-          console.error('Storage quota exceeded:', quotaError);
-          return false;
+          return { ok: true, prunedTeam: oldest?.teamName || null };
         }
-      } else {
-        throw quotaError;
+        console.error('Storage quota exceeded:', quotaError);
+        return { ok: false, prunedTeam: null };
       }
+      throw quotaError;
     }
-    return true;
+    return { ok: true, prunedTeam: null };
   } catch (error) {
     console.error('Error saving to localStorage:', error);
-    return false;
+    return { ok: false, prunedTeam: null };
   }
 };
 
@@ -112,12 +130,7 @@ export const deleteTeamFromLocalStorage = (teamName) => {
 export const saveAllTeamsToFile = () => {
   const teams = loadTeamsFromLocalStorage();
   if (teams.length === 0) return false;
-  const dataStr = JSON.stringify({ version: 1, teams }, null, 2);
-  const dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
-  const link = document.createElement('a');
-  link.setAttribute('href', dataUri);
-  link.setAttribute('download', 'dd_teams_backup.json');
-  link.click();
+  downloadJSON('dd_teams_backup.json', { version: 1, teams });
   return true;
 };
 
@@ -145,9 +158,10 @@ export const importTeamsFromFile = (file) => {
         const validTeams = [];
         const errors = [];
         teams.forEach((team, idx) => {
-          const { valid, errors: teamErrors } = validateTeamSchema(team);
+          const canon = canonicalizeTeam(team);
+          const { valid, errors: teamErrors } = validateTeamSchema(canon);
           if (valid) {
-            validTeams.push(canonicalizeTeam(team));
+            validTeams.push(canon);
           } else {
             errors.push(`Team ${idx + 1}: ${teamErrors.join(', ')}`);
           }

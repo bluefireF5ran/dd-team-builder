@@ -61,7 +61,7 @@ export const BOUNTY_HUNTER_TRINKETS = [
   'Agility Talon',              // Common - +1 SPD +4 DODGE
   'Unmovable Helmet',           // Common - +30% Move Resist +20% Move Skill Chance
   'Camper\'s Helmet',           // Uncommon - +20% Stress Heal while Camping +10% Scouting
-  'Hunter\'s Talons',           // Rare - +6% CRIT +10 ACC +50% Food Consumed
+  'Hunter\'s Talon',           // Rare - +6% CRIT +10 ACC +50% Food Consumed
   'Wounding Helmet',            // Very Rare - +25% DMG Melee Skills
   // Crimson Court Set
   'Crime Lords\' Molars',       // CC Set - +20% DMG vs Marked/Stunned/Bleeding

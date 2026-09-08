@@ -1,5 +1,6 @@
 {
   "teamName": "Marked Prey: Cross",
+  "alias": "All Good Bounty Returns",
   "location": "The Ruins",
   "heroes": [
     {
@@ -16,8 +17,8 @@
         "Zealous Speech",
         "Zealous Vigil"
       ],
-      "trinket1": "Paralyzer's Crest",
-      "trinket2": "Focus Ring",
+      "trinket1": "Ancestor's Scroll",
+      "trinket2": "Ancestor's Map",
       "quirks": {
         "positive": [],
         "negative": []
@@ -28,21 +29,21 @@
       }
     },
     {
-      "heroClass": "Occultist",
+      "heroClass": "Bounty Hunter",
       "activeSkills": [
-        "Wyrd Reconstruction",
-        "Vulnerability Hex",
-        "Hands from the Abyss",
-        "Daemon's Pull"
+        "Collect Bounty",
+        "Mark for Death",
+        "Uppercut",
+        "Finish Him"
       ],
       "activeCampSkills": [
         "Encourage",
         "Wound Care",
-        "Dark Ritual",
-        "Unspeakable Commune"
+        "This Is How We Do It",
+        "Tracking"
       ],
-      "trinket1": "Demon's Cauldron",
-      "trinket2": "Ancestor's Pistol",
+      "trinket1": "Hunter's Talons",
+      "trinket2": "Ancestor's Pen",
       "quirks": {
         "positive": [],
         "negative": []
@@ -66,7 +67,7 @@
         "Therapy Dog",
         "Man's Best Friend"
       ],
-      "trinket1": "Ancestor's Signet Ring",
+      "trinket1": "Evidence of Corruption",
       "trinket2": "Ancestor's Map",
       "quirks": {
         "positive": [],
@@ -88,11 +89,11 @@
       "activeCampSkills": [
         "Encourage",
         "Wound Care",
-        "Restring Crossbow",
-        "Triage"
+        "Marching Plan",
+        "Restring Crossbow"
       ],
-      "trinket1": "Fuseman's Matchstick",
-      "trinket2": "Ancestor's Musket Ball",
+      "trinket1": "Medic's Greaves",
+      "trinket2": "Childhood Treasure",
       "quirks": {
         "positive": [],
         "negative": []

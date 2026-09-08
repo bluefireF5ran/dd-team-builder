@@ -1,4 +1,20 @@
-/** @type {import('tailwindcss').Config} */
+/**
+ * DO NOT DELETE. This looks like a leftover v3 config - the project is on
+ * Tailwind 4 and the theme tokens below are duplicated in the @theme block of
+ * src/index.css - but `@tailwindcss/postcss` still reads this file, and it is
+ * the ONLY thing telling Tailwind where to look for classes.
+ *
+ * Removing it does not fail the build. It emits a stylesheet with no utilities
+ * in it at all - no `flex`, no `grid`, no `hidden` - and the app renders as an
+ * unstyled pile with every `hidden` element visible. `npm run build` still
+ * says "Compiled successfully"; the only visible signal is the CSS dropping
+ * from ~15 kB gzip to ~7 kB. There is a test for this in
+ * src/__tests__/tailwindConfig.test.js.
+ *
+ * Note there is no `screens` key: `xs:` has never been a valid breakpoint here.
+ *
+ * @type {import('tailwindcss').Config}
+ */
 module.exports = {
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
-import { createPortal } from 'react-dom';
 import { AlertTriangle } from 'lucide-react';
+import Modal from './Modal';
 
 const ConfirmDialog = ({ isOpen, title, message, onConfirm, onCancel, confirmLabel = 'Confirm', isDestructive = false }) => {
   const cancelButtonRef = useRef(null);
@@ -11,31 +11,23 @@ const ConfirmDialog = ({ isOpen, title, message, onConfirm, onCancel, confirmLab
     }
   }, [isOpen]);
 
-  useEffect(() => {
-    if (!isOpen) return;
-    const handleKeyDown = (e) => {
-      if (e.key === 'Escape') onCancel?.();
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, onCancel]);
-
-  if (!isOpen) return null;
-
-  return createPortal(
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={onCancel}>
-      <div className="fixed inset-0 bg-black/60 backdrop-blur-sm" />
-      <div
-        className="relative bg-gray-800 border-2 rounded-lg p-6 max-w-md w-full shadow-2xl"
-        style={{ borderColor: isDestructive ? 'var(--dd-red)' : 'var(--dd-gold)' }}
-        onClick={(e) => e.stopPropagation()}
-      >
+  return (
+    // autoFocus off: the Cancel button is focused above, and on a destructive
+    // dialog the safe option is the one that should be under the return key.
+    <Modal
+      isOpen={isOpen}
+      onClose={onCancel}
+      labelledBy="confirm-title"
+      autoFocus={false}
+      panelClassName="bg-gray-800 border-2 rounded-lg p-6 max-w-md w-full shadow-2xl"
+    >
+      <div style={{ borderColor: isDestructive ? 'var(--dd-red)' : 'var(--dd-gold)' }}>
         <div className="flex items-start gap-3 mb-4">
           {isDestructive && (
             <AlertTriangle size={24} className="text-dd-red-light flex-shrink-0 mt-0.5" />
           )}
           <div>
-            <h3 className="font-darkest text-lg text-dd-parchment tracking-wide">{title}</h3>
+            <h3 id="confirm-title" className="font-darkest text-lg text-dd-parchment tracking-wide">{title}</h3>
             <p className="text-gray-400 text-sm mt-1">{message}</p>
           </div>
         </div>
@@ -59,8 +51,7 @@ const ConfirmDialog = ({ isOpen, title, message, onConfirm, onCancel, confirmLab
           </button>
         </div>
       </div>
-    </div>,
-    document.body
+    </Modal>
   );
 };
 

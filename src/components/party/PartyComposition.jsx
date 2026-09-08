@@ -1,5 +1,5 @@
 import React, { useState, forwardRef, useMemo, useRef } from 'react';
-import { AlertTriangle, CheckCircle, AlertCircle } from 'lucide-react';
+import { AlertTriangle, CheckCircle, AlertCircle, ChevronLeft, ChevronRight } from 'lucide-react';
 import PartyHeroCard from './PartyHeroCard';
 import { analyzeSynergy } from '../../utils/synergyHelper';
 
@@ -89,9 +89,13 @@ const PartyComposition = forwardRef(({ heroes, onSwapHeroes, teamName, location 
       <h3 className="font-darkest text-3xl sm:text-4xl mb-2 text-center text-dd-red-light tracking-wide">
         Party Composition
       </h3>
+      {/* "Tap and hold to reorder" used to be the mobile copy, and it was not
+          true: HTML5 drag-and-drop does not fire on touch, and there is no
+          touch handler anywhere. The arrows below work everywhere - touch,
+          mouse and keyboard - so the instruction can be honest now. */}
       <p className="text-center text-gray-400 text-xs sm:text-sm mb-4 sm:mb-6">
-        <span className="hidden sm:inline">Drag and drop heroes to swap positions</span>
-        <span className="sm:hidden">Tap and hold to reorder</span>
+        <span className="hidden sm:inline">Drag heroes, or use the arrows, to swap positions</span>
+        <span className="sm:hidden">Use the arrows to swap positions</span>
       </p>
 
       {/* Grid responsivo: 2 columnas en móvil, 4 en desktop */}
@@ -124,6 +128,37 @@ const PartyComposition = forwardRef(({ heroes, onSwapHeroes, teamName, location 
                 hero={hero}
                 position={position}
               />
+
+              {/* Excluded from the PNG by data-export-ignore: these are
+                  controls, not part of the composition being exported. */}
+              {hero.heroClass && (
+                <div
+                  data-testid="reorder-controls"
+                  data-export-ignore="true"
+                  className="flex justify-center gap-1 mt-1 opacity-70 focus-within:opacity-100 hover:opacity-100 transition-opacity"
+                >
+                  <button
+                    type="button"
+                    onClick={(e) => { e.stopPropagation(); onSwapHeroes(actualIndex, actualIndex + 1); }}
+                    disabled={actualIndex + 1 >= heroes.length}
+                    aria-label={`Move ${hero.heroClass} back to position ${position + 1}`}
+                    title={`Move back to position ${position + 1}`}
+                    className="px-2 py-0.5 rounded border border-gray-600 bg-gray-800/80 text-gray-300 hover:text-dd-parchment hover:border-gray-400 disabled:opacity-30 disabled:cursor-not-allowed text-xs"
+                  >
+                    <ChevronLeft size={12} aria-hidden="true" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={(e) => { e.stopPropagation(); onSwapHeroes(actualIndex, actualIndex - 1); }}
+                    disabled={actualIndex - 1 < 0}
+                    aria-label={`Move ${hero.heroClass} forward to position ${position - 1}`}
+                    title={`Move forward to position ${position - 1}`}
+                    className="px-2 py-0.5 rounded border border-gray-600 bg-gray-800/80 text-gray-300 hover:text-dd-parchment hover:border-gray-400 disabled:opacity-30 disabled:cursor-not-allowed text-xs"
+                  >
+                    <ChevronRight size={12} aria-hidden="true" />
+                  </button>
+                </div>
+              )}
             </div>
           );
         })}

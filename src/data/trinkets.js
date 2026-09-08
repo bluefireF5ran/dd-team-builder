@@ -124,13 +124,13 @@ export const TRINKETS = [
   'Overture Box',
   
   // Bone Royalty (Very Rare)
-  'Tempting Goblet',
+  'The Tempting Goblet',
   
   // ===== ANCESTRAL TRINKETS =====
   'Ancestor\'s Coat',
   'Ancestor\'s Handkerchief',
   'Ancestor\'s Lantern',
-  'Ancestor\'s Mustache Cream',
+  'Ancestor\'s Moustache Cream',
   'Ancestor\'s Musket Ball',
   'Ancestor\'s Pen',
   'Ancestor\'s Pistol',
@@ -156,7 +156,7 @@ export const TRINKETS = [
   'Siren\'s Conch',
   'Crew\'s Bell',
   // Town Event
-  'Vvulf\'s Tassle',
+  'Vvulf\'s Tassel',
   // Crimson Court Bosses (DLC)
   'Baron\'s Lash',
   'Viscount\'s Spices',
@@ -190,8 +190,8 @@ export const TRINKETS = [
   'Mildred\'s Locket',
   // Thing from the Stars
   'Thing\'s Mesmerizing Eye',
-  'Crystalline Fang',
-  'Phase Shifting Hide',
+  'Thing\'s Crystalline Fang',
+  'Thing\'s Phase Shifting Hide',
   'Prismatic Heart Crystal',
   
   // ===== DARKEST DUNGEON TRINKETS =====

@@ -12,8 +12,21 @@ describe('useTeam', () => {
     expect(result.current.teamName).toBe('My Team');
     expect(result.current.location).toBe('The Ruins');
     expect(result.current.heroes).toHaveLength(4);
-    expect(result.current.showBackerTrinkets).toBe(false);
-    expect(result.current.showModdedHeroes).toBe(false);
+  });
+
+  // El contenido opcional es una preferencia y vive en useSettings; useTeam ya
+  // no lo conoce, solo lo recibe como argumento donde hace falta.
+  test('does not own the optional-content switches', () => {
+    const { result } = renderHook(() => useTeam());
+    expect(result.current.showBackerTrinkets).toBeUndefined();
+    expect(result.current.showModdedHeroes).toBeUndefined();
+    expect(result.current.toggleBackerTrinkets).toBeUndefined();
+    expect(result.current.toggleModdedHeroes).toBeUndefined();
+  });
+
+  test('starts in the location the settings ask for', () => {
+    const { result } = renderHook(() => useTeam({ defaultLocation: 'The Cove' }));
+    expect(result.current.location).toBe('The Cove');
   });
 
   test('initializes heroes as empty', () => {
@@ -142,32 +155,17 @@ describe('useTeam', () => {
     expect(result.current.savedTeams).toHaveLength(0);
   });
 
-  test('toggleBackerTrinkets toggles the state', () => {
-    const { result } = renderHook(() => useTeam());
+  test('clearTeam returns to the configured default location', () => {
+    const { result } = renderHook(() => useTeam({ defaultLocation: 'The Weald' }));
 
     act(() => {
-      result.current.toggleBackerTrinkets();
+      result.current.setLocation('The Cove');
     });
-    expect(result.current.showBackerTrinkets).toBe(true);
-
     act(() => {
-      result.current.toggleBackerTrinkets();
+      result.current.clearTeam();
     });
-    expect(result.current.showBackerTrinkets).toBe(false);
-  });
 
-  test('toggleModdedHeroes toggles the state', () => {
-    const { result } = renderHook(() => useTeam());
-
-    act(() => {
-      result.current.toggleModdedHeroes();
-    });
-    expect(result.current.showModdedHeroes).toBe(true);
-
-    act(() => {
-      result.current.toggleModdedHeroes();
-    });
-    expect(result.current.showModdedHeroes).toBe(false);
+    expect(result.current.location).toBe('The Weald');
   });
 
   describe('undo/redo', () => {
@@ -244,6 +242,27 @@ describe('useTeam', () => {
       // Should be back to empty
       expect(result.current.heroes[0].heroClass).toBe('');
     });
+
+    test('suggestTeam uses only heroes from the provided roster', () => {
+      const { result } = renderHook(() => useTeam());
+
+      const roster = ['Crusader', 'Vestal', 'Hellion', 'Highwayman', 'Plague Doctor'];
+
+      act(() => {
+        result.current.suggestTeam(roster);
+      });
+
+      expect(result.current.heroes).toHaveLength(4);
+      result.current.heroes.forEach(hero => {
+        expect(roster).toContain(hero.heroClass);
+      });
+
+      act(() => {
+        result.current.undo();
+      });
+
+      expect(result.current.heroes[0].heroClass).toBe('');
+    });
   });
 
   describe('teamExists', () => {
@@ -305,6 +324,75 @@ describe('useTeam', () => {
       });
 
       expect(result.current.heroes[0].heroClass).toBe('');
+    });
+  });
+
+  // What the Import Save modal hands over: a run of heroes starting at rank 1.
+  describe('placeHeroes', () => {
+    const imported = (heroClass) => ({ ...EMPTY_HERO, heroClass });
+
+    test('fills from rank 1 and leaves the rest of the party alone', () => {
+      const { result } = renderHook(() => useTeam());
+
+      act(() => {
+        result.current.updateHero(3, imported('Leper'));
+      });
+      act(() => {
+        result.current.placeHeroes([imported('Crusader'), imported('Vestal')]);
+      });
+
+      expect(result.current.heroes.map((h) => h.heroClass)).toEqual(['Crusader', 'Vestal', '', 'Leper']);
+    });
+
+    test('is one undo step, not one per hero', () => {
+      const { result } = renderHook(() => useTeam());
+
+      act(() => {
+        result.current.placeHeroes([
+          imported('Crusader'),
+          imported('Vestal'),
+          imported('Hellion'),
+          imported('Jester')
+        ]);
+      });
+      expect(result.current.heroes.map((h) => h.heroClass)).toEqual([
+        'Crusader',
+        'Vestal',
+        'Hellion',
+        'Jester'
+      ]);
+
+      act(() => {
+        result.current.undo();
+      });
+      expect(result.current.heroes.every((h) => h.heroClass === '')).toBe(true);
+    });
+
+    test('never overflows the party', () => {
+      const { result } = renderHook(() => useTeam());
+      act(() => {
+        result.current.placeHeroes(
+          ['Crusader', 'Vestal', 'Hellion', 'Jester', 'Leper'].map(imported)
+        );
+      });
+      expect(result.current.heroes).toHaveLength(4);
+      expect(result.current.heroes.map((h) => h.heroClass)).not.toContain('Leper');
+    });
+
+    test('canonicalizes the names on the way in', () => {
+      const { result } = renderHook(() => useTeam());
+      act(() => {
+        result.current.placeHeroes([{ ...EMPTY_HERO, heroClass: 'man_at_arms' }]);
+      });
+      expect(result.current.heroes[0].heroClass).toBe('Man at Arms');
+    });
+
+    test('does nothing when handed nothing', () => {
+      const { result } = renderHook(() => useTeam());
+      act(() => {
+        result.current.placeHeroes([]);
+      });
+      expect(result.current.canUndo).toBe(false);
     });
   });
 });
