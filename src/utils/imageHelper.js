@@ -1,5 +1,5 @@
 import { BACKER_TRINKETS } from '../data/backer_trinkets';
-import { MODDED_HERO_CLASSES, MODDED_GENERAL_TRINKETS } from '../data/modded_heroes';
+import { MODDED_HERO_CLASSES, MODDED_GENERAL_TRINKETS, MODDED_GENERAL_TRINKET_MODS } from '../data/modded_heroes';
 import { COMMON_VANILLA_CAMP_SKILLS } from '../constants';
 import { getAssetUrl } from '../config/assets';
 
@@ -121,9 +121,11 @@ export const getTrinketImagePath = (trinketName, heroClass = null) => {
     }
   }
   
-  // Verificar si es un trinket general modded
+  // Verificar si es un trinket general modded. Lleva prefijo de modId igual que
+  // el resto de assets modded: el nombre por sí solo no es único entre 800 mods.
   if (MODDED_GENERAL_TRINKETS.includes(trinketName)) {
-    return getAssetUrl(`/images/modded/trinkets/${fileName}.png`);
+    const modId = MODDED_GENERAL_TRINKET_MODS[trinketName];
+    return getAssetUrl(`/images/modded/trinkets/${modId ? `${modId}_` : ''}${fileName}.png`);
   }
   
   // Trinket vanilla por defecto
