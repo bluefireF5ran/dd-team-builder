@@ -38,16 +38,27 @@ describe('PartyComposition', () => {
     expect(screen.getByText(/Vestal/)).toBeInTheDocument();
   });
 
-  test('shows synergy indicator when heroes are selected', () => {
-    const heroes = Array(4).fill(null).map(() => ({ ...EMPTY_HERO }));
-    // Use duplicate class to guarantee a warning
-    heroes[0].heroClass = 'Crusader';
-    heroes[1].heroClass = 'Crusader';
-    heroes[2].heroClass = 'Hellion';
-    heroes[3].heroClass = 'Grave Robber';
+  // Two Crusaders and no healer used to be enough to light this panel up. It
+  // is a working party, so the panel stays dark.
+  test('says nothing about a party with nothing wrong with it', () => {
+    const heroes = [
+      { ...EMPTY_HERO, heroClass: 'Hellion', activeSkills: ['Wicked Hack', 'Iron Swan'] },
+      { ...EMPTY_HERO, heroClass: 'Crusader', activeSkills: ['Smite', 'Stunning Blow'] },
+      { ...EMPTY_HERO, heroClass: 'Crusader', activeSkills: ['Holy Lance', 'Battle Heal'] },
+      { ...EMPTY_HERO, heroClass: 'Grave Robber', activeSkills: ['Poison Darts', 'Thrown Dagger'] }
+    ];
     render(<PartyComposition {...defaultProps} heroes={heroes} />);
-    // Should show synergy section with duplicate class warning
-    const synergyText = screen.queryByText(/Team Synergy|Team Warnings|Issues Detected/);
-    expect(synergyText).toBeInTheDocument();
+    expect(screen.queryByText(/Team Synergy|Issues Detected/)).not.toBeInTheDocument();
+  });
+
+  test('shows the panel for a hero who cannot act from their rank', () => {
+    const heroes = [
+      { ...EMPTY_HERO, heroClass: 'Crusader', activeSkills: ['Smite'] },
+      { ...EMPTY_HERO, heroClass: 'Hellion', activeSkills: ['Wicked Hack'] },
+      { ...EMPTY_HERO, heroClass: 'Vestal', activeSkills: ['Judgement'] },
+      { ...EMPTY_HERO, heroClass: 'Leper', activeSkills: ['Hew', 'Chop'] }
+    ];
+    render(<PartyComposition {...defaultProps} heroes={heroes} />);
+    expect(screen.getByText('Issues Detected')).toBeInTheDocument();
   });
 });

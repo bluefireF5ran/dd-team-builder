@@ -1,11 +1,13 @@
 import React, { useState, forwardRef, useMemo, useRef } from 'react';
-import { AlertTriangle, CheckCircle, AlertCircle, ChevronLeft, ChevronRight } from 'lucide-react';
+import { CheckCircle, AlertCircle, ChevronLeft, ChevronRight } from 'lucide-react';
 import PartyHeroCard from './PartyHeroCard';
 import { analyzeSynergy } from '../../utils/synergyHelper';
 
+// Two levels, because there are two things to say. The amber middle went with
+// the heuristics that used to fill it - "no stress healer", "duplicate class" -
+// and nothing left is a matter of degree.
 const LEVEL_CONFIG = {
   good: { icon: CheckCircle, color: 'text-green-400', bg: 'bg-green-900/30 border-green-700/50' },
-  warning: { icon: AlertTriangle, color: 'text-yellow-400', bg: 'bg-yellow-900/30 border-yellow-700/50' },
   danger: { icon: AlertCircle, color: 'text-red-400', bg: 'bg-red-900/30 border-red-700/50' },
 };
 
@@ -164,7 +166,10 @@ const PartyComposition = forwardRef(({ heroes, onSwapHeroes, teamName, location 
         })}
       </div>
 
-      {/* Synergy Indicator */}
+      {/* A problem and a compliment used to share one coloured box and one
+          count, so "Mark synergy detected!" arrived wearing the same amber as
+          a hero who could not act. They are different claims and they are
+          listed apart: warnings in the level's colour, insights always green. */}
       {synergy.notes.length > 0 && (() => {
         const config = LEVEL_CONFIG[synergy.level];
         const Icon = config.icon;
@@ -176,14 +181,19 @@ const PartyComposition = forwardRef(({ heroes, onSwapHeroes, teamName, location 
             >
               <Icon size={16} />
               <span className="font-darkest tracking-wide">
-                {synergy.level === 'good' ? 'Team Synergy' : synergy.level === 'warning' ? 'Team Warnings' : 'Issues Detected'}
+                {synergy.warnings.length ? 'Issues Detected' : 'Team Synergy'}
               </span>
               <span className="text-xs">({synergy.notes.length})</span>
             </button>
             {showSynergyDetails && (
               <div className="mt-2 space-y-1">
-                {synergy.notes.map((note, idx) => (
-                  <div key={idx} className={`text-xs px-3 py-1.5 rounded ${config.bg} ${config.color}`}>
+                {synergy.warnings.map((note) => (
+                  <div key={note} className={`text-xs px-3 py-1.5 rounded ${config.bg} ${config.color}`}>
+                    {note}
+                  </div>
+                ))}
+                {synergy.insights.map((note) => (
+                  <div key={note} className={`text-xs px-3 py-1.5 rounded ${LEVEL_CONFIG.good.bg} ${LEVEL_CONFIG.good.color}`}>
                     {note}
                   </div>
                 ))}
