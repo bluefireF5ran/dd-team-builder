@@ -1,0 +1,126 @@
+{
+  "teamName": "Cursed Quarry: Snipe & Blindfire",
+  "location": "The Ruins",
+  "heroes": [
+    {
+      "heroClass": "Occultist",
+      "activeSkills": [
+        "Hands from the Abyss",
+        "Wyrd Reconstruction",
+        "Vulnerability Hex",
+        "Weakening Curse"
+      ],
+      "activeCampSkills": [
+        "Unspeakable Commune",
+        "Encourage",
+        "Wound Care",
+        "Dark Ritual"
+      ],
+      "trinket1": "Demon's Cauldron",
+      "trinket2": "Ancestor's Signet Ring",
+      "quirks": {
+        "positive": [
+          "Corvids Eye",
+          "Corvids Grace",
+          "Luminous"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    },
+    {
+      "heroClass": "Houndmaster",
+      "activeSkills": [
+        "Hound's Rush",
+        "Blackjack",
+        "Target Whistle",
+        "Guard Dog"
+      ],
+      "activeCampSkills": [
+        "Hound's Watch",
+        "Therapy Dog",
+        "Encourage",
+        "Man's Best Friend"
+      ],
+      "trinket1": "Cudgel Weight",
+      "trinket2": "Ancestor's Coat",
+      "quirks": {
+        "positive": [
+          "Luminous",
+          "Corvids Eye",
+          "Corvids Grace"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    },
+    {
+      "heroClass": "Arbalest",
+      "activeSkills": [
+        "Sniper Shot",
+        "Blindfire",
+        "Battlefield Bandage",
+        "Rallying Flare"
+      ],
+      "activeCampSkills": [
+        "Marching Plan",
+        "Encourage",
+        "Triage",
+        "Wound Care"
+      ],
+      "trinket1": "Ancestor's Map",
+      "trinket2": "Medic's Greaves",
+      "quirks": {
+        "positive": [
+          "Eagle Eye",
+          "Corvids Eye",
+          "Hippocratic"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    },
+    {
+      "heroClass": "Musketeer",
+      "activeSkills": [
+        "Aimed Shot",
+        "Buckshot",
+        "Patch Up",
+        "Skeet Shot"
+      ],
+      "activeCampSkills": [
+        "Clean Musket",
+        "Encourage",
+        "Marching Plan",
+        "Wound Care"
+      ],
+      "trinket1": "Fuseman's Matchstick",
+      "trinket2": "Prophet's Eye",
+      "quirks": {
+        "positive": [
+          "Luminous",
+          "Evasive",
+          "Corvids Grace"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    }
+  ]
+}

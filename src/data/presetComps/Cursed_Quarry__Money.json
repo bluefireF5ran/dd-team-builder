@@ -1,0 +1,126 @@
+{
+  "teamName": "Cursed Quarry: Money",
+  "location": "The Weald",
+  "heroes": [
+    {
+      "heroClass": "Occultist",
+      "activeSkills": [
+        "Hands from the Abyss",
+        "Wyrd Reconstruction",
+        "Vulnerability Hex",
+        "Weakening Curse"
+      ],
+      "activeCampSkills": [
+        "Unspeakable Commune",
+        "Encourage",
+        "Wound Care",
+        "Dark Ritual"
+      ],
+      "trinket1": "Demon's Cauldron",
+      "trinket2": "Ancestor's Signet Ring",
+      "quirks": {
+        "positive": [
+          "Corvids Eye",
+          "Corvids Grace",
+          "Luminous"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    },
+    {
+      "heroClass": "Houndmaster",
+      "activeSkills": [
+        "Hound's Rush",
+        "Blackjack",
+        "Target Whistle",
+        "Guard Dog"
+      ],
+      "activeCampSkills": [
+        "Hound's Watch",
+        "Therapy Dog",
+        "Encourage",
+        "Man's Best Friend"
+      ],
+      "trinket1": "Wilbur's Flag",
+      "trinket2": "Ancestor's Coat",
+      "quirks": {
+        "positive": [
+          "Luminous",
+          "Corvids Eye",
+          "Corvids Grace"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    },
+    {
+      "heroClass": "Antiquarian",
+      "activeSkills": [
+        "Get Down!",
+        "Festering Vapours",
+        "Invigorating Vapours",
+        "Flashpowder"
+      ],
+      "activeCampSkills": [
+        "Wound Care",
+        "Encourage",
+        "Strange Powders",
+        "Resupply"
+      ],
+      "trinket1": "Ancestor's Map",
+      "trinket2": "Smoking Skull",
+      "quirks": {
+        "positive": [
+          "Luminous",
+          "Corvids Grace",
+          "Evasive"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    },
+    {
+      "heroClass": "Arbalest",
+      "activeSkills": [
+        "Battlefield Bandage",
+        "Sniper Shot",
+        "Rallying Flare",
+        "Blindfire"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Marching Plan",
+        "Restring Crossbow",
+        "Triage"
+      ],
+      "trinket1": "Prophet's Eye",
+      "trinket2": "Fuseman's Matchstick",
+      "quirks": {
+        "positive": [
+          "Eagle Eye",
+          "Corvids Eye",
+          "Hippocratic"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    }
+  ]
+}
