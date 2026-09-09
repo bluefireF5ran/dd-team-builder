@@ -49,10 +49,10 @@
         "Duelist's Advance"
       ],
       "activeCampSkills": [
-        "Bandit's Sense",
         "Wound Care",
         "Gallows Humor",
-        "Unparalleled Finesse"
+        "Unparalleled Finesse",
+        "Bandit's Sense"
       ],
       "trinket1": "Bloodied Neckerchief",
       "trinket2": "Shameful Locket",

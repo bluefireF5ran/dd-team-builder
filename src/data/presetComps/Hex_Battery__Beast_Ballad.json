@@ -7,9 +7,9 @@
       "heroClass": "Occultist",
       "activeSkills": [
         "Sacrificial Stab",
-        "Hands from the Abyss",
         "Weakening Curse",
-        "Wyrd Reconstruction"
+        "Wyrd Reconstruction",
+        "Hands from the Abyss"
       ],
       "activeCampSkills": [
         "Pep Talk",
@@ -48,9 +48,9 @@
         "Slam"
       ],
       "activeCampSkills": [
-        "The Quickening",
         "Pep Talk",
-        "Anger Management"
+        "Anger Management",
+        "The Quickening"
       ],
       "trinket1": "Broken Key",
       "trinket2": "Lock of Fury",

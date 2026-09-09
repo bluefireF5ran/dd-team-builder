@@ -6,15 +6,15 @@
       "heroClass": "Leper",
       "activeSkills": [
         "Chop",
+        "Revenge",
         "Solemnity",
-        "Intimidate",
-        "Revenge"
+        "Intimidate"
       ],
       "activeCampSkills": [
         "Encourage",
+        "Bloody Shroud",
         "Reflection",
-        "Quarantine",
-        "Bloody Shroud"
+        "Quarantine"
       ],
       "trinket1": "Debuff Amulet",
       "trinket2": "Focus Ring",
@@ -37,14 +37,14 @@
       "heroClass": "Houndmaster",
       "activeSkills": [
         "Hound's Rush",
-        "Blackjack",
         "Target Whistle",
-        "Guard Dog"
+        "Guard Dog",
+        "Blackjack"
       ],
       "activeCampSkills": [
+        "Encourage",
         "Hound's Watch",
         "Therapy Dog",
-        "Encourage",
         "Man's Best Friend"
       ],
       "trinket1": "Wilbur's Flag",
@@ -73,10 +73,10 @@
         "Protect Me"
       ],
       "activeCampSkills": [
-        "Wound Care",
         "Encourage",
-        "Strange Powders",
-        "Resupply"
+        "Wound Care",
+        "Resupply",
+        "Strange Powders"
       ],
       "trinket1": "Ancestor's Map",
       "trinket2": "Smoking Skull",
@@ -104,10 +104,10 @@
         "Skeet Shot"
       ],
       "activeCampSkills": [
-        "Clean Musket",
         "Encourage",
+        "Wound Care",
         "Marching Plan",
-        "Wound Care"
+        "Clean Musket"
       ],
       "trinket1": "Fuseman's Matchstick",
       "trinket2": "Prophet's Eye",

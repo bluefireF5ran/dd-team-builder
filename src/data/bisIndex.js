@@ -45,6 +45,7 @@ import { getRawComps } from './compIndex';
 import { getModelUsageStats } from './modelUsageIndex';
 import { getRecommendedTrinkets, getRecommendedQuirks } from './recommendations';
 import { skillProfile, classProfile } from '../utils/skillProfile';
+import { sortToRoster } from '../utils/heroHelper';
 import { PARTY_CONFIG, HERO_CONFIG } from '../constants';
 
 /** Por debajo de esto la celda no opina: manda el modelo y las reglas. */
@@ -239,10 +240,15 @@ export const bisLoadout = (heroClass, rank) => {
   const cacheKey = `${heroClass}|${slot}`;
   if (loadoutCache.has(cacheKey)) return loadoutCache.get(cacheKey);
   const scored = scoreSkills(heroClass, slot);
-  const activeSkills = chooseSkills(heroClass, slot, scored);
+  // Elegidas por nota y por legalidad de rango, presentadas en el orden del
+  // juego: el orden en que se eligen no significa nada para quien las lee.
+  const activeSkills = sortToRoster(chooseSkills(heroClass, slot, scored), data.skills || []);
 
   const cell = libraryCell(heroClass, slot);
-  const camp = topFrom(cell.campSkills, HERO_CONFIG.MAX_CAMP_SKILLS, data.campSkills || []);
+  const camp = sortToRoster(
+    topFrom(cell.campSkills, HERO_CONFIG.MAX_CAMP_SKILLS, data.campSkills || []),
+    data.campSkills || []
+  );
   const trinkets = topFrom(cell.trinkets, HERO_CONFIG.MAX_TRINKETS, getRecommendedTrinkets(heroClass));
   const quirks = getRecommendedQuirks(heroClass);
 

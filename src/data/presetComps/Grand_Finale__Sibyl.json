@@ -38,17 +38,17 @@
       "heroClass": "Sibyl",
       "activeSkills": [
         "Alignment",
+        "Moonlight Touch",
+        "Moonlight Embrace",
         "Banish",
         "Faerie Fire",
-        "Moonlight Embrace",
-        "Moonlight Touch",
-        "Solar Flare",
-        "Solar Ray"
+        "Solar Ray",
+        "Solar Flare"
       ],
       "activeCampSkills": [
         "Wound Care",
-        "In Her Radiance",
         "Midnight Stroll",
+        "In Her Radiance",
         "Panacea"
       ],
       "trinket1": "Ancestor's Map",

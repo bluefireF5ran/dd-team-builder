@@ -7,9 +7,9 @@
       "heroClass": "Crusader",
       "activeSkills": [
         "Smite",
-        "Inspiring Cry",
         "Battle Heal",
-        "Holy Lance"
+        "Holy Lance",
+        "Inspiring Cry"
       ],
       "activeCampSkills": [
         "Encourage",
@@ -81,8 +81,8 @@
     {
       "heroClass": "Flagellant",
       "activeSkills": [
-        "Redeem",
         "Reclaim",
+        "Redeem",
         "Endure",
         "Suffer"
       ],

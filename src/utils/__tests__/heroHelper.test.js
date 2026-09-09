@@ -1,4 +1,4 @@
-import { createEmptyHero, resetHeroConfiguration, hasHeroConfiguration, cloneHero, sortToRoster } from '../heroHelper';
+import { createEmptyHero, resetHeroConfiguration, hasHeroConfiguration, cloneHero, sortToRoster, sortHeroSelections } from '../heroHelper';
 import { EMPTY_HERO } from '../../constants';
 
 describe('createEmptyHero', () => {
@@ -121,5 +121,38 @@ describe('sortToRoster', () => {
     expect(sortToRoster(['B', 'A'], [])).toEqual(['B', 'A']);
     expect(sortToRoster(['B', 'A'], undefined)).toEqual(['B', 'A']);
     expect(sortToRoster(undefined, roster)).toEqual([]);
+  });
+
+  test('finds a name the roster spells differently', () => {
+    // A saved sheet can carry `Snakeskin` where the kit says `Snake Skin`, and
+    // sorting by exact text would banish to the end the one skill that IS in
+    // the kit.
+    expect(sortToRoster(['Snakeskin', 'Encourage'], ['Encourage', 'Snake Skin', 'Sandstorm']))
+      .toEqual(['Encourage', 'Snakeskin']);
+  });
+});
+
+describe('sortHeroSelections', () => {
+  test('puts both lists into the order the class declares them', () => {
+    const hero = {
+      heroClass: 'Crusader',
+      activeSkills: ['Holy Lance', 'Smite', 'Bulwark of Faith'],
+      activeCampSkills: ['Zealous Speech', 'Encourage']
+    };
+    const sorted = sortHeroSelections(hero);
+    expect(sorted.activeSkills).toEqual(['Smite', 'Bulwark of Faith', 'Holy Lance']);
+    expect(sorted.activeCampSkills[0]).toBe('Encourage');
+  });
+
+  test('does not mutate the hero it was handed', () => {
+    const hero = { heroClass: 'Crusader', activeSkills: ['Holy Lance', 'Smite'], activeCampSkills: [] };
+    sortHeroSelections(hero);
+    expect(hero.activeSkills).toEqual(['Holy Lance', 'Smite']);
+  });
+
+  test('leaves a hero whose class it does not know exactly as it found them', () => {
+    const hero = { heroClass: 'Not A Class', activeSkills: ['B', 'A'], activeCampSkills: [] };
+    expect(sortHeroSelections(hero)).toBe(hero);
+    expect(sortHeroSelections({}).activeSkills).toBeUndefined();
   });
 });

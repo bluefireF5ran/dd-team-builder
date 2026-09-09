@@ -5,16 +5,16 @@
     {
       "heroClass": "Occultist",
       "activeSkills": [
-        "Hands from the Abyss",
+        "Weakening Curse",
         "Wyrd Reconstruction",
         "Vulnerability Hex",
-        "Weakening Curse"
+        "Hands from the Abyss"
       ],
       "activeCampSkills": [
-        "Unspeakable Commune",
         "Encourage",
         "Wound Care",
-        "Dark Ritual"
+        "Dark Ritual",
+        "Unspeakable Commune"
       ],
       "trinket1": "Demon's Cauldron",
       "trinket2": "Ancestor's Pistol",
@@ -45,10 +45,10 @@
         "The Boot"
       ],
       "activeCampSkills": [
-        "Again!",
         "Meditation",
         "Preparation",
-        "Ruthless Instruction"
+        "Ruthless Instruction",
+        "Again!"
       ],
       "trinket1": "Ancestor's Candle",
       "trinket2": "Gilded Mantle",
@@ -71,14 +71,14 @@
       "heroClass": "Houndmaster",
       "activeSkills": [
         "Hound's Rush",
+        "Target Whistle",
         "Cry Havoc",
-        "Guard Dog",
-        "Target Whistle"
+        "Guard Dog"
       ],
       "activeCampSkills": [
-        "Therapy Dog",
         "Encourage",
         "Hound's Watch",
+        "Therapy Dog",
         "Man's Best Friend"
       ],
       "trinket1": "Wilbur's Flag",
@@ -107,10 +107,10 @@
         "Protect Me"
       ],
       "activeCampSkills": [
-        "Curious Incantation",
         "Encourage",
         "Wound Care",
-        "Resupply"
+        "Resupply",
+        "Curious Incantation"
       ],
       "trinket1": "Smoking Skull",
       "trinket2": "Ancestor's Map",

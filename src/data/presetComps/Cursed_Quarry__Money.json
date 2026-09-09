@@ -5,16 +5,16 @@
     {
       "heroClass": "Occultist",
       "activeSkills": [
-        "Hands from the Abyss",
+        "Weakening Curse",
         "Wyrd Reconstruction",
         "Vulnerability Hex",
-        "Weakening Curse"
+        "Hands from the Abyss"
       ],
       "activeCampSkills": [
-        "Unspeakable Commune",
         "Encourage",
         "Wound Care",
-        "Dark Ritual"
+        "Dark Ritual",
+        "Unspeakable Commune"
       ],
       "trinket1": "Demon's Cauldron",
       "trinket2": "Ancestor's Signet Ring",
@@ -36,14 +36,14 @@
       "heroClass": "Houndmaster",
       "activeSkills": [
         "Hound's Rush",
-        "Blackjack",
         "Target Whistle",
-        "Guard Dog"
+        "Guard Dog",
+        "Blackjack"
       ],
       "activeCampSkills": [
+        "Encourage",
         "Hound's Watch",
         "Therapy Dog",
-        "Encourage",
         "Man's Best Friend"
       ],
       "trinket1": "Wilbur's Flag",
@@ -65,16 +65,16 @@
     {
       "heroClass": "Antiquarian",
       "activeSkills": [
-        "Get Down!",
         "Festering Vapours",
-        "Invigorating Vapours",
-        "Flashpowder"
+        "Get Down!",
+        "Flashpowder",
+        "Invigorating Vapours"
       ],
       "activeCampSkills": [
-        "Wound Care",
         "Encourage",
-        "Strange Powders",
-        "Resupply"
+        "Wound Care",
+        "Resupply",
+        "Strange Powders"
       ],
       "trinket1": "Ancestor's Map",
       "trinket2": "Smoking Skull",
@@ -95,10 +95,10 @@
     {
       "heroClass": "Arbalest",
       "activeSkills": [
-        "Battlefield Bandage",
         "Sniper Shot",
-        "Rallying Flare",
-        "Blindfire"
+        "Blindfire",
+        "Battlefield Bandage",
+        "Rallying Flare"
       ],
       "activeCampSkills": [
         "Encourage",

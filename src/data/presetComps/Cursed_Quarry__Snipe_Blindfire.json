@@ -5,16 +5,16 @@
     {
       "heroClass": "Occultist",
       "activeSkills": [
-        "Hands from the Abyss",
+        "Weakening Curse",
         "Wyrd Reconstruction",
         "Vulnerability Hex",
-        "Weakening Curse"
+        "Hands from the Abyss"
       ],
       "activeCampSkills": [
-        "Unspeakable Commune",
         "Encourage",
         "Wound Care",
-        "Dark Ritual"
+        "Dark Ritual",
+        "Unspeakable Commune"
       ],
       "trinket1": "Demon's Cauldron",
       "trinket2": "Ancestor's Signet Ring",
@@ -36,14 +36,14 @@
       "heroClass": "Houndmaster",
       "activeSkills": [
         "Hound's Rush",
-        "Blackjack",
         "Target Whistle",
-        "Guard Dog"
+        "Guard Dog",
+        "Blackjack"
       ],
       "activeCampSkills": [
+        "Encourage",
         "Hound's Watch",
         "Therapy Dog",
-        "Encourage",
         "Man's Best Friend"
       ],
       "trinket1": "Cudgel Weight",
@@ -71,10 +71,10 @@
         "Rallying Flare"
       ],
       "activeCampSkills": [
-        "Marching Plan",
         "Encourage",
-        "Triage",
-        "Wound Care"
+        "Wound Care",
+        "Marching Plan",
+        "Triage"
       ],
       "trinket1": "Ancestor's Map",
       "trinket2": "Medic's Greaves",
@@ -101,10 +101,10 @@
         "Skeet Shot"
       ],
       "activeCampSkills": [
-        "Clean Musket",
         "Encourage",
+        "Wound Care",
         "Marching Plan",
-        "Wound Care"
+        "Clean Musket"
       ],
       "trinket1": "Fuseman's Matchstick",
       "trinket2": "Prophet's Eye",

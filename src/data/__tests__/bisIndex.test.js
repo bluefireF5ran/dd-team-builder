@@ -12,6 +12,24 @@ describe('bisLoadout', () => {
     expect(bisLoadout('Not A Class', 1)).toBeNull();
   });
 
+  it('hands the loadout back in the order the game lists the kit', () => {
+    // Se eligen por nota y por legalidad de rango, pero ese orden no significa
+    // nada para quien lee la ficha. El del juego si, y es el que comparte con
+    // las 184 comps de la libreria.
+    const inKitOrder = (selected, kit) => {
+      const at = (name) => kit.indexOf(name);
+      return selected.every((name, i) => i === 0 || at(selected[i - 1]) < at(name));
+    };
+    [1, 2, 3, 4].forEach((rank) => {
+      Object.keys(HERO_CLASSES).forEach((heroClass) => {
+        const build = bisLoadout(heroClass, rank);
+        const kit = HERO_CLASSES[heroClass];
+        expect(inKitOrder(build.activeSkills, kit.skills)).toBe(true);
+        expect(inKitOrder(build.activeCampSkills, kit.campSkills)).toBe(true);
+      });
+    });
+  });
+
   it('fills the four slots of a normal class', () => {
     const build = bisLoadout('Vestal', 3);
     expect(build.activeSkills).toHaveLength(4);

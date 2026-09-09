@@ -56,8 +56,8 @@
     {
       "heroClass": "Flagellant",
       "activeSkills": [
-        "Redeem",
         "Reclaim",
+        "Redeem",
         "Endure",
         "Suffer"
       ],

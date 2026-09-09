@@ -108,10 +108,10 @@
         "Lick Wounds"
       ],
       "activeCampSkills": [
-        "Release the Hound",
         "Encourage",
         "Hound's Watch",
-        "Therapy Dog"
+        "Therapy Dog",
+        "Release the Hound"
       ],
       "trinket1": "Ancestor's Map",
       "trinket2": "Evidence of Corruption",
