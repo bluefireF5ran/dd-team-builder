@@ -46,13 +46,52 @@ describe('generateComp', () => {
     expect(used.filter((c) => c === 'Jester').length).toBeLessThanOrEqual(1);
   });
 
-  it('will field two of a class when the roster holds two', () => {
+  // Cuatro Bufones es una comp de la libreria, elegida a mano porque la
+  // repeticion hace algo. Que salga sola de un roster con dos Doctores es
+  // otra cosa, y no es lo que se pide al sugerir.
+  it('does not field a class twice, even when the roster holds two', () => {
     const comp = generateComp({
-      roster: ['Plague Doctor', 'Plague Doctor', 'Crusader', 'Vestal'],
+      roster: ['Plague Doctor', 'Plague Doctor', 'Crusader', 'Vestal', 'Hellion'],
       rng: seeded(3)
     });
     const used = comp.heroes.map((h) => h.heroClass).filter(Boolean);
-    expect(used.length).toBe(4);
+    expect(new Set(used).size).toBe(used.length);
+  });
+
+  // Preferir el silencio a la comp doblada: la doblada existe, pero es una
+  // eleccion de quien la escribe, no una sugerencia.
+  it('gives nothing back when the only party left would double a class', () => {
+    expect(
+      generateComp({
+        roster: ['Plague Doctor', 'Plague Doctor', 'Crusader', 'Vestal'],
+        rng: seeded(3)
+      })
+    ).toBeNull();
+  });
+
+  it('still fills four ranks when the roster has four distinct classes to give', () => {
+    const comp = generateComp({
+      roster: ['Plague Doctor', 'Plague Doctor', 'Crusader', 'Vestal', 'Hellion'],
+      rng: seeded(3)
+    });
+    const used = comp.heroes.map((h) => h.heroClass).filter(Boolean);
+    expect(used).toHaveLength(4);
+    expect(new Set(used).size).toBe(4);
+  });
+
+  it('fields the double when asked to', () => {
+    const comps = generateComps({
+      roster: ['Plague Doctor', 'Plague Doctor', 'Crusader', 'Vestal'],
+      count: 20,
+      allowRepeatClass: true,
+      excludeKnown: false,
+      rng: seeded(3)
+    });
+    const doubled = comps.some((comp) => {
+      const used = comp.heroes.map((h) => h.heroClass).filter(Boolean);
+      return new Set(used).size < used.length;
+    });
+    expect(doubled).toBe(true);
   });
 
   it('leaves nobody stranded where they cannot use a single skill', () => {

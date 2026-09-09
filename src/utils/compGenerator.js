@@ -51,6 +51,23 @@ import { partyCoverage } from './synergyHelper';
 import { toRosterCounts, countOf } from './rosterAvailability';
 import { compClassKey, knownCompKeys } from './compIdentity';
 
+/**
+ * Dos heroes de la misma clase en la misma party.
+ *
+ * La libreria las tiene a proposito -- Ballad Quartet son cuatro Bufones y ahi
+ * esta la gracia-- pero son comps *especiales*, elegidas a mano por lo que
+ * hace la repeticion. El generador no las elige por eso: le salen porque el
+ * roster tiene dos Cruzados y uno cabe en el hueco, que no es lo mismo. Asi
+ * que se escriben, se cargan y se juegan, pero no se sugieren.
+ *
+ * `compClassKey` ya viene normalizado y ordenado, asi que las dos copias caen
+ * juntas y basta con mirar al vecino.
+ */
+const repeatsAClass = (key) => {
+  const classes = key.split('|');
+  return classes.some((name, i) => i > 0 && name === classes[i - 1]);
+};
+
 const MAX_HEROES = PARTY_CONFIG.MAX_HEROES;
 const ATTEMPTS = 60;
 // A veces se coge el segundo mejor candidato en vez del mejor. Es lo unico que
@@ -236,7 +253,7 @@ const buildAt = (heroClass, rank) => {
  * reconstruye la loadout de quien entra y se ordena por nota, asi que la comp
  * nueva es la mejor de las nuevas y no la primera que aparezca.
  */
-const diversify = (heroes, available, counts, isNew) => {
+const diversify = (heroes, available, counts, wanted) => {
   const results = [];
 
   for (let slot = 0; slot < MAX_HEROES; slot += 1) {
@@ -256,7 +273,7 @@ const diversify = (heroes, available, counts, isNew) => {
       if (overdrawn) return;
 
       const improved = improveBySwapping(next);
-      if (!isNew(compClassKey(improved))) return;
+      if (!wanted(compClassKey(improved))) return;
       results.push({ heroes: improved, score: scoreParty(improved) });
     });
   }
@@ -274,6 +291,8 @@ const diversify = (heroes, available, counts, isNew) => {
  * @param {boolean} [options.excludeKnown]  descartar los repartos que ya estan
  *   en la libreria, en el orden y la region que sea. Por defecto si: pedir una
  *   comp nueva y recibir una que ya tienes es el fallo que esto arregla.
+ * @param {boolean} [options.allowRepeatClass]  permitir dos heroes de la misma
+ *   clase. Por defecto no (ver `repeatsAClass`).
  * @param {function} [options.rng]       para tests deterministas
  * @returns {{heroes, location, score, coverage}[]} de mejor a peor
  */
@@ -282,6 +301,7 @@ export const generateComps = ({
   location = 'The Ruins',
   count = 3,
   excludeKnown = true,
+  allowRepeatClass = false,
   rng = Math.random
 } = {}) => {
   const counts = toRosterCounts(roster);
@@ -341,7 +361,8 @@ export const generateComps = ({
   }
 
   const isNew = (key) => Boolean(key) && !(excludeKnown && knownCompKeys().has(key));
-  const fresh = [...found.entries()].filter(([key]) => isNew(key)).map(([, entry]) => entry);
+  const wanted = (key) => isNew(key) && (allowRepeatClass || !repeatsAClass(key));
+  const fresh = [...found.entries()].filter(([key]) => wanted(key)).map(([, entry]) => entry);
 
   // Solo salieron repartos que ya estaban escritos. Pasa con rosters cortos, y
   // barajar mas no lo arregla: hay que cambiar un heroe a proposito.
@@ -350,7 +371,7 @@ export const generateComps = ({
     [...found.values()]
       .sort((a, b) => b.score - a.score)
       .forEach((entry) => {
-        diversify(entry.heroes, available, counts, isNew).forEach((candidate) => {
+        diversify(entry.heroes, available, counts, wanted).forEach((candidate) => {
           const key = compClassKey(candidate.heroes);
           if (seen.has(key)) return;
           seen.add(key);
