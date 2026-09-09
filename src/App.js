@@ -98,7 +98,13 @@ const App = () => {
 
     setIsExporting(true);
     try {
-      const html2canvas = (await import('html2canvas')).default;
+      // html2canvas-pro, not html2canvas: Tailwind 4 writes every `bg-*/80`
+      // and every palette colour as `color-mix(in oklab, ...)` / `oklch(...)`,
+      // which the browser hands back as `oklab()` in the computed style. The
+      // original parser only knows rgb/hsl and throws on the first card it
+      // meets, so the export died before drawing a pixel. The fork parses the
+      // CSS Color 4 spaces; the API is otherwise the same.
+      const html2canvas = (await import('html2canvas-pro')).default;
 
       // Temporarily adjust position badges for better rendering in html2canvas
       const badges = partyRef.current.querySelectorAll('.position-badge');

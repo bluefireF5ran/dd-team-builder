@@ -173,7 +173,9 @@ const ResultsView = ({
     if (!boardRef.current || isExporting) return;
     setIsExporting(true);
     try {
-      const html2canvas = (await import('html2canvas')).default;
+      // Ver App.js: html2canvas-pro es el que entiende los colores oklab/oklch
+      // que emite Tailwind 4.
+      const html2canvas = (await import('html2canvas-pro')).default;
       const canvas = await html2canvas(boardRef.current, {
         backgroundColor: '#1f2937',
         scale: 2,
