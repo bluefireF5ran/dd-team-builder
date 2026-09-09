@@ -26,11 +26,12 @@ export const QUEST_MAP_SIZE = { width: 1920, height: 1080 };
 
 /**
  * El fondo vive en el repo de assets como todo lo demas
- * (`dd-team-builder-assets/images/map/quest_map.png`). Si falta, el modal
- * dibuja un panel oscuro y los nodos siguen funcionando: la imagen es el
- * decorado, no el mando.
+ * (`dd-team-builder-assets/images/bg/quest_select.background.png`, el fondo que
+ * el propio juego dibuja bajo esta pantalla). Si falta, el modal dibuja un
+ * panel oscuro y los nodos siguen funcionando: la imagen es el decorado, no el
+ * mando.
  */
-export const QUEST_MAP_IMAGE = '/images/map/quest_map.png';
+export const QUEST_MAP_IMAGE = '/images/bg/quest_select.background.png';
 
 /**
  * Un nodo por zona. `estimated` marca las dos que no tienen layout instalado

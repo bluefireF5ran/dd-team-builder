@@ -124,7 +124,8 @@ const QuestMapModal = ({ isOpen, onClose, location, onSelect }) => {
           )}
           {imageFailed && (
             <span>
-              Map art missing from the assets repo (images/map/quest_map.png) — pins still work.
+              Map art missing from the assets repo (images/bg/quest_select.background.png) — pins
+              still work.
             </span>
           )}
         </div>
