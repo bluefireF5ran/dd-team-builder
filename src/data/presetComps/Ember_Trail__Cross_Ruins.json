@@ -1,5 +1,5 @@
 {
-  "teamName": "Ember Trail: Cross & Bulwark",
+  "teamName": "Ember Trail: Cross & Ruins",
   "location": "The Ruins",
   "heroes": [
     {
@@ -17,7 +17,7 @@
         "Zealous Vigil"
       ],
       "trinket1": "Ancestor's Scroll",
-      "trinket2": "Signed Conscription",
+      "trinket2": "Ancestor's Map",
       "quirks": {
         "positive": [],
         "negative": []
