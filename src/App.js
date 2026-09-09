@@ -143,8 +143,17 @@ const App = () => {
   handlersRef.current = { undo, redo, saveTeam, exportToPNG, showToast, teamName, location, heroes };
 
   useEffect(() => {
+    // Escribiendo en un campo, Ctrl+Z es deshacer TEXTO. Sin esta salida el
+    // atajo global se comia el del navegador y deshacia la party mientras
+    // renombrabas el equipo, que es la peor version del gesto: parece que no ha
+    // pasado nada hasta que miras las cuatro tarjetas.
+    const isTextEntry = (el) =>
+      !!el &&
+      (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.isContentEditable === true);
+
     const handleKeyDown = (e) => {
       const h = handlersRef.current;
+      if ((e.key === 'z' || e.key === 'y') && isTextEntry(e.target)) return;
       if (e.ctrlKey || e.metaKey) {
         if (e.key === 'z') { e.preventDefault(); h.undo(); }
         else if (e.key === 'y') { e.preventDefault(); h.redo(); }

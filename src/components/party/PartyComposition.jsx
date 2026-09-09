@@ -18,7 +18,12 @@ const PartyComposition = forwardRef(({ heroes, onSwapHeroes, teamName, location 
 
   const synergy = useMemo(() => analyzeSynergy(heroes), [heroes]);
 
-  const handleDragStart = (index) => {
+  const handleDragStart = (e, index) => {
+    // Firefox no arranca un drag si nadie ha puesto datos en el evento, asi que
+    // sin esta linea reordenar arrastrando solo funcionaba en Chrome. El indice
+    // viaja de todos modos por estado; esto es el peaje del navegador.
+    e.dataTransfer?.setData('text/plain', String(index));
+    if (e.dataTransfer) e.dataTransfer.effectAllowed = 'move';
     setDraggedIndex(index);
   };
 
@@ -112,7 +117,7 @@ const PartyComposition = forwardRef(({ heroes, onSwapHeroes, teamName, location 
               aria-label={`Position ${position}: ${hero.heroClass || 'Empty'}${isSelected ? ' (selected — press Space on another position to swap)' : ''}`}
               onKeyDown={(e) => handleKeyDown(e, actualIndex)}
               draggable={!!hero.heroClass}
-              onDragStart={() => handleDragStart(actualIndex)}
+              onDragStart={(e) => handleDragStart(e, actualIndex)}
               onDragOver={(e) => handleDragOver(e, actualIndex)}
               onDragLeave={handleDragLeave}
               onDrop={() => handleDrop(actualIndex)}

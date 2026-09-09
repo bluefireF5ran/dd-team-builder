@@ -859,6 +859,45 @@ one the RL project reads**, and it would have failed by being silently refused. 
 no such ceiling. The `data:` path survives only as a fallback for environments without
 `URL.createObjectURL` (jsdom), so the storage tests still exercise the real function.
 
+## The comp you are building, and undoing it
+
+Two different things live in localStorage and it is worth keeping them apart.
+
+- **`dd_draft_team_v1`** is the comp *in progress*: no name of yours on it, not in
+  "My Teams", and its only job is to survive a reload. It did not exist, so an F5 threw
+  away the party while `README.md` advertised auto-save. Written debounced (the name
+  changes on every keystroke and this serialises four heroes), read once through
+  `useState(loadDraftTeam)`, and **validated and canonicalised on the way in** like an
+  imported file — a draft is the least trustworthy input there is, bytes written by an
+  older build weeks ago. Saving it is deliberately silent: a toast every time the disk is
+  full while you type would be worse than losing it.
+- **`dd_team_builder_teams`** is the explicit save, unchanged.
+
+**Undo covers the whole comp — name, location and heroes — not just the heroes.** The
+history used to snapshot `heroes` alone, so undoing after loading a comp handed back the
+old party wearing the new comp's name and dungeon: a state that never existed, and one
+that looks fine. `TeamControls` was already promising "This can be undone with Ctrl+Z"
+for actions that change all three.
+
+Three rules hold it together:
+
+1. **The history is state, not a ref.** A ref does not schedule a render, so the
+   Undo/Redo buttons only got their `disabled` right by luck — the neighbouring
+   `setHeroes` happened to re-render them.
+2. **Nothing writes history inside a `setState` updater.** React double-invokes updaters
+   under `StrictMode` (which `index.js` enables), so one edit could stack two entries.
+   `commit` does the work in the callback body and `setHistory` stays pure.
+3. **`compRef` is updated on every write, not only on render.** React batches, so two
+   `updateHero` calls in one tick both read the ref before any render — without the eager
+   sync the second silently clobbered the first. That is what the functional updaters
+   used to give for free, and it is why `setTeamName`/`setLocation` are wrapped: they are
+   *not* history steps (one entry per keystroke would be useless) but they must still
+   keep the ref current, or the next `commit` would snapshot a stale name and put it back.
+
+**Dragging sets `dataTransfer`.** Firefox refuses to start a drag when nothing has been
+put on the event, so reordering by drag was Chrome-only; the index travels through state
+regardless, that call is purely the browser's toll.
+
 ## Saving a team
 
 One **Save** button, two destinations (`SaveTeamModal`):
