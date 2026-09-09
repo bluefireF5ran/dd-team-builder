@@ -827,6 +827,55 @@ rejected against the default 4-skill cap.
 It also carries `MODDED_TRINKET_SETS` and the merged `getSetBonus` / `getTrinketSet` — see **Set
 bonuses** above.
 
+## What a skill does (`src/utils/skillProfile.js`)
+
+`rankValidity` proved the pattern for positions; this is the same move for the rest of the
+text. `skillEffects.js` carries `launch`, `target` and a prose `effect` for all 140 vanilla
+combat skills and all 80 camp skills, and `skillProfile` turns that prose into tags —
+`stun`, `blight`, `bleed`, `mark`, `markPayoff`, `heal`, `stressHeal`, `stressResist`,
+`guard`, `riposte`, `selfMove`, `enemyMove`, `cleanse`, `damage`, `aoe`.
+
+**The clause prefix decides who a clause lands on, and it is not decoration.** The
+Abomination's `Transform` reads `Other Heroes: Stress +8 | Self: ... Heal 5 HP` — the same
+line both costs the party stress and heals the caster. Same trap `trinketSubstitution`
+documents for `+10% Stress`: the sign does not tell you whether something is good.
+
+Four rules, each with a test, and each one a bug that was there first:
+
+1. **No prefix does not mean "the enemy" — it means whoever the skill targets.** The
+   Crusader's `Inspiring Cry` says a bare `Stress -8` and targets `ally 1·2·3·4 / self`.
+   Reading the prefix without the target counted the classic stress heals — Jester,
+   Crusader, Houndmaster — as something done *to the enemy*, and found only 3 stress
+   healers instead of 8.
+2. **A resistance is not the thing it resists.** `+15% Bleed Resist` bleeds nobody.
+3. **A conditional bonus is not the condition.** `+60% DMG vs Stunned` does not stun;
+   `vs Marked` does not mark.
+4. **Cleansing is the opposite of applying**, and a lookbehind is not enough to see it:
+   `Cure Blight/Bleed` leaves `Bleed` preceded by a slash. The cleansing verb and
+   everything up to the next separator is struck out *before* anything is matched.
+
+Flat stress and percentage stress are different things — `Stress -12` heals what is
+already there, `-20% Stress` is resistance. `Inspiring Tune` carries both in one line, and
+"the party has a stress healer" means the first.
+
+`analyzeSynergy` is built on this now, and the tables it replaced show why it was worth
+it. `HEALER_CLASSES` had two names against 19 healing skills across 13 classes;
+`MARK_BONUS_ABILITIES` had three classes against eight; stress healing was a literal
+four-name array. The Plague Doctor's entry said `Battle Medicine` while the skill is
+`Battlefield Medicine`, so it had never matched anything. None of the tables knew the
+Duelist or the Runaway, let alone a modded class.
+
+**Potential and actual.** A hero with no skills chosen is judged on their class's whole
+kit; one who has chosen is judged on what they chose. Picking a Vestal should not read as
+"no healer", and a Crusader carrying four non-healing skills should. The switch is per
+hero, so a half-built party still behaves, and the panel says which heroes it is assuming
+for.
+
+`partyCoverage` is exported separately from the notes because the same question is asked
+by more than the panel: what a party can do also decides a recommended loadout and drives
+comp generation. Unknown skills stay `null` and are never reported as a fault — silence is
+the right answer when you do not know, which is what keeps uncovered modded classes quiet.
+
 ## Hover cards
 
 `src/components/common/HoverCard.jsx` is the panel that opens on the small icons. It is
