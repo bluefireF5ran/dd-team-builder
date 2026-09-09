@@ -966,6 +966,53 @@ typed, so a region stayed unrankable after comps were written for it. The thresh
 it honest at the other end — the library also touches Darkest Dungeon II with 2 comps and
 the Farmstead with 1, and a pairwise sort of one comp is not a sort.
 
+## What you fight in each region (`src/data/regionProfiles.js`)
+
+**Generated — do not hand-edit.** `scripts/importRegionProfiles.js` rebuilds it from a game
+install, the same shape as every other importer here: read at build time, **commit the
+output**, so nothing in `src/` ever needs the game. That is the whole point — the app has
+to work for someone who has never installed Darkest Dungeon.
+
+Two sources, and it is the pairing that makes it a region profile rather than a bestiary:
+`monsters/**/*.info.darkest` for each enemy's stats (hp, prot, spd, the five resistances,
+`enemy_type`, size, whether it leaves a corpse), and `dungeons/<zone>/*.mash.darkest` for
+the weighted tables of which enemies actually turn up together. Enemies are weighted by
+their table's `.chance`, so a rare party cannot drag the averages.
+
+This is what turns "a Ruins comp" from a label into a target, and the numbers come out
+matching what any player already knows, with no hand-written list behind them:
+
+| | Ruins | Warrens | Weald | Cove |
+| --- | --- | --- | --- | --- |
+| bleed resist | **151%** | 44% | 50% | 59% |
+| blight resist | 35% | 62% | 62% | 40% |
+| dominant type | unholy 61% | man 54% | man 51% | eldritch 61% |
+
+Bleed is wasted in the Ruins and blight is not; the Warrens are the other way round; the
+Crusader's and Occultist's bonuses are live in the Ruins and the Cove. `regionProfiles.test.js`
+pins those four facts.
+
+Three things worth not re-deriving:
+
+1. **Resistances go above 100 and that is real.** A skeleton ships `bleed_resist 200%`, so
+   the Ruins average is over 150. It looks like a parse bug and is not.
+2. **`flashback.<zone>.*` tables are skipped.** The Shieldbreaker DLC drops them into the
+   real zone folders, but they are her own scripted dungeon — folding them in puts her
+   snakes in every region.
+3. **A zone whose tables do not describe how it works gets no profile at all.** The Darkest
+   Dungeon ships one table with one enemy and the Farmstead two, because neither picks its
+   fights this way. "The Darkest Dungeon: average party size 1" would be a confident lie,
+   and the rule everywhere else here is that silence beats a guess.
+
+`src/data/regionEnemies.js` holds the 310 per-enemy rows and **nothing imports it on
+purpose**. It is provenance — with it the summary can be re-derived or re-weighted without
+the game, the same reason `importModdedHeroes` keeps its manifest — and it lives in its own
+file so it cannot be dragged into the bundle behind `REGION_PROFILES`, which *is* imported.
+
+The same script picks up `campaign/progression/progression.json`, so `resolveLevel` finally
+answers the question the save importer had to leave open: it showed raw XP because "the
+threshold table lives in the game install, which this app does not read". It does now.
+
 ## Hover cards
 
 `src/components/common/HoverCard.jsx` is the panel that opens on the small icons. It is

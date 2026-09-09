@@ -55,7 +55,10 @@ describe('ImportSaveModal', () => {
     setup();
     const reynauld = rowFor('Reynauld');
     expect(within(reynauld).getByText('Crusader')).toBeInTheDocument();
-    expect(within(reynauld).getByText('XP 2')).toBeInTheDocument();
+    // El nivel se deriva de `level_threshold_table` ([0,2,6,...]): 2 XP es
+    // resolve 1. Antes solo se podia ensenar el XP crudo, porque la tabla vive
+    // en la instalacion del juego y esta app no la leia.
+    expect(within(reynauld).getByText('Lv 1 · XP 2')).toBeInTheDocument();
     expect(within(reynauld).getByText('God Fearing')).toBeInTheDocument();
     expect(within(reynauld).getByText('Warrior of Light')).toBeInTheDocument();
   });
