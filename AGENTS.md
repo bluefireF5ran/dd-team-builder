@@ -218,7 +218,9 @@ Dimensional Havoc carry `estimated: true` — their mods are not installed local
 pin is a free spot on the map rather than a fact, and the modal marks it with a `?`.
 
 The map art lives in the assets repo like every other image
-(`dd-team-builder-assets/images/map/quest_map.png`). If it 404s the modal drops the `<img>`
+(`dd-team-builder-assets/images/bg/quest_select.background.png` — the game's own Quest
+Select backdrop, 1920×1080, the space the coordinates are measured in). If it 404s the
+modal drops the `<img>`
 and keeps the pins on a dark panel: the image is scenery, not the control.
 
 ## Comp naming taxonomy
@@ -921,7 +923,8 @@ Three places consume the profile:
   the end alone.
 - **`SuggestCompModal`** gains a *Use Save Roster* button and accepts a one-shot
   `initialRoster` hand-over from the import modal. It is cleared on close: left set, it would
-  overwrite whatever the player edited by hand next time. See **A roster is a multiset**.
+  overwrite whatever the player edited by hand next time. See **A roster is a multiset** and
+  **Stress bends the draw**.
 - **`TrinketPicker`** gains an *Owned only* filter, behind the `ownedTrinketsOnly` setting.
   Owned means the estate inventory plus whatever is already equipped, matched on `nameKey`.
   It only appears once a save is imported, and — like every optional-content switch — it never
@@ -959,6 +962,62 @@ Two rules that are not obvious:
 In the Suggest modal a hero tile **cycles 0 → 1 → 2 → 3 → 4 → 0**, with `×N` on the badge
 past one. The mount effect normalizes rather than deduplicates: a `Set` there would flatten
 "I have two Plague Doctors" back to one every time the modal reopened.
+
+### Stress bends the draw (`src/utils/heroStress.js`)
+
+**A hero at 90 stress is one bad turn from ruining the run**, so the suggester should stop
+offering them — but stress is a soft fact. A roster where everyone is spent still has to be
+given a party, and "everyone is tired, here is nothing" is not an answer. So stress never
+excludes anyone; it only makes a comp **less likely to be drawn**.
+
+It happens in **two steps, and the order matters**:
+
+1. `restedCandidates` drops every comp that would field a hero at or past `STRAINED` (50) —
+   but only while some comp your rested heroes can field is left standing. This is the part a
+   weight cannot do. However small you make it, a weight only makes the tired comp *rarer*,
+   and rare still reads as "sometimes, for no reason I can see". A first pass on weights alone
+   left the exhausted half of a test roster at ~2% of the slots drawn, and a hero at 70 kept
+   turning up; the filter takes it to zero.
+2. The weighting then orders whatever survived — which is the whole list when nothing clean
+   fits, so a roster where everyone is at 60 still gets an answer rather than silence.
+
+The weight itself has a **knee at `STRAINED`**, because a player does not read stress on one
+scale. Below half a bar it is bookkeeping and the curve barely moves (0 → 1, 25 → 0.94,
+49 → 0.76); above it every point is a reason to stay home, so it decays geometrically the rest
+of the way (60 → 0.30, 70 → 0.12, 80 → 0.05, 90 → 0.02, 100 → the `MIN_WEIGHT` floor). A
+single squared falloff over the whole range was the first attempt and it left a hero at 70 on
+half weight — nowhere near enough when the other three slots are uncontested.
+
+`compStressWeight` **multiplies** the weights across the heroes the comp would field.
+Averaging would let three rested heroes hide the fourth who is about to break — exactly the
+comp a player does not want. `compPeakStress`, which the filter sorts on, takes the worst
+member for the same reason: three fresh heroes do not make the fourth at 78 safer to take.
+
+Three things that are not obvious:
+
+- **The pool is ordered by `bySuitability`, and so is the assignment.** A comp fielding two
+  Highwaymen fields *your two* — the calm one and the wreck — so the second slot is weighed
+  against your second hero. Weighing a comp against heroes it would not field would be
+  weighing the wrong thing, so `stressPool` and `assignSaveHeroes` pull from the same queue.
+- **`bySuitability` now sorts the stress band above resolve XP.** A Resolve 5 veteran at 95
+  stress is a worse pick than a Resolve 0 recruit at 0, and XP-first kept handing over the
+  veteran. Below `STRAINED` (50) experience still decides — 10 and 30 stress are the same
+  hero for this purpose.
+- **A class you own nobody of weighs 1, not 0.** The comp's own hero fills that slot, and a
+  hero you do not have cannot be tired. `stressWeightsFor` reports `stress: null` there, which
+  is how "rested" is told from "unknown".
+
+The draw itself is Efraimidis–Spirakis (`weightedSample`): key every item `u^(1/w)` and take
+the largest. One pass, no rejection loop, and it samples without replacement — which is what
+the fallback random roll needs when no bundled comp fits the roster, since that draws four
+classes at once rather than one comp. That roll gets both steps too: the strained are set
+aside only while four rested entries remain, because setting them aside otherwise would leave
+too few heroes for a party.
+
+The switch is *Favour rested heroes* in the Suggest modal (`preferRested`, on by default,
+shown only once some hero carries stress); with it off the draw is the old uniform one. Any
+strained hero who lands in the comp anyway is reported back as `stressedHeroes` and named in
+the toast — the bias is not a promise, and finding out in the dungeon is worse.
 
 ### Re-equipping a comp from your own trinkets (`trinketProfile` / `trinketSubstitution`)
 
