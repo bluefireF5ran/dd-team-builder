@@ -1,5 +1,5 @@
 {
-  "takenAt": "2026-09-09T22:47:23.440Z",
+  "takenAt": "2026-09-09T23:43:47.645Z",
   "cells": {
     "Abomination|1": {
       "heroClass": "Abomination",
@@ -109,32 +109,32 @@
       "heroClass": "Antiquarian",
       "rank": 1,
       "skills": [
-        "Nervous Stab",
         "Festering Vapours",
         "Get Down!",
+        "Flashpowder",
         "Protect Me"
       ],
       "camp": [
         "Encourage",
-        "Wound Care",
+        "Resupply",
         "Strange Powders",
         "Curious Incantation"
       ],
       "trinkets": [
-        "Ancestor's Map",
-        "Smoking Skull"
+        "Smoking Skull",
+        "The Tempting Goblet"
       ],
-      "source": "model",
-      "samples": 3,
+      "source": "library",
+      "samples": 4,
       "rankLegal": true
     },
     "Antiquarian|2": {
       "heroClass": "Antiquarian",
       "rank": 2,
       "skills": [
-        "Nervous Stab",
         "Festering Vapours",
         "Get Down!",
+        "Invigorating Vapours",
         "Protect Me"
       ],
       "camp": [
@@ -157,8 +157,8 @@
       "skills": [
         "Festering Vapours",
         "Get Down!",
-        "Invigorating Vapours",
-        "Protect Me"
+        "Fortifying Vapours",
+        "Invigorating Vapours"
       ],
       "camp": [
         "Encourage",
@@ -171,7 +171,7 @@
         "Smoking Skull"
       ],
       "source": "library",
-      "samples": 13,
+      "samples": 17,
       "rankLegal": true
     },
     "Antiquarian|4": {
@@ -181,7 +181,7 @@
         "Festering Vapours",
         "Get Down!",
         "Fortifying Vapours",
-        "Protect Me"
+        "Invigorating Vapours"
       ],
       "camp": [
         "Encourage",
@@ -194,7 +194,7 @@
         "Ancestor's Map"
       ],
       "source": "library",
-      "samples": 10,
+      "samples": 11,
       "rankLegal": true
     },
     "Arbalest|1": {
@@ -214,7 +214,7 @@
       ],
       "trinkets": [
         "Fuseman's Matchstick",
-        "Ancestor's Map"
+        "Prophet's Eye"
       ],
       "source": "model",
       "samples": 0,
@@ -271,7 +271,7 @@
       "rank": 4,
       "skills": [
         "Sniper Shot",
-        "Blindfire",
+        "Bola",
         "Battlefield Bandage",
         "Rallying Flare"
       ],
@@ -286,7 +286,7 @@
         "Fuseman's Matchstick"
       ],
       "source": "library",
-      "samples": 49,
+      "samples": 51,
       "rankLegal": true
     },
     "Bounty Hunter|1": {
@@ -328,11 +328,11 @@
         "Tracking"
       ],
       "trinkets": [
-        "Hunter's Talons",
-        "Surgical Gloves"
+        "Surgical Gloves",
+        "Hunter's Talon"
       ],
       "source": "library",
-      "samples": 10,
+      "samples": 13,
       "rankLegal": true
     },
     "Bounty Hunter|3": {
@@ -355,7 +355,7 @@
         "Vengeful Kill List"
       ],
       "source": "library",
-      "samples": 18,
+      "samples": 19,
       "rankLegal": true
     },
     "Bounty Hunter|4": {
@@ -492,11 +492,11 @@
         "Again!"
       ],
       "trinkets": [
-        "Fortifying Garlic",
-        "Gilded Mantle"
+        "Gilded Mantle",
+        "Fortifying Garlic"
       ],
       "source": "model",
-      "samples": 2,
+      "samples": 3,
       "rankLegal": true
     },
     "Duelist|2": {
@@ -522,7 +522,7 @@
         "Gilded Mantle"
       ],
       "source": "library",
-      "samples": 5,
+      "samples": 7,
       "rankLegal": true
     },
     "Duelist|3": {
@@ -627,10 +627,10 @@
       "heroClass": "Flagellant",
       "rank": 3,
       "skills": [
+        "Punish",
         "Reclaim",
         "Redeem",
-        "Endure",
-        "Suffer"
+        "Endure"
       ],
       "camp": [
         "Lash's Anger",
@@ -650,10 +650,10 @@
       "heroClass": "Flagellant",
       "rank": 4,
       "skills": [
+        "Punish",
         "Reclaim",
         "Redeem",
-        "Endure",
-        "Suffer"
+        "Endure"
       ],
       "camp": [
         "Lash's Anger",
@@ -742,8 +742,8 @@
       "heroClass": "Grave Robber",
       "rank": 4,
       "skills": [
-        "Pick to the Face",
         "Lunge",
+        "Shadow Fade",
         "Poison Darts",
         "Toxin Trickery"
       ],
@@ -758,7 +758,7 @@
         "Sharpened Letter Opener"
       ],
       "source": "library",
-      "samples": 17,
+      "samples": 18,
       "rankLegal": true
     },
     "Hellion|1": {
@@ -789,9 +789,9 @@
       "rank": 2,
       "skills": [
         "Wicked Hack",
+        "Iron Swan",
         "If It Bleeds",
-        "Breakthrough",
-        "Adrenaline Rush"
+        "Breakthrough"
       ],
       "camp": [
         "Encourage",
@@ -835,7 +835,7 @@
       "rank": 4,
       "skills": [
         "Wicked Hack",
-        "If It Bleeds",
+        "Iron Swan",
         "Breakthrough",
         "Adrenaline Rush"
       ],
@@ -988,7 +988,7 @@
         "Ancestor's Coat"
       ],
       "source": "library",
-      "samples": 48,
+      "samples": 50,
       "rankLegal": true
     },
     "Houndmaster|3": {
@@ -1011,7 +1011,7 @@
         "Evidence of Corruption"
       ],
       "source": "library",
-      "samples": 42,
+      "samples": 45,
       "rankLegal": true
     },
     "Houndmaster|4": {
@@ -1103,7 +1103,7 @@
         "Ancestor's Lantern"
       ],
       "source": "library",
-      "samples": 26,
+      "samples": 27,
       "rankLegal": true
     },
     "Jester|4": {
@@ -1134,7 +1134,7 @@
       "rank": 1,
       "skills": [
         "Chop",
-        "Revenge",
+        "Purge",
         "Solemnity",
         "Intimidate"
       ],
@@ -1149,7 +1149,7 @@
         "Focus Ring"
       ],
       "source": "library",
-      "samples": 22,
+      "samples": 24,
       "rankLegal": true
     },
     "Leper|2": {
@@ -1264,15 +1264,15 @@
         "Ancestor's Coat"
       ],
       "source": "library",
-      "samples": 6,
+      "samples": 7,
       "rankLegal": true
     },
     "Man at Arms|3": {
       "heroClass": "Man at Arms",
       "rank": 3,
       "skills": [
+        "Crush",
         "Rampart",
-        "Bellow",
         "Command",
         "Bolster"
       ],
@@ -1387,7 +1387,7 @@
       "rank": 4,
       "skills": [
         "Aimed Shot",
-        "Sidearm",
+        "Buckshot",
         "Patch Up",
         "Skeet Shot"
       ],
@@ -1402,7 +1402,7 @@
         "Prophet's Eye"
       ],
       "source": "library",
-      "samples": 14,
+      "samples": 17,
       "rankLegal": true
     },
     "Occultist|1": {
@@ -1425,17 +1425,17 @@
         "Ancestor's Signet Ring"
       ],
       "source": "library",
-      "samples": 35,
+      "samples": 40,
       "rankLegal": true
     },
     "Occultist|2": {
       "heroClass": "Occultist",
       "rank": 2,
       "skills": [
-        "Weakening Curse",
         "Wyrd Reconstruction",
         "Vulnerability Hex",
-        "Hands from the Abyss"
+        "Hands from the Abyss",
+        "Daemon's Pull"
       ],
       "camp": [
         "Encourage",
@@ -1448,7 +1448,7 @@
         "Ancestor's Pistol"
       ],
       "source": "library",
-      "samples": 24,
+      "samples": 25,
       "rankLegal": true
     },
     "Occultist|3": {
@@ -1457,8 +1457,8 @@
       "skills": [
         "Sacrificial Stab",
         "Abyssal Artillery",
-        "Weakening Curse",
-        "Wyrd Reconstruction"
+        "Wyrd Reconstruction",
+        "Hands from the Abyss"
       ],
       "camp": [
         "Encourage",
@@ -1478,10 +1478,10 @@
       "heroClass": "Occultist",
       "rank": 4,
       "skills": [
-        "Sacrificial Stab",
         "Abyssal Artillery",
         "Weakening Curse",
-        "Wyrd Reconstruction"
+        "Wyrd Reconstruction",
+        "Hands from the Abyss"
       ],
       "camp": [
         "Encourage",
@@ -1547,9 +1547,9 @@
       "heroClass": "Plague Doctor",
       "rank": 3,
       "skills": [
+        "Noxious Blast",
         "Blinding Gas",
         "Battlefield Medicine",
-        "Emboldening Vapours",
         "Disorienting Blast"
       ],
       "camp": [
@@ -1573,7 +1573,7 @@
         "Noxious Blast",
         "Blinding Gas",
         "Battlefield Medicine",
-        "Emboldening Vapours"
+        "Disorienting Blast"
       ],
       "camp": [
         "Encourage",
@@ -1586,7 +1586,7 @@
         "Ancestor's Map"
       ],
       "source": "library",
-      "samples": 32,
+      "samples": 34,
       "rankLegal": true
     },
     "Runaway|1": {
@@ -1594,7 +1594,7 @@
       "rank": 1,
       "skills": [
         "Searing Strike",
-        "Run and Hide",
+        "Firefly",
         "Controlled Burn",
         "Backdraft"
       ],
@@ -1617,7 +1617,7 @@
       "rank": 2,
       "skills": [
         "Searing Strike",
-        "Run and Hide",
+        "Firefly",
         "Controlled Burn",
         "Backdraft"
       ],
@@ -1641,8 +1641,8 @@
       "skills": [
         "Firefly",
         "Run and Hide",
-        "Hearthlight",
-        "Controlled Burn"
+        "Controlled Burn",
+        "Backdraft"
       ],
       "camp": [
         "Encourage",
@@ -1662,10 +1662,10 @@
       "heroClass": "Runaway",
       "rank": 4,
       "skills": [
+        "Searing Strike",
         "Firefly",
         "Run and Hide",
-        "Hearthlight",
-        "Backdraft"
+        "Hearthlight"
       ],
       "camp": [
         "Encourage",
@@ -1823,10 +1823,10 @@
       "heroClass": "Vestal",
       "rank": 3,
       "skills": [
+        "Judgement",
         "Dazzling Light",
         "Divine Grace",
-        "Divine Comfort",
-        "Illumination"
+        "Divine Comfort"
       ],
       "camp": [
         "Encourage",
@@ -1846,10 +1846,10 @@
       "heroClass": "Vestal",
       "rank": 4,
       "skills": [
+        "Judgement",
         "Dazzling Light",
         "Divine Grace",
-        "Divine Comfort",
-        "Illumination"
+        "Divine Comfort"
       ],
       "camp": [
         "Encourage",
