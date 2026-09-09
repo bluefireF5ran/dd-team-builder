@@ -27,6 +27,20 @@
  * orden barajado y gana el mejor, asi que la variedad sale del proceso y no de
  * meter ruido en la nota. `rng` se inyecta para que los tests sean
  * deterministas sin apagar esa variedad.
+ *
+ * ## Que cuenta como comp nueva
+ *
+ * Las cuatro clases, y ya. Ni el orden ni la region: *"si ya tengo una comp
+ * para las Ruinas, puedo hacer una parecida para los Warrens"*, y eso no es una
+ * comp nueva. Devolver algo que ya esta escrito en la libreria es el unico
+ * resultado que este generador no puede dar, porque es justo lo que
+ * `suggestTeam` ya hacia. La regla vive en `compIdentity.js`.
+ *
+ * Cuando la busqueda solo encuentra comps que ya existen -- pasa con un roster
+ * corto, donde apenas hay repartos posibles-- entra `diversify`, que cambia UN
+ * heroe por otro del roster hasta dar con un reparto que no este. Es lo mismo
+ * que haria alguien a mano, y es determinista: no depende de tener suerte en
+ * los intentos.
  */
 import { PARTY_CONFIG } from '../constants';
 import { HERO_CLASSES } from '../data/heroes';
@@ -35,6 +49,7 @@ import { bisLoadout } from '../data/bisIndex';
 import { classProfile, skillProfile } from './skillProfile';
 import { partyCoverage } from './synergyHelper';
 import { toRosterCounts, countOf } from './rosterAvailability';
+import { compClassKey, knownCompKeys } from './compIdentity';
 
 const MAX_HEROES = PARTY_CONFIG.MAX_HEROES;
 const ATTEMPTS = 60;
@@ -193,6 +208,62 @@ const shuffled = (list, rng) => {
   return copy;
 };
 
+
+const EMPTY_SLOT = () => ({
+  heroClass: '',
+  activeSkills: [],
+  activeCampSkills: [],
+  trinket1: '',
+  trinket2: '',
+  quirks: { positive: [], negative: [] },
+  lockedQuirks: { positive: [], negative: [] },
+  diseases: []
+});
+
+/** Reconstruye la loadout de un heroe para el rango en el que acaba de caer. */
+const buildAt = (heroClass, rank) => {
+  const build = bisLoadout(heroClass, rank);
+  return build ? heroFromBuild(build) : null;
+};
+
+/**
+ * Cambia UN heroe por otro del roster hasta dar con un reparto que no exista.
+ *
+ * Es la salida cuando la busqueda solo encuentra comps ya escritas, que es lo
+ * que pasa con un roster corto: con cinco heroes hay cinco repartos posibles y
+ * si cuatro estan en la libreria, barajar mas no va a descubrir el quinto. Se
+ * prueban todas las sustituciones (4 ranuras x clases disponibles), se
+ * reconstruye la loadout de quien entra y se ordena por nota, asi que la comp
+ * nueva es la mejor de las nuevas y no la primera que aparezca.
+ */
+const diversify = (heroes, available, counts, isNew) => {
+  const results = [];
+
+  for (let slot = 0; slot < MAX_HEROES; slot += 1) {
+    available.forEach((name) => {
+      if (heroes[slot]?.heroClass === name) return;
+      const next = [...heroes];
+      const replacement = buildAt(name, slot + 1);
+      if (!replacement) return;
+      next[slot] = replacement;
+
+      // Sustituir puede pedir mas copias de una clase de las que hay.
+      const used = new Map();
+      next.forEach((hero) => {
+        if (hero?.heroClass) used.set(hero.heroClass, (used.get(hero.heroClass) || 0) + 1);
+      });
+      const overdrawn = [...used.entries()].some(([cls, n]) => n > countOf(counts, cls));
+      if (overdrawn) return;
+
+      const improved = improveBySwapping(next);
+      if (!isNew(compClassKey(improved))) return;
+      results.push({ heroes: improved, score: scoreParty(improved) });
+    });
+  }
+
+  return results.sort((a, b) => b.score - a.score);
+};
+
 /**
  * Monta varias partys distintas con lo que hay en el roster, de mejor a peor.
  *
@@ -200,17 +271,35 @@ const shuffled = (list, rng) => {
  * @param {string[]|Map} options.roster  clases disponibles, con repeticiones
  * @param {string} [options.location]
  * @param {number} [options.count]       cuantas alternativas distintas devolver
+ * @param {boolean} [options.excludeKnown]  descartar los repartos que ya estan
+ *   en la libreria, en el orden y la region que sea. Por defecto si: pedir una
+ *   comp nueva y recibir una que ya tienes es el fallo que esto arregla.
  * @param {function} [options.rng]       para tests deterministas
  * @returns {{heroes, location, score, coverage}[]} de mejor a peor
  */
-export const generateComps = ({ roster, location = 'The Ruins', count = 3, rng = Math.random } = {}) => {
+export const generateComps = ({
+  roster,
+  location = 'The Ruins',
+  count = 3,
+  excludeKnown = true,
+  rng = Math.random
+} = {}) => {
   const counts = toRosterCounts(roster);
   const available = [...counts.values()].map((entry) => entry.name).filter((name) => classData(name));
   if (available.length === 0) return [];
 
-  // Distintas por reparto de clases: dos intentos que colocan lo mismo en los
-  // mismos sitios son la misma comp, por muchas veces que salgan.
+  // Distintas por REPARTO DE CLASES, no por colocacion: los mismos cuatro
+  // heroes en otro orden son la misma comp (ver `compIdentity`), asi que dos
+  // intentos que llegan al mismo reparto son un solo resultado y gana el mejor
+  // colocado de los dos.
   const found = new Map();
+  const keep = (heroes) => {
+    const key = compClassKey(heroes);
+    if (!key) return;
+    const entry = { heroes, score: scoreParty(heroes) };
+    const previous = found.get(key);
+    if (!previous || entry.score > previous.score) found.set(key, entry);
+  };
 
   for (let attempt = 0; attempt < ATTEMPTS; attempt += 1) {
     const remaining = new Map(available.map((name) => [name, countOf(counts, name)]));
@@ -246,33 +335,41 @@ export const generateComps = ({ roster, location = 'The Ruins', count = 3, rng =
       remaining.set(pick.heroClass, (remaining.get(pick.heroClass) || 1) - 1);
     }
 
-    while (heroes.length < MAX_HEROES) {
-      heroes.push({
-        heroClass: '',
-        activeSkills: [],
-        activeCampSkills: [],
-        trinket1: '',
-        trinket2: '',
-        quirks: { positive: [], negative: [] },
-        lockedQuirks: { positive: [], negative: [] },
-        diseases: []
-      });
-    }
+    while (heroes.length < MAX_HEROES) heroes.push(EMPTY_SLOT());
 
-    const improved = improveBySwapping(heroes);
-    const signature = improved.map((hero) => hero.heroClass).join('/');
-    if (!found.has(signature)) {
-      found.set(signature, { heroes: improved, location, score: scoreParty(improved) });
-    }
+    keep(improveBySwapping(heroes));
   }
 
-  return [...found.values()]
+  const isNew = (key) => Boolean(key) && !(excludeKnown && knownCompKeys().has(key));
+  const fresh = [...found.entries()].filter(([key]) => isNew(key)).map(([, entry]) => entry);
+
+  // Solo salieron repartos que ya estaban escritos. Pasa con rosters cortos, y
+  // barajar mas no lo arregla: hay que cambiar un heroe a proposito.
+  if (!fresh.length && excludeKnown) {
+    const seen = new Set();
+    [...found.values()]
+      .sort((a, b) => b.score - a.score)
+      .forEach((entry) => {
+        diversify(entry.heroes, available, counts, isNew).forEach((candidate) => {
+          const key = compClassKey(candidate.heroes);
+          if (seen.has(key)) return;
+          seen.add(key);
+          fresh.push(candidate);
+        });
+      });
+  }
+
+  return fresh
     .sort((a, b) => b.score - a.score)
     .slice(0, count)
-    .map((comp) => ({ ...comp, coverage: partyCoverage(comp.heroes) }));
+    .map((comp) => ({ ...comp, location, coverage: partyCoverage(comp.heroes) }));
 };
 
 /**
  * La mejor de todas, que es lo que quiere quien solo pide una.
+ *
+ * `null` cuando no hay ninguna comp NUEVA que montar -- porque el roster no da
+ * para cuatro, o porque todo lo que da ya esta en la libreria. Quien llama
+ * tiene que decirlo, no callarselo.
  */
 export const generateComp = (options = {}) => generateComps({ ...options, count: 1 })[0] || null;

@@ -1,9 +1,13 @@
 import { generateComp, generateComps, scoreParty } from '../compGenerator';
+import { compClassKey, knownCompKeys, resetCompIdentityCache } from '../compIdentity';
 import { resetBisCaches } from '../../data/bisIndex';
 import { skillProfile } from '../skillProfile';
 import { partyCoverage } from '../synergyHelper';
 
-beforeEach(() => resetBisCaches());
+beforeEach(() => {
+  resetBisCaches();
+  resetCompIdentityCache();
+});
 
 // Un rng determinista, para que un fallo se pueda repetir.
 const seeded = (seed = 1) => () => {
@@ -127,6 +131,54 @@ describe('generateComp', () => {
         });
       });
     });
+  });
+});
+
+describe('it builds comps that are actually new', () => {
+  // El reproche de Fran, literal: *"que el modelo recomiende una comp y al
+  // mirar las 4 clases en la pagina de comps salga una con esas 4 marcadas ya
+  // es un fallo"*. La identidad es el reparto de clases, sin orden ni region.
+  const wideRoster = [
+    'Crusader', 'Vestal', 'Plague Doctor', 'Arbalest', 'Hellion', 'Jester',
+    'Leper', 'Occultist', 'Houndmaster', 'Man at Arms', 'Highwayman', 'Grave Robber'
+  ];
+
+  it('never hands back a class line-up the library already has', () => {
+    const comps = generateComps({ roster: wideRoster, count: 5, rng: seeded(17) });
+    expect(comps.length).toBeGreaterThan(0);
+    comps.forEach((comp) => {
+      expect(knownCompKeys().has(compClassKey(comp.heroes))).toBe(false);
+    });
+  });
+
+  it('counts two comps as one when only the placement differs', () => {
+    // Dos colocaciones del mismo reparto son la misma comp, asi que la lista de
+    // alternativas no puede gastar dos huecos en ellas.
+    const comps = generateComps({ roster: wideRoster, count: 6, rng: seeded(23) });
+    const keys = comps.map((comp) => compClassKey(comp.heroes));
+    expect(new Set(keys).size).toBe(keys.length);
+  });
+
+  it('changes a hero when every line-up the roster allows is already written', () => {
+    // `Marked_Prey__Royal_Snipe` ya lleva estos cuatro. Con un roster de cinco
+    // solo hay cinco repartos, y barajar no descubre ninguno: hay que cambiar
+    // un heroe a proposito, que es lo que hace `diversify`.
+    const roster = ['Leper', 'Houndmaster', 'Musketeer', 'Arbalest', 'Vestal'];
+    expect(knownCompKeys().has(compClassKey(['Leper', 'Houndmaster', 'Musketeer', 'Arbalest']))).toBe(true);
+
+    const comp = generateComp({ roster, rng: seeded(31) });
+    expect(comp).not.toBeNull();
+    expect(knownCompKeys().has(compClassKey(comp.heroes))).toBe(false);
+    expect(comp.heroes.filter((hero) => hero.heroClass)).toHaveLength(4);
+  });
+
+  it('says nothing rather than repeat itself when the roster has no room left', () => {
+    // Exactamente los cuatro de una comp que ya existe y nadie mas: no hay
+    // ninguna comp nueva que montar, y devolver la vieja seria el fallo.
+    const roster = ['Leper', 'Houndmaster', 'Musketeer', 'Arbalest'];
+    expect(generateComp({ roster, rng: seeded(37) })).toBeNull();
+    // Y sin el filtro sigue saliendo, que es como la UI distingue los dos casos.
+    expect(generateComp({ roster, excludeKnown: false, rng: seeded(37) })).not.toBeNull();
   });
 });
 

@@ -15,7 +15,7 @@ import { parseRosterFile } from '../../utils/rosterLoader';
 import { toRosterCounts, countOf, rosterFromHeroes, isHeroAvailable } from '../../utils/rosterAvailability';
 import { PARTY_CONFIG } from '../../constants';
 
-import { generateComp } from '../../utils/compGenerator';
+import { generateComp, generateComps } from '../../utils/compGenerator';
 
 export const SUGGEST_ROSTER_KEY = 'dd_team_builder_suggest_roster_v1';
 
@@ -224,6 +224,10 @@ const SuggestCompModal = ({
    * esta -- 97 de 704 ranuras son Houndmaster-- asi que buscar solo funciona si
    * tienes las clases de las que ya hay comps escritas. Esto monta una con los
    * heroes que hay, colocando a cada uno donde su kit funciona.
+   *
+   * Y NUEVA: nunca devuelve un reparto que ya este en la libreria, aunque
+   * cambie el orden o la region. Los mismos cuatro heroes con otra etiqueta no
+   * son una comp nueva.
    */
   const handleGenerate = () => {
     if (roster.length < PARTY_CONFIG.MAX_HEROES) {
@@ -232,7 +236,15 @@ const SuggestCompModal = ({
     }
     const comp = generateComp({ roster });
     if (!comp) {
-      showToast?.('Could not build a comp from that roster.', 'error');
+      // Dos fracasos distintos, y decir cual importa: "no se puede montar nada"
+      // se arregla ampliando el roster, "todo lo que sale ya lo tienes" no.
+      const anything = generateComps({ roster, count: 1, excludeKnown: false });
+      showToast?.(
+        anything.length
+          ? 'Every party this roster can field is already in the comp library — add more heroes to build something new.'
+          : 'Could not build a comp from that roster.',
+        anything.length ? 'warning' : 'error'
+      );
       return;
     }
     onGenerate?.(comp);
