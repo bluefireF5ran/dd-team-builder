@@ -135,9 +135,16 @@ function scaled(buff) {
 }
 function fillNumber(tpl, n) {
   const sign = n >= 0 ? '+' : '';
+  // `%-d` is the fourth spelling the game uses, and the only one that was
+  // missing: it writes the number as a saving, so a -15 amount reads "-15%
+  // Armor Upgrade Cost". Without this branch the two Tinker quirks shipped
+  // their template raw, as "%-d%% Armor Upgrade Cost".
+  const minus = n <= 0 ? '' : '-';
   return tpl
     .replace(/%\+d%%/g, sign + n + '%')
     .replace(/%\+d/g, sign + n)
+    .replace(/%-d%%/g, minus + n + '%')
+    .replace(/%-d/g, minus + n)
     .replace(/%d%%/g, n + '%')
     .replace(/%d/g, String(n));
 }

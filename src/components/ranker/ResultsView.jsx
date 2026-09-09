@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { downloadJSON } from '../../utils/download';
+import { exportElementToPNG } from '../../utils/exportImage';
 import { buildRankingPayload } from '../../utils/rankerExport';
 import { ClipboardCopy, Download, Image as ImageIcon, RotateCcw, Save } from 'lucide-react';
 import ImageWithFallback from '../common/ImageWithFallback';
@@ -173,18 +174,7 @@ const ResultsView = ({
     if (!boardRef.current || isExporting) return;
     setIsExporting(true);
     try {
-      const html2canvas = (await import('html2canvas')).default;
-      const canvas = await html2canvas(boardRef.current, {
-        backgroundColor: '#1f2937',
-        scale: 2,
-        useCORS: true,
-        allowTaint: true,
-        logging: false
-      });
-      const link = document.createElement('a');
-      link.download = `dd_ranking_${category}.png`;
-      link.href = canvas.toDataURL('image/png');
-      link.click();
+      await exportElementToPNG(boardRef.current, `dd_ranking_${category}.png`);
     } catch (error) {
       onNotify?.('Could not export the image', 'error');
     } finally {

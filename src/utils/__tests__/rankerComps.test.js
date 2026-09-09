@@ -4,6 +4,8 @@
 import { buildItems, buildCompItems } from '../rankerItems';
 import { COMP_LIBRARY } from '../../data/compLibrary';
 import { COMP_REGIONS } from '../../config/rankerRoster';
+import { compRegions, MIN_COMPS_TO_RANK } from '../rankerItems';
+import { LOCATIONS } from '../../data/locations';
 
 describe('comp ranking pool', () => {
   it('is scoped to one region, because a comp is BUILT for a region', () => {
@@ -44,5 +46,34 @@ describe('comp ranking pool', () => {
     // The roster gates heroes/skills/campSkills; it must NOT gate comps, whose
     // pool is the comp library and nothing else.
     expect(buildItems('comps', [], {}).length).toBeGreaterThan(viaCategory.length);
+  });
+});
+
+describe('COMP_REGIONS is derived, not written down', () => {
+  it('offers exactly the regions with enough comps to sort', () => {
+    // Ni una region vacia ni una con una sola comp: un orden por parejas de
+    // una comp no es un orden.
+    COMP_REGIONS.forEach((region) => {
+      expect(buildCompItems(region).length).toBeGreaterThanOrEqual(MIN_COMPS_TO_RANK - 1);
+    });
+  });
+
+  it('leaves out the regions the library barely touches', () => {
+    // Darkest Dungeon II tiene 2 comps y Farmstead 1.
+    expect(COMP_REGIONS).not.toContain('The Farmstead');
+    expect(COMP_REGIONS).not.toContain('The Darkest Dungeon II');
+  });
+
+  it('picks a region up on its own once it has comps', () => {
+    // Con el umbral en 1 aparecen todas las que la libreria toca: la lista se
+    // deriva de los datos, asi que escribir comps para el Courtyard basta.
+    const everything = compRegions(1);
+    expect(everything.length).toBeGreaterThan(COMP_REGIONS.length);
+    COMP_REGIONS.forEach((region) => expect(everything).toContain(region));
+  });
+
+  it('keeps them in map order, like the rest of the app', () => {
+    const positions = COMP_REGIONS.map((name) => LOCATIONS.indexOf(name));
+    expect([...positions].sort((a, b) => a - b)).toEqual(positions);
   });
 });

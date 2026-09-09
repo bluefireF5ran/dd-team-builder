@@ -1,3 +1,5 @@
+import { compRegions } from '../utils/rankerItems';
+
 // ---------------------------------------------------------------------------
 // DD Ranker — roster configuration
 //
@@ -78,12 +80,14 @@ export const RANKING_CATEGORIES = [
   }
 ];
 
-// The whole library is ~160 comps, and an exact pairwise sort of that many is
+// The whole library is ~180 comps, and an exact pairwise sort of that many is
 // well over a thousand picks. Scoping to one region is what makes the run
 // finishable, and it is also the right question: a comp is built FOR a region.
-export const COMP_REGIONS = [
-  'The Ruins',
-  'The Warrens',
-  'The Weald',
-  'The Cove'
-];
+//
+// Derived rather than written down. The list used to be the four regions that
+// had comps when it was typed, so a region stayed unrankable after Fran wrote
+// comps for it -- and `compRegions()`, which computes exactly this, sat unused
+// in `rankerItems`. The threshold is what keeps the list honest at the other
+// end: the library also touches Darkest Dungeon II (2 comps) and the Farmstead
+// (1), and a pairwise sort of one comp is not a sort.
+export const COMP_REGIONS = compRegions();

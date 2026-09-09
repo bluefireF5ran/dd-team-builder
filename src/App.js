@@ -1,5 +1,6 @@
 import React, { useMemo, useState, useRef, useCallback, useEffect, lazy, Suspense } from 'react';
 import { copyTextToClipboard } from './utils/heroClipboard';
+import { exportElementToPNG } from './utils/exportImage';
 import { useTeam } from './hooks/useTeam';
 import { useSettings } from './hooks/useSettings';
 import { useSaveProfile } from './hooks/useSaveProfile';
@@ -66,6 +67,7 @@ const App = () => {
     deleteSavedTeam,
     randomizeTeam,
     suggestTeam,
+    placeGeneratedComp,
     undo,
     redo,
     canUndo,
@@ -98,8 +100,6 @@ const App = () => {
 
     setIsExporting(true);
     try {
-      const html2canvas = (await import('html2canvas')).default;
-
       // Temporarily adjust position badges for better rendering in html2canvas
       const badges = partyRef.current.querySelectorAll('.position-badge');
       const originalStyles = [];
@@ -109,27 +109,19 @@ const App = () => {
         badge.style.fontFamily = 'Arial, sans-serif';
       });
 
-      const canvas = await html2canvas(partyRef.current, {
-        backgroundColor: '#1f2937', // gray-800
-        scale: 2, // Higher quality
-        useCORS: true, // For external images
-        allowTaint: true,
-        logging: false,
-        // The reorder arrows live inside the captured element because they
-        // belong to the cards; they are controls, not composition.
-        ignoreElements: (el) => el.dataset?.exportIgnore === 'true'
-      });
-      
-      // Restore original styles
-      badges.forEach((badge, idx) => {
-        badge.style.cssText = originalStyles[idx];
-      });
-      
-      const link = document.createElement('a');
       const fileName = teamName ? `${teamName.replace(/[^a-z0-9]/gi, '_')}.png` : 'party_composition.png';
-      link.download = fileName;
-      link.href = canvas.toDataURL('image/png');
-      link.click();
+      try {
+        await exportElementToPNG(partyRef.current, fileName, {
+          // The reorder arrows live inside the captured element because they
+          // belong to the cards; they are controls, not composition.
+          ignoreElements: (el) => el.dataset?.exportIgnore === 'true'
+        });
+      } finally {
+        // Restore original styles
+        badges.forEach((badge, idx) => {
+          badge.style.cssText = originalStyles[idx];
+        });
+      }
     } catch (error) {
       console.error('Error exporting to PNG:', error);
       showToast('Error exporting image. Please try again.', 'error');
@@ -143,8 +135,17 @@ const App = () => {
   handlersRef.current = { undo, redo, saveTeam, exportToPNG, showToast, teamName, location, heroes };
 
   useEffect(() => {
+    // Escribiendo en un campo, Ctrl+Z es deshacer TEXTO. Sin esta salida el
+    // atajo global se comia el del navegador y deshacia la party mientras
+    // renombrabas el equipo, que es la peor version del gesto: parece que no ha
+    // pasado nada hasta que miras las cuatro tarjetas.
+    const isTextEntry = (el) =>
+      !!el &&
+      (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.isContentEditable === true);
+
     const handleKeyDown = (e) => {
       const h = handlersRef.current;
+      if ((e.key === 'z' || e.key === 'y') && isTextEntry(e.target)) return;
       if (e.ctrlKey || e.metaKey) {
         if (e.key === 'z') { e.preventDefault(); h.undo(); }
         else if (e.key === 'y') { e.preventDefault(); h.redo(); }
@@ -234,6 +235,7 @@ const App = () => {
             isExporting={isExporting}
             onRandomize={() => randomizeTeam(settings.showModdedHeroes)}
             onSuggest={suggestTeam}
+            onGenerateComp={placeGeneratedComp}
             onUndo={undo}
             onRedo={redo}
             canUndo={canUndo}

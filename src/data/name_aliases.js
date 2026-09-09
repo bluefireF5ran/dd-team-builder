@@ -66,3 +66,36 @@ export const NAME_ALIASES = {
   // str_quirk_name_fear_of_eldritch
   'Fear of Eldritch': ['Fear of Eldrich']
 };
+
+/**
+ * Grafías alternativas que sólo valen DENTRO de una clase.
+ *
+ * `NAME_ALIASES` resuelve globalmente, y para las skills eso es incorrecto:
+ * `Wound Care` es el nombre bueno en las dieciocho clases que cubría el CSV de
+ * la wiki, y el nombre *equivocado* en las dos de Fire's Edge, que el juego
+ * llama `First Aid`. Es la misma regla que ya sigue `gameIds.js` con los ids de
+ * partida: **un renombrado sólo se aplica cuando la clase tiene de verdad esa
+ * skill**, y por eso la tabla va indexada por clase.
+ *
+ * Forma: `clase -> campo -> canónico -> [grafías]`, donde `campo` es
+ * `skills`, `campSkills` o `trinkets`.
+ *
+ * El síntoma que arreglan es silencioso: una comp que guarda `Snakeskin` pinta
+ * "Selected: 4/4" mientras ninguno de los siete botones del roster se enciende,
+ * porque el contador mira el array y el botón mira el roster.
+ */
+export const CLASS_NAME_ALIASES = {
+  // La Shieldbreaker la escribe en dos palabras (`str_camping_skill_name_snake_skin`).
+  Shieldbreaker: {
+    campSkills: { 'Snake Skin': ['Snakeskin'] }
+  },
+  // Fire's Edge: el juego las renderiza desde la instalación como `First Aid`.
+  // Sin este alias, `COMMON_VANILLA_CAMP_SKILLS` resuelve `Wound Care` a sí
+  // mismo y deja al héroe con una camp skill que su clase no tiene.
+  Duelist: {
+    campSkills: { 'First Aid': ['Wound Care'] }
+  },
+  Runaway: {
+    campSkills: { 'First Aid': ['Wound Care'] }
+  }
+};

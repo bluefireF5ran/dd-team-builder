@@ -5,6 +5,11 @@ import { EMPTY_HERO } from '../../constants';
 describe('useTeam', () => {
   beforeEach(() => {
     localStorage.clear();
+    jest.useFakeTimers();
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
   });
 
   test('initializes with default state', () => {
@@ -393,6 +398,120 @@ describe('useTeam', () => {
         result.current.placeHeroes([]);
       });
       expect(result.current.canUndo).toBe(false);
+    });
+  });
+  describe('undo covers the whole comp, not just the heroes', () => {
+    // El historial solo guardaba `heroes`, asi que deshacer despues de cargar
+    // una comp devolvia la party vieja con el nombre y la mazmorra de la nueva:
+    // un estado que nunca existio y que ademas se veia bien.
+    const preset = {
+      name: 'Hound Pack: Faith',
+      location: 'The Warrens',
+      heroes: [
+        { ...EMPTY_HERO, heroClass: 'Houndmaster' },
+        { ...EMPTY_HERO, heroClass: 'Vestal' },
+        { ...EMPTY_HERO },
+        { ...EMPTY_HERO }
+      ]
+    };
+
+    test('undo restores the name and the location too', () => {
+      const { result } = renderHook(() => useTeam());
+
+      act(() => {
+        result.current.setTeamName('Mine');
+        result.current.updateHero(0, { ...EMPTY_HERO, heroClass: 'Leper' });
+      });
+      act(() => result.current.loadPreset(preset));
+
+      expect(result.current.teamName).toBe('Hound Pack: Faith');
+      expect(result.current.location).toBe('The Warrens');
+
+      act(() => result.current.undo());
+
+      expect(result.current.teamName).toBe('Mine');
+      expect(result.current.location).toBe('The Ruins');
+      expect(result.current.heroes[0].heroClass).toBe('Leper');
+    });
+
+    test('redo puts all three back', () => {
+      const { result } = renderHook(() => useTeam());
+      act(() => result.current.loadPreset(preset));
+      act(() => result.current.undo());
+      act(() => result.current.redo());
+
+      expect(result.current.teamName).toBe('Hound Pack: Faith');
+      expect(result.current.location).toBe('The Warrens');
+      expect(result.current.heroes[0].heroClass).toBe('Houndmaster');
+    });
+
+    test('clearing is one undoable step', () => {
+      const { result } = renderHook(() => useTeam());
+      act(() => result.current.loadPreset(preset));
+      act(() => result.current.clearTeam());
+
+      expect(result.current.teamName).toBe('My Team');
+
+      act(() => result.current.undo());
+      expect(result.current.teamName).toBe('Hound Pack: Faith');
+      expect(result.current.heroes[1].heroClass).toBe('Vestal');
+    });
+
+    test('canUndo and canRedo track the stacks', () => {
+      const { result } = renderHook(() => useTeam());
+      expect(result.current.canUndo).toBe(false);
+      expect(result.current.canRedo).toBe(false);
+
+      act(() => result.current.updateHero(0, { ...EMPTY_HERO, heroClass: 'Jester' }));
+      expect(result.current.canUndo).toBe(true);
+      expect(result.current.canRedo).toBe(false);
+
+      act(() => result.current.undo());
+      expect(result.current.canUndo).toBe(false);
+      expect(result.current.canRedo).toBe(true);
+    });
+
+    test('a new edit drops the redo branch', () => {
+      const { result } = renderHook(() => useTeam());
+      act(() => result.current.updateHero(0, { ...EMPTY_HERO, heroClass: 'Jester' }));
+      act(() => result.current.undo());
+      expect(result.current.canRedo).toBe(true);
+
+      act(() => result.current.updateHero(1, { ...EMPTY_HERO, heroClass: 'Leper' }));
+      expect(result.current.canRedo).toBe(false);
+    });
+  });
+
+  describe('the draft survives a reload', () => {
+    test('restores the party, the name and the location on mount', () => {
+      const { result, unmount } = renderHook(() => useTeam());
+      act(() => {
+        result.current.setTeamName('Half built');
+        result.current.setLocation('The Cove');
+        result.current.updateHero(0, { ...EMPTY_HERO, heroClass: 'Occultist' });
+      });
+      // El autoguardado va con retardo, como en la app.
+      act(() => jest.advanceTimersByTime(500));
+      unmount();
+
+      const reopened = renderHook(() => useTeam()).result;
+      expect(reopened.current.teamName).toBe('Half built');
+      expect(reopened.current.location).toBe('The Cove');
+      expect(reopened.current.heroes[0].heroClass).toBe('Occultist');
+    });
+
+    test('ignores a draft that is not a team', () => {
+      localStorage.setItem('dd_draft_team_v1', JSON.stringify({ heroes: 'nope' }));
+      const { result } = renderHook(() => useTeam());
+      expect(result.current.teamName).toBe('My Team');
+      expect(result.current.heroes).toHaveLength(4);
+      expect(result.current.heroes[0].heroClass).toBe('');
+    });
+
+    test('starts clean when there is no draft', () => {
+      const { result } = renderHook(() => useTeam());
+      expect(result.current.teamName).toBe('My Team');
+      expect(result.current.heroes[0].heroClass).toBe('');
     });
   });
 });

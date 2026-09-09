@@ -69,12 +69,12 @@
       "heroClass": "Sibyl",
       "activeSkills": [
         "Alignment",
+        "Moonlight Touch",
+        "Moonlight Embrace",
         "Banish",
         "Faerie Fire",
-        "Moonlight Embrace",
-        "Moonlight Touch",
-        "Solar Flare",
-        "Solar Ray"
+        "Solar Ray",
+        "Solar Flare"
       ],
       "activeCampSkills": [
         "Encourage",

@@ -31,7 +31,7 @@ export const TEAM_PRESETS = [
       createHero('Bounty Hunter', ['Collect Bounty', 'Mark for Death', 'Come Hither', 'Finish Him'], ['Encourage', 'Wound Care', 'Pep Talk', 'Planned Takedown'], 'Focus Ring', 'Legendary Bracer'),
       createHero('Arbalest', ['Sniper Shot', 'Suppressing Fire', 'Sniper\'s Mark', 'Battlefield Bandage'], ['Encourage', 'Wound Care', 'Pep Talk', 'Triage'], 'Rampart Shield', 'Glittering Spaulders'),
       createHero('Houndmaster', ['Hound\'s Rush', 'Target Whistle', 'Guard Dog', 'Lick Wounds'], ['Encourage', 'Wound Care', 'Pep Talk', 'Hound\'s Watch'], 'Spiked Collar', 'Protective Collar'),
-      createHero('Occultist', ['Sacrificial Stab', 'Wyrd Reconstruction', 'Vulnerability Hex', 'Weakening Curse'], ['Encourage', 'Wound Care', 'Pep Talk', 'Dark Ritual'], 'Vial of Sand', 'Book of Sanity')
+      createHero('Occultist', ['Sacrificial Stab', 'Weakening Curse', 'Wyrd Reconstruction', 'Vulnerability Hex'], ['Encourage', 'Wound Care', 'Pep Talk', 'Dark Ritual'], 'Vial of Sand', 'Book of Sanity')
     ]
   },
   {
@@ -39,10 +39,10 @@ export const TEAM_PRESETS = [
     description: 'Durable frontline with healing and stress management',
     location: 'The Warrens',
     heroes: [
-      createHero('Man at Arms', ['Crush', 'Defender', 'Bellow', 'Rampart'], ['Encourage', 'Wound Care', 'Pep Talk', 'Weapons Practice'], 'Cleansing Eyepatch', 'Guardian\'s Shield'),
+      createHero('Man at Arms', ['Crush', 'Rampart', 'Bellow', 'Defender'], ['Encourage', 'Wound Care', 'Pep Talk', 'Weapons Practice'], 'Cleansing Eyepatch', 'Guardian\'s Shield'),
       createHero('Crusader', ['Smite', 'Stunning Blow', 'Bulwark of Faith', 'Battle Heal'], ['Encourage', 'Wound Care', 'Pep Talk', 'Unshakeable Leader'], 'Knight\'s Crest', 'Focus Ring'),
       createHero('Vestal', ['Judgement', 'Dazzling Light', 'Divine Grace', 'Divine Comfort'], ['Encourage', 'Wound Care', 'Pep Talk', 'Sanctuary'], 'Tome of Holy Healing', 'Surgical Gloves'),
-      createHero('Jester', ['Slice Off', 'Solo', 'Battle Ballad', 'Finale'], ['Encourage', 'Wound Care', 'Pep Talk', 'Turn Back Time'], 'Bright Tambourine', 'Ancestor\'s Coat')
+      createHero('Jester', ['Finale', 'Solo', 'Slice Off', 'Battle Ballad'], ['Encourage', 'Wound Care', 'Pep Talk', 'Turn Back Time'], 'Bright Tambourine', 'Ancestor\'s Coat')
     ]
   },
   {
@@ -52,7 +52,7 @@ export const TEAM_PRESETS = [
     heroes: [
       createHero('Flagellant', ['Punish', 'Rain of Sorrows', 'Exsanguinate', 'Redeem'], ['Lash\'s Anger', 'Lash\'s Solace', 'Lash\'s Kiss', 'Lash\'s Cure'], 'Eternity\'s Collar', 'Bleed Charm'),
       createHero('Hellion', ['Wicked Hack', 'Iron Swan', 'If It Bleeds', 'Bleed Out'], ['Encourage', 'Wound Care', 'Pep Talk', 'Revel'], 'Hell\'s Hairpin', 'Berserk Charm'),
-      createHero('Houndmaster', ['Hound\'s Rush', 'Target Whistle', 'Guard Dog', 'Cry Havoc'], ['Encourage', 'Wound Care', 'Pep Talk', 'Hound\'s Watch'], 'Spiked Collar', 'Protective Collar'),
+      createHero('Houndmaster', ['Hound\'s Rush', 'Target Whistle', 'Cry Havoc', 'Guard Dog'], ['Encourage', 'Wound Care', 'Pep Talk', 'Hound\'s Watch'], 'Spiked Collar', 'Protective Collar'),
       createHero('Plague Doctor', ['Noxious Blast', 'Plague Grenade', 'Battlefield Medicine', 'Emboldening Vapours'], ['Encourage', 'Wound Care', 'Pep Talk', 'The Cure'], 'Blasphemous Vial', 'Stun Amulet')
     ]
   },
@@ -61,7 +61,7 @@ export const TEAM_PRESETS = [
     description: 'Balanced team designed for Darkest Dungeon quests',
     location: 'The Darkest Dungeon I',
     heroes: [
-      createHero('Man at Arms', ['Crush', 'Command', 'Bellow', 'Rampart'], ['Encourage', 'Wound Care', 'Pep Talk', 'Weapons Practice'], 'Cleansing Eyepatch', 'Guardian\'s Shield'),
+      createHero('Man at Arms', ['Crush', 'Rampart', 'Bellow', 'Command'], ['Encourage', 'Wound Care', 'Pep Talk', 'Weapons Practice'], 'Cleansing Eyepatch', 'Guardian\'s Shield'),
       createHero('Arbalest', ['Sniper Shot', 'Suppressing Fire', 'Sniper\'s Mark', 'Battlefield Bandage'], ['Encourage', 'Wound Care', 'Pep Talk', 'Triage'], 'Rampart Shield', 'Glittering Spaulders'),
       createHero('Vestal', ['Judgement', 'Dazzling Light', 'Divine Grace', 'Divine Comfort'], ['Encourage', 'Wound Care', 'Pep Talk', 'Sanctuary'], 'Tome of Holy Healing', 'Surgical Gloves'),
       createHero('Houndmaster', ['Hound\'s Rush', 'Target Whistle', 'Guard Dog', 'Lick Wounds'], ['Encourage', 'Wound Care', 'Pep Talk', 'Hound\'s Watch'], 'Spiked Collar', 'Protective Collar')

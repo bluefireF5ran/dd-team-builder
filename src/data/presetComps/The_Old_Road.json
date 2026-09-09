@@ -35,10 +35,10 @@
     {
       "heroClass": "Highwayman",
       "activeSkills": [
-        "Open Vein",
         "Pistol Shot",
         "Grapeshot Blast",
-        "Tracking Shot"
+        "Tracking Shot",
+        "Open Vein"
       ],
       "activeCampSkills": [
         "Wound Care",

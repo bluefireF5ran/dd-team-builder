@@ -13,7 +13,7 @@ A team composition planner for **Darkest Dungeon 1**. Build and save your party 
 - 💎 **Trinket System** - Equip 2 trinkets per hero from the full trinket database
 - 🎲 **Quirk Management** - Add positive and negative quirks with locking support
 - 🔄 **Drag & Drop** - Reorder heroes in your party composition
-- 💾 **Auto-Save** - Teams are saved to localStorage automatically
+- 💾 **Auto-Save** - The party you are building survives a reload; named teams are saved to localStorage on demand
 - 📱 **Responsive Design** - Works on desktop and mobile
 - 🎨 **Darkest Dungeon Theme** - Gothic styling with the DwarvenAxe font
 

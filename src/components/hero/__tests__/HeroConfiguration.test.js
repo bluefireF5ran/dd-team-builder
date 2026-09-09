@@ -323,6 +323,84 @@ describe('HeroConfiguration', () => {
       expect(within(screen.getByRole('tooltip')).getByText('Very Rare')).toBeInTheDocument();
     });
   });
+
+  describe('build for this rank', () => {
+    const bare = (heroClass) => ({ ...EMPTY_HERO, heroClass });
+
+    it('is not offered until a class is picked', () => {
+      render(<HeroConfiguration {...defaultProps} />);
+      expect(screen.queryByLabelText(/Build for rank/)).not.toBeInTheDocument();
+    });
+
+    it('fills an empty hero without asking', () => {
+      const onUpdate = jest.fn();
+      render(
+        <HeroConfiguration {...defaultProps} hero={bare('Vestal')} position={3} onUpdate={onUpdate} />
+      );
+      fireEvent.click(screen.getByLabelText('Build for rank 3'));
+
+      expect(onUpdate).toHaveBeenCalledTimes(1);
+      const built = onUpdate.mock.calls[0][0];
+      expect(built.activeSkills).toHaveLength(4);
+      expect(built.activeCampSkills).toHaveLength(4);
+      expect(built.trinket1).toBeTruthy();
+    });
+
+    it('builds the same class differently at rank 1 and rank 4', () => {
+      const atRank = (position) => {
+        const onUpdate = jest.fn();
+        const view = render(
+          <HeroConfiguration
+            {...defaultProps}
+            hero={bare('Occultist')}
+            position={position}
+            onUpdate={onUpdate}
+          />
+        );
+        fireEvent.click(screen.getByLabelText(`Build for rank ${position}`));
+        view.unmount();
+        return onUpdate.mock.calls[0][0].activeSkills;
+      };
+      expect(atRank(1)).not.toEqual(atRank(4));
+    });
+
+    it('asks before overwriting a hero that is already configured', () => {
+      const onUpdate = jest.fn();
+      render(
+        <HeroConfiguration
+          {...defaultProps}
+          hero={{ ...bare('Vestal'), activeSkills: ['Judgement'] }}
+          position={2}
+          onUpdate={onUpdate}
+        />
+      );
+      fireEvent.click(screen.getByLabelText('Build for rank 2'));
+
+      expect(onUpdate).not.toHaveBeenCalled();
+      expect(screen.getByText('Build for this rank')).toBeInTheDocument();
+    });
+
+    it('keeps a locked quirk, because the game will not let you drop it', () => {
+      const onUpdate = jest.fn();
+      render(
+        <HeroConfiguration
+          {...defaultProps}
+          hero={{
+            ...bare('Vestal'),
+            quirks: { positive: ['Quick Reflexes'], negative: [] },
+            lockedQuirks: { positive: ['Quick Reflexes'], negative: [] }
+          }}
+          position={3}
+          onUpdate={onUpdate}
+        />
+      );
+      fireEvent.click(screen.getByLabelText('Build for rank 3'));
+      fireEvent.click(screen.getByRole('button', { name: 'Continue' }));
+
+      const built = onUpdate.mock.calls[0][0];
+      expect(built.quirks.positive).toContain('Quick Reflexes');
+    });
+  });
 });
 
 describe('HeroConfiguration quirks, diseases and auto-sort', () => {

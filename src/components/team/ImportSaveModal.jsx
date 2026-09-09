@@ -8,6 +8,7 @@ import { getHeroImagePath, isModdedHero } from '../../utils/imageHelper';
 import { quirkClasses } from '../../utils/quirkStyle';
 import { toBuilderHero, SAVE_FILES } from '../../utils/saveParser';
 import { PARTY_CONFIG } from '../../constants';
+import { resolveLevel } from '../../data/regionProfiles';
 import { rosterFromHeroes, isHeroAvailable } from '../../utils/rosterAvailability';
 
 /**
@@ -79,7 +80,14 @@ const HeroRow = ({ hero, rank, onToggle, dimmed }) => {
           <span className="text-dd-parchment text-sm font-semibold truncate">{hero.name || 'Unnamed'}</span>
           <span className="text-gray-400 text-xs">{hero.heroClass}</span>
           {modded && <Badge className="border-purple-700/50 bg-purple-900/40 text-purple-300">modded</Badge>}
-          <Badge className="border-gray-600 bg-gray-800 text-gray-300">XP {hero.resolveXp}</Badge>
+          {/* El nivel sale de `level_threshold_table`, que vive en la instalacion
+              del juego: hasta que se extrajo, aqui solo se podia poner el XP
+              crudo y que cada uno lo tradujera de memoria. */}
+          <Badge className="border-gray-600 bg-gray-800 text-gray-300">
+            {resolveLevel(hero.resolveXp) !== null
+              ? `Lv ${resolveLevel(hero.resolveXp)} · XP ${hero.resolveXp}`
+              : `XP ${hero.resolveXp}`}
+          </Badge>
           {hero.stress > 0 && (
             <Badge className="border-amber-700/50 bg-amber-900/30 text-amber-300">
               <Brain size={9} className="inline -mt-0.5 mr-0.5" />

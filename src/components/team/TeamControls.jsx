@@ -26,6 +26,7 @@ const TeamControls = ({
   isExporting = false,
   onRandomize,
   onSuggest,
+  onGenerateComp,
   onUndo,
   onRedo,
   canUndo = false,
@@ -499,6 +500,14 @@ const TeamControls = ({
           } else {
             showToast?.('Random comp suggested from your roster!', 'success');
           }
+        }}
+        onGenerate={(comp) => {
+          const result = onGenerateComp?.(comp);
+          const notes = comp.coverage?.has('heal') ? '' : ' It has no healing.';
+          showToast?.(
+            `Built "${result?.teamName || 'a new comp'}" from your roster.${notes}`,
+            'success'
+          );
         }}
         showModdedHeroes={settings.showModdedHeroes}
         saveProfile={saveProfile}

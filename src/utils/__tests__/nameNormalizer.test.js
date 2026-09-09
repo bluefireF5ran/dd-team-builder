@@ -194,4 +194,31 @@ describe('name aliases', () => {
     expect(nameMatchesSearch("Vvulf's Tassel", 'crusader')).toBe(false);
     expect(nameMatchesSearch('Bleed Charm', '')).toBe(true);
   });
+  describe('class-scoped skill aliases', () => {
+    // El nombre bueno depende de la clase, asi que una tabla plana no sirve:
+    // `Wound Care` es correcto en dieciocho clases y equivocado en las dos de
+    // Fire's Edge, que el juego llama `First Aid`.
+    it("resolves the Shieldbreaker's camp skill written as one word", () => {
+      expect(canonicalizeCampSkill('Snakeskin', 'Shieldbreaker')).toBe('Snake Skin');
+      expect(canonicalizeCampSkill('Snake Skin', 'Shieldbreaker')).toBe('Snake Skin');
+    });
+
+    it("renames Wound Care to First Aid only for the Fire's Edge classes", () => {
+      expect(canonicalizeCampSkill('Wound Care', 'Duelist')).toBe('First Aid');
+      expect(canonicalizeCampSkill('Wound Care', 'Runaway')).toBe('First Aid');
+    });
+
+    it('leaves Wound Care alone for every class that really has it', () => {
+      ['Crusader', 'Abomination', 'Vestal', 'Leper', 'Houndmaster'].forEach((heroClass) => {
+        expect(canonicalizeCampSkill('Wound Care', heroClass)).toBe('Wound Care');
+      });
+    });
+
+    it('does not leak a class alias into another class', () => {
+      // La Shieldbreaker no tiene `First Aid`, y el Duelist no tiene `Snake Skin`:
+      // un alias cuyo canonico la clase no lleva no debe aplicarse.
+      expect(canonicalizeCampSkill('Snakeskin', 'Duelist')).toBe('Snakeskin');
+      expect(canonicalizeCampSkill('Wound Care', 'Shieldbreaker')).toBe('Wound Care');
+    });
+  });
 });

@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { PARTY_CONFIG } from '../constants';
-import { savePresetToFile, loadTeamFromFile, saveTeamToLocalStorage, loadTeamsFromLocalStorage, deleteTeamFromLocalStorage, saveAllTeamsToFile, importTeamsFromFile } from '../utils/storageHelper';
+import { savePresetToFile, loadTeamFromFile, saveTeamToLocalStorage, loadTeamsFromLocalStorage, deleteTeamFromLocalStorage, saveAllTeamsToFile, importTeamsFromFile, saveDraftTeam, loadDraftTeam } from '../utils/storageHelper';
 import { nameCompAgainst, toCompFileName } from '../utils/compNaming';
 import { getRawComps } from '../data/compIndex';
 import { generateRandomTeam, generateRandomTeamFromRoster } from '../utils/randomTeam';
@@ -18,58 +18,136 @@ const emptyParty = () => Array(PARTY_CONFIG.MAX_HEROES).fill(null).map(createEmp
  * (tema, contenido modded/backer/enfermedades, orden por defecto): esas son de
  * `useSettings`, porque sobreviven a la comp que tengas abierta.
  */
+const cloneComp = (comp) => ({
+  teamName: comp.teamName,
+  location: comp.location,
+  heroes: JSON.parse(JSON.stringify(comp.heroes))
+});
+
 export const useTeam = ({ defaultLocation = 'The Ruins' } = {}) => {
-  const [teamName, setTeamName] = useState('My Team');
-  const [location, setLocation] = useState(defaultLocation);
+  // El borrador de la sesion anterior, leido UNA vez: `useState(fn)` solo llama
+  // al inicializador en el primer render.
+  const [draft] = useState(loadDraftTeam);
+
+  const [teamName, setTeamNameState] = useState(() => draft?.teamName || 'My Team');
+  const [location, setLocationState] = useState(() => draft?.location || defaultLocation);
   const [savedTeams, setSavedTeams] = useState([]);
-  const [heroes, setHeroes] = useState(emptyParty);
+  const [heroes, setHeroes] = useState(() => draft?.heroes || emptyParty());
 
-  // Undo/Redo history
-  const historyRef = useRef({ past: [], future: [] });
-  const skipHistoryRef = useRef(false);
+  /**
+   * Undo/redo sobre la COMP entera, no solo sobre los heroes.
+   *
+   * Antes el historial solo guardaba `heroes`, asi que deshacer despues de
+   * cargar una comp te devolvia la party vieja con el nombre y la mazmorra de
+   * la nueva: un estado que nunca existio. `TeamControls` ya prometia "This can
+   * be undone with Ctrl+Z" para acciones que cambian las tres cosas.
+   *
+   * Y vive en estado, no en un ref. Un ref no programa render, asi que los
+   * botones de deshacer/rehacer solo acertaban su estado `disabled` de rebote,
+   * porque el `setHeroes` de al lado provocaba el render. Escribir el historial
+   * DENTRO del updater de `setHeroes` era peor: React invoca los updaters dos
+   * veces bajo StrictMode, asi que una sola edicion podia apilar dos entradas.
+   */
+  const [history, setHistory] = useState({ past: [], future: [] });
 
-  const undo = useCallback(() => {
+  /**
+   * La comp vigente, para los callbacks, que asi no se recrean en cada tecla.
+   *
+   * Se mantiene al dia en cada escritura, no solo en render, porque React
+   * agrupa las actualizaciones: dos `updateHero` seguidos en el mismo tick leen
+   * el ref antes de que haya habido render, y sin eso el segundo pisaba al
+   * primero. Es lo que daban gratis los updaters funcionales que esto sustituye.
+   * La asignacion en render cubre el caso restante: que el estado cambie por
+   * fuera (un `defaultLocation` nuevo, o React reusando el hook).
+   */
+  const compRef = useRef(null);
+  compRef.current = { teamName, location, heroes };
+  const historyRef = useRef(history);
+  historyRef.current = history;
+
+  /**
+   * Aplica un cambio a la comp y lo apila en el historial como UN paso.
+   * `producer` recibe la comp actual y devuelve lo que cambia de ella.
+   */
+  /**
+   * Renombrar y cambiar de mazmorra NO son pasos de historial: escribir en el
+   * campo del nombre apilaria una entrada por tecla. Pero si tienen que
+   * actualizar `compRef`, o el siguiente `commit` -- que puede caer en el mismo
+   * tick, antes de que haya habido render-- guardaria en el historial un nombre
+   * viejo y ademas lo devolveria al estado, deshaciendo lo que acabas de teclear.
+   */
+  const setTeamName = useCallback((name) => {
+    compRef.current = { ...compRef.current, teamName: name };
+    setTeamNameState(name);
+  }, []);
+
+  const setLocation = useCallback((next) => {
+    compRef.current = { ...compRef.current, location: next };
+    setLocationState(next);
+  }, []);
+
+  const commit = useCallback((producer) => {
+    const current = compRef.current;
+    const patch = typeof producer === 'function' ? producer(current) : producer;
+    if (!patch) return;
+    const next = { ...current, ...patch };
+    compRef.current = next;
+
+    setHistory((prev) => ({
+      past: [...prev.past, cloneComp(current)].slice(-MAX_HISTORY),
+      future: []
+    }));
+    setTeamNameState(next.teamName);
+    setLocationState(next.location);
+    setHeroes(next.heroes);
+  }, []);
+
+  const travel = useCallback((direction) => {
     const { past, future } = historyRef.current;
-    if (past.length === 0) return;
-    const previous = past.pop();
-    future.push(JSON.parse(JSON.stringify(heroes)));
-    skipHistoryRef.current = true;
-    setHeroes(previous);
-  }, [heroes]);
+    const stack = direction === 'undo' ? past : future;
+    if (!stack.length) return;
 
-  const redo = useCallback(() => {
-    const { future } = historyRef.current;
-    if (future.length === 0) return;
-    const next = future.pop();
-    historyRef.current.past.push(JSON.parse(JSON.stringify(heroes)));
-    skipHistoryRef.current = true;
-    setHeroes(next);
-  }, [heroes]);
+    const target = stack[stack.length - 1];
+    const current = cloneComp(compRef.current);
+    compRef.current = target;
+    setHistory(
+      direction === 'undo'
+        ? { past: past.slice(0, -1), future: [...future, current] }
+        : { past: [...past, current], future: future.slice(0, -1) }
+    );
+    setTeamNameState(target.teamName);
+    setLocationState(target.location);
+    setHeroes(target.heroes);
+  }, []);
 
-  const canUndo = historyRef.current.past.length > 0;
-  const canRedo = historyRef.current.future.length > 0;
+  const undo = useCallback(() => travel('undo'), [travel]);
+  const redo = useCallback(() => travel('redo'), [travel]);
+
+  const canUndo = history.past.length > 0;
+  const canRedo = history.future.length > 0;
 
   // Load saved teams from localStorage on mount
   useEffect(() => {
     setSavedTeams(loadTeamsFromLocalStorage());
   }, []);
 
+  /**
+   * Autoguardado del borrador. Con retardo porque `teamName` cambia en cada
+   * tecla y esto serializa cuatro heroes; el ultimo estado en reposo es el que
+   * queda escrito.
+   */
+  useEffect(() => {
+    const id = setTimeout(() => saveDraftTeam(teamName, location, heroes), 400);
+    return () => clearTimeout(id);
+  }, [teamName, location, heroes]);
+
   const updateHero = useCallback((index, updatedHero) => {
-    setHeroes(prev => {
-      const snapshot = JSON.parse(JSON.stringify(prev));
-      if (!skipHistoryRef.current) {
-        historyRef.current.past.push(snapshot);
-        if (historyRef.current.past.length > MAX_HISTORY) {
-          historyRef.current.past.shift();
-        }
-        historyRef.current.future = [];
-      }
-      skipHistoryRef.current = false;
+    commit(({ heroes: prev }) => {
       const newHeroes = [...prev];
       newHeroes[index] = updatedHero;
-      return newHeroes;
+      return { heroes: newHeroes };
     });
-  }, []);
+  }, [commit]);
 
   /**
    * Drops a run of heroes into the party from rank 1 onwards, in one undoable
@@ -80,36 +158,25 @@ export const useTeam = ({ defaultLocation = 'The Ruins' } = {}) => {
    */
   const placeHeroes = useCallback((incoming) => {
     if (!Array.isArray(incoming) || !incoming.length) return;
-    setHeroes(prev => {
-      historyRef.current.past.push(JSON.parse(JSON.stringify(prev)));
-      if (historyRef.current.past.length > MAX_HISTORY) {
-        historyRef.current.past.shift();
-      }
-      historyRef.current.future = [];
+    commit(({ heroes: prev }) => {
       const next = [...prev];
       incoming.slice(0, PARTY_CONFIG.MAX_HEROES).forEach((hero, index) => {
         next[index] = canonicalizeHero(hero);
       });
-      return next;
+      return { heroes: next };
     });
-  }, []);
+  }, [commit]);
 
   // Swap two heroes (for drag & drop)
   const swapHeroes = useCallback((fromIndex, toIndex) => {
-    setHeroes(prev => {
-      const snapshot = JSON.parse(JSON.stringify(prev));
-      historyRef.current.past.push(snapshot);
-      if (historyRef.current.past.length > MAX_HISTORY) {
-        historyRef.current.past.shift();
-      }
-      historyRef.current.future = [];
+    commit(({ heroes: prev }) => {
       const newHeroes = [...prev];
       const temp = newHeroes[fromIndex];
       newHeroes[fromIndex] = newHeroes[toIndex];
       newHeroes[toIndex] = temp;
-      return newHeroes;
+      return { heroes: newHeroes };
     });
-  }, []);
+  }, [commit]);
 
   /**
    * Guardar en el navegador, con TU nombre. La otra mitad del guardado (el
@@ -126,8 +193,10 @@ export const useTeam = ({ defaultLocation = 'The Ruins' } = {}) => {
    * Que nombre le daria la taxonomia a este equipo, sin guardar nada. Es lo que
    * el dialogo de guardado ensena antes de que elijas destino.
    *
-   * La libreria del bundle se carga aqui y no al arrancar (mismo criterio que
-   * compIndex): quien nunca guarda un preset no paga por 157 comps.
+   * Ojo: `getRawComps` memoiza el ANALISIS, no la carga. `compIndex` importa
+   * `compLibrary` y el barril de presets de forma estatica, asi que los bytes
+   * de las 183 comps ya estan en el bundle principal antes de que nadie abra
+   * nada; lo que se ahorra la primera vez es construir las entradas.
    */
   const describePreset = useCallback(() => {
     const comp = { teamName, alias: '', location, heroes };
@@ -160,15 +229,13 @@ export const useTeam = ({ defaultLocation = 'The Ruins' } = {}) => {
 
   const loadTeam = useCallback(async (file) => {
     const team = await loadTeamFromFile(file);
-    setTeamName(team.teamName || 'My Team');
-    setLocation(team.location || defaultLocation);
-    setHeroes(prev => {
-      historyRef.current.past.push(JSON.parse(JSON.stringify(prev)));
-      historyRef.current.future = [];
-      return team.heroes || emptyParty();
+    commit({
+      teamName: team.teamName || 'My Team',
+      location: team.location || defaultLocation,
+      heroes: team.heroes || emptyParty()
     });
     return true;
-  }, [defaultLocation]);
+  }, [commit, defaultLocation]);
 
   const loadSavedTeam = useCallback((savedTeamName) => {
     const teams = loadTeamsFromLocalStorage();
@@ -180,15 +247,13 @@ export const useTeam = ({ defaultLocation = 'The Ruins' } = {}) => {
     // modal sin decir nada hacia que un fallo y un exito se vieran igual.
     if (!team) return false;
 
-    setTeamName(team.teamName);
-    setLocation(team.location || defaultLocation);
-    setHeroes(prev => {
-      historyRef.current.past.push(JSON.parse(JSON.stringify(prev)));
-      historyRef.current.future = [];
-      return team.heroes || emptyParty();
+    commit({
+      teamName: team.teamName,
+      location: team.location || defaultLocation,
+      heroes: team.heroes || emptyParty()
     });
     return true;
-  }, [defaultLocation]);
+  }, [commit, defaultLocation]);
 
   const deleteSavedTeam = useCallback((savedTeamName) => {
     deleteTeamFromLocalStorage(savedTeamName);
@@ -197,12 +262,8 @@ export const useTeam = ({ defaultLocation = 'The Ruins' } = {}) => {
 
   /** El interruptor de modded es una preferencia, asi que llega como argumento. */
   const randomizeTeam = useCallback((showModdedHeroes = false) => {
-    setHeroes(prev => {
-      historyRef.current.past.push(JSON.parse(JSON.stringify(prev)));
-      historyRef.current.future = [];
-      return generateRandomTeam(showModdedHeroes);
-    });
-  }, []);
+    commit({ heroes: generateRandomTeam(showModdedHeroes) });
+  }, [commit]);
 
   /**
    * Genera una comp de preset (o fallback) con los héroes que el roster tiene
@@ -215,18 +276,14 @@ export const useTeam = ({ defaultLocation = 'The Ruins' } = {}) => {
   const suggestTeam = useCallback((rosterHeroNames, showModdedHeroes = false, options = {}) => {
     const suggestedHeroes = generateRandomTeamFromRoster(rosterHeroNames, showModdedHeroes, options);
 
-    if (suggestedHeroes.teamName) {
-      setTeamName(suggestedHeroes.teamName);
-    }
-    if (suggestedHeroes.location) {
-      setLocation(suggestedHeroes.location);
-    }
-
-    setHeroes(prev => {
-      historyRef.current.past.push(JSON.parse(JSON.stringify(prev)));
-      historyRef.current.future = [];
-      return suggestedHeroes;
-    });
+    // Nombre, mazmorra y heroes entran como UN paso: los tres cambian a la vez
+    // y deshacer tiene que devolver los tres, no dejarte la party anterior
+    // firmada con el nombre de la sugerencia.
+    commit((current) => ({
+      teamName: suggestedHeroes.teamName || current.teamName,
+      location: suggestedHeroes.location || current.location,
+      heroes: suggestedHeroes
+    }));
 
     return {
       teamName: suggestedHeroes.teamName,
@@ -238,7 +295,31 @@ export const useTeam = ({ defaultLocation = 'The Ruins' } = {}) => {
       warning: suggestedHeroes.warning || '',
       fromPreset: !!suggestedHeroes.fromPreset
     };
-  }, []);
+  }, [commit]);
+
+  /**
+   * Deja en la party una comp recien construida por `compGenerator`.
+   *
+   * Se nombra con el mismo motor que el resto (`nameCompAgainst`), asi que
+   * llega ya como `Familia: Variante` y comparable con la libreria en vez de
+   * como "Random Team". Un paso de historial, como cargar una comp.
+   */
+  const placeGeneratedComp = useCallback((comp) => {
+    if (!comp || !Array.isArray(comp.heroes)) return null;
+    const heroes = comp.heroes.map(canonicalizeHero);
+    const named = nameCompAgainst(
+      { teamName: '', alias: '', location: comp.location || defaultLocation, heroes },
+      getRawComps()
+    );
+
+    commit({
+      teamName: named.name,
+      location: comp.location || defaultLocation,
+      heroes
+    });
+
+    return { teamName: named.name, family: named.family?.name, variant: named.variant };
+  }, [commit, defaultLocation]);
 
   const importFromClipboard = useCallback(async () => {
     const text = await navigator.clipboard.readText();
@@ -251,26 +332,22 @@ export const useTeam = ({ defaultLocation = 'The Ruins' } = {}) => {
     if (!valid) {
       throw new Error('Invalid team data: ' + errors.join(', '));
     }
-    setTeamName(team.teamName || 'My Team');
-    setLocation(team.location || defaultLocation);
-    setHeroes(prev => {
-      historyRef.current.past.push(JSON.parse(JSON.stringify(prev)));
-      historyRef.current.future = [];
-      return team.heroes || emptyParty();
+    commit({
+      teamName: team.teamName || 'My Team',
+      location: team.location || defaultLocation,
+      heroes: team.heroes || emptyParty()
     });
-  }, [defaultLocation]);
+  }, [commit, defaultLocation]);
 
   const loadPreset = useCallback((preset) => {
-    setTeamName(preset.name);
-    setLocation(preset.location || defaultLocation);
-    setHeroes(prev => {
-      historyRef.current.past.push(JSON.parse(JSON.stringify(prev)));
-      historyRef.current.future = [];
+    commit({
+      teamName: preset.name,
+      location: preset.location || defaultLocation,
       // Clonar: los heroes del preset son objetos compartidos del bundle.
       // Se canonicaliza por si el preset trae una grafía antigua de algún nombre.
-      return JSON.parse(JSON.stringify(preset.heroes)).map(canonicalizeHero);
+      heroes: JSON.parse(JSON.stringify(preset.heroes)).map(canonicalizeHero)
     });
-  }, [defaultLocation]);
+  }, [commit, defaultLocation]);
 
   const backupAllTeams = useCallback(() => {
     return saveAllTeamsToFile();
@@ -283,14 +360,8 @@ export const useTeam = ({ defaultLocation = 'The Ruins' } = {}) => {
   }, []);
 
   const clearTeam = useCallback(() => {
-    setHeroes(prev => {
-      historyRef.current.past.push(JSON.parse(JSON.stringify(prev)));
-      historyRef.current.future = [];
-      return emptyParty();
-    });
-    setTeamName('My Team');
-    setLocation(defaultLocation);
-  }, [defaultLocation]);
+    commit({ teamName: 'My Team', location: defaultLocation, heroes: emptyParty() });
+  }, [commit, defaultLocation]);
 
   return {
     teamName,
@@ -308,6 +379,7 @@ export const useTeam = ({ defaultLocation = 'The Ruins' } = {}) => {
     deleteSavedTeam,
     randomizeTeam,
     suggestTeam,
+    placeGeneratedComp,
     undo,
     redo,
     canUndo,

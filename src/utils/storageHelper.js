@@ -5,6 +5,17 @@ import { downloadJSON } from './download';
 const STORAGE_KEY = 'dd_team_builder_teams';
 
 /**
+ * El equipo que estas construyendo ahora mismo, que no es lo mismo que un
+ * equipo guardado: no tiene tu nombre puesto ni aparece en "My Teams", solo
+ * sobrevive a recargar la pagina. Iba sin guardar en ninguna parte, asi que un
+ * F5 se llevaba la party entera mientras el README prometia autoguardado.
+ *
+ * Versionado desde el principio -- como `dd_save_profile_v1` -- para que un
+ * cambio de forma pueda ignorar el borrador viejo en vez de intentar leerlo.
+ */
+const DRAFT_KEY = 'dd_draft_team_v1';
+
+/**
  * Descarga la comp con el nombre que le da la taxonomia, lista para soltarla en
  * src/data/presetComps. `teamName` es el nombre taxonomico y `alias` el que le
  * habia puesto el usuario, que es como la recuerda y como la va a buscar.
@@ -108,12 +119,54 @@ export const saveTeamToLocalStorage = (teamName, location, heroes) => {
 export const loadTeamsFromLocalStorage = () => {
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
-    return stored ? JSON.parse(stored) : [];
+    const parsed = stored ? JSON.parse(stored) : [];
+    // `JSON.parse` devuelve lo que haya: si esa clave alguna vez guarda un
+    // objeto, `savedTeams` deja de ser un array y el siguiente `.map` en
+    // TeamControls o LoadCompModal tumba la pagina entera. Lo unico que hay
+    // entre eso y una pantalla en blanco es el ErrorBoundary.
+    return Array.isArray(parsed) ? parsed : [];
   } catch (error) {
     console.error('Error loading from localStorage:', error);
     return [];
   }
 };
+
+/**
+ * Guarda el borrador. Silencioso a proposito: es un autoguardado, y molestar
+ * con un toast cada vez que el disco esta lleno mientras escribes seria peor
+ * que perderlo. El guardado explicito (`saveTeamToLocalStorage`) si lo cuenta.
+ */
+export const saveDraftTeam = (teamName, location, heroes) => {
+  try {
+    localStorage.setItem(DRAFT_KEY, JSON.stringify({ teamName, location, heroes }));
+    return true;
+  } catch (error) {
+    return false;
+  }
+};
+
+/**
+ * Lee el borrador, o null si no hay o no se puede confiar en el.
+ *
+ * Se valida y se canonicaliza igual que un fichero importado: es el camino de
+ * entrada MENOS fiable de todos -- bytes escritos por una version anterior de
+ * la app, semanas atras-- y hasta ahora los de localStorage eran justo los que
+ * nadie comprobaba.
+ */
+export const loadDraftTeam = () => {
+  try {
+    const stored = localStorage.getItem(DRAFT_KEY);
+    if (!stored) return null;
+    const team = canonicalizeTeam(JSON.parse(stored));
+    if (!team || typeof team !== 'object' || !Array.isArray(team.heroes)) return null;
+    const { valid } = validateTeamSchema(team);
+    return valid ? team : null;
+  } catch (error) {
+    console.error('Error loading the draft team:', error);
+    return null;
+  }
+};
+
 
 export const deleteTeamFromLocalStorage = (teamName) => {
   try {
