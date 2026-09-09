@@ -1,0 +1,1869 @@
+{
+  "takenAt": "2026-09-09T22:47:23.440Z",
+  "cells": {
+    "Abomination|1": {
+      "heroClass": "Abomination",
+      "rank": 1,
+      "skills": [
+        "Transform",
+        "Manacles",
+        "Beast's Bile",
+        "Absolution",
+        "Rake",
+        "Rage",
+        "Slam"
+      ],
+      "camp": [
+        "Encourage",
+        "Anger Management",
+        "The Quickening",
+        "Eldritch Blood"
+      ],
+      "trinkets": [
+        "Ancestor's Pen",
+        "Focus Ring"
+      ],
+      "source": "model",
+      "samples": 2,
+      "rankLegal": true
+    },
+    "Abomination|2": {
+      "heroClass": "Abomination",
+      "rank": 2,
+      "skills": [
+        "Transform",
+        "Manacles",
+        "Beast's Bile",
+        "Absolution",
+        "Rake",
+        "Rage",
+        "Slam"
+      ],
+      "camp": [
+        "Encourage",
+        "Wound Care",
+        "The Quickening",
+        "Eldritch Blood"
+      ],
+      "trinkets": [
+        "Broken Key",
+        "Padlock of Transference"
+      ],
+      "source": "library",
+      "samples": 39,
+      "rankLegal": true
+    },
+    "Abomination|3": {
+      "heroClass": "Abomination",
+      "rank": 3,
+      "skills": [
+        "Transform",
+        "Manacles",
+        "Beast's Bile",
+        "Absolution",
+        "Rake",
+        "Rage",
+        "Slam"
+      ],
+      "camp": [
+        "Encourage",
+        "Wound Care",
+        "The Quickening",
+        "Eldritch Blood"
+      ],
+      "trinkets": [
+        "Broken Key",
+        "Padlock of Transference"
+      ],
+      "source": "library",
+      "samples": 7,
+      "rankLegal": true
+    },
+    "Abomination|4": {
+      "heroClass": "Abomination",
+      "rank": 4,
+      "skills": [
+        "Transform",
+        "Manacles",
+        "Beast's Bile",
+        "Absolution",
+        "Rake",
+        "Rage",
+        "Slam"
+      ],
+      "camp": [
+        "Encourage",
+        "Wound Care",
+        "Pep Talk",
+        "Anger Management"
+      ],
+      "trinkets": [
+        "Broken Key",
+        "Padlock of Transference"
+      ],
+      "source": "model",
+      "samples": 0,
+      "rankLegal": false
+    },
+    "Antiquarian|1": {
+      "heroClass": "Antiquarian",
+      "rank": 1,
+      "skills": [
+        "Nervous Stab",
+        "Festering Vapours",
+        "Get Down!",
+        "Protect Me"
+      ],
+      "camp": [
+        "Encourage",
+        "Wound Care",
+        "Strange Powders",
+        "Curious Incantation"
+      ],
+      "trinkets": [
+        "Ancestor's Map",
+        "Smoking Skull"
+      ],
+      "source": "model",
+      "samples": 3,
+      "rankLegal": true
+    },
+    "Antiquarian|2": {
+      "heroClass": "Antiquarian",
+      "rank": 2,
+      "skills": [
+        "Nervous Stab",
+        "Festering Vapours",
+        "Get Down!",
+        "Protect Me"
+      ],
+      "camp": [
+        "Encourage",
+        "Wound Care",
+        "Strange Powders",
+        "Curious Incantation"
+      ],
+      "trinkets": [
+        "Ancestor's Map",
+        "Camouflage Cloak"
+      ],
+      "source": "model",
+      "samples": 3,
+      "rankLegal": true
+    },
+    "Antiquarian|3": {
+      "heroClass": "Antiquarian",
+      "rank": 3,
+      "skills": [
+        "Festering Vapours",
+        "Get Down!",
+        "Invigorating Vapours",
+        "Protect Me"
+      ],
+      "camp": [
+        "Encourage",
+        "Wound Care",
+        "Resupply",
+        "Strange Powders"
+      ],
+      "trinkets": [
+        "Ancestor's Map",
+        "Smoking Skull"
+      ],
+      "source": "library",
+      "samples": 13,
+      "rankLegal": true
+    },
+    "Antiquarian|4": {
+      "heroClass": "Antiquarian",
+      "rank": 4,
+      "skills": [
+        "Festering Vapours",
+        "Get Down!",
+        "Fortifying Vapours",
+        "Protect Me"
+      ],
+      "camp": [
+        "Encourage",
+        "Wound Care",
+        "Resupply",
+        "Curious Incantation"
+      ],
+      "trinkets": [
+        "Smoking Skull",
+        "Ancestor's Map"
+      ],
+      "source": "library",
+      "samples": 10,
+      "rankLegal": true
+    },
+    "Arbalest|1": {
+      "heroClass": "Arbalest",
+      "rank": 1,
+      "skills": [
+        "Sniper Shot",
+        "Blindfire",
+        "Battlefield Bandage",
+        "Rallying Flare"
+      ],
+      "camp": [
+        "Encourage",
+        "Wound Care",
+        "Pep Talk",
+        "Field Dressing"
+      ],
+      "trinkets": [
+        "Fuseman's Matchstick",
+        "Ancestor's Map"
+      ],
+      "source": "model",
+      "samples": 0,
+      "rankLegal": false
+    },
+    "Arbalest|2": {
+      "heroClass": "Arbalest",
+      "rank": 2,
+      "skills": [
+        "Sniper Shot",
+        "Blindfire",
+        "Battlefield Bandage",
+        "Rallying Flare"
+      ],
+      "camp": [
+        "Encourage",
+        "Wound Care",
+        "Field Dressing",
+        "Triage"
+      ],
+      "trinkets": [
+        "Ancestor's Map",
+        "Fuseman's Matchstick"
+      ],
+      "source": "model",
+      "samples": 2,
+      "rankLegal": false
+    },
+    "Arbalest|3": {
+      "heroClass": "Arbalest",
+      "rank": 3,
+      "skills": [
+        "Sniper Shot",
+        "Blindfire",
+        "Battlefield Bandage",
+        "Rallying Flare"
+      ],
+      "camp": [
+        "Encourage",
+        "Wound Care",
+        "Marching Plan",
+        "Triage"
+      ],
+      "trinkets": [
+        "Ancestor's Map",
+        "Seer Stone"
+      ],
+      "source": "library",
+      "samples": 6,
+      "rankLegal": true
+    },
+    "Arbalest|4": {
+      "heroClass": "Arbalest",
+      "rank": 4,
+      "skills": [
+        "Sniper Shot",
+        "Blindfire",
+        "Battlefield Bandage",
+        "Rallying Flare"
+      ],
+      "camp": [
+        "Encourage",
+        "Marching Plan",
+        "Restring Crossbow",
+        "Triage"
+      ],
+      "trinkets": [
+        "Prophet's Eye",
+        "Fuseman's Matchstick"
+      ],
+      "source": "library",
+      "samples": 49,
+      "rankLegal": true
+    },
+    "Bounty Hunter|1": {
+      "heroClass": "Bounty Hunter",
+      "rank": 1,
+      "skills": [
+        "Collect Bounty",
+        "Mark for Death",
+        "Uppercut",
+        "Finish Him"
+      ],
+      "camp": [
+        "Encourage",
+        "Wound Care",
+        "This Is How We Do It",
+        "Tracking"
+      ],
+      "trinkets": [
+        "Hunter's Talons",
+        "Ancestor's Pen"
+      ],
+      "source": "library",
+      "samples": 12,
+      "rankLegal": true
+    },
+    "Bounty Hunter|2": {
+      "heroClass": "Bounty Hunter",
+      "rank": 2,
+      "skills": [
+        "Collect Bounty",
+        "Come Hither",
+        "Flashbang",
+        "Finish Him"
+      ],
+      "camp": [
+        "Encourage",
+        "Wound Care",
+        "This Is How We Do It",
+        "Tracking"
+      ],
+      "trinkets": [
+        "Hunter's Talons",
+        "Surgical Gloves"
+      ],
+      "source": "library",
+      "samples": 10,
+      "rankLegal": true
+    },
+    "Bounty Hunter|3": {
+      "heroClass": "Bounty Hunter",
+      "rank": 3,
+      "skills": [
+        "Collect Bounty",
+        "Come Hither",
+        "Flashbang",
+        "Finish Him"
+      ],
+      "camp": [
+        "Encourage",
+        "Wound Care",
+        "This Is How We Do It",
+        "Tracking"
+      ],
+      "trinkets": [
+        "Hunter's Talons",
+        "Vengeful Kill List"
+      ],
+      "source": "library",
+      "samples": 18,
+      "rankLegal": true
+    },
+    "Bounty Hunter|4": {
+      "heroClass": "Bounty Hunter",
+      "rank": 4,
+      "skills": [
+        "Collect Bounty",
+        "Mark for Death",
+        "Flashbang",
+        "Caltrops"
+      ],
+      "camp": [
+        "Encourage",
+        "Wound Care",
+        "This Is How We Do It",
+        "Tracking"
+      ],
+      "trinkets": [
+        "Vengeful Kill List",
+        "Ancestor's Map"
+      ],
+      "source": "model",
+      "samples": 2,
+      "rankLegal": true
+    },
+    "Crusader|1": {
+      "heroClass": "Crusader",
+      "rank": 1,
+      "skills": [
+        "Smite",
+        "Battle Heal",
+        "Holy Lance",
+        "Inspiring Cry"
+      ],
+      "camp": [
+        "Encourage",
+        "Stand Tall",
+        "Zealous Speech",
+        "Zealous Vigil"
+      ],
+      "trinkets": [
+        "Ancestor's Scroll",
+        "Signed Conscription"
+      ],
+      "source": "library",
+      "samples": 26,
+      "rankLegal": true
+    },
+    "Crusader|2": {
+      "heroClass": "Crusader",
+      "rank": 2,
+      "skills": [
+        "Smite",
+        "Stunning Blow",
+        "Holy Lance",
+        "Inspiring Cry"
+      ],
+      "camp": [
+        "Encourage",
+        "Stand Tall",
+        "Zealous Speech",
+        "Zealous Vigil"
+      ],
+      "trinkets": [
+        "Ancestor's Map",
+        "Focus Ring"
+      ],
+      "source": "library",
+      "samples": 21,
+      "rankLegal": true
+    },
+    "Crusader|3": {
+      "heroClass": "Crusader",
+      "rank": 3,
+      "skills": [
+        "Smite",
+        "Battle Heal",
+        "Holy Lance",
+        "Inspiring Cry"
+      ],
+      "camp": [
+        "Encourage",
+        "Stand Tall",
+        "Zealous Speech",
+        "Zealous Vigil"
+      ],
+      "trinkets": [
+        "Ancestor's Scroll",
+        "Commander's Orders"
+      ],
+      "source": "model",
+      "samples": 3,
+      "rankLegal": true
+    },
+    "Crusader|4": {
+      "heroClass": "Crusader",
+      "rank": 4,
+      "skills": [
+        "Smite",
+        "Battle Heal",
+        "Holy Lance",
+        "Inspiring Cry"
+      ],
+      "camp": [
+        "Encourage",
+        "Stand Tall",
+        "Zealous Speech",
+        "Zealous Vigil"
+      ],
+      "trinkets": [
+        "Ancestor's Scroll",
+        "Signed Conscription"
+      ],
+      "source": "library",
+      "samples": 18,
+      "rankLegal": true
+    },
+    "Duelist|1": {
+      "heroClass": "Duelist",
+      "rank": 1,
+      "skills": [
+        "Anticipation",
+        "Touché",
+        "Feint",
+        "Disengage",
+        "Flèche",
+        "Coup de Grâce",
+        "The Boot"
+      ],
+      "camp": [
+        "Encourage",
+        "Preparation",
+        "Ruthless Instruction",
+        "Again!"
+      ],
+      "trinkets": [
+        "Fortifying Garlic",
+        "Gilded Mantle"
+      ],
+      "source": "model",
+      "samples": 2,
+      "rankLegal": true
+    },
+    "Duelist|2": {
+      "heroClass": "Duelist",
+      "rank": 2,
+      "skills": [
+        "Anticipation",
+        "Touché",
+        "Feint",
+        "Disengage",
+        "Flèche",
+        "Coup de Grâce",
+        "The Boot"
+      ],
+      "camp": [
+        "Meditation",
+        "Preparation",
+        "Ruthless Instruction",
+        "Again!"
+      ],
+      "trinkets": [
+        "Ancestor's Candle",
+        "Gilded Mantle"
+      ],
+      "source": "library",
+      "samples": 5,
+      "rankLegal": true
+    },
+    "Duelist|3": {
+      "heroClass": "Duelist",
+      "rank": 3,
+      "skills": [
+        "Anticipation",
+        "Touché",
+        "Feint",
+        "Disengage",
+        "Flèche",
+        "Coup de Grâce",
+        "The Boot"
+      ],
+      "camp": [
+        "Pep Talk",
+        "Preparation",
+        "Ruthless Instruction",
+        "Again!"
+      ],
+      "trinkets": [
+        "Gilded Mantle",
+        "The Tempting Goblet"
+      ],
+      "source": "model",
+      "samples": 3,
+      "rankLegal": true
+    },
+    "Duelist|4": {
+      "heroClass": "Duelist",
+      "rank": 4,
+      "skills": [
+        "Anticipation",
+        "Touché",
+        "Feint",
+        "Disengage",
+        "Flèche",
+        "Coup de Grâce",
+        "The Boot"
+      ],
+      "camp": [
+        "Encourage",
+        "First Aid",
+        "Meditation",
+        "Again!"
+      ],
+      "trinkets": [
+        "Ancestor's Candle",
+        "Gilded Mantle"
+      ],
+      "source": "model",
+      "samples": 2,
+      "rankLegal": true
+    },
+    "Flagellant|1": {
+      "heroClass": "Flagellant",
+      "rank": 1,
+      "skills": [
+        "Punish",
+        "Reclaim",
+        "Redeem",
+        "Endure"
+      ],
+      "camp": [
+        "Lash's Anger",
+        "Lash's Solace",
+        "Lash's Kiss",
+        "Lash's Cure"
+      ],
+      "trinkets": [
+        "Flesh's Heart",
+        "Ancestor's Map"
+      ],
+      "source": "library",
+      "samples": 18,
+      "rankLegal": true
+    },
+    "Flagellant|2": {
+      "heroClass": "Flagellant",
+      "rank": 2,
+      "skills": [
+        "Punish",
+        "Rain of Sorrows",
+        "Redeem",
+        "Endure"
+      ],
+      "camp": [
+        "Lash's Anger",
+        "Lash's Solace",
+        "Lash's Kiss",
+        "Lash's Cure"
+      ],
+      "trinkets": [
+        "Bleed Amulet",
+        "Book of Sanity"
+      ],
+      "source": "library",
+      "samples": 4,
+      "rankLegal": true
+    },
+    "Flagellant|3": {
+      "heroClass": "Flagellant",
+      "rank": 3,
+      "skills": [
+        "Reclaim",
+        "Redeem",
+        "Endure",
+        "Suffer"
+      ],
+      "camp": [
+        "Lash's Anger",
+        "Lash's Solace",
+        "Lash's Kiss",
+        "Lash's Cure"
+      ],
+      "trinkets": [
+        "Ancestor's Map",
+        "Flesh's Heart"
+      ],
+      "source": "model",
+      "samples": 3,
+      "rankLegal": true
+    },
+    "Flagellant|4": {
+      "heroClass": "Flagellant",
+      "rank": 4,
+      "skills": [
+        "Reclaim",
+        "Redeem",
+        "Endure",
+        "Suffer"
+      ],
+      "camp": [
+        "Lash's Anger",
+        "Lash's Solace",
+        "Lash's Kiss",
+        "Lash's Cure"
+      ],
+      "trinkets": [
+        "Ancestor's Map",
+        "Flesh's Heart"
+      ],
+      "source": "model",
+      "samples": 2,
+      "rankLegal": true
+    },
+    "Grave Robber|1": {
+      "heroClass": "Grave Robber",
+      "rank": 1,
+      "skills": [
+        "Pick to the Face",
+        "Lunge",
+        "Shadow Fade",
+        "Toxin Trickery"
+      ],
+      "camp": [
+        "Encourage",
+        "Wound Care",
+        "Snuff Box",
+        "Gallows Humor"
+      ],
+      "trinkets": [
+        "Topshelf Tonic",
+        "Ancestor's Coat"
+      ],
+      "source": "model",
+      "samples": 3,
+      "rankLegal": true
+    },
+    "Grave Robber|2": {
+      "heroClass": "Grave Robber",
+      "rank": 2,
+      "skills": [
+        "Pick to the Face",
+        "Lunge",
+        "Flashing Daggers",
+        "Poison Darts"
+      ],
+      "camp": [
+        "Encourage",
+        "Snuff Box",
+        "Gallows Humor",
+        "Night Moves"
+      ],
+      "trinkets": [
+        "Ancestor's Musket Ball",
+        "Raider's Talisman"
+      ],
+      "source": "model",
+      "samples": 3,
+      "rankLegal": true
+    },
+    "Grave Robber|3": {
+      "heroClass": "Grave Robber",
+      "rank": 3,
+      "skills": [
+        "Pick to the Face",
+        "Lunge",
+        "Flashing Daggers",
+        "Toxin Trickery"
+      ],
+      "camp": [
+        "Encourage",
+        "Wound Care",
+        "Snuff Box",
+        "Gallows Humor"
+      ],
+      "trinkets": [
+        "Sharpened Letter Opener",
+        "Ancestor's Map"
+      ],
+      "source": "model",
+      "samples": 3,
+      "rankLegal": true
+    },
+    "Grave Robber|4": {
+      "heroClass": "Grave Robber",
+      "rank": 4,
+      "skills": [
+        "Pick to the Face",
+        "Lunge",
+        "Poison Darts",
+        "Toxin Trickery"
+      ],
+      "camp": [
+        "Encourage",
+        "Wound Care",
+        "Snuff Box",
+        "Gallows Humor"
+      ],
+      "trinkets": [
+        "Topshelf Tonic",
+        "Sharpened Letter Opener"
+      ],
+      "source": "library",
+      "samples": 17,
+      "rankLegal": true
+    },
+    "Hellion|1": {
+      "heroClass": "Hellion",
+      "rank": 1,
+      "skills": [
+        "Wicked Hack",
+        "Iron Swan",
+        "If It Bleeds",
+        "Breakthrough"
+      ],
+      "camp": [
+        "Encourage",
+        "Battle Trance",
+        "Revel",
+        "Sharpen Spear"
+      ],
+      "trinkets": [
+        "Thirsting Blade",
+        "Ancestor's Candle"
+      ],
+      "source": "library",
+      "samples": 27,
+      "rankLegal": true
+    },
+    "Hellion|2": {
+      "heroClass": "Hellion",
+      "rank": 2,
+      "skills": [
+        "Wicked Hack",
+        "If It Bleeds",
+        "Breakthrough",
+        "Adrenaline Rush"
+      ],
+      "camp": [
+        "Encourage",
+        "Battle Trance",
+        "Revel",
+        "Sharpen Spear"
+      ],
+      "trinkets": [
+        "Ancestor's Candle",
+        "Thirsting Blade"
+      ],
+      "source": "model",
+      "samples": 3,
+      "rankLegal": true
+    },
+    "Hellion|3": {
+      "heroClass": "Hellion",
+      "rank": 3,
+      "skills": [
+        "Wicked Hack",
+        "If It Bleeds",
+        "Breakthrough",
+        "Adrenaline Rush"
+      ],
+      "camp": [
+        "Encourage",
+        "Battle Trance",
+        "Revel",
+        "Sharpen Spear"
+      ],
+      "trinkets": [
+        "Crescendo Box",
+        "Heaven's Hairpin"
+      ],
+      "source": "model",
+      "samples": 1,
+      "rankLegal": true
+    },
+    "Hellion|4": {
+      "heroClass": "Hellion",
+      "rank": 4,
+      "skills": [
+        "Wicked Hack",
+        "If It Bleeds",
+        "Breakthrough",
+        "Adrenaline Rush"
+      ],
+      "camp": [
+        "Encourage",
+        "Battle Trance",
+        "Revel",
+        "Sharpen Spear"
+      ],
+      "trinkets": [
+        "Ancestor's Lantern",
+        "Heaven's Hairpin"
+      ],
+      "source": "model",
+      "samples": 1,
+      "rankLegal": false
+    },
+    "Highwayman|1": {
+      "heroClass": "Highwayman",
+      "rank": 1,
+      "skills": [
+        "Wicked Slice",
+        "Pistol Shot",
+        "Point Blank Shot",
+        "Duelist's Advance"
+      ],
+      "camp": [
+        "Encourage",
+        "Wound Care",
+        "Pep Talk",
+        "Gallows Humor"
+      ],
+      "trinkets": [
+        "Shameful Locket",
+        "Bloodied Neckerchief"
+      ],
+      "source": "model",
+      "samples": 0,
+      "rankLegal": true
+    },
+    "Highwayman|2": {
+      "heroClass": "Highwayman",
+      "rank": 2,
+      "skills": [
+        "Pistol Shot",
+        "Point Blank Shot",
+        "Duelist's Advance",
+        "Open Vein"
+      ],
+      "camp": [
+        "Encourage",
+        "Gallows Humor",
+        "Clean Guns",
+        "Bandit's Sense"
+      ],
+      "trinkets": [
+        "Shameful Locket",
+        "Bloodied Neckerchief"
+      ],
+      "source": "library",
+      "samples": 10,
+      "rankLegal": true
+    },
+    "Highwayman|3": {
+      "heroClass": "Highwayman",
+      "rank": 3,
+      "skills": [
+        "Pistol Shot",
+        "Point Blank Shot",
+        "Duelist's Advance",
+        "Open Vein"
+      ],
+      "camp": [
+        "Encourage",
+        "Gallows Humor",
+        "Clean Guns",
+        "Bandit's Sense"
+      ],
+      "trinkets": [
+        "Shameful Locket",
+        "Bloodied Neckerchief"
+      ],
+      "source": "library",
+      "samples": 14,
+      "rankLegal": true
+    },
+    "Highwayman|4": {
+      "heroClass": "Highwayman",
+      "rank": 4,
+      "skills": [
+        "Pistol Shot",
+        "Point Blank Shot",
+        "Tracking Shot",
+        "Duelist's Advance"
+      ],
+      "camp": [
+        "Encourage",
+        "Wound Care",
+        "Unparalleled Finesse",
+        "Bandit's Sense"
+      ],
+      "trinkets": [
+        "Bloodied Neckerchief",
+        "Shameful Locket"
+      ],
+      "source": "model",
+      "samples": 3,
+      "rankLegal": false
+    },
+    "Houndmaster|1": {
+      "heroClass": "Houndmaster",
+      "rank": 1,
+      "skills": [
+        "Hound's Rush",
+        "Hound's Harry",
+        "Guard Dog",
+        "Blackjack"
+      ],
+      "camp": [
+        "Encourage",
+        "Hound's Watch",
+        "Therapy Dog",
+        "Man's Best Friend"
+      ],
+      "trinkets": [
+        "Ancestor's Coat",
+        "Mildred's Locket"
+      ],
+      "source": "model",
+      "samples": 2,
+      "rankLegal": true
+    },
+    "Houndmaster|2": {
+      "heroClass": "Houndmaster",
+      "rank": 2,
+      "skills": [
+        "Hound's Rush",
+        "Target Whistle",
+        "Guard Dog",
+        "Blackjack"
+      ],
+      "camp": [
+        "Encourage",
+        "Hound's Watch",
+        "Therapy Dog",
+        "Man's Best Friend"
+      ],
+      "trinkets": [
+        "Cudgel Weight",
+        "Ancestor's Coat"
+      ],
+      "source": "library",
+      "samples": 48,
+      "rankLegal": true
+    },
+    "Houndmaster|3": {
+      "heroClass": "Houndmaster",
+      "rank": 3,
+      "skills": [
+        "Hound's Rush",
+        "Target Whistle",
+        "Cry Havoc",
+        "Guard Dog"
+      ],
+      "camp": [
+        "Encourage",
+        "Hound's Watch",
+        "Therapy Dog",
+        "Man's Best Friend"
+      ],
+      "trinkets": [
+        "Ancestor's Map",
+        "Evidence of Corruption"
+      ],
+      "source": "library",
+      "samples": 42,
+      "rankLegal": true
+    },
+    "Houndmaster|4": {
+      "heroClass": "Houndmaster",
+      "rank": 4,
+      "skills": [
+        "Hound's Rush",
+        "Hound's Harry",
+        "Target Whistle",
+        "Cry Havoc"
+      ],
+      "camp": [
+        "Encourage",
+        "Hound's Watch",
+        "Therapy Dog",
+        "Man's Best Friend"
+      ],
+      "trinkets": [
+        "Ancestor's Map",
+        "Evidence of Corruption"
+      ],
+      "source": "library",
+      "samples": 14,
+      "rankLegal": true
+    },
+    "Jester|1": {
+      "heroClass": "Jester",
+      "rank": 1,
+      "skills": [
+        "Dirk Stab",
+        "Harvest",
+        "Finale",
+        "Slice Off"
+      ],
+      "camp": [
+        "Encourage",
+        "Turn Back Time",
+        "Every Rose Has Its Thorn",
+        "Tiger's Eye"
+      ],
+      "trinkets": [
+        "Camouflage Cloak",
+        "Caution Cloak"
+      ],
+      "source": "model",
+      "samples": 1,
+      "rankLegal": false
+    },
+    "Jester|2": {
+      "heroClass": "Jester",
+      "rank": 2,
+      "skills": [
+        "Dirk Stab",
+        "Harvest",
+        "Solo",
+        "Slice Off"
+      ],
+      "camp": [
+        "Encourage",
+        "Turn Back Time",
+        "Every Rose Has Its Thorn",
+        "Tiger's Eye"
+      ],
+      "trinkets": [
+        "Ancestor's Lantern",
+        "Camouflage Cloak"
+      ],
+      "source": "model",
+      "samples": 2,
+      "rankLegal": true
+    },
+    "Jester|3": {
+      "heroClass": "Jester",
+      "rank": 3,
+      "skills": [
+        "Dirk Stab",
+        "Finale",
+        "Battle Ballad",
+        "Inspiring Tune"
+      ],
+      "camp": [
+        "Encourage",
+        "Turn Back Time",
+        "Every Rose Has Its Thorn",
+        "Tiger's Eye"
+      ],
+      "trinkets": [
+        "Ancestor's Map",
+        "Ancestor's Lantern"
+      ],
+      "source": "library",
+      "samples": 26,
+      "rankLegal": true
+    },
+    "Jester|4": {
+      "heroClass": "Jester",
+      "rank": 4,
+      "skills": [
+        "Dirk Stab",
+        "Harvest",
+        "Solo",
+        "Inspiring Tune"
+      ],
+      "camp": [
+        "Encourage",
+        "Turn Back Time",
+        "Every Rose Has Its Thorn",
+        "Tiger's Eye"
+      ],
+      "trinkets": [
+        "Ancestor's Coat",
+        "Camouflage Cloak"
+      ],
+      "source": "model",
+      "samples": 2,
+      "rankLegal": true
+    },
+    "Leper|1": {
+      "heroClass": "Leper",
+      "rank": 1,
+      "skills": [
+        "Chop",
+        "Revenge",
+        "Solemnity",
+        "Intimidate"
+      ],
+      "camp": [
+        "Encourage",
+        "Bloody Shroud",
+        "Reflection",
+        "Quarantine"
+      ],
+      "trinkets": [
+        "Debuff Amulet",
+        "Focus Ring"
+      ],
+      "source": "library",
+      "samples": 22,
+      "rankLegal": true
+    },
+    "Leper|2": {
+      "heroClass": "Leper",
+      "rank": 2,
+      "skills": [
+        "Chop",
+        "Revenge",
+        "Withstand",
+        "Solemnity"
+      ],
+      "camp": [
+        "Encourage",
+        "Bloody Shroud",
+        "Reflection",
+        "Quarantine"
+      ],
+      "trinkets": [
+        "Focus Ring",
+        "Ancestor's Pen"
+      ],
+      "source": "model",
+      "samples": 2,
+      "rankLegal": true
+    },
+    "Leper|3": {
+      "heroClass": "Leper",
+      "rank": 3,
+      "skills": [
+        "Chop",
+        "Revenge",
+        "Withstand",
+        "Solemnity"
+      ],
+      "camp": [
+        "Encourage",
+        "Wound Care",
+        "Pep Talk",
+        "Let the Mask Down"
+      ],
+      "trinkets": [
+        "Focus Ring",
+        "Debuff Amulet"
+      ],
+      "source": "model",
+      "samples": 0,
+      "rankLegal": false
+    },
+    "Leper|4": {
+      "heroClass": "Leper",
+      "rank": 4,
+      "skills": [
+        "Chop",
+        "Revenge",
+        "Withstand",
+        "Solemnity"
+      ],
+      "camp": [
+        "Encourage",
+        "Wound Care",
+        "Pep Talk",
+        "Let the Mask Down"
+      ],
+      "trinkets": [
+        "Focus Ring",
+        "Debuff Amulet"
+      ],
+      "source": "model",
+      "samples": 0,
+      "rankLegal": false
+    },
+    "Man at Arms|1": {
+      "heroClass": "Man at Arms",
+      "rank": 1,
+      "skills": [
+        "Crush",
+        "Rampart",
+        "Defender",
+        "Bolster"
+      ],
+      "camp": [
+        "Encourage",
+        "Wound Care",
+        "Tactics",
+        "Weapons Practice"
+      ],
+      "trinkets": [
+        "Rampart Shield",
+        "Wilbur's Flag"
+      ],
+      "source": "library",
+      "samples": 21,
+      "rankLegal": true
+    },
+    "Man at Arms|2": {
+      "heroClass": "Man at Arms",
+      "rank": 2,
+      "skills": [
+        "Crush",
+        "Rampart",
+        "Defender",
+        "Bolster"
+      ],
+      "camp": [
+        "Encourage",
+        "Wound Care",
+        "Tactics",
+        "Weapons Practice"
+      ],
+      "trinkets": [
+        "Rampart Shield",
+        "Ancestor's Coat"
+      ],
+      "source": "library",
+      "samples": 6,
+      "rankLegal": true
+    },
+    "Man at Arms|3": {
+      "heroClass": "Man at Arms",
+      "rank": 3,
+      "skills": [
+        "Rampart",
+        "Bellow",
+        "Command",
+        "Bolster"
+      ],
+      "camp": [
+        "Encourage",
+        "Wound Care",
+        "Tactics",
+        "Weapons Practice"
+      ],
+      "trinkets": [
+        "Guardian's Shield",
+        "Mirror Shield"
+      ],
+      "source": "model",
+      "samples": 3,
+      "rankLegal": true
+    },
+    "Man at Arms|4": {
+      "heroClass": "Man at Arms",
+      "rank": 4,
+      "skills": [
+        "Rampart",
+        "Bellow",
+        "Command",
+        "Bolster"
+      ],
+      "camp": [
+        "Encourage",
+        "Wound Care",
+        "Tactics",
+        "Weapons Practice"
+      ],
+      "trinkets": [
+        "Guardian's Shield",
+        "Ancestor's Map"
+      ],
+      "source": "model",
+      "samples": 3,
+      "rankLegal": true
+    },
+    "Musketeer|1": {
+      "heroClass": "Musketeer",
+      "rank": 1,
+      "skills": [
+        "Aimed Shot",
+        "Sidearm",
+        "Patch Up",
+        "Skeet Shot"
+      ],
+      "camp": [
+        "Encourage",
+        "Wound Care",
+        "Pep Talk",
+        "Field Dressing"
+      ],
+      "trinkets": [
+        "Fuseman's Matchstick",
+        "Prophet's Eye"
+      ],
+      "source": "model",
+      "samples": 0,
+      "rankLegal": false
+    },
+    "Musketeer|2": {
+      "heroClass": "Musketeer",
+      "rank": 2,
+      "skills": [
+        "Aimed Shot",
+        "Sidearm",
+        "Patch Up",
+        "Skeet Shot"
+      ],
+      "camp": [
+        "Encourage",
+        "Wound Care",
+        "Marching Plan",
+        "Clean Musket"
+      ],
+      "trinkets": [
+        "Fuseman's Matchstick",
+        "Ancestor's Map"
+      ],
+      "source": "model",
+      "samples": 2,
+      "rankLegal": false
+    },
+    "Musketeer|3": {
+      "heroClass": "Musketeer",
+      "rank": 3,
+      "skills": [
+        "Aimed Shot",
+        "Buckshot",
+        "Patch Up",
+        "Skeet Shot"
+      ],
+      "camp": [
+        "Encourage",
+        "Wound Care",
+        "Marching Plan",
+        "Clean Musket"
+      ],
+      "trinkets": [
+        "Ancestor's Map",
+        "Fuseman's Matchstick"
+      ],
+      "source": "library",
+      "samples": 6,
+      "rankLegal": true
+    },
+    "Musketeer|4": {
+      "heroClass": "Musketeer",
+      "rank": 4,
+      "skills": [
+        "Aimed Shot",
+        "Sidearm",
+        "Patch Up",
+        "Skeet Shot"
+      ],
+      "camp": [
+        "Encourage",
+        "Wound Care",
+        "Marching Plan",
+        "Clean Musket"
+      ],
+      "trinkets": [
+        "Fuseman's Matchstick",
+        "Prophet's Eye"
+      ],
+      "source": "library",
+      "samples": 14,
+      "rankLegal": true
+    },
+    "Occultist|1": {
+      "heroClass": "Occultist",
+      "rank": 1,
+      "skills": [
+        "Weakening Curse",
+        "Wyrd Reconstruction",
+        "Vulnerability Hex",
+        "Hands from the Abyss"
+      ],
+      "camp": [
+        "Encourage",
+        "Wound Care",
+        "Dark Ritual",
+        "Unspeakable Commune"
+      ],
+      "trinkets": [
+        "Demon's Cauldron",
+        "Ancestor's Signet Ring"
+      ],
+      "source": "library",
+      "samples": 35,
+      "rankLegal": true
+    },
+    "Occultist|2": {
+      "heroClass": "Occultist",
+      "rank": 2,
+      "skills": [
+        "Weakening Curse",
+        "Wyrd Reconstruction",
+        "Vulnerability Hex",
+        "Hands from the Abyss"
+      ],
+      "camp": [
+        "Encourage",
+        "Wound Care",
+        "Dark Ritual",
+        "Unspeakable Commune"
+      ],
+      "trinkets": [
+        "Demon's Cauldron",
+        "Ancestor's Pistol"
+      ],
+      "source": "library",
+      "samples": 24,
+      "rankLegal": true
+    },
+    "Occultist|3": {
+      "heroClass": "Occultist",
+      "rank": 3,
+      "skills": [
+        "Sacrificial Stab",
+        "Abyssal Artillery",
+        "Weakening Curse",
+        "Wyrd Reconstruction"
+      ],
+      "camp": [
+        "Encourage",
+        "Wound Care",
+        "Dark Ritual",
+        "Unspeakable Commune"
+      ],
+      "trinkets": [
+        "Ancestor's Pistol",
+        "Crescendo Box"
+      ],
+      "source": "model",
+      "samples": 1,
+      "rankLegal": true
+    },
+    "Occultist|4": {
+      "heroClass": "Occultist",
+      "rank": 4,
+      "skills": [
+        "Sacrificial Stab",
+        "Abyssal Artillery",
+        "Weakening Curse",
+        "Wyrd Reconstruction"
+      ],
+      "camp": [
+        "Encourage",
+        "Abandon Hope",
+        "Dark Ritual",
+        "Dark Strength"
+      ],
+      "trinkets": [
+        "Eldritch Killing Incense",
+        "Evasion Incense"
+      ],
+      "source": "model",
+      "samples": 1,
+      "rankLegal": true
+    },
+    "Plague Doctor|1": {
+      "heroClass": "Plague Doctor",
+      "rank": 1,
+      "skills": [
+        "Noxious Blast",
+        "Plague Grenade",
+        "Incision",
+        "Emboldening Vapours"
+      ],
+      "camp": [
+        "Encourage",
+        "Wound Care",
+        "Pep Talk",
+        "Experimental Vapours"
+      ],
+      "trinkets": [
+        "Blasphemous Vial",
+        "Ancestor's Map"
+      ],
+      "source": "model",
+      "samples": 0,
+      "rankLegal": false
+    },
+    "Plague Doctor|2": {
+      "heroClass": "Plague Doctor",
+      "rank": 2,
+      "skills": [
+        "Noxious Blast",
+        "Plague Grenade",
+        "Incision",
+        "Emboldening Vapours"
+      ],
+      "camp": [
+        "Encourage",
+        "Wound Care",
+        "Pep Talk",
+        "Experimental Vapours"
+      ],
+      "trinkets": [
+        "Blasphemous Vial",
+        "Ancestor's Map"
+      ],
+      "source": "model",
+      "samples": 0,
+      "rankLegal": true
+    },
+    "Plague Doctor|3": {
+      "heroClass": "Plague Doctor",
+      "rank": 3,
+      "skills": [
+        "Blinding Gas",
+        "Battlefield Medicine",
+        "Emboldening Vapours",
+        "Disorienting Blast"
+      ],
+      "camp": [
+        "Encourage",
+        "Wound Care",
+        "Leeches",
+        "The Cure"
+      ],
+      "trinkets": [
+        "Blasphemous Vial",
+        "Ancestor's Map"
+      ],
+      "source": "library",
+      "samples": 28,
+      "rankLegal": true
+    },
+    "Plague Doctor|4": {
+      "heroClass": "Plague Doctor",
+      "rank": 4,
+      "skills": [
+        "Noxious Blast",
+        "Blinding Gas",
+        "Battlefield Medicine",
+        "Emboldening Vapours"
+      ],
+      "camp": [
+        "Encourage",
+        "Wound Care",
+        "Leeches",
+        "The Cure"
+      ],
+      "trinkets": [
+        "Blasphemous Vial",
+        "Ancestor's Map"
+      ],
+      "source": "library",
+      "samples": 32,
+      "rankLegal": true
+    },
+    "Runaway|1": {
+      "heroClass": "Runaway",
+      "rank": 1,
+      "skills": [
+        "Searing Strike",
+        "Run and Hide",
+        "Controlled Burn",
+        "Backdraft"
+      ],
+      "camp": [
+        "Encourage",
+        "Kindle",
+        "Cauterize",
+        "Play with Fire"
+      ],
+      "trinkets": [
+        "Ancestor's Coat",
+        "Camouflage Cloak"
+      ],
+      "source": "model",
+      "samples": 2,
+      "rankLegal": true
+    },
+    "Runaway|2": {
+      "heroClass": "Runaway",
+      "rank": 2,
+      "skills": [
+        "Searing Strike",
+        "Run and Hide",
+        "Controlled Burn",
+        "Backdraft"
+      ],
+      "camp": [
+        "Encourage",
+        "Cauterize",
+        "Play with Fire",
+        "Pick Pocket"
+      ],
+      "trinkets": [
+        "Carved Toy",
+        "Knitted Blanket"
+      ],
+      "source": "model",
+      "samples": 3,
+      "rankLegal": true
+    },
+    "Runaway|3": {
+      "heroClass": "Runaway",
+      "rank": 3,
+      "skills": [
+        "Firefly",
+        "Run and Hide",
+        "Hearthlight",
+        "Controlled Burn"
+      ],
+      "camp": [
+        "Encourage",
+        "Kindle",
+        "Cauterize",
+        "Play with Fire"
+      ],
+      "trinkets": [
+        "Searing Sunstone",
+        "Ancestor's Signet Ring"
+      ],
+      "source": "library",
+      "samples": 6,
+      "rankLegal": true
+    },
+    "Runaway|4": {
+      "heroClass": "Runaway",
+      "rank": 4,
+      "skills": [
+        "Firefly",
+        "Run and Hide",
+        "Hearthlight",
+        "Backdraft"
+      ],
+      "camp": [
+        "Encourage",
+        "Kindle",
+        "Cauterize",
+        "Play with Fire"
+      ],
+      "trinkets": [
+        "Camouflage Cloak",
+        "Ancestor's Coat"
+      ],
+      "source": "model",
+      "samples": 2,
+      "rankLegal": true
+    },
+    "Shieldbreaker|1": {
+      "heroClass": "Shieldbreaker",
+      "rank": 1,
+      "skills": [
+        "Pierce",
+        "Puncture",
+        "Expose",
+        "Serpent Sway"
+      ],
+      "camp": [
+        "Encourage",
+        "Wound Care",
+        "Snake Skin",
+        "Sandstorm"
+      ],
+      "trinkets": [
+        "Ancestor's Pen",
+        "Surgical Gloves"
+      ],
+      "source": "library",
+      "samples": 18,
+      "rankLegal": true
+    },
+    "Shieldbreaker|2": {
+      "heroClass": "Shieldbreaker",
+      "rank": 2,
+      "skills": [
+        "Pierce",
+        "Puncture",
+        "Expose",
+        "Serpent Sway"
+      ],
+      "camp": [
+        "Encourage",
+        "Snake Skin",
+        "Sandstorm",
+        "Adder's Embrace"
+      ],
+      "trinkets": [
+        "Ancestor's Pen",
+        "Surgical Gloves"
+      ],
+      "source": "library",
+      "samples": 4,
+      "rankLegal": true
+    },
+    "Shieldbreaker|3": {
+      "heroClass": "Shieldbreaker",
+      "rank": 3,
+      "skills": [
+        "Pierce",
+        "Puncture",
+        "Captivate",
+        "Serpent Sway"
+      ],
+      "camp": [
+        "Encourage",
+        "Wound Care",
+        "Pep Talk",
+        "Snake Eyes"
+      ],
+      "trinkets": [
+        "Ancestor's Pen",
+        "Surgical Gloves"
+      ],
+      "source": "model",
+      "samples": 0,
+      "rankLegal": true
+    },
+    "Shieldbreaker|4": {
+      "heroClass": "Shieldbreaker",
+      "rank": 4,
+      "skills": [
+        "Pierce",
+        "Puncture",
+        "Captivate",
+        "Serpent Sway"
+      ],
+      "camp": [
+        "Encourage",
+        "Wound Care",
+        "Pep Talk",
+        "Snake Eyes"
+      ],
+      "trinkets": [
+        "Ancestor's Pen",
+        "Surgical Gloves"
+      ],
+      "source": "model",
+      "samples": 0,
+      "rankLegal": false
+    },
+    "Vestal|1": {
+      "heroClass": "Vestal",
+      "rank": 1,
+      "skills": [
+        "Mace Bash",
+        "Divine Comfort",
+        "Illumination",
+        "Hand of Light"
+      ],
+      "camp": [
+        "Encourage",
+        "Wound Care",
+        "Pep Talk",
+        "Bless"
+      ],
+      "trinkets": [
+        "Salacious Diary",
+        "Atonement Beads"
+      ],
+      "source": "model",
+      "samples": 0,
+      "rankLegal": true
+    },
+    "Vestal|2": {
+      "heroClass": "Vestal",
+      "rank": 2,
+      "skills": [
+        "Mace Bash",
+        "Judgement",
+        "Divine Comfort",
+        "Illumination"
+      ],
+      "camp": [
+        "Encourage",
+        "Wound Care",
+        "Bless",
+        "Sanctuary"
+      ],
+      "trinkets": [
+        "Ancestor's Signet Ring",
+        "Atonement Beads"
+      ],
+      "source": "model",
+      "samples": 2,
+      "rankLegal": true
+    },
+    "Vestal|3": {
+      "heroClass": "Vestal",
+      "rank": 3,
+      "skills": [
+        "Dazzling Light",
+        "Divine Grace",
+        "Divine Comfort",
+        "Illumination"
+      ],
+      "camp": [
+        "Encourage",
+        "Wound Care",
+        "Bless",
+        "Sanctuary"
+      ],
+      "trinkets": [
+        "Salacious Diary",
+        "Atonement Beads"
+      ],
+      "source": "library",
+      "samples": 9,
+      "rankLegal": true
+    },
+    "Vestal|4": {
+      "heroClass": "Vestal",
+      "rank": 4,
+      "skills": [
+        "Dazzling Light",
+        "Divine Grace",
+        "Divine Comfort",
+        "Illumination"
+      ],
+      "camp": [
+        "Encourage",
+        "Wound Care",
+        "Bless",
+        "Sanctuary"
+      ],
+      "trinkets": [
+        "Salacious Diary",
+        "Atonement Beads"
+      ],
+      "source": "library",
+      "samples": 21,
+      "rankLegal": true
+    }
+  }
+}

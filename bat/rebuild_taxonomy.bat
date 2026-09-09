@@ -1,6 +1,6 @@
 @echo off
 setlocal
-cd /d "%~dp0"
+cd /d "%~dp0.."
 title DD Team Builder - Taxonomia de comps
 echo ============================================
 echo   Darkest Dungeon - Taxonomia de comps
