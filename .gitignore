@@ -28,3 +28,4 @@ scripts/nameComps.manifest.json
 
 # Save de pruebas del importador (es una partida real, no del repo)
 testsave/
+*.lnk

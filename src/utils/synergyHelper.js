@@ -1,120 +1,165 @@
 /**
- * Notes about a party, in the panel under the composition.
+ * Advisory notes about a party, in the panel under the composition.
  *
- * ## What this used to say, and why it was wrong
+ * The rank checks come first and come from `rankValidity`, which reads the
+ * launch/target data the game itself uses. Everything after them used to be a
+ * guess over class names; it is now read from `skillProfile`, which derives
+ * what a skill does from the same generated data.
  *
- * Run the old version over the 177 preset comps in `data/presetComps` — comps
- * that are, by construction, teams that work — and 170 of them came back with
- * something to complain about. That is not a warning system, it is a light
- * that is always on:
+ * The tables this replaced were small and wrong in the ways small tables go
+ * wrong. `HEALER_CLASSES` held two names, so the Musketeer's `Patch Up` and the
+ * Runaway's `Run and Hide` did not exist; the derived list finds 19 healing
+ * skills across 13 classes. Stress healing was the literal
+ * `['Jester', 'Crusader', 'Houndmaster', 'Leper']`, which missed the
+ * Abomination, the Arbalest, the Flagellant and the Musketeer. And the Plague
+ * Doctor's entry read `Battle Medicine` while the skill is called
+ * `Battlefield Medicine`, so that one never matched anything at all.
  *
- * | fired on | note |
- * | --- | --- |
- * | 167 comps | "N of 4 skills unusable from rank R" |
- * | 107 comps | "Mark synergy detected!" |
- * | 50 comps | "Duplicate class: …" |
- * | 31 comps | "No stress healer — long dungeons may be risky" |
- * | 23 comps | "No dedicated healer" |
- * | 4 comps | "Multiple healers — team may lack damage" |
+ * ## Potential and actual
  *
- * Each one was wrong in its own way. The rank lines judged skills against the
- * rank a hero starts in, which is not where they fight — that is fixed at the
- * source, in `rankValidity`. The rest were heuristics over class names:
- *
- * - **Duplicate class** is a *strategy*. Ballad Quartet is four Jesters and
- *   Cross Quartet is four Crusaders, and the repetition is the whole point.
- * - **No dedicated healer** looked for a Vestal or an Occultist by name.
- *   Twenty-three presets bring neither and are fine; a Houndmaster's Lick
- *   Wounds, a Flagellant, or simply killing things faster are all answers.
- * - **Multiple healers — team may lack damage** is an opinion, and not a
- *   widely held one.
- * - **No stress healer** counted Leper as a stress healer (Solemnity only ever
- *   heals the Leper) and did not check that anyone had the skill equipped.
- * - **Mark synergy** fired whenever a marking *class* and a benefiting *class*
- *   were both present, equipped skills unread — a Bounty Hunter and an
- *   Arbalest who between them had neither Mark for Death nor Sniper Shot still
- *   got the congratulations.
- *
- * ## What it says now
- *
- * A **warning** has to be a fact about the build, not a preference about how
- * to play. Only one thing clears that bar: a hero who cannot use a single
- * skill from the rank they are standing in. They will pass their turn, and
- * keep passing until something moves them. That comes from `rankValidity`,
- * which reads the game's own launch data and accounts for the party shuffling
- * itself around. No preset comp trips it, and `synergyHelper.test.js` holds
- * that line.
- *
- * Everything else the panel has to say is an **insight**: something true and
- * good about the party, read off the skills that are actually equipped.
+ * A hero with no skills chosen yet is judged on their class's whole kit; one
+ * who has chosen skills is judged on what they chose. Picking a Vestal should
+ * not immediately read as "no healer", and a Vestal carrying four non-healing
+ * skills should not read as one. The switch is per hero, so half-built parties
+ * behave sensibly.
  */
 import { rankWarnings } from './rankValidity';
-import { getSkillEffect } from '../data/skillEffects';
-import { getModdedSkillEffect } from '../data/moddedEffects';
-import { PARTY_CONFIG } from '../constants';
+import { skillProfile } from './skillProfile';
+import { HERO_CLASSES } from '../data/heroes';
+import { MODDED_HERO_CLASSES } from '../data/modded_heroes';
 
-const skillEntry = (heroClass, skillName) =>
-  getSkillEffect(skillName, heroClass) || getModdedSkillEffect(skillName, heroClass);
+const classData = (heroClass) => HERO_CLASSES[heroClass] || MODDED_HERO_CLASSES[heroClass];
 
 /**
- * Marks an enemy. Read from the effect prose rather than a list of class
- * names, so a DLC or workshop class that marks is picked up for free and the
- * two can never drift apart.
+ * Las skills por las que se juzga a un heroe: las que lleva, o el kit entero
+ * de su clase si todavia no ha elegido ninguna.
+ */
+const judgedSkills = (hero) => {
+  const chosen = (hero.activeSkills || []).filter(Boolean);
+  if (chosen.length) return { skills: chosen, assumed: false };
+  return { skills: classData(hero.heroClass)?.skills || [], assumed: true };
+};
+
+const tagsOf = (hero) => {
+  const { skills, assumed } = judgedSkills(hero);
+  const tags = new Set();
+  skills.forEach((name) => {
+    const profile = skillProfile(hero.heroClass, name);
+    if (profile) profile.tags.forEach((tag) => tags.add(tag));
+  });
+  (hero.activeCampSkills || []).filter(Boolean).forEach((name) => {
+    const profile = skillProfile(hero.heroClass, name);
+    if (profile) profile.tags.forEach((tag) => tags.add(`camp:${tag}`));
+  });
+  return { tags, assumed };
+};
+
+/**
+ * Que sabe hacer esta party, por etiqueta.
  *
- * The target check is what keeps the Antiquarian's Protect Me out: it says
- * "Mark Target" too, but its target is `ally 1·2·3·4` — it paints the ally it
- * is begging for cover, which is the opposite of an opening.
+ * Se devuelve entero (no solo los avisos) porque lo van a leer tambien el
+ * generador de comps y las loadouts recomendadas: es la misma pregunta.
  */
-const marksEnemy = (heroClass, skillName) => {
-  const entry = skillEntry(heroClass, skillName);
-  if (!entry || entry.kind === 'camp') return false;
-  const hitsEnemies = typeof entry.target === 'string' && !/ally|self/i.test(entry.target);
-  return hitsEnemies && /Mark Target/i.test(entry.effect || '');
-};
+export const partyCoverage = (heroes) => {
+  const filled = (heroes || []).filter((hero) => hero && hero.heroClass);
+  const byTag = new Map();
+  const assumedClasses = [];
 
-/**
- * Hits a marked enemy harder. The `+` matters: the Duelist's Feint also says
- * "vs Marked", but it is `-10 ACC vs Marked` — a penalty the enemy takes for
- * swinging at the Duelist, who marked themselves as bait. That is a different
- * trick and not this one.
- */
-const punishesMarked = (heroClass, skillName) => {
-  const entry = skillEntry(heroClass, skillName);
-  if (!entry || entry.kind === 'camp') return false;
-  return /\+\s*\d+(\.\d+)?%\s*(DMG|CRIT)\s*vs\s*Marked/i.test(entry.effect || '');
-};
-
-const heroSkills = (hero) => (Array.isArray(hero?.activeSkills) ? hero.activeSkills : []);
-
-/**
- * @returns {{level: 'good'|'danger', warnings: string[], insights: string[], notes: string[]}}
- */
-export const analyzeSynergy = (heroes) => {
-  const filled = (Array.isArray(heroes) ? heroes : [])
-    .slice(0, PARTY_CONFIG.MAX_HEROES)
-    .filter((hero) => hero && hero.heroClass);
-
-  // Checked even for a party of one: a Leper dropped into rank 4 is already
-  // wrong, and saying so while there is still an empty slot beside them is the
-  // useful moment to say it.
-  const warnings = rankWarnings(heroes).map((warning) => warning.text);
-  const insights = [];
-
-  const markers = new Set();
-  const beneficiaries = new Set();
-  filled.forEach((hero) => {
-    if (heroSkills(hero).some((skill) => marksEnemy(hero.heroClass, skill))) markers.add(hero.heroClass);
-    if (heroSkills(hero).some((skill) => punishesMarked(hero.heroClass, skill))) beneficiaries.add(hero.heroClass);
+  filled.forEach((hero, index) => {
+    const { tags, assumed } = tagsOf(hero);
+    if (assumed) assumedClasses.push(hero.heroClass);
+    tags.forEach((tag) => {
+      if (!byTag.has(tag)) byTag.set(tag, []);
+      byTag.get(tag).push({ heroClass: hero.heroClass, rank: index + 1 });
+    });
   });
 
-  if (markers.size && beneficiaries.size) {
-    insights.push(`Mark synergy: ${[...markers].join(', ')} sets up ${[...beneficiaries].join(', ')}.`);
+  return {
+    size: filled.length,
+    classes: filled.map((hero) => hero.heroClass),
+    byTag,
+    assumedClasses,
+    has: (tag) => byTag.has(tag),
+    countOf: (tag) => (byTag.get(tag) || []).length
+  };
+};
+
+/** "Vestal, Crusader" a partir de las entradas de una etiqueta. */
+const namesFor = (coverage, tag) =>
+  [...new Set((coverage.byTag.get(tag) || []).map((entry) => entry.heroClass))].join(', ');
+
+export const analyzeSynergy = (heroes) => {
+  // A problem and a compliment used to share one list, so "Mark synergy" came
+  // back in the same amber as a hero who cannot act. They are different claims
+  // and the panel colours them apart, so they are collected apart. `notes`
+  // stays as the two of them together, which is what the count is counting.
+  const warnings = [];
+  const insights = [];
+  let level = 'good';
+  const raise = (next) => {
+    if (next === 'danger') level = 'danger';
+    else if (level === 'good') level = next;
+  };
+
+  // Rank problems are checked before anything else, and even for a party of
+  // one: a Leper dropped into rank 4 is already wrong, and saying so while
+  // there is still an empty slot beside them is the useful moment.
+  rankWarnings(heroes).forEach((warning) => {
+    warnings.push(warning.text);
+    raise(warning.kind === 'stranded' ? 'danger' : 'warning');
+  });
+
+  const coverage = partyCoverage(heroes);
+  if (coverage.size < 2) return { level, notes: [...warnings], warnings, insights };
+
+  // Duplicate classes stay a roster question, not a skill one.
+  const duplicates = coverage.classes.filter((c, i) => coverage.classes.indexOf(c) !== i);
+  if (duplicates.length) {
+    warnings.push(`Duplicate class: ${[...new Set(duplicates)].join(', ')}`);
+    raise('warning');
   }
 
-  return {
-    level: warnings.length ? 'danger' : 'good',
-    warnings,
-    insights,
-    notes: [...warnings, ...insights]
-  };
+  const healers = coverage.countOf('heal');
+  if (healers === 0) {
+    warnings.push('Nothing in the party heals HP');
+    raise('warning');
+  } else if (healers >= 3) {
+    // Tres es exceso; dos es la norma de muchas comps buenas y avisar de eso
+    // era ruido.
+    warnings.push(`Three or more heroes heal (${namesFor(coverage, 'heal')}) — the party may lack damage`);
+    raise('warning');
+  }
+
+  if (coverage.size >= 4 && !coverage.has('stressHeal') && !coverage.has('camp:stressHeal')) {
+    warnings.push('No stress healing, in battle or in camp — long dungeons may be risky');
+    raise('warning');
+  }
+
+  // Mark: marcar sin nadie que lo aproveche es gastar un turno en nada, y es
+  // un fallo mas util de senalar que la sinergia cuando si esta.
+  if (coverage.has('mark') && coverage.has('markPayoff')) {
+    insights.push(`Mark synergy: ${namesFor(coverage, 'mark')} marks, ${namesFor(coverage, 'markPayoff')} cashes it in`);
+  } else if (coverage.has('mark')) {
+    warnings.push(`${namesFor(coverage, 'mark')} marks, but nothing in the party hits harder on a marked target`);
+    raise('warning');
+  } else if (coverage.has('markPayoff')) {
+    warnings.push(`${namesFor(coverage, 'markPayoff')} hits harder on a marked target, but nothing here marks`);
+    raise('warning');
+  }
+
+  if (coverage.size >= 4) {
+    const pressure = ['stun', 'blight', 'bleed'].filter((tag) => coverage.has(tag));
+    if (!pressure.length) {
+      warnings.push('No stun, blight or bleed — nothing but straight damage');
+      raise('warning');
+    }
+  }
+
+  if (coverage.assumedClasses.length) {
+    insights.push(
+      `Judged on the full kit for ${[...new Set(coverage.assumedClasses)].join(', ')} — no skills chosen yet`
+    );
+  }
+
+  return { level, notes: [...warnings, ...insights], warnings, insights };
 };

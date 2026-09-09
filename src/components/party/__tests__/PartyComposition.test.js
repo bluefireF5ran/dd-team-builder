@@ -38,14 +38,15 @@ describe('PartyComposition', () => {
     expect(screen.getByText(/Vestal/)).toBeInTheDocument();
   });
 
-  // Two Crusaders and no healer used to be enough to light this panel up. It
-  // is a working party, so the panel stays dark.
+  // Every hero can act, someone heals, someone lifts stress and something
+  // besides plain damage is going out. There is nothing to say, so the panel
+  // stays dark.
   test('says nothing about a party with nothing wrong with it', () => {
     const heroes = [
       { ...EMPTY_HERO, heroClass: 'Hellion', activeSkills: ['Wicked Hack', 'Iron Swan'] },
-      { ...EMPTY_HERO, heroClass: 'Crusader', activeSkills: ['Smite', 'Stunning Blow'] },
-      { ...EMPTY_HERO, heroClass: 'Crusader', activeSkills: ['Holy Lance', 'Battle Heal'] },
-      { ...EMPTY_HERO, heroClass: 'Grave Robber', activeSkills: ['Poison Darts', 'Thrown Dagger'] }
+      { ...EMPTY_HERO, heroClass: 'Crusader', activeSkills: ['Smite', 'Inspiring Cry'] },
+      { ...EMPTY_HERO, heroClass: 'Vestal', activeSkills: ['Divine Grace', 'Dazzling Light'] },
+      { ...EMPTY_HERO, heroClass: 'Plague Doctor', activeSkills: ['Plague Grenade', 'Blinding Gas'] }
     ];
     render(<PartyComposition {...defaultProps} heroes={heroes} />);
     expect(screen.queryByText(/Team Synergy|Issues Detected/)).not.toBeInTheDocument();

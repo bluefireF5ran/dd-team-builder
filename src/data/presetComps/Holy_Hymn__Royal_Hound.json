@@ -7,9 +7,9 @@
       "heroClass": "Leper",
       "activeSkills": [
         "Chop",
+        "Hew",
         "Solemnity",
-        "Intimidate",
-        "Hew"
+        "Intimidate"
       ],
       "activeCampSkills": [
         "Wound Care",
@@ -42,14 +42,14 @@
       "heroClass": "Bounty Hunter",
       "activeSkills": [
         "Collect Bounty",
-        "Finish Him",
         "Come Hither",
-        "Uppercut"
+        "Uppercut",
+        "Finish Him"
       ],
       "activeCampSkills": [
+        "Pep Talk",
         "Planned Takedown",
-        "Scout Ahead",
-        "Pep Talk"
+        "Scout Ahead"
       ],
       "trinket1": "Vengeful Kill List",
       "trinket2": "Hunter's Talon",

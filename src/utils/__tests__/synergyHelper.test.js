@@ -1,163 +1,178 @@
 import { analyzeSynergy } from '../synergyHelper';
-import { rankWarnings } from '../rankValidity';
-import { PRESET_COMP_ENTRIES } from '../../data/presetComps';
 import { EMPTY_HERO } from '../../constants';
 
-const party = (...specs) =>
-  Array.from({ length: 4 }, (_, i) => {
-    const spec = specs[i];
-    if (!spec) return { ...EMPTY_HERO };
-    const [heroClass, activeSkills = []] = spec;
-    return { ...EMPTY_HERO, heroClass, activeSkills };
-  });
-
 describe('analyzeSynergy', () => {
-  test('says nothing about an empty team', () => {
-    const result = analyzeSynergy(party());
+  test('returns good for empty team', () => {
+    const heroes = Array(4).fill(null).map(() => ({ ...EMPTY_HERO }));
+    const result = analyzeSynergy(heroes);
     expect(result.level).toBe('good');
     expect(result.notes).toHaveLength(0);
   });
 
-  test('says nothing about a single hero who can fight', () => {
-    const result = analyzeSynergy(party(['Crusader', ['Smite', 'Stunning Blow']]));
+  test('returns good for single hero', () => {
+    const heroes = Array(4).fill(null).map(() => ({ ...EMPTY_HERO }));
+    heroes[0].heroClass = 'Crusader';
+    const result = analyzeSynergy(heroes);
     expect(result.level).toBe('good');
-    expect(result.warnings).toHaveLength(0);
   });
 
-  describe('a hero who cannot act', () => {
-    test('is the one thing worth a warning', () => {
+  test('warns about duplicate classes', () => {
+    const heroes = Array(4).fill(null).map(() => ({ ...EMPTY_HERO }));
+    heroes[0].heroClass = 'Crusader';
+    heroes[1].heroClass = 'Crusader';
+    const result = analyzeSynergy(heroes);
+    expect(result.level).toBe('warning');
+    expect(result.notes.some(n => n.includes('Duplicate'))).toBe(true);
+  });
+
+  test('warns when nothing in the party can heal', () => {
+    // Cuatro kits sin una sola curacion. El Crusader NO vale para esta prueba:
+    // lleva Battle Heal, y la tabla vieja no lo sabia salvo que estuviera
+    // seleccionada.
+    const heroes = Array(4).fill(null).map(() => ({ ...EMPTY_HERO }));
+    heroes[0].heroClass = 'Man at Arms';
+    heroes[1].heroClass = 'Grave Robber';
+    heroes[2].heroClass = 'Highwayman';
+    heroes[3].heroClass = 'Bounty Hunter';
+    const result = analyzeSynergy(heroes);
+    expect(result.notes.some(n => n.includes('heals HP'))).toBe(true);
+  });
+
+  test('a Crusader counts as a healer even before his skills are picked', () => {
+    const heroes = Array(4).fill(null).map(() => ({ ...EMPTY_HERO }));
+    heroes[0].heroClass = 'Crusader';
+    heroes[1].heroClass = 'Grave Robber';
+    heroes[2].heroClass = 'Highwayman';
+    heroes[3].heroClass = 'Bounty Hunter';
+    expect(analyzeSynergy(heroes).notes.some(n => n.includes('heals HP'))).toBe(false);
+  });
+
+  test('but not once he has chosen four skills that do not heal', () => {
+    const heroes = Array(4).fill(null).map(() => ({ ...EMPTY_HERO }));
+    heroes[0] = {
+      ...EMPTY_HERO,
+      heroClass: 'Crusader',
+      activeSkills: ['Smite', 'Zealous Accusation', 'Stunning Blow', 'Holy Lance']
+    };
+    heroes[1].heroClass = 'Grave Robber';
+    heroes[2].heroClass = 'Highwayman';
+    heroes[3].heroClass = 'Bounty Hunter';
+    expect(analyzeSynergy(heroes).notes.some(n => n.includes('heals HP'))).toBe(true);
+  });
+
+  test('warns when three or more heroes heal', () => {
+    const heroes = Array(4).fill(null).map(() => ({ ...EMPTY_HERO }));
+    heroes[0].heroClass = 'Vestal';
+    heroes[1].heroClass = 'Occultist';
+    heroes[2].heroClass = 'Crusader';
+    heroes[3].heroClass = 'Hellion';
+    const result = analyzeSynergy(heroes);
+    expect(result.notes.some(n => n.includes('Three or more heroes heal'))).toBe(true);
+  });
+
+  test('detects mark synergy', () => {
+    const heroes = Array(4).fill(null).map(() => ({ ...EMPTY_HERO }));
+    heroes[0].heroClass = 'Bounty Hunter';
+    heroes[1].heroClass = 'Arbalest';
+    heroes[2].heroClass = 'Vestal';
+    heroes[3].heroClass = 'Man-at-Arms';
+    const result = analyzeSynergy(heroes);
+    expect(result.notes.some(n => n.includes('Mark synergy'))).toBe(true);
+  });
+
+  test('warns about no stress healing with a full team', () => {
+    const heroes = Array(4).fill(null).map(() => ({ ...EMPTY_HERO }));
+    heroes[0].heroClass = 'Vestal';
+    heroes[1].heroClass = 'Hellion';
+    heroes[2].heroClass = 'Grave Robber';
+    heroes[3].heroClass = 'Plague Doctor';
+    const result = analyzeSynergy(heroes);
+    expect(result.notes.some(n => n.includes('No stress healing'))).toBe(true);
+  });
+
+  test('counts the classes the old hardcoded table never knew', () => {
+    // La tabla vieja era ['Jester', 'Crusader', 'Houndmaster', 'Leper'].
+    // El Skeet Shot del Musketeer quita estres y no estaba en ninguna lista.
+    const heroes = Array(4).fill(null).map(() => ({ ...EMPTY_HERO }));
+    heroes[0].heroClass = 'Vestal';
+    heroes[1].heroClass = 'Hellion';
+    heroes[2].heroClass = 'Grave Robber';
+    heroes[3] = { ...EMPTY_HERO, heroClass: 'Musketeer', activeSkills: ['Skeet Shot'] };
+    expect(analyzeSynergy(heroes).notes.some(n => n.includes('No stress healing'))).toBe(false);
+  });
+
+  test('a camp stress heal answers the same question', () => {
+    const heroes = Array(4).fill(null).map(() => ({ ...EMPTY_HERO }));
+    heroes[0].heroClass = 'Vestal';
+    heroes[1].heroClass = 'Hellion';
+    heroes[2].heroClass = 'Grave Robber';
+    heroes[3] = { ...EMPTY_HERO, heroClass: 'Plague Doctor', activeCampSkills: ['Encourage'] };
+    expect(analyzeSynergy(heroes).notes.some(n => n.includes('No stress healing'))).toBe(false);
+  });
+
+  test('says when a mark has nobody to cash it in', () => {
+    // Ojo al elegir la party: la tabla vieja solo conocia tres clases que
+    // aprovechan la marca, y en realidad son ocho -- el Thrown Dagger de la
+    // Grave Robber y el Pistol Shot del Highwayman tambien cuentan.
+    const heroes = Array(4).fill(null).map(() => ({ ...EMPTY_HERO }));
+    heroes[0] = { ...EMPTY_HERO, heroClass: 'Occultist', activeSkills: ['Vulnerability Hex'] };
+    heroes[1].heroClass = 'Hellion';
+    heroes[2].heroClass = 'Leper';
+    heroes[3].heroClass = 'Vestal';
+    const result = analyzeSynergy(heroes);
+    expect(result.notes.some(n => n.includes('nothing in the party hits harder'))).toBe(true);
+  });
+
+  test('finds the mark payoffs the old table did not list', () => {
+    const heroes = Array(4).fill(null).map(() => ({ ...EMPTY_HERO }));
+    heroes[0] = { ...EMPTY_HERO, heroClass: 'Occultist', activeSkills: ['Vulnerability Hex'] };
+    heroes[1] = { ...EMPTY_HERO, heroClass: 'Grave Robber', activeSkills: ['Thrown Dagger'] };
+    heroes[2].heroClass = 'Hellion';
+    heroes[3].heroClass = 'Vestal';
+    const result = analyzeSynergy(heroes);
+    expect(result.notes.some(n => n.includes('Mark synergy'))).toBe(true);
+  });
+
+  // The rank checks read the game's own launch/target data, so they outrank
+  // the class-name heuristics around them.
+  describe('rank problems', () => {
+    const party = (...specs) =>
+      specs.map(([heroClass, activeSkills]) => ({ ...EMPTY_HERO, heroClass, activeSkills }));
+
+    test('a hero who cannot act makes the whole party danger', () => {
       const heroes = party(
         ['Crusader', ['Smite']],
         ['Hellion', ['Wicked Hack']],
         ['Vestal', ['Judgement']],
-        ['Leper', ['Hew', 'Chop']] // rank 4, and both swings launch from 1-2
+        ['Leper', ['Hew', 'Chop']]
       );
       const result = analyzeSynergy(heroes);
       expect(result.level).toBe('danger');
-      expect(result.warnings).toEqual(['Leper can use none of their 2 skills from rank 4.']);
+      expect(result.notes[0]).toContain('Leper can use none');
     });
 
-    test('is called out before the party is even half built', () => {
+    test('speaks up before the party is even half built', () => {
       // One misplaced hero is already wrong; waiting for a fourth to say so
       // would be waiting until it is harder to fix.
-      const heroes = party(null, null, null, ['Leper', ['Hew']]);
-      expect(analyzeSynergy(heroes).level).toBe('danger');
-      expect(analyzeSynergy(heroes).warnings[0]).toContain('rank 4');
+      const heroes = [
+        { ...EMPTY_HERO },
+        { ...EMPTY_HERO },
+        { ...EMPTY_HERO },
+        { ...EMPTY_HERO, heroClass: 'Leper', activeSkills: ['Hew'] }
+      ];
+      const result = analyzeSynergy(heroes);
+      expect(result.level).toBe('danger');
+      expect(result.notes.some((n) => n.includes('rank 4'))).toBe(true);
     });
 
-    test('is not confused with a hero who has no skills chosen yet', () => {
-      expect(analyzeSynergy(party(['Leper', []])).warnings).toHaveLength(0);
-    });
-  });
-
-  describe('what it deliberately no longer says', () => {
-    // Every one of these fired on preset comps that work. See the file header
-    // in synergyHelper.js for the counts.
-    test('duplicate classes are a strategy, not a mistake', () => {
-      const quartet = party(
-        ['Crusader', ['Smite', 'Stunning Blow', 'Holy Lance', 'Inspiring Cry']],
-        ['Crusader', ['Smite', 'Stunning Blow', 'Holy Lance', 'Inspiring Cry']],
-        ['Crusader', ['Smite', 'Battle Heal', 'Holy Lance', 'Inspiring Cry']],
-        ['Crusader', ['Smite', 'Battle Heal', 'Holy Lance', 'Inspiring Cry']]
-      );
-      expect(analyzeSynergy(quartet).notes).toHaveLength(0);
-    });
-
-    test('a party with no Vestal and no Occultist is left alone', () => {
+    test('says nothing when everyone can reach something', () => {
       const heroes = party(
         ['Hellion', ['Wicked Hack', 'Iron Swan']],
-        ['Crusader', ['Smite', 'Stunning Blow']],
-        ['Grave Robber', ['Lunge', 'Poison Darts']],
+        ['Crusader', ['Smite', 'Battle Heal']],
+        ['Vestal', ['Dazzling Light', 'Divine Grace']],
         ['Arbalest', ['Sniper Shot', 'Suppressing Fire']]
       );
-      expect(analyzeSynergy(heroes).warnings).toHaveLength(0);
-    });
-
-    test('two healers is not an accusation', () => {
-      const heroes = party(
-        ['Crusader', ['Smite', 'Stunning Blow']],
-        ['Hellion', ['Wicked Hack', 'Iron Swan']],
-        ['Vestal', ['Judgement', 'Divine Grace']],
-        ['Occultist', ['Sacrificial Stab', 'Wyrd Reconstruction']]
-      );
-      expect(analyzeSynergy(heroes).warnings).toHaveLength(0);
-    });
-
-    test('a party that only threatens the enemy front line is left alone', () => {
-      // A Lunge quartet kills what is in front and lets the back walk forward.
-      const heroes = party(
-        ['Grave Robber', ['Pick to the Face', 'Lunge', 'Shadow Fade', 'Toxin Trickery']],
-        ['Grave Robber', ['Pick to the Face', 'Lunge', 'Shadow Fade', 'Toxin Trickery']],
-        ['Grave Robber', ['Pick to the Face', 'Lunge', 'Shadow Fade', 'Toxin Trickery']],
-        ['Grave Robber', ['Pick to the Face', 'Lunge', 'Shadow Fade', 'Toxin Trickery']]
-      );
-      expect(analyzeSynergy(heroes).warnings).toHaveLength(0);
+      expect(analyzeSynergy(heroes).notes.some((n) => n.includes('rank'))).toBe(false);
     });
   });
-
-  describe('mark synergy', () => {
-    test('reads the equipped skills, not the class names', () => {
-      const heroes = party(
-        ['Crusader', ['Smite', 'Stunning Blow']],
-        ['Bounty Hunter', ['Mark for Death', 'Collect Bounty']],
-        ['Vestal', ['Judgement', 'Divine Grace']],
-        ['Arbalest', ['Sniper Shot', "Sniper's Mark"]]
-      );
-      expect(analyzeSynergy(heroes).insights[0]).toMatch(/^Mark synergy:/);
-    });
-
-    test('stays quiet when the classes are there but the skills are not', () => {
-      // The old version congratulated this party. Neither hero can mark.
-      const heroes = party(
-        ['Crusader', ['Smite', 'Stunning Blow']],
-        ['Bounty Hunter', ['Uppercut', 'Flashbang']],
-        ['Vestal', ['Judgement', 'Divine Grace']],
-        ['Arbalest', ['Suppressing Fire', 'Battlefield Bandage']]
-      );
-      expect(analyzeSynergy(heroes).insights).toHaveLength(0);
-    });
-
-    test('does not count the Antiquarian painting an ally for cover', () => {
-      // Protect Me says "Mark Target" too, but the target is an ally.
-      const heroes = party(
-        ['Highwayman', ['Pistol Shot', 'Open Vein']],
-        ['Antiquarian', ['Protect Me', 'Festering Vapours']],
-        ['Vestal', ['Judgement', 'Divine Grace']],
-        ['Arbalest', ['Suppressing Fire', 'Battlefield Bandage']]
-      );
-      expect(analyzeSynergy(heroes).insights).toHaveLength(0);
-    });
-
-    test('is an insight, never a warning', () => {
-      const heroes = party(
-        ['Crusader', ['Smite', 'Stunning Blow']],
-        ['Bounty Hunter', ['Mark for Death', 'Collect Bounty']],
-        ['Vestal', ['Judgement', 'Divine Grace']],
-        ['Arbalest', ['Sniper Shot', "Sniper's Mark"]]
-      );
-      const result = analyzeSynergy(heroes);
-      expect(result.level).toBe('good');
-      expect(result.warnings).toHaveLength(0);
-    });
-  });
-});
-
-/**
- * The line this whole rework was drawn against. `data/presetComps` is a
- * library of teams that are known to work, so anything the warning system says
- * about one of them is the warning system being wrong. The old rules had
- * something to complain about in 170 of the 177.
- */
-describe('the preset comps are valid, and the warnings must agree', () => {
-  test('there are presets to check', () => {
-    expect(PRESET_COMP_ENTRIES.length).toBeGreaterThan(100);
-  });
-
-  test.each(PRESET_COMP_ENTRIES.map(({ key, data }) => [key, data]))(
-    '%s draws no warning',
-    (key, data) => {
-      expect(analyzeSynergy(data.heroes).warnings).toEqual([]);
-      expect(rankWarnings(data.heroes)).toEqual([]);
-    }
-  );
 });

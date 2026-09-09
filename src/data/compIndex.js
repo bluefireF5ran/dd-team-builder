@@ -1,6 +1,6 @@
 // Indice enriquecido de la libreria del bundle.
 //
-// Analizar 139 comps (clases, mecanicas, tags, blob de busqueda) cuesta poco,
+// Analizar 183 comps (clases, mecanicas, tags, blob de busqueda) cuesta poco,
 // pero cuesta UNA vez, no en cada render ni en cada tecla del buscador. Y se
 // construye la primera vez que alguien lo pide, no al importar: abrir la app
 // sin abrir la libreria no deberia pagarlo.

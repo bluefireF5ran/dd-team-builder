@@ -5,7 +5,7 @@ import { BACKER_TRINKETS } from '../data/backer_trinkets';
 import { POSITIVE_QUIRKS, NEGATIVE_QUIRKS } from '../data/quirks';
 import { ALL_DISEASES } from '../data/diseases';
 import { COMMON_VANILLA_CAMP_SKILLS } from '../constants';
-import { NAME_ALIASES } from '../data/name_aliases';
+import { NAME_ALIASES, CLASS_NAME_ALIASES } from '../data/name_aliases';
 
 // Todas las variantes de apóstrofe que aparecen en datos externos (JSON generados,
 // copy/paste desde la wiki, editores que "embellecen" comillas, etc.)
@@ -27,16 +27,17 @@ export const nameKey = (name) => {
     .trim();
 };
 
-const buildIndex = (...lists) => {
-  const index = new Map();
-  lists.forEach((list) => {
-    (list || []).forEach((name) => {
-      const key = nameKey(name);
-      if (key && !index.has(key)) index.set(key, name);
-    });
+// Registra cada nombre bajo su clave, sin pisar lo que ya estuviera: el orden
+// de llamada es el que decide quién gana.
+const addNames = (index, list) => {
+  (list || []).forEach((name) => {
+    const key = nameKey(name);
+    if (key && !index.has(key)) index.set(key, name);
   });
   return index;
 };
+
+const buildIndex = (...lists) => lists.reduce(addNames, new Map());
 
 // Grafías alternativas -> nombre canónico (p. ej. "Vvulf's Tassle" -> "Vvulf's Tassel").
 const ALIAS_INDEX = new Map();
@@ -96,17 +97,45 @@ const DISEASE_INDEX = buildIndex(ALL_DISEASES);
 // Índices por clase, construidos bajo demanda y cacheados.
 const perClassCache = new Map();
 
+/**
+ * Añade a un índice ya construido las grafías que sólo valen en esta clase.
+ *
+ * Se aplica **después** de los nombres propios de la clase y **antes** de
+ * cualquier lista de respaldo, porque el orden es lo que decide quién gana:
+ * `buildIndex` conserva la primera entrada de cada clave. Un alias cuyo nombre
+ * canónico la clase no tiene se ignora -- misma regla que `gameIds.js`, para
+ * que una tabla plana no pueda inventar una skill.
+ */
+const addClassAliases = (index, aliasTable) => {
+  Object.entries(aliasTable || {}).forEach(([canonical, aliases]) => {
+    if (!index.has(nameKey(canonical))) return;
+    (aliases || []).forEach((alias) => {
+      const key = nameKey(alias);
+      if (key && !index.has(key)) index.set(key, canonical);
+    });
+  });
+  return index;
+};
+
 const getClassIndexes = (heroClass) => {
   if (perClassCache.has(heroClass)) return perClassCache.get(heroClass);
 
   const heroData = getHeroData(heroClass);
+  const classAliases = CLASS_NAME_ALIASES[heroClass] || {};
   const indexes = {
-    skills: buildIndex(heroData?.skills),
-    campSkills: buildIndex(heroData?.campSkills, COMMON_VANILLA_CAMP_SKILLS),
+    skills: addClassAliases(buildIndex(heroData?.skills), classAliases.skills),
+    // Las tres camp skills comunes van al final a propósito: son un respaldo
+    // para clases modded sin datos, y para Duelist y Runaway resolvían
+    // `Wound Care` a sí mismo cuando su clase la llama `First Aid`. El alias
+    // de clase se registra antes y por eso gana.
+    campSkills: addNames(
+      addClassAliases(buildIndex(heroData?.campSkills), classAliases.campSkills),
+      COMMON_VANILLA_CAMP_SKILLS
+    ),
     // Los trinkets de clase van primero: si un nombre coincide con uno de la
     // clase y con uno genérico, gana el de la clase (es el que se dibuja con
     // la ruta de asset correcta).
-    trinkets: buildIndex(heroData?.classSpecificTrinkets)
+    trinkets: addClassAliases(buildIndex(heroData?.classSpecificTrinkets), classAliases.trinkets)
   };
 
   perClassCache.set(heroClass, indexes);

@@ -5,7 +5,7 @@
 // y por eso conviven.
 //
 // El problema de contar apariciones a pelo es que la libreria no es un censo
-// neutral: el Houndmaster sale en 89 ranuras y el Runaway en 2, asi que TODAS
+// neutral: el Houndmaster sale en 97 ranuras y el Runaway en 10, asi que TODAS
 // las skills del Houndmaster salen por delante de las de cualquier otro sin que
 // eso diga nada de las skills. Aqui se corrige con dos palancas:
 //
@@ -21,8 +21,8 @@
 //      se interpola en escala logaritmica.
 //
 //   2. `unit` (que cuenta como una observacion). Contar ranuras da mucho peso a
-//      las familias con muchas variantes: "Marked Prey" son 24 comps de 151.
-//      Contando familias distintas, esas 24 valen 1.
+//      las familias con muchas variantes: "Waiting Blade" son 17 comps de 183.
+//      Contando familias distintas, esas 17 valen 1.
 //
 // La tasa cruda tiene el defecto clasico de los ratios: 5/5 = 100% empata con
 // 50/50. Se suaviza hacia la media global con un prior de `priorStrength`

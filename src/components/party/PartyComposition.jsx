@@ -1,13 +1,14 @@
 import React, { useState, forwardRef, useMemo, useRef } from 'react';
-import { CheckCircle, AlertCircle, ChevronLeft, ChevronRight } from 'lucide-react';
+import { AlertTriangle, CheckCircle, AlertCircle, ChevronLeft, ChevronRight } from 'lucide-react';
 import PartyHeroCard from './PartyHeroCard';
 import { analyzeSynergy } from '../../utils/synergyHelper';
 
-// Two levels, because there are two things to say. The amber middle went with
-// the heuristics that used to fill it - "no stress healer", "duplicate class" -
-// and nothing left is a matter of degree.
+// Three levels, because a party can be wrong in two different degrees: a
+// duplicate class or a missing healer is worth a look, a hero who cannot act
+// from the rank they are in is not. `analyzeSynergy` grades which is which.
 const LEVEL_CONFIG = {
   good: { icon: CheckCircle, color: 'text-green-400', bg: 'bg-green-900/30 border-green-700/50' },
+  warning: { icon: AlertTriangle, color: 'text-yellow-400', bg: 'bg-yellow-900/30 border-yellow-700/50' },
   danger: { icon: AlertCircle, color: 'text-red-400', bg: 'bg-red-900/30 border-red-700/50' },
 };
 
@@ -20,7 +21,12 @@ const PartyComposition = forwardRef(({ heroes, onSwapHeroes, teamName, location 
 
   const synergy = useMemo(() => analyzeSynergy(heroes), [heroes]);
 
-  const handleDragStart = (index) => {
+  const handleDragStart = (e, index) => {
+    // Firefox no arranca un drag si nadie ha puesto datos en el evento, asi que
+    // sin esta linea reordenar arrastrando solo funcionaba en Chrome. El indice
+    // viaja de todos modos por estado; esto es el peaje del navegador.
+    e.dataTransfer?.setData('text/plain', String(index));
+    if (e.dataTransfer) e.dataTransfer.effectAllowed = 'move';
     setDraggedIndex(index);
   };
 
@@ -114,7 +120,7 @@ const PartyComposition = forwardRef(({ heroes, onSwapHeroes, teamName, location 
               aria-label={`Position ${position}: ${hero.heroClass || 'Empty'}${isSelected ? ' (selected — press Space on another position to swap)' : ''}`}
               onKeyDown={(e) => handleKeyDown(e, actualIndex)}
               draggable={!!hero.heroClass}
-              onDragStart={() => handleDragStart(actualIndex)}
+              onDragStart={(e) => handleDragStart(e, actualIndex)}
               onDragOver={(e) => handleDragOver(e, actualIndex)}
               onDragLeave={handleDragLeave}
               onDrop={() => handleDrop(actualIndex)}

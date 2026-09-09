@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { getSkillRanks, reachableRanks } from '../../utils/rankValidity';
-import { AlertTriangle, ChevronDown, ChevronUp, Copy, ClipboardPaste, RotateCcw, UserPlus, X } from 'lucide-react';
+import { AlertTriangle, ChevronDown, ChevronUp, Copy, ClipboardPaste, RotateCcw, Sparkles, UserPlus, X } from 'lucide-react';
 import { HERO_CLASSES } from '../../data/heroes';
 import { MODDED_HERO_CLASSES } from '../../data/modded_heroes';
 import { validateHero } from '../../utils/validation';
@@ -11,6 +11,7 @@ import { getTrinketImagePath } from '../../utils/imageHelper';
 import { getTrinketEffect } from '../../data/trinketEffects';
 import { getModdedTrinketEffect, getSetBonus } from '../../data/moddedEffects';
 import { getSkillTier, getSkillTierMeta } from '../../data/skillTiers';
+import { bisLoadout, MIN_LIBRARY_SAMPLES } from '../../data/bisIndex';
 import { skillHover, trinketHover } from '../../utils/hoverInfo';
 import ImageWithFallback from '../common/ImageWithFallback';
 import ConfirmDialog from '../common/ConfirmDialog';
@@ -154,6 +155,58 @@ const HeroConfiguration = ({
     });
   };
 
+  /**
+   * Rellena el heroe con la loadout recomendada PARA SU RANGO.
+   *
+   * `position` es el rango, no el indice de la tarjeta (App las pinta al reves
+   * y pasa `4 - idx`), y es justo el dato que hace util a la recomendacion: la
+   * misma clase se construye distinto delante y detras.
+   */
+  const doFillBestInSlot = () => {
+    const build = bisLoadout(hero.heroClass, position);
+    if (!build) return;
+
+    onUpdate({
+      ...hero,
+      activeSkills: build.activeSkills,
+      activeCampSkills: build.activeCampSkills,
+      trinket1: build.trinket1,
+      trinket2: build.trinket2,
+      // Las quirks se sugieren; las que ya tuviera bloqueadas mandan, porque en
+      // el juego no se pueden quitar.
+      quirks: {
+        positive: [...new Set([...(hero.lockedQuirks?.positive || []), ...build.quirks.positive])]
+          .slice(0, HERO_CONFIG.MAX_POSITIVE_QUIRKS),
+        negative: hero.quirks?.negative || []
+      }
+    });
+
+    const where = build.samples >= MIN_LIBRARY_SAMPLES
+      ? `from ${build.samples} comps that run ${hero.heroClass} at rank ${position}`
+      : `from the trained model — the library has ${build.samples || 'no'} comps for rank ${position}`;
+    showToast?.(`${hero.heroClass} built for rank ${position}, ${where}.`, 'success');
+
+    if (!build.rankLegal) {
+      showToast?.(
+        `${hero.heroClass} can only use ${build.activeSkills.filter((n) => getSkillRanks(hero.heroClass, n)?.launch.includes(position)).length} of these from rank ${position} — the class has little to do here.`,
+        'warning'
+      );
+    }
+  };
+
+  const handleFillBestInSlot = () => {
+    if (hasHeroConfiguration(hero)) {
+      setConfirmState({
+        isOpen: true,
+        action: doFillBestInSlot,
+        title: 'Build for this rank',
+        message: `Replace this ${hero.heroClass}'s skills, camp skills and trinkets with the recommended build for rank ${position}?`
+      });
+      return;
+    }
+    doFillBestInSlot();
+  };
+
   const handleCopyHero = async () => {
     const ok = await copyTextToClipboard(serializeHero(hero));
     showToast?.(
@@ -285,6 +338,14 @@ const HeroConfiguration = ({
   const heroCampSkills = heroData?.campSkills || [];
   const activeSkills = hero.activeSkills || [];
   const activeCampSkills = hero.activeCampSkills || [];
+
+  // Una skill guardada con una grafía que la clase no tiene cuenta para el
+  // contador y no enciende ningún botón: la tarjeta decía "Selected: 4/4" con
+  // los siete botones apagados y nada explicaba por qué. Los alias de clase
+  // (`CLASS_NAME_ALIASES`) arreglan las que conocemos; esto hace visible
+  // cualquier otra en vez de dejarla muda.
+  const unmatchedSkills = activeSkills.filter((s) => s && !heroSkills.includes(s));
+  const unmatchedCampSkills = activeCampSkills.filter((s) => s && !heroCampSkills.includes(s));
   const quirks = hero.quirks || { positive: [], negative: [] };
   const lockedQuirks = hero.lockedQuirks || { positive: [], negative: [] };
   const diseases = hero.diseases || [];
@@ -316,6 +377,15 @@ const HeroConfiguration = ({
           />
           
           {hero.heroClass && (
+            <>
+            <button
+              onClick={handleFillBestInSlot}
+              className="p-1.5 sm:p-2 rounded bg-gray-700/80 hover:bg-dd-gold/30 text-gray-300 hover:text-dd-gold border border-gray-600 transition-colors"
+              title={`Build ${hero.heroClass} for rank #${position}`}
+              aria-label={`Build for rank ${position}`}
+            >
+              <Sparkles size={16} className="sm:w-5 sm:h-5" />
+            </button>
             <button
               onClick={handleCopyHero}
               className="p-1.5 sm:p-2 bg-gray-700 hover:bg-gray-600 text-dd-parchment rounded transition-colors border border-gray-600"
@@ -324,6 +394,7 @@ const HeroConfiguration = ({
             >
               <Copy size={16} className="sm:w-5 sm:h-5" />
             </button>
+            </>
           )}
 
           {/* Pegar tambien en un hueco vacio: mover un heroe a otra comp es el caso. */}
@@ -451,9 +522,12 @@ const HeroConfiguration = ({
                 })}
               </div>
               {!isAlwaysActive && (
-                <p className="text-[10px] sm:text-xs text-gray-400 mt-1">
-                  Selected: {activeSkills.length}/4
-                </p>
+                <SelectionCount
+                  selected={activeSkills.length}
+                  max={4}
+                  unmatched={unmatchedSkills}
+                  noun="combat skill"
+                />
               )}
             </div>
           </div>
@@ -480,9 +554,12 @@ const HeroConfiguration = ({
                   );
                 })}
               </div>
-              <p className="text-[10px] sm:text-xs text-gray-400 mt-1">
-                Selected: {activeCampSkills.length}/4
-              </p>
+              <SelectionCount
+                selected={activeCampSkills.length}
+                max={4}
+                unmatched={unmatchedCampSkills}
+                noun="camp skill"
+              />
             </div>
 
             <div>
@@ -606,6 +683,31 @@ const HeroConfiguration = ({
  * differ only in colour, capacity and whether a slot can be locked, so they are
  * one component - which is also what keeps a disease looking like a quirk.
  */
+/**
+ * "Selected: N/4", y el porqué cuando N no cuadra con lo que se ve encendido.
+ *
+ * El contador mira el array del héroe y los botones miran el roster de la
+ * clase, así que un nombre que la clase no tiene sumaba al total sin encender
+ * nada. Nombrarlo es la única salida honesta: borrarlo perdería datos de una
+ * comp de un mod que esta build no lleva, y no contarlo mentiría sobre lo que
+ * el héroe tiene guardado.
+ */
+const SelectionCount = ({ selected, max, unmatched = [], noun }) => (
+  <div className="mt-1">
+    <p className="text-[10px] sm:text-xs text-gray-400">
+      Selected: {selected}/{max}
+    </p>
+    {unmatched.length > 0 && (
+      <p
+        className="text-[10px] sm:text-xs text-amber-400"
+        title={`Saved on this hero but not in the ${noun} list for this class, so no button is highlighted.`}
+      >
+        {unmatched.length} not in this class&apos;s list: {unmatched.join(', ')}
+      </p>
+    )}
+  </div>
+);
+
 const QuirkList = ({
   title,
   heading,

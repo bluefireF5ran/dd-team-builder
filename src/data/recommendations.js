@@ -54,7 +54,7 @@ const buildRecommendations = () => {
   return { trinketsByClass, quirksByClass };
 };
 
-// Un barrido de las 139 comps al arrancar la app, para algo que solo hace falta
+// Un barrido de las 183 comps al arrancar la app, para algo que solo hace falta
 // al abrir un selector de baratijas o de rarezas: se calcula la primera vez que
 // se pregunta y se guarda.
 let cache = null;

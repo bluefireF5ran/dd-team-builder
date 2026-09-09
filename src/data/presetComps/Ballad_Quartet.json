@@ -1,6 +1,6 @@
 {
   "teamName": "Ballad Quartet",
-  "alias": "Clown Fiesta",
+  "alias": "Ballad Quartet",
   "location": "The Ruins",
   "heroes": [
     {
@@ -18,7 +18,7 @@
         "Tiger's Eye"
       ],
       "trinket1": "Caution Cloak",
-      "trinket2": "Cloak and Dagger",
+      "trinket2": "Camouflage Cloak",
       "quirks": {
         "positive": [],
         "negative": []
@@ -92,7 +92,7 @@
         "Every Rose Has Its Thorn",
         "Tiger's Eye"
       ],
-      "trinket1": "Tempting Goblet",
+      "trinket1": "The Tempting Goblet",
       "trinket2": "Camouflage Cloak",
       "quirks": {
         "positive": [],

@@ -68,10 +68,10 @@
     {
       "heroClass": "Runaway",
       "activeSkills": [
+        "Firefly",
         "Run and Hide",
         "Controlled Burn",
-        "Backdraft",
-        "Firefly"
+        "Backdraft"
       ],
       "activeCampSkills": [
         "Encourage",

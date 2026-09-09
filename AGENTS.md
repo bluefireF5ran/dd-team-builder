@@ -287,6 +287,49 @@ in `scripts/nameComps.manifest.json`. `rebuild_taxonomy.bat` wraps that with a c
 warnings are the point of the report: `DUPLICADA` (identical body), `MISMO ROSTER` (same classes, so
 only an ordinal separates them) and `SIN FIRMA`.
 
+## Names that only mean something next to a class
+
+`src/data/name_aliases.js` has two tables and they are not interchangeable.
+`NAME_ALIASES` resolves **globally** — good for a trinket typo (`Vvulf's Tassle`), wrong
+for a skill. `CLASS_NAME_ALIASES` is indexed by class, and it exists because the same
+string can be right in one class and wrong in another:
+
+| class | canonical | also accepted |
+| --- | --- | --- |
+| Shieldbreaker | `Snake Skin` | `Snakeskin` |
+| Duelist, Runaway | `First Aid` | `Wound Care` |
+
+`Wound Care` is the correct name in the eighteen classes the wiki CSV covered and the
+*wrong* one in the two Fire's Edge classes, which the game renders as `First Aid` — the
+same split AGENTS.md already describes for the save importer's `first_aid` id. A flat
+alias would rewrite the skill for all twenty. `addClassAliases` in
+`src/utils/nameNormalizer.js` therefore **skips any alias whose canonical name the class
+does not actually have**, which is the rule `gameIds.js` follows for save ids: a rename
+never invents a skill.
+
+Order inside `getClassIndexes` is load-bearing. The class's own names go in first, then
+the class aliases, and `COMMON_VANILLA_CAMP_SKILLS` (`Encourage`, `Wound Care`,
+`Pep Talk`) last — it is a fallback for modded classes with no camp data, and if it ran
+first it would resolve `Wound Care` to itself for the Duelist and hand back a camp skill
+that class does not have. `buildIndex` keeps the first entry per key, so "first wins" is
+the whole mechanism.
+
+**The bug this fixes was silent.** A comp storing `Snakeskin` made the hero card read
+`Selected: 4/4` while none of the seven camp-skill buttons lit up: the counter reads the
+hero's array, the buttons iterate the class roster, and nothing compared the two. Five
+slots across the bundled comps were affected. Two things now stop it recurring —
+`src/data/__tests__/presetCompNames.test.js` fails if any bundled comp names a skill,
+camp skill or trinket its class does not own, and `SelectionCount` in
+`HeroConfiguration` names the unmatched entries under the counter instead of leaving the
+mismatch invisible. Deleting the unknown name is not an option: it may belong to a mod
+this build does not carry.
+
+That test carries one deliberate exception, `KNOWN_BAD_TRINKETS`: `Ballad_Quartet.json`
+puts the Grave Robber's Butcher's Circus trinket `Cloak and Dagger` on a Jester. That is
+not a spelling — it is a trinket the class cannot equip, and `TrinketPicker` only offers
+general trinkets plus the hero's own, so the comp cannot be reproduced in the app.
+Choosing the replacement is a build decision, so it is written down rather than guessed.
+
 ## Quirks and diseases
 
 Three lists per hero, drawn in six colours. `src/data/quirks.js` and `src/data/diseases.js` are
@@ -786,6 +829,192 @@ rejected against the default 4-skill cap.
 It also carries `MODDED_TRINKET_SETS` and the merged `getSetBonus` / `getTrinketSet` — see **Set
 bonuses** above.
 
+## What a skill does (`src/utils/skillProfile.js`)
+
+`rankValidity` proved the pattern for positions; this is the same move for the rest of the
+text. `skillEffects.js` carries `launch`, `target` and a prose `effect` for all 140 vanilla
+combat skills and all 80 camp skills, and `skillProfile` turns that prose into tags —
+`stun`, `blight`, `bleed`, `mark`, `markPayoff`, `heal`, `stressHeal`, `stressResist`,
+`guard`, `riposte`, `selfMove`, `enemyMove`, `cleanse`, `damage`, `aoe`.
+
+**The clause prefix decides who a clause lands on, and it is not decoration.** The
+Abomination's `Transform` reads `Other Heroes: Stress +8 | Self: ... Heal 5 HP` — the same
+line both costs the party stress and heals the caster. Same trap `trinketSubstitution`
+documents for `+10% Stress`: the sign does not tell you whether something is good.
+
+Four rules, each with a test, and each one a bug that was there first:
+
+1. **No prefix does not mean "the enemy" — it means whoever the skill targets.** The
+   Crusader's `Inspiring Cry` says a bare `Stress -8` and targets `ally 1·2·3·4 / self`.
+   Reading the prefix without the target counted the classic stress heals — Jester,
+   Crusader, Houndmaster — as something done *to the enemy*, and found only 3 stress
+   healers instead of 8.
+2. **A resistance is not the thing it resists.** `+15% Bleed Resist` bleeds nobody.
+3. **A conditional bonus is not the condition.** `+60% DMG vs Stunned` does not stun;
+   `vs Marked` does not mark.
+4. **Cleansing is the opposite of applying**, and a lookbehind is not enough to see it:
+   `Cure Blight/Bleed` leaves `Bleed` preceded by a slash. The cleansing verb and
+   everything up to the next separator is struck out *before* anything is matched.
+
+Flat stress and percentage stress are different things — `Stress -12` heals what is
+already there, `-20% Stress` is resistance. `Inspiring Tune` carries both in one line, and
+"the party has a stress healer" means the first.
+
+`analyzeSynergy` is built on this now, and the tables it replaced show why it was worth
+it. `HEALER_CLASSES` had two names against 19 healing skills across 13 classes;
+`MARK_BONUS_ABILITIES` had three classes against eight; stress healing was a literal
+four-name array. The Plague Doctor's entry said `Battle Medicine` while the skill is
+`Battlefield Medicine`, so it had never matched anything. None of the tables knew the
+Duelist or the Runaway, let alone a modded class.
+
+**Potential and actual.** A hero with no skills chosen is judged on their class's whole
+kit; one who has chosen is judged on what they chose. Picking a Vestal should not read as
+"no healer", and a Crusader carrying four non-healing skills should. The switch is per
+hero, so a half-built party still behaves, and the panel says which heroes it is assuming
+for.
+
+`partyCoverage` is exported separately from the notes because the same question is asked
+by more than the panel: what a party can do also decides a recommended loadout and drives
+comp generation. Unknown skills stay `null` and are never reported as a fault — silence is
+the right answer when you do not know, which is what keeps uncovered modded classes quiet.
+
+## Best-in-slot, per class **and rank** (`src/data/bisIndex.js`)
+
+There is no such thing as one recommended build for a class. A skill has ranks it can be
+used from, so the Leper's answer at rank 1 and at rank 4 cannot be the same one — his
+`launchableByRank` is 7/5/2/1 and the Arbalest's is 2/2/7/7, the same question with
+opposite answers. `bisLoadout(heroClass, rank)` is keyed on both.
+
+**Counting is not enough, and it fails exactly where help is needed.** The comp library is
+not a census: the Houndmaster holds 97 of 704 hero slots and the Duelist 9. Measured per
+class *and* rank it is worse — **33 of the 80 cells hold fewer than 3 comps**, and several
+hold none at all (Arbalest r1, Musketeer r1, Plague Doctor r1, Leper r3, Occultist r4).
+Recommending by frequency alone returns good answers only where good answers already
+existed, which is the same complaint that makes `suggestTeam` useless outside the popular
+classes.
+
+So three sources, in order, because none is honest alone:
+
+1. **The comp library**, when the cell has `MIN_LIBRARY_SAMPLES` or more. Houndmaster r3
+   has 40 slots and a clean consensus: Hound's Rush 40/40, Cry Havoc 37/40, Guard Dog
+   35/40, Target Whistle 32/40.
+2. **`modelUsage.json`** for the thin cells — 166,259 decisions from a trained policy,
+   covering all 20 vanilla classes, and crucially *not* sharing the library's bias. It
+   carries no rank dimension, so it may only say **which** skills, never from where.
+3. **Rank legality**, from `skillProfile`, which filters rather than breaking ties.
+
+The returned build says which source answered (`source`, `samples`), so the UI can tell a
+40-comp consensus from a guess instead of presenting both as fact.
+
+**Fran's rule: at least 3 of 4 skills must launch from the hero's rank.** The fourth is
+spent deliberately on the skill that reaches the most ranks *other* than the hero's,
+because the best skill in the kit is worth nothing the turn you get shuffled out of
+position.
+
+**Dancers are exempt, but they have to earn it.** A class with a self-movement attack
+places itself, so judging it by where the round starts is judging it by where it spends
+the least time — but the exemption is only granted if the build *actually takes* a
+movement skill. A Shieldbreaker without `Serpent Sway` is as stuck as anyone, and handing
+her the exemption for her class name would be going back to judging by name. Stance classes
+(`alwaysActive`) get all seven skills, because they do not choose.
+
+The button lives on the hero card and passes `position`, which is the rank — `App` renders
+the cards reversed and passes `4 - idx`. It confirms before overwriting a configured hero,
+the same rule as paste, and **keeps locked quirks**, because the game will not let you drop
+them.
+
+## Building a comp instead of looking one up (`src/utils/compGenerator.js`)
+
+`suggestTeam` searches `COMP_LIBRARY`, so it can only ever hand back something already
+written. And the library is distributed the way it is — 97 of 704 hero slots are
+Houndmaster, 9 are Duelist — so a roster without the popular classes gets nothing useful.
+`generateComps` answers the same question from the other end: **what party makes sense with
+these heroes**, judged by the game's rules rather than by a tally.
+
+**Classes and their ranks are chosen together**, because the same class is worth a lot or
+nothing depending on where it stands. `scoreParty` is the objective, and it reads
+`partyCoverage`, so it is the same derivation the party panel uses:
+
+| weight | what |
+| --- | --- |
+| ×40 | how many of the four enemy ranks the party can actually reach |
+| +20 / +15 / +10 | heals, answers stress, brings stun-or-blight-or-bleed |
+| +8 / +4 | mark paired with a payoff, a guard |
+| −50 each | a hero who cannot use a single skill from their rank |
+| −3 each | a skill that cannot be launched from where its hero stands |
+
+That last row matters more than it looks. Punishing only the *fully* stranded hero let an
+Arbalest sit at rank 2 with two of four skills dead — not broken, just wrong, which is
+exactly the case Fran's three-of-four rule is about.
+
+Two things stop it being a plain greedy fill:
+
+- **A swap pass.** Filling rank 1 to 4 never reconsiders, so a back-line class that was the
+  best available early gets stuck up front. All six pairs are tried and kept if they score
+  better. Swapping *rebuilds* both loadouts, since `bisLoadout` depends on the rank.
+- **`generateComps` returns several distinct comps, best first**, deduplicated by class
+  placement. Searching for the optimum and keeping only it returns the same comp for the
+  same roster forever, and "give me another" has to be able to. The only randomness is
+  `EXPLORE`: sometimes take the second-best candidate. Variety comes from the search, not
+  from noise in the score — every alternative is still checked.
+
+A generated comp is named by `nameCompAgainst`, the same engine the save dialog uses, so it
+arrives as `Family: Variant` and comparable with the library rather than as "Random Team".
+`placeGeneratedComp` in `useTeam` drops it in as one undoable step.
+
+**`COMP_REGIONS` is derived now** (`compRegions()` in `rankerItems`, which was written and
+then never called). The hardcoded four were the regions that had comps on the day it was
+typed, so a region stayed unrankable after comps were written for it. The threshold keeps
+it honest at the other end — the library also touches Darkest Dungeon II with 2 comps and
+the Farmstead with 1, and a pairwise sort of one comp is not a sort.
+
+## What you fight in each region (`src/data/regionProfiles.js`)
+
+**Generated — do not hand-edit.** `scripts/importRegionProfiles.js` rebuilds it from a game
+install, the same shape as every other importer here: read at build time, **commit the
+output**, so nothing in `src/` ever needs the game. That is the whole point — the app has
+to work for someone who has never installed Darkest Dungeon.
+
+Two sources, and it is the pairing that makes it a region profile rather than a bestiary:
+`monsters/**/*.info.darkest` for each enemy's stats (hp, prot, spd, the five resistances,
+`enemy_type`, size, whether it leaves a corpse), and `dungeons/<zone>/*.mash.darkest` for
+the weighted tables of which enemies actually turn up together. Enemies are weighted by
+their table's `.chance`, so a rare party cannot drag the averages.
+
+This is what turns "a Ruins comp" from a label into a target, and the numbers come out
+matching what any player already knows, with no hand-written list behind them:
+
+| | Ruins | Warrens | Weald | Cove |
+| --- | --- | --- | --- | --- |
+| bleed resist | **151%** | 44% | 50% | 59% |
+| blight resist | 35% | 62% | 62% | 40% |
+| dominant type | unholy 61% | man 54% | man 51% | eldritch 61% |
+
+Bleed is wasted in the Ruins and blight is not; the Warrens are the other way round; the
+Crusader's and Occultist's bonuses are live in the Ruins and the Cove. `regionProfiles.test.js`
+pins those four facts.
+
+Three things worth not re-deriving:
+
+1. **Resistances go above 100 and that is real.** A skeleton ships `bleed_resist 200%`, so
+   the Ruins average is over 150. It looks like a parse bug and is not.
+2. **`flashback.<zone>.*` tables are skipped.** The Shieldbreaker DLC drops them into the
+   real zone folders, but they are her own scripted dungeon — folding them in puts her
+   snakes in every region.
+3. **A zone whose tables do not describe how it works gets no profile at all.** The Darkest
+   Dungeon ships one table with one enemy and the Farmstead two, because neither picks its
+   fights this way. "The Darkest Dungeon: average party size 1" would be a confident lie,
+   and the rule everywhere else here is that silence beats a guess.
+
+`src/data/regionEnemies.js` holds the 310 per-enemy rows and **nothing imports it on
+purpose**. It is provenance — with it the summary can be re-derived or re-weighted without
+the game, the same reason `importModdedHeroes` keeps its manifest — and it lives in its own
+file so it cannot be dragged into the bundle behind `REGION_PROFILES`, which *is* imported.
+
+The same script picks up `campaign/progression/progression.json`, so `resolveLevel` finally
+answers the question the save importer had to leave open: it showed raw XP because "the
+threshold table lives in the game install, which this app does not read". It does now.
+
 ## Hover cards
 
 `src/components/common/HoverCard.jsx` is the panel that opens on the small icons. It is
@@ -817,6 +1046,45 @@ around 2 MB. The comp ranking carries a full party per comp, so **the biggest ex
 one the RL project reads**, and it would have failed by being silently refused. A `Blob` has
 no such ceiling. The `data:` path survives only as a fallback for environments without
 `URL.createObjectURL` (jsdom), so the storage tests still exercise the real function.
+
+## The comp you are building, and undoing it
+
+Two different things live in localStorage and it is worth keeping them apart.
+
+- **`dd_draft_team_v1`** is the comp *in progress*: no name of yours on it, not in
+  "My Teams", and its only job is to survive a reload. It did not exist, so an F5 threw
+  away the party while `README.md` advertised auto-save. Written debounced (the name
+  changes on every keystroke and this serialises four heroes), read once through
+  `useState(loadDraftTeam)`, and **validated and canonicalised on the way in** like an
+  imported file — a draft is the least trustworthy input there is, bytes written by an
+  older build weeks ago. Saving it is deliberately silent: a toast every time the disk is
+  full while you type would be worse than losing it.
+- **`dd_team_builder_teams`** is the explicit save, unchanged.
+
+**Undo covers the whole comp — name, location and heroes — not just the heroes.** The
+history used to snapshot `heroes` alone, so undoing after loading a comp handed back the
+old party wearing the new comp's name and dungeon: a state that never existed, and one
+that looks fine. `TeamControls` was already promising "This can be undone with Ctrl+Z"
+for actions that change all three.
+
+Three rules hold it together:
+
+1. **The history is state, not a ref.** A ref does not schedule a render, so the
+   Undo/Redo buttons only got their `disabled` right by luck — the neighbouring
+   `setHeroes` happened to re-render them.
+2. **Nothing writes history inside a `setState` updater.** React double-invokes updaters
+   under `StrictMode` (which `index.js` enables), so one edit could stack two entries.
+   `commit` does the work in the callback body and `setHistory` stays pure.
+3. **`compRef` is updated on every write, not only on render.** React batches, so two
+   `updateHero` calls in one tick both read the ref before any render — without the eager
+   sync the second silently clobbered the first. That is what the functional updaters
+   used to give for free, and it is why `setTeamName`/`setLocation` are wrapped: they are
+   *not* history steps (one entry per keystroke would be useless) but they must still
+   keep the ref current, or the next `commit` would snapshot a stale name and put it back.
+
+**Dragging sets `dataTransfer`.** Firefox refuses to start a drag when nothing has been
+put on the event, so reordering by drag was Chrome-only; the index travels through state
+regardless, that call is purely the browser's toll.
 
 ## Saving a team
 
@@ -864,8 +1132,10 @@ neither a hero list nor a save is an error with a message, not a guess.
 | `persist.campaign_log.json` | the week number |
 | `persist.town.json` | the Graveyard, so the dead are not offered as heroes |
 
-Only the roster is required. `resolveXp` is shown as raw XP and **no level is derived** — the
-threshold table lives in the game install, which this app does not read.
+Only the roster is required. `resolveXp` is shown as **a resolve level and the raw XP**.
+The threshold table lives in the game install, which this app used not to read;
+`scripts/importRegionProfiles.js` extracts it and commits it, so `resolveLevel` works
+without the game (see **What you fight in each region**).
 
 **The dead are subtracted from the roster.** A hero who dies is *not* moved anywhere: they
 stay in `persist.roster.json` carrying `roster.status: 3`. Do not go looking in
