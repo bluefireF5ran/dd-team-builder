@@ -1130,8 +1130,10 @@ neither a hero list nor a save is an error with a message, not a guess.
 | `persist.campaign_log.json` | the week number |
 | `persist.town.json` | the Graveyard, so the dead are not offered as heroes |
 
-Only the roster is required. `resolveXp` is shown as raw XP and **no level is derived** — the
-threshold table lives in the game install, which this app does not read.
+Only the roster is required. `resolveXp` is shown as **a resolve level and the raw XP**.
+The threshold table lives in the game install, which this app used not to read;
+`scripts/importRegionProfiles.js` extracts it and commits it, so `resolveLevel` works
+without the game (see **What you fight in each region**).
 
 **The dead are subtracted from the roster.** A hero who dies is *not* moved anywhere: they
 stay in `persist.roster.json` carrying `roster.status: 3`. Do not go looking in
