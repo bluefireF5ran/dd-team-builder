@@ -876,6 +876,51 @@ by more than the panel: what a party can do also decides a recommended loadout a
 comp generation. Unknown skills stay `null` and are never reported as a fault — silence is
 the right answer when you do not know, which is what keeps uncovered modded classes quiet.
 
+## Best-in-slot, per class **and rank** (`src/data/bisIndex.js`)
+
+There is no such thing as one recommended build for a class. A skill has ranks it can be
+used from, so the Leper's answer at rank 1 and at rank 4 cannot be the same one — his
+`launchableByRank` is 7/5/2/1 and the Arbalest's is 2/2/7/7, the same question with
+opposite answers. `bisLoadout(heroClass, rank)` is keyed on both.
+
+**Counting is not enough, and it fails exactly where help is needed.** The comp library is
+not a census: the Houndmaster holds 97 of 704 hero slots and the Duelist 9. Measured per
+class *and* rank it is worse — **33 of the 80 cells hold fewer than 3 comps**, and several
+hold none at all (Arbalest r1, Musketeer r1, Plague Doctor r1, Leper r3, Occultist r4).
+Recommending by frequency alone returns good answers only where good answers already
+existed, which is the same complaint that makes `suggestTeam` useless outside the popular
+classes.
+
+So three sources, in order, because none is honest alone:
+
+1. **The comp library**, when the cell has `MIN_LIBRARY_SAMPLES` or more. Houndmaster r3
+   has 40 slots and a clean consensus: Hound's Rush 40/40, Cry Havoc 37/40, Guard Dog
+   35/40, Target Whistle 32/40.
+2. **`modelUsage.json`** for the thin cells — 166,259 decisions from a trained policy,
+   covering all 20 vanilla classes, and crucially *not* sharing the library's bias. It
+   carries no rank dimension, so it may only say **which** skills, never from where.
+3. **Rank legality**, from `skillProfile`, which filters rather than breaking ties.
+
+The returned build says which source answered (`source`, `samples`), so the UI can tell a
+40-comp consensus from a guess instead of presenting both as fact.
+
+**Fran's rule: at least 3 of 4 skills must launch from the hero's rank.** The fourth is
+spent deliberately on the skill that reaches the most ranks *other* than the hero's,
+because the best skill in the kit is worth nothing the turn you get shuffled out of
+position.
+
+**Dancers are exempt, but they have to earn it.** A class with a self-movement attack
+places itself, so judging it by where the round starts is judging it by where it spends
+the least time — but the exemption is only granted if the build *actually takes* a
+movement skill. A Shieldbreaker without `Serpent Sway` is as stuck as anyone, and handing
+her the exemption for her class name would be going back to judging by name. Stance classes
+(`alwaysActive`) get all seven skills, because they do not choose.
+
+The button lives on the hero card and passes `position`, which is the rank — `App` renders
+the cards reversed and passes `4 - idx`. It confirms before overwriting a configured hero,
+the same rule as paste, and **keeps locked quirks**, because the game will not let you drop
+them.
+
 ## Hover cards
 
 `src/components/common/HoverCard.jsx` is the panel that opens on the small icons. It is

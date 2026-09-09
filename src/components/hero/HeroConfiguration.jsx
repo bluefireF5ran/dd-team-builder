@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { getSkillRanks } from '../../utils/rankValidity';
-import { AlertTriangle, ChevronDown, ChevronUp, Copy, ClipboardPaste, RotateCcw, UserPlus, X } from 'lucide-react';
+import { AlertTriangle, ChevronDown, ChevronUp, Copy, ClipboardPaste, RotateCcw, Sparkles, UserPlus, X } from 'lucide-react';
 import { HERO_CLASSES } from '../../data/heroes';
 import { MODDED_HERO_CLASSES } from '../../data/modded_heroes';
 import { validateHero } from '../../utils/validation';
@@ -11,6 +11,7 @@ import { getTrinketImagePath } from '../../utils/imageHelper';
 import { getTrinketEffect } from '../../data/trinketEffects';
 import { getModdedTrinketEffect, getSetBonus } from '../../data/moddedEffects';
 import { getSkillTier, getSkillTierMeta } from '../../data/skillTiers';
+import { bisLoadout, MIN_LIBRARY_SAMPLES } from '../../data/bisIndex';
 import { skillHover, trinketHover } from '../../utils/hoverInfo';
 import ImageWithFallback from '../common/ImageWithFallback';
 import ConfirmDialog from '../common/ConfirmDialog';
@@ -144,6 +145,58 @@ const HeroConfiguration = ({
       title: 'Reset Configuration',
       message: 'This will reset all configuration for this hero (skills, camp skills, trinkets, and quirks). Continue?'
     });
+  };
+
+  /**
+   * Rellena el heroe con la loadout recomendada PARA SU RANGO.
+   *
+   * `position` es el rango, no el indice de la tarjeta (App las pinta al reves
+   * y pasa `4 - idx`), y es justo el dato que hace util a la recomendacion: la
+   * misma clase se construye distinto delante y detras.
+   */
+  const doFillBestInSlot = () => {
+    const build = bisLoadout(hero.heroClass, position);
+    if (!build) return;
+
+    onUpdate({
+      ...hero,
+      activeSkills: build.activeSkills,
+      activeCampSkills: build.activeCampSkills,
+      trinket1: build.trinket1,
+      trinket2: build.trinket2,
+      // Las quirks se sugieren; las que ya tuviera bloqueadas mandan, porque en
+      // el juego no se pueden quitar.
+      quirks: {
+        positive: [...new Set([...(hero.lockedQuirks?.positive || []), ...build.quirks.positive])]
+          .slice(0, HERO_CONFIG.MAX_POSITIVE_QUIRKS),
+        negative: hero.quirks?.negative || []
+      }
+    });
+
+    const where = build.samples >= MIN_LIBRARY_SAMPLES
+      ? `from ${build.samples} comps that run ${hero.heroClass} at rank ${position}`
+      : `from the trained model — the library has ${build.samples || 'no'} comps for rank ${position}`;
+    showToast?.(`${hero.heroClass} built for rank ${position}, ${where}.`, 'success');
+
+    if (!build.rankLegal) {
+      showToast?.(
+        `${hero.heroClass} can only use ${build.activeSkills.filter((n) => getSkillRanks(hero.heroClass, n)?.launch.includes(position)).length} of these from rank ${position} — the class has little to do here.`,
+        'warning'
+      );
+    }
+  };
+
+  const handleFillBestInSlot = () => {
+    if (hasHeroConfiguration(hero)) {
+      setConfirmState({
+        isOpen: true,
+        action: doFillBestInSlot,
+        title: 'Build for this rank',
+        message: `Replace this ${hero.heroClass}'s skills, camp skills and trinkets with the recommended build for rank ${position}?`
+      });
+      return;
+    }
+    doFillBestInSlot();
   };
 
   const handleCopyHero = async () => {
@@ -316,6 +369,15 @@ const HeroConfiguration = ({
           />
           
           {hero.heroClass && (
+            <>
+            <button
+              onClick={handleFillBestInSlot}
+              className="p-1.5 sm:p-2 rounded bg-gray-700/80 hover:bg-dd-gold/30 text-gray-300 hover:text-dd-gold border border-gray-600 transition-colors"
+              title={`Build ${hero.heroClass} for rank #${position}`}
+              aria-label={`Build for rank ${position}`}
+            >
+              <Sparkles size={16} className="sm:w-5 sm:h-5" />
+            </button>
             <button
               onClick={handleCopyHero}
               className="p-1.5 sm:p-2 bg-gray-700 hover:bg-gray-600 text-dd-parchment rounded transition-colors border border-gray-600"
@@ -324,6 +386,7 @@ const HeroConfiguration = ({
             >
               <Copy size={16} className="sm:w-5 sm:h-5" />
             </button>
+            </>
           )}
 
           {/* Pegar tambien en un hueco vacio: mover un heroe a otra comp es el caso. */}
