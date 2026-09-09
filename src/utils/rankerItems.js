@@ -4,6 +4,7 @@
 // skills to the other two pools.
 // ---------------------------------------------------------------------------
 
+import { LOCATIONS } from '../data/locations';
 import { COMP_LIBRARY } from '../data/compLibrary';
 import { HERO_CLASSES } from '../data/heroes';
 import { MODDED_HERO_CLASSES } from '../data/modded_heroes';
@@ -101,8 +102,29 @@ const compItem = (comp) => {
   };
 };
 
-export const compRegions = () =>
-  [...new Set(COMP_LIBRARY.map((comp) => comp.location).filter(Boolean))].sort();
+/**
+ * Las regiones que tienen comps suficientes para ordenarlas entre si.
+ *
+ * El umbral no es decoracion: la libreria toca seis regiones, pero Darkest
+ * Dungeon II tiene 2 comps y Farmstead 1, y un orden por parejas de una sola
+ * comp no es un orden. Ofrecerlas seria ofrecer una sesion vacia.
+ *
+ * Se deriva en vez de escribirse a mano para que una region entre sola en
+ * cuanto Fran le escriba comps, que es justo lo que una lista fija no hace.
+ */
+export const MIN_COMPS_TO_RANK = 4;
+
+export const compRegions = (minComps = MIN_COMPS_TO_RANK) => {
+  const counts = new Map();
+  COMP_LIBRARY.forEach((comp) => {
+    if (!comp.location) return;
+    counts.set(comp.location, (counts.get(comp.location) || 0) + 1);
+  });
+  return [...counts.entries()]
+    .filter(([, n]) => n >= minComps)
+    .map(([name]) => name)
+    .sort((a, b) => LOCATIONS.indexOf(a) - LOCATIONS.indexOf(b));
+};
 
 export const buildCompItems = (region) => {
   const wanted = COMP_LIBRARY.filter((comp) => !region || comp.location === region);

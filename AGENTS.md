@@ -921,6 +921,51 @@ the cards reversed and passes `4 - idx`. It confirms before overwriting a config
 the same rule as paste, and **keeps locked quirks**, because the game will not let you drop
 them.
 
+## Building a comp instead of looking one up (`src/utils/compGenerator.js`)
+
+`suggestTeam` searches `COMP_LIBRARY`, so it can only ever hand back something already
+written. And the library is distributed the way it is — 97 of 704 hero slots are
+Houndmaster, 9 are Duelist — so a roster without the popular classes gets nothing useful.
+`generateComps` answers the same question from the other end: **what party makes sense with
+these heroes**, judged by the game's rules rather than by a tally.
+
+**Classes and their ranks are chosen together**, because the same class is worth a lot or
+nothing depending on where it stands. `scoreParty` is the objective, and it reads
+`partyCoverage`, so it is the same derivation the party panel uses:
+
+| weight | what |
+| --- | --- |
+| ×40 | how many of the four enemy ranks the party can actually reach |
+| +20 / +15 / +10 | heals, answers stress, brings stun-or-blight-or-bleed |
+| +8 / +4 | mark paired with a payoff, a guard |
+| −50 each | a hero who cannot use a single skill from their rank |
+| −3 each | a skill that cannot be launched from where its hero stands |
+
+That last row matters more than it looks. Punishing only the *fully* stranded hero let an
+Arbalest sit at rank 2 with two of four skills dead — not broken, just wrong, which is
+exactly the case Fran's three-of-four rule is about.
+
+Two things stop it being a plain greedy fill:
+
+- **A swap pass.** Filling rank 1 to 4 never reconsiders, so a back-line class that was the
+  best available early gets stuck up front. All six pairs are tried and kept if they score
+  better. Swapping *rebuilds* both loadouts, since `bisLoadout` depends on the rank.
+- **`generateComps` returns several distinct comps, best first**, deduplicated by class
+  placement. Searching for the optimum and keeping only it returns the same comp for the
+  same roster forever, and "give me another" has to be able to. The only randomness is
+  `EXPLORE`: sometimes take the second-best candidate. Variety comes from the search, not
+  from noise in the score — every alternative is still checked.
+
+A generated comp is named by `nameCompAgainst`, the same engine the save dialog uses, so it
+arrives as `Family: Variant` and comparable with the library rather than as "Random Team".
+`placeGeneratedComp` in `useTeam` drops it in as one undoable step.
+
+**`COMP_REGIONS` is derived now** (`compRegions()` in `rankerItems`, which was written and
+then never called). The hardcoded four were the regions that had comps on the day it was
+typed, so a region stayed unrankable after comps were written for it. The threshold keeps
+it honest at the other end — the library also touches Darkest Dungeon II with 2 comps and
+the Farmstead with 1, and a pairwise sort of one comp is not a sort.
+
 ## Hover cards
 
 `src/components/common/HoverCard.jsx` is the panel that opens on the small icons. It is

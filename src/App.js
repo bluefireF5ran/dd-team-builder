@@ -66,6 +66,7 @@ const App = () => {
     deleteSavedTeam,
     randomizeTeam,
     suggestTeam,
+    placeGeneratedComp,
     undo,
     redo,
     canUndo,
@@ -243,6 +244,7 @@ const App = () => {
             isExporting={isExporting}
             onRandomize={() => randomizeTeam(settings.showModdedHeroes)}
             onSuggest={suggestTeam}
+            onGenerateComp={placeGeneratedComp}
             onUndo={undo}
             onRedo={redo}
             canUndo={canUndo}

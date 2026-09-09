@@ -297,6 +297,30 @@ export const useTeam = ({ defaultLocation = 'The Ruins' } = {}) => {
     };
   }, [commit]);
 
+  /**
+   * Deja en la party una comp recien construida por `compGenerator`.
+   *
+   * Se nombra con el mismo motor que el resto (`nameCompAgainst`), asi que
+   * llega ya como `Familia: Variante` y comparable con la libreria en vez de
+   * como "Random Team". Un paso de historial, como cargar una comp.
+   */
+  const placeGeneratedComp = useCallback((comp) => {
+    if (!comp || !Array.isArray(comp.heroes)) return null;
+    const heroes = comp.heroes.map(canonicalizeHero);
+    const named = nameCompAgainst(
+      { teamName: '', alias: '', location: comp.location || defaultLocation, heroes },
+      getRawComps()
+    );
+
+    commit({
+      teamName: named.name,
+      location: comp.location || defaultLocation,
+      heroes
+    });
+
+    return { teamName: named.name, family: named.family?.name, variant: named.variant };
+  }, [commit, defaultLocation]);
+
   const importFromClipboard = useCallback(async () => {
     const text = await navigator.clipboard.readText();
     const raw = JSON.parse(text);
@@ -355,6 +379,7 @@ export const useTeam = ({ defaultLocation = 'The Ruins' } = {}) => {
     deleteSavedTeam,
     randomizeTeam,
     suggestTeam,
+    placeGeneratedComp,
     undo,
     redo,
     canUndo,

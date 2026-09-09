@@ -15,6 +15,8 @@ import { parseRosterFile } from '../../utils/rosterLoader';
 import { toRosterCounts, countOf, rosterFromHeroes, isHeroAvailable } from '../../utils/rosterAvailability';
 import { PARTY_CONFIG } from '../../constants';
 
+import { generateComp } from '../../utils/compGenerator';
+
 export const SUGGEST_ROSTER_KEY = 'dd_team_builder_suggest_roster_v1';
 
 const readJSON = (key, fallback) => {
@@ -69,6 +71,7 @@ const SuggestCompModal = ({
   isOpen,
   onClose,
   onSuggest,
+  onGenerate,
   showModdedHeroes = false,
   saveProfile = null,
   initialRoster = null,
@@ -211,6 +214,28 @@ const SuggestCompModal = ({
       return;
     }
     onSuggest?.(roster, { requireOwnedTrinkets, reequip });
+    onClose?.();
+  };
+
+  /**
+   * Construir una comp nueva en vez de buscar una que ya exista.
+   *
+   * Es la salida para el reproche de siempre: la libreria esta repartida como
+   * esta -- 97 de 704 ranuras son Houndmaster-- asi que buscar solo funciona si
+   * tienes las clases de las que ya hay comps escritas. Esto monta una con los
+   * heroes que hay, colocando a cada uno donde su kit funciona.
+   */
+  const handleGenerate = () => {
+    if (roster.length < PARTY_CONFIG.MAX_HEROES) {
+      showToast?.('Select at least 4 heroes in your roster', 'warning');
+      return;
+    }
+    const comp = generateComp({ roster });
+    if (!comp) {
+      showToast?.('Could not build a comp from that roster.', 'error');
+      return;
+    }
+    onGenerate?.(comp);
     onClose?.();
   };
 
@@ -418,6 +443,19 @@ const SuggestCompModal = ({
             className="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-gray-300 rounded border border-gray-600 transition-colors text-sm"
           >
             Cancel
+          </button>
+          <button
+            onClick={handleGenerate}
+            disabled={roster.length < 4}
+            title="Build a new comp from this roster instead of looking one up"
+            className={`px-4 py-2 rounded border transition-colors text-sm font-semibold inline-flex items-center gap-2 ${
+              roster.length < 4
+                ? 'bg-gray-800 text-gray-500 border-gray-700 cursor-not-allowed'
+                : 'bg-purple-900/40 hover:bg-purple-800/50 text-purple-200 border-purple-600/50'
+            }`}
+          >
+            <Sparkles size={16} />
+            Build New Comp
           </button>
           <button
             onClick={handleSuggest}

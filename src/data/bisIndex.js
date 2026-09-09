@@ -50,6 +50,8 @@ import { PARTY_CONFIG, HERO_CONFIG } from '../constants';
 /** Por debajo de esto la celda no opina: manda el modelo y las reglas. */
 export const MIN_LIBRARY_SAMPLES = 4;
 
+const loadoutCache = new Map();
+
 const classData = (heroClass) => HERO_CLASSES[heroClass] || MODDED_HERO_CLASSES[heroClass];
 
 // ---------------------------------------------------------------- la libreria
@@ -232,6 +234,10 @@ export const bisLoadout = (heroClass, rank) => {
   if (!data) return null;
 
   const slot = Math.min(Math.max(rank || 1, 1), PARTY_CONFIG.MAX_HEROES);
+  // Memoizado porque el generador de comps pregunta por la misma celda muchas
+  // veces en un solo intento, y la respuesta no depende de nada mas.
+  const cacheKey = `${heroClass}|${slot}`;
+  if (loadoutCache.has(cacheKey)) return loadoutCache.get(cacheKey);
   const scored = scoreSkills(heroClass, slot);
   const activeSkills = chooseSkills(heroClass, slot, scored);
 
@@ -244,7 +250,7 @@ export const bisLoadout = (heroClass, rank) => {
     scored.find((entry) => entry.name === name)?.onRank
   ).length;
 
-  return {
+  const build = {
     heroClass,
     rank: slot,
     activeSkills,
@@ -258,10 +264,14 @@ export const bisLoadout = (heroClass, rank) => {
     samples: cell.n,
     rankLegal: onRankCount >= HERO_CONFIG.MAX_SKILLS - 1
   };
+
+  loadoutCache.set(cacheKey, build);
+  return build;
 };
 
 /** Solo para los tests: olvida los barridos memoizados. */
 export const resetBisCaches = () => {
   libraryCache = null;
   modelCache = null;
+  loadoutCache.clear();
 };
