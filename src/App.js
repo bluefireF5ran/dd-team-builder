@@ -1,5 +1,6 @@
 import React, { useMemo, useState, useRef, useCallback, useEffect, lazy, Suspense } from 'react';
 import { copyTextToClipboard } from './utils/heroClipboard';
+import { exportElementToPNG } from './utils/exportImage';
 import { useTeam } from './hooks/useTeam';
 import { useSettings } from './hooks/useSettings';
 import { useSaveProfile } from './hooks/useSaveProfile';
@@ -99,8 +100,6 @@ const App = () => {
 
     setIsExporting(true);
     try {
-      const html2canvas = (await import('html2canvas')).default;
-
       // Temporarily adjust position badges for better rendering in html2canvas
       const badges = partyRef.current.querySelectorAll('.position-badge');
       const originalStyles = [];
@@ -110,27 +109,19 @@ const App = () => {
         badge.style.fontFamily = 'Arial, sans-serif';
       });
 
-      const canvas = await html2canvas(partyRef.current, {
-        backgroundColor: '#1f2937', // gray-800
-        scale: 2, // Higher quality
-        useCORS: true, // For external images
-        allowTaint: true,
-        logging: false,
-        // The reorder arrows live inside the captured element because they
-        // belong to the cards; they are controls, not composition.
-        ignoreElements: (el) => el.dataset?.exportIgnore === 'true'
-      });
-      
-      // Restore original styles
-      badges.forEach((badge, idx) => {
-        badge.style.cssText = originalStyles[idx];
-      });
-      
-      const link = document.createElement('a');
       const fileName = teamName ? `${teamName.replace(/[^a-z0-9]/gi, '_')}.png` : 'party_composition.png';
-      link.download = fileName;
-      link.href = canvas.toDataURL('image/png');
-      link.click();
+      try {
+        await exportElementToPNG(partyRef.current, fileName, {
+          // The reorder arrows live inside the captured element because they
+          // belong to the cards; they are controls, not composition.
+          ignoreElements: (el) => el.dataset?.exportIgnore === 'true'
+        });
+      } finally {
+        // Restore original styles
+        badges.forEach((badge, idx) => {
+          badge.style.cssText = originalStyles[idx];
+        });
+      }
     } catch (error) {
       console.error('Error exporting to PNG:', error);
       showToast('Error exporting image. Please try again.', 'error');
