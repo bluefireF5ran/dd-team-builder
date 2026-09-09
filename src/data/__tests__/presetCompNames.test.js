@@ -42,18 +42,18 @@ comps.forEach(({ file, comp }) => {
 const GENERAL_TRINKETS = new Set([...TRINKETS, ...BACKER_TRINKETS, ...MODDED_GENERAL_TRINKETS]);
 
 /**
- * PENDIENTE DE DECISION, no una regla.
+ * Excepciones pendientes de decision, no reglas. Vacio, y asi tiene que
+ * quedarse.
  *
- * `Cloak and Dagger` es un trinket de Butcher's Circus del Grave Robber
- * (`GRAVE_ROBBER_BC_TRINKETS`, y `trinketEffects` le da rarity
- * "Butcher's Circus"), y esta comp se lo pone a un Jester. No es una grafia
- * que arreglar: es un trinket que esa clase no puede llevar, y `TrinketPicker`
- * solo ofrece los generales mas los de la clase, asi que la comp no se puede
- * ni reproducir en la app. Elegir con que sustituirlo es una decision de build
- * -- de Fran, no de este test-- , asi que queda anotado aqui en vez de
- * arreglado a ciegas o escondido relajando la comprobacion.
+ * Aqui vivio `Ballad_Quartet.json rank 1: Jester :: Cloak and Dagger`, un
+ * trinket de Butcher's Circus del Grave Robber puesto a un Jester -- no una
+ * grafia que arreglar, sino un trinket que esa clase no puede llevar, con lo
+ * que la comp no se podia ni reproducir en la app. Con que sustituirlo era una
+ * decision de build, y Fran la tomo en `dc6fbee`: ahora lleva Caution Cloak y
+ * Camouflage Cloak. La lista se queda como el sitio donde anotar la siguiente,
+ * en vez de relajar la comprobacion.
  */
-const KNOWN_BAD_TRINKETS = ['Ballad_Quartet.json rank 1: Jester :: Cloak and Dagger'];
+const KNOWN_BAD_TRINKETS = [];
 
 describe('preset comps only name things the app knows', () => {
   it('has comps to check', () => {

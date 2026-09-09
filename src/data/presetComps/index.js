@@ -75,66 +75,66 @@ import comp71 from './Hammer_Fall__Ballad.json';
 import comp72 from './Hammer_Fall__Twin_Volley.json';
 import comp73 from './Hex_Battery__Beast_Ballad.json';
 import comp74 from './Hex_Battery__Berserk.json';
-import comp75 from './Hex_Battery__Contract_Cross.json';
-import comp76 from './Hex_Battery__Contract_Snipe.json';
-import comp77 from './Hex_Battery__Cross_Ballad.json';
-import comp78 from './Hex_Battery__Faith.json';
-import comp79 from './Hex_Battery__Heist.json';
-import comp80 from './Hex_Battery__Lunge.json';
-import comp81 from './Hex_Battery__Royal_Ballad.json';
-import comp82 from './Hex_Battery__Royal_Snipe.json';
-import comp83 from './Hex_Battery__Twin_Volley.json';
-import comp84 from './Holy_Hymn__Berserk_Beast.json';
-import comp85 from './Holy_Hymn__Blood.json';
-import comp86 from './Holy_Hymn__Bulwark_Beast.json';
-import comp87 from './Holy_Hymn__Bulwark_Lunge.json';
-import comp88 from './Holy_Hymn__Hound_Contract.json';
-import comp89 from './Holy_Hymn__Royal_Contract.json';
-import comp90 from './Holy_Hymn__Sand_Lunge.json';
-import comp91 from './Holy_Hymn__Sand_Royal.json';
-import comp92 from './Holy_Hymn__Twin_Beast.json';
-import comp93 from './Holy_Hymn__Twin_Faith.json';
-import comp94 from './Holy_Hymn__Twin_Lunge.json';
-import comp95 from './Hound_Pack__Beast.json';
-import comp96 from './Hound_Pack__Berserk_Volley.json';
-import comp97 from './Hound_Pack__Blood_Plague.json';
-import comp98 from './Hound_Pack__Blood_Snipe.json';
-import comp99 from './Hound_Pack__Bulwark_Snipe.json';
-import comp100 from './Hound_Pack__Bulwark_Volley.json';
-import comp101 from './Hound_Pack__Cross_Volley.json';
-import comp102 from './Hound_Pack__Faith.json';
-import comp103 from './Hound_Pack__Royal_Volley.json';
-import comp104 from './Hound_Pack__Trio_Hound_Blood.json';
-import comp105 from './Hound_Pack__Trio_Hound_Cross.json';
-import comp106 from './Hound_Pack__Twin_Sand.json';
-import comp107 from './Hound_Pack__Warlock_Plague.json';
-import comp108 from './Hound_Pack__Warlock_Volley.json';
-import comp109 from './Hound_Quartet.json';
-import comp110 from './Iron_Shackles__Berserk.json';
-import comp111 from './Iron_Shackles__Blood.json';
-import comp112 from './Iron_Shackles__Burn.json';
-import comp113 from './Iron_Shackles__Money.json';
-import comp114 from './Iron_Shackles__Royal.json';
-import comp115 from './Iron_Shackles__Sand.json';
-import comp116 from './Iron_Shackles__Twin_Beast.json';
-import comp117 from './Iron_Shackles__Twin_Plague.json';
-import comp118 from './Iron_Shackles__Warlock.json';
-import comp119 from './Lunge_Quartet.json';
-import comp120 from './Marked_Prey__Berserk_Ballad.json';
-import comp121 from './Marked_Prey__Berserk_Contract.json';
-import comp122 from './Marked_Prey__Berserk_Plague.json';
-import comp123 from './Marked_Prey__Bulwark_Contract.json';
-import comp124 from './Marked_Prey__Contract_Ballad.json';
-import comp125 from './Marked_Prey__Contract_Plague.json';
-import comp126 from './Marked_Prey__Cross.json';
-import comp127 from './Marked_Prey__Duel_Ballad.json';
-import comp128 from './Marked_Prey__Money_Snipe.json';
-import comp129 from './Marked_Prey__Money.json';
-import comp130 from './Marked_Prey__Plague_Snipe.json';
-import comp131 from './Marked_Prey__Royal_Bulwark.json';
-import comp132 from './Marked_Prey__Royal_Plague.json';
-import comp133 from './Marked_Prey__Royal_Snipe.json';
-import comp134 from './Marked_Prey__Snipe_Back.json';
+import comp75 from './Hex_Battery__Burn.json';
+import comp76 from './Hex_Battery__Contract_Cross.json';
+import comp77 from './Hex_Battery__Contract_Snipe.json';
+import comp78 from './Hex_Battery__Cross_Ballad.json';
+import comp79 from './Hex_Battery__Faith.json';
+import comp80 from './Hex_Battery__Heist.json';
+import comp81 from './Hex_Battery__Lunge.json';
+import comp82 from './Hex_Battery__Royal_Ballad.json';
+import comp83 from './Hex_Battery__Royal_Snipe.json';
+import comp84 from './Hex_Battery__Twin_Volley.json';
+import comp85 from './Holy_Hymn__Berserk_Beast.json';
+import comp86 from './Holy_Hymn__Blood.json';
+import comp87 from './Holy_Hymn__Bulwark_Beast.json';
+import comp88 from './Holy_Hymn__Bulwark_Lunge.json';
+import comp89 from './Holy_Hymn__Hound_Contract.json';
+import comp90 from './Holy_Hymn__Royal_Contract.json';
+import comp91 from './Holy_Hymn__Sand_Lunge.json';
+import comp92 from './Holy_Hymn__Sand_Royal.json';
+import comp93 from './Holy_Hymn__Twin_Beast.json';
+import comp94 from './Holy_Hymn__Twin_Faith.json';
+import comp95 from './Holy_Hymn__Twin_Lunge.json';
+import comp96 from './Hound_Pack__Beast.json';
+import comp97 from './Hound_Pack__Berserk_Volley.json';
+import comp98 from './Hound_Pack__Blood_Plague.json';
+import comp99 from './Hound_Pack__Blood_Snipe.json';
+import comp100 from './Hound_Pack__Bulwark_Snipe.json';
+import comp101 from './Hound_Pack__Bulwark_Volley.json';
+import comp102 from './Hound_Pack__Cross_Volley.json';
+import comp103 from './Hound_Pack__Faith.json';
+import comp104 from './Hound_Pack__Royal_Volley.json';
+import comp105 from './Hound_Pack__Trio_Hound_Blood.json';
+import comp106 from './Hound_Pack__Trio_Hound_Cross.json';
+import comp107 from './Hound_Pack__Twin_Sand.json';
+import comp108 from './Hound_Pack__Warlock_Plague.json';
+import comp109 from './Hound_Pack__Warlock_Volley.json';
+import comp110 from './Hound_Quartet.json';
+import comp111 from './Iron_Shackles__Berserk.json';
+import comp112 from './Iron_Shackles__Blood.json';
+import comp113 from './Iron_Shackles__Burn.json';
+import comp114 from './Iron_Shackles__Money.json';
+import comp115 from './Iron_Shackles__Royal.json';
+import comp116 from './Iron_Shackles__Sand.json';
+import comp117 from './Iron_Shackles__Twin_Beast.json';
+import comp118 from './Iron_Shackles__Twin_Plague.json';
+import comp119 from './Iron_Shackles__Warlock.json';
+import comp120 from './Lunge_Quartet.json';
+import comp121 from './Marked_Prey__Berserk_Ballad.json';
+import comp122 from './Marked_Prey__Berserk_Contract.json';
+import comp123 from './Marked_Prey__Berserk_Plague.json';
+import comp124 from './Marked_Prey__Bulwark_Contract.json';
+import comp125 from './Marked_Prey__Contract_Ballad.json';
+import comp126 from './Marked_Prey__Contract_Plague.json';
+import comp127 from './Marked_Prey__Cross.json';
+import comp128 from './Marked_Prey__Duel_Ballad.json';
+import comp129 from './Marked_Prey__Money_Snipe.json';
+import comp130 from './Marked_Prey__Money.json';
+import comp131 from './Marked_Prey__Plague_Snipe.json';
+import comp132 from './Marked_Prey__Royal_Bulwark.json';
+import comp133 from './Marked_Prey__Royal_Plague.json';
+import comp134 from './Marked_Prey__Royal_Snipe.json';
 import comp135 from './Marked_Prey__Twin_Snipe.json';
 import comp136 from './Mirage_Dance__Ballad.json';
 import comp137 from './Mirage_Dance__Faith.json';
@@ -261,66 +261,66 @@ export const PRESET_COMP_ENTRIES = [
   { key: "Hammer_Fall__Twin_Volley", data: comp72 },
   { key: "Hex_Battery__Beast_Ballad", data: comp73 },
   { key: "Hex_Battery__Berserk", data: comp74 },
-  { key: "Hex_Battery__Contract_Cross", data: comp75 },
-  { key: "Hex_Battery__Contract_Snipe", data: comp76 },
-  { key: "Hex_Battery__Cross_Ballad", data: comp77 },
-  { key: "Hex_Battery__Faith", data: comp78 },
-  { key: "Hex_Battery__Heist", data: comp79 },
-  { key: "Hex_Battery__Lunge", data: comp80 },
-  { key: "Hex_Battery__Royal_Ballad", data: comp81 },
-  { key: "Hex_Battery__Royal_Snipe", data: comp82 },
-  { key: "Hex_Battery__Twin_Volley", data: comp83 },
-  { key: "Holy_Hymn__Berserk_Beast", data: comp84 },
-  { key: "Holy_Hymn__Blood", data: comp85 },
-  { key: "Holy_Hymn__Bulwark_Beast", data: comp86 },
-  { key: "Holy_Hymn__Bulwark_Lunge", data: comp87 },
-  { key: "Holy_Hymn__Hound_Contract", data: comp88 },
-  { key: "Holy_Hymn__Royal_Contract", data: comp89 },
-  { key: "Holy_Hymn__Sand_Lunge", data: comp90 },
-  { key: "Holy_Hymn__Sand_Royal", data: comp91 },
-  { key: "Holy_Hymn__Twin_Beast", data: comp92 },
-  { key: "Holy_Hymn__Twin_Faith", data: comp93 },
-  { key: "Holy_Hymn__Twin_Lunge", data: comp94 },
-  { key: "Hound_Pack__Beast", data: comp95 },
-  { key: "Hound_Pack__Berserk_Volley", data: comp96 },
-  { key: "Hound_Pack__Blood_Plague", data: comp97 },
-  { key: "Hound_Pack__Blood_Snipe", data: comp98 },
-  { key: "Hound_Pack__Bulwark_Snipe", data: comp99 },
-  { key: "Hound_Pack__Bulwark_Volley", data: comp100 },
-  { key: "Hound_Pack__Cross_Volley", data: comp101 },
-  { key: "Hound_Pack__Faith", data: comp102 },
-  { key: "Hound_Pack__Royal_Volley", data: comp103 },
-  { key: "Hound_Pack__Trio_Hound_Blood", data: comp104 },
-  { key: "Hound_Pack__Trio_Hound_Cross", data: comp105 },
-  { key: "Hound_Pack__Twin_Sand", data: comp106 },
-  { key: "Hound_Pack__Warlock_Plague", data: comp107 },
-  { key: "Hound_Pack__Warlock_Volley", data: comp108 },
-  { key: "Hound_Quartet", data: comp109 },
-  { key: "Iron_Shackles__Berserk", data: comp110 },
-  { key: "Iron_Shackles__Blood", data: comp111 },
-  { key: "Iron_Shackles__Burn", data: comp112 },
-  { key: "Iron_Shackles__Money", data: comp113 },
-  { key: "Iron_Shackles__Royal", data: comp114 },
-  { key: "Iron_Shackles__Sand", data: comp115 },
-  { key: "Iron_Shackles__Twin_Beast", data: comp116 },
-  { key: "Iron_Shackles__Twin_Plague", data: comp117 },
-  { key: "Iron_Shackles__Warlock", data: comp118 },
-  { key: "Lunge_Quartet", data: comp119 },
-  { key: "Marked_Prey__Berserk_Ballad", data: comp120 },
-  { key: "Marked_Prey__Berserk_Contract", data: comp121 },
-  { key: "Marked_Prey__Berserk_Plague", data: comp122 },
-  { key: "Marked_Prey__Bulwark_Contract", data: comp123 },
-  { key: "Marked_Prey__Contract_Ballad", data: comp124 },
-  { key: "Marked_Prey__Contract_Plague", data: comp125 },
-  { key: "Marked_Prey__Cross", data: comp126 },
-  { key: "Marked_Prey__Duel_Ballad", data: comp127 },
-  { key: "Marked_Prey__Money_Snipe", data: comp128 },
-  { key: "Marked_Prey__Money", data: comp129 },
-  { key: "Marked_Prey__Plague_Snipe", data: comp130 },
-  { key: "Marked_Prey__Royal_Bulwark", data: comp131 },
-  { key: "Marked_Prey__Royal_Plague", data: comp132 },
-  { key: "Marked_Prey__Royal_Snipe", data: comp133 },
-  { key: "Marked_Prey__Snipe_Back", data: comp134 },
+  { key: "Hex_Battery__Burn", data: comp75 },
+  { key: "Hex_Battery__Contract_Cross", data: comp76 },
+  { key: "Hex_Battery__Contract_Snipe", data: comp77 },
+  { key: "Hex_Battery__Cross_Ballad", data: comp78 },
+  { key: "Hex_Battery__Faith", data: comp79 },
+  { key: "Hex_Battery__Heist", data: comp80 },
+  { key: "Hex_Battery__Lunge", data: comp81 },
+  { key: "Hex_Battery__Royal_Ballad", data: comp82 },
+  { key: "Hex_Battery__Royal_Snipe", data: comp83 },
+  { key: "Hex_Battery__Twin_Volley", data: comp84 },
+  { key: "Holy_Hymn__Berserk_Beast", data: comp85 },
+  { key: "Holy_Hymn__Blood", data: comp86 },
+  { key: "Holy_Hymn__Bulwark_Beast", data: comp87 },
+  { key: "Holy_Hymn__Bulwark_Lunge", data: comp88 },
+  { key: "Holy_Hymn__Hound_Contract", data: comp89 },
+  { key: "Holy_Hymn__Royal_Contract", data: comp90 },
+  { key: "Holy_Hymn__Sand_Lunge", data: comp91 },
+  { key: "Holy_Hymn__Sand_Royal", data: comp92 },
+  { key: "Holy_Hymn__Twin_Beast", data: comp93 },
+  { key: "Holy_Hymn__Twin_Faith", data: comp94 },
+  { key: "Holy_Hymn__Twin_Lunge", data: comp95 },
+  { key: "Hound_Pack__Beast", data: comp96 },
+  { key: "Hound_Pack__Berserk_Volley", data: comp97 },
+  { key: "Hound_Pack__Blood_Plague", data: comp98 },
+  { key: "Hound_Pack__Blood_Snipe", data: comp99 },
+  { key: "Hound_Pack__Bulwark_Snipe", data: comp100 },
+  { key: "Hound_Pack__Bulwark_Volley", data: comp101 },
+  { key: "Hound_Pack__Cross_Volley", data: comp102 },
+  { key: "Hound_Pack__Faith", data: comp103 },
+  { key: "Hound_Pack__Royal_Volley", data: comp104 },
+  { key: "Hound_Pack__Trio_Hound_Blood", data: comp105 },
+  { key: "Hound_Pack__Trio_Hound_Cross", data: comp106 },
+  { key: "Hound_Pack__Twin_Sand", data: comp107 },
+  { key: "Hound_Pack__Warlock_Plague", data: comp108 },
+  { key: "Hound_Pack__Warlock_Volley", data: comp109 },
+  { key: "Hound_Quartet", data: comp110 },
+  { key: "Iron_Shackles__Berserk", data: comp111 },
+  { key: "Iron_Shackles__Blood", data: comp112 },
+  { key: "Iron_Shackles__Burn", data: comp113 },
+  { key: "Iron_Shackles__Money", data: comp114 },
+  { key: "Iron_Shackles__Royal", data: comp115 },
+  { key: "Iron_Shackles__Sand", data: comp116 },
+  { key: "Iron_Shackles__Twin_Beast", data: comp117 },
+  { key: "Iron_Shackles__Twin_Plague", data: comp118 },
+  { key: "Iron_Shackles__Warlock", data: comp119 },
+  { key: "Lunge_Quartet", data: comp120 },
+  { key: "Marked_Prey__Berserk_Ballad", data: comp121 },
+  { key: "Marked_Prey__Berserk_Contract", data: comp122 },
+  { key: "Marked_Prey__Berserk_Plague", data: comp123 },
+  { key: "Marked_Prey__Bulwark_Contract", data: comp124 },
+  { key: "Marked_Prey__Contract_Ballad", data: comp125 },
+  { key: "Marked_Prey__Contract_Plague", data: comp126 },
+  { key: "Marked_Prey__Cross", data: comp127 },
+  { key: "Marked_Prey__Duel_Ballad", data: comp128 },
+  { key: "Marked_Prey__Money_Snipe", data: comp129 },
+  { key: "Marked_Prey__Money", data: comp130 },
+  { key: "Marked_Prey__Plague_Snipe", data: comp131 },
+  { key: "Marked_Prey__Royal_Bulwark", data: comp132 },
+  { key: "Marked_Prey__Royal_Plague", data: comp133 },
+  { key: "Marked_Prey__Royal_Snipe", data: comp134 },
   { key: "Marked_Prey__Twin_Snipe", data: comp135 },
   { key: "Mirage_Dance__Ballad", data: comp136 },
   { key: "Mirage_Dance__Faith", data: comp137 },
