@@ -1,0 +1,136 @@
+{
+  "teamName": "Waiting Blade: Warlock & Cross",
+  "alias": "warrens",
+  "location": "The Warrens",
+  "heroes": [
+    {
+      "heroClass": "Occultist",
+      "activeSkills": [
+        "Weakening Curse",
+        "Wyrd Reconstruction",
+        "Vulnerability Hex",
+        "Hands from the Abyss"
+      ],
+      "activeCampSkills": [
+        "Pep Talk",
+        "Dark Ritual",
+        "Dark Strength",
+        "Unspeakable Commune"
+      ],
+      "trinket1": "Demon's Cauldron",
+      "trinket2": "Vial of Sand",
+      "quirks": {
+        "positive": [
+          "Eagle Eye",
+          "Fairweather Fighter",
+          "Balanced",
+          "Irrepressible",
+          "Ruins Adventurer"
+        ],
+        "negative": [
+          "Unquiet Mind",
+          "Bad Gambler",
+          "Lazy Eye"
+        ]
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Crusader",
+      "activeSkills": [
+        "Stunning Blow",
+        "Battle Heal",
+        "Holy Lance",
+        "Inspiring Cry"
+      ],
+      "activeCampSkills": [
+        "Wound Care",
+        "Stand Tall",
+        "Zealous Speech",
+        "Zealous Vigil"
+      ],
+      "trinket1": "Ancestor's Scroll",
+      "trinket2": "Focus Ring",
+      "quirks": {
+        "positive": [
+          "Clotter",
+          "Slugger",
+          "Steady",
+          "Clutch Hitter",
+          "Warrens Scrounger"
+        ],
+        "negative": [
+          "Bloodthirsty",
+          "Calm",
+          "Lygophobia"
+        ]
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Highwayman",
+      "activeSkills": [
+        "Pistol Shot",
+        "Point Blank Shot",
+        "Duelist's Advance",
+        "Open Vein"
+      ],
+      "activeCampSkills": [
+        "Pep Talk",
+        "Unparalleled Finesse",
+        "Clean Guns",
+        "Bandit's Sense"
+      ],
+      "trinket1": "Bloodied Neckerchief",
+      "trinket2": "Shameful Locket",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Houndmaster",
+      "activeSkills": [
+        "Hound's Rush",
+        "Hound's Harry",
+        "Guard Dog",
+        "Lick Wounds"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Therapy Dog",
+        "Man's Best Friend",
+        "Release the Hound"
+      ],
+      "trinket1": "Ancestor's Signet Ring",
+      "trinket2": "Evidence of Corruption",
+      "quirks": {
+        "positive": [
+          "Eagle Eye",
+          "Hippocratic",
+          "Unyielding",
+          "Steady",
+          "Stout"
+        ],
+        "negative": [
+          "Paranormania",
+          "Sitiomania"
+        ]
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    }
+  ]
+}

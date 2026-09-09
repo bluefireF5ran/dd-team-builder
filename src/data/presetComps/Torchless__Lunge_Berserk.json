@@ -1,0 +1,134 @@
+{
+  "teamName": "Torchless: Lunge & Berserk",
+  "alias": "GA sibyl1 01",
+  "location": "The Warrens",
+  "heroes": [
+    {
+      "heroClass": "Grave Robber",
+      "activeSkills": [
+        "Lunge",
+        "Shadow Fade",
+        "Thrown Dagger",
+        "Poison Darts"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Snuff Box",
+        "Gallows Humor"
+      ],
+      "trinket1": "Topshelf Tonic",
+      "trinket2": "Sharpened Letter Opener",
+      "quirks": {
+        "positive": [
+          "Luminous",
+          "Corvids Grace",
+          "Evasive",
+          "Corvids Eye",
+          "Quickdraw"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Hellion",
+      "activeSkills": [
+        "Wicked Hack",
+        "Iron Swan",
+        "Barbaric YAWP!",
+        "If It Bleeds"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Battle Trance",
+        "Revel",
+        "Sharpen Spear"
+      ],
+      "trinket1": "Thirsting Blade",
+      "trinket2": "Ancestor's Candle",
+      "quirks": {
+        "positive": [
+          "Corvids Grace",
+          "Corvids Eye",
+          "Luminous",
+          "Quick Reflexes",
+          "Precise Striker"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Sibyl",
+      "activeSkills": [
+        "Alignment",
+        "Moonlight Touch",
+        "Moonlight Embrace",
+        "Banish",
+        "Faerie Fire",
+        "Solar Ray",
+        "Solar Flare"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Midnight Stroll",
+        "In Her Radiance",
+        "Panacea"
+      ],
+      "trinket1": "Ancestor's Coat",
+      "trinket2": "Protective Veil",
+      "quirks": {
+        "positive": [
+          "Corvids Grace",
+          "Luminous",
+          "Evasive",
+          "Corvids Eye",
+          "Quick Reflexes"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Arbalest",
+      "activeSkills": [
+        "Sniper Shot",
+        "Suppressing Fire",
+        "Bola",
+        "Battlefield Bandage"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Field Dressing",
+        "Marching Plan",
+        "Restring Crossbow"
+      ],
+      "trinket1": "Ancestor's Map",
+      "trinket2": "Prophet's Eye",
+      "quirks": {
+        "positive": [
+          "Eagle Eye",
+          "Corvids Eye",
+          "Hippocratic",
+          "Luminous",
+          "Quick Reflexes"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    }
+  ]
+}

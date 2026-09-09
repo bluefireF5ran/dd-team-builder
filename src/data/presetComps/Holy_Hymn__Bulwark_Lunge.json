@@ -1,23 +1,23 @@
 {
   "teamName": "Holy Hymn: Bulwark & Lunge",
-  "location": "The Ruins",
+  "location": "The Cove",
   "heroes": [
     {
       "heroClass": "Man at Arms",
       "activeSkills": [
         "Crush",
         "Rampart",
-        "Bellow",
-        "Defender"
+        "Defender",
+        "Bolster"
       ],
       "activeCampSkills": [
         "Encourage",
-        "Wound Care",
+        "Maintain Equipment",
         "Tactics",
         "Weapons Practice"
       ],
-      "trinket1": "Ancestor's Signet Ring",
-      "trinket2": "Debuff Amulet",
+      "trinket1": "Rampart Shield",
+      "trinket2": "Wilbur's Flag",
       "quirks": {
         "positive": [],
         "negative": []
@@ -25,74 +25,76 @@
       "lockedQuirks": {
         "positive": [],
         "negative": []
-      }
-    },
-    {
-      "heroClass": "Crusader",
-      "activeSkills": [
-        "Smite",
-        "Stunning Blow",
-        "Holy Lance",
-        "Inspiring Cry"
-      ],
-      "activeCampSkills": [
-        "Encourage",
-        "Stand Tall",
-        "Zealous Speech",
-        "Zealous Vigil"
-      ],
-      "trinket1": "Focus Ring",
-      "trinket2": "Ancestor's Map",
-      "quirks": {
-        "positive": [],
-        "negative": []
       },
-      "lockedQuirks": {
-        "positive": [],
-        "negative": []
-      }
-    },
-    {
-      "heroClass": "Vestal",
-      "activeSkills": [
-        "Dazzling Light",
-        "Divine Grace",
-        "Divine Comfort",
-        "Illumination"
-      ],
-      "activeCampSkills": [
-        "Encourage",
-        "Wound Care",
-        "Bless",
-        "Sanctuary"
-      ],
-      "trinket1": "Atonement Beads",
-      "trinket2": "Salacious Diary",
-      "quirks": {
-        "positive": [],
-        "negative": []
-      },
-      "lockedQuirks": {
-        "positive": [],
-        "negative": []
-      }
+      "diseases": []
     },
     {
       "heroClass": "Grave Robber",
       "activeSkills": [
-        "Pick to the Face",
         "Lunge",
         "Shadow Fade",
+        "Thrown Dagger",
         "Poison Darts"
       ],
       "activeCampSkills": [
         "Encourage",
-        "Wound Care",
         "Snuff Box",
-        "Gallows Humor"
+        "Gallows Humor",
+        "Night Moves"
       ],
-      "trinket1": "Sharpened Letter Opener",
-      "trinket2": "Topshelf Tonic",
+      "trinket1": "Raider's Talisman",
+      "trinket2": "Ancestor's Musket Ball",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Bounty Hunter",
+      "activeSkills": [
+        "Collect Bounty",
+        "Mark for Death",
+        "Flashbang",
+        "Finish Him"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "This Is How We Do It",
+        "Tracking",
+        "Planned Takedown"
+      ],
+      "trinket1": "Vengeful Kill List",
+      "trinket2": "Hunter's Talon",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    },
+    {
+      "heroClass": "Vestal",
+      "activeSkills": [
+        "Judgement",
+        "Dazzling Light",
+        "Divine Grace",
+        "Divine Comfort"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Bless",
+        "Chant",
+        "Sanctuary"
+      ],
+      "trinket1": "Ancestor's Map",
+      "trinket2": "Salacious Diary",
       "quirks": {
         "positive": [],
         "negative": []

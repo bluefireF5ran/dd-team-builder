@@ -1,0 +1,134 @@
+{
+  "teamName": "Waiting Blade: Blood & Sand",
+  "alias": "GA wealdset 01",
+  "location": "The Weald",
+  "heroes": [
+    {
+      "heroClass": "Flagellant",
+      "activeSkills": [
+        "Punish",
+        "Rain of Sorrows",
+        "Reclaim",
+        "Redeem"
+      ],
+      "activeCampSkills": [
+        "Lash's Solace",
+        "Lash's Kiss",
+        "Lash's Cure"
+      ],
+      "trinket1": "Flesh's Heart",
+      "trinket2": "Ancestor's Map",
+      "quirks": {
+        "positive": [
+          "Clotter",
+          "Natural",
+          "Skilled Gambler"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Shieldbreaker",
+      "activeSkills": [
+        "Pierce",
+        "Puncture",
+        "Expose",
+        "Serpent Sway"
+      ],
+      "activeCampSkills": [
+        "Pep Talk",
+        "Snake Skin",
+        "Sandstorm",
+        "Adder's Embrace"
+      ],
+      "trinket1": "Ancestor's Pen",
+      "trinket2": "Surgical Gloves",
+      "quirks": {
+        "positive": [
+          "Prismatic Precision",
+          "Corvids Eye",
+          "Corvids Grace",
+          "Luminous",
+          "Natural Swing"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Highwayman",
+      "activeSkills": [
+        "Pistol Shot",
+        "Point Blank Shot",
+        "Duelist's Advance",
+        "Open Vein"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Unparalleled Finesse",
+        "Clean Guns",
+        "Bandit's Sense"
+      ],
+      "trinket1": "Bloodied Neckerchief",
+      "trinket2": "Shameful Locket",
+      "quirks": {
+        "positive": [
+          "Corvids Eye",
+          "Corvids Grace",
+          "Hard Noggin",
+          "Eldritch Slayer",
+          "Luminous"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Grave Robber",
+      "activeSkills": [
+        "Lunge",
+        "Thrown Dagger",
+        "Poison Darts",
+        "Toxin Trickery"
+      ],
+      "activeCampSkills": [
+        "Wound Care",
+        "Snuff Box",
+        "Gallows Humor",
+        "Pilfer"
+      ],
+      "trinket1": "Lucky Talisman",
+      "trinket2": "Vice Crown",
+      "quirks": {
+        "positive": [
+          "Luminous",
+          "Evasive",
+          "Quick Reflexes",
+          "Corvids Eye",
+          "Corvids Grace"
+        ],
+        "negative": [
+          "Resolution",
+          "Known Cheat",
+          "Deviant Tastes",
+          "Bad Gambler",
+          "God Fearing"
+        ]
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    }
+  ]
+}
