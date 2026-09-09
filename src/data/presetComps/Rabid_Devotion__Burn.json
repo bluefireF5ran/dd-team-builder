@@ -1,0 +1,106 @@
+{
+  "teamName": "Rabid Devotion: Burn",
+  "alias": "My Team",
+  "location": "The Weald",
+  "heroes": [
+    {
+      "heroClass": "Flagellant",
+      "activeSkills": [
+        "Punish",
+        "Rain of Sorrows",
+        "Reclaim",
+        "Endure"
+      ],
+      "activeCampSkills": [],
+      "trinket1": "Bleed Amulet",
+      "trinket2": "Fortifying Garlic",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    },
+    {
+      "heroClass": "Bounty Hunter",
+      "activeSkills": [
+        "Collect Bounty",
+        "Come Hither",
+        "Uppercut",
+        "Flashbang"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "This Is How We Do It",
+        "Tracking",
+        "Scout Ahead"
+      ],
+      "trinket1": "Hero's Ring",
+      "trinket2": "Stun Stone",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    },
+    {
+      "heroClass": "Runaway",
+      "activeSkills": [
+        "Firefly",
+        "Run and Hide",
+        "Hearthlight",
+        "Controlled Burn"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Kindle",
+        "Cauterize",
+        "Pick Pocket"
+      ],
+      "trinket1": "Ancestor's Tentacle Idol",
+      "trinket2": "Reckless Charm",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    },
+    {
+      "heroClass": "Houndmaster",
+      "activeSkills": [
+        "Hound's Rush",
+        "Hound's Harry",
+        "Cry Havoc",
+        "Lick Wounds"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Hound's Watch",
+        "Therapy Dog",
+        "Man's Best Friend"
+      ],
+      "trinket1": "Focus Ring",
+      "trinket2": "Sniper's Ring",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    }
+  ]
+}

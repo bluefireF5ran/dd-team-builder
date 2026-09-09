@@ -1,0 +1,107 @@
+{
+  "teamName": "Holy Hymn: Plague",
+  "location": "The Ruins",
+  "heroes": [
+    {
+      "heroClass": "Shieldbreaker",
+      "activeSkills": [
+        "Pierce",
+        "Adder's Kiss",
+        "Impale",
+        "Serpent Sway"
+      ],
+      "activeCampSkills": [
+        "Wound Care",
+        "Snake Eyes",
+        "Snake Skin",
+        "Adder's Embrace"
+      ],
+      "trinket1": "Cuirboilli",
+      "trinket2": "Ancestor's Candle",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Crusader",
+      "activeSkills": [
+        "Smite",
+        "Stunning Blow",
+        "Holy Lance",
+        "Inspiring Cry"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Stand Tall",
+        "Zealous Speech",
+        "Zealous Vigil"
+      ],
+      "trinket1": "Ancestor's Pen",
+      "trinket2": "Focus Ring",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    },
+    {
+      "heroClass": "Vestal",
+      "activeSkills": [
+        "Judgement",
+        "Dazzling Light",
+        "Divine Grace",
+        "Divine Comfort"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Bless",
+        "Sanctuary"
+      ],
+      "trinket1": "Ancestor's Map",
+      "trinket2": "Salacious Diary",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Plague Doctor",
+      "activeSkills": [
+        "Noxious Blast",
+        "Plague Grenade",
+        "Blinding Gas",
+        "Disorienting Blast"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Experimental Vapours",
+        "Leeches",
+        "Self Medicate"
+      ],
+      "trinket1": "Blasphemous Vial",
+      "trinket2": "Aria Box",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    }
+  ]
+}
