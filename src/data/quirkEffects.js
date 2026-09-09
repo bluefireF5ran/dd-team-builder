@@ -15,7 +15,7 @@
 
 export const QUIRK_EFFECTS = {
   // ----- Positive quirks -----
-  "Armor Tinker": { kind: "positive", classification: "mental", flavour: null, effect: "%-d%% Armor Upgrade Cost" },
+  "Armor Tinker": { kind: "positive", classification: "mental", flavour: null, effect: "-20% Armor Upgrade Cost" },
   "Back Tracker": { kind: "positive", classification: "mental", flavour: null, effect: "No stress penalty when walking backwards." },
   "Balanced": { kind: "positive", classification: "mental", flavour: null, effect: "+15% Move Resist" },
   "Beast Hater": { kind: "positive", classification: "mental", flavour: null, effect: "+15% DMG vs Beast | -15% Stress vs Beast" },
@@ -105,7 +105,7 @@ export const QUIRK_EFFECTS = {
   "Weald Explorer": { kind: "positive", classification: "mental", flavour: null, effect: "+10% Scouting Chance in Weald" },
   "Weald Scrounger": { kind: "positive", classification: "mental", flavour: null, effect: "+5% Scouting Chance in Weald" },
   "Weald Tactician": { kind: "positive", classification: "mental", flavour: null, effect: "+15% DMG in Weald" },
-  "Weapon Tinker": { kind: "positive", classification: "mental", flavour: null, effect: "%-d%% Weapon Upgrade Cost" },
+  "Weapon Tinker": { kind: "positive", classification: "mental", flavour: null, effect: "-20% Weapon Upgrade Cost" },
 
   // ----- Negative quirks -----
   "Ablutomania": { kind: "negative", classification: "mental", flavour: null, effect: "Obsessed with cleanliness." },

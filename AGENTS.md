@@ -285,6 +285,49 @@ in `scripts/nameComps.manifest.json`. `rebuild_taxonomy.bat` wraps that with a c
 warnings are the point of the report: `DUPLICADA` (identical body), `MISMO ROSTER` (same classes, so
 only an ordinal separates them) and `SIN FIRMA`.
 
+## Names that only mean something next to a class
+
+`src/data/name_aliases.js` has two tables and they are not interchangeable.
+`NAME_ALIASES` resolves **globally** — good for a trinket typo (`Vvulf's Tassle`), wrong
+for a skill. `CLASS_NAME_ALIASES` is indexed by class, and it exists because the same
+string can be right in one class and wrong in another:
+
+| class | canonical | also accepted |
+| --- | --- | --- |
+| Shieldbreaker | `Snake Skin` | `Snakeskin` |
+| Duelist, Runaway | `First Aid` | `Wound Care` |
+
+`Wound Care` is the correct name in the eighteen classes the wiki CSV covered and the
+*wrong* one in the two Fire's Edge classes, which the game renders as `First Aid` — the
+same split AGENTS.md already describes for the save importer's `first_aid` id. A flat
+alias would rewrite the skill for all twenty. `addClassAliases` in
+`src/utils/nameNormalizer.js` therefore **skips any alias whose canonical name the class
+does not actually have**, which is the rule `gameIds.js` follows for save ids: a rename
+never invents a skill.
+
+Order inside `getClassIndexes` is load-bearing. The class's own names go in first, then
+the class aliases, and `COMMON_VANILLA_CAMP_SKILLS` (`Encourage`, `Wound Care`,
+`Pep Talk`) last — it is a fallback for modded classes with no camp data, and if it ran
+first it would resolve `Wound Care` to itself for the Duelist and hand back a camp skill
+that class does not have. `buildIndex` keeps the first entry per key, so "first wins" is
+the whole mechanism.
+
+**The bug this fixes was silent.** A comp storing `Snakeskin` made the hero card read
+`Selected: 4/4` while none of the seven camp-skill buttons lit up: the counter reads the
+hero's array, the buttons iterate the class roster, and nothing compared the two. Five
+slots across the bundled comps were affected. Two things now stop it recurring —
+`src/data/__tests__/presetCompNames.test.js` fails if any bundled comp names a skill,
+camp skill or trinket its class does not own, and `SelectionCount` in
+`HeroConfiguration` names the unmatched entries under the counter instead of leaving the
+mismatch invisible. Deleting the unknown name is not an option: it may belong to a mod
+this build does not carry.
+
+That test carries one deliberate exception, `KNOWN_BAD_TRINKETS`: `Ballad_Quartet.json`
+puts the Grave Robber's Butcher's Circus trinket `Cloak and Dagger` on a Jester. That is
+not a spelling — it is a trinket the class cannot equip, and `TrinketPicker` only offers
+general trinkets plus the hero's own, so the comp cannot be reproduced in the app.
+Choosing the replacement is a build decision, so it is written down rather than guessed.
+
 ## Quirks and diseases
 
 Three lists per hero, drawn in six colours. `src/data/quirks.js` and `src/data/diseases.js` are

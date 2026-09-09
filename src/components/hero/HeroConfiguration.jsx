@@ -277,6 +277,14 @@ const HeroConfiguration = ({
   const heroCampSkills = heroData?.campSkills || [];
   const activeSkills = hero.activeSkills || [];
   const activeCampSkills = hero.activeCampSkills || [];
+
+  // Una skill guardada con una grafía que la clase no tiene cuenta para el
+  // contador y no enciende ningún botón: la tarjeta decía "Selected: 4/4" con
+  // los siete botones apagados y nada explicaba por qué. Los alias de clase
+  // (`CLASS_NAME_ALIASES`) arreglan las que conocemos; esto hace visible
+  // cualquier otra en vez de dejarla muda.
+  const unmatchedSkills = activeSkills.filter((s) => s && !heroSkills.includes(s));
+  const unmatchedCampSkills = activeCampSkills.filter((s) => s && !heroCampSkills.includes(s));
   const quirks = hero.quirks || { positive: [], negative: [] };
   const lockedQuirks = hero.lockedQuirks || { positive: [], negative: [] };
   const diseases = hero.diseases || [];
@@ -440,9 +448,12 @@ const HeroConfiguration = ({
                 })}
               </div>
               {!isAlwaysActive && (
-                <p className="text-[10px] sm:text-xs text-gray-400 mt-1">
-                  Selected: {activeSkills.length}/4
-                </p>
+                <SelectionCount
+                  selected={activeSkills.length}
+                  max={4}
+                  unmatched={unmatchedSkills}
+                  noun="combat skill"
+                />
               )}
             </div>
           </div>
@@ -469,9 +480,12 @@ const HeroConfiguration = ({
                   );
                 })}
               </div>
-              <p className="text-[10px] sm:text-xs text-gray-400 mt-1">
-                Selected: {activeCampSkills.length}/4
-              </p>
+              <SelectionCount
+                selected={activeCampSkills.length}
+                max={4}
+                unmatched={unmatchedCampSkills}
+                noun="camp skill"
+              />
             </div>
 
             <div>
@@ -595,6 +609,31 @@ const HeroConfiguration = ({
  * differ only in colour, capacity and whether a slot can be locked, so they are
  * one component - which is also what keeps a disease looking like a quirk.
  */
+/**
+ * "Selected: N/4", y el porqué cuando N no cuadra con lo que se ve encendido.
+ *
+ * El contador mira el array del héroe y los botones miran el roster de la
+ * clase, así que un nombre que la clase no tiene sumaba al total sin encender
+ * nada. Nombrarlo es la única salida honesta: borrarlo perdería datos de una
+ * comp de un mod que esta build no lleva, y no contarlo mentiría sobre lo que
+ * el héroe tiene guardado.
+ */
+const SelectionCount = ({ selected, max, unmatched = [], noun }) => (
+  <div className="mt-1">
+    <p className="text-[10px] sm:text-xs text-gray-400">
+      Selected: {selected}/{max}
+    </p>
+    {unmatched.length > 0 && (
+      <p
+        className="text-[10px] sm:text-xs text-amber-400"
+        title={`Saved on this hero but not in the ${noun} list for this class, so no button is highlighted.`}
+      >
+        {unmatched.length} not in this class&apos;s list: {unmatched.join(', ')}
+      </p>
+    )}
+  </div>
+);
+
 const QuirkList = ({
   title,
   heading,

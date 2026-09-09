@@ -126,8 +126,10 @@ export const useTeam = ({ defaultLocation = 'The Ruins' } = {}) => {
    * Que nombre le daria la taxonomia a este equipo, sin guardar nada. Es lo que
    * el dialogo de guardado ensena antes de que elijas destino.
    *
-   * La libreria del bundle se carga aqui y no al arrancar (mismo criterio que
-   * compIndex): quien nunca guarda un preset no paga por 157 comps.
+   * Ojo: `getRawComps` memoiza el ANALISIS, no la carga. `compIndex` importa
+   * `compLibrary` y el barril de presets de forma estatica, asi que los bytes
+   * de las 183 comps ya estan en el bundle principal antes de que nadie abra
+   * nada; lo que se ahorra la primera vez es construir las entradas.
    */
   const describePreset = useCallback(() => {
     const comp = { teamName, alias: '', location, heroes };
