@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { getSkillRanks } from '../../utils/rankValidity';
+import { getSkillRanks, reachableRanks } from '../../utils/rankValidity';
 import { AlertTriangle, ChevronDown, ChevronUp, Copy, ClipboardPaste, RotateCcw, UserPlus, X } from 'lucide-react';
 import { HERO_CLASSES } from '../../data/heroes';
 import { MODDED_HERO_CLASSES } from '../../data/modded_heroes';
@@ -62,6 +62,14 @@ const HeroConfiguration = ({
     }
     return HERO_CLASSES;
   }, [showModdedHeroes]);
+
+  // Where this hero can get to on their own. A skill that only launches from
+  // rank 3 is not a mistake in the hands of someone holding Shadow Fade; the
+  // panel says so rather than putting a warning ring round it.
+  const reachable = useMemo(
+    () => reachableRanks(hero, position),
+    [hero, position]
+  );
 
   const validation = validateHero(hero);
   const heroData = allHeroClasses[hero.heroClass];
@@ -404,6 +412,7 @@ const HeroConfiguration = ({
                   // has no rank data for the skill, which is not a fault.
                   const ranks = getSkillRanks(hero.heroClass, skill);
                   const outOfRank = isActive && ranks && !ranks.launch.includes(position);
+                  const afterMoving = outOfRank && ranks.launch.some((r) => reachable.includes(r));
                   return (
                     <HoverCard
                       key={skill}
@@ -418,16 +427,18 @@ const HeroConfiguration = ({
                           isActive
                             ? 'bg-green-700/80 hover:bg-green-600 text-dd-parchment font-semibold border border-green-600'
                             : 'bg-gray-700/80 hover:bg-gray-600 text-gray-300 border border-gray-600'
-                        } ${isAlwaysActive ? 'cursor-not-allowed opacity-90' : 'cursor-pointer'} ${
-                          outOfRank ? 'ring-1 ring-amber-500/70' : ''
-                        }`}
+                        } ${isAlwaysActive ? 'cursor-not-allowed opacity-90' : 'cursor-pointer'}`}
                       >
                         <span className="min-w-0 truncate">{skill}</span>
                         <span className="flex items-center gap-1 shrink-0">
                           {outOfRank && (
                             <span
-                              className="text-[10px] leading-none px-1 py-0.5 rounded bg-amber-900/60 border border-amber-600/60 text-amber-300"
-                              title={`Cannot be used from rank ${position} — needs rank ${ranks.launch.join(' or ')}`}
+                              className="text-[10px] leading-none px-1 py-0.5 rounded bg-gray-900/70 border border-gray-500/60 text-gray-300"
+                              title={
+                                afterMoving
+                                  ? `Launches from rank ${ranks.launch.join(' or ')}, which this hero can step into`
+                                  : `Launches from rank ${ranks.launch.join(' or ')} — something will have to move them there`
+                              }
                             >
                               rank {ranks.launch.join('·')}
                             </span>

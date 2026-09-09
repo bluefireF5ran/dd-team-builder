@@ -1,7 +1,10 @@
 import {
   parseRanks,
+  parseSelfMove,
   getSkillRanks,
   isSkillUsableAt,
+  reachableRanks,
+  partyReachableRanks,
   heroRankReport,
   partyRankReport,
   rankWarnings
@@ -34,7 +37,8 @@ describe('getSkillRanks', () => {
     expect(getSkillRanks('Leper', 'Hew')).toEqual({
       launch: [1, 2],
       target: [1, 2],
-      kind: 'enemy'
+      kind: 'enemy',
+      move: 0
     });
   });
 
@@ -62,6 +66,72 @@ describe('isSkillUsableAt', () => {
 
   it('says null when it does not know', () => {
     expect(isSkillUsableAt('Leper', 'Not A Real Skill', 1)).toBeNull();
+  });
+});
+
+describe('parseSelfMove', () => {
+  it('reads the caster out of the effect prose, front-negative', () => {
+    // Jester's Solo and Finale, the two halves of the loop.
+    expect(parseSelfMove('Self: Forward 3, Mark Self (3 rds)')).toBe(-3);
+    expect(parseSelfMove('Self: Back 3, -25 DODGE, -3 SPD')).toBe(3);
+  });
+
+  it('does not mistake the enemy being shoved for the hero stepping', () => {
+    // Point Blank Shot knocks the target back one AND steps back one. Only the
+    // second half is the caster's.
+    expect(parseSelfMove('Knockback 1 (140% base) | Self: Back 1')).toBe(1);
+    // The Boot knocks the enemy back and the Duelist stays put.
+    expect(parseSelfMove('Stance: aggressive | Stun (140% base) | Knockback 1 (150% base)')).toBe(0);
+    expect(parseSelfMove('Bypass Guard, Pull 2 (140% base), -3 SPD')).toBe(0);
+  });
+
+  it("takes an unlabelled move, which is how Duelist's Advance is written", () => {
+    expect(parseSelfMove('Forward 1, Activates Riposte (3 rds)')).toBe(-1);
+  });
+
+  it('is not upset by nothing', () => {
+    expect(parseSelfMove(undefined)).toBe(0);
+    expect(parseSelfMove('')).toBe(0);
+    expect(parseSelfMove('+35% DMG vs Unholy')).toBe(0);
+  });
+});
+
+describe('reachableRanks', () => {
+  it('follows the hero to a fixed point', () => {
+    // Shadow Fade (1-2) goes Back 2; from rank 3 Lunge (3-4) goes Forward 2.
+    const robber = hero('Grave Robber', ['Lunge', 'Shadow Fade', 'Thrown Dagger', 'Poison Darts']);
+    expect(reachableRanks(robber, 1)).toEqual([1, 3]);
+  });
+
+  it('leaves a hero who cannot move where they are', () => {
+    expect(reachableRanks(hero('Leper', ['Hew', 'Chop']), 4)).toEqual([4]);
+  });
+});
+
+describe('partyReachableRanks', () => {
+  it('moves the heroes who are stepped over', () => {
+    // The Grave Robber's Shadow Fade drops her from rank 1 to rank 3, and the
+    // Hellion behind her is pulled to the front by the same movement - which
+    // is the only reason Iron Swan, a rank-1-only skill, belongs in rank 2.
+    const party = [
+      hero('Grave Robber', ['Lunge', 'Shadow Fade', 'Thrown Dagger', 'Poison Darts']),
+      hero('Hellion', ['Wicked Hack', 'Iron Swan', 'Barbaric YAWP!', 'If It Bleeds']),
+      hero('Vestal', ['Judgement', 'Divine Grace', 'Dazzling Light', 'Hand of Light']),
+      hero('Arbalest', ['Sniper Shot', 'Suppressing Fire', 'Bola', 'Battlefield Bandage'])
+    ];
+    const ranks = partyReachableRanks(party);
+    expect(ranks[0]).toEqual(expect.arrayContaining([1, 3]));
+    expect(ranks[1]).toContain(1);
+  });
+
+  it('keeps a party that never moves exactly where it started', () => {
+    const party = [
+      hero('Leper', ['Hew', 'Chop']),
+      hero('Crusader', ['Smite', 'Stunning Blow']),
+      hero('Vestal', ['Judgement', 'Divine Grace']),
+      hero('Arbalest', ['Sniper Shot', 'Suppressing Fire'])
+    ];
+    expect(partyReachableRanks(party)).toEqual([[1], [2], [3], [4]]);
   });
 });
 
@@ -99,11 +169,25 @@ describe('heroRankReport', () => {
   it('is quiet about an empty slot', () => {
     expect(heroRankReport({ ...EMPTY_HERO }, 1)).toEqual({
       rank: 1,
+      reachable: [1],
       usable: [],
+      situational: [],
       unusable: [],
       unknown: [],
       reaches: []
     });
+  });
+
+  it('files a skill the hero can walk into range of as situational, not broken', () => {
+    // Solo (3-4) throws the Jester Forward 3; Finale (1-2) throws them Back 3.
+    // Neither is a mistake in rank 4 - together they are the whole build.
+    const jester = hero('Jester', ['Solo', 'Finale', 'Dirk Stab', 'Slice Off']);
+    const report = heroRankReport(jester, 4);
+    expect(report.unusable).toHaveLength(0);
+    expect(report.situational.map((s) => s.name)).toEqual(
+      expect.arrayContaining(['Finale', 'Slice Off'])
+    );
+    expect(report.usable).toContain('Solo');
   });
 });
 
