@@ -238,6 +238,123 @@ describe('generateRandomTeamFromRoster', () => {
     // The comp names the trinkets it was built with. If you have imported a
     // save you probably do not own them, and a comp you cannot equip is not
     // advice - so they are swapped for the closest thing you do own.
+    // Stress is a weight, not a filter: the tired comp still exists, it just
+    // stops being what you are handed every time you press the button.
+    describe('stress steers the draw', () => {
+      const RESTED = ['Crusader', 'Vestal', 'Plague Doctor', 'Highwayman'];
+      const SPENT = ['Leper', 'Hellion', 'Jester', 'Arbalest'];
+      const roster = [...RESTED, ...SPENT];
+      const mixedSave = [
+        ...RESTED.map((heroClass) => ({ ...saveHeroes[0], name: heroClass, heroClass, stress: 0 })),
+        ...SPENT.map((heroClass) => ({ ...saveHeroes[0], name: heroClass, heroClass, stress: 100 }))
+      ];
+
+      /** Share of the suggested slots that went to a hero at 100 stress. */
+      const spentShare = (options) => {
+        const drawn = [];
+        for (let i = 0; i < 80; i++) {
+          const team = generateRandomTeamFromRoster(roster, false, {
+            saveHeroes: mixedSave,
+            ...options
+          });
+          drawn.push(...team.map((hero) => hero.heroClass));
+        }
+        return drawn.filter((heroClass) => SPENT.includes(heroClass)).length / drawn.length;
+      };
+
+      test('a strained hero is not offered at all while a rested comp exists', () => {
+        // The weight alone left these at a few percent, which reads as random
+        // to a player. If your rested heroes can field something, that is the
+        // answer, full stop.
+        expect(spentShare({ preferRested: true })).toBe(0);
+      });
+
+      test('and a hero at 70 is no more welcome than one at 100', () => {
+        const frayed = [
+          ...RESTED.map((heroClass) => ({ ...saveHeroes[0], name: heroClass, heroClass, stress: 0 })),
+          ...SPENT.map((heroClass) => ({ ...saveHeroes[0], name: heroClass, heroClass, stress: 70 }))
+        ];
+        const drawn = [];
+        for (let i = 0; i < 60; i++) {
+          const team = generateRandomTeamFromRoster(roster, false, { saveHeroes: frayed });
+          drawn.push(...team.map((hero) => hero.heroClass));
+        }
+        expect(drawn.filter((heroClass) => SPENT.includes(heroClass))).toEqual([]);
+      });
+
+      test('the switch turns it off', () => {
+        // Off, the draw is the old uniform one, so both halves show up alike.
+        expect(spentShare({ preferRested: false })).toBeGreaterThan(0.3);
+      });
+
+      test('a mildly worn roster is not treated as exhausted', () => {
+        // 40 is a normal bar after a run. Nobody is strained, so nothing is set
+        // aside and the whole library is still on the table.
+        const worn = roster.map((heroClass) => ({
+          ...saveHeroes[0],
+          name: heroClass,
+          heroClass,
+          stress: 40
+        }));
+        const shapes = new Set();
+        for (let i = 0; i < 30; i++) {
+          const team = generateRandomTeamFromRoster(roster, false, { saveHeroes: worn });
+          shapes.add(team.map((hero) => hero.heroClass).join(','));
+        }
+        expect(shapes.size).toBeGreaterThan(1);
+      });
+
+      test('an exhausted roster still gets a comp rather than nothing', () => {
+        const allSpent = roster.map((heroClass) => ({ ...saveHeroes[0], name: heroClass, heroClass, stress: 100 }));
+        const team = generateRandomTeamFromRoster(roster, false, { saveHeroes: allSpent });
+        expect(team).toHaveLength(PARTY_CONFIG.MAX_HEROES);
+        team.forEach((hero) => expect(hero.heroClass).toBeTruthy());
+      });
+
+      test('says who is strained, because the draw can still land on them', () => {
+        const team = generateRandomTeamFromRoster(['Jester', 'Jester', 'Jester', 'Jester'], false, {
+          saveHeroes: Array.from({ length: 4 }, (_, i) => ({
+            ...saveHeroes[0],
+            name: `Jester ${i}`,
+            heroClass: 'Jester',
+            stress: 80
+          }))
+        });
+        expect(team.stressedHeroes).toHaveLength(PARTY_CONFIG.MAX_HEROES);
+        team.stressedHeroes.forEach((hero) => expect(hero.stress).toBe(80));
+      });
+
+      test('leaves a calm party unremarked', () => {
+        const team = generateRandomTeamFromRoster(['Jester', 'Jester', 'Jester', 'Jester'], false, {
+          saveHeroes: [{ ...saveHeroes[0], name: 'Sarmenti', heroClass: 'Jester', stress: 10 }]
+        });
+        expect(team.stressedHeroes).toEqual([]);
+      });
+
+      test('the fallback roll is biased too, not just the preset draw', () => {
+        // No bundled comp fits these six classes, so this goes down the random
+        // roll — where the weighting has to apply just the same.
+        const classes = ['Leper', 'Antiquarian', 'Vestal', 'Jester', 'Crusader', 'Hellion'];
+        const spent = ['Leper', 'Antiquarian'];
+        const heroes = classes.map((heroClass) => ({
+          ...saveHeroes[0],
+          name: heroClass,
+          heroClass,
+          stress: spent.includes(heroClass) ? 100 : 0
+        }));
+
+        let picked = 0;
+        for (let i = 0; i < 60; i++) {
+          const rolled = generateRandomTeamFromRoster(classes, false, { saveHeroes: heroes });
+          expect(rolled.fromPreset).toBe(false);
+          picked += rolled.filter((hero) => spent.includes(hero.heroClass)).length;
+        }
+        // Four of the six are rested, which is a whole party, so the two spent
+        // ones are simply not in the draw.
+        expect(picked).toBe(0);
+      });
+    });
+
     describe('re-equipping from your own trinkets', () => {
       const suggest = (options) =>
         generateRandomTeamFromRoster(['Jester', 'Jester', 'Jester', 'Jester'], false, options);

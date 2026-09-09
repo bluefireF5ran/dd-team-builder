@@ -489,11 +489,18 @@ const TeamControls = ({
                 result.trinketSwaps.length === 1 ? '' : 's'
               } from your inventory${result.unequipped ? `, ${result.unequipped} slot(s) left empty` : ''}.`
             : '';
+          // Stress only biases the draw, so a strained hero can still land in
+          // the comp — better said out loud than discovered in the dungeon.
+          const strained = result?.stressedHeroes?.length
+            ? ` Mind the stress on ${result.stressedHeroes
+                .map((hero) => `${hero.name} (${hero.stress})`)
+                .join(', ')}.`
+            : '';
           if (result?.warning) {
-            showToast?.(result.warning + swapped, 'warning');
+            showToast?.(result.warning + swapped + strained, 'warning');
           } else if (result?.assignedHeroes?.length) {
             showToast?.(
-              `Suggested "${result.teamName}" with ${result.assignedHeroes.join(', ')}.${swapped}`,
+              `Suggested "${result.teamName}" with ${result.assignedHeroes.join(', ')}.${swapped}${strained}`,
               'success'
             );
           } else {

@@ -232,6 +232,7 @@ export const useTeam = ({ defaultLocation = 'The Ruins' } = {}) => {
       teamName: suggestedHeroes.teamName,
       location: suggestedHeroes.location,
       assignedHeroes: suggestedHeroes.assignedHeroes || [],
+      stressedHeroes: suggestedHeroes.stressedHeroes || [],
       missingTrinkets: suggestedHeroes.missingTrinkets || [],
       trinketSwaps: suggestedHeroes.trinketSwaps || [],
       unequipped: suggestedHeroes.unequipped || 0,

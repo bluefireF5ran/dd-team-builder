@@ -21,7 +21,9 @@
 import { nameKey } from './nameNormalizer';
 import { PARTY_CONFIG } from '../constants';
 
-const heroClassOf = (hero) => hero?.heroClass || hero?.name || '';
+/** A hero's class, whether it arrives on a save hero, a comp hero or a bare name. */
+export const heroClassOf = (hero) =>
+  (typeof hero === 'string' ? hero : hero?.heroClass || hero?.name || '');
 
 /** @returns Map keyed by `nameKey`, holding the display name and the count. */
 export const toRosterCounts = (roster) => {

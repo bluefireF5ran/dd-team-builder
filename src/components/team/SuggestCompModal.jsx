@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { Dice5, X, Check, Users, RotateCcw, Sparkles, Upload, FolderOpen, PackageCheck, BedDouble, Gem } from 'lucide-react';
+import { Dice5, X, Check, Users, RotateCcw, Sparkles, Upload, FolderOpen, PackageCheck, BedDouble, Gem, Brain } from 'lucide-react';
 import ImageWithFallback from '../common/ImageWithFallback';
 import {
   ALL_HERO_NAMES,
@@ -13,6 +13,7 @@ import { getHeroImagePath } from '../../utils/imageHelper';
 import { ROSTER_STORAGE_KEY } from '../../config/rankerRoster';
 import { parseRosterFile } from '../../utils/rosterLoader';
 import { toRosterCounts, countOf, rosterFromHeroes, isHeroAvailable } from '../../utils/rosterAvailability';
+import { STRESS_CONFIG, clampStress, isStrained } from '../../utils/heroStress';
 import { PARTY_CONFIG } from '../../constants';
 
 export const SUGGEST_ROSTER_KEY = 'dd_team_builder_suggest_roster_v1';
@@ -79,16 +80,29 @@ const SuggestCompModal = ({
   // existed is a list of unique names, which reads as one of each.
   const [roster, setRoster] = useState([]);
   const [query, setQuery] = useState('');
-  // Only meaningful with a save imported; both are remembered per session only.
+  // Only meaningful with a save imported; all remembered per session only.
   const [skipBusy, setSkipBusy] = useState(true);
   const [requireOwnedTrinkets, setRequireOwnedTrinkets] = useState(false);
   const [reequip, setReequip] = useState(true);
+  const [preferRested, setPreferRested] = useState(true);
 
   const counts = useMemo(() => toRosterCounts(roster), [roster]);
   const busyCount = useMemo(
     () => (saveProfile?.heroes || []).filter((hero) => !isHeroAvailable(hero)).length,
     [saveProfile]
   );
+  // The switch is worth showing the moment any hero carries stress; the count
+  // it advertises is the heroes a player would actually think twice about, and
+  // it follows "skip busy" — a hero in the Abbey is not in the draw at all, so
+  // counting their stress here would be counting someone who cannot come.
+  const stressedHeroes = useMemo(
+    () =>
+      (saveProfile?.heroes || []).filter(
+        (hero) => (!skipBusy || isHeroAvailable(hero)) && clampStress(hero.stress) > 0
+      ),
+    [saveProfile, skipBusy]
+  );
+  const strainedCount = useMemo(() => stressedHeroes.filter(isStrained).length, [stressedHeroes]);
 
   const heroPool = useMemo(() => (showModdedHeroes ? ALL_HERO_NAMES : VANILLA_HERO_NAMES), [showModdedHeroes]);
 
@@ -210,7 +224,7 @@ const SuggestCompModal = ({
       showToast?.('Select at least 4 heroes in your roster', 'warning');
       return;
     }
-    onSuggest?.(roster, { requireOwnedTrinkets, reequip });
+    onSuggest?.(roster, { requireOwnedTrinkets, reequip, preferRested });
     onClose?.();
   };
 
@@ -341,6 +355,25 @@ const SuggestCompModal = ({
                 icon={BedDouble}
                 label={`Skip ${busyCount} busy in town`}
                 title="A hero locked into the Abbey, Tavern or Sanitarium cannot go out this week"
+              />
+            )}
+            {stressedHeroes.length > 0 && (
+              <OptionToggle
+                on={preferRested}
+                onClick={() => setPreferRested((prev) => !prev)}
+                icon={Brain}
+                label={
+                  strainedCount
+                    ? `Favour rested (${strainedCount} stressed)`
+                    : 'Favour rested heroes'
+                }
+                title={`A comp that would field your most stressed heroes is offered far less often${
+                  strainedCount
+                    ? ` — ${strainedCount} of yours ${strainedCount === 1 ? 'is' : 'are'} at ${
+                        STRESS_CONFIG.STRAINED
+                      }+ stress`
+                    : ''
+                }. Nobody is excluded, so a tired roster still gets an answer.`}
               />
             )}
             {saveProfile.ownedTrinkets?.length > 0 && (

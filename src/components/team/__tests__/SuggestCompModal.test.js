@@ -137,7 +137,11 @@ describe('SuggestCompModal with an imported save', () => {
     fireEvent.click(screen.getByRole('button', { name: /Only comps I can fully equip/i }));
     fireEvent.click(suggest());
 
-    expect(onSuggest.mock.calls[0][1]).toEqual({ requireOwnedTrinkets: true, reequip: true });
+    expect(onSuggest.mock.calls[0][1]).toEqual({
+      requireOwnedTrinkets: true,
+      reequip: true,
+      preferRested: true
+    });
   });
 
   it('re-equips from your own trinkets by default, and can be told not to', () => {
@@ -148,7 +152,40 @@ describe('SuggestCompModal with an imported save', () => {
     fireEvent.click(screen.getByRole('button', { name: /Use Save Roster/i }));
     fireEvent.click(screen.getByRole('button', { name: /Re-equip from my trinkets/i }));
     fireEvent.click(suggest());
-    expect(onSuggest.mock.calls[0][1]).toEqual({ requireOwnedTrinkets: false, reequip: false });
+    expect(onSuggest.mock.calls[0][1]).toEqual({
+      requireOwnedTrinkets: false,
+      reequip: false,
+      preferRested: true
+    });
+  });
+
+  it('leans away from stressed heroes, and can be told not to', () => {
+    const profile = saveProfile();
+    // One hero at 80, everyone else fresh, so the count on the switch is a
+    // fact about the save rather than about the fixture's own stress values.
+    const stressed = {
+      ...profile,
+      heroes: profile.heroes.map((hero, index) => ({ ...hero, stress: index === 0 ? 80 : 0 }))
+    };
+    const { onSuggest } = setup({ saveProfile: stressed });
+    fireEvent.click(screen.getByRole('button', { name: /Use Save Roster/i }));
+
+    // The count is the heroes a player would think twice about, not everyone
+    // with a mark on the bar.
+    const toggle = screen.getByRole('button', { name: /Favour rested \(1 stressed\)/i });
+    expect(toggle).toHaveAttribute('aria-pressed', 'true');
+
+    fireEvent.click(toggle);
+    fireEvent.click(suggest());
+    expect(onSuggest.mock.calls[0][1].preferRested).toBe(false);
+  });
+
+  it('hides the stress switch when the whole roster is rested', () => {
+    const profile = saveProfile();
+    setup({
+      saveProfile: { ...profile, heroes: profile.heroes.map((hero) => ({ ...hero, stress: 0 })) }
+    });
+    expect(screen.queryByRole('button', { name: /rested/i })).not.toBeInTheDocument();
   });
 
   it('offers no trinket switches without an inventory', () => {
