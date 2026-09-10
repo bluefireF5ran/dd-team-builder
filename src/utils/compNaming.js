@@ -29,13 +29,8 @@ import {
   MECHANIC_FAMILIES,
   FALLBACK_FAMILY,
   REGION_TOKENS,
-  RANK_WORDS,
-  VARIANT_KIND_PENALTY,
-  ROSTER_KINDS
+  RANK_WORDS
 } from '../data/compTaxonomy';
-
-/** Tokens que dicen QUIÉN va en la comp; son los únicos que pueden dar nombre solos. */
-const isRoster = (candidate) => ROSTER_KINDS.includes(candidate.kind);
 
 // "V2.0", "v3.0", "1.1", "ALT": marcas de variante heredadas. La V es de variante,
 // no de version — y para eso ya esta la segunda ranura del nombre, que ademas dice
@@ -436,7 +431,6 @@ export const assignCompNames = (comps) => {
 
   records.forEach((rec) => {
     if (settled.has(rec.index)) return;
-    const base = formatCompName(rec.family.name, rec.variant);
     if (!taken.has(nameSlot(rec.family.name, rec.variant))) {
       taken.add(nameSlot(rec.family.name, rec.variant));
       return;

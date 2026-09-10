@@ -1,5 +1,5 @@
 {
-  "takenAt": "2026-09-09T23:43:47.645Z",
+  "takenAt": "2026-09-10T07:31:04.592Z",
   "cells": {
     "Abomination|1": {
       "heroClass": "Abomination",
@@ -50,7 +50,7 @@
         "Padlock of Transference"
       ],
       "source": "library",
-      "samples": 39,
+      "samples": 40,
       "rankLegal": true
     },
     "Abomination|3": {
@@ -194,7 +194,7 @@
         "Ancestor's Map"
       ],
       "source": "library",
-      "samples": 11,
+      "samples": 12,
       "rankLegal": true
     },
     "Arbalest|1": {
@@ -213,8 +213,8 @@
         "Field Dressing"
       ],
       "trinkets": [
-        "Fuseman's Matchstick",
-        "Prophet's Eye"
+        "Ancestor's Map",
+        "Fuseman's Matchstick"
       ],
       "source": "model",
       "samples": 0,
@@ -283,10 +283,10 @@
       ],
       "trinkets": [
         "Prophet's Eye",
-        "Fuseman's Matchstick"
+        "Ancestor's Map"
       ],
       "source": "library",
-      "samples": 51,
+      "samples": 56,
       "rankLegal": true
     },
     "Bounty Hunter|1": {
@@ -294,7 +294,7 @@
       "rank": 1,
       "skills": [
         "Collect Bounty",
-        "Mark for Death",
+        "Come Hither",
         "Uppercut",
         "Finish Him"
       ],
@@ -305,11 +305,11 @@
         "Tracking"
       ],
       "trinkets": [
-        "Hunter's Talons",
-        "Ancestor's Pen"
+        "Mask Of The Timeless",
+        "Hunter's Talon"
       ],
       "source": "library",
-      "samples": 12,
+      "samples": 17,
       "rankLegal": true
     },
     "Bounty Hunter|2": {
@@ -318,7 +318,7 @@
       "skills": [
         "Collect Bounty",
         "Come Hither",
-        "Flashbang",
+        "Uppercut",
         "Finish Him"
       ],
       "camp": [
@@ -328,11 +328,11 @@
         "Tracking"
       ],
       "trinkets": [
-        "Surgical Gloves",
-        "Hunter's Talon"
+        "Hunter's Talon",
+        "Surgical Gloves"
       ],
       "source": "library",
-      "samples": 13,
+      "samples": 14,
       "rankLegal": true
     },
     "Bounty Hunter|3": {
@@ -698,7 +698,7 @@
       "skills": [
         "Pick to the Face",
         "Lunge",
-        "Flashing Daggers",
+        "Thrown Dagger",
         "Poison Darts"
       ],
       "camp": [
@@ -709,10 +709,10 @@
       ],
       "trinkets": [
         "Ancestor's Musket Ball",
-        "Raider's Talisman"
+        "Lucky Talisman"
       ],
-      "source": "model",
-      "samples": 3,
+      "source": "library",
+      "samples": 5,
       "rankLegal": true
     },
     "Grave Robber|3": {
@@ -919,7 +919,7 @@
         "Bloodied Neckerchief"
       ],
       "source": "library",
-      "samples": 14,
+      "samples": 15,
       "rankLegal": true
     },
     "Highwayman|4": {
@@ -988,7 +988,7 @@
         "Ancestor's Coat"
       ],
       "source": "library",
-      "samples": 50,
+      "samples": 52,
       "rankLegal": true
     },
     "Houndmaster|3": {
@@ -1011,7 +1011,7 @@
         "Evidence of Corruption"
       ],
       "source": "library",
-      "samples": 45,
+      "samples": 46,
       "rankLegal": true
     },
     "Houndmaster|4": {
@@ -1100,10 +1100,10 @@
       ],
       "trinkets": [
         "Ancestor's Map",
-        "Ancestor's Lantern"
+        "Ancestor's Coat"
       ],
       "source": "library",
-      "samples": 27,
+      "samples": 29,
       "rankLegal": true
     },
     "Jester|4": {
@@ -1425,7 +1425,7 @@
         "Ancestor's Signet Ring"
       ],
       "source": "library",
-      "samples": 40,
+      "samples": 41,
       "rankLegal": true
     },
     "Occultist|2": {
@@ -1655,7 +1655,7 @@
         "Ancestor's Signet Ring"
       ],
       "source": "library",
-      "samples": 6,
+      "samples": 7,
       "rankLegal": true
     },
     "Runaway|4": {
@@ -1739,15 +1739,15 @@
       "camp": [
         "Encourage",
         "Wound Care",
-        "Pep Talk",
-        "Snake Eyes"
+        "Snake Eyes",
+        "Snake Skin"
       ],
       "trinkets": [
-        "Ancestor's Pen",
-        "Surgical Gloves"
+        "Camouflage Cloak",
+        "Sun Cloak"
       ],
       "source": "model",
-      "samples": 0,
+      "samples": 1,
       "rankLegal": true
     },
     "Shieldbreaker|4": {

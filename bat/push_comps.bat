@@ -57,12 +57,54 @@ git diff --cached --name-status -- src/data/presetComps
 echo.
 
 echo --------------------------------------------
-echo   COMPROBANDO
+echo   COMPROBANDO  ^(lo mismo que el CI de GitHub: lint + tests + build^)
 echo --------------------------------------------
 set CI=true
-call npx react-scripts test --testPathPattern="presetComp|compNaming|compIdentity|compGenerator" --watchAll=false
+
+rem Los tres pasos son los del workflow, en el mismo orden y con el mismo CI=true.
+rem Antes aqui solo corrian cuatro ficheros de tests y ni se compilaba, asi que el
+rem bat daba verde y GitHub rojo: lo unico que sirve es correr lo que corre el CI.
+
+rem El lint va primero aunque `npm run build` ya lo haga: tarda seis segundos
+rem frente a los cincuenta de la tanda entera, y con CI=true un simple aviso de
+rem eslint ^(un import que sobra^) es "Failed to compile" alli. Fallar rapido.
+echo [1/3] Lint...
+call npx eslint src/ --max-warnings 0
+if errorlevel 1 goto fallo_lint
+echo.
+
+rem La suite ENTERA, no solo los tests de comps: una comp nueva entra en el
+rem indice, y el indice lo lee media libreria. Pasar cuatro ficheros de tests y
+rem que el CI se caiga en un quinto es justo lo que hay que evitar.
+rem Via npm, que el hook pretest regenera el indice igual que hace el CI.
+echo [2/3] Tests...
+call npm test -- --watchAll=false
 if errorlevel 1 goto fallo_test
 echo.
+
+rem Y compilar. Los tests no cubren todo el arbol: un import roto en un fichero
+rem sin test pasa lint y pasa tests, y solo se cae aqui. Son ~25 segundos.
+echo [3/3] Build...
+call npm run build
+if errorlevel 1 goto fallo_build
+echo.
+
+rem Lo de arriba se ha comprobado sobre el ARBOL DE TRABAJO, pero el commit solo
+rem lleva src\data\presetComps. Si el verde de aqui depende de un fichero que no
+rem se sube, el CI lo vera rojo. No se aborta: es legitimo dejar cosas a medias,
+rem pero hay que decirlo antes de empujar, no leerlo en GitHub diez minutos despues.
+set "SUCIO="
+for /f "delims=" %%f in ('git status --porcelain -- . ":(exclude)src/data/presetComps"') do set "SUCIO=1"
+if not defined SUCIO goto arbol_limpio
+echo --------------------------------------------
+echo   AVISO: hay cambios FUERA de presetComps que NO se van a subir:
+git status --short -- . ":(exclude)src/data/presetComps"
+echo.
+echo   El lint y los tests de arriba los han visto; el CI de GitHub no.
+echo   Si alguno de esos ficheros es lo que hace que pasen, commitealo aparte.
+echo --------------------------------------------
+echo.
+:arbol_limpio
 
 set "MSG=Add comps to the library"
 echo Mensaje del commit ^(Enter para dejar el de por defecto, sin comillas^):
@@ -100,6 +142,26 @@ echo Para soltarlas: git restore --staged src/data/presetComps
 echo.
 pause
 exit /b 0
+
+:fallo_lint
+echo.
+echo El lint falla, asi que no se sube nada: con CI=true el build de GitHub
+echo trata los avisos como errores y el push saldria en rojo.
+echo Arregla lo de arriba ^(suele ser un import o una variable sin usar^).
+echo Las comps se quedan preparadas; suelta con:
+echo   git restore --staged src/data/presetComps
+echo.
+pause
+exit /b 1
+
+:fallo_build
+echo.
+echo El build falla, asi que no se sube nada: el CI se caeria en el mismo sitio.
+echo Las comps se quedan preparadas; suelta con:
+echo   git restore --staged src/data/presetComps
+echo.
+pause
+exit /b 1
 
 :fallo_test
 echo.
