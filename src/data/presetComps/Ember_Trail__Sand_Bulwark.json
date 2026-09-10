@@ -1,0 +1,111 @@
+{
+  "teamName": "Ember Trail: Sand & Bulwark",
+  "alias": "My Team",
+  "location": "The Weald",
+  "heroes": [
+    {
+      "heroClass": "Shieldbreaker",
+      "activeSkills": [
+        "Pierce",
+        "Puncture",
+        "Impale",
+        "Serpent Sway"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Snake Skin",
+        "Sandstorm"
+      ],
+      "trinket1": "Reckless Charm",
+      "trinket2": "Book of Rage",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    },
+    {
+      "heroClass": "Man at Arms",
+      "activeSkills": [
+        "Crush",
+        "Rampart",
+        "Defender",
+        "Retribution"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Maintain Equipment",
+        "Tactics"
+      ],
+      "trinket1": "Dismas' Head",
+      "trinket2": "Sly Eyepatch",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    },
+    {
+      "heroClass": "Runaway",
+      "activeSkills": [
+        "Searing Strike",
+        "Firefly",
+        "Run and Hide",
+        "Controlled Burn"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Cauterize",
+        "Play with Fire",
+        "Pick Pocket"
+      ],
+      "trinket1": "Jar of Ash",
+      "trinket2": "Charcoal Effigy",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    },
+    {
+      "heroClass": "Vestal",
+      "activeSkills": [
+        "Judgement",
+        "Dazzling Light",
+        "Divine Grace",
+        "Divine Comfort"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Bless",
+        "Chant",
+        "Sanctuary"
+      ],
+      "trinket1": "Caution Cloak",
+      "trinket2": "Sniper's Ring",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    }
+  ]
+}

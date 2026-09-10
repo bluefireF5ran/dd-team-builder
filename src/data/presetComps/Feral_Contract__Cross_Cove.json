@@ -1,0 +1,150 @@
+{
+  "teamName": "Feral Contract: Cross & Cove",
+  "location": "The Cove",
+  "heroes": [
+    {
+      "heroClass": "Crusader",
+      "activeSkills": [
+        "Smite",
+        "Stunning Blow",
+        "Battle Heal",
+        "Inspiring Cry"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Stand Tall",
+        "Zealous Speech",
+        "Zealous Vigil"
+      ],
+      "trinket1": "Signed Conscription",
+      "trinket2": "Ancestor's Scroll",
+      "quirks": {
+        "positive": [
+          "Luminous",
+          "Corvids Eye",
+          "Hippocratic"
+        ],
+        "negative": [
+          "Deviant Tastes"
+        ]
+      },
+      "lockedQuirks": {
+        "positive": [
+          "Luminous",
+          "Corvids Eye",
+          "Hippocratic"
+        ],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Houndmaster",
+      "activeSkills": [
+        "Hound's Rush",
+        "Target Whistle",
+        "Guard Dog",
+        "Blackjack"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Hound's Watch",
+        "Therapy Dog",
+        "Man's Best Friend"
+      ],
+      "trinket1": "Ancestor's Coat",
+      "trinket2": "Wilbur's Flag",
+      "quirks": {
+        "positive": [
+          "Luminous",
+          "Evasive",
+          "Corvids Grace"
+        ],
+        "negative": [
+          "Bad Gambler",
+          "Known Cheat",
+          "Resolution"
+        ]
+      },
+      "lockedQuirks": {
+        "positive": [
+          "Luminous"
+        ],
+        "negative": [
+          "Bad Gambler",
+          "Known Cheat",
+          "Resolution"
+        ]
+      }
+    },
+    {
+      "heroClass": "Abomination",
+      "activeSkills": [
+        "Transform",
+        "Manacles",
+        "Beast's Bile",
+        "Absolution",
+        "Rake",
+        "Rage",
+        "Slam"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Anger Management",
+        "Psych Up"
+      ],
+      "trinket1": "Broken Key",
+      "trinket2": "Padlock of Transference",
+      "quirks": {
+        "positive": [
+          "Early Riser",
+          "Luminous",
+          "Quick Reflexes",
+          "Corvids Eye"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [
+          "Early Riser",
+          "Luminous",
+          "Quick Reflexes"
+        ],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Arbalest",
+      "activeSkills": [
+        "Sniper Shot",
+        "Suppressing Fire",
+        "Bola",
+        "Battlefield Bandage"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Marching Plan",
+        "Restring Crossbow"
+      ],
+      "trinket1": "Bedtime Story",
+      "trinket2": "Ancestor's Map",
+      "quirks": {
+        "positive": [
+          "Luminous",
+          "Corvids Eye",
+          "Hippocratic"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [
+          "Luminous",
+          "Corvids Eye",
+          "Hippocratic"
+        ],
+        "negative": []
+      }
+    }
+  ]
+}

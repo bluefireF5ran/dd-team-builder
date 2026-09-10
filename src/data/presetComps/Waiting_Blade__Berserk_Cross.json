@@ -1,0 +1,134 @@
+{
+  "teamName": "Waiting Blade: Berserk & Cross",
+  "alias": "GA wealdban 01",
+  "location": "The Weald",
+  "heroes": [
+    {
+      "heroClass": "Hellion",
+      "activeSkills": [
+        "Wicked Hack",
+        "Iron Swan",
+        "Barbaric YAWP!",
+        "If It Bleeds"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Battle Trance",
+        "Revel"
+      ],
+      "trinket1": "Thirsting Blade",
+      "trinket2": "Ancestor's Candle",
+      "quirks": {
+        "positive": [
+          "Luminous",
+          "Corvids Eye",
+          "Corvids Grace",
+          "Hard Skinned",
+          "Weald Explorer"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Crusader",
+      "activeSkills": [
+        "Smite",
+        "Stunning Blow",
+        "Battle Heal",
+        "Inspiring Cry"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Stand Tall",
+        "Zealous Speech",
+        "Zealous Vigil"
+      ],
+      "trinket1": "Ancestor's Scroll",
+      "trinket2": "Signed Conscription",
+      "quirks": {
+        "positive": [
+          "Hard Skinned",
+          "Luminous",
+          "Corvids Eye",
+          "Hippocratic",
+          "Early Riser"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Duelist",
+      "activeSkills": [
+        "Anticipation",
+        "Touché",
+        "Feint",
+        "Disengage",
+        "Flèche",
+        "Coup de Grâce",
+        "The Boot"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Pep Talk",
+        "Preparation",
+        "Ruthless Instruction"
+      ],
+      "trinket1": "Gilded Mantle",
+      "trinket2": "The Tempting Goblet",
+      "quirks": {
+        "positive": [
+          "Prismatic Coagulation",
+          "Corvids Eye",
+          "Corvids Grace",
+          "Evasive",
+          "Luminous"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Arbalest",
+      "activeSkills": [
+        "Sniper Shot",
+        "Suppressing Fire",
+        "Bola",
+        "Battlefield Bandage"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Marching Plan",
+        "Triage"
+      ],
+      "trinket1": "Childhood Treasure",
+      "trinket2": "Bedtime Story",
+      "quirks": {
+        "positive": [
+          "Prismatic Solidity",
+          "Eagle Eye",
+          "Corvids Eye",
+          "Early Riser",
+          "Hippocratic"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    }
+  ]
+}

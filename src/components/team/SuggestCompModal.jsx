@@ -250,14 +250,30 @@ const SuggestCompModal = ({
     }
     const comp = generateComp({ roster });
     if (!comp) {
-      // Dos fracasos distintos, y decir cual importa: "no se puede montar nada"
-      // se arregla ampliando el roster, "todo lo que sale ya lo tienes" no.
-      const anything = generateComps({ roster, count: 1, excludeKnown: false });
+      // Tres fracasos distintos, y cual es cual cambia lo que hay que hacer:
+      // "ya lo tienes" pide mas heroes, "solo saldrian dobles" pide mas
+      // *clases*, y "no se puede montar nada" es un roster que no da ni para
+      // cuatro. Un solo mensaje para los tres manda a la gente al sitio
+      // equivocado.
+      const known = generateComps({ roster, count: 1, excludeKnown: false });
+      if (known.length) {
+        showToast?.(
+          'Every party this roster can field is already in the comp library — add more heroes to build something new.',
+          'warning'
+        );
+        return;
+      }
+      const doubled = generateComps({
+        roster,
+        count: 1,
+        excludeKnown: false,
+        allowRepeatClass: true
+      });
       showToast?.(
-        anything.length
-          ? 'Every party this roster can field is already in the comp library — add more heroes to build something new.'
+        doubled.length
+          ? 'Every party this roster can field would double a class. Those are in the library on purpose, but they are not suggested — add more classes to build something new.'
           : 'Could not build a comp from that roster.',
-        anything.length ? 'warning' : 'error'
+        doubled.length ? 'warning' : 'error'
       );
       return;
     }

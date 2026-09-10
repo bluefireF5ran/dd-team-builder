@@ -1,0 +1,107 @@
+{
+  "teamName": "Waiting Blade: Cross & Hound",
+  "alias": "Super Flash Bros Ultimate",
+  "location": "The Ruins",
+  "heroes": [
+    {
+      "heroClass": "Crusader",
+      "activeSkills": [
+        "Smite",
+        "Stunning Blow",
+        "Battle Heal",
+        "Inspiring Cry"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Stand Tall",
+        "Zealous Speech",
+        "Zealous Vigil"
+      ],
+      "trinket1": "Ancestor's Scroll",
+      "trinket2": "Signed Conscription",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Houndmaster",
+      "activeSkills": [
+        "Hound's Rush",
+        "Target Whistle",
+        "Guard Dog",
+        "Blackjack"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Hound's Watch",
+        "Therapy Dog",
+        "Man's Best Friend"
+      ],
+      "trinket1": "Ancestor's Coat",
+      "trinket2": "Cudgel Weight",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Highwayman",
+      "activeSkills": [
+        "Pistol Shot",
+        "Grapeshot Blast",
+        "Duelist's Advance",
+        "Open Vein"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Gallows Humor",
+        "Clean Guns",
+        "Bandit's Sense"
+      ],
+      "trinket1": "Gunslinger's Buckle",
+      "trinket2": "Shameful Locket",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Plague Doctor",
+      "activeSkills": [
+        "Noxious Blast",
+        "Blinding Gas",
+        "Battlefield Medicine",
+        "Disorienting Blast"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Leeches",
+        "The Cure"
+      ],
+      "trinket1": "Blasphemous Vial",
+      "trinket2": "Ancestor's Map",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    }
+  ]
+}

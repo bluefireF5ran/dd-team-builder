@@ -1,0 +1,107 @@
+{
+  "teamName": "Curious Coin: Cross & Bulwark",
+  "alias": "Dodge & Devotion",
+  "location": "The Cove",
+  "heroes": [
+    {
+      "heroClass": "Crusader",
+      "activeSkills": [
+        "Smite",
+        "Stunning Blow",
+        "Battle Heal",
+        "Inspiring Cry"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Stand Tall",
+        "Zealous Speech",
+        "Zealous Vigil"
+      ],
+      "trinket1": "Ancestor's Scroll",
+      "trinket2": "Signed Conscription",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Man at Arms",
+      "activeSkills": [
+        "Crush",
+        "Rampart",
+        "Defender",
+        "Bolster"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Tactics",
+        "Weapons Practice"
+      ],
+      "trinket1": "Wilbur's Flag",
+      "trinket2": "Ancestor's Coat",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Antiquarian",
+      "activeSkills": [
+        "Festering Vapours",
+        "Flashpowder",
+        "Fortifying Vapours",
+        "Invigorating Vapours"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Resupply",
+        "Trinket Scrounge"
+      ],
+      "trinket1": "Smoking Skull",
+      "trinket2": "Ancestor's Map",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Plague Doctor",
+      "activeSkills": [
+        "Noxious Blast",
+        "Plague Grenade",
+        "Blinding Gas",
+        "Battlefield Medicine"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Leeches",
+        "The Cure"
+      ],
+      "trinket1": "Blasphemous Vial",
+      "trinket2": "Ashen Distillation",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    }
+  ]
+}

@@ -74,6 +74,23 @@ describe('bisLoadout', () => {
       });
       expect(reachOtherRanks.length).toBeGreaterThan(0);
     });
+
+    // Cubrir el empujon no puede costar cualquier cosa. Esta ranura se ordenaba
+    // solo por alcance y el uso solo desempataba, asi que el Leper de rango 1
+    // salia con `Revenge` -- 5 de 24 fichas, pero llega a los cuatro rangos--
+    // y sin `Purge`, que esta en 16 de 24 y se lanza solo desde el 1.
+    it('does not drop what the library plays for something that merely reaches further', () => {
+      const build = bisLoadout('Leper', 1);
+      expect(build.activeSkills).toContain('Purge');
+      expect(build.activeSkills).not.toContain('Revenge');
+    });
+
+    // Mismo fallo por el otro lado: 10 de 11 fichas del Antiquarian de rango 4
+    // llevan `Invigorating Vapours`, y se caia por lanzarse solo desde [3,4].
+    it('keeps a skill the library nearly always plays, short reach and all', () => {
+      const build = bisLoadout('Antiquarian', 4);
+      expect(build.activeSkills).toContain('Invigorating Vapours');
+    });
   });
 
   describe('dancers earn the exemption instead of being handed it', () => {

@@ -294,25 +294,34 @@ describe('one token, one class', () => {
     expect(used.filter((token) => synonyms.has(token))).toEqual([]);
   });
 
-  it('never hands a shared token to one sibling and something else to the rest', () => {
-    // El fallo viejo: tres comps con Leper y una llamada "Royal" a secas. Quien
-    // se lo quedaba era arbitrario y las otras dos ("Chop", "Solemn") ya no se
-    // podian leer. Un token compartido solo puede ir suelto si las hermanas que
-    // tambien lo llevan lo ALARGAN — "Beast" junto a "Beast & Ritual" se entiende.
-    const byFamily = new Map();
-    records.forEach((r) => byFamily.set(r.family.name, [...(byFamily.get(r.family.name) || []), r]));
-
+  // Lo que esta regla decia antes: un token suelto solo vale si las hermanas
+  // que tambien lo llevan lo ALARGAN. Era una buena regla de lectura y es
+  // relacional por definicion -- para cumplirla hay que mirar a las hermanas, y
+  // mirar a las hermanas es lo que hacia que meter una comp renombrara a siete.
+  // Se cambia por lo que el motor si puede prometer mirando solo a la comp: un
+  // token suelto nombra a un heroe que la familia no explica, siempre.
+  it('spends a lone token on a hero the family does not explain', () => {
     const offenders = [];
-    byFamily.forEach((group) => {
-      group.forEach((rec) => {
-        if (rec.variant.includes(NAME_LIMITS.pairJoin)) return;
-        const rivals = group.filter(
-          (other) => other !== rec && other.candidates.some((c) => c.token === rec.variant)
-        );
-        rivals
-          .filter((other) => !other.variant.startsWith(rec.variant))
-          .forEach((other) => offenders.push(`${rec.name}  vs  ${other.name}`));
-      });
+    records.forEach((rec) => {
+      if (rec.exempt || !rec.variant || rec.variant.includes(NAME_LIMITS.pairJoin)) return;
+      const explains = new Set(rec.family.consumed || []);
+      const free = rec.analysis.classes.filter((c) => !explains.has(c));
+      const names = new Set(free.map((c) => (HERO_TOKENS[c] || {}).token || c));
+      const stacks = rec.analysis.stacks.map((st) =>
+        `${st.count >= 3 ? 'Trio' : 'Twin'} ${(HERO_TOKENS[st.heroClass] || {}).token || st.heroClass}`
+      );
+      // Un desempate (region, rango, campamento, mecanica) tambien es un hecho
+      // suyo; lo que no puede es salir de ningun sitio.
+      const ownFact =
+        names.has(rec.variant) ||
+        stacks.includes(rec.variant) ||
+        rec.variant === rec.analysis.region ||
+        rec.analysis.ranks.some(
+          (c, i) => c && `${(HERO_TOKENS[c] || {}).token || c} ${RANK_WORDS[i]}` === rec.variant
+        ) ||
+        rec.analysis.campTerms.some((t) => t.label === rec.variant) ||
+        rec.analysis.mechanics.some((m) => m.label === rec.variant);
+      if (!ownFact) offenders.push(`${rec.name} -> ${rec.variant}`);
     });
     expect(offenders).toEqual([]);
   });

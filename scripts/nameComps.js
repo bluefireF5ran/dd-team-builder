@@ -12,47 +12,11 @@
 
 const fs = require('fs');
 const path = require('path');
-const Module = require('module');
-const babel = require('@babel/core');
+const { loadEsm } = require('./lib/loadEsm');
 
 const ROOT = path.join(__dirname, '..');
 const COMPS_DIR = path.join(ROOT, 'src', 'data', 'presetComps');
 const EOL = String.fromCharCode(10);
-
-// --- Cargar módulos ESM de src/ desde Node (CRA no expone un runtime aquí) ---
-const esmCache = new Map();
-const loadEsm = (filePath) => {
-  const abs = path.resolve(filePath);
-  if (esmCache.has(abs)) return esmCache.get(abs);
-
-  const { code } = babel.transformFileSync(abs, {
-    babelrc: false,
-    configFile: false,
-    presets: [[require.resolve('@babel/preset-env'), { targets: { node: 'current' } }]]
-  });
-
-  const mod = new Module(abs, null);
-  mod.filename = abs;
-  mod.paths = Module._nodeModulePaths(path.dirname(abs));
-  esmCache.set(abs, mod.exports);
-
-  const localRequire = (spec) => {
-    if (!spec.startsWith('.')) return require(spec);
-    let target = path.resolve(path.dirname(abs), spec);
-    if (!fs.existsSync(target) || fs.statSync(target).isDirectory()) {
-      for (const ext of ['.js', '.jsx', '.json', '/index.js']) {
-        if (fs.existsSync(target + ext)) { target += ext; break; }
-      }
-    }
-    if (target.endsWith('.json')) return JSON.parse(fs.readFileSync(target, 'utf8'));
-    return loadEsm(target);
-  };
-
-  const run = new Function('exports', 'require', 'module', '__filename', '__dirname', code);
-  run(mod.exports, localRequire, mod, abs, path.dirname(abs));
-  esmCache.set(abs, mod.exports);
-  return mod.exports;
-};
 
 const { assignCompNames, longestName, toCompFileName } = loadEsm(path.join(ROOT, 'src', 'utils', 'compNaming.js'));
 const { NAME_LIMITS } = loadEsm(path.join(ROOT, 'src', 'data', 'compTaxonomy.js'));

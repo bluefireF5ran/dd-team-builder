@@ -1,0 +1,106 @@
+{
+  "teamName": "Grim Bastion: Bulwark & Faith",
+  "location": "The Ruins",
+  "heroes": [
+    {
+      "heroClass": "Leper",
+      "activeSkills": [
+        "Chop",
+        "Purge",
+        "Revenge",
+        "Solemnity"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Bloody Shroud",
+        "Reflection",
+        "Quarantine"
+      ],
+      "trinket1": "Ancestor's Pen",
+      "trinket2": "Ancestor's Signet Ring",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Crusader",
+      "activeSkills": [
+        "Smite",
+        "Bulwark of Faith",
+        "Battle Heal",
+        "Inspiring Cry"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Stand Tall",
+        "Zealous Speech",
+        "Zealous Vigil"
+      ],
+      "trinket1": "Tough Ring",
+      "trinket2": "Overture Box",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Man at Arms",
+      "activeSkills": [
+        "Bellow",
+        "Defender",
+        "Command",
+        "Bolster"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Tactics",
+        "Weapons Practice"
+      ],
+      "trinket1": "Sun Cloak",
+      "trinket2": "Necromancer's Collar",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Vestal",
+      "activeSkills": [
+        "Judgement",
+        "Dazzling Light",
+        "Divine Grace",
+        "Divine Comfort"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Bless",
+        "Sanctuary"
+      ],
+      "trinket1": "Atonement Beads",
+      "trinket2": "Salacious Diary",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    }
+  ]
+}

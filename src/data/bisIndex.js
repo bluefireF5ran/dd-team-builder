@@ -164,6 +164,45 @@ const scoreSkills = (heroClass, rank) => {
 const byScore = (a, b) => b.score - a.score || a.name.localeCompare(b.name);
 
 /**
+ * De donde sale la recomendacion de esta CELDA.
+ *
+ * Antes se etiquetaba con la fuente de la primera skill del kit, que solo
+ * acierta por casualidad: cuando la libreria no llega al minimo, cada skill
+ * cae en el modelo o en las reglas por su cuenta, y la primera del kit no
+ * habla por las demas. Con precedencia se dice lo que de verdad decidio.
+ */
+const sourceOf = (entries) => {
+  if (entries.some((entry) => entry.source === 'library')) return 'library';
+  if (entries.some((entry) => entry.source === 'model')) return 'model';
+  return 'rules';
+};
+
+/**
+ * Lo que vale llegar a OTROS rangos, en la misma escala que el uso.
+ *
+ * La cuarta ranura se ordenaba solo por alcance, con el uso de simple
+ * desempate, y eso deja fuera skills que la libreria juega casi siempre. El
+ * Leper en rango 1 es el caso claro: `Purge` sale en 16 de 24 fichas y se
+ * lanza solo desde el 1, asi que quedaba en el ULTIMO lugar de la cola --
+ * `elsewhere` cero-- y la ranura se la llevaba `Revenge`, que esta en 5 de 24
+ * pero alcanza los cuatro. Lo mismo con `Invigorating Vapours`, 10 de 11 en el
+ * rango 4 del Antiquarian y descartada por lanzarse solo desde [3,4].
+ *
+ * Cubrir el empujon sigue valiendo, pero no a cualquier precio: se suma al uso
+ * en vez de mandar sobre el. Con 0.35, alcanzar los tres rangos restantes pesa
+ * como un 35% de adopcion, asi que una skill que nadie juega y llega a todas
+ * partes pierde contra una que juega la mayoria y no se mueve, y entre dos que
+ * se usan parecido sigue ganando la que te salva al descolocarte.
+ *
+ * En una celda sin muestras todas las notas son iguales y vuelve a decidir el
+ * alcance, que es justo lo que se quiere cuando no hay nada que mirar.
+ */
+export const REACH_WEIGHT = 0.35;
+
+const coverValue = (entry) =>
+  entry.score + REACH_WEIGHT * (entry.elsewhere / (PARTY_CONFIG.MAX_HEROES - 1));
+
+/**
  * Cuatro skills para este rango, o el kit entero si la clase no elige.
  */
 const chooseSkills = (heroClass, rank, scored) => {
@@ -198,12 +237,11 @@ const chooseSkills = (heroClass, rank, scored) => {
     if (chosen.filter((e) => e.onRank).length < onRankQuota) take(entry);
   });
 
-  // La cuarta cubre el empujon: la que mas rangos distintos alcanza, con la
-  // nota como desempate.
+  // La cuarta cubre el empujon, pesando alcance Y uso: ver `coverValue`.
   if (chosen.length < max) {
     const rest = [...onRank, ...offRank]
       .filter((entry) => !chosen.includes(entry))
-      .sort((a, b) => b.elsewhere - a.elsewhere || byScore(a, b));
+      .sort((a, b) => coverValue(b) - coverValue(a) || byScore(a, b));
     take(rest[0]);
   }
 
@@ -266,7 +304,7 @@ export const bisLoadout = (heroClass, rank) => {
     quirks: { positive: quirks.positive.slice(0, 3), negative: [] },
     // De donde sale la recomendacion, para poder decirlo en la UI en vez de
     // presentar una celda de dos muestras como si fuera consenso.
-    source: scored.length ? scored[0].source : 'rules',
+    source: scored.length ? sourceOf(scored) : 'rules',
     samples: cell.n,
     rankLegal: onRankCount >= HERO_CONFIG.MAX_SKILLS - 1
   };

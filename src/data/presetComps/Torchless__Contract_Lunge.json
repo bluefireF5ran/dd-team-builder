@@ -1,0 +1,124 @@
+{
+  "teamName": "Torchless: Contract & Lunge",
+  "location": "The Weald",
+  "heroes": [
+    {
+      "heroClass": "Bounty Hunter",
+      "activeSkills": [
+        "Collect Bounty",
+        "Come Hither",
+        "Uppercut",
+        "Finish Him"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "This Is How We Do It",
+        "Tracking"
+      ],
+      "trinket1": "Mask Of The Timeless",
+      "trinket2": "Vengeful Kill List",
+      "quirks": {
+        "positive": [
+          "Corvids Eye",
+          "Corvids Grace",
+          "Luminous"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Grave Robber",
+      "activeSkills": [
+        "Pick to the Face",
+        "Lunge",
+        "Thrown Dagger",
+        "Toxin Trickery"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Snuff Box",
+        "Gallows Humor",
+        "Night Moves"
+      ],
+      "trinket1": "Lucky Talisman",
+      "trinket2": "Sharpened Letter Opener",
+      "quirks": {
+        "positive": [
+          "Luminous",
+          "Corvids Grace",
+          "Evasive"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    },
+    {
+      "heroClass": "Shieldbreaker",
+      "activeSkills": [
+        "Pierce",
+        "Puncture",
+        "Captivate",
+        "Serpent Sway"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Snake Eyes",
+        "Snake Skin"
+      ],
+      "trinket1": "Camouflage Cloak",
+      "trinket2": "Sun Cloak",
+      "quirks": {
+        "positive": [
+          "Corvids Eye",
+          "Corvids Grace",
+          "Luminous"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    },
+    {
+      "heroClass": "Arbalest",
+      "activeSkills": [
+        "Sniper Shot",
+        "Suppressing Fire",
+        "Bola",
+        "Battlefield Bandage"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Marching Plan",
+        "Restring Crossbow"
+      ],
+      "trinket1": "Ancestor's Map",
+      "trinket2": "Bedtime Story",
+      "quirks": {
+        "positive": [
+          "Corvids Eye",
+          "Hippocratic",
+          "Luminous"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    }
+  ]
+}

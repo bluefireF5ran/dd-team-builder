@@ -1,0 +1,107 @@
+{
+  "teamName": "Holy Hymn: Twin Lunge & Berserk",
+  "alias": "Sacred Lunge",
+  "location": "The Warrens",
+  "heroes": [
+    {
+      "heroClass": "Hellion",
+      "activeSkills": [
+        "Wicked Hack",
+        "Iron Swan",
+        "Barbaric YAWP!",
+        "If It Bleeds"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Battle Trance",
+        "Revel",
+        "Sharpen Spear"
+      ],
+      "trinket1": "Thirsting Blade",
+      "trinket2": "Ancestor's Candle",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Vestal",
+      "activeSkills": [
+        "Judgement",
+        "Dazzling Light",
+        "Divine Grace",
+        "Divine Comfort"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Bless",
+        "Sanctuary"
+      ],
+      "trinket1": "Atonement Beads",
+      "trinket2": "Salacious Diary",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Grave Robber",
+      "activeSkills": [
+        "Pick to the Face",
+        "Lunge",
+        "Shadow Fade",
+        "Thrown Dagger"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Snuff Box",
+        "Gallows Humor"
+      ],
+      "trinket1": "Sharpened Letter Opener",
+      "trinket2": "Ancestor's Map",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Grave Robber",
+      "activeSkills": [
+        "Pick to the Face",
+        "Lunge",
+        "Shadow Fade",
+        "Thrown Dagger"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Snuff Box",
+        "Gallows Humor"
+      ],
+      "trinket1": "Raider's Talisman",
+      "trinket2": "Topshelf Tonic",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    }
+  ]
+}

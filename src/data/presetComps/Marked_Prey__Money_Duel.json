@@ -1,0 +1,134 @@
+{
+  "teamName": "Marked Prey: Money & Duel",
+  "alias": "My Team",
+  "location": "The Ruins",
+  "heroes": [
+    {
+      "heroClass": "Antiquarian",
+      "activeSkills": [
+        "Festering Vapours",
+        "Fortifying Vapours",
+        "Invigorating Vapours",
+        "Protect Me"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Resupply",
+        "Strange Powders",
+        "Curious Incantation"
+      ],
+      "trinket1": "Smoking Skull",
+      "trinket2": "The Tempting Goblet",
+      "quirks": {
+        "positive": [
+          "Corvids Grace",
+          "Luminous",
+          "Corvids Eye",
+          "Evasive"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Duelist",
+      "activeSkills": [
+        "Anticipation",
+        "Touché",
+        "Feint",
+        "Disengage",
+        "Flèche",
+        "Coup de Grâce",
+        "The Boot"
+      ],
+      "activeCampSkills": [
+        "Meditation",
+        "Preparation",
+        "Ruthless Instruction",
+        "Again!"
+      ],
+      "trinket1": "Champion's Mantle",
+      "trinket2": "Ancestor's Signet Ring",
+      "quirks": {
+        "positive": [
+          "Corvids Eye",
+          "Evasive",
+          "Luminous",
+          "Corvids Grace"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Houndmaster",
+      "activeSkills": [
+        "Hound's Rush",
+        "Target Whistle",
+        "Cry Havoc",
+        "Guard Dog"
+      ],
+      "activeCampSkills": [
+        "Wound Care",
+        "Hound's Watch",
+        "Therapy Dog",
+        "Release the Hound"
+      ],
+      "trinket1": "Ancestor's Coat",
+      "trinket2": "Wilbur's Flag",
+      "quirks": {
+        "positive": [
+          "Corvids Eye",
+          "Corvids Grace",
+          "Evasive",
+          "Luminous"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Arbalest",
+      "activeSkills": [
+        "Sniper Shot",
+        "Suppressing Fire",
+        "Bola",
+        "Battlefield Bandage"
+      ],
+      "activeCampSkills": [
+        "Wound Care",
+        "Marching Plan",
+        "Restring Crossbow",
+        "Triage"
+      ],
+      "trinket1": "Bedtime Story",
+      "trinket2": "Ancestor's Map",
+      "quirks": {
+        "positive": [
+          "Corvids Eye",
+          "Hippocratic",
+          "Eagle Eye",
+          "Luminous"
+        ],
+        "negative": [
+          "Known Cheat",
+          "Resolution",
+          "Weak Grip"
+        ]
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    }
+  ]
+}

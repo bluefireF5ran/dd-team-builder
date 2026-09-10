@@ -1,0 +1,106 @@
+{
+  "teamName": "Waiting Blade: Blood & Faith",
+  "location": "The Hamlet",
+  "heroes": [
+    {
+      "heroClass": "Man at Arms",
+      "activeSkills": [
+        "Rampart",
+        "Defender",
+        "Retribution",
+        "Bolster"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Tactics",
+        "Weapons Practice"
+      ],
+      "trinket1": "Ancestor's Signet Ring",
+      "trinket2": "Ancestor's Bottle",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Flagellant",
+      "activeSkills": [
+        "Punish",
+        "Rain of Sorrows",
+        "Reclaim",
+        "Redeem"
+      ],
+      "activeCampSkills": [
+        "Lash's Solace",
+        "Lash's Kiss",
+        "Lash's Cure"
+      ],
+      "trinket1": "Martyr's Seal",
+      "trinket2": "Bleed Amulet",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Vestal",
+      "activeSkills": [
+        "Judgement",
+        "Dazzling Light",
+        "Divine Grace",
+        "Divine Comfort"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Bless",
+        "Sanctuary"
+      ],
+      "trinket1": "Ancestor's Scroll",
+      "trinket2": "Overture Box",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Plague Doctor",
+      "activeSkills": [
+        "Noxious Blast",
+        "Plague Grenade",
+        "Blinding Gas",
+        "Disorienting Blast"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Leeches",
+        "The Cure"
+      ],
+      "trinket1": "Feather Crystal",
+      "trinket2": "Blasphemous Vial",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    }
+  ]
+}

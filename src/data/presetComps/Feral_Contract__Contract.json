@@ -1,0 +1,127 @@
+{
+  "teamName": "Feral Contract: Contract",
+  "location": "The Ruins",
+  "heroes": [
+    {
+      "heroClass": "Bounty Hunter",
+      "activeSkills": [
+        "Collect Bounty",
+        "Come Hither",
+        "Uppercut",
+        "Finish Him"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "This Is How We Do It",
+        "Tracking"
+      ],
+      "trinket1": "Mask Of The Timeless",
+      "trinket2": "Hunter's Talon",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Abomination",
+      "activeSkills": [
+        "Transform",
+        "Manacles",
+        "Beast's Bile",
+        "Absolution",
+        "Rake",
+        "Rage",
+        "Slam"
+      ],
+      "activeCampSkills": [
+        "Anger Management",
+        "Psych Up",
+        "The Quickening",
+        "Eldritch Blood"
+      ],
+      "trinket1": "Broken Key",
+      "trinket2": "Padlock of Transference",
+      "quirks": {
+        "positive": [
+          "Luminous",
+          "Precise Striker",
+          "Slugger",
+          "Corvids Eye"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Houndmaster",
+      "activeSkills": [
+        "Hound's Rush",
+        "Target Whistle",
+        "Cry Havoc",
+        "Guard Dog"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Therapy Dog",
+        "Man's Best Friend"
+      ],
+      "trinket1": "Ancestor's Coat",
+      "trinket2": "Wilbur's Flag",
+      "quirks": {
+        "positive": [
+          "Corvids Eye",
+          "Evasive",
+          "Luminous",
+          "Corvids Grace"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Arbalest",
+      "activeSkills": [
+        "Sniper Shot",
+        "Suppressing Fire",
+        "Bola",
+        "Battlefield Bandage"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Marching Plan",
+        "Restring Crossbow"
+      ],
+      "trinket1": "Bedtime Story",
+      "trinket2": "Ancestor's Map",
+      "quirks": {
+        "positive": [
+          "Corvids Eye",
+          "Hippocratic",
+          "Eagle Eye",
+          "Luminous"
+        ],
+        "negative": [
+          "Bad Gambler",
+          "Enlightened"
+        ]
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    }
+  ]
+}

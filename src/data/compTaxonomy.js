@@ -29,7 +29,10 @@ export const NAME_LIMITS = {
   token: 14,
   variant: 22,
   separator: ': ',
-  pairJoin: ' & '
+  pairJoin: ' & ',
+  // Cuantos tokens caben en una variante. Dos: uno no siempre distingue y tres
+  // ya no se leen de un vistazo, que es para lo que existe el nombre.
+  maxParts: 2
 };
 
 /**

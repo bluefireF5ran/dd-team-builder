@@ -29,13 +29,8 @@ import {
   MECHANIC_FAMILIES,
   FALLBACK_FAMILY,
   REGION_TOKENS,
-  RANK_WORDS,
-  VARIANT_KIND_PENALTY,
-  ROSTER_KINDS
+  RANK_WORDS
 } from '../data/compTaxonomy';
-
-/** Tokens que dicen QUIÉN va en la comp; son los únicos que pueden dar nombre solos. */
-const isRoster = (candidate) => ROSTER_KINDS.includes(candidate.kind);
 
 // "V2.0", "v3.0", "1.1", "ALT": marcas de variante heredadas. La V es de variante,
 // no de version — y para eso ya esta la segunda ranura del nombre, que ademas dice
@@ -279,205 +274,103 @@ export const variantCandidates = (analysis, family) => {
   return out;
 };
 
-/** Clave canónica de una variante: "A & B" y "B & A" son la MISMA descripción. */
-const variantKey = (variant) => variant.split(NAME_LIMITS.pairJoin).sort().join('|');
-
 /**
- * Todas las parejas de tokens de REPARTO que describen la comp, de la que más
- * discrimina a la que menos. La primera es el nombre natural; las siguientes son
- * el recambio cuando esa ya se la ha quedado una hermana.
+ * La variante, leida SOLO de esta comp.
  *
- * Solo reparto: "Berserk & Cove" o "Royal & Tangle" pegan una etiqueta que no se
- * puede comparar con la de al lado. Y nunca dos tokens de la misma clase, que
- * "Twin Hound & Hound" no distingue nada. Dentro de la pareja el orden es el de
- * rango (frente -> retaguardia), que es como se lee una party.
+ * Antes se elegia por contraste: "lo mas corto que la separa de sus hermanas
+ * ACTUALES". Eso hace que meter una comp renombre a las viejas -- con 192 ya
+ * se descuadraban siete-- y un renombrado rompe ficheros, enlaces y la memoria
+ * de quien la usa. Peor: cuando el contraste no encontraba nada, la salida era
+ * borrar una comp buena (`Marked_Prey__Snipe_Back`) por no saber nombrarla.
+ *
+ * Asi que la variante ya no mira a las hermanas. Sale de los propios heroes de
+ * la comp, en el orden en que se leen, y por eso se puede calcular sin la
+ * libreria delante y no cambia nunca:
+ *
+ *   1. La pila que la familia no se haya comido -- `Twin Money`, `Trio Hound`.
+ *      Repetir clase es lo mas llamativo de una party y va primero.
+ *   2. Los heroes que la familia NO explica, de frente a retaguardia, hasta dos.
+ *      Es como se lee una party y es lo que de verdad la distingue.
+ *   3. Cual ocupo una ranura con alternativas (`Marked Prey` acepta Arbalest o
+ *      Musketeer): la familia no lo dice y es un hecho de la comp.
+ *   4. Y si la familia lo explica todo, la region o la mecanica dominante,
+ *      porque algo hay que decir.
+ *
+ * Lo que se pierde: dos comps pueden pedir la misma variante. Es inevitable --
+ * si comparten clases solo las separan region y colocacion, y meter las dos en
+ * el nombre lo vuelve ilegible. La unicidad se resuelve al escribir, cediendo
+ * SIEMPRE la ultima en llegar (ver `assignCompNames`), que es lo que mantiene
+ * quieto lo ya nombrado.
  */
-const rosterPairs = (candidates, shared) => {
-  const roster = [];
-  candidates.forEach((c) => {
-    if (!isRoster(c)) return;
-    if (c.heroClass && roster.some((p) => p.heroClass === c.heroClass)) return;
-    roster.push(c);
+export const compVariant = (analysis, family) => {
+  // Una familia que ya se nombra sola no lleva variante: "Money Quartet" son
+  // cuatro Antiquarians y no hay nada que anadir.
+  if (family.noVariant) return '';
+  const consumed = countBy(family.consumed || []);
+  const parts = [];
+
+  // 1. La pila, si queda alguna copia que la firma no haya gastado.
+  const stack = analysis.stacks.find((st) => st.count > (consumed.get(st.heroClass) || 0));
+  if (stack) parts.push(`${stack.count >= 3 ? 'Trio' : 'Twin'} ${heroToken(stack.heroClass)}`);
+
+  // 2. Los heroes libres, en orden de rango. La clase apilada no vuelve: ya la
+  //    ha nombrado el paso 1, y "Twin Hound & Hound" no distingue nada.
+  const left = new Map(analysis.classCounts);
+  (family.consumed || []).forEach((c) => left.set(c, (left.get(c) || 0) - 1));
+  const seen = new Set(stack ? [stack.heroClass] : []);
+  analysis.classes.forEach((heroClass) => {
+    if (seen.has(heroClass) || (left.get(heroClass) || 0) <= 0) return;
+    seen.add(heroClass);
+    if (parts.length < NAME_LIMITS.maxParts) parts.push(heroToken(heroClass));
   });
 
-  const pairs = [];
-  for (let i = 0; i < roster.length; i += 1) {
-    for (let j = i + 1; j < roster.length; j += 1) {
-      const [a, b] = [roster[i], roster[j]];
-      const token = `${a.token}${NAME_LIMITS.pairJoin}${b.token}`;
-      if (fitsVariant(token)) {
-        pairs.push({ token, tokens: [a.token, b.token], weight: (shared.get(a.token) || 0) + (shared.get(b.token) || 0) });
-      }
-    }
+  // 3. La eleccion que la firma dejo abierta.
+  if (!parts.length) {
+    (family.picks || []).forEach((heroClass) => {
+      if (parts.length < NAME_LIMITS.maxParts) parts.push(heroToken(heroClass));
+    });
   }
-  return pairs.sort((a, b) => a.weight - b.weight);
+
+  // 4. La familia lo explica todo, asi que se habla de donde o de que hace.
+  if (!parts.length) {
+    const dominant = analysis.mechanics[0];
+    const fallback = analysis.region || (dominant && dominant.label) || '';
+    if (fallback) parts.push(fallback);
+  }
+
+  // El presupuesto manda: si la pareja no cabe, se queda el primero, que es
+  // siempre el mas informativo de los dos.
+  const full = parts.join(NAME_LIMITS.pairJoin);
+  if (fitsVariant(full) || !parts.length) return full;
+  return fitsVariant(parts[0]) ? parts[0] : '';
 };
 
 /**
- * Reparte variantes dentro de UNA familia. Aquí está la regla del conjunto
- * mínimo distintivo, en tres pasadas de menos a más nombre.
+ * El desempate cuando dos comps piden la misma variante. Todo lo que se ofrece
+ * sale de la propia comp -- donde se juega, quien va en que rango, que hace --
+ * asi que la que cede lo hace con un hecho suyo y no con un ordinal.
  *
- * @param {Array} group     registros de la misma familia
- * @param {Function} rarity clase -> [0,1], cuánto se repite en la librería entera
+ * Sustituye al segundo token en vez de anadirse: `Twin Money & Ruins`, no
+ * `Twin Money & Sand & Ruins`. Tres cosas ya no se leen de un vistazo.
  */
-const assignVariantsInFamily = (group, rarity) => {
-  // Cuántas comps de la familia ofrecen cada token. 1 = identifica sin ambigüedad.
-  const shared = new Map();
-  group.forEach((rec) =>
-    rec.candidates.forEach((c) => shared.set(c.token, (shared.get(c.token) || 0) + 1))
-  );
+/**
+ * El sitio que ocupa un nombre. "Bulwark & Cross" y "Cross & Bulwark" dicen lo
+ * mismo con los tokens al reves, asi que no pueden convivir: la segunda tiene
+ * que buscarse un desempate de verdad.
+ */
+const nameSlot = (family, variant) =>
+  `${family}|${variant.split(NAME_LIMITS.pairJoin).sort().join('|')}`;
 
-  // Coste: primero el tipo de token, y la rareza global solo desempata (< 1).
-  const cost = (c) => (VARIANT_KIND_PENALTY[c.kind] || 0) + rarity(c.heroClass);
-  // Orden estable, derivado del CONTENIDO y nunca del nombre actual. Si dependiera
-  // del nombre, renombrar cambiaria el orden, el orden cambiaria el reparto y el
-  // siguiente pase volveria a renombrar: la taxonomia no llegaria a un punto fijo.
-  const stableKey = (rec) => `${rec.analysis.ranks.join('|')}#${rec.analysis.activeSkills.join(',')}`;
-  const ordered = [...group].sort((a, b) => stableKey(a).localeCompare(stableKey(b)));
-  const skip = (rec) => rec.family.noVariant && group.length === 1;
-
-  // Las variantes ya dadas, por clave canónica: "Cross & Bulwark" y
-  // "Bulwark & Cross" describen lo mismo y no pueden convivir en una familia.
-  // `holder` guarda QUIEN se quedo cada descripcion, en cualquiera de las pasadas:
-  // la pasada 3 lo necesita para saber que tokens NO tiene su gemela y elegir un
-  // desempate que de verdad las separe.
-  const holder = new Map();
-  const claim = (rec, variant) => {
-    rec.variant = variant;
-    holder.set(variantKey(variant), rec);
-  };
-  const free = (variant) => !holder.has(variantKey(variant));
-
-  // Pasada 1 — token de reparto EXCLUSIVO. Nadie más en la familia lo ofrece, así
-  // que el reparto no depende del orden y nunca hace falta arbitrar. Si la variante
-  // que ya tenías sigue siendo exclusiva se queda: renombrar por renombrar es ruido.
-  ordered.forEach((rec) => {
-    if (skip(rec)) return;
-    const exclusive = rec.candidates.filter((c) => isRoster(c) && shared.get(c.token) === 1);
-    if (!exclusive.length) return;
-    const keep = exclusive.find((c) => c.token === rec.parsed.variant);
-    claim(rec, (keep || exclusive.slice().sort((a, b) => cost(a) - cost(b))[0]).token);
+const tieBreakers = (analysis) => {
+  const out = [];
+  if (analysis.region) out.push(analysis.region);
+  analysis.ranks.forEach((heroClass, i) => {
+    if (heroClass) out.push(`${heroToken(heroClass)} ${RANK_WORDS[i]}`);
   });
-
-  // Pasada 2 — pareja. Ningún token vale por sí solo, así que se nombran dos.
-  // Deliberadamente NO se reparte el token compartido al primero que llegue:
-  // "Marked Prey: Royal" junto a otras dos comps con Leper no dice cuál es cuál.
-  const claimPair = (keepOnly) =>
-    ordered.forEach((rec) => {
-      if (rec.variant || skip(rec)) return;
-      const pair = rosterPairs(rec.candidates, shared)[0];
-      if (!pair || !free(pair.token)) return;
-      if (keepOnly && rec.parsed.variant !== pair.token) return;
-      claim(rec, pair.token);
-    });
-  claimPair(true); // primero quien ya la lucia: renombrar por renombrar es ruido
-  claimPair(false);
-
-  // Pasada 3 — el reparto ya no las separa: son gemelas de plantilla. Aqui entra
-  // la banca ancha (campamento, region, rango, mecanica, skill), y la regla es
-  // una: la primera se queda el nombre limpio y las demas cogen la descripcion
-  // MAS BARATA que diga algo que NINGUNA de sus gemelas puede decir. Un token que
-  // media camada comparte no distingue, solo lo aparenta.
-  const unassigned = ordered.filter((rec) => !rec.variant && !skip(rec));
-  const baseOf = (rec) => {
-    const pairs = rosterPairs(rec.candidates, shared);
-    return pairs.length ? pairs[0].token : (rec.candidates[0] || {}).token || 'Alt';
-  };
-
-  const pendingByBase = new Map();
-  unassigned.forEach((rec) => {
-    const key = variantKey(baseOf(rec));
-    pendingByBase.set(key, [...(pendingByBase.get(key) || []), rec]);
-  });
-
-  pendingByBase.forEach((pending, key) => {
-    // La hermana que ya se quedo ese nombre en la pasada 2 TAMBIEN es de la
-    // camada: es justo contra la que hay que distinguirse. Sin ella la camada es
-    // de uno, ningun token "separa" de nadie y todo acaba en ordinal.
-    const litter = [...(holder.has(key) ? [holder.get(key)] : []), ...pending];
-
-    // Cuantas de la camada ofrecen cada token: menos que toda la camada = separa.
-    const inLitter = new Map();
-    litter.forEach((rec) =>
-      rec.candidates.forEach((c) => inLitter.set(c.token, (inLitter.get(c.token) || 0) + 1))
-    );
-
-    pending.forEach((rec) => {
-      const base = baseOf(rec);
-      const separates = (tokens) => tokens.some((t) => inLitter.get(t) < litter.length);
-      const optionCost = (parts, lone) =>
-        parts.reduce(
-          (sum, c) =>
-            // Compartir el REPARTO es lo normal — es lo que las hace hermanas.
-            // Compartir el DESEMPATE es el problema, y por eso solo penaliza ahi.
-            sum + cost(c) + (isRoster(c) ? 0 : 20 * ((inLitter.get(c.token) || 1) - 1)),
-          lone
-        );
-
-      const options = [];
-      rec.candidates.forEach((a, i) => {
-        // Un desempate suelto vale ("Curious Coin: Farmstead"), pero pega mas al
-        // lado del reparto que comparte con sus gemelas. Un token de rango se
-        // libra del recargo: "Beast Second" ya dice quien y donde va.
-        if (!isRoster(a)) options.push({ parts: [a], lone: a.kind === 'rank' ? 0 : VARIANT_KIND_PENALTY.lone });
-        rec.candidates.slice(i + 1).forEach((b) => {
-          if (a.heroClass && a.heroClass === b.heroClass) return;
-          if (isRoster(a) && isRoster(b)) return; // eso ya lo intento rosterPairs
-          options.push({ parts: [a, b], lone: 0 });
-        });
-      });
-
-      const best = options
-        .map((o) => ({
-          token: o.parts.map((c) => c.token).join(NAME_LIMITS.pairJoin),
-          tokens: o.parts.map((c) => c.token),
-          cost: optionCost(o.parts, o.lone)
-        }))
-        .filter((o) => separates(o.tokens) && fitsVariant(o.token) && free(o.token))
-        .sort((a, b) => a.cost - b.cost || a.token.localeCompare(b.token))[0];
-
-      // Recambio de reparto antes que desempate: si otra pareja de heroes las
-      // separa, sigue siendo el nombre que mejor se lee.
-      const pairs = rosterPairs(rec.candidates, shared);
-      const alternative = pairs.slice(1).find((p) => separates(p.tokens) && free(p.token));
-
-      // Estabilidad: la variante que ya tenias gana a cualquier recambio, mientras
-      // siga estando libre y siga separandola de sus gemelas. Sin esto el reparto
-      // de la camada depende de quien llegue primero, y quien llega primero cambia
-      // en cuanto se aplica un renombrado.
-      const current = rec.parsed.variant;
-      const stillValid =
-        (current === base && free(base)) ||
-        (pairs.some((p) => p.token === current) && separates(current.split(NAME_LIMITS.pairJoin)) && free(current)) ||
-        (best && options.some((o) => o.parts.map((c) => c.token).join(NAME_LIMITS.pairJoin) === current) &&
-          separates(current.split(NAME_LIMITS.pairJoin)) && free(current));
-      if (current && stillValid) {
-        claim(rec, current);
-        return;
-      }
-
-      if (free(base)) {
-        claim(rec, base);
-        return;
-      }
-      if (alternative && (!best || alternative.weight <= best.cost)) {
-        claim(rec, alternative.token);
-        return;
-      }
-      if (best) {
-        claim(rec, best.token);
-        return;
-      }
-
-      // Nada las separa porque no hay NADA distinto: es la misma comp dos veces.
-      // El ordinal es el diagnostico, y el informe la saca como DUPLICADA.
-      let n = 2;
-      while (!free(`${base} ${n}`)) n += 1;
-      claim(rec, `${base} ${n}`);
-    });
-  });
+  analysis.campTerms.forEach((t) => out.push(t.label));
+  analysis.mechanics.forEach((m) => out.push(m.label));
+  return out.filter(fitsToken);
 };
-
 /**
  * Nombra un conjunto entero de comps a la vez. Hace falta el conjunto porque la
  * variante se elige por contraste: el mejor token es el que ninguna hermana usa.
@@ -486,16 +379,6 @@ const assignVariantsInFamily = (group, rarity) => {
  * @returns {Array} un registro por comp con nombre propuesto, familia, variante y tags
  */
 export const assignCompNames = (comps) => {
-  // Cuantas comps usan cada clase. Un Jester (23 comps) distingue mas que un
-  // Crusader (54), asi que a igualdad de todo lo demas gana el raro.
-  const corpusUse = new Map();
-  comps.forEach((comp) => {
-    new Set((comp.heroes || []).map((h) => h && h.heroClass).filter(Boolean)).forEach((c) =>
-      corpusUse.set(c, (corpusUse.get(c) || 0) + 1)
-    );
-  });
-  const rarity = (heroClass) => (heroClass ? (corpusUse.get(heroClass) || 0) / (comps.length + 1) : 0.5);
-
   const records = comps.map((comp, index) => {
     const analysis = analyzeComp(comp);
     const parsed = parseCompName(comp.teamName || '');
@@ -512,19 +395,62 @@ export const assignCompNames = (comps) => {
       family,
       parsed,
       candidates: exempt ? [] : variantCandidates(analysis, family),
-      variant: '',
+      variant: exempt ? '' : compVariant(analysis, family),
       name: '',
       tags: analysis.tags
     };
   });
 
-  const groups = new Map();
+  // Quien ya luce su nombre se lo queda, y se lo queda ANTES de que nadie mas
+  // reparta. Es lo unico que hace falta para que meter una comp no renombre a
+  // las viejas: la nueva encuentra el sitio ocupado y cede ella.
+  const taken = new Set();
+  const settled = new Set();
   records.forEach((rec) => {
-    if (rec.exempt) return;
-    if (!groups.has(rec.family.name)) groups.set(rec.family.name, []);
-    groups.get(rec.family.name).push(rec);
+    if (rec.exempt) {
+      taken.add(rec.originalName);
+      settled.add(rec.index);
+      return;
+    }
+    // No basta con reclamar el nombre intrinseco: una comp que luce un
+    // desempate (`Twin Money & Sand`) tiene tanto derecho a el, y si no lo
+    // reclama aqui, la siguiente comp que entre puede quitarselo. Vale
+    // cualquier nombre que ELLA MISMA podria haberse puesto.
+    if (rec.parsed.family !== rec.family.name) return;
+    const head = rec.variant.split(NAME_LIMITS.pairJoin)[0];
+    const hers = new Set([rec.variant, ...tieBreakers(rec.analysis).flatMap((extra) => [
+      extra,
+      head && extra !== head ? `${head}${NAME_LIMITS.pairJoin}${extra}` : extra
+    ])]);
+    if (!hers.has(rec.parsed.variant)) return;
+    if (taken.has(nameSlot(rec.family.name, rec.parsed.variant))) return;
+    rec.variant = rec.parsed.variant;
+    taken.add(nameSlot(rec.family.name, rec.variant));
+    settled.add(rec.index);
   });
-  groups.forEach((group) => assignVariantsInFamily(group, rarity));
+
+  records.forEach((rec) => {
+    if (settled.has(rec.index)) return;
+    if (!taken.has(nameSlot(rec.family.name, rec.variant))) {
+      taken.add(nameSlot(rec.family.name, rec.variant));
+      return;
+    }
+    const head = rec.variant.split(NAME_LIMITS.pairJoin)[0];
+    const swap = tieBreakers(rec.analysis)
+      .map((extra) => (head && extra !== head ? `${head}${NAME_LIMITS.pairJoin}${extra}` : extra))
+      .find((variant) => fitsVariant(variant) && !taken.has(nameSlot(rec.family.name, variant)));
+    if (swap) {
+      rec.variant = swap;
+      taken.add(nameSlot(rec.family.name, swap));
+      return;
+    }
+    // Nada suyo la separa porque no hay nada distinto: es la misma comp dos
+    // veces. El ordinal es el diagnostico, y el informe la saca como DUPLICADA.
+    let n = 2;
+    while (taken.has(nameSlot(rec.family.name, `${rec.variant} ${n}`.trim()))) n += 1;
+    rec.variant = `${rec.variant} ${n}`.trim();
+    taken.add(nameSlot(rec.family.name, rec.variant));
+  });
 
   records.forEach((rec) => {
     if (rec.exempt) {
@@ -546,7 +472,6 @@ export const assignCompNames = (comps) => {
 
   return records;
 };
-
 /**
  * Nombra UNA comp contra una librería ya nombrada. Es lo que usa el guardado
  * "preset comp" de la app: la comp nueva entra en su familia y compite por la

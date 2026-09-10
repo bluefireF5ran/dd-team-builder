@@ -1,0 +1,126 @@
+{
+  "teamName": "Curious Coin: Contract & Hound",
+  "location": "The Ruins",
+  "heroes": [
+    {
+      "heroClass": "Bounty Hunter",
+      "activeSkills": [
+        "Collect Bounty",
+        "Come Hither",
+        "Uppercut",
+        "Finish Him"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "This Is How We Do It",
+        "Tracking"
+      ],
+      "trinket1": "Hunter's Talon",
+      "trinket2": "Mask Of The Timeless",
+      "quirks": {
+        "positive": [
+          "Corvids Eye",
+          "Corvids Grace",
+          "Luminous"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    },
+    {
+      "heroClass": "Houndmaster",
+      "activeSkills": [
+        "Hound's Rush",
+        "Target Whistle",
+        "Guard Dog",
+        "Blackjack"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Hound's Watch",
+        "Therapy Dog",
+        "Man's Best Friend"
+      ],
+      "trinket1": "Sun Cloak",
+      "trinket2": "Wilbur's Flag",
+      "quirks": {
+        "positive": [
+          "Luminous",
+          "Evasive",
+          "Corvids Grace"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    },
+    {
+      "heroClass": "Jester",
+      "activeSkills": [
+        "Dirk Stab",
+        "Finale",
+        "Solo",
+        "Inspiring Tune"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Every Rose Has Its Thorn",
+        "Tiger's Eye"
+      ],
+      "trinket1": "Ancestor's Coat",
+      "trinket2": "Camouflage Cloak",
+      "quirks": {
+        "positive": [
+          "Corvids Grace",
+          "Luminous",
+          "Evasive"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    },
+    {
+      "heroClass": "Antiquarian",
+      "activeSkills": [
+        "Festering Vapours",
+        "Fortifying Vapours",
+        "Invigorating Vapours",
+        "Protect Me"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Strange Powders",
+        "Curious Incantation"
+      ],
+      "trinket1": "Smoking Skull",
+      "trinket2": "Candle of Life",
+      "quirks": {
+        "positive": [
+          "Luminous",
+          "Corvids Grace",
+          "Evasive"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    }
+  ]
+}

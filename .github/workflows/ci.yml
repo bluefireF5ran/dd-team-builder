@@ -12,10 +12,15 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
-          node-version: '20'
+          # 24 porque es lo que corre en local: si el CI compila con otro Node
+          # que la maquina donde se escriben las comps, el verde de aqui deja de
+          # decir nada sobre el de alli. Node 20 ademas ya esta fuera de soporte.
+          node-version: '24'
+          # Explicito a proposito. Desde setup-node v5 hay cacheo automatico,
+          # pero solo si package.json trae campo `packageManager`, y no lo trae.
           cache: npm
       # `npm ci` runs the patch-package postinstall, which the react-scripts
       # patch in patches/ depends on.

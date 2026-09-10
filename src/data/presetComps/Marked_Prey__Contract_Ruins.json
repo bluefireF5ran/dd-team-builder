@@ -1,0 +1,122 @@
+{
+  "teamName": "Marked Prey: Contract & Ruins",
+  "location": "The Ruins",
+  "heroes": [
+    {
+      "heroClass": "Bounty Hunter",
+      "activeSkills": [
+        "Collect Bounty",
+        "Come Hither",
+        "Uppercut",
+        "Finish Him"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "This Is How We Do It",
+        "Tracking"
+      ],
+      "trinket1": "Mask Of The Timeless",
+      "trinket2": "Hunter's Talon",
+      "quirks": {
+        "positive": [
+          "Corvids Grace",
+          "Luminous",
+          "Evasive"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Houndmaster",
+      "activeSkills": [
+        "Hound's Rush",
+        "Target Whistle",
+        "Guard Dog",
+        "Blackjack"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Hound's Watch",
+        "Therapy Dog"
+      ],
+      "trinket1": "Wilbur's Flag",
+      "trinket2": "Camouflage Cloak",
+      "quirks": {
+        "positive": [
+          "Luminous",
+          "Corvids Grace",
+          "Corvids Eye"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Jester",
+      "activeSkills": [
+        "Dirk Stab",
+        "Finale",
+        "Solo",
+        "Inspiring Tune"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Every Rose Has Its Thorn",
+        "Tiger's Eye"
+      ],
+      "trinket1": "Ancestor's Coat",
+      "trinket2": "Camouflage Cloak",
+      "quirks": {
+        "positive": [
+          "Corvids Grace",
+          "Luminous",
+          "Evasive"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Arbalest",
+      "activeSkills": [
+        "Sniper Shot",
+        "Suppressing Fire",
+        "Bola",
+        "Battlefield Bandage"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Marching Plan",
+        "Restring Crossbow"
+      ],
+      "trinket1": "Bedtime Story",
+      "trinket2": "Ancestor's Map",
+      "quirks": {
+        "positive": [
+          "Corvids Eye",
+          "Hippocratic",
+          "Luminous"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    }
+  ]
+}
