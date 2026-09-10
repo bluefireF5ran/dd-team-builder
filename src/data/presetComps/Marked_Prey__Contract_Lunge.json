@@ -1,6 +1,6 @@
 {
-  "teamName": "Feral Contract: Contract",
-  "location": "The Ruins",
+  "teamName": "Marked Prey: Contract & Lunge",
+  "location": "The Weald",
   "heroes": [
     {
       "heroClass": "Bounty Hunter",
@@ -17,9 +17,13 @@
         "Tracking"
       ],
       "trinket1": "Mask Of The Timeless",
-      "trinket2": "Hunter's Talon",
+      "trinket2": "Vengeful Kill List",
       "quirks": {
-        "positive": [],
+        "positive": [
+          "Corvids Eye",
+          "Corvids Grace",
+          "Luminous"
+        ],
         "negative": []
       },
       "lockedQuirks": {
@@ -28,37 +32,34 @@
       }
     },
     {
-      "heroClass": "Abomination",
+      "heroClass": "Grave Robber",
       "activeSkills": [
-        "Transform",
-        "Manacles",
-        "Beast's Bile",
-        "Absolution",
-        "Rake",
-        "Rage",
-        "Slam"
+        "Pick to the Face",
+        "Thrown Dagger",
+        "Poison Darts",
+        "Toxin Trickery"
       ],
       "activeCampSkills": [
-        "Anger Management",
-        "Psych Up",
-        "The Quickening",
-        "Eldritch Blood"
+        "Encourage",
+        "Snuff Box",
+        "Gallows Humor",
+        "Night Moves"
       ],
-      "trinket1": "Broken Key",
-      "trinket2": "Padlock of Transference",
+      "trinket1": "Lucky Talisman",
+      "trinket2": "Sharpened Letter Opener",
       "quirks": {
         "positive": [
           "Luminous",
-          "Precise Striker",
-          "Slugger",
-          "Corvids Eye"
+          "Corvids Grace",
+          "Evasive"
         ],
         "negative": []
       },
       "lockedQuirks": {
         "positive": [],
         "negative": []
-      }
+      },
+      "diseases": []
     },
     {
       "heroClass": "Houndmaster",
@@ -70,7 +71,7 @@
       ],
       "activeCampSkills": [
         "Encourage",
-        "Wound Care",
+        "Hound's Watch",
         "Therapy Dog",
         "Man's Best Friend"
       ],
@@ -78,10 +79,9 @@
       "trinket2": "Wilbur's Flag",
       "quirks": {
         "positive": [
-          "Corvids Eye",
-          "Evasive",
           "Luminous",
-          "Corvids Grace"
+          "Corvids Grace",
+          "Evasive"
         ],
         "negative": []
       },
@@ -104,19 +104,15 @@
         "Marching Plan",
         "Restring Crossbow"
       ],
-      "trinket1": "Bedtime Story",
-      "trinket2": "Ancestor's Map",
+      "trinket1": "Ancestor's Map",
+      "trinket2": "Bedtime Story",
       "quirks": {
         "positive": [
           "Corvids Eye",
           "Hippocratic",
-          "Eagle Eye",
           "Luminous"
         ],
-        "negative": [
-          "Bad Gambler",
-          "Enlightened"
-        ]
+        "negative": []
       },
       "lockedQuirks": {
         "positive": [],

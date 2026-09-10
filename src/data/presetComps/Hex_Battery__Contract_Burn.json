@@ -1,7 +1,37 @@
 {
-  "teamName": "Feral Contract: Contract",
+  "teamName": "Hex Battery: Contract & Burn",
   "location": "The Ruins",
   "heroes": [
+    {
+      "heroClass": "Occultist",
+      "activeSkills": [
+        "Weakening Curse",
+        "Wyrd Reconstruction",
+        "Vulnerability Hex",
+        "Hands from the Abyss"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Dark Ritual",
+        "Unspeakable Commune"
+      ],
+      "trinket1": "Demon's Cauldron",
+      "trinket2": "Ancestor's Coat",
+      "quirks": {
+        "positive": [
+          "Corvids Eye",
+          "Corvids Grace",
+          "Luminous"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    },
     {
       "heroClass": "Bounty Hunter",
       "activeSkills": [
@@ -19,66 +49,37 @@
       "trinket1": "Mask Of The Timeless",
       "trinket2": "Hunter's Talon",
       "quirks": {
-        "positive": [],
-        "negative": []
-      },
-      "lockedQuirks": {
-        "positive": [],
-        "negative": []
-      }
-    },
-    {
-      "heroClass": "Abomination",
-      "activeSkills": [
-        "Transform",
-        "Manacles",
-        "Beast's Bile",
-        "Absolution",
-        "Rake",
-        "Rage",
-        "Slam"
-      ],
-      "activeCampSkills": [
-        "Anger Management",
-        "Psych Up",
-        "The Quickening",
-        "Eldritch Blood"
-      ],
-      "trinket1": "Broken Key",
-      "trinket2": "Padlock of Transference",
-      "quirks": {
         "positive": [
+          "Corvids Grace",
           "Luminous",
-          "Precise Striker",
-          "Slugger",
-          "Corvids Eye"
+          "Evasive"
         ],
         "negative": []
       },
       "lockedQuirks": {
         "positive": [],
         "negative": []
-      }
+      },
+      "diseases": []
     },
     {
-      "heroClass": "Houndmaster",
+      "heroClass": "Runaway",
       "activeSkills": [
-        "Hound's Rush",
-        "Target Whistle",
-        "Cry Havoc",
-        "Guard Dog"
+        "Firefly",
+        "Run and Hide",
+        "Controlled Burn",
+        "Backdraft"
       ],
       "activeCampSkills": [
         "Encourage",
-        "Wound Care",
-        "Therapy Dog",
-        "Man's Best Friend"
+        "Kindle",
+        "Cauterize",
+        "Play with Fire"
       ],
-      "trinket1": "Ancestor's Coat",
-      "trinket2": "Wilbur's Flag",
+      "trinket1": "Searing Sunstone",
+      "trinket2": "Ancestor's Signet Ring",
       "quirks": {
         "positive": [
-          "Corvids Eye",
           "Evasive",
           "Luminous",
           "Corvids Grace"
@@ -88,7 +89,8 @@
       "lockedQuirks": {
         "positive": [],
         "negative": []
-      }
+      },
+      "diseases": []
     },
     {
       "heroClass": "Arbalest",
@@ -104,24 +106,21 @@
         "Marching Plan",
         "Restring Crossbow"
       ],
-      "trinket1": "Bedtime Story",
-      "trinket2": "Ancestor's Map",
+      "trinket1": "Ancestor's Map",
+      "trinket2": "Bedtime Story",
       "quirks": {
         "positive": [
           "Corvids Eye",
           "Hippocratic",
-          "Eagle Eye",
           "Luminous"
         ],
-        "negative": [
-          "Bad Gambler",
-          "Enlightened"
-        ]
+        "negative": []
       },
       "lockedQuirks": {
         "positive": [],
         "negative": []
-      }
+      },
+      "diseases": []
     }
   ]
 }

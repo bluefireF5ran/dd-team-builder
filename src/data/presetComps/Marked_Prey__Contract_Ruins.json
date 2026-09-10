@@ -1,5 +1,5 @@
 {
-  "teamName": "Feral Contract: Contract",
+  "teamName": "Marked Prey: Contract & Ruins",
   "location": "The Ruins",
   "heroes": [
     {
@@ -19,39 +19,10 @@
       "trinket1": "Mask Of The Timeless",
       "trinket2": "Hunter's Talon",
       "quirks": {
-        "positive": [],
-        "negative": []
-      },
-      "lockedQuirks": {
-        "positive": [],
-        "negative": []
-      }
-    },
-    {
-      "heroClass": "Abomination",
-      "activeSkills": [
-        "Transform",
-        "Manacles",
-        "Beast's Bile",
-        "Absolution",
-        "Rake",
-        "Rage",
-        "Slam"
-      ],
-      "activeCampSkills": [
-        "Anger Management",
-        "Psych Up",
-        "The Quickening",
-        "Eldritch Blood"
-      ],
-      "trinket1": "Broken Key",
-      "trinket2": "Padlock of Transference",
-      "quirks": {
         "positive": [
+          "Corvids Grace",
           "Luminous",
-          "Precise Striker",
-          "Slugger",
-          "Corvids Eye"
+          "Evasive"
         ],
         "negative": []
       },
@@ -65,23 +36,51 @@
       "activeSkills": [
         "Hound's Rush",
         "Target Whistle",
-        "Cry Havoc",
-        "Guard Dog"
+        "Guard Dog",
+        "Blackjack"
       ],
       "activeCampSkills": [
         "Encourage",
         "Wound Care",
-        "Therapy Dog",
-        "Man's Best Friend"
+        "Hound's Watch",
+        "Therapy Dog"
       ],
-      "trinket1": "Ancestor's Coat",
-      "trinket2": "Wilbur's Flag",
+      "trinket1": "Wilbur's Flag",
+      "trinket2": "Camouflage Cloak",
       "quirks": {
         "positive": [
-          "Corvids Eye",
-          "Evasive",
           "Luminous",
-          "Corvids Grace"
+          "Corvids Grace",
+          "Corvids Eye"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Jester",
+      "activeSkills": [
+        "Dirk Stab",
+        "Finale",
+        "Solo",
+        "Inspiring Tune"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Every Rose Has Its Thorn",
+        "Tiger's Eye"
+      ],
+      "trinket1": "Ancestor's Coat",
+      "trinket2": "Camouflage Cloak",
+      "quirks": {
+        "positive": [
+          "Corvids Grace",
+          "Luminous",
+          "Evasive"
         ],
         "negative": []
       },
@@ -110,13 +109,9 @@
         "positive": [
           "Corvids Eye",
           "Hippocratic",
-          "Eagle Eye",
           "Luminous"
         ],
-        "negative": [
-          "Bad Gambler",
-          "Enlightened"
-        ]
+        "negative": []
       },
       "lockedQuirks": {
         "positive": [],
