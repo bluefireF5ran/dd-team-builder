@@ -1,0 +1,125 @@
+{
+  "teamName": "Red Harvest: Withering",
+  "location": "The Warrens",
+  "heroes": [
+    {
+      "heroClass": "Flagellant",
+      "activeSkills": [
+        "Punish",
+        "Rain of Sorrows",
+        "Reclaim",
+        "Redeem"
+      ],
+      "activeCampSkills": [
+        "Lash's Solace",
+        "Lash's Kiss",
+        "Lash's Cure"
+      ],
+      "trinket1": "Flesh's Heart",
+      "trinket2": "Bleed Amulet",
+      "quirks": {
+        "positive": [
+          "Hippocratic",
+          "Luminous",
+          "Corvids Grace"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    },
+    {
+      "heroClass": "Occultist",
+      "activeSkills": [
+        "Weakening Curse",
+        "Wyrd Reconstruction",
+        "Vulnerability Hex",
+        "Hands from the Abyss"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Dark Ritual",
+        "Unspeakable Commune"
+      ],
+      "trinket1": "Demon's Cauldron",
+      "trinket2": "Ancestor's Pistol",
+      "quirks": {
+        "positive": [
+          "Corvids Grace",
+          "Luminous",
+          "Corvids Eye"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    },
+    {
+      "heroClass": "Houndmaster",
+      "activeSkills": [
+        "Hound's Rush",
+        "Target Whistle",
+        "Cry Havoc",
+        "Guard Dog"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Hound's Watch",
+        "Therapy Dog",
+        "Man's Best Friend"
+      ],
+      "trinket1": "Wilbur's Flag",
+      "trinket2": "Ancestor's Coat",
+      "quirks": {
+        "positive": [
+          "Luminous",
+          "Corvids Grace",
+          "Evasive"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    },
+    {
+      "heroClass": "Musketeer",
+      "activeSkills": [
+        "Aimed Shot",
+        "Smokescreen",
+        "Buckshot",
+        "Patch Up"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Marching Plan",
+        "Clean Musket"
+      ],
+      "trinket1": "Ancestor's Map",
+      "trinket2": "Silver Musket Ball",
+      "quirks": {
+        "positive": [
+          "Luminous",
+          "Corvids Grace",
+          "Hippocratic"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    }
+  ]
+}

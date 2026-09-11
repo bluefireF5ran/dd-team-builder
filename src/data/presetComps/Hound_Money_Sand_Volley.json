@@ -1,0 +1,126 @@
+{
+  "teamName": "Shield Wall: Sand",
+  "location": "The Ruins",
+  "heroes": [
+    {
+      "heroClass": "Shieldbreaker",
+      "activeSkills": [
+        "Pierce",
+        "Puncture",
+        "Expose",
+        "Serpent Sway"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Snake Skin",
+        "Sandstorm"
+      ],
+      "trinket1": "Ancestor's Pen",
+      "trinket2": "Surgical Gloves",
+      "quirks": {
+        "positive": [
+          "Luminous",
+          "Natural Swing",
+          "Corvids Eye"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    },
+    {
+      "heroClass": "Houndmaster",
+      "activeSkills": [
+        "Hound's Rush",
+        "Target Whistle",
+        "Guard Dog",
+        "Blackjack"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Hound's Watch",
+        "Therapy Dog",
+        "Man's Best Friend"
+      ],
+      "trinket1": "Ancestor's Coat",
+      "trinket2": "Wilbur's Flag",
+      "quirks": {
+        "positive": [
+          "Luminous",
+          "Corvids Grace",
+          "Evasive"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    },
+    {
+      "heroClass": "Antiquarian",
+      "activeSkills": [
+        "Festering Vapours",
+        "Fortifying Vapours",
+        "Invigorating Vapours",
+        "Protect Me"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Resupply",
+        "Curious Incantation"
+      ],
+      "trinket1": "Smoking Skull",
+      "trinket2": "The Tempting Goblet",
+      "quirks": {
+        "positive": [
+          "Luminous",
+          "Corvids Grace",
+          "Evasive"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    },
+    {
+      "heroClass": "Arbalest",
+      "activeSkills": [
+        "Sniper Shot",
+        "Suppressing Fire",
+        "Bola",
+        "Battlefield Bandage"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Marching Plan",
+        "Triage"
+      ],
+      "trinket1": "Ancestor's Map",
+      "trinket2": "Bedtime Story",
+      "quirks": {
+        "positive": [
+          "Corvids Eye",
+          "Hippocratic",
+          "Luminous"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    }
+  ]
+}

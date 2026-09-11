@@ -1,0 +1,129 @@
+{
+  "teamName": "Fortune Favours: Faith",
+  "alias": "GA weald 01 Optimized",
+  "location": "The Weald",
+  "heroes": [
+    {
+      "heroClass": "Occultist",
+      "activeSkills": [
+        "Weakening Curse",
+        "Wyrd Reconstruction",
+        "Vulnerability Hex",
+        "Hands from the Abyss"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Dark Ritual",
+        "Unspeakable Commune"
+      ],
+      "trinket1": "Demon's Cauldron",
+      "trinket2": "Ancestor's Pistol",
+      "quirks": {
+        "positive": [
+          "Hippocratic",
+          "Luminous",
+          "Quick Reflexes",
+          "Corvids Eye",
+          "Corvids Grace"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Bounty Hunter",
+      "activeSkills": [
+        "Collect Bounty",
+        "Mark for Death",
+        "Come Hither",
+        "Finish Him"
+      ],
+      "activeCampSkills": [
+        "Wound Care",
+        "Pep Talk",
+        "Tracking",
+        "Scout Ahead"
+      ],
+      "trinket1": "Hunter's Talon",
+      "trinket2": "Surgical Gloves",
+      "quirks": {
+        "positive": [
+          "Eldritch Slayer",
+          "Corvids Eye",
+          "Corvids Grace",
+          "Luminous"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Vestal",
+      "activeSkills": [
+        "Judgement",
+        "Dazzling Light",
+        "Divine Grace",
+        "Divine Comfort"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Pep Talk",
+        "Chant",
+        "Pray"
+      ],
+      "trinket1": "Salacious Diary",
+      "trinket2": "Atonement Beads",
+      "quirks": {
+        "positive": [
+          "Corvids Eye",
+          "Corvids Grace",
+          "Luminous",
+          "Evasive",
+          "Hippocratic"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Musketeer",
+      "activeSkills": [
+        "Aimed Shot",
+        "Buckshot",
+        "Patch Up",
+        "Skeet Shot"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Field Dressing",
+        "Marching Plan",
+        "Clean Musket"
+      ],
+      "trinket1": "Fuseman's Matchstick",
+      "trinket2": "Ancestor's Map",
+      "quirks": {
+        "positive": [
+          "Quick Reflexes",
+          "Luminous",
+          "Evasive",
+          "Corvids Grace"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    }
+  ]
+}

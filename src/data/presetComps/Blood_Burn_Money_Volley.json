@@ -1,0 +1,125 @@
+{
+  "teamName": "Cinder Wake: Mercy",
+  "location": "The Warrens",
+  "heroes": [
+    {
+      "heroClass": "Runaway",
+      "activeSkills": [
+        "Firefly",
+        "Run and Hide",
+        "Controlled Burn",
+        "Backdraft"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Kindle",
+        "Cauterize",
+        "Play with Fire"
+      ],
+      "trinket1": "Knitted Blanket",
+      "trinket2": "Carved Toy",
+      "quirks": {
+        "positive": [
+          "Evasive",
+          "Luminous",
+          "Corvids Eye"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    },
+    {
+      "heroClass": "Flagellant",
+      "activeSkills": [
+        "Punish",
+        "Rain of Sorrows",
+        "Reclaim",
+        "Redeem"
+      ],
+      "activeCampSkills": [
+        "Lash's Solace",
+        "Lash's Kiss",
+        "Lash's Cure"
+      ],
+      "trinket1": "Bleed Amulet",
+      "trinket2": "Flesh's Heart",
+      "quirks": {
+        "positive": [
+          "Hippocratic",
+          "Luminous",
+          "Corvids Grace"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    },
+    {
+      "heroClass": "Antiquarian",
+      "activeSkills": [
+        "Festering Vapours",
+        "Flashpowder",
+        "Fortifying Vapours",
+        "Protect Me"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Resupply",
+        "Strange Powders",
+        "Curious Incantation"
+      ],
+      "trinket1": "Smoking Skull",
+      "trinket2": "The Tempting Goblet",
+      "quirks": {
+        "positive": [
+          "Luminous",
+          "Corvids Grace",
+          "Evasive"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    },
+    {
+      "heroClass": "Arbalest",
+      "activeSkills": [
+        "Sniper Shot",
+        "Suppressing Fire",
+        "Bola",
+        "Battlefield Bandage"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Marching Plan",
+        "Restring Crossbow"
+      ],
+      "trinket1": "Ancestor's Map",
+      "trinket2": "Bedtime Story",
+      "quirks": {
+        "positive": [
+          "Corvids Eye",
+          "Hippocratic",
+          "Luminous"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    }
+  ]
+}

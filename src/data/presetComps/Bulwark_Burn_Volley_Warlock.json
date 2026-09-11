@@ -1,0 +1,126 @@
+{
+  "teamName": "Fortune Favours: Ember",
+  "location": "The Weald",
+  "heroes": [
+    {
+      "heroClass": "Occultist",
+      "activeSkills": [
+        "Weakening Curse",
+        "Wyrd Reconstruction",
+        "Vulnerability Hex",
+        "Hands from the Abyss"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Dark Ritual",
+        "Unspeakable Commune"
+      ],
+      "trinket1": "Demon's Cauldron",
+      "trinket2": "Ancestor's Coat",
+      "quirks": {
+        "positive": [
+          "Corvids Grace",
+          "Luminous",
+          "Corvids Eye"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    },
+    {
+      "heroClass": "Man at Arms",
+      "activeSkills": [
+        "Crush",
+        "Rampart",
+        "Defender",
+        "Bolster"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Tactics",
+        "Weapons Practice"
+      ],
+      "trinket1": "Rampart Shield",
+      "trinket2": "Wilbur's Flag",
+      "quirks": {
+        "positive": [
+          "Luminous",
+          "Corvids Grace",
+          "Evasive"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    },
+    {
+      "heroClass": "Runaway",
+      "activeSkills": [
+        "Firefly",
+        "Run and Hide",
+        "Controlled Burn",
+        "Backdraft"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Kindle",
+        "Cauterize",
+        "Play with Fire"
+      ],
+      "trinket1": "Searing Sunstone",
+      "trinket2": "Ancestor's Signet Ring",
+      "quirks": {
+        "positive": [
+          "Evasive",
+          "Luminous",
+          "Corvids Eye"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    },
+    {
+      "heroClass": "Arbalest",
+      "activeSkills": [
+        "Sniper Shot",
+        "Suppressing Fire",
+        "Bola",
+        "Battlefield Bandage"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Marching Plan",
+        "Restring Crossbow",
+        "Triage"
+      ],
+      "trinket1": "Ancestor's Map",
+      "trinket2": "Bedtime Story",
+      "quirks": {
+        "positive": [
+          "Corvids Eye",
+          "Hippocratic",
+          "Luminous"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    }
+  ]
+}

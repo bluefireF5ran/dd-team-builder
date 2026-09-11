@@ -1,0 +1,126 @@
+{
+  "teamName": "Keen Edge: Ember",
+  "location": "The Weald",
+  "heroes": [
+    {
+      "heroClass": "Bounty Hunter",
+      "activeSkills": [
+        "Collect Bounty",
+        "Come Hither",
+        "Uppercut",
+        "Finish Him"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "This Is How We Do It",
+        "Tracking"
+      ],
+      "trinket1": "Mask Of The Timeless",
+      "trinket2": "Hunter's Talon",
+      "quirks": {
+        "positive": [
+          "Corvids Grace",
+          "Luminous",
+          "Corvids Eye"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    },
+    {
+      "heroClass": "Houndmaster",
+      "activeSkills": [
+        "Hound's Rush",
+        "Target Whistle",
+        "Guard Dog",
+        "Blackjack"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Hound's Watch",
+        "Therapy Dog",
+        "Man's Best Friend"
+      ],
+      "trinket1": "Ancestor's Coat",
+      "trinket2": "Wilbur's Flag",
+      "quirks": {
+        "positive": [
+          "Luminous",
+          "Corvids Grace",
+          "Evasive"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    },
+    {
+      "heroClass": "Runaway",
+      "activeSkills": [
+        "Firefly",
+        "Run and Hide",
+        "Controlled Burn",
+        "Backdraft"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Kindle",
+        "Cauterize",
+        "Play with Fire"
+      ],
+      "trinket1": "Searing Sunstone",
+      "trinket2": "Ancestor's Signet Ring",
+      "quirks": {
+        "positive": [
+          "Evasive",
+          "Luminous",
+          "Corvids Eye"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    },
+    {
+      "heroClass": "Musketeer",
+      "activeSkills": [
+        "Aimed Shot",
+        "Smokescreen",
+        "Buckshot",
+        "Patch Up"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Marching Plan",
+        "Clean Musket"
+      ],
+      "trinket1": "Ancestor's Map",
+      "trinket2": "Silver Musket Ball",
+      "quirks": {
+        "positive": [
+          "Luminous",
+          "Corvids Grace",
+          "Evasive"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    }
+  ]
+}

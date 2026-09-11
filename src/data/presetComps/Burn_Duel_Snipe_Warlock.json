@@ -1,0 +1,130 @@
+{
+  "teamName": "Keen Edge: Duel",
+  "location": "The Ruins",
+  "heroes": [
+    {
+      "heroClass": "Occultist",
+      "activeSkills": [
+        "Weakening Curse",
+        "Wyrd Reconstruction",
+        "Vulnerability Hex",
+        "Hands from the Abyss"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Dark Ritual",
+        "Unspeakable Commune"
+      ],
+      "trinket1": "Demon's Cauldron",
+      "trinket2": "Ancestor's Coat",
+      "quirks": {
+        "positive": [
+          "Corvids Eye",
+          "Corvids Grace",
+          "Luminous",
+          "Evasive"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    },
+    {
+      "heroClass": "Duelist",
+      "activeSkills": [
+        "Anticipation",
+        "Touché",
+        "Feint",
+        "Disengage",
+        "Flèche",
+        "Coup de Grâce",
+        "The Boot"
+      ],
+      "activeCampSkills": [
+        "Meditation",
+        "Preparation",
+        "Ruthless Instruction",
+        "Again!"
+      ],
+      "trinket1": "Ancestor's Candle",
+      "trinket2": "Gilded Mantle",
+      "quirks": {
+        "positive": [
+          "Corvids Eye",
+          "Corvids Grace",
+          "Evasive"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    },
+    {
+      "heroClass": "Runaway",
+      "activeSkills": [
+        "Firefly",
+        "Run and Hide",
+        "Controlled Burn",
+        "Backdraft"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Kindle",
+        "Cauterize",
+        "Play with Fire"
+      ],
+      "trinket1": "Ancestor's Map",
+      "trinket2": "Searing Sunstone",
+      "quirks": {
+        "positive": [
+          "Corvids Eye",
+          "Evasive",
+          "Luminous"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    },
+    {
+      "heroClass": "Musketeer",
+      "activeSkills": [
+        "Aimed Shot",
+        "Buckshot",
+        "Patch Up",
+        "Skeet Shot"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Marching Plan",
+        "Clean Musket"
+      ],
+      "trinket1": "Fuseman's Matchstick",
+      "trinket2": "Prophet's Eye",
+      "quirks": {
+        "positive": [
+          "Luminous",
+          "Evasive",
+          "Corvids Grace"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    }
+  ]
+}
