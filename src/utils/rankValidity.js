@@ -105,7 +105,12 @@ export const getSkillRanks = (heroClass, skillName) => {
     launch: parseRanks(entry.launch),
     target: parseRanks(entry.target),
     kind: targetKind(entry.target),
-    move: parseSelfMove(entry.effect)
+    // `move` viene del `.move` del juego y manda; `parseSelfMove` solo cubre lo
+    // que no lo trae (una skill modded, que no pasa por el importador). Leer la
+    // prosa era la unica fuente y miente por omision: de las 14 skills que se
+    // mueven, 4 no lo dicen -- entre ellas `Run and Hide`, que retrocede 2 y sin
+    // la cual una Runaway de rango 1 parecia llevar media barra muerta.
+    move: typeof entry.move === 'number' ? entry.move : parseSelfMove(entry.effect)
   };
 };
 
