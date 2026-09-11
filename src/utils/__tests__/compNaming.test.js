@@ -360,7 +360,15 @@ describe('naming one comp against the library', () => {
   });
 
   it('gives every comp in the library its own file', () => {
-    const files = library.map((c) => toCompFileName(c.teamName));
+    // Sobre lo que esta taxonomia GENERA, no sobre el `teamName` guardado. Son
+    // dos cosas distintas desde que la libreria se nombra con `compNaming2`,
+    // donde el nombre describe el plan y se comparte a proposito -- 100 de 239
+    // los llevan dos comps o mas-- y el fichero se llama por el reparto. Leer
+    // el disco aqui medía esa otra taxonomia y daba 240 de 461.
+    //
+    // La promesa de ESTA sigue siendo un nombre por comp, y es la que hay que
+    // vigilar: es lo que impide que vuelvan los `... 2`.
+    const files = assignCompNames(library).map((r) => toCompFileName(r.name));
     expect(new Set(files).size).toBe(files.length);
   });
 });
