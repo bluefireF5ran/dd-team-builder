@@ -52,10 +52,29 @@ const tokenOf = (cls) => (HERO_TOKENS[cls] || {}).token || cls;
 const safe = (s) => String(s).replace(/[^A-Za-z0-9]+/g, '');
 
 /**
+ * "Cinder Wake: Melee" -> "Cinder_Wake__Melee", igual que `toCompFileName`.
+ *
+ * Los dos guiones bajos son los dos puntos, y no se pueden colapsar contra los
+ * simples: son lo que separa el plan de su matiz al leer la carpeta.
+ */
+const planPart = (name) => String(name)
+  .replace(/\s*&\s*/g, ' ')
+  .replace(/:\s*/g, '__')
+  .replace(/\s+/g, '_')
+  .replace(/^_|_$/g, '');
+
+/**
  * Los peldaños de la escalera de nombres de fichero, del mas corto al mas
  * especifico. Se coge el PRIMERO que sea unico en la libreria.
+ *
+ * Delante va el PLAN, detras el REPARTO. Solo con el reparto la carpeta no
+ * decia nada -- `Beast_Burn_Contract_Snipe` no cuenta que hace esa party-- y
+ * solo con el plan no se puede, porque 100 de los 239 nombres los llevan dos
+ * comps o mas y volverian los `... 2`. Juntos: la carpeta ordena por plan, que
+ * es como se busca una comp, y el reparto la hace unica.
  */
-const fileRungs = (comp) => {
+const fileRungs = (comp, name) => {
+  const plan = planPart(name);
   const tokens = (comp.heroes || []).map((h) => tokenOf(h.heroClass));
   const sorted = [...tokens].sort().join('_');
   const ordered = tokens.join('_');
@@ -65,17 +84,19 @@ const fileRungs = (comp) => {
     .filter((s) => PURPOSE_CAMP[s])
     .map((s) => PURPOSE_CAMP[s]))].sort().join('');
   const withRegion = region ? `${ordered}__${region}` : ordered;
-  return [sorted, ordered, withRegion, camps ? `${withRegion}_${camps}` : withRegion];
+  const tail = camps ? `${withRegion}_${camps}` : withRegion;
+  return [sorted, ordered, withRegion, tail].map((r) => `${plan}__${r}`);
 };
 
 /** Reparte un nombre de fichero unico a cada comp, y dice quien no se dejo separar. */
 const assignFiles = (list) => {
   const counts = [{}, {}, {}, {}];
-  list.forEach(({ comp }) => fileRungs(comp).forEach((r, i) => { counts[i][r] = (counts[i][r] || 0) + 1; }));
+  list.forEach((rec) => fileRungs(rec.comp, rec.name)
+    .forEach((r, i) => { counts[i][r] = (counts[i][r] || 0) + 1; }));
   const taken = new Map();
   const stubborn = [];
   list.forEach((rec) => {
-    const rungs = fileRungs(rec.comp);
+    const rungs = fileRungs(rec.comp, rec.name);
     let base = rungs.find((r, i) => counts[i][r] === 1);
     if (!base) {
       base = rungs[rungs.length - 1];
