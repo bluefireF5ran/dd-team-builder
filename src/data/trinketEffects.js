@@ -65,7 +65,7 @@ export const TRINKET_EFFECTS = {
   "Wrathful Bandana":    { rarity: "Very Rare", effect: "+25% DMG if in position 4 | +30% Debuff Skill Chance | -50% Healing Skills" },
   "Childhood Treasure":  { rarity: "CC Set", limit: 1, effect: "+30% Healing Skills | +20% Healing Skills while Camping | -15% Stress" },
   "Bedtime Story":       { rarity: "CC Set", limit: 1, effect: "+15 ACC vs Marked | +8% CRIT vs Marked | +35% Debuff Skill Chance | +35% Move Skill Chance" },
-  "Keening Bolts":       { rarity: "Crystalline", limit: 1, effect: "+20% DMG | +7% CRIT Ranged Skills" },
+  "Keening Bolts":       { rarity: "Crystalline", limit: 1, effect: "+20% DMG | +7% CRIT Ranged Skills | On Attack: Self: Stress +3 (25% base)" },
 
   // ===== Bounty Hunter =====
   "Agility Talon":         { rarity: "Common", effect: "+1 SPD | +4 DODGE" },
@@ -86,7 +86,7 @@ export const TRINKET_EFFECTS = {
   "Holy Orders":           { rarity: "Very Rare", effect: "+15% Virtue Chance | -20% Stress | +12% Death Blow Resist | -20% Blight Resist | -20% Bleed Resist" },
   "Glittering Spaulders":  { rarity: "CC Set", limit: 1, effect: "+15% PROT | +35% Move Resist | -15% Stress | -2 SPD" },
   "Signed Conscription":   { rarity: "CC Set", limit: 1, effect: "+20% Healing Skills | +20% Stress Skills" },
-  "Non Euclidean Hilt":    { rarity: "Crystalline", limit: 1, effect: "+15% MAX HP | On Attack: Random target 5%. | +25% Stun Skill Chance if Holy Water in inventory" },
+  "Non Euclidean Hilt":    { rarity: "Crystalline", limit: 1, effect: "+15% MAX HP | On Attack: Random target 5%. | +25% Stun Skill Chance if Holy Water in inventory | On Attack: Blight 2 pts/rd for 2 rds (120% base)" },
 
   // ===== Flagellant =====
   "Heartburst Hood":        { rarity: "Common", effect: "+4 SPD if HP below 40%" },
@@ -116,7 +116,7 @@ export const TRINKET_EFFECTS = {
   "Hell's Hairpin":        { rarity: "Very Rare", effect: "+10% CRIT if Torch below 25 | +15 ACC if Torch below 25 | -10% Debuff Resist | -10% Bleed Resist" },
   "Lioness Warpaint":      { rarity: "CC Set", limit: 1, effect: "+20% DMG if HP below 75% | +20% DMG if HP below 50% | +20% DMG if HP below 25% | +10% Stress" },
   "Mark of the Outcast":   { rarity: "CC Set", limit: 1, effect: "+2 SPD | +35% Bleed Skill Chance | +15% Death Blow Resist | -15% Healing Received" },
-  "Thirsting Blade":       { rarity: "Crystalline", limit: 1, effect: "+15 ACC | -20% Bleed Resist | +2 SPD | +8% CRIT vs Bleeding" },
+  "Thirsting Blade":       { rarity: "Crystalline", limit: 1, effect: "+15 ACC | -20% Bleed Resist | +2 SPD | +8% CRIT vs Bleeding | On Attack: Self: 5 DMG" },
 
   // ===== Highwayman =====
   "Drifter's Buckle":       { rarity: "Common", effect: "+10% Trap Disarm Chance | +4 DODGE | -5% Stress Heal Received" },
@@ -167,7 +167,7 @@ export const TRINKET_EFFECTS = {
   "Guardian's Shield":   { rarity: "Very Rare", effect: "+10% PROT if in position 4 | +50% Healing Received if in position 4 | +10 DODGE if in position 4" },
   "Old Unit Standard":   { rarity: "CC Set", limit: 1, effect: "+15% Stun Skill Chance | +20% Debuff Skill Chance | +15% Death Blow Resist | +10% Stress" },
   "Toy Soldier":         { rarity: "CC Set", limit: 1, effect: "+10% PROT | +5% CRIT" },
-  "Mirror Shield":       { rarity: "Crystalline", limit: 1, effect: "+10 DODGE | +20% Stun Resist" },
+  "Mirror Shield":       { rarity: "Crystalline", limit: 1, effect: "+10 DODGE | 30% Damage Reflection | +20% Stun Resist" },
 
   // ===== Musketeer =====
   "Sturdy Boots":              { rarity: "Common", effect: "+30% Move Resist | +30% Move Skill Chance | -1 SPD" },
@@ -335,26 +335,26 @@ export const TRINKET_EFFECTS = {
 
   // ===== Duelist =====
   "Steel-tip Boots":    { rarity: "Common", effect: "+10% Stun Skill Chance | +4% CRIT if in mode Aggressive" },
-  "Blade Oil":          { rarity: "Uncommon", effect: "+4% CRIT Melee Skills" },
+  "Blade Oil":          { rarity: "Uncommon", effect: "+4% CRIT Melee Skills | On Monster Kill: Self: Next Riposte: +100% CRIT (4 rds)" },
   "Gilded Mantle":      { rarity: "Uncommon", effect: "Crits Received Chance: -6% | Crits Received Chance: -6% while Marked | +10 DODGE while Marked" },
-  "Razor Hilt":         { rarity: "Rare", effect: "Armor Piercing: +100% vs Bleeding | -20% Bleed Resist" },
-  "Champion's Mantle":  { rarity: "Very Rare", effect: "+20% DMG if in position 2 | +20% DMG if in position 4 | -10 DODGE if in position 1 | -10 DODGE if in position 3" },
-  "Académie Ring":      { rarity: "Set", limit: 1, effect: "+35% Debuff Skill Chance | Riposte: +8% CRIT" },
-  "Lover's Glove":      { rarity: "Set", limit: 1, effect: "+10 ACC if in mode Aggressive" },
-  "Phantom Wit":        { rarity: "Very Rare", limit: 1, effect: "+50% DMG if HP above 99% | +25% Bleed Resist | +25% Blight Resist | -33% MAX HP" },
+  "Razor Hilt":         { rarity: "Rare", effect: "Armor Piercing: +100% vs Bleeding | -20% Bleed Resist | On Riposte: Bleed 2 pts/rd for 2 rds (130% base) | On Riposte: Crits Received Chance: +7% (3 rds)" },
+  "Champion's Mantle":  { rarity: "Very Rare", effect: "+20% DMG if in position 2 | +20% DMG if in position 4 | -10 DODGE if in position 1 | -10 DODGE if in position 3 | On Attack: Self: Riposte (2 rds)" },
+  "Académie Ring":      { rarity: "Set", limit: 1, effect: "+35% Debuff Skill Chance | Riposte: +8% CRIT | On Attack: Self: -10 DODGE (4 rds) | On Friendly Skill: Self: +10 ACC (2 rds)" },
+  "Lover's Glove":      { rarity: "Set", limit: 1, effect: "+10 ACC if in mode Aggressive | On Attack: Self: Stress +7 | On Monster Kill: Other Heroes: +7 ACC (3 rds), +3 SPD (3 rds)" },
+  "Phantom Wit":        { rarity: "Very Rare", limit: 1, effect: "+50% DMG if HP above 99% | +25% Bleed Resist | +25% Blight Resist | -33% MAX HP | On Riposte CRIT: Self: Heal 10% MAX HP | On Riposte Kill: Self: Heal 25% MAX HP" },
 
   // ===== Runaway =====
-  "Warm Scarf":          { rarity: "Common", effect: "+10 DODGE" },
-  "Pyro Accelerant":     { rarity: "Uncommon", effect: "Attack debuffs + self burn" },
-  "Charcoal Effigy":     { rarity: "Uncommon", effect: "Self heal when hit + progressive art" },
-  "Rescuer's Rucksack":  { rarity: "Rare", effect: "+20% MAX HP | -10% CRIT" },
-  "Infernal Coalstone":  { rarity: "Very Rare", effect: "+3 SPD while Any Character is Burning | Wildfire applies to both adjacent targets" },
+  "Warm Scarf":          { rarity: "Common", effect: "+10 DODGE | On Dodge: Shuffle target" },
+  "Pyro Accelerant":     { rarity: "Uncommon", effect: "On Attack: Enemies: -6% CRIT while Burning (3 rds), Crits Received Chance: +6% while Burning (3 rds) | On Attack: Self: Burn 2 pts/rd" },
+  "Charcoal Effigy":     { rarity: "Uncommon", effect: "When Hit: Self: Heal 3" },
+  "Rescuer's Rucksack":  { rarity: "Rare", effect: "+20% MAX HP | -10% CRIT | -50% Restoration Duration Received | On Friendly Skill: Other Heroes: Restoration 3 pts/rd for 1 rd" },
+  "Infernal Coalstone":  { rarity: "Very Rare", effect: "+3 SPD while Any Character is Burning | Wildfire applies to both adjacent targets | On Attack: Knockback 1 (130% base) if target in rank 1 | On Attack: Pull 1 (130% base) if target in rank 4" },
   "Carved Toy":          { rarity: "Set", limit: 1, effect: "+15 ACC while Stealthed | +12% CRIT vs Burning | -15% Stun Resist | -15% Bleed Resist" },
-  "Knitted Blanket":     { rarity: "Set", limit: 1, effect: "+25% PROT | +25% Healing Received" },
+  "Knitted Blanket":     { rarity: "Set", limit: 1, effect: "+25% PROT | +25% Healing Received | When Hit: Self: Burn 2 pts/rd" },
   "Inert Sunstone":      { rarity: null, limit: 1, effect: "-2 SPD | Transforms into Heated Sunstone" },
   "Heated Sunstone":     { rarity: null, limit: 1, effect: "+1 SPD | Transforms into Scorching Sunstone" },
   "Scorching Sunstone":  { rarity: null, limit: 1, effect: "+2 SPD | +33% Burn Skill Amount | Transforms into Searing Sunstone" },
-  "Searing Sunstone":    { rarity: null, limit: 1, effect: "+4 SPD | +50% Burn Skill Amount | Final form - perilous to bear" },
+  "Searing Sunstone":    { rarity: null, limit: 1, effect: "+4 SPD | +50% Burn Skill Amount | On Attack: Self: Burn 1 pts/rd (75% base) | Final form - perilous to bear" },
 
   // ===== Generic trinkets =====
   "Accuracy Stone":               { rarity: "Very Common", effect: "+4 ACC | -1 SPD" },
@@ -488,8 +488,8 @@ export const TRINKET_EFFECTS = {
   "Lens of the Comet":            { rarity: "Crystalline", limit: 1, effect: "Ignores Stealth | -20% Virtue Chance | +5% CRIT if Shard Dust in inventory" },
   "Crystal Pendant":              { rarity: "Crystalline", limit: 1, effect: "+15% Shards Given | +15% Stress" },
   "Cluster Pendant":              { rarity: "Crystalline", limit: 1, effect: "+25% Shards Given | +15% Stress" },
-  "Coat Of Many Colors":          { rarity: "Crystalline", limit: 1, effect: "On Monster Kill: Buff Self: -2% Stress (2 Battles) | On Monster Kill: Buff Self: +2 ACC (2 Battles) | Hero Killed: Party: Stun (120% base) | Hero Killed: Party: Stress +25" },
-  "Miller's Pipe":                { rarity: "Crystalline", limit: 1, effect: "On Monster Kill: Stress -2 | On Monster Kill: All Monsters: Blight (120% base) 2 pts/rd for 3 rds | Hero Killed: Party: Stress +45 | Hero Killed: Party: Debuff Target: -20% PROT (100% base) (Quest) | Hero Killed: Party: Debuff Target: -2 SPD (100% base) (Quest)" },
+  "Coat Of Many Colors":          { rarity: "Crystalline", limit: 1, effect: "On Monster Kill: Self: -2% Stress (2 battles), +2 ACC (2 battles) | Hero Killed: Party: Stun (120% base) | Hero Killed: Party: Stress +25 (120% base)" },
+  "Miller's Pipe":                { rarity: "Crystalline", limit: 1, effect: "On Monster Kill: Self: Stress -2 | On Battle Won: Blight 2 pts/rd for 3 rds (120% base) | Hero Killed: Party: -20% PROT (quest), -2 SPD (quest) | Hero Killed: Party: Stress +45" },
   "Mildred's Locket":             { rarity: "Keepsake", limit: 1, effect: "Miller: The Reaping: -100% DMG Taken | +40% Blight Resist | +3 SPD | +40% DMG vs Miller" },
   "Thing's Mesmerizing Eye":      { rarity: "Thing", limit: 1, effect: "+4% CRIT if HP above 41% | +8% CRIT if HP below 40%" },
   "Thing's Crystalline Fang":     { rarity: "Thing", limit: 1, effect: "+10% Stun Skill Chance if HP above 40% | +40% Stun Skill Chance if HP below 41%" },
@@ -523,19 +523,20 @@ export const TRINKET_EFFECTS = {
   "Spiked Bat":                   { rarity: "Butcher's Circus", effect: "+10% DMG | +20% Bleed Skill Chance" },
   "The Finisher":                 { rarity: "Butcher's Circus", effect: "+25% Death Blow Dealt Chance | +20 ACC vs HP below 40%" },
   "Treated Bandage":              { rarity: "Butcher's Circus", effect: "+35% Healing Received | +40% Bleed Resist | +40% Blight Resist" },
-  "Pile of Ash":                  { rarity: "Very Common", effect: "-4 DODGE" },
-  "Jar of Ash":                   { rarity: "Rare", effect: "+100% Burn Skill Amount vs Corpses | -12 DODGE" },
+  "Pile of Ash":                  { rarity: "Very Common", effect: "-4 DODGE | On Attack: Burn 2 pts/rd | On Round End: A random enemy: Burn 2 pts/rd" },
+  "Jar of Ash":                   { rarity: "Rare", effect: "+100% Burn Skill Amount vs Corpses | -12 DODGE | On Attack: Burn 3 pts/rd | After Battle: This trinket: Gain Pile of Ash" },
   "Offering Pendant":             { rarity: "Common", effect: "+10% Stress Skills | +10% Healing Skills" },
   "Focus Talisman":               { rarity: "Common", effect: "+5 ACC | +5 ACC after First Round | -6 DODGE" },
   "Nullifying Contract":          { rarity: "Uncommon", effect: "+33% Debuff Resist | +33% Blight Resist | +33% Bleed Resist | -100% Resolve XP" },
-  "Lifestyle Guide":              { rarity: "Uncommon", effect: "+33% Healing Received if HP above 40% | -20% Stress if Stress below 40" },
-  "Crier's Bell":                 { rarity: "Uncommon", effect: "+15% Scouting Chance | +20% Chance Party Surprised" },
+  "Lifestyle Guide":              { rarity: "Uncommon", effect: "+33% Healing Received if HP above 40% | -20% Stress if Stress below 40 | On Quest Complete: Self: Gain a quirk (75% positive)" },
+  "Crier's Bell":                 { rarity: "Uncommon", effect: "+15% Scouting Chance | +20% Chance Party Surprised | On Quest Complete: Self: Guaranteed town event" },
   "Sunset Ring":                  { rarity: "Rare", effect: "+10 ACC if Torch above 75 | +20% Stress | +5% DMG per Quest Use remaining" },
-  "Vice Crown":                   { rarity: "Rare", effect: "+5% DMG per Negative Quirk | +6% CRIT | -25% Virtue Chance" },
+  "Vice Crown":                   { rarity: "Rare", effect: "+5% DMG per Negative Quirk | +6% CRIT | -25% Virtue Chance | On Quest Complete: Self: Gain a negative quirk" },
   "Slumber Pendant":              { rarity: "Rare", effect: "-20% Stress | -4 SPD on First Round" },
   "Waking Pendant":               { rarity: "Fire's Edge", effect: "+15% DMG | +4 SPD | +20% Stress" },
-  "Tinker Box":                   { rarity: "Very Rare", effect: "+5 ACC | +5% PROT" },
-  "Crumbling Timekeeper":         { rarity: "Very Rare", effect: "+10 ACC | -10% MAX HP" },
+  "Tinker Box":                   { rarity: "Very Rare", effect: "+5 ACC | +5% PROT | On Quest Complete: This trinket: Gain a random trinket" },
+  "Flickering Lamplight":         { rarity: "Very Rare", effect: "On Turn End: Self: Heal 4 | After Battle: This trinket: +6 uses" },
+  "Crumbling Timekeeper":         { rarity: "Very Rare", effect: "+10 ACC | -10% MAX HP | On Death: This trinket: Destroys this trinket | On Quest Complete: This trinket: +3% DMG | On Quest Complete: This trinket: -3% MAX HP" },
   "Dark Catalyst":                { rarity: "Very Rare", limit: 1, effect: "+20% Stress" },
 
   // ===== Backer trinkets =====

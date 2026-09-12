@@ -49,9 +49,18 @@ function englishStrings(file) {
   const end = xml.indexOf('</language>', start);
   const block = xml.slice(start, end < 0 ? xml.length : end);
   const out = [];
-  const re = /<entry id="([^"]+)"><!\[CDATA\[([\s\S]*?)\]\]><\/entry>/g;
+  // An entry may carry attributes besides `id` - the arena tables write
+  // `arena_priority="1"` on 10,920 of them. Requiring `id="..."` to be followed
+  // immediately by `>` hid 749 strings, and among them the one stat template
+  // the Rescuer's Rucksack needs (`hp_heal_dot_duration_received_percent`),
+  // which is why that trinket rendered two of its three buffs.
+  const re = /<entry id="([^"]+)"([^>]*)><!\[CDATA\[([\s\S]*?)\]\]><\/entry>/g;
   let m;
-  while ((m = re.exec(block))) out.push([m[1], m[2]]);
+  // `arena_priority` marks the Butcher's Circus phrasing of a string that also
+  // exists for the campaign, so it is a *fallback*, never a winner: several
+  // keys carry both, and letting the arena one win rewrote `+50% Blight
+  // duration when applied` as the terser arena `+50% Blight duration`.
+  while ((m = re.exec(block))) out.push([m[1], m[3], /\barena_priority\s*=/.test(m[2])]);
   return out;
 }
 function walk(dir, fn) {
@@ -63,21 +72,33 @@ function walk(dir, fn) {
   }
 }
 
-const STR = new Map();
-// miscellaneous first: it holds the tooltip templates every other table reuses.
+// The tables in the order they win ties: miscellaneous first, because it holds
+// the tooltip templates every other table reuses.
+const STRING_TABLES = [];
 for (const f of [
   path.join(GAME, 'localization/miscellaneous.string_table.xml'),
   path.join(GAME, 'localization/backertrinkets.string_table.xml'),
 ]) {
-  if (fs.existsSync(f)) for (const [k, v] of englishStrings(f)) if (!STR.has(k)) STR.set(k, v);
+  if (fs.existsSync(f)) STRING_TABLES.push(f);
 }
 for (const dir of ['dlc', 'localization']) {
-  walk(path.join(GAME, dir), (p) => {
-    if (!p.endsWith('.string_table.xml')) return;
-    try {
-      for (const [k, v] of englishStrings(p)) if (!STR.has(k)) STR.set(k, v);
-    } catch (e) { /* unreadable table */ }
-  });
+  walk(path.join(GAME, dir), (p) => { if (p.endsWith('.string_table.xml')) STRING_TABLES.push(p); });
+}
+
+// Two passes, campaign strings first: within a pass the file order above
+// decides, but an `arena_priority` string only lands on a key nothing else
+// filled. That keeps the campaign wording everywhere it exists and still
+// reaches the handful of templates the arena tables are the only source for.
+const STR = new Map();
+for (const arenaPass of [false, true]) {
+  for (const file of STRING_TABLES) {
+    let rows;
+    try { rows = englishStrings(file); } catch (e) { continue; /* unreadable table */ }
+    for (const [k, v, isArena] of rows) {
+      if (isArena !== arenaPass) continue;
+      if (!STR.has(k)) STR.set(k, v);
+    }
+  }
 }
 
 // --------------------------------------------------------------- game tables
@@ -123,10 +144,15 @@ const plain = (s) => (s || '')
   .replace(/\s+/g, ' ')
   .trim();
 
-// Amounts are 0-1 fractions everywhere except speed, which is a flat rating.
+// Amounts are 0-1 fractions everywhere except these, which are already whole
+// units: speed is a flat rating, and a damage-over-time buff counts in points
+// per round, so scaling it would print `200%` where the game says `2`. Same
+// table as `importSkillEffects.js` - the additional-effect buffs below are
+// where the dot ones start reaching this importer.
+const FLAT_STATS = /^(combat_stat_add_speed_rating|hp_dot_heal|hp_dot_burn|hp_dot_bleed|hp_dot_poison)$|_STRESS_AMOUNT$/;
 function scaled(buff) {
   const k = buff.stat_sub_type ? buff.stat_type + '_' + buff.stat_sub_type : buff.stat_type;
-  return k === 'combat_stat_add_speed_rating' ? Math.round(buff.amount) : Math.round(buff.amount * 100);
+  return FLAT_STATS.test(k) ? Math.round(buff.amount) : Math.round(buff.amount * 100);
 }
 function fillNumber(tpl, n) {
   const sign = n >= 0 ? '+' : '';
@@ -166,23 +192,207 @@ function applyRule(buff, statText) {
 function renderBuff(id) {
   const b = BUFFS.get(id);
   if (!b) return null;
-  const k = b.stat_sub_type ? b.stat_type + '_' + b.stat_sub_type : b.stat_type;
-  const tpl = STR.get('buff_stat_tooltip_' + k);
+  // A buff carrying its own description uses that instead of a stat template -
+  // the same rule `importSkillEffects.js` follows, and the reason
+  // "Attacks usable in any position" beats the `+0 DODGE` its stat line is.
+  if (b.description_tooltip_id && STR.has(b.description_tooltip_id)) {
+    return plain(fillNumber(plain(STR.get(b.description_tooltip_id)), scaled(b)));
+  }
+  // `stat_sub_type` narrows a stat and usually has its own template, but not
+  // always: the Man-at-Arms' Mirror Shield is `damage_reflect_percent` +
+  // `reflected_dmg`, and only the unqualified template exists. Falling back to
+  // the bare stat_type is what renders its `+30% Damage Reflection` instead of
+  // dropping the clause.
+  const tpl = b.stat_sub_type
+    ? STR.get('buff_stat_tooltip_' + b.stat_type + '_' + b.stat_sub_type)
+      ?? STR.get('buff_stat_tooltip_' + b.stat_type)
+    : STR.get('buff_stat_tooltip_' + b.stat_type);
   if (tpl === undefined) return null;
   return applyRule(b, plain(fillNumber(plain(tpl), scaled(b))));
 }
 // The game writes CRT; this app (and the wiki) write CRIT.
 const house = (s) => s.replace(/\bCRT\b/g, 'CRIT').replace(/\s+/g, ' ').trim();
 
+// ------------------------------------------------- triggered effects
+// A trinket's `buffs` are only the passive half. The other half is a set of
+// `*_additional_effects` fields naming effects in `*.effects.darkest` by their
+// `.name`, and reading only `buffs` is what made 20 trinkets render an
+// incomplete tooltip: the Rescuer's Rucksack showed its MAX HP and CRIT and
+// said nothing about healing the party, Blade Oil promised no on-kill riposte,
+// Crumbling Timekeeper never mentioned that it destroys itself.
+//
+// Lines read `type: .key value .key value`. A value never starts with "." -
+// that is how the next key is told apart from a value, since both may contain
+// dots and digits. Same shape `importSkillEffects.js` parses.
+const VAL = '(?:"[^"]*"|[~@+-]?[A-Za-z0-9_%][A-Za-z0-9_%+.~@-]*)';
+function parseDarkest(body) {
+  const out = {};
+  const re = new RegExp('\\.([A-Za-z_]+)((?:\\s+' + VAL + ')*)', 'g');
+  let m;
+  while ((m = re.exec(body))) {
+    const vals = [...m[2].matchAll(new RegExp('"([^"]*)"|([~@+-]?[A-Za-z0-9_%][A-Za-z0-9_%+.~@-]*)', 'g'))]
+      .map((v) => (v[1] !== undefined ? v[1] : v[2]));
+    out[m[1]] = vals.length === 0 ? true : (vals.length === 1 ? vals[0] : vals);
+  }
+  return out;
+}
+const EFFECTS = new Map();
+walk(GAME, (p) => {
+  if (!/\.effects\.darkest$/.test(p) && !/dd_effects\.darkest$/.test(p)) return;
+  for (const line of fs.readFileSync(p, 'utf8').split(/\r?\n/)) {
+    if (!line.trim().startsWith('effect:')) continue;
+    const fx = parseDarkest(line.slice(line.indexOf(':') + 1));
+    if (fx.name && !EFFECTS.has(fx.name)) EFFECTS.set(fx.name, fx);
+  }
+});
+
+// The fields, in the order a tooltip reads best: what happens while you fight,
+// then what happens when the battle or the quest ends. The label is the
+// trigger, because an effect on its own ("Stress +25") does not say when.
+const TRIGGERS = [
+  ['attack_skill_additional_effects', 'On Attack'],
+  ['friendly_skill_additional_effects', 'On Friendly Skill'],
+  ['riposte_skill_additional_effects', 'On Riposte'],
+  ['riposte_crit_additional_effects', 'On Riposte CRIT'],
+  ['riposte_kill_additional_effects', 'On Riposte Kill'],
+  ['was_hit_additional_effects', 'When Hit'],
+  ['on_dodge_additional_effects', 'On Dodge'],
+  ['kill_performer_additional_effects', 'On Monster Kill'],
+  ['kill_all_monsters_additional_effects', 'On Battle Won'],
+  ['turn_end_additional_effects', 'On Turn End'],
+  ['round_end_additional_effects', 'On Round End'],
+  ['was_killed_additional_effects', 'On Death'],
+  ['was_killed_all_heroes_additional_effects', 'Hero Killed'],
+  ['battle_finished_successfully_additional_effects', 'After Battle'],
+  ['on_quest_complete_additional_effects', 'On Quest Complete'],
+];
+
+// `target` on an effect is who it lands on. A bare `target` is whatever the
+// trigger was aimed at, and the trigger label usually already said that, so it
+// gets no prefix - same convention as `importSkillEffects.js`.
+const EFFECT_TARGET = {
+  performer: 'Self',
+  performer_group: 'Party',
+  performer_group_other: 'Other Heroes',
+  target_group: 'Enemies',
+  target_enemy_random: 'A random enemy',
+  this_trinket: 'This trinket',
+};
+
+// Two triggers where a bare `target` is not the thing you hit, and saying
+// nothing would be misleading rather than merely terse. The wiki text for the
+// two trinkets that use them is the evidence: Coat Of Many Colors and Miller's
+// Pipe read "Hero Killed: Party: ..." and "On Monster Kill: Buff Self: ...".
+const TARGET_BY_TRIGGER = {
+  was_killed_all_heroes_additional_effects: 'Party',
+  kill_performer_additional_effects: 'Self',
+};
+
+// A buff reached through an effect can carry its own lifetime, and it is the
+// half the round count does not cover: the Coat's kill buffs last `combat_end`
+// x2 ("2 battles") and Miller's Pipe's death debuffs last `quest_end`. Dropping
+// it turned "+2 ACC (2 Battles)" into a flat "+2 ACC".
+const DURATION_WORD = {
+  quest_end: () => 'quest',
+  quest_complete: () => 'quest',
+  activity_end: () => 'activity',
+  before_turn: () => 'next turn',
+  idle_start_town_visit: () => 'town visit',
+  combat_end: (n) => `${n} ${n === 1 ? 'battle' : 'battles'}`,
+};
+function buffHeld(b) {
+  const word = DURATION_WORD[b && b.duration_type];
+  if (!word) return '';
+  const n = Number.isFinite(b.duration) ? b.duration : 1;
+  return ` (${word(n)})`;
+}
+
+const pctNum = (s) => {
+  const v = Number(String(s == null ? '' : s).replace('%', ''));
+  return Number.isFinite(v) ? v : null;
+};
+// Named but absent from every effects file. Reported rather than swallowed,
+// because a silent skip is the bug this whole section exists to fix.
+const missingEffects = new Set();
+
+/**
+ * One triggered effect as a clause, or null when nothing about it is worth
+ * displaying (the effect exists only to carry timing flags).
+ */
+function renderEffect(fx, trigger) {
+  const bits = [];
+  const chance = pctNum(fx.chance);
+  // A dot's duration is part of what it does; a 100% chance is the default and
+  // saying so every time is noise.
+  const rds = fx.duration ? `${fx.duration} ${Number(fx.duration) === 1 ? 'rd' : 'rds'}` : '';
+  const dur = rds ? ` for ${rds}` : '';
+  const held = rds ? ` (${rds})` : '';
+  const at = chance !== null && chance !== 100 ? ` (${chance}% base)` : '';
+
+  for (const [k, label] of [
+    ['dotBurn', 'Burn'], ['dotBleed', 'Bleed'],
+    ['dotPoison', 'Blight'], ['dotHpHeal', 'Restoration'],
+  ]) {
+    if (fx[k]) bits.push(`${label} ${fx[k]} pts/rd${dur}${at}`);
+  }
+  if (fx.stun) bits.push(`Stun${at}`);
+  if (fx.push) bits.push(`Knockback ${fx.push}${at}`);
+  if (fx.pull) bits.push(`Pull ${fx.pull}${at}`);
+  if (fx.shuffletarget) bits.push(`Shuffle target${at}`);
+  if (fx.riposte) bits.push(`Riposte${held}`);
+  if (fx.heal) bits.push(`Heal ${fx.heal}`);
+  if (fx.heal_percent) bits.push(`Heal ${pctNum(fx.heal_percent)}% MAX HP`);
+  if (fx.healstress) bits.push(`Stress -${fx.healstress}`);
+  if (fx.stress) bits.push(`Stress +${fx.stress}${at}`);
+  if (fx.health_damage) bits.push(`${fx.health_damage} DMG`);
+  if (fx.destroy_trinket) bits.push('Destroys this trinket');
+  if (fx.guaranteed_town_event) bits.push('Guaranteed town event');
+  if (fx.gain_random_quirk_negative) bits.push('Gain a negative quirk');
+  if (fx.gain_random_quirk_positive_percentage) {
+    bits.push(`Gain a quirk (${pctNum(fx.gain_random_quirk_positive_percentage)}% positive)`);
+  }
+  if (fx.gain_random_trinket) bits.push('Gain a random trinket');
+  if (fx.gain_trinket) {
+    const named = STR.get('str_inventory_title_trinket' + fx.gain_trinket);
+    bits.push(`Gain ${named || String(fx.gain_trinket).replace(/_/g, ' ')}`);
+  }
+  const uses = fx.trigger_limit_maximum_increase || fx.trigger_limit_minimum_increase;
+  if (uses) bits.push(`+${uses} uses`);
+  for (const id of [].concat(fx.buff_ids || [])) {
+    const t = renderBuff(id);
+    // The effect's round count wins; the buff's own lifetime is the fallback.
+    if (t && !bits.includes(t)) bits.push(t + (held || buffHeld(BUFFS.get(id))));
+  }
+  if (!bits.length) return null;
+
+  let text = [...new Set(bits)].join(', ');
+  // A rank condition is the whole point of the two Coalstone effects - one
+  // knocks back from rank 1, the other pulls from rank 4.
+  if (fx.clear_rank_target) text += ` if target in rank ${fx.clear_rank_target}`;
+  const targets = [].concat(fx.target || []);
+  const who = EFFECT_TARGET[targets[0]]
+    || (targets[0] === 'target' ? TARGET_BY_TRIGGER[trigger] : undefined);
+  return house(who ? `${who}: ${text}` : text);
+}
+
 function renderEntry(entry) {
   const parts = [];
+  const add = (t) => {
+    const h = t === null ? '' : house(t);
+    if (h && !parts.includes(h)) parts.push(h);
+  };
   for (const id of entry.buffs || []) {
     // damage_low and damage_high are one displayed line, as is any other pair
     // of buffs that render identically.
-    const t = renderBuff(id);
-    if (t === null) continue;
-    const h = house(t);
-    if (h && !parts.includes(h)) parts.push(h);
+    add(renderBuff(id));
+  }
+  for (const [field, label] of TRIGGERS) {
+    for (const name of [].concat(entry[field] || [])) {
+      const fx = EFFECTS.get(name);
+      if (!fx) { missingEffects.add(name); continue; }
+      const text = renderEffect(fx, field);
+      if (text) add(`${label}: ${text}`);
+    }
   }
   return parts;
 }
@@ -560,6 +770,11 @@ console.log(`game entries ${ENTRIES.length}, buffs ${BUFFS.size}, strings ${STR.
 if (encrypted.length) console.log(`unreadable (encrypted) tables: ${encrypted.map((p) => path.basename(p)).join(', ')}`);
 console.log(`entries ${out.size}  (game ${stats.game}, csv ${stats.csv}, kept ${stats.kept})`);
 console.log(`sets ${setRows.length} of ${SETS.length}${SETS.length && !setRows.length ? ' (no buff text resolved)' : ''}`);
+console.log(`effects ${EFFECTS.size}` + (missingEffects.size
+  // A trigger field naming an effect no `.effects.darkest` defines. Silence
+  // here is what hid 20 incomplete tooltips, so it gets said out loud.
+  ? `, ${missingEffects.size} named but undefined: ${[...missingEffects].join(', ')}`
+  : ''));
 console.log(`added ${added.length}, text changed ${changed.length}, no data ${skipped.length}${skipped.length ? ': ' + skipped.join(', ') : ''}`);
 
 if (CHECK) {

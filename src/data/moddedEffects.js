@@ -19,6 +19,11 @@
  */
 
 import { TRINKET_SETS, getSetBonus as vanillaSetBonus } from './trinketEffects';
+import {
+  MODDED_COMBAT_SKILL_EFFECTS_GENERATED,
+  MODDED_CAMP_SKILL_EFFECTS_GENERATED,
+  MODDED_TRINKET_EFFECTS_GENERATED,
+} from './moddedEffectsGenerated';
 
 // ===== Sibyl (Workshop 3490076588) =====
 // A stance class: Alignment cycles Moon -> Eclipse -> Sun, and most skills read
@@ -62,21 +67,74 @@ const SIBYL_SETS = {
   },
 };
 
-export const MODDED_COMBAT_SKILL_EFFECTS = {
-  Sibyl: SIBYL_COMBAT,
+/**
+ * Lo generado por debajo, lo escrito a mano por encima.
+ *
+ * `scripts/importModdedEffects.js` cubre toda clase cuyo mod este instalado
+ * leyendo los ficheros del propio mod. Lo de aqui se escribio antes de que eso
+ * existiera y **gana**, por la misma razon que `importModdedHeroes.js` conserva
+ * los nombres que ya estaban: una entrada escrita a mano es una lectura que
+ * alguien hizo y comprobo, y un generador no puede saber que la mejora.
+ *
+ * La fusion es por CLASE y luego por SKILL, no por clase entera: una clase que
+ * el generador cubre entera y a mano solo a medias se queda con las dos partes.
+ */
+const mergeByClass = (generated, manual) => {
+  const out = { ...generated };
+  for (const [cls, skills] of Object.entries(manual)) {
+    out[cls] = { ...(out[cls] || {}), ...skills };
+  }
+  return out;
 };
+
+/**
+ * Las clases escritas a mano en ESTE fichero.
+ *
+ * No es documentacion: `moddedEffects.test.js` las exige COMPLETAS -- las siete
+ * skills, las camp no vanilla y los trinkets de clase -- y a las generadas solo
+ * les exige que lo que describan exista en el roster. La diferencia es real:
+ * una entrada a mano se anade a proposito y entera, y el generador solo puede
+ * cubrir lo que el mod instalado le deja leer.
+ */
+export const MODDED_HAND_AUTHORED = ['Sibyl'];
+
+export const MODDED_COMBAT_SKILL_EFFECTS = mergeByClass(
+  MODDED_COMBAT_SKILL_EFFECTS_GENERATED,
+  { Sibyl: SIBYL_COMBAT }
+);
 
 export const MODDED_TRINKET_SETS = {
   ...SIBYL_SETS,
 };
 
 export const MODDED_CAMP_SKILL_EFFECTS = {
+  ...MODDED_CAMP_SKILL_EFFECTS_GENERATED,
   ...SIBYL_CAMP,
 };
 
-export const MODDED_TRINKET_EFFECTS = {
-  ...SIBYL_TRINKETS,
+/**
+ * Por CAMPO, no por entrada.
+ *
+ * Lo escrito a mano gana -- y merece ganar: la lectura a mano de
+ * `Bottled Twilight` dice "Always CRIT vs Stealthed target" donde el generador
+ * solo saca "+100% CRIT", porque la condicion vive en sitios que el renderer no
+ * junta. Pero un reemplazo entero **tira lo que el generador si sabe y la mano
+ * no anoto**, y `limit` es justo eso: cuantas copias deja llevar el juego. Sin
+ * el, `resolveTrinketClashes` deja que dos heroes vistan el mismo objeto, que
+ * es el bug que ese codigo existe para evitar.
+ */
+const mergeTrinkets = (generated, manual) => {
+  const out = { ...generated };
+  for (const [name, entry] of Object.entries(manual)) {
+    out[name] = { ...(out[name] || {}), ...entry };
+  }
+  return out;
 };
+
+export const MODDED_TRINKET_EFFECTS = mergeTrinkets(
+  MODDED_TRINKET_EFFECTS_GENERATED,
+  SIBYL_TRINKETS
+);
 
 export function getModdedSkillEffect(name, heroClass) {
   if (!name) return null;

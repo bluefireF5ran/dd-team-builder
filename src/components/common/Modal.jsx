@@ -37,6 +37,13 @@ const Modal = ({
   children,
   className = '',
   panelClassName = '',
+  /**
+   * Inline style for the panel. Every dialog in this app paints its border from
+   * a CSS variable (`borderColor: var(--dd-gold)`), which a class cannot carry -
+   * Tailwind never sees the value. Without this the border has to live on a
+   * wrapper inside the panel, where it draws in the wrong place.
+   */
+  panelStyle,
   /** Set false for a dialog whose own content manages the initial focus. */
   autoFocus = true
 }) => {
@@ -125,6 +132,7 @@ const Modal = ({
         aria-label={labelledBy ? undefined : label}
         tabIndex={-1}
         className={`relative outline-none ${panelClassName}`}
+        style={panelStyle}
         onClick={(e) => e.stopPropagation()}
       >
         {children}

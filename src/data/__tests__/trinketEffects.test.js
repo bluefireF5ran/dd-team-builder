@@ -14,7 +14,10 @@ import { BACKER_TRINKETS } from '../backer_trinkets';
 // Three trinkets have no effect in any source: the game ships them with an
 // empty buff list and the wiki export leaves the cell blank. They deliberately
 // have no entry, so the tooltip falls back to the name alone.
-const NO_EFFECT_DATA = ['Flickering Lamplight', 'Necklace', 'Stake'];
+// Flickering Lamplight used to be here: it has an empty `buffs` list, and it
+// took reading its `turn_end` / `battle_finished_successfully` effects for the
+// importer to have anything to say about it.
+const NO_EFFECT_DATA = ['Necklace', 'Stake'];
 
 const ROSTER = [...new Set([...ALL_HERO_SPECIFIC_TRINKETS, ...TRINKETS, ...BACKER_TRINKETS])];
 
@@ -138,7 +141,37 @@ describe('getTrinketEffect', () => {
   });
 
   it('returns null for a trinket with no effect data in any source', () => {
-    expect(getTrinketEffect('Flickering Lamplight')).toBeNull();
+    expect(getTrinketEffect('Stake')).toBeNull();
+    expect(getTrinketEffect('Necklace')).toBeNull();
+  });
+
+  it('describes a trinket whose only effects are triggered, not passive', () => {
+    // No `buffs` at all - everything it does hangs off a trigger field, which
+    // the importer used to ignore entirely.
+    expect(getTrinketEffect('Flickering Lamplight').effect)
+      .toBe('On Turn End: Self: Heal 4 | After Battle: This trinket: +6 uses');
+  });
+
+  it('reads the triggered half of a trinket that also has passive buffs', () => {
+    // The Rescuer's Rucksack was the report that started this: it showed its
+    // MAX HP and CRIT and said nothing about healing the party.
+    expect(getTrinketEffect("Rescuer's Rucksack").effect).toBe(
+      '+20% MAX HP | -10% CRIT | -50% Restoration Duration Received'
+      + ' | On Friendly Skill: Other Heroes: Restoration 3 pts/rd for 1 rd'
+    );
+  });
+
+  it('falls back to the unqualified stat template when a sub-type has none', () => {
+    // `damage_reflect_percent` + `reflected_dmg` has no combined template, so
+    // this clause was dropped rather than rendered.
+    expect(getTrinketEffect('Mirror Shield').effect)
+      .toBe('+10 DODGE | 30% Damage Reflection | +20% Stun Resist');
+  });
+
+  it('keeps a buff lifetime that is counted in battles or quests', () => {
+    expect(getTrinketEffect('Coat Of Many Colors').effect)
+      .toContain('+2 ACC (2 battles)');
+    expect(getTrinketEffect("Miller's Pipe").effect).toContain('-20% PROT (quest)');
   });
 
   it('returns null for an unknown or empty name', () => {

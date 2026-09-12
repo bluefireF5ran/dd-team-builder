@@ -19,6 +19,18 @@ because something subtle went wrong once.
 | `npm run comps:index` | Regenerate `src/data/presetComps/index.js` |
 | `npm run comps:watch` | Same, automatically, whenever a comp file appears or goes |
 
+Data generators (need a game install; they read at build time and their output is committed, so
+nothing under `src/` ever needs the game):
+
+| Script | Rebuilds |
+| --- | --- |
+| `scripts/importSkillEffects.js` | `src/data/skillEffects.js` (needs `--csv`) |
+| `scripts/importTrinketEffects.js` | `src/data/trinketEffects.js`, `TRINKET_SETS` |
+| `scripts/importQuirkEffects.js` | `src/data/quirkEffects.js` |
+| `scripts/importRegionProfiles.js` | `src/data/regionProfiles.js`, `regionEnemies.js` |
+| `scripts/importModdedHeroes.js` | `src/data/modded_heroes.js` + its manifest |
+| `scripts/importModdedEffects.js` | `src/data/moddedEffectsGenerated.js` (needs `--workshop`) |
+
 `prestart`, `prebuild` and `pretest` all regenerate `src/data/presetComps/index.js`, so run
 things through `npm` rather than calling `react-scripts` directly.
 
@@ -409,6 +421,70 @@ It was ten, and the tail of a ten-item list is quirks one or two comps happened 
 as advice it is not. Usage order, not alphabetical: the first one is what the library reaches for
 most, and the old selector threw that away by putting the list through a `Set`.
 
+## Searching a picker (`src/utils/entrySearch.js`)
+
+Both pickers search **what a thing does**, not only what it is called. The name was the one thing a
+player looking for "something that gives dodge" did not know, and the effect lines were already
+generated and on screen — so `dodge` now finds the trinkets that grant it instead of only
+`Dodgy Cloak`. `TrinketPicker` and `QuirkPicker` both call `searchEntries(names, query, describe)`
+and render the rows it returns.
+
+Four rules, each one a way the old `nameMatchesSearch` filter got it wrong:
+
+1. **Terms are AND-ed, and each may land in a different field.** `dodge crit` means both, not the
+   literal string — nothing in the game reads "dodge crit", so a substring match found nothing.
+2. **The game's abbreviations are not what players type.** The data says `ACC`, `PROT`, `DMG`;
+   players type accuracy, armor, damage. `SYNONYM_GROUPS` makes those the same token, so neither
+   spelling is a dead end.
+3. **A name hit outranks an effect hit.** Typing `sun` has to put `Sun Ring` above every trinket
+   whose effect mentions sunlight, which is what the `SCORE` ladder is for.
+4. **A leading `+` or `-` filters on the sign.** `+dodge` is "grants dodge", `-dodge` is "costs
+   dodge", a bare `dodge` is either — 169 trinkets mention dodge, 98 give it and 77 take it, and
+   before this the two were one undifferentiated list.
+
+### The sign filter
+
+`searchTerms` returns `{ text, sign }`, and the sign is read off the raw token **before** `nameKey`
+runs, because normalizing strips `+` and `-` with the rest of the punctuation. That is also why
+`effectSegments` exists: it keeps each clause's signs alongside its normalized text.
+
+**The sign is read per segment, and a segment is not a clause.** Splitting on `" | "` alone is not
+enough — a rendered triggered effect joins its own bits with commas, so
+`On Monster Kill: Self: -2% Stress (2 battles), +2 ACC (2 battles)` carries both signs in one
+pipe-clause, and `+stress` would have matched it off the `+2 ACC` half. `SEGMENT` splits on both.
+
+Three consequences worth knowing before changing it:
+
+- **A signed term never consults the name.** `+dodge` asks what a trinket *does*; `Dodge Charm`
+  grants none and must not turn up. It also means the `SCORE` ladder ranks on the unsigned terms
+  only — an all-signed query is an effect question and has no name match to promote.
+- **A segment carrying no signed number matches neither sign.** `30% Damage Reflection` and
+  `Burn 2 pts/rd` are written without one, so `+reflection` finds nothing while `reflection` does.
+  The sign is an explicit filter; where the text has no sign there is nothing to check it against.
+- **It matches the sign as written, which is not "good for you".** `+30% Stress` is a downside and
+  `Crits Received Chance: +6%` is a debuff wearing a `+`. Same trap `skillProfile.js` documents at
+  length — this answers which way the number points, nothing more.
+
+Matching is per whole token with a **prefix** allowance, on `nameKey`-normalized text — so `acc`
+finds `ACC` and `accuracy`, `dodg` finds `dodge` while typing, and `hp` does not match the "hp"
+inside `sharp`. Note the flip side: `dodge` does **not** find `Dodgy`, because the query has to be a
+prefix of the word and not the reverse. That is deliberate — stemming both directions matched far
+too much.
+
+**With no query the list comes back untouched, in order.** Ranking a section would throw away its
+curated order, and the recommended quirks are in usage order rather than alphabetical.
+
+`matchEntry` also reports *where* it matched (`inName` / `inEffect`), which the cards use to show the
+full effect line in gold when that line is the reason the entry turned up — the two-line clamp was
+hiding the answer. `describe(name)` supplies `{ name, effect, tags }` from the same effect lookup the
+card renders, so the text a player reads is the text they searched; `tags` is what makes a trinket's
+rarity and a quirk's physical / mental classification searchable too.
+
+`TrinketPicker` also carries **rarity chips**, built from the tiers actually present in that
+picker so no chip can lead to an empty grid. Everything that is not one of the five drop tiers
+(`CC Set`, `Crystalline`, `Kickstarter`, `Butcher's Circus`, the Sunstone chain's `null`…) collapses
+into `Special`: as a filter, "not a normal drop" is the distinction a player is making.
+
 ## Settings
 
 `src/hooks/useSettings.js` + `src/components/settings/SettingsModal.jsx`. One JSON blob under
@@ -469,10 +545,61 @@ node scripts/importTrinketEffects.js --game "D:/…/steamapps/common/DarkestDung
 node scripts/importTrinketEffects.js --game … --check     # report, write nothing
 ```
 
-Coverage is the whole roster — 719 entries across hero-specific, generic and backer. Three
-exceptions have no entry at all (`Stake`, `Necklace`, `Flickering Lamplight`): the game ships them
-with an empty buff list and no source describes them, so `getTrinketEffect` returns null and callers
-fall back to the name. That is deliberate — a blank effect would render a stranded `"Very Rare — "`.
+Coverage is the whole roster — 720 entries across hero-specific, generic and backer. Two
+exceptions have no entry at all (`Stake`, `Necklace`): the game ships them with an empty buff list
+and no source describes them, so `getTrinketEffect` returns null and callers fall back to the name.
+That is deliberate — a blank effect would render a stranded `"Very Rare — "`.
+
+### A trinket's other half: triggered effects
+
+`buffs` is only the passive half of a trinket. The other half is a set of `*_additional_effects`
+fields naming effects in `*.effects.darkest` by their `.name`, and reading only `buffs` left **20
+trinkets rendering an incomplete tooltip** — the report that found it was the Rescuer's Rucksack
+showing its MAX HP and CRIT and saying nothing about healing the party. Blade Oil promised no
+on-kill riposte, Crumbling Timekeeper never mentioned that it destroys itself, and Flickering
+Lamplight had no entry at all because *everything* it does hangs off a trigger.
+
+`TRIGGERS` is the field list with the label each one reads as (`On Attack`, `When Hit`,
+`On Quest Complete`…), because an effect on its own ("Stress +25") does not say when. `renderEffect`
+turns one effect into a clause. Four details that are each a way it read wrong first:
+
+- **A clause needs its lifetime, and there are two places to find it.** The effect's own `.duration`
+  is the in-combat round count; a buff it applies can carry its own `duration_type`, which is the
+  half the round count does not cover — the Coat's kill buffs last `combat_end` ×2 ("2 battles") and
+  Miller's Pipe's death debuffs last `quest_end`. The effect's wins; the buff's is the fallback.
+- **A bare `target` usually needs no prefix** — the trigger label already said who was hit — but
+  under `was_killed_all_heroes` it means the party and under `kill_performer` it means the wearer.
+  `TARGET_BY_TRIGGER` carries those two, and the wiki text for the two trinkets that use them
+  (`Hero Killed: Party: …`, `On Monster Kill: Buff Self: …`) is the evidence for it.
+- **A rank condition is the whole point of some effects.** Infernal Coalstone has two that differ
+  only by `clear_rank_target` — one knocks back from rank 1, the other pulls from rank 4.
+- **An effect named but undefined is reported, not skipped.** Silence is what hid all 20 of these,
+  so the run prints `effects <n>` and names anything it could not resolve. Currently all 42
+  referenced effects resolve.
+
+Two fixes in the buff renderer came out of the same report:
+
+- **`arena_priority` is a fallback, never a winner.** An `<entry>` may carry attributes besides
+  `id`, and the arena tables write `arena_priority="1"` on 10,920 of them. The old regex required
+  `id="…"` to be followed immediately by `>`, which hid 749 strings — including the one stat
+  template the Rucksack needs. But the attribute marks the *Butcher's Circus phrasing* of a string
+  that often also exists for the campaign, so simply making them visible let the terser arena
+  wording overwrite the campaign's (`+50% Blight duration when applied` → `+50% Blight duration`).
+  Hence two passes: campaign strings first, arena strings only onto keys nothing else filled.
+  **`importSkillEffects.js` and `importQuirkEffects.js` still carry the narrow regex.** That is not
+  an oversight — their generated output is byte-identical either way (only one buff in the whole
+  game needs a hidden template, and it is the Rucksack's), so there is nothing there to fix yet.
+- **`stat_sub_type` falls back to the bare `stat_type`.** A sub-type usually has its own template,
+  but the Man-at-Arms' Mirror Shield is `damage_reflect_percent` + `reflected_dmg` and only the
+  unqualified template exists, so its `30% Damage Reflection` was dropped rather than rendered.
+
+`scaled` now shares `importSkillEffects.js`'s `FLAT_STATS` table, because the additional-effect
+buffs are where damage-over-time buffs start reaching this importer and scaling one prints `200%`
+where the game says `2`.
+
+**A note on `--check` on Windows:** it compares the generated LF text against the file on disk,
+which git checks out as CRLF, so a clean tree can report `DESACTUALIZADO` with nothing actually
+drifted. Diff the written file to be sure.
 
 **Butcher's Circus is the one gap in the game data.** `arena.entries.trinkets.json` ships encrypted
 (multiplayer anti-cheat), so those ~104 trinkets fall back to a wiki CSV export passed via `--csv`.
@@ -514,6 +641,40 @@ struck-through when only one half is on, so the second half's value is visible.
 Running `importTrinketEffects.js` **without `--csv`** is safe now — the ~100 encrypted Butcher's
 Circus entries are carried over from the previous file, so a set-only refresh does not need the wiki
 export.
+
+### Rarity colours (`src/utils/trinketRarity.js`)
+
+A trinket's tier is the first thing a player reads in the game, and the app was throwing it away:
+every trinket had the same amber border on the party card and the same grey one in the picker, so a
+Very Common and an Ancestral looked identical until you hovered. `rarityBorderStyle(name)` is the
+border, applied in the three places a trinket is drawn — the `TrinketPicker` grid, the equipped
+`TrinketSlotButton`, and `PartyHeroCard`'s `TrinketIcon` (which is the one that gets exported as a
+PNG).
+
+**Hex and inline styles, not Tailwind classes.** This is the opposite choice from `quirkStyle.js`
+and for a reason: that file has six tones, this has 23 tiers, and 23 × border/tint/text would be
+seventy-odd literal class strings written out purely so Tailwind's scanner can see them. The values
+are not in the default palette either, so they would all be arbitrary `border-[#…]` anyway.
+
+**`RARITY_TONES` is pinned to the data in both directions** by `trinketRarity.test.js`: every rarity
+any trinket actually carries needs a tone, and a tone nobody uses is a failure too — the same rule
+`trinketEffects.test.js` applies to the roster, for the same reason. A missing tone would silently
+draw as "no tier" rather than error.
+
+The six drop tiers follow the game (grey / white / green / blue / orange / orange-red) and are held
+**≥150 apart** in a green-weighted RGB distance, because those are the ones read constantly. Every
+other pair is held ≥50, and nothing may fall below a luminance of 70 or it reads as no border at all
+against `gray-800`. Those three thresholds are tests, not comments — the first draft had `CC Set` at
+`#B3121F`, which failed the luminance floor and sat 28 away from `Darkest Dungeon`.
+
+Two deliberate exceptions: `Set` and `Fire's Edge` share a colour because they are the same DLC, and
+`rarity: null` gets `NO_RARITY` rather than a colour — the Sunstone chain transforms instead of
+dropping at a tier, so inventing one would be a lie.
+
+**The colour is never the only channel.** Every one of the three sites opens a `HoverCard` that names
+the rarity in words, and the picker's rarity chips carry the same colours as labelled filter buttons,
+so the chip row doubles as the legend. In the picker the selected trinket is marked with a **ring**
+rather than a gold border, because overwriting the border would hide the one thing it is there to say.
 
 ## Skill effects
 
@@ -832,15 +993,134 @@ pin the generated files to the vanilla roster — so a modded hero's effects can
 by hand from the mod's own `.info.darkest` / `*.effects.darkest` / `*.buffs.json` /
 `*.camping_skills.json` / string tables at max rank. `hoverInfo.js` and the two direct
 `getTrinketEffect` call sites fall back to `getModdedSkillEffect` / `getModdedTrinketEffect`.
-`moddedEffects.test.js` pins each class listed in `MODDED_COMBAT_SKILL_EFFECTS` against
-`modded_heroes.js` (skills, non-vanilla camp skills, class trinkets, both directions) — other modded
-classes are simply uncovered, not failures. Sibyl (Workshop `3490076588`) is the first covered class. Comps exported by the SIM
+Sibyl (Workshop `3490076588`) is the first covered class. Comps exported by the SIM
 tooling name her class by the mod's internal id `sibyl_ms`; `NAME_ALIASES` maps it to
 `Sibyl`, and the file-import paths (`storageHelper`, `useTeam.importFromClipboard`) now
 canonicalize **before** `validateTeamSchema` so her 7-skill `alwaysActive` roster is not
 rejected against the default 4-skill cap.
 It also carries `MODDED_TRINKET_SETS` and the merged `getSetBonus` / `getTrinketSet` — see **Set
 bonuses** above.
+
+### Generating them instead (`scripts/importModdedEffects.js`)
+
+Hand-authoring did not scale and was never going to: **one class covered out of 644.** A skill
+button with no effect line is not a cosmetic gap — it is the difference between choosing a skill
+and guessing at one, and it is what made a modded hero feel second-class beside a vanilla one.
+
+So the effects are generated now, from the mod's own files, the same way every other data layer
+here is:
+
+```bash
+node scripts/importModdedEffects.js --workshop "D:/…/workshop/content/262060" --game "D:/…/common/DarkestDungeon"
+node scripts/importModdedEffects.js --workshop … --game … --check    # report, write nothing
+node scripts/importModdedEffects.js --workshop … --game … --prune    # forget what can no longer be verified
+```
+
+It writes **`src/data/moddedEffectsGenerated.js`**, and `moddedEffects.js` merges the two with the
+**hand-written entries winning** — per class *and per skill*, so a class the generator covers
+whole and a human covered by halves keeps both halves. `MODDED_HAND_AUTHORED` is the list of the
+hand-written ones and it is load-bearing: the test demands completeness of those and only
+truthfulness of the generated ones.
+
+Four things worth not re-deriving:
+
+1. **The renderer is a lift of `importSkillEffects.js`, not a second opinion.**
+   `scripts/lib/effectRender.js` holds the same buff, effect, skill and camp renderers, made to
+   take their string / buff / effect tables as an argument instead of reading module globals — so
+   a mod goes through the same logic as the base game. A mod *is* an overlay of the game's tree:
+   same formats, same engine, and writing a second renderer for it is the icon bug this repo
+   already paid for once, where the old scraper resolved names in one place and paired them with
+   icons in another.
+
+   The lift was verified against the committed output rather than assumed: rendering the install
+   through the new library reproduces **all 14 Fire's Edge combat skills and all 77 camp skills
+   in `skillEffects.js` field for field.**
+
+   **`importSkillEffects.js` still carries its own copies, and folding it onto the library is the
+   pending half of this.** It is left that way on purpose for now: that file's combat half comes
+   from a wiki CSV (`--csv`), running it without one drops 126 skills, and a refactor of a
+   generator nobody can re-run end to end is a change nobody can check. Do it with `Skills.csv`
+   to hand, and gate it on `--check` reporting exactly what it reported before. Until then, treat
+   the two as one thing that must move together — a fix to a renderer belongs in both.
+2. **The id → name join comes from the manifest, never from a re-derivation.**
+   `scripts/importModdedHeroes.manifest.json` already records, per class, the internal id paired
+   with the display name that run settled on, and `exportModdedAssets.js` copies art from it for
+   exactly this reason. The app addresses a skill by display name; the mod stores it by id;
+   re-deciding that mapping here is how the two files start disagreeing.
+3. **A `combat_skill:` line is not a whole skill.** The base game writes one complete line per
+   upgrade rank, so reading one line works there. Many mods split a single skill across several
+   lines at the *same* rank — `.target` on one, `.effect` on the next, a `.valid_modes` line per
+   stance after that. Kuuga states one skill across five. Reading one line kept whichever
+   fragment came last, which rendered 79 of 270 skills as nothing but a stance label and threw
+   away the entire kit of eight classes. `mergeRows` is the fix; it is off for the base game.
+4. **`extended` is about verification, not about features.** The wider rendering — the buff scale
+   heuristic, stress and summons, the sentinel-chance and template clean-ups — is on for mods and
+   off for the base game. Vanilla's committed files are the contract, and `skillEffects.js`
+   cannot even be regenerated without the wiki CSV its combat half comes from, so a change here
+   that shifts it is a change nobody can check today.
+
+**The scale heuristic is the one judgement call.** The base game writes a percentage stat as a 0-1
+fraction and 2511 of its 2519 such buffs obey that; mods routinely write `-99` meaning -99%, and
+scaling it printed `-9900% CRIT` on over half the rendered skills. Under `extended`, a magnitude
+above 1 is taken as already whole. The eight vanilla exceptions are town and meta stats
+(`food_consumption_percent`, the gambler chances) and one of them sits on a trinket — which is
+precisely why this does not apply to the base game.
+
+**What it deliberately does not render.** `health_damage`, `heal_percent` and the riposte chances
+are read on scales that cannot be told apart from the value alone (`riposte_on_hit_chance_add 100`
+is 100%; the same field elsewhere holds `1.0` for the same thing), so they produced
+`+10000% Riposte on hit` and `Suffer 900 DMG`. They are dropped rather than guessed — a confident
+wrong number is worse than a missing clause, because the player cannot tell it is wrong. Same call
+`regionProfiles.js` makes for a zone whose tables do not describe how it works.
+
+**Additive by default.** Only a class whose mod is installed can be rendered, and unsubscribing a
+mod for an afternoon must not delete its effects, so anything unverifiable this run is carried over
+from the previous one and reported. `--prune` is what drops it, off by default — the same rule, for
+the same reason, as `importModdedHeroes.js --prune`.
+
+### Modded trinkets
+
+The same run generates `MODDED_TRINKET_EFFECTS_GENERATED`, in the shape `trinketEffects.js` uses
+(`{ rarity, limit, effect }`), and `moddedEffects.js` merges it under the hand-written table the
+same way. Three things make it work:
+
+- **A trinket's `buffs` are only its passive half.** The rest hangs off `*_additional_effects`
+  fields naming effects by id, under a trigger label (`On Monster Kill`, `When Hit`). Mods lean on
+  this much harder than the base game — the Ironclad's Burning Blood ships an **empty `buffs`
+  array** and one kill trigger, so reading `buffs` alone would render it blank. That is the
+  Flickering Lamplight case the trinket importer already documents. `renderTrinket` is the
+  sibling of `renderEffect`, not a reuse of it: a trinket clause writes `Bleed 3 pts/rd for 3 rds`
+  where a skill writes `Bleed 3 pts/rd`, and its target vocabulary is wider.
+- **`limit` is read, never guessed.** It is how many copies the game lets you hold, a property of
+  the object and not of its tier, and `resolveTrinketClashes` is what consumes it. All 331 carry
+  one.
+- **The wide string reader is required here.** 749 base-game templates live in `<entry>` tags
+  carrying attributes, which the narrow regex cannot see — including the one the Rescuer's
+  Rucksack needs. `loadGameContext(dir, { wideStrings: true })` does the two-pass campaign-then-
+  arena read; the modded importer uses it, and the default stays narrow so
+  `importSkillEffects.js`'s output is reproducible.
+
+**Rarities are an open set now, and `trinketRarity.test.js` had to learn that.** A mod invents its
+own tiers — `Kuuga TH`, `Boar Beach`, `Messiah Joke`, seventeen of them today and different ones
+tomorrow. The palette is pinned in both directions against the game's **closed** set (vanilla plus
+the hand-written entries) and only has to *degrade* a modded tier: `rarityTone` returns
+`NO_RARITY`, which draws as "no tier". Inventing a colour would be inventing a hierarchy the mod
+never declared, and demanding one would turn subscribing to a mod into a red suite.
+
+**Two more sentinel guards, both the same judgement.** A mod writes `.chance 2000%` or a buff
+amount of `10000000` to mean "always"; rendering those gave `(2000% base)` and
+`+1000000000% Bleed Skill Chance`. A base chance beyond what the game itself ever writes (500%) is
+dropped, and a buff whose figure reaches five digits loses its clause rather than printing a number
+nobody can act on.
+
+**Coverage is a function of what you have installed.** With 76 workshop folders: **38 classes, 272
+combat skills, 157 camp skills, 331 class trinkets.** The other 606 classes report as
+`mod no instalado`. Install more, re-run, get more.
+
+**Watch the bundle.** The generated file costs ~33 kB gzip for 38 classes and rides in `main.js`
+(which is 397 kB now). Covering all 644 would be several hundred kB — on top of the 131 kB
+`modded_heroes.js` already spends there — so the day this gets broad, it and the roster want the
+lazy treatment `compIndex` and `recommendations` already have.
 
 ## What a skill does (`src/utils/skillProfile.js`)
 
@@ -1273,6 +1553,41 @@ one dense string into a readable stack.
 
 Note for tests: React's `onMouseEnter` does not bubble, so `fireEvent` has to be aimed at the
 `HoverCard` wrapper, not at the icon or button inside it.
+
+## Every dialog goes through `Modal`
+
+`src/components/common/Modal.jsx` is the shell: the portal, the backdrop, `role="dialog"`,
+`aria-modal`, Escape, a focus trap and focus restore on close. **A new dialog uses it. Do not
+hand-roll another overlay** — there were nine of those, they had drifted apart, and each one had
+lost a different piece (seven had no `role="dialog"` at all, none trapped focus, none put focus
+back where it came from, and the dialog documenting the keyboard was the one that ignored
+Escape).
+
+Ten components use it now: `ConfirmDialog`, `KeyboardShortcuts`, `TrinketPicker`, `QuirkPicker`,
+`LoadCompModal`, `SaveTeamModal`, `SuggestCompModal`, `ImportSaveModal`, `SettingsModal` and
+`QuestMapModal`.
+
+Four things to know when adopting it:
+
+1. **`panelStyle`, not a wrapper.** Every dialog paints its border from a CSS variable
+   (`borderColor: var(--dd-gold)`), and Tailwind can never see that value, so it has to be an
+   inline style on the panel itself. Pushing it onto a `<div>` inside draws the border in the
+   wrong place.
+2. **`autoFocus={false}` when the content owns the focus.** The two pickers put it in their
+   search box, `ConfirmDialog` puts it on Cancel — the safe option under the return key on a
+   destructive dialog. Modal's default takes the first focusable, which is the close button.
+3. **Escape is Modal's; other keys are not.** `LoadCompModal` keeps its own `window` listener for
+   the arrow-key pager, because that has to fire wherever the focus is inside the dialog and it
+   is not the closing gesture. Only the Escape branch moved.
+4. **Tests fire Escape at the dialog, not at `window`.** Modal listens on the panel, so
+   `fireEvent.keyDown(screen.getByRole('dialog'), { key: 'Escape' })` is the shape — which
+   doubles as an assertion that the panel really is a dialog.
+
+**`ImageTester` is the one deliberate exception**, and it says so in its own comment: it is a
+full-screen scrolling overlay rather than a centred panel, and it lives behind `?debug=images`.
+`HeroSelector` is not an exception because it is not a dialog — it is a combobox
+(`role="combobox"` over a `role="listbox"`, arrow-key navigation), and its `fixed inset-0` is the
+click-outside scrim. Giving it `role="dialog"` would be a regression.
 
 ## Downloading a file
 

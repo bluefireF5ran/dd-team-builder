@@ -1,10 +1,11 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { X, Search } from 'lucide-react';
+import Modal from '../common/Modal';
 import { POSITIVE_QUIRKS, NEGATIVE_QUIRKS } from '../../data/quirks';
 import { DISEASES, CRIMSON_COURT_DISEASES } from '../../data/diseases';
 import { getQuirkEffect } from '../../data/quirkEffects';
 import { getRecommendedQuirks } from '../../data/recommendations';
-import { nameMatchesSearch } from '../../utils/nameNormalizer';
+import { searchEntries, searchTerms } from '../../utils/entrySearch';
 import { quirkClasses } from '../../utils/quirkStyle';
 import { quirkHover } from '../../utils/hoverInfo';
 import HoverCard from '../common/HoverCard';
@@ -69,15 +70,6 @@ const QuirkPicker = ({ isOpen, onClose, onSelect, kind, heroClass, showCrimsonCo
   const [search, setSearch] = useState('');
 
   useEffect(() => {
-    if (!isOpen) return;
-    const handleKeyDown = (e) => {
-      if (e.key === 'Escape') onClose?.();
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, onClose]);
-
-  useEffect(() => {
     if (isOpen) setSearch('');
   }, [isOpen]);
 
@@ -86,27 +78,46 @@ const QuirkPicker = ({ isOpen, onClose, onSelect, kind, heroClass, showCrimsonCo
     [kind, heroClass, showCrimsonCourt, taken]
   );
 
+  // Quirks have no art in Darkest Dungeon, so the effect line is the only
+  // thing that distinguishes them - which makes it the thing worth searching.
+  // `classification` rides along as a tag so "mental" and "physical" work too.
+  const describe = useCallback((name) => {
+    const found = getQuirkEffect(name);
+    return {
+      name,
+      effect: found?.effect || '',
+      tags: [found?.classification, found?.flavour].filter(Boolean)
+    };
+  }, []);
+
   const sections = useMemo(() => {
     const q = search.trim();
     return baseSections
-      .map((s) => ({ ...s, items: q ? s.items.filter((name) => nameMatchesSearch(name, q)) : s.items }))
-      .filter((s) => s.items.length > 0);
-  }, [baseSections, search]);
+      .map((s) => ({ ...s, rows: searchEntries(s.items, q, describe) }))
+      .filter((s) => s.rows.length > 0);
+  }, [baseSections, search, describe]);
 
-  if (!isOpen) return null;
+  const resultCount = useMemo(
+    () => sections.reduce((n, s) => n + s.rows.length, 0),
+    [sections]
+  );
+  const isSearching = searchTerms(search).length > 0;
 
   const fallbackTone = kind === 'disease' ? 'disease' : kind;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={onClose}>
-      <div className="fixed inset-0 bg-black/60 backdrop-blur-sm" />
-      <div
-        className="relative bg-gray-800 border-2 rounded-lg shadow-2xl max-w-3xl w-full max-h-[85vh] flex flex-col"
-        style={{ borderColor: 'var(--dd-gold)' }}
-        onClick={(e) => e.stopPropagation()}
-      >
+    // autoFocus off: the search box carries its own, and landing there is what
+    // makes the picker usable from the keyboard.
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      labelledBy="quirk-picker-title"
+      autoFocus={false}
+      panelClassName="bg-gray-800 border-2 rounded-lg shadow-2xl max-w-3xl w-full max-h-[85vh] flex flex-col"
+      panelStyle={{ borderColor: 'var(--dd-gold)' }}
+    >
         <div className="flex items-start justify-between gap-3 p-4 sm:p-6 pb-3">
-          <h3 className="font-darkest text-lg sm:text-xl text-dd-parchment tracking-wide">
+          <h3 id="quirk-picker-title" className="font-darkest text-lg sm:text-xl text-dd-parchment tracking-wide">
             Select {TITLES[kind] || 'Quirk'}
           </h3>
           <button
@@ -126,12 +137,21 @@ const QuirkPicker = ({ isOpen, onClose, onSelect, kind, heroClass, showCrimsonCo
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder={`Search ${kind === 'disease' ? 'diseases' : 'quirks'}...`}
+              placeholder={`Search ${kind === 'disease' ? 'diseases' : 'quirks'} by name or effect - try +dodge`}
               aria-label={`Search ${kind === 'disease' ? 'diseases' : 'quirks'}`}
               className="w-full bg-gray-900 text-dd-parchment pl-8 pr-3 py-1.5 rounded border border-gray-700 focus:outline-none focus:border-dd-gold text-sm"
               autoFocus
             />
           </div>
+
+          {isSearching && (
+            <p className="mt-2 text-[11px] text-gray-500" role="status">
+              {resultCount === 0
+                ? 'No matches'
+                : `${resultCount} ${resultCount === 1 ? 'match' : 'matches'}`}
+              {' - searching names and effects'}
+            </p>
+          )}
         </div>
 
         <div className="flex-1 overflow-y-auto px-4 sm:px-6 pb-4 sm:pb-6 space-y-4">
@@ -146,9 +166,12 @@ const QuirkPicker = ({ isOpen, onClose, onSelect, kind, heroClass, showCrimsonCo
                 {section.label}
               </h4>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
-                {section.items.map((name) => {
+                {section.rows.map(({ name, match }) => {
                   const tone = quirkClasses(name, fallbackTone);
                   const effect = getQuirkEffect(name);
+                  // Matched on the effect? Show all of it - the clamp is what
+                  // hid the reason this quirk turned up.
+                  const clamp = match?.inEffect ? '' : 'line-clamp-2';
                   return (
                     <HoverCard key={`${section.key}-${name}`} className="w-full" {...quirkHover(name, fallbackTone)}>
                       <button
@@ -159,7 +182,9 @@ const QuirkPicker = ({ isOpen, onClose, onSelect, kind, heroClass, showCrimsonCo
                       >
                         <span className={`block text-xs sm:text-sm font-semibold ${tone.text}`}>{name}</span>
                         {effect?.effect && (
-                          <span className="block text-[10px] sm:text-[11px] text-gray-400 leading-tight line-clamp-2 mt-0.5">
+                          <span className={`block text-[10px] sm:text-[11px] leading-tight mt-0.5 ${clamp} ${
+                            match?.inEffect ? 'text-dd-gold/90' : 'text-gray-400'
+                          }`}>
                             {effect.effect}
                           </span>
                         )}
@@ -171,8 +196,7 @@ const QuirkPicker = ({ isOpen, onClose, onSelect, kind, heroClass, showCrimsonCo
             </div>
           ))}
         </div>
-      </div>
-    </div>
+    </Modal>
   );
 };
 

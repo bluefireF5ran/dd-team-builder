@@ -7,6 +7,7 @@ import ImageWithFallback from '../common/ImageWithFallback';
 import HoverCard from '../common/HoverCard';
 import { skillHover, trinketHover, quirkHover } from '../../utils/hoverInfo';
 import { quirkClasses } from '../../utils/quirkStyle';
+import { rarityBorderStyle, withAlpha } from '../../utils/trinketRarity';
 
 // The four icon grids below differ only in art, colour and what the hover panel
 // reads from, so the icon itself is one component.
@@ -45,20 +46,30 @@ const QuirkChip = ({ name, tone, locked }) => (
   </HoverCard>
 );
 
-const TrinketIcon = ({ name, other, heroClass }) => (
-  <HoverCard {...trinketHover(name, other)}>
-    <ImageWithFallback
-      src={getTrinketImagePath(name, heroClass)}
-      alt={name}
-      className="w-[36px] h-[72px] sm:w-[60px] sm:h-[120px] object-contain rounded border-2 sm:border-3 border-amber-600 bg-gray-800 shadow-md trinket-icon"
-      fallback={(
-        <div className="w-[36px] h-[72px] sm:w-[60px] sm:h-[120px] flex items-center justify-center bg-amber-900/40 border-2 sm:border-3 border-amber-600 rounded text-sm sm:text-lg text-amber-300 font-bold">
-          ?
-        </div>
-      )}
-    />
-  </HoverCard>
-);
+// The border is the trinket's rarity. Every one of these was amber before, so
+// a party wearing a Very Common and an Ancestral looked the same until you
+// hovered - and this card is the one that gets exported as a PNG.
+const TrinketIcon = ({ name, other, heroClass }) => {
+  const border = rarityBorderStyle(name);
+  return (
+    <HoverCard {...trinketHover(name, other)}>
+      <ImageWithFallback
+        src={getTrinketImagePath(name, heroClass)}
+        alt={name}
+        style={border}
+        className="w-[36px] h-[72px] sm:w-[60px] sm:h-[120px] object-contain rounded border-2 sm:border-3 bg-gray-800 shadow-md trinket-icon"
+        fallback={(
+          <div
+            style={{ ...border, backgroundColor: withAlpha(border.borderColor, 0.25) }}
+            className="w-[36px] h-[72px] sm:w-[60px] sm:h-[120px] flex items-center justify-center border-2 sm:border-3 rounded text-sm sm:text-lg text-amber-300 font-bold"
+          >
+            ?
+          </div>
+        )}
+      />
+    </HoverCard>
+  );
+};
 
 const PartyHeroCard = ({ hero, position }) => {
   const heroData = HERO_CLASSES[hero.heroClass] || MODDED_HERO_CLASSES[hero.heroClass];

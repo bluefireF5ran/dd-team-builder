@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { createPortal } from 'react-dom';
 import { Dice5, X, Check, Users, RotateCcw, Sparkles, Upload, FolderOpen, PackageCheck, BedDouble, Gem, Brain } from 'lucide-react';
+import Modal from '../common/Modal';
 import ImageWithFallback from '../common/ImageWithFallback';
 import {
   ALL_HERO_NAMES,
@@ -163,15 +163,6 @@ const SuggestCompModal = ({
     if (isOpen) setPendingCount(pendingCompKeys().size);
   }, [isOpen]);
 
-  useEffect(() => {
-    if (!isOpen) return;
-    const handleKeyDown = (e) => {
-      if (e.key === 'Escape') onClose?.();
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, onClose]);
-
   const setRosterAndSave = useCallback(
     (next) => {
       const valid = normalizeRoster(next);
@@ -318,19 +309,17 @@ const SuggestCompModal = ({
     return q ? heroPool.filter((name) => name.toLowerCase().includes(q)) : heroPool;
   }, [heroPool, query]);
 
-  if (!isOpen) return null;
-
-  return createPortal(
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={onClose}>
-      <div className="fixed inset-0 bg-black/60 backdrop-blur-sm" />
-      <div
-        className="relative bg-gray-800 border-2 rounded-lg p-5 sm:p-6 max-w-3xl w-full shadow-2xl max-h-[90vh] flex flex-col"
-        style={{ borderColor: 'var(--dd-gold)' }}
-        onClick={(e) => e.stopPropagation()}
-      >
+  return (
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      labelledBy="suggest-comp-title"
+      panelClassName="bg-gray-800 border-2 rounded-lg p-5 sm:p-6 max-w-3xl w-full shadow-2xl max-h-[90vh] flex flex-col"
+      panelStyle={{ borderColor: 'var(--dd-gold)' }}
+    >
         <div className="flex items-start justify-between gap-4 mb-4">
           <div>
-            <h3 className="font-darkest text-xl text-dd-parchment tracking-wide flex items-center gap-2">
+            <h3 id="suggest-comp-title" className="font-darkest text-xl text-dd-parchment tracking-wide flex items-center gap-2">
               <Sparkles size={20} className="text-dd-gold" />
               Suggest a Comp
             </h3>
@@ -561,9 +550,7 @@ const SuggestCompModal = ({
             Suggest Comp
           </button>
         </div>
-      </div>
-    </div>,
-    document.body
+    </Modal>
   );
 };
 

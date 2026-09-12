@@ -1,5 +1,6 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { X, Search, PackageCheck } from 'lucide-react';
+import Modal from '../common/Modal';
 import { HERO_CLASSES } from '../../data/heroes';
 import { MODDED_HERO_CLASSES, MODDED_GENERAL_TRINKETS } from '../../data/modded_heroes';
 import { TRINKETS } from '../../data/trinkets';
@@ -9,7 +10,9 @@ import { getTrinketImagePath } from '../../utils/imageHelper';
 import { getTrinketEffect } from '../../data/trinketEffects';
 import { getModdedTrinketEffect } from '../../data/moddedEffects';
 import { trinketHover } from '../../utils/hoverInfo';
-import { nameMatchesSearch, nameKey } from '../../utils/nameNormalizer';
+import { nameKey } from '../../utils/nameNormalizer';
+import { searchEntries, searchTerms } from '../../utils/entrySearch';
+import { rarityBorderStyle, rarityTone, withAlpha } from '../../utils/trinketRarity';
 import ImageWithFallback from '../common/ImageWithFallback';
 import HoverCard from '../common/HoverCard';
 
@@ -19,6 +22,15 @@ const CATEGORY_META = {
   generic: { label: 'Generic', text: 'text-gray-300' },
   moddedKickstarter: { label: 'Modded & Kickstarter', text: 'text-purple-400' }
 };
+
+// The drop tiers, in the game's own order. Everything else a trinket can be
+// tagged (`CC Set`, `Crystalline`, `Kickstarter`, `Butcher's Circus`, the
+// Sunstone chain's `null`...) collapses into one bucket: as a filter, "not a
+// normal drop" is the distinction a player is actually making.
+const RARITY_TIERS = ['Very Common', 'Common', 'Uncommon', 'Rare', 'Very Rare'];
+const SPECIAL = 'Special';
+const rarityBucket = (rarity) =>
+  RARITY_TIERS.includes(rarity) ? rarity : SPECIAL;
 
 const TrinketPicker = ({
   isOpen,
@@ -34,6 +46,7 @@ const TrinketPicker = ({
   onToggleOwnedOnly
 }) => {
   const [search, setSearch] = useState('');
+  const [rarity, setRarity] = useState(null);
 
   // Matching on `nameKey` rather than the raw string, because an imported save
   // and the app can spell the same trinket differently (apostrophes, accents).
@@ -42,17 +55,19 @@ const TrinketPicker = ({
   const filterOwned = canFilterByOwned && ownedOnly;
 
   useEffect(() => {
-    if (!isOpen) return;
-    const handleKeyDown = (e) => {
-      if (e.key === 'Escape') onClose?.();
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, onClose]);
-
-  useEffect(() => {
-    if (isOpen) setSearch('');
+    if (isOpen) { setSearch(''); setRarity(null); }
   }, [isOpen]);
+
+  // One description per trinket, shared by the search and the cards, so the
+  // text a player reads is the text they searched.
+  const describe = useCallback((name) => {
+    const found = getTrinketEffect(name) || getModdedTrinketEffect(name);
+    return {
+      name,
+      effect: found?.effect || '',
+      tags: found?.rarity ? [found.rarity, rarityBucket(found.rarity)] : [SPECIAL]
+    };
+  }, []);
 
   const baseCategories = useMemo(() => {
     const recommended = getRecommendedTrinkets(heroClass);
@@ -73,29 +88,54 @@ const TrinketPicker = ({
     ];
   }, [heroClass, showBackerTrinkets, showModdedHeroes]);
 
+  // Which rarity chips to offer: only the ones some trinket in this picker
+  // actually has, so no chip can lead to an empty grid.
+  const rarities = useMemo(() => {
+    const present = new Set();
+    baseCategories.forEach((cat) => cat.items.forEach((name) => {
+      const found = getTrinketEffect(name) || getModdedTrinketEffect(name);
+      present.add(rarityBucket(found?.rarity));
+    }));
+    return [...RARITY_TIERS, SPECIAL].filter((r) => present.has(r));
+  }, [baseCategories]);
+
   const categories = useMemo(() => {
     const q = search.trim();
     return baseCategories
       .map((cat) => {
-        let items = q ? cat.items.filter((name) => nameMatchesSearch(name, q)) : cat.items;
-        if (filterOwned) items = items.filter((name) => ownedKeys.has(nameKey(name)));
-        return { ...cat, items };
+        let rows = searchEntries(cat.items, q, describe);
+        if (filterOwned) rows = rows.filter((row) => ownedKeys.has(nameKey(row.name)));
+        if (rarity) {
+          rows = rows.filter((row) => {
+            const found = getTrinketEffect(row.name) || getModdedTrinketEffect(row.name);
+            return rarityBucket(found?.rarity) === rarity;
+          });
+        }
+        return { ...cat, rows };
       })
-      .filter((cat) => cat.items.length > 0);
-  }, [baseCategories, search, filterOwned, ownedKeys]);
+      .filter((cat) => cat.rows.length > 0);
+  }, [baseCategories, search, filterOwned, ownedKeys, rarity, describe]);
 
-  if (!isOpen) return null;
+  const resultCount = useMemo(
+    () => categories.reduce((n, cat) => n + cat.rows.length, 0),
+    [categories]
+  );
+  const isSearching = searchTerms(search).length > 0;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={onClose}>
-      <div className="fixed inset-0 bg-black/60 backdrop-blur-sm" />
-      <div
-        className="relative bg-gray-800 border-2 rounded-lg shadow-2xl max-w-3xl w-full max-h-[85vh] flex flex-col"
-        style={{ borderColor: 'var(--dd-gold)' }}
-        onClick={(e) => e.stopPropagation()}
-      >
+    // autoFocus off: the search box below carries its own, and landing there is
+    // what makes the picker usable from the keyboard - Modal's default would
+    // take the close button instead.
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      labelledBy="trinket-picker-title"
+      autoFocus={false}
+      panelClassName="bg-gray-800 border-2 rounded-lg shadow-2xl max-w-3xl w-full max-h-[85vh] flex flex-col"
+      panelStyle={{ borderColor: 'var(--dd-gold)' }}
+    >
         <div className="flex items-start justify-between gap-3 p-4 sm:p-6 pb-3">
-          <h3 className="font-darkest text-lg sm:text-xl text-dd-parchment tracking-wide">
+          <h3 id="trinket-picker-title" className="font-darkest text-lg sm:text-xl text-dd-parchment tracking-wide">
             Select {slotLabel}
           </h3>
           <button
@@ -115,28 +155,66 @@ const TrinketPicker = ({
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search trinkets..."
+              placeholder="Search by name or effect - try dodge, +dodge, accuracy"
               aria-label="Search trinkets"
               className="w-full bg-gray-900 text-dd-parchment pl-8 pr-3 py-1.5 rounded border border-gray-700 focus:outline-none focus:border-dd-gold text-sm"
               autoFocus
             />
           </div>
 
-          {canFilterByOwned && (
-            <button
-              type="button"
-              onClick={onToggleOwnedOnly}
-              aria-pressed={ownedOnly}
-              className={`mt-2 px-2.5 py-1 text-xs rounded border transition-colors inline-flex items-center gap-1.5 ${
-                ownedOnly
-                  ? 'border-emerald-500/60 bg-emerald-900/40 text-emerald-300'
-                  : 'border-gray-600 bg-gray-800 text-gray-400 hover:text-gray-200'
-              }`}
-              title="Show only the trinkets your imported save has"
-            >
-              <PackageCheck size={12} />
-              Owned only ({ownedKeys.size})
-            </button>
+          <div className="mt-2 flex flex-wrap items-center gap-1.5">
+            {canFilterByOwned && (
+              <button
+                type="button"
+                onClick={onToggleOwnedOnly}
+                aria-pressed={ownedOnly}
+                className={`px-2.5 py-1 text-xs rounded border transition-colors inline-flex items-center gap-1.5 ${
+                  ownedOnly
+                    ? 'border-emerald-500/60 bg-emerald-900/40 text-emerald-300'
+                    : 'border-gray-600 bg-gray-800 text-gray-400 hover:text-gray-200'
+                }`}
+                title="Show only the trinkets your imported save has"
+              >
+                <PackageCheck size={12} />
+                Owned only ({ownedKeys.size})
+              </button>
+            )}
+            {rarities.map((tier) => {
+              // A chip wears the tier's own colour, so the filter row doubles
+              // as the legend for the borders in the grid below it.
+              const { colour } = rarityTone(tier);
+              const on = rarity === tier;
+              const known = tier !== SPECIAL;
+              return (
+                <button
+                  key={tier}
+                  type="button"
+                  onClick={() => setRarity(on ? null : tier)}
+                  aria-pressed={on}
+                  style={known ? {
+                    borderColor: colour,
+                    backgroundColor: withAlpha(colour, on ? 0.28 : 0.1),
+                    color: on ? '#fff' : colour,
+                  } : undefined}
+                  className={`px-2.5 py-1 text-xs rounded border transition-colors ${
+                    known ? '' : (on
+                      ? 'border-dd-gold bg-dd-gold/15 text-dd-parchment'
+                      : 'border-gray-600 bg-gray-800 text-gray-400 hover:text-gray-200')
+                  }`}
+                >
+                  {tier}
+                </button>
+              );
+            })}
+          </div>
+
+          {(isSearching || rarity) && (
+            <p className="mt-2 text-[11px] text-gray-500" role="status">
+              {resultCount === 0
+                ? 'No matches'
+                : `${resultCount} ${resultCount === 1 ? 'trinket' : 'trinkets'}`}
+              {isSearching && ' - searching names and effects'}
+            </p>
           )}
         </div>
 
@@ -145,7 +223,7 @@ const TrinketPicker = ({
             <div className="text-center text-gray-500 text-sm py-8">
               {filterOwned
                 ? 'None of the trinkets you own match. Turn "Owned only" off to see the rest.'
-                : 'No trinkets match your search.'}
+                : 'No trinkets match your search. Names and effects are both searched, so try a stat - dodge, prot, stress - or +dodge for only the ones that grant it.'}
             </div>
           )}
           {categories.map((cat) => {
@@ -156,16 +234,26 @@ const TrinketPicker = ({
                   {meta.label}
                 </h4>
                 <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2">
-                  {cat.items.map((name, idx) => {
+                  {cat.rows.map(({ name, match }, idx) => {
                     const effect = getTrinketEffect(name) || getModdedTrinketEffect(name);
+                    // A card that matched on its effect shows that effect in
+                    // full: the clamped two lines are what hid the reason the
+                    // trinket turned up at all.
+                    const clamp = match?.inEffect ? '' : 'line-clamp-2';
                     return (
                     <HoverCard key={`${cat.key}-${name}-${idx}`} {...trinketHover(name)}>
                     <button
                       type="button"
                       onClick={() => { onChange(name); onClose(); }}
                       title={name}
-                      className={`w-full flex flex-col items-center p-1.5 rounded border-2 transition-colors ${
-                        value === name ? 'border-dd-gold bg-dd-gold/10' : 'border-gray-700 hover:border-gray-500'
+                      // The border is the rarity, so the selected state is a
+                      // ring instead of a colour: overwriting the border with
+                      // gold would hide the one thing it is there to say.
+                      style={rarityBorderStyle(name, { tint: 0.12 })}
+                      className={`w-full flex flex-col items-center p-1.5 rounded border-2 transition-all ${
+                        value === name
+                          ? 'ring-2 ring-dd-gold ring-offset-2 ring-offset-gray-800'
+                          : 'hover:ring-1 hover:ring-white/30'
                       }`}
                     >
                       <ImageWithFallback
@@ -184,7 +272,9 @@ const TrinketPicker = ({
                         {name}
                       </span>
                       {effect && (
-                        <span className="text-[9px] sm:text-[10px] text-gray-400 text-center leading-tight line-clamp-2 mt-0.5">
+                        <span className={`text-[9px] sm:text-[10px] text-center leading-tight mt-0.5 ${clamp} ${
+                          match?.inEffect ? 'text-dd-gold/90' : 'text-gray-400'
+                        }`}>
                           {effect.effect}
                         </span>
                       )}
@@ -197,8 +287,7 @@ const TrinketPicker = ({
             );
           })}
         </div>
-      </div>
-    </div>
+    </Modal>
   );
 };
 
