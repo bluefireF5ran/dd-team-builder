@@ -13,6 +13,7 @@ import { getModdedTrinketEffect, getSetBonus } from '../../data/moddedEffects';
 import { getSkillTier, getSkillTierMeta } from '../../data/skillTiers';
 import { bisLoadout, MIN_LIBRARY_SAMPLES } from '../../data/bisIndex';
 import { skillHover, trinketHover } from '../../utils/hoverInfo';
+import { rarityBorderStyle } from '../../utils/trinketRarity';
 import ImageWithFallback from '../common/ImageWithFallback';
 import ConfirmDialog from '../common/ConfirmDialog';
 import HoverCard from '../common/HoverCard';
@@ -789,7 +790,12 @@ const TrinketSlotButton = ({ trinketName, otherTrinketName, heroClass, placehold
           onOpen();
         }
       }}
-      className="flex-1 flex items-center gap-2 bg-gray-800/80 px-2 py-1.5 rounded border-2 border-gray-700 hover:border-dd-gold/50 cursor-pointer transition-colors min-w-0"
+      // An empty slot keeps the neutral border - there is no tier to show
+      // until something is in it.
+      style={trinketName ? rarityBorderStyle(trinketName, { tint: 0.1 }) : undefined}
+      className={`flex-1 flex items-center gap-2 px-2 py-1.5 rounded border-2 cursor-pointer transition-colors min-w-0 ${
+        trinketName ? '' : 'bg-gray-800/80 border-gray-700 hover:border-dd-gold/50'
+      }`}
     >
       {trinketName ? (
         <>

@@ -165,7 +165,7 @@ describe('HeroConfiguration', () => {
     fireEvent.click(addBtn);
 
     // Should show quirk selector
-    expect(screen.getByPlaceholderText('Search quirks...')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText(/Search quirks/)).toBeInTheDocument();
   });
 
   describe('hero clipboard', () => {
@@ -306,8 +306,11 @@ describe('HeroConfiguration', () => {
     });
 
     test('opens no card for a trinket with no known effect', () => {
-      render(<HeroConfiguration {...defaultProps} hero={withTrinket('Flickering Lamplight')} />);
-      hover(screen.getByTitle('Flickering Lamplight'));
+      // `Stake` ships with an empty buff list and no source describes it, so
+      // name-only is the right fallback. Flickering Lamplight used to stand
+      // here and no longer qualifies - its effects are triggered, not passive.
+      render(<HeroConfiguration {...defaultProps} hero={withTrinket('Stake')} />);
+      hover(screen.getByTitle('Stake'));
       expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
     });
 

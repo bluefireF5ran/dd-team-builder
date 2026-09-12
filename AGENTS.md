@@ -409,6 +409,70 @@ It was ten, and the tail of a ten-item list is quirks one or two comps happened 
 as advice it is not. Usage order, not alphabetical: the first one is what the library reaches for
 most, and the old selector threw that away by putting the list through a `Set`.
 
+## Searching a picker (`src/utils/entrySearch.js`)
+
+Both pickers search **what a thing does**, not only what it is called. The name was the one thing a
+player looking for "something that gives dodge" did not know, and the effect lines were already
+generated and on screen — so `dodge` now finds the trinkets that grant it instead of only
+`Dodgy Cloak`. `TrinketPicker` and `QuirkPicker` both call `searchEntries(names, query, describe)`
+and render the rows it returns.
+
+Four rules, each one a way the old `nameMatchesSearch` filter got it wrong:
+
+1. **Terms are AND-ed, and each may land in a different field.** `dodge crit` means both, not the
+   literal string — nothing in the game reads "dodge crit", so a substring match found nothing.
+2. **The game's abbreviations are not what players type.** The data says `ACC`, `PROT`, `DMG`;
+   players type accuracy, armor, damage. `SYNONYM_GROUPS` makes those the same token, so neither
+   spelling is a dead end.
+3. **A name hit outranks an effect hit.** Typing `sun` has to put `Sun Ring` above every trinket
+   whose effect mentions sunlight, which is what the `SCORE` ladder is for.
+4. **A leading `+` or `-` filters on the sign.** `+dodge` is "grants dodge", `-dodge` is "costs
+   dodge", a bare `dodge` is either — 169 trinkets mention dodge, 98 give it and 77 take it, and
+   before this the two were one undifferentiated list.
+
+### The sign filter
+
+`searchTerms` returns `{ text, sign }`, and the sign is read off the raw token **before** `nameKey`
+runs, because normalizing strips `+` and `-` with the rest of the punctuation. That is also why
+`effectSegments` exists: it keeps each clause's signs alongside its normalized text.
+
+**The sign is read per segment, and a segment is not a clause.** Splitting on `" | "` alone is not
+enough — a rendered triggered effect joins its own bits with commas, so
+`On Monster Kill: Self: -2% Stress (2 battles), +2 ACC (2 battles)` carries both signs in one
+pipe-clause, and `+stress` would have matched it off the `+2 ACC` half. `SEGMENT` splits on both.
+
+Three consequences worth knowing before changing it:
+
+- **A signed term never consults the name.** `+dodge` asks what a trinket *does*; `Dodge Charm`
+  grants none and must not turn up. It also means the `SCORE` ladder ranks on the unsigned terms
+  only — an all-signed query is an effect question and has no name match to promote.
+- **A segment carrying no signed number matches neither sign.** `30% Damage Reflection` and
+  `Burn 2 pts/rd` are written without one, so `+reflection` finds nothing while `reflection` does.
+  The sign is an explicit filter; where the text has no sign there is nothing to check it against.
+- **It matches the sign as written, which is not "good for you".** `+30% Stress` is a downside and
+  `Crits Received Chance: +6%` is a debuff wearing a `+`. Same trap `skillProfile.js` documents at
+  length — this answers which way the number points, nothing more.
+
+Matching is per whole token with a **prefix** allowance, on `nameKey`-normalized text — so `acc`
+finds `ACC` and `accuracy`, `dodg` finds `dodge` while typing, and `hp` does not match the "hp"
+inside `sharp`. Note the flip side: `dodge` does **not** find `Dodgy`, because the query has to be a
+prefix of the word and not the reverse. That is deliberate — stemming both directions matched far
+too much.
+
+**With no query the list comes back untouched, in order.** Ranking a section would throw away its
+curated order, and the recommended quirks are in usage order rather than alphabetical.
+
+`matchEntry` also reports *where* it matched (`inName` / `inEffect`), which the cards use to show the
+full effect line in gold when that line is the reason the entry turned up — the two-line clamp was
+hiding the answer. `describe(name)` supplies `{ name, effect, tags }` from the same effect lookup the
+card renders, so the text a player reads is the text they searched; `tags` is what makes a trinket's
+rarity and a quirk's physical / mental classification searchable too.
+
+`TrinketPicker` also carries **rarity chips**, built from the tiers actually present in that
+picker so no chip can lead to an empty grid. Everything that is not one of the five drop tiers
+(`CC Set`, `Crystalline`, `Kickstarter`, `Butcher's Circus`, the Sunstone chain's `null`…) collapses
+into `Special`: as a filter, "not a normal drop" is the distinction a player is making.
+
 ## Settings
 
 `src/hooks/useSettings.js` + `src/components/settings/SettingsModal.jsx`. One JSON blob under
@@ -469,10 +533,61 @@ node scripts/importTrinketEffects.js --game "D:/…/steamapps/common/DarkestDung
 node scripts/importTrinketEffects.js --game … --check     # report, write nothing
 ```
 
-Coverage is the whole roster — 719 entries across hero-specific, generic and backer. Three
-exceptions have no entry at all (`Stake`, `Necklace`, `Flickering Lamplight`): the game ships them
-with an empty buff list and no source describes them, so `getTrinketEffect` returns null and callers
-fall back to the name. That is deliberate — a blank effect would render a stranded `"Very Rare — "`.
+Coverage is the whole roster — 720 entries across hero-specific, generic and backer. Two
+exceptions have no entry at all (`Stake`, `Necklace`): the game ships them with an empty buff list
+and no source describes them, so `getTrinketEffect` returns null and callers fall back to the name.
+That is deliberate — a blank effect would render a stranded `"Very Rare — "`.
+
+### A trinket's other half: triggered effects
+
+`buffs` is only the passive half of a trinket. The other half is a set of `*_additional_effects`
+fields naming effects in `*.effects.darkest` by their `.name`, and reading only `buffs` left **20
+trinkets rendering an incomplete tooltip** — the report that found it was the Rescuer's Rucksack
+showing its MAX HP and CRIT and saying nothing about healing the party. Blade Oil promised no
+on-kill riposte, Crumbling Timekeeper never mentioned that it destroys itself, and Flickering
+Lamplight had no entry at all because *everything* it does hangs off a trigger.
+
+`TRIGGERS` is the field list with the label each one reads as (`On Attack`, `When Hit`,
+`On Quest Complete`…), because an effect on its own ("Stress +25") does not say when. `renderEffect`
+turns one effect into a clause. Four details that are each a way it read wrong first:
+
+- **A clause needs its lifetime, and there are two places to find it.** The effect's own `.duration`
+  is the in-combat round count; a buff it applies can carry its own `duration_type`, which is the
+  half the round count does not cover — the Coat's kill buffs last `combat_end` ×2 ("2 battles") and
+  Miller's Pipe's death debuffs last `quest_end`. The effect's wins; the buff's is the fallback.
+- **A bare `target` usually needs no prefix** — the trigger label already said who was hit — but
+  under `was_killed_all_heroes` it means the party and under `kill_performer` it means the wearer.
+  `TARGET_BY_TRIGGER` carries those two, and the wiki text for the two trinkets that use them
+  (`Hero Killed: Party: …`, `On Monster Kill: Buff Self: …`) is the evidence for it.
+- **A rank condition is the whole point of some effects.** Infernal Coalstone has two that differ
+  only by `clear_rank_target` — one knocks back from rank 1, the other pulls from rank 4.
+- **An effect named but undefined is reported, not skipped.** Silence is what hid all 20 of these,
+  so the run prints `effects <n>` and names anything it could not resolve. Currently all 42
+  referenced effects resolve.
+
+Two fixes in the buff renderer came out of the same report:
+
+- **`arena_priority` is a fallback, never a winner.** An `<entry>` may carry attributes besides
+  `id`, and the arena tables write `arena_priority="1"` on 10,920 of them. The old regex required
+  `id="…"` to be followed immediately by `>`, which hid 749 strings — including the one stat
+  template the Rucksack needs. But the attribute marks the *Butcher's Circus phrasing* of a string
+  that often also exists for the campaign, so simply making them visible let the terser arena
+  wording overwrite the campaign's (`+50% Blight duration when applied` → `+50% Blight duration`).
+  Hence two passes: campaign strings first, arena strings only onto keys nothing else filled.
+  **`importSkillEffects.js` and `importQuirkEffects.js` still carry the narrow regex.** That is not
+  an oversight — their generated output is byte-identical either way (only one buff in the whole
+  game needs a hidden template, and it is the Rucksack's), so there is nothing there to fix yet.
+- **`stat_sub_type` falls back to the bare `stat_type`.** A sub-type usually has its own template,
+  but the Man-at-Arms' Mirror Shield is `damage_reflect_percent` + `reflected_dmg` and only the
+  unqualified template exists, so its `30% Damage Reflection` was dropped rather than rendered.
+
+`scaled` now shares `importSkillEffects.js`'s `FLAT_STATS` table, because the additional-effect
+buffs are where damage-over-time buffs start reaching this importer and scaling one prints `200%`
+where the game says `2`.
+
+**A note on `--check` on Windows:** it compares the generated LF text against the file on disk,
+which git checks out as CRLF, so a clean tree can report `DESACTUALIZADO` with nothing actually
+drifted. Diff the written file to be sure.
 
 **Butcher's Circus is the one gap in the game data.** `arena.entries.trinkets.json` ships encrypted
 (multiplayer anti-cheat), so those ~104 trinkets fall back to a wiki CSV export passed via `--csv`.
@@ -514,6 +629,40 @@ struck-through when only one half is on, so the second half's value is visible.
 Running `importTrinketEffects.js` **without `--csv`** is safe now — the ~100 encrypted Butcher's
 Circus entries are carried over from the previous file, so a set-only refresh does not need the wiki
 export.
+
+### Rarity colours (`src/utils/trinketRarity.js`)
+
+A trinket's tier is the first thing a player reads in the game, and the app was throwing it away:
+every trinket had the same amber border on the party card and the same grey one in the picker, so a
+Very Common and an Ancestral looked identical until you hovered. `rarityBorderStyle(name)` is the
+border, applied in the three places a trinket is drawn — the `TrinketPicker` grid, the equipped
+`TrinketSlotButton`, and `PartyHeroCard`'s `TrinketIcon` (which is the one that gets exported as a
+PNG).
+
+**Hex and inline styles, not Tailwind classes.** This is the opposite choice from `quirkStyle.js`
+and for a reason: that file has six tones, this has 23 tiers, and 23 × border/tint/text would be
+seventy-odd literal class strings written out purely so Tailwind's scanner can see them. The values
+are not in the default palette either, so they would all be arbitrary `border-[#…]` anyway.
+
+**`RARITY_TONES` is pinned to the data in both directions** by `trinketRarity.test.js`: every rarity
+any trinket actually carries needs a tone, and a tone nobody uses is a failure too — the same rule
+`trinketEffects.test.js` applies to the roster, for the same reason. A missing tone would silently
+draw as "no tier" rather than error.
+
+The six drop tiers follow the game (grey / white / green / blue / orange / orange-red) and are held
+**≥150 apart** in a green-weighted RGB distance, because those are the ones read constantly. Every
+other pair is held ≥50, and nothing may fall below a luminance of 70 or it reads as no border at all
+against `gray-800`. Those three thresholds are tests, not comments — the first draft had `CC Set` at
+`#B3121F`, which failed the luminance floor and sat 28 away from `Darkest Dungeon`.
+
+Two deliberate exceptions: `Set` and `Fire's Edge` share a colour because they are the same DLC, and
+`rarity: null` gets `NO_RARITY` rather than a colour — the Sunstone chain transforms instead of
+dropping at a tier, so inventing one would be a lie.
+
+**The colour is never the only channel.** Every one of the three sites opens a `HoverCard` that names
+the rarity in words, and the picker's rarity chips carry the same colours as labelled filter buttons,
+so the chip row doubles as the legend. In the picker the selected trinket is marked with a **ring**
+rather than a gold border, because overwriting the border would hide the one thing it is there to say.
 
 ## Skill effects
 

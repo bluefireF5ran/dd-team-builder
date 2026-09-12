@@ -72,11 +72,11 @@ describe('QuirkPicker', () => {
 
   it('filters on typing, and says so when nothing matches', () => {
     open();
-    fireEvent.change(screen.getByPlaceholderText('Search quirks...'), { target: { value: 'tough' } });
+    fireEvent.change(screen.getByPlaceholderText(/Search quirks/), { target: { value: 'tough' } });
     expect(screen.getAllByTitle('Tough').length).toBeGreaterThan(0);
     expect(screen.queryByTitle('Fragile')).not.toBeInTheDocument();
 
-    fireEvent.change(screen.getByPlaceholderText('Search quirks...'), { target: { value: 'zzzz' } });
+    fireEvent.change(screen.getByPlaceholderText(/Search quirks/), { target: { value: 'zzzz' } });
     expect(screen.getByText(/No quirks match your search/)).toBeInTheDocument();
   });
 
@@ -85,6 +85,42 @@ describe('QuirkPicker', () => {
     open({ onClose });
     fireEvent.keyDown(window, { key: 'Escape' });
     expect(onClose).toHaveBeenCalled();
+  });
+
+  describe('searching what a quirk does', () => {
+    const type = (value) =>
+      fireEvent.change(screen.getByPlaceholderText(/Search quirks/), { target: { value } });
+
+    it('finds quirks by their effect, not only their name', () => {
+      // None of these three has "dodge" anywhere in its name.
+      open();
+      type('dodge');
+      expect(screen.getAllByTitle('Evasive').length).toBeGreaterThan(0);
+      expect(screen.getAllByTitle('Daredevil').length).toBeGreaterThan(0);
+      expect(screen.getAllByTitle('Luminous').length).toBeGreaterThan(0);
+      expect(screen.queryByTitle('Tough')).not.toBeInTheDocument();
+    });
+
+    it('accepts the word a player types for the stat the data abbreviates', () => {
+      open();
+      type('accuracy');
+      expect(screen.getAllByTitle('Corvids Eye').length).toBeGreaterThan(0);
+      expect(screen.queryByTitle('Evasive')).not.toBeInTheDocument();
+    });
+
+    it('ands the terms, so two stats means both', () => {
+      open();
+      type('dodge speed');
+      expect(screen.getAllByTitle('Luminous').length).toBeGreaterThan(0);
+      // Evasive is dodge only, so it drops out once speed is required.
+      expect(screen.queryByTitle('Evasive')).not.toBeInTheDocument();
+    });
+
+    it('reports how many matched', () => {
+      open();
+      type('dodge');
+      expect(screen.getByRole('status')).toHaveTextContent(/matches? - searching names and effects/);
+    });
   });
 
   describe('diseases', () => {
