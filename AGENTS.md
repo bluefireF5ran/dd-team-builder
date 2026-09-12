@@ -16,9 +16,16 @@ because something subtle went wrong once.
 | `npm run build` | Production build to `build/` |
 | `npm test` | Tests (Jest + React Testing Library) |
 | `npm run lint` | ESLint over `src/` |
+| `npm run comps:index` | Regenerate `src/data/presetComps/index.js` |
+| `npm run comps:watch` | Same, automatically, whenever a comp file appears or goes |
 
 `prestart`, `prebuild` and `pretest` all regenerate `src/data/presetComps/index.js`, so run
 things through `npm` rather than calling `react-scripts` directly.
+
+**Added a comp while the dev server is running?** `npm run comps:index` (or
+`bat/refresh_comps.bat`) is enough — the server watches the index, recompiles and reloads the
+page. No restart. `bat/start_teambuilder.bat` starts the watcher for you, so normally there
+is nothing to do at all. See **The comps you have written but the app has not loaded**.
 
 Coverage is thin outside the data and utility layers. There is no single-test-file shortcut
 configured; use `npm test -- --testPathPattern=FileName` to target one.
@@ -441,8 +448,14 @@ on — on its own it would toggle a list nothing is showing.
 The roster files (`trinkets.js`, `hero_specific_trinkets.js`, `backer_trinkets.js`) are arrays of
 names and stay that way — plenty of code iterates them as strings. `src/data/trinketEffects.js` is
 the separate lookup answering "what does it do?", keyed by exact trinket name:
-`{ rarity, effect }`, plus `getTrinketEffect` and `getTrinketEffectText` (the `"Rare — +10% DMG"`
-one-liner used in tooltips).
+`{ rarity, limit, effect }`, plus `getTrinketEffect`, `getTrinketEffectText` (the
+`"Rare — +10% DMG"` one-liner used in tooltips) and `getTrinketLimit`.
+
+**`limit` is how many copies the game lets you hold at once**, taken straight off the
+entry — 1 on the 422 unique ones, absent when there is no cap, 2 on the Rat Carcass and 3
+on the Ancestor's Musket Ball. It is a property of the object and not of its tier, so the
+rarity cannot be used as a proxy: fourteen `Very Rare` trinkets are unique and twenty-eight
+are not. `resolveTrinketClashes` is what reads it — see *One party, one inventory*.
 
 **The file is generated — don't hand-edit it.** `scripts/importTrinketEffects.js` rebuilds it from
 the game install, reading the same three sources the game itself reads to draw a trinket tooltip:
@@ -907,16 +920,43 @@ The returned build says which source answered (`source`, `samples`), so the UI c
 40-comp consensus from a guess instead of presenting both as fact.
 
 **Fran's rule: at least 3 of 4 skills must launch from the hero's rank.** The fourth is
-spent deliberately on the skill that reaches the most ranks *other* than the hero's,
-because the best skill in the kit is worth nothing the turn you get shuffled out of
-position.
+spent deliberately on covering a shuffle, because the best skill in the kit is worth
+nothing the turn you get pushed out of position. But covering is not free, and it competes
+with what the library plays.
 
-**Dancers are exempt, but they have to earn it.** A class with a self-movement attack
-places itself, so judging it by where the round starts is judging it by where it spends
-the least time — but the exemption is only granted if the build *actually takes* a
-movement skill. A Shieldbreaker without `Serpent Sway` is as stuck as anyone, and handing
-her the exemption for her class name would be going back to judging by name. Stance classes
+**The reach bonus is a prior, so it shrinks as the evidence arrives** (`REACH_WEIGHT`,
+`priorWeight`). Adding a flat 0.35 on top of a cell with 110 comps in it counts the same
+thing twice: the people who wrote those 110 already weighed flexibility and decided. And
+since library gaps are hundredths, the prior decided nearly every fourth slot — the rank-4
+Arbalest came out with `Rallying Flare` (54 of 110) instead of `Suppressing Fire` (57 of
+110) purely because the first reaches all four ranks. Lowering the constant cannot fix that
+without switching it off: it would have to drop under 0.03, and then the rank-1 Leper loses
+`Purge` again. Shrinking it by sample count does, and it has a tidy reading — the prior is
+always worth `MIN_LIBRARY_SAMPLES × REACH_WEIGHT` ≈ **1.4 comps**, whatever `n` is. It can
+overturn a one-comp tie and nothing wider, and where there is no library at all it still
+weighs full.
+
+**Self-movement competes for that slot; it does not reserve it.** A mover is scored as
+covering one rank more than it reaches, because it does not just let you act from where you
+landed, it takes you back. What it does *not* get is a slot of its own: reserving one for
+every class that owns a movement skill was handing out the exemption by class name, which
+is the thing this file exists not to do. It gave the rank-3 Antiquarian `Get Down!` (8 of
+38 comps) ahead of `Protect Me` (29 of 38), and the rank-1 Crusader `Holy Lance` — a skill
+that cannot be cast from rank 1 at all. Competing on merit, the Shieldbreaker still comes
+out with movement, because six of her seven skills are movement. Stance classes
 (`alwaysActive`) get all seven skills, because they do not choose.
+
+**Camp skills are indexed per class, not per class and rank** — camping has no ranks, and
+`Encourage` does nothing different at rank 1 than at rank 4. Splitting the samples along a
+column that cannot change the answer only manufactured thin cells: the Flagellant has 60
+comps, split 43/12/3/2, and two of his four cells fell under the minimum. **And the four
+slots are not padded to full.** Taking the top four and topping up from the class list is
+the same mistake as recommending negative quirks — the slot exists, that does not mean it
+should be filled. It only bites a class with exactly four camp skills, because then the
+padding takes *all* of them: the Flagellant was handed `Lash's Anger`, which 14 of his 60
+comps carry. A camp skill now needs a majority (`CAMP_ADOPTION_FLOOR`) to be recommended,
+which across the twenty vanilla classes changes exactly one — his — to three. For the other
+nineteen the top four run from 54% to 100%, so the floor cuts nothing anyone plays.
 
 The button lives on the hero card and passes `position`, which is the rank — `App` renders
 the cards reversed and passes `4 - idx`. It confirms before overwriting a configured hero,
@@ -942,10 +982,114 @@ nothing depending on where it stands. `scoreParty` is the objective, and it read
 | +8 / +4 | mark paired with a payoff, a guard |
 | −50 each | a hero who cannot use a single skill from their rank |
 | −3 each | a skill that cannot be launched from where its hero stands |
+| −3 max, per hero | standing away from where the library puts this class (`rankHomeMiss`) |
+| ±~4 | how the region suits this party, when one is given (`regionFit`) |
 
-That last row matters more than it looks. Punishing only the *fully* stranded hero let an
-Arbalest sit at rank 2 with two of four skills dead — not broken, just wrong, which is
+The `−3 each` row matters more than it looks. Punishing only the *fully* stranded hero let
+an Arbalest sit at rank 2 with two of four skills dead — not broken, just wrong, which is
 exactly the case Fran's three-of-four rule is about.
+
+The last row is the only place the library gets a vote, and it only breaks ties. Coverage
+and rank legality cannot separate two back-line classes that launch their whole kit from
+both rank 3 and rank 4: Arbalest-4/Musketeer-3 and Arbalest-3/Musketeer-4 scored
+*identically*, so the shuffle decided, and it kept landing on the opposite of what 191
+comps say. `rankHomeMiss` is a deviation measured against the class's **own** favourite
+rank, never against another class, so a modded class with no comps scores 0 at all four
+ranks — no home to miss is not a penalty, or the generator would quietly prefer vanilla.
+Three points at most, the same as one unusable skill: enough to settle a tie, nowhere near
+enough to buy a healer.
+
+### Which region the comp is *for* (`src/utils/regionFit.js`)
+
+`generateComps` used to stamp every result `location: 'The Ruins'`, which is a lie with a
+cost: the Ruins are the one place bleed does nothing (a skeleton ships `bleed_resist 200%`,
+so the region averages **151%**), and a bleed comp was being labelled for it. The region is
+now chosen per comp, after the party is finished — you cannot know where it wants to go
+until you know what it ended up carrying. Pass `location` explicitly to override.
+
+Each factor is **what the party invested** × **what that buys here**. Investment is skills
+of that kind that the hero can actually launch from their rank (a skill you cannot cast
+bleeds nobody — the same rule as `enemyReach`), saturating at three. What it buys is
+`1 - resist/100`, the game's own scale, floored at zero because there is no bleeding less
+than nothing.
+
+**The weights come from how much the regions actually differ on each axis**, not from how
+important the effect sounds. An axis where every region measures the same cannot decide
+anything; it only adds noise in proportion to its weight. Measured across the six profiles,
+`1 - resist/100` varies by 0.56 for bleed, 0.46 for blight, 0.31 for stun, 0.25 for move
+and 0.20 for debuff — hence 6/6/2/1/1. Spreading them evenly did the opposite of what it
+looks like: a blight party accrued three stuns and three debuffs worth the same everywhere,
+and that near-constant sum buried the one difference that mattered, leaving the Ruins and
+the Cove 0.07 apart for a poison comp.
+
+Two factors are not resistances:
+
+- **`bonus:<type>`** — `+35% DMG vs Unholy` is worth what the region actually fields. The
+  Ruins are 61% unholy and the Warrens 4.2%. Eight hero skills carry one of these, and the
+  tag has to carry the type with it, because the skill is only good where the type is. The
+  skills say "Human" and the game files say `.id "man"`; `ENEMY_TYPES` maps that.
+- **`markPunish`** — the share of enemy bodies that hit a *marked hero* harder, from 11.1%
+  in the Cove to 29.8% in the Warrens. This is what makes a self-marking hero situational
+  rather than simply good, and reading it needed a fix on the party side too: the game
+  writes self-marking both as `Mark Self` and as `Self: Mark`, only the first was read, and
+  the Duelist uses the second — in `Feint` and `Flèche`, so as a stance class she always
+  carries both. A preference, not a prohibition: worth about one point end to end.
+
+**What the data does *not* support, having looked:** enemy PROT does not separate the
+regions (the share of bodies with `prot ≥ 20%` runs 18.4% to 24.5%, and the average 7% to
+10.4%), so it cannot sensibly steer a choice and is captured as `avgProt` for provenance
+only. Dodge is milder but real (12.2 to 18.1) and is captured as `avgDodge`; nothing scores
+it, because the party side would have to be accuracy debuffs and there are five of those in
+the whole game. `corpseRate` swings a lot (66% to 90%) but only four hero skills mention
+corpses at all. `markThreat` — enemies that mark *your* heroes, 7.3% in the Hamlet against
+40.6% in the Courtyard — is the widest spread in the file and is recorded, but there is no
+clean party-side counter to weigh it against, so it stays information rather than score.
+
+The candidates are derived twice over: a region must **have a profile** and must be one
+**Fran writes comps for** (`MIN_COMPS_TO_CHOOSE`, the ranker's threshold). The second half
+is what keeps the Hamlet out — Vvulf is a real fight in a real place and has a profile, but
+it is not somewhere you take a comp, and its numbers are near-copies of the Ruins anyway. A
+hand-written exclusion list would say the same thing today and start lying the moment the
+library grew.
+
+One consequence worth expecting: **the Courtyard is almost never chosen.** It resists
+everything — 75 stun, 79 blight, 57 debuff, 64 move, all the worst in the game — and it is
+60.7% `vampire`, a type no hero skill bonuses against. That is not a bug in the scoring, it
+is the Crimson Court. Comps for it want the region passed in explicitly.
+
+### One party, one inventory (`resolveTrinketClashes`)
+
+`bisLoadout` answers per hero and per rank, and it is right to: the best trinket for a
+rank-2 Abomination is what it is, whoever else is carrying one. But a party is not four
+independent answers — it is a team leaving town with **one inventory**, and the game caps
+how many copies of a trinket you can hold at once. `Ancestor's Map` is the case that
+exposed it: it is the best-in-slot for **18 of the 80 class-and-rank cells**, and there is
+exactly one of them in the game, so comps were coming out with two heroes wearing the same
+object.
+
+The cap is read, not guessed. `.entries.trinkets.json` carries a `limit` on every entry and
+`importTrinketEffects` now keeps it, so `getTrinketLimit` is the game's own number: 1 for
+the 422 unique ones, absent for the rest, 2 for the Rat Carcass, 3 for the Ancestor's
+Musket Ball. **Rarity cannot stand in for it** — fourteen `Very Rare` trinkets are unique
+and twenty-eight are not, and four `Common`/`Uncommon`/`Rare` ones are unique.
+
+The rule is per *object*, never per rarity or per slot: two **different** ancestral
+trinkets in one party are legal, and both on the same hero are legal too. Only the same
+piece twice is not.
+
+When two heroes want the same one, **whoever ranks it higher in their own queue keeps it**
+and the other drops to the next trinket they can actually carry — the third if the second
+is taken as well. That needs the queue and not just the top two, which is why `bisLoadout`
+returns `trinketOptions`. Two ordering details matter:
+
+- It runs **after** `improveBySwapping`, because every swap rebuilds loadouts from
+  `bisLoadout` and would put the same piece back in two places.
+- Claims are sorted by queue position, so the result does not depend on the order the party
+  happened to be assembled in.
+
+The Butcher's Circus trinkets have no cap here, because `arena.entries.trinkets.json` ships
+encrypted and there is nothing to read. That is the safe direction: an invented cap would
+forbid equipping something legal.
 
 Two things stop it being a plain greedy fill:
 
@@ -962,6 +1106,72 @@ A generated comp is named by `nameCompAgainst`, the same engine the save dialog 
 arrives as `Family: Variant` and comparable with the library rather than as "Random Team".
 `placeGeneratedComp` in `useTeam` drops it in as one undoable step.
 
+### What it costs, and why it stopped costing it (2026-09-10)
+
+A suggestion with a roster of 21 took **8.6 seconds**. Not an algorithm problem: 60 attempts
+× 4 ranks × every candidate class is a few thousand parties scored, and `scoreParty` was
+re-deriving everything from the skill text each time — around **300,000 `skillProfile` calls
+per suggestion**, each one splitting an `effect` string and running a dozen regexes over it.
+
+Three changes, no change to what comes out:
+
+- **`skillProfile` is memoized** (`src/utils/skillProfile.js`). Its input is generated data,
+  so class+skill always gives the same answer. `null` is cached too — a modded class with no
+  data is the most expensive lookup (it misses both tables) and, with 644 modded classes in
+  the file, the most frequent. This alone was 8.6 s → 0.47 s.
+- **`tagsOf` is memoized** (`src/utils/synergyHelper.js`), keyed by class + skills + camp
+  skills. The Vestal at rank 3 is literally the same hero in every party that fields her.
+- **`CANDIDATES_PER_RANK`** caps how many classes get fully scored at each rank. Without it
+  the cost grew with the roster — 200 classes was 4 s a suggestion — which is exactly where
+  modded classes were heading. It is 24, above the 20 vanilla classes **on purpose**: a
+  normal roster fits whole, nothing is sampled, and the same comp comes out as before. Only
+  big rosters trim, and the trim is the shuffle that was already there, so the sample is
+  unbiased; across 60 attempts a class that deserves the slot turns up anyway.
+
+Both memoized results are **shared objects — nobody may mutate them.** `tags`, `launch` and
+`target` are read-only to callers; take a copy if you need one.
+
+Where it landed (same box, jest):
+
+| roster | before | after |
+| --- | --- | --- |
+| 20 vanilla | 8.6 s | 0.26 s |
+| 20 vanilla + 30 modded | ~11 s | 0.09 s |
+| all 664 heroes | minutes | 0.15 s |
+
+The cost is now flat in the roster, so the answer to "what happens when we add modded
+classes" is: nothing. `compGenerator.test.js` pins that a 230-class roster still builds a
+full party and that different seeds still give different comps.
+
+### The comps you have written but the app has not loaded (`src/utils/pendingComps.js`)
+
+`presetComps/index.js` is generated by `prestart` and imported statically, so **the library
+the app sees is the one that existed when the dev server came up**. Save a comp and you get
+a `.json` download; until that file is in `src/data/presetComps/` *and* the index has been
+regenerated, the comp does not exist for anything in the app — and the generator, which only
+ever offers comps that are *new*, offers it to you again. Hence the old routine: write five
+comps, restart the whole server, carry on.
+
+Two halves, and both are needed:
+
+- **The index catches up without a restart.** `npm run comps:index` regenerates the barrel;
+  the dev server watches it (it is in the module graph), recompiles and reloads the page with
+  the new comps inside. `npm run comps:watch` does it automatically on every add or remove,
+  and `bat/start_teambuilder.bat` now launches that watcher beside `npm start`.
+  `bat/refresh_comps.bat` is the one-shot for doing it by hand. The generator **only writes
+  when the content actually changed** — rewriting an identical file on every filesystem event
+  would leave webpack recompiling forever.
+- **The browser stops offering what you just wrote.** `savePresetFile` records the comp's
+  `compClassKey` in `pendingComps`, and `knownCompKeys` unions it with the bundle, so a comp
+  you saved a minute ago counts as already written. It lives in `localStorage` because the
+  point is surviving an F5, and it **prunes itself**: once the index is regenerated and the
+  key turns up in the bundle, it is dropped.
+
+The list is shown in the Suggest modal with a *forget* link, and that is not decoration. The
+note is taken when the `.json` is **downloaded**, and downloading is not keeping — if the
+file went to the bin, those four classes would be blocked forever with nothing on screen to
+say so.
+
 **`COMP_REGIONS` is derived now** (`compRegions()` in `rankerItems`, which was written and
 then never called). The hardcoded four were the regions that had comps on the day it was
 typed, so a region stayed unrankable after comps were written for it. The threshold keeps
@@ -975,11 +1185,18 @@ install, the same shape as every other importer here: read at build time, **comm
 output**, so nothing in `src/` ever needs the game. That is the whole point — the app has
 to work for someone who has never installed Darkest Dungeon.
 
-Two sources, and it is the pairing that makes it a region profile rather than a bestiary:
-`monsters/**/*.info.darkest` for each enemy's stats (hp, prot, spd, the five resistances,
-`enemy_type`, size, whether it leaves a corpse), and `dungeons/<zone>/*.mash.darkest` for
-the weighted tables of which enemies actually turn up together. Enemies are weighted by
-their table's `.chance`, so a rare party cannot drag the averages.
+Three sources, and it is the pairing that makes it a region profile rather than a bestiary:
+`monsters/**/*.info.darkest` for each enemy's stats (hp, prot, `.def` dodge, spd, the five
+resistances, `enemy_type`, size, whether it leaves a corpse), `dungeons/<zone>/*.mash.darkest`
+for the weighted tables of which enemies actually turn up together, and `*.effects.darkest`
+to resolve what the effects a monster's `skill:` line names actually *do*. Enemies are
+weighted by their table's `.chance`, so a rare party cannot drag the averages.
+
+That third source is what makes `markPunish` possible. A monster names its effects by id
+(`.effect "Damage Marked Target"`), so guessing from the name is not good enough —
+`Lifesteal Mark` sounds like punishment and is the opposite, it *applies* a mark. Read from
+the definitions: an effect with `.keyStatus "tagged"` and a damage `.combat_stat_buff`
+punishes a marked hero, and one with `.tag 1` marks one.
 
 This is what turns "a Ruins comp" from a label into a target, and the numbers come out
 matching what any player already knows, with no hand-written list behind them:
@@ -1009,7 +1226,28 @@ Three things worth not re-deriving:
 `src/data/regionEnemies.js` holds the 310 per-enemy rows and **nothing imports it on
 purpose**. It is provenance — with it the summary can be re-derived or re-weighted without
 the game, the same reason `importModdedHeroes` keeps its manifest — and it lives in its own
-file so it cannot be dragged into the bundle behind `REGION_PROFILES`, which *is* imported.
+file so it cannot be dragged into the bundle behind the module the app does import.
+
+**`REGION_PROFILES` and `getRegionProfile` are read by nothing but their own test.** The
+only live export of this file is `resolveLevel` (plus `RESOLVE_THRESHOLDS`), for the save
+importer.
+
+**The Courtyard had no profile because the importer was looking in the wrong folder.** It
+walked `<GAME>/monsters` and `<dlc>/<id>/monsters`, and the Crimson Court does not hang its
+files off `<dlc>/<id>` — they live under
+`<dlc>/580100_crimson_court/features/crimson_court/`, four levels deeper. The cost was 129
+enemies and all 263 Courtyard mash rows going unread, so the zone fell under `MIN_TABLES`
+and was reported as "its fights are scripted", which was a guess dressed as a finding. It
+now walks the whole install once (about a tenth of a second) and sorts files by path, so no
+future DLC's nesting can hide from it.
+
+That mattered beyond one missing row. `regionProfiles.test.js` demanded a profile for every
+region the ranker can sort, and when Fran's Courtyard comps crossed `MIN_COMPS_TO_RANK` the
+suite went red. Filtering `COMP_REGIONS` down to the regions that *had* profiles would have
+squared it — and would have taken the Courtyard comps out of the ranker, a live feature, to
+satisfy the wrong half of the pair. `NEVER_PROFILED` now names the two places that really
+cannot have one (the Farmstead ships two tables, the Darkest Dungeon one), and everything
+else must.
 
 The same script picks up `campaign/progression/progression.json`, so `resolveLevel` finally
 answers the question the save importer had to leave open: it showed raw XP because "the
