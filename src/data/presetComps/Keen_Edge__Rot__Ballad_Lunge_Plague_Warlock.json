@@ -1,0 +1,135 @@
+{
+  "teamName": "Keen Edge: Rot",
+  "alias": "My Team",
+  "location": "The Ruins",
+  "heroes": [
+    {
+      "heroClass": "Occultist",
+      "activeSkills": [
+        "Sacrificial Stab",
+        "Wyrd Reconstruction",
+        "Vulnerability Hex",
+        "Hands from the Abyss"
+      ],
+      "activeCampSkills": [
+        "Pep Talk",
+        "Abandon Hope",
+        "Dark Ritual",
+        "Unspeakable Commune"
+      ],
+      "trinket1": "Steady Bracer",
+      "trinket2": "Vial of Sand",
+      "quirks": {
+        "positive": [
+          "Lurker",
+          "Quickdraw",
+          "Ruins Scrounger",
+          "Ruins Adventurer"
+        ],
+        "negative": [
+          "Love Interest",
+          "Satanophobia",
+          "Scattering",
+          "Shocker"
+        ]
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Jester",
+      "activeSkills": [
+        "Finale",
+        "Slice Off",
+        "Battle Ballad",
+        "Inspiring Tune"
+      ],
+      "activeCampSkills": [
+        "Wound Care",
+        "Turn Back Time",
+        "Every Rose Has Its Thorn",
+        "Tiger's Eye"
+      ],
+      "trinket1": "Lucky Dice",
+      "trinket2": "Sun Ring",
+      "quirks": {
+        "positive": [
+          "Cove Explorer",
+          "Fated",
+          "Weald Tactician"
+        ],
+        "negative": [
+          "Satanophobia",
+          "Stress Eater",
+          "Unquiet Mind"
+        ]
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Plague Doctor",
+      "activeSkills": [
+        "Noxious Blast",
+        "Plague Grenade",
+        "Blinding Gas",
+        "Battlefield Medicine"
+      ],
+      "activeCampSkills": [
+        "Wound Care",
+        "Experimental Vapours",
+        "Self Medicate"
+      ],
+      "trinket1": "Blasphemous Vial",
+      "trinket2": "Feather Crystal",
+      "quirks": {
+        "positive": [
+          "Luminous",
+          "Armor Tinker",
+          "Daredevil"
+        ],
+        "negative": [
+          "Ascetic",
+          "Egomania",
+          "Resolution"
+        ]
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Grave Robber",
+      "activeSkills": [
+        "Pick to the Face",
+        "Lunge",
+        "Shadow Fade",
+        "Poison Darts"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Snuff Box",
+        "Pilfer"
+      ],
+      "trinket1": "Raider's Talisman",
+      "trinket2": "Crescendo Box",
+      "quirks": {
+        "positive": [
+          "Luminous",
+          "Gifted",
+          "Unyielding"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    }
+  ]
+}

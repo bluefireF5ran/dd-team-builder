@@ -114,7 +114,11 @@ describe('RankerApp — generalist mode', () => {
 
     const top = names().slice(0, 3).join(' ');
     expect(top).toMatch(/Crusader/);
-    expect(names()[0]).not.toMatch(/Houndmaster/);
+    // Quien ENCABEZA, no que el texto de la fila no nombre al Houndmaster: el
+    // subtitulo dice con quien sale mas a menudo, y desde que las familias son
+    // el plan y no la firma de clases, la primera fila es el Arbalest "most
+    // often with Houndmaster". La fila empieza por el puesto y el nombre.
+    expect(names()[0]).not.toMatch(/^\d+Houndmaster/);
   });
 
   it('flattening promotes the staple of a rarely played class over a situational pick', () => {

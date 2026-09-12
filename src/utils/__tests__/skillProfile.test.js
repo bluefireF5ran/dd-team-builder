@@ -126,3 +126,79 @@ describe('classProfile', () => {
     });
   });
 });
+
+describe('lo que hace falta para juzgar una region', () => {
+  // Las tres etiquetas que `regionFit` cruza con `regionProfiles`.
+
+  it("reads `Self: Mark` as self-marking, not just `Mark Self`", () => {
+    // El juego escribe lo mismo de las dos formas y el Duelist usa la segunda
+    // en `Feint` y en `Fleche`. Leyendo solo `Mark Self` la clase que mas se
+    // automarca del juego se quedaba sin la etiqueta -- y con ella se decide si
+    // conviene llevarla a una region que pega mas fuerte a los marcados.
+    expect(tags('Duelist', 'Feint')).toContain('markSelf');
+    expect(tags('Duelist', 'Flèche')).toContain('markSelf');
+    expect(tags('Leper', 'Withstand')).toContain('markSelf');
+  });
+
+  it('does not confuse hitting a marked enemy with marking yourself', () => {
+    // `vs Marked` es una bonificacion condicional, y `Mark Target` marca al
+    // otro. Ninguna de las dos te marca a ti.
+    expect(tags('Bounty Hunter', 'Collect Bounty')).toContain('markPayoff');
+    expect(tags('Bounty Hunter', 'Collect Bounty')).not.toContain('markSelf');
+    expect(tags('Arbalest', "Sniper's Mark")).toContain('mark');
+    expect(tags('Arbalest', "Sniper's Mark")).not.toContain('markSelf');
+  });
+
+  it('carries the enemy type inside the tag, and reads Human as man', () => {
+    // El bono solo existe si la region trae ese bicho, asi que el tipo tiene
+    // que viajar con la etiqueta. Las skills dicen "Human" y los ficheros del
+    // juego `.id "man"`.
+    expect(tags('Crusader', 'Smite')).toContain('bonus:unholy');
+    expect(tags('Occultist', 'Sacrificial Stab')).toContain('bonus:eldritch');
+    expect(tags('Houndmaster', "Hound's Rush")).toContain('bonus:beast');
+    expect(tags('Bounty Hunter', 'Collect Bounty')).toContain('bonus:man');
+  });
+
+  it('reads every bonus on the line, not just the first', () => {
+    // `Collect Bounty` es `+90% DMG vs Marked, +35% DMG vs Human`: quedandose
+    // con la primera coincidencia, el tipo de bicho se perdia detras de una
+    // condicion de combate.
+    const bonuses = tags('Bounty Hunter', 'Collect Bounty').filter((tag) => tag.startsWith('bonus:'));
+    expect(bonuses).toEqual(['bonus:man']);
+  });
+
+  it('marks a debuff on the enemy and not one the hero pays himself', () => {
+    expect(tags('Occultist', 'Weakening Curse')).toContain('debuff');
+    expect(tags('Houndmaster', 'Target Whistle')).toContain('debuff');
+    // `Self: ... -4 SPD` del `Transform` es el precio de transformarse.
+    expect(tags('Abomination', 'Transform')).not.toContain('debuff');
+    // Y el `-15% DMG` del `Duelist's Advance` va dentro de `Riposte: [...]`:
+    // describe lo flojo que pega SU contraataque, no una debilidad del enemigo.
+    expect(tags('Highwayman', "Duelist's Advance")).not.toContain('debuff');
+  });
+});
+
+describe('el cache de skillProfile', () => {
+  // Memoizarlo es lo que baja una sugerencia de comp de ocho segundos a medio
+  // segundo, y el precio es que el objeto se comparte. Estas dos cosas son las
+  // que hay que no romper.
+  it('devuelve siempre el mismo objeto para la misma skill', () => {
+    expect(skillProfile('Vestal', 'Judgement')).toBe(skillProfile('Vestal', 'Judgement'));
+  });
+
+  it('guarda la respuesta por clase, no por nombre de skill', () => {
+    // Las skills de combate son de su clase (`getSkillEffect` las busca dentro
+    // de ella), asi que la clave del cache tiene que llevarla: `Judgement` es de
+    // la Vestal y preguntando por el Leper no puede salir la de ella.
+    expect(skillProfile('Vestal', 'Judgement')).not.toBeNull();
+    expect(skillProfile('Leper', 'Judgement')).toBeNull();
+    expect(skillProfile('Vestal', 'Judgement')).not.toBeNull();
+  });
+
+  it('se acuerda tambien de lo que no conoce', () => {
+    // El `null` de una clase modded sin datos es el caso mas frecuente y el mas
+    // caro (falla en las dos tablas), asi que tambien se cachea.
+    expect(skillProfile('Clase Que No Existe', 'Skill Que No Existe')).toBeNull();
+    expect(skillProfile('Clase Que No Existe', 'Skill Que No Existe')).toBeNull();
+  });
+});

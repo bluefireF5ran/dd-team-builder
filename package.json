@@ -16,6 +16,7 @@
   },
   "scripts": {
     "comps:index": "node scripts/generatePresetCompsIndex.js",
+    "comps:watch": "node scripts/watchPresetComps.js",
     "prestart": "node scripts/generatePresetCompsIndex.js",
     "start": "react-scripts start",
     "prebuild": "node scripts/generatePresetCompsIndex.js",

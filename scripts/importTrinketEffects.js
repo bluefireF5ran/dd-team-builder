@@ -285,8 +285,14 @@ const heroGroups = [];
 const previous = new Map();
 if (fs.existsSync(OUT)) {
   const src = fs.readFileSync(OUT, 'utf8');
-  for (const m of src.matchAll(/^\s*"(.+?)":\s*\{\s*rarity:\s*(null|"[^"]*")\s*,\s*effect:\s*"([^"]*)"\s*\}/gm)) {
-    previous.set(m[1], { rarity: m[2] === 'null' ? null : m[2].slice(1, -1), effect: m[3] });
+  for (const m of src.matchAll(
+    /^\s*"(.+?)":\s*\{\s*rarity:\s*(null|"[^"]*")\s*,(?:\s*limit:\s*(\d+)\s*,)?\s*effect:\s*"([^"]*)"\s*\}/gm
+  )) {
+    previous.set(m[1], {
+      rarity: m[2] === 'null' ? null : m[2].slice(1, -1),
+      limit: m[3] === undefined ? 0 : Number(m[3]),
+      effect: m[4]
+    });
   }
 }
 
@@ -350,7 +356,11 @@ function build(name) {
   // "Very Rare - " where name-only is the correct fallback.
   if (!effect) { skipped.push(name); return null; }
   stats[source]++;
-  return { rarity, effect };
+  // `limit` es cuantas copias deja tener el juego a la vez: 1 en las unicas,
+  // 0 cuando no hay tope. Sale de la entrada aunque el TEXTO venga del CSV o
+  // del fichero anterior, porque son cosas distintas y `lookup` ya se hizo.
+  const limit = entry && Number.isFinite(entry.limit) ? entry.limit : (prev ? prev.limit || 0 : 0);
+  return { rarity, limit, effect };
 }
 
 const q = (s) => '"' + s.replace(/\\/g, '\\\\').replace(/"/g, '\\"') + '"';
@@ -370,6 +380,7 @@ function section(title, list) {
     const v = out.get(n);
     lines.push('  ' + (q(n) + ':').padEnd(width)
       + ' { rarity: ' + (v.rarity === null ? 'null' : q(v.rarity))
+      + (v.limit ? ', limit: ' + v.limit : '')
       + ', effect: ' + q(v.effect) + ' },');
   }
 }
@@ -447,6 +458,14 @@ const text = `/**
  * \`rarity\` is the in-game tier or set, or \`null\` for the Runaway's Sunstone
  * chain, which transforms rather than dropping at a tier.
  *
+ * \`limit\` is how many copies the game lets you hold at once, straight from
+ * \`.entries.trinkets.json\`. **Absent means no limit.** It is 1 for the unique
+ * ones -- ancestral, trophy, crystalline, Shrieker, Crimson Court, Thing,
+ * Ringmaster, the Collector's heads, the backer trinkets and eleven very rares
+ * -- 2 for the Rat Carcass and 3 for the Ancestor's Musket Ball. This is a
+ * property of the trinket and not of its tier: eleven \`Very Rare\` entries are
+ * unique and twenty-nine are not, so the rarity cannot stand in for it.
+ *
  * Coverage is the whole roster - hero-specific, generic and backer - minus a
  * handful the game ships with no buffs at all; those have no entry, so the
  * tooltip falls back to the name. \`trinketEffects.test.js\` pins both
@@ -475,6 +494,25 @@ export function getTrinketEffectText(name) {
   const entry = getTrinketEffect(name);
   if (!entry) return '';
   return entry.rarity ? \`\${entry.rarity} \\u2014 \${entry.effect}\` : entry.effect;
+}
+
+/**
+ * Cuantas copias de este trinket se pueden llevar a la vez, o \`Infinity\`.
+ *
+ * Es lo que hace que un equipo no pueda salir con dos Abominations llevando la
+ * misma \`Broken Key\`: no hay dos. La regla es del OBJETO y no de su rareza --
+ * hay once \`Very Rare\` unicos y veintinueve que no lo son-- asi que se lee del
+ * dato y no se deduce de la etiqueta.
+ *
+ * Un trinket que esta app no conoce no tiene tope, que es la respuesta prudente:
+ * inventarse un limite prohibiria equipar algo legal.
+ *
+ * @param {string} name - Exact trinket name.
+ * @returns {number} 1 for the unique ones, \`Infinity\` when there is no cap.
+ */
+export function getTrinketLimit(name) {
+  const entry = getTrinketEffect(name);
+  return entry && entry.limit ? entry.limit : Infinity;
 }
 
 /**

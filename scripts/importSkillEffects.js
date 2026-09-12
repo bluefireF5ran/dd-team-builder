@@ -255,6 +255,49 @@ const FE_HEROES = {
   Duelist: 'dlc/4964110_fires_edge/features/duelist/heroes/duelist/duelist.info.darkest',
   Runaway: 'dlc/4964110_fires_edge/features/runaway/heroes/runaway/runaway.info.darkest',
 };
+
+/**
+ * Cuanto se mueve a si mismo el heroe al lanzar la skill, leido de `.move
+ * <atras> <alante>` del install.
+ *
+ * Esto NO estaba y era la unica fuente de movimiento que tenia la app la prosa
+ * del `effect`, que lo menciona cuando le apetece: de las 14 skills con `.move`
+ * real, 10 lo dicen y 4 no. `Run and Hide` es una de las cuatro, lleva `.move 2
+ * 0`, y sin ella `reachableRanks` daba por muerta a una Runaway de rango 1 --
+ * justo la apertura que la manda al 3 con el sigilo puesto. Las otras tres son
+ * `Disengage`, `The Boot` y `Ransack`.
+ *
+ * El signo es el de `parseSelfMove`: positivo atras, negativo alante.
+ */
+const HERO_DIRS = (() => {
+  const byDir = new Map();
+  const visit = (p) => {
+    const m = /([^/\\]+)\.info\.darkest$/.exec(p);
+    if (m && /[/\\]heroes[/\\]/.test(p)) byDir.set(m[1], p);
+  };
+  walk(path.join(GAME, 'heroes'), visit);
+  walk(path.join(GAME, 'dlc'), visit);
+  return byDir;
+})();
+
+const moveCache = {};
+function movesFor(cls) {
+  if (moveCache[cls]) return moveCache[cls];
+  const out = new Map();
+  const dir = cls.toLowerCase().replace(/[^a-z0-9]+/g, '_');
+  const file = HERO_DIRS.get(dir);
+  if (file) {
+    for (const s of readDarkest(file, 'combat_skill').filter((r) => r.level === '4')) {
+      const back = num(Array.isArray(s.move) ? s.move[0] : s.move);
+      const fwd = Array.isArray(s.move) ? num(s.move[1]) : 0;
+      if (!back && !fwd) continue;
+      const name = plain(STR.get('combat_skill_name_' + dir + '_' + s.id) || '');
+      if (name) out.set(name, back ? back : -fwd);
+    }
+  }
+  moveCache[cls] = out;
+  return out;
+}
 const TARGET_LABEL = {
   performer: 'Self', performer_group: 'Party', target: null, target_group: 'Enemies',
 };
@@ -523,6 +566,13 @@ for (const r of roster) {
       }
       missing.combat.push(`${r.cls}: ${name}`);
     }
+    // El movimiento sale SIEMPRE del install, venga la skill del CSV o de ahi:
+    // el CSV no trae la columna y la prosa no es de fiar.
+    const mv = movesFor(r.cls);
+    for (const [name, entry] of bucket) {
+      const d = mv.get(name);
+      if (d) entry.move = d;
+    }
   } else {
     for (const name of r.list) {
       if (camp.has(name)) continue;
@@ -541,7 +591,7 @@ function objectText(o, keys) {
   return '{ ' + keys.map((k) => field(k, o[k])).filter(Boolean).join(', ') + ' }';
 }
 
-const COMBAT_KEYS = ['type', 'launch', 'target', 'aoe', 'dmg', 'acc', 'crit', 'effect'];
+const COMBAT_KEYS = ['type', 'launch', 'target', 'aoe', 'move', 'dmg', 'acc', 'crit', 'effect'];
 const lines = [];
 lines.push('export const COMBAT_SKILL_EFFECTS = {');
 for (const [cls, bucket] of combat) {

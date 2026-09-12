@@ -8,8 +8,12 @@ import { Save, FileJson, AlertTriangle, Check } from 'lucide-react';
  *
  *   · Navegador   — tus equipos, con el nombre que tu les pones.
  *   · Comp preset — un .json ya renombrado por la taxonomia, para soltarlo en
- *                   src/data/presetComps. Ahi el nombre no es tuyo: lo decide la
- *                   familia a la que pertenece la comp, y tu nombre pasa a alias.
+ *                   src/data/presetComps. Ahi el nombre no es tuyo: lo decide el
+ *                   PLAN que ejecuta la party, y tu nombre pasa a alias.
+ *
+ * Y el fichero no se llama como el nombre. El nombre lo comparten varias comps a
+ * proposito, asi que quien separa es el reparto de clases: se ensenan los dos
+ * porque son dos cosas distintas, no un nombre y su version con guiones.
  *
  * El nombre taxonomico se calcula al abrir (`describePreset`) y se ensena antes
  * de guardar, porque es justo lo que va a cambiar respecto a lo que escribiste.
@@ -118,12 +122,16 @@ const SaveTeamModal = ({
             <span>A team named “{teamName}” is already saved. Saving overwrites it.</span>
           </div>
         )}
-        {target === 'preset' && preset?.familySource !== 'signature' && (
+        {/* Una generalista de verdad: ni motor ni figura destacan sobre la
+            libreria, y el nombre lo admite. Vale la pena decirlo, porque si
+            crees que esta party SI hace algo concreto, lo que falta es un eje
+            que lo mida. */}
+        {target === 'preset' && preset?.kind === 'even' && (
           <div className="mt-4 flex items-start gap-2 text-sm text-amber-300 bg-amber-900/20 border border-amber-700/50 rounded p-2">
             <AlertTriangle size={16} className="flex-shrink-0 mt-0.5" />
             <span>
-              No family signature matched this party, so “{preset?.family}” comes from its dominant
-              mechanic. It may deserve a signature of its own in compTaxonomy.js.
+              Nothing this party does stands out from the library, so “{preset?.name}” names how
+              even it is instead of a plan. If it does have one, compAxes.js is not measuring it yet.
             </span>
           </div>
         )}

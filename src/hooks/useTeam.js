@@ -1,12 +1,14 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { PARTY_CONFIG } from '../constants';
 import { savePresetToFile, loadTeamFromFile, saveTeamToLocalStorage, loadTeamsFromLocalStorage, deleteTeamFromLocalStorage, saveAllTeamsToFile, importTeamsFromFile, saveDraftTeam, loadDraftTeam } from '../utils/storageHelper';
-import { nameCompAgainst, toCompFileName } from '../utils/compNaming';
-import { getRawComps } from '../data/compIndex';
+import { toCompFileName2 } from '../utils/compNaming2';
+import { getRawComps, getCompNamer, getCompFileKeys } from '../data/compIndex';
 import { generateRandomTeam, generateRandomTeamFromRoster } from '../utils/randomTeam';
 import { validateTeamSchema } from '../utils/validation';
 import { canonicalizeTeam, canonicalizeHero } from '../utils/nameNormalizer';
 import { createEmptyHero } from '../utils/heroHelper';
+import { compClassKey } from '../utils/compIdentity';
+import { rememberPendingComp } from '../utils/pendingComps';
 
 const MAX_HISTORY = 20;
 
@@ -193,32 +195,50 @@ export const useTeam = ({ defaultLocation = 'The Ruins' } = {}) => {
    * Que nombre le daria la taxonomia a este equipo, sin guardar nada. Es lo que
    * el dialogo de guardado ensena antes de que elijas destino.
    *
-   * Ojo: `getRawComps` memoiza el ANALISIS, no la carga. `compIndex` importa
-   * `compLibrary` y el barril de presets de forma estatica, asi que los bytes
-   * de las 183 comps ya estan en el bundle principal antes de que nadie abra
-   * nada; lo que se ahorra la primera vez es construir las entradas.
+   * El nombre y el fichero salen de sitios distintos a proposito (el porque
+   * esta en `compNaming2.js`): el nombre dice el PLAN y lo comparten varias
+   * comps, asi que quien tiene que ser unico es el fichero, y ese lo decide el
+   * REPARTO. Por eso la escalera necesita saber que ficheros hay ya en disco.
+   *
+   * Ojo: `getCompNamer` memoiza el NOMBRADOR, no la carga. `compIndex` importa
+   * el barril de presets de forma estatica, asi que los bytes de las comps ya
+   * estan en el bundle principal antes de que nadie abra nada; lo que se ahorra
+   * la primera vez es medir los 16 ejes de las 461.
    */
   const describePreset = useCallback(() => {
     const comp = { teamName, alias: '', location, heroes };
-    const record = nameCompAgainst(comp, getRawComps());
+    const record = getCompNamer().nameFor(comp);
+    // El nombre que le pusiste no se pierde: pasa a alias. Salvo que ya fuera un
+    // nombre de la taxonomia -- el suyo o el de otra comp, que ahora los nombres
+    // se comparten a proposito--, porque entonces no es tuyo y guardar dos veces
+    // dejaria un alias que no cuenta nada.
+    const taxonomic = teamName === record.name
+      || getRawComps().some((c) => c.teamName === teamName);
     return {
       name: record.name,
-      // El nombre que le pusiste no se pierde: pasa a alias, salvo que ya fuera
-      // el taxonomico (guardar dos veces no debe dejar un alias que se repite).
-      alias: record.alias,
-      family: record.family.name,
-      variant: record.variant,
-      familySource: record.family.source,
-      fileName: toCompFileName(record.name),
+      alias: taxonomic ? '' : teamName,
+      // De donde sale la ranura 1: `stack`, `engine`, `shape` o `even`. El
+      // dialogo solo avisa de `even`, que es la comp que no destaca en nada.
+      kind: record.kind,
+      fileName: toCompFileName2(comp, record.name, getCompFileKeys()),
       location,
       heroes
     };
   }, [teamName, location, heroes]);
 
-  /** Descarga el .json ya nombrado, listo para src/data/presetComps. */
+  /**
+   * Descarga el .json ya nombrado, listo para src/data/presetComps.
+   *
+   * Y la apunta como pendiente. El fichero acaba de salir del navegador: hasta
+   * que no lo sueltes en la carpeta y no se regenere el index, esta comp no
+   * existe para la app, y el generador -- que solo ofrece comps NUEVAS-- te la
+   * volveria a proponer. Se apunta aqui, que es el unico sitio por el que pasa
+   * una comp camino de la libreria. Ver `pendingComps`.
+   */
   const savePresetFile = useCallback(() => {
     const preset = describePreset();
     savePresetToFile(preset);
+    rememberPendingComp(compClassKey(preset.heroes));
     return preset;
   }, [describePreset]);
 
@@ -301,16 +321,15 @@ export const useTeam = ({ defaultLocation = 'The Ruins' } = {}) => {
   /**
    * Deja en la party una comp recien construida por `compGenerator`.
    *
-   * Se nombra con el mismo motor que el resto (`nameCompAgainst`), asi que
-   * llega ya como `Familia: Variante` y comparable con la libreria en vez de
-   * como "Random Team". Un paso de historial, como cargar una comp.
+   * Se nombra con el mismo motor que el resto (`compNaming2`), asi que llega ya
+   * como `Plan: Matiz` y comparable con la libreria en vez de como "Random
+   * Team". Un paso de historial, como cargar una comp.
    */
   const placeGeneratedComp = useCallback((comp) => {
     if (!comp || !Array.isArray(comp.heroes)) return null;
     const heroes = comp.heroes.map(canonicalizeHero);
-    const named = nameCompAgainst(
-      { teamName: '', alias: '', location: comp.location || defaultLocation, heroes },
-      getRawComps()
+    const named = getCompNamer().nameFor(
+      { teamName: '', alias: '', location: comp.location || defaultLocation, heroes }
     );
 
     commit({
@@ -319,7 +338,7 @@ export const useTeam = ({ defaultLocation = 'The Ruins' } = {}) => {
       heroes
     });
 
-    return { teamName: named.name, family: named.family?.name, variant: named.variant };
+    return { teamName: named.name, kind: named.kind };
   }, [commit, defaultLocation]);
 
   const importFromClipboard = useCallback(async () => {

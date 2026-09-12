@@ -1,0 +1,137 @@
+{
+  "teamName": "Creeping Rot: Shadow",
+  "location": "The Weald",
+  "heroes": [
+    {
+      "heroClass": "Shieldbreaker",
+      "activeSkills": [
+        "Pierce",
+        "Puncture",
+        "Expose",
+        "Serpent Sway"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Snake Skin",
+        "Adder's Embrace"
+      ],
+      "trinket1": "Ancestor's Coat",
+      "trinket2": "Camouflage Cloak",
+      "quirks": {
+        "positive": [
+          "Natural Swing",
+          "Prismatic Precision",
+          "Luminous",
+          "Precise Striker"
+        ],
+        "negative": [
+          "Bad Gambler",
+          "Known Cheat"
+        ]
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Crusader",
+      "activeSkills": [
+        "Smite",
+        "Battle Heal",
+        "Holy Lance",
+        "Inspiring Cry"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Stand Tall",
+        "Zealous Speech",
+        "Zealous Vigil"
+      ],
+      "trinket1": "Sun Cloak",
+      "trinket2": "Camouflage Cloak",
+      "quirks": {
+        "positive": [
+          "Hot to Trot",
+          "Quick Reflexes",
+          "Early Riser",
+          "Corvids Eye"
+        ],
+        "negative": [
+          "Deviant Tastes",
+          "God Fearing",
+          "Unquiet Mind",
+          "Resolution"
+        ]
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Antiquarian",
+      "activeSkills": [
+        "Festering Vapours",
+        "Get Down!",
+        "Flashpowder",
+        "Invigorating Vapours"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Strange Powders",
+        "Curious Incantation"
+      ],
+      "trinket1": "Fleet Florin",
+      "trinket2": "Camouflage Cloak",
+      "quirks": {
+        "positive": [
+          "Corvids Grace",
+          "Luminous",
+          "Quick Reflexes",
+          "Photomania"
+        ],
+        "negative": [
+          "Known Cheat"
+        ]
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Antiquarian",
+      "activeSkills": [
+        "Festering Vapours",
+        "Get Down!",
+        "Flashpowder",
+        "Invigorating Vapours"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Strange Powders",
+        "Curious Incantation"
+      ],
+      "trinket1": "Fleet Florin",
+      "trinket2": "Camouflage Cloak",
+      "quirks": {
+        "positive": [
+          "Luminous",
+          "Corvids Eye",
+          "Corvids Grace",
+          "Weald Adventurer",
+          "Unyielding"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    }
+  ]
+}

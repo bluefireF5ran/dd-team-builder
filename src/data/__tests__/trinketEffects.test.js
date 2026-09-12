@@ -2,6 +2,7 @@ import {
   TRINKET_EFFECTS,
   TRINKET_SETS,
   getTrinketEffect,
+  getTrinketLimit,
   getTrinketEffectText,
   getTrinketSet,
   getSetBonus,
@@ -123,8 +124,10 @@ describe('getTrinketEffect', () => {
   });
 
   it('describes backer trinkets', () => {
+    // Los de mecenas son unicos: hay uno de cada.
     expect(getTrinketEffect('Adamant')).toEqual({
       rarity: 'Kickstarter',
+      limit: 1,
       effect: '+6% PROT | +10% Move Resist | -6 DODGE | -4 SPD'
     });
   });
@@ -194,5 +197,41 @@ describe('getTrinketEffectText', () => {
 
   it('returns an empty string for an unknown trinket so callers fall back to the name', () => {
     expect(getTrinketEffectText('Not A Trinket')).toBe('');
+  });
+});
+
+describe('getTrinketLimit', () => {
+  // De los unicos hay UNO, y el juego lo dice en `.entries.trinkets.json`. No
+  // se puede deducir de la rareza: catorce `Very Rare` son unicos y veintiocho
+  // no lo son.
+  it('reads the cap the game puts on a unique trinket', () => {
+    expect(getTrinketLimit("Ancestor's Map")).toBe(1);
+    expect(getTrinketLimit('Broken Key')).toBe(1);
+    expect(getTrinketLimit('The Tempting Goblet')).toBe(1);
+    expect(getTrinketLimit("Barristan's Head")).toBe(1);
+    expect(getTrinketLimit('Coven Signet')).toBe(1);
+  });
+
+  it('leaves the ordinary ones uncapped', () => {
+    expect(getTrinketLimit('Bleed Charm')).toBe(Infinity);
+    expect(getTrinketLimit('Berserk Mask')).toBe(Infinity);
+  });
+
+  it('does not treat a rarity as a cap', () => {
+    // `Berserk Mask` y `Coven Signet` son las dos Very Rare y solo una es unica.
+    expect(getTrinketEffect('Berserk Mask').rarity).toBe('Very Rare');
+    expect(getTrinketEffect('Coven Signet').rarity).toBe('Very Rare');
+    expect(getTrinketLimit('Berserk Mask')).not.toBe(getTrinketLimit('Coven Signet'));
+  });
+
+  it('carries the two the game caps above one', () => {
+    expect(getTrinketLimit('Rat Carcass')).toBe(2);
+    expect(getTrinketLimit('Talisman of the Flame')).toBe(3);
+  });
+
+  it('never caps a trinket it has never heard of', () => {
+    // Inventarse un limite prohibiria equipar algo legal.
+    expect(getTrinketLimit('Not A Trinket')).toBe(Infinity);
+    expect(getTrinketLimit('')).toBe(Infinity);
   });
 });
