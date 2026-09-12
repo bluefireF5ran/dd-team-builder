@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { createPortal } from 'react-dom';
 import { Save, FileJson, AlertTriangle, Check } from 'lucide-react';
+import Modal from '../common/Modal';
 
 /**
  * Elegir DONDE se guarda el equipo. Son dos sitios distintos con dos nombres
@@ -43,17 +43,6 @@ const SaveTeamModal = ({
     if (isOpen && confirmRef.current) confirmRef.current.focus();
   }, [isOpen]);
 
-  useEffect(() => {
-    if (!isOpen) return;
-    const handleKeyDown = (e) => {
-      if (e.key === 'Escape') onClose?.();
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, onClose]);
-
-  if (!isOpen) return null;
-
   const option = (id, icon, title, children) => {
     const active = target === id;
     return (
@@ -78,15 +67,15 @@ const SaveTeamModal = ({
     );
   };
 
-  return createPortal(
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={onClose}>
-      <div className="fixed inset-0 bg-black/60 backdrop-blur-sm" />
-      <div
-        className="relative bg-gray-800 border-2 rounded-lg p-6 max-w-lg w-full shadow-2xl"
-        style={{ borderColor: 'var(--dd-gold)' }}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <h3 className="font-darkest text-lg text-dd-parchment tracking-wide">Save Team</h3>
+  return (
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      labelledBy="save-team-title"
+      panelClassName="bg-gray-800 border-2 rounded-lg p-6 max-w-lg w-full shadow-2xl"
+      panelStyle={{ borderColor: 'var(--dd-gold)' }}
+    >
+        <h3 id="save-team-title" className="font-darkest text-lg text-dd-parchment tracking-wide">Save Team</h3>
         <p className="text-gray-400 text-sm mt-1">Where should this party go?</p>
 
         <div className="mt-4 space-y-3">
@@ -157,9 +146,7 @@ const SaveTeamModal = ({
             {target === 'browser' ? (overwrites ? 'Overwrite' : 'Save') : 'Download'}
           </button>
         </div>
-      </div>
-    </div>,
-    document.body
+    </Modal>
   );
 };
 

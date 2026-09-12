@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { createPortal } from 'react-dom';
+import React, { useState } from 'react';
 import { MapPin, X } from 'lucide-react';
+import Modal from '../common/Modal';
 import { getLocationTheme } from '../../data/locations';
 import { QUEST_MAP_IMAGE, QUEST_MAP_NODES, toMapPercent } from '../../data/questMap';
 import { getAssetUrl } from '../../config/assets';
@@ -18,17 +18,6 @@ import { getAssetUrl } from '../../config/assets';
 const QuestMapModal = ({ isOpen, onClose, location, onSelect }) => {
   const [imageFailed, setImageFailed] = useState(false);
 
-  useEffect(() => {
-    if (!isOpen) return undefined;
-    const onKeyDown = (e) => {
-      if (e.key === 'Escape') onClose?.();
-    };
-    window.addEventListener('keydown', onKeyDown);
-    return () => window.removeEventListener('keydown', onKeyDown);
-  }, [isOpen, onClose]);
-
-  if (!isOpen) return null;
-
   const anyEstimated = QUEST_MAP_NODES.some((n) => n.estimated);
 
   const pick = (loc) => {
@@ -36,17 +25,14 @@ const QuestMapModal = ({ isOpen, onClose, location, onSelect }) => {
     onClose?.();
   };
 
-  return createPortal(
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={onClose}>
-      <div className="fixed inset-0 bg-black/70 backdrop-blur-sm" />
-      <div
-        className="relative bg-gray-800 border-2 rounded-lg p-4 sm:p-6 w-full max-w-5xl shadow-2xl"
-        style={{ borderColor: 'var(--dd-gold)' }}
-        onClick={(e) => e.stopPropagation()}
-        role="dialog"
-        aria-modal="true"
-        aria-label="Choose a location on the quest map"
-      >
+  return (
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      label="Choose a location on the quest map"
+      panelClassName="bg-gray-800 border-2 rounded-lg p-4 sm:p-6 w-full max-w-5xl shadow-2xl"
+      panelStyle={{ borderColor: 'var(--dd-gold)' }}
+    >
         <div className="flex items-start gap-3">
           <div className="min-w-0">
             <h3 className="font-darkest text-lg text-dd-parchment tracking-wide">Quest Map</h3>
@@ -129,9 +115,7 @@ const QuestMapModal = ({ isOpen, onClose, location, onSelect }) => {
             </span>
           )}
         </div>
-      </div>
-    </div>,
-    document.body
+    </Modal>
   );
 };
 

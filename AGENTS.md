@@ -19,6 +19,18 @@ because something subtle went wrong once.
 | `npm run comps:index` | Regenerate `src/data/presetComps/index.js` |
 | `npm run comps:watch` | Same, automatically, whenever a comp file appears or goes |
 
+Data generators (need a game install; they read at build time and their output is committed, so
+nothing under `src/` ever needs the game):
+
+| Script | Rebuilds |
+| --- | --- |
+| `scripts/importSkillEffects.js` | `src/data/skillEffects.js` (needs `--csv`) |
+| `scripts/importTrinketEffects.js` | `src/data/trinketEffects.js`, `TRINKET_SETS` |
+| `scripts/importQuirkEffects.js` | `src/data/quirkEffects.js` |
+| `scripts/importRegionProfiles.js` | `src/data/regionProfiles.js`, `regionEnemies.js` |
+| `scripts/importModdedHeroes.js` | `src/data/modded_heroes.js` + its manifest |
+| `scripts/importModdedEffects.js` | `src/data/moddedEffectsGenerated.js` (needs `--workshop`) |
+
 `prestart`, `prebuild` and `pretest` all regenerate `src/data/presetComps/index.js`, so run
 things through `npm` rather than calling `react-scripts` directly.
 
@@ -981,15 +993,134 @@ pin the generated files to the vanilla roster — so a modded hero's effects can
 by hand from the mod's own `.info.darkest` / `*.effects.darkest` / `*.buffs.json` /
 `*.camping_skills.json` / string tables at max rank. `hoverInfo.js` and the two direct
 `getTrinketEffect` call sites fall back to `getModdedSkillEffect` / `getModdedTrinketEffect`.
-`moddedEffects.test.js` pins each class listed in `MODDED_COMBAT_SKILL_EFFECTS` against
-`modded_heroes.js` (skills, non-vanilla camp skills, class trinkets, both directions) — other modded
-classes are simply uncovered, not failures. Sibyl (Workshop `3490076588`) is the first covered class. Comps exported by the SIM
+Sibyl (Workshop `3490076588`) is the first covered class. Comps exported by the SIM
 tooling name her class by the mod's internal id `sibyl_ms`; `NAME_ALIASES` maps it to
 `Sibyl`, and the file-import paths (`storageHelper`, `useTeam.importFromClipboard`) now
 canonicalize **before** `validateTeamSchema` so her 7-skill `alwaysActive` roster is not
 rejected against the default 4-skill cap.
 It also carries `MODDED_TRINKET_SETS` and the merged `getSetBonus` / `getTrinketSet` — see **Set
 bonuses** above.
+
+### Generating them instead (`scripts/importModdedEffects.js`)
+
+Hand-authoring did not scale and was never going to: **one class covered out of 644.** A skill
+button with no effect line is not a cosmetic gap — it is the difference between choosing a skill
+and guessing at one, and it is what made a modded hero feel second-class beside a vanilla one.
+
+So the effects are generated now, from the mod's own files, the same way every other data layer
+here is:
+
+```bash
+node scripts/importModdedEffects.js --workshop "D:/…/workshop/content/262060" --game "D:/…/common/DarkestDungeon"
+node scripts/importModdedEffects.js --workshop … --game … --check    # report, write nothing
+node scripts/importModdedEffects.js --workshop … --game … --prune    # forget what can no longer be verified
+```
+
+It writes **`src/data/moddedEffectsGenerated.js`**, and `moddedEffects.js` merges the two with the
+**hand-written entries winning** — per class *and per skill*, so a class the generator covers
+whole and a human covered by halves keeps both halves. `MODDED_HAND_AUTHORED` is the list of the
+hand-written ones and it is load-bearing: the test demands completeness of those and only
+truthfulness of the generated ones.
+
+Four things worth not re-deriving:
+
+1. **The renderer is a lift of `importSkillEffects.js`, not a second opinion.**
+   `scripts/lib/effectRender.js` holds the same buff, effect, skill and camp renderers, made to
+   take their string / buff / effect tables as an argument instead of reading module globals — so
+   a mod goes through the same logic as the base game. A mod *is* an overlay of the game's tree:
+   same formats, same engine, and writing a second renderer for it is the icon bug this repo
+   already paid for once, where the old scraper resolved names in one place and paired them with
+   icons in another.
+
+   The lift was verified against the committed output rather than assumed: rendering the install
+   through the new library reproduces **all 14 Fire's Edge combat skills and all 77 camp skills
+   in `skillEffects.js` field for field.**
+
+   **`importSkillEffects.js` still carries its own copies, and folding it onto the library is the
+   pending half of this.** It is left that way on purpose for now: that file's combat half comes
+   from a wiki CSV (`--csv`), running it without one drops 126 skills, and a refactor of a
+   generator nobody can re-run end to end is a change nobody can check. Do it with `Skills.csv`
+   to hand, and gate it on `--check` reporting exactly what it reported before. Until then, treat
+   the two as one thing that must move together — a fix to a renderer belongs in both.
+2. **The id → name join comes from the manifest, never from a re-derivation.**
+   `scripts/importModdedHeroes.manifest.json` already records, per class, the internal id paired
+   with the display name that run settled on, and `exportModdedAssets.js` copies art from it for
+   exactly this reason. The app addresses a skill by display name; the mod stores it by id;
+   re-deciding that mapping here is how the two files start disagreeing.
+3. **A `combat_skill:` line is not a whole skill.** The base game writes one complete line per
+   upgrade rank, so reading one line works there. Many mods split a single skill across several
+   lines at the *same* rank — `.target` on one, `.effect` on the next, a `.valid_modes` line per
+   stance after that. Kuuga states one skill across five. Reading one line kept whichever
+   fragment came last, which rendered 79 of 270 skills as nothing but a stance label and threw
+   away the entire kit of eight classes. `mergeRows` is the fix; it is off for the base game.
+4. **`extended` is about verification, not about features.** The wider rendering — the buff scale
+   heuristic, stress and summons, the sentinel-chance and template clean-ups — is on for mods and
+   off for the base game. Vanilla's committed files are the contract, and `skillEffects.js`
+   cannot even be regenerated without the wiki CSV its combat half comes from, so a change here
+   that shifts it is a change nobody can check today.
+
+**The scale heuristic is the one judgement call.** The base game writes a percentage stat as a 0-1
+fraction and 2511 of its 2519 such buffs obey that; mods routinely write `-99` meaning -99%, and
+scaling it printed `-9900% CRIT` on over half the rendered skills. Under `extended`, a magnitude
+above 1 is taken as already whole. The eight vanilla exceptions are town and meta stats
+(`food_consumption_percent`, the gambler chances) and one of them sits on a trinket — which is
+precisely why this does not apply to the base game.
+
+**What it deliberately does not render.** `health_damage`, `heal_percent` and the riposte chances
+are read on scales that cannot be told apart from the value alone (`riposte_on_hit_chance_add 100`
+is 100%; the same field elsewhere holds `1.0` for the same thing), so they produced
+`+10000% Riposte on hit` and `Suffer 900 DMG`. They are dropped rather than guessed — a confident
+wrong number is worse than a missing clause, because the player cannot tell it is wrong. Same call
+`regionProfiles.js` makes for a zone whose tables do not describe how it works.
+
+**Additive by default.** Only a class whose mod is installed can be rendered, and unsubscribing a
+mod for an afternoon must not delete its effects, so anything unverifiable this run is carried over
+from the previous one and reported. `--prune` is what drops it, off by default — the same rule, for
+the same reason, as `importModdedHeroes.js --prune`.
+
+### Modded trinkets
+
+The same run generates `MODDED_TRINKET_EFFECTS_GENERATED`, in the shape `trinketEffects.js` uses
+(`{ rarity, limit, effect }`), and `moddedEffects.js` merges it under the hand-written table the
+same way. Three things make it work:
+
+- **A trinket's `buffs` are only its passive half.** The rest hangs off `*_additional_effects`
+  fields naming effects by id, under a trigger label (`On Monster Kill`, `When Hit`). Mods lean on
+  this much harder than the base game — the Ironclad's Burning Blood ships an **empty `buffs`
+  array** and one kill trigger, so reading `buffs` alone would render it blank. That is the
+  Flickering Lamplight case the trinket importer already documents. `renderTrinket` is the
+  sibling of `renderEffect`, not a reuse of it: a trinket clause writes `Bleed 3 pts/rd for 3 rds`
+  where a skill writes `Bleed 3 pts/rd`, and its target vocabulary is wider.
+- **`limit` is read, never guessed.** It is how many copies the game lets you hold, a property of
+  the object and not of its tier, and `resolveTrinketClashes` is what consumes it. All 331 carry
+  one.
+- **The wide string reader is required here.** 749 base-game templates live in `<entry>` tags
+  carrying attributes, which the narrow regex cannot see — including the one the Rescuer's
+  Rucksack needs. `loadGameContext(dir, { wideStrings: true })` does the two-pass campaign-then-
+  arena read; the modded importer uses it, and the default stays narrow so
+  `importSkillEffects.js`'s output is reproducible.
+
+**Rarities are an open set now, and `trinketRarity.test.js` had to learn that.** A mod invents its
+own tiers — `Kuuga TH`, `Boar Beach`, `Messiah Joke`, seventeen of them today and different ones
+tomorrow. The palette is pinned in both directions against the game's **closed** set (vanilla plus
+the hand-written entries) and only has to *degrade* a modded tier: `rarityTone` returns
+`NO_RARITY`, which draws as "no tier". Inventing a colour would be inventing a hierarchy the mod
+never declared, and demanding one would turn subscribing to a mod into a red suite.
+
+**Two more sentinel guards, both the same judgement.** A mod writes `.chance 2000%` or a buff
+amount of `10000000` to mean "always"; rendering those gave `(2000% base)` and
+`+1000000000% Bleed Skill Chance`. A base chance beyond what the game itself ever writes (500%) is
+dropped, and a buff whose figure reaches five digits loses its clause rather than printing a number
+nobody can act on.
+
+**Coverage is a function of what you have installed.** With 76 workshop folders: **38 classes, 272
+combat skills, 157 camp skills, 331 class trinkets.** The other 606 classes report as
+`mod no instalado`. Install more, re-run, get more.
+
+**Watch the bundle.** The generated file costs ~33 kB gzip for 38 classes and rides in `main.js`
+(which is 397 kB now). Covering all 644 would be several hundred kB — on top of the 131 kB
+`modded_heroes.js` already spends there — so the day this gets broad, it and the roster want the
+lazy treatment `compIndex` and `recommendations` already have.
 
 ## What a skill does (`src/utils/skillProfile.js`)
 
@@ -1422,6 +1553,41 @@ one dense string into a readable stack.
 
 Note for tests: React's `onMouseEnter` does not bubble, so `fireEvent` has to be aimed at the
 `HoverCard` wrapper, not at the icon or button inside it.
+
+## Every dialog goes through `Modal`
+
+`src/components/common/Modal.jsx` is the shell: the portal, the backdrop, `role="dialog"`,
+`aria-modal`, Escape, a focus trap and focus restore on close. **A new dialog uses it. Do not
+hand-roll another overlay** — there were nine of those, they had drifted apart, and each one had
+lost a different piece (seven had no `role="dialog"` at all, none trapped focus, none put focus
+back where it came from, and the dialog documenting the keyboard was the one that ignored
+Escape).
+
+Ten components use it now: `ConfirmDialog`, `KeyboardShortcuts`, `TrinketPicker`, `QuirkPicker`,
+`LoadCompModal`, `SaveTeamModal`, `SuggestCompModal`, `ImportSaveModal`, `SettingsModal` and
+`QuestMapModal`.
+
+Four things to know when adopting it:
+
+1. **`panelStyle`, not a wrapper.** Every dialog paints its border from a CSS variable
+   (`borderColor: var(--dd-gold)`), and Tailwind can never see that value, so it has to be an
+   inline style on the panel itself. Pushing it onto a `<div>` inside draws the border in the
+   wrong place.
+2. **`autoFocus={false}` when the content owns the focus.** The two pickers put it in their
+   search box, `ConfirmDialog` puts it on Cancel — the safe option under the return key on a
+   destructive dialog. Modal's default takes the first focusable, which is the close button.
+3. **Escape is Modal's; other keys are not.** `LoadCompModal` keeps its own `window` listener for
+   the arrow-key pager, because that has to fire wherever the focus is inside the dialog and it
+   is not the closing gesture. Only the Escape branch moved.
+4. **Tests fire Escape at the dialog, not at `window`.** Modal listens on the panel, so
+   `fireEvent.keyDown(screen.getByRole('dialog'), { key: 'Escape' })` is the shape — which
+   doubles as an assertion that the panel really is a dialog.
+
+**`ImageTester` is the one deliberate exception**, and it says so in its own comment: it is a
+full-screen scrolling overlay rather than a centred panel, and it lives behind `?debug=images`.
+`HeroSelector` is not an exception because it is not a dialog — it is a combobox
+(`role="combobox"` over a `role="listbox"`, arrow-key navigation), and its `fixed inset-0` is the
+click-outside scrim. Giving it `role="dialog"` would be a regression.
 
 ## Downloading a file
 

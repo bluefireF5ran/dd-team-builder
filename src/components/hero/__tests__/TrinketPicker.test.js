@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, within } from '@testing-library/react';
 import TrinketPicker from '../TrinketPicker';
 import { TRINKET_EFFECTS } from '../../../data/trinketEffects';
 import { RARITY_TONES } from '../../../utils/trinketRarity';
@@ -124,11 +124,28 @@ describe('TrinketPicker', () => {
     });
   });
 
+  // Aimed at the dialog, not at `window`. The picker used to carry its own
+  // global keydown listener; it uses the shared `Modal` now, which listens on
+  // the panel - so this also asserts the panel really is a `role="dialog"`,
+  // which is half the reason the migration happened.
   it('closes on Escape', () => {
     const onClose = jest.fn();
     open({ onClose });
-    fireEvent.keyDown(window, { key: 'Escape' });
+    fireEvent.keyDown(screen.getByRole('dialog'), { key: 'Escape' });
     expect(onClose).toHaveBeenCalled();
   });
 
+  // Tabbing off the end used to walk into the builder behind the open picker.
+  // The last focusable here is a trinket card, so Tab from it must wrap back
+  // into the dialog rather than escape it.
+  it('traps Tab inside the dialog', () => {
+    open({});
+    const dialog = screen.getByRole('dialog');
+    const buttons = within(dialog).getAllByRole('button');
+    buttons[buttons.length - 1].focus();
+    fireEvent.keyDown(dialog, { key: 'Tab' });
+    // Wrapped round to the first focusable - the close button - instead of
+    // stepping out into the page behind.
+    expect(screen.getByLabelText('Close')).toHaveFocus();
+  });
 });

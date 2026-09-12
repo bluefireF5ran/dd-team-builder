@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { createPortal } from 'react-dom';
 import {
   X, Upload, FolderOpen, Trash2, Users, Sparkles, AlertTriangle, Gem, Loader2, Heart, Brain
 } from 'lucide-react';
+import Modal from '../common/Modal';
 import ImageWithFallback from '../common/ImageWithFallback';
 import { getHeroImagePath, isModdedHero } from '../../utils/imageHelper';
 import { quirkClasses } from '../../utils/quirkStyle';
@@ -152,16 +152,12 @@ const ImportSaveModal = ({
     }
   }, [isOpen, profile]);
 
+  // Escape es de `Modal`; lo que queda aqui es el reseteo al abrir.
   useEffect(() => {
-    if (!isOpen) return undefined;
+    if (!isOpen) return;
     setQuery('');
     setPicked([]);
-    const onKeyDown = (e) => {
-      if (e.key === 'Escape') onClose?.();
-    };
-    window.addEventListener('keydown', onKeyDown);
-    return () => window.removeEventListener('keydown', onKeyDown);
-  }, [isOpen, onClose]);
+  }, [isOpen]);
 
   const heroes = useMemo(() => profile?.heroes || [], [profile]);
 
@@ -230,8 +226,6 @@ const ImportSaveModal = ({
     );
   };
 
-  if (!isOpen) return null;
-
   const fileButton = (label, icon, ref) => (
     <label className="px-3 py-2 text-sm rounded border border-dd-gold/50 bg-dd-gold/10 hover:bg-dd-gold/20 text-dd-gold transition-colors cursor-pointer inline-flex items-center gap-2">
       {busy ? <Loader2 size={14} className="animate-spin" /> : icon}
@@ -240,17 +234,17 @@ const ImportSaveModal = ({
     </label>
   );
 
-  return createPortal(
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={onClose}>
-      <div className="fixed inset-0 bg-black/60 backdrop-blur-sm" />
-      <div
-        className="relative bg-gray-800 border-2 rounded-lg p-5 sm:p-6 max-w-4xl w-full shadow-2xl max-h-[90vh] flex flex-col"
-        style={{ borderColor: 'var(--dd-gold)' }}
-        onClick={(e) => e.stopPropagation()}
-      >
+  return (
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      labelledBy="import-save-title"
+      panelClassName="bg-gray-800 border-2 rounded-lg p-5 sm:p-6 max-w-4xl w-full shadow-2xl max-h-[90vh] flex flex-col"
+      panelStyle={{ borderColor: 'var(--dd-gold)' }}
+    >
         <div className="flex items-start justify-between gap-4 mb-4">
           <div>
-            <h3 className="font-darkest text-xl text-dd-parchment tracking-wide flex items-center gap-2">
+            <h3 id="import-save-title" className="font-darkest text-xl text-dd-parchment tracking-wide flex items-center gap-2">
               <FolderOpen size={20} className="text-dd-gold" />
               Import Save
             </h3>
@@ -407,9 +401,7 @@ const ImportSaveModal = ({
             </div>
           </>
         )}
-      </div>
-    </div>,
-    document.body
+    </Modal>
   );
 };
 

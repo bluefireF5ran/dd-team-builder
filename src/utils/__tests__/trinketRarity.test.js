@@ -3,14 +3,31 @@ import {
 } from '../trinketRarity';
 import { TRINKET_EFFECTS } from '../../data/trinketEffects';
 import { MODDED_TRINKET_EFFECTS } from '../../data/moddedEffects';
+import { MODDED_TRINKET_EFFECTS_GENERATED } from '../../data/moddedEffectsGenerated';
 
-// Every tier the data actually uses. A trinket whose rarity has no tone would
-// silently draw as "no rarity", which is the bug this guards.
-const RARITIES_IN_DATA = [...new Set(
-  [...Object.values(TRINKET_EFFECTS), ...Object.values(MODDED_TRINKET_EFFECTS)]
-    .map((e) => e.rarity)
-    .filter(Boolean)
-)];
+const raritiesOf = (store) => Object.values(store).map((e) => e.rarity).filter(Boolean);
+
+/**
+ * Los tiers que la paleta TIENE que cubrir: los del juego y los escritos a mano.
+ *
+ * Es un conjunto CERRADO -- el juego tiene los tiers que tiene -- y por eso se
+ * puede exigir en los dos sentidos: sin tono, un trinket se dibujaria como "sin
+ * rareza" sin avisar, que es el bug que esto vigila.
+ *
+ * Los generados no entran, y no es pereza. Un mod se inventa el tier que quiere
+ * (`Kuuga TH`, `Boar Beach`, `Messiah Joke`): son 17 hoy y serian otros manana
+ * con instalar otra cosa, asi que exigirles tono convierte "suscribirse a un
+ * mod" en "suite roja", y ponerles uno a ojo seria inventar una jerarquia que
+ * el mod no declara. Lo que si se les exige esta abajo: degradar limpiamente.
+ */
+const GENERATED_RARITIES = new Set(raritiesOf(MODDED_TRINKET_EFFECTS_GENERATED));
+const handAuthoredModded = Object.fromEntries(
+  Object.entries(MODDED_TRINKET_EFFECTS).filter(([name]) => !MODDED_TRINKET_EFFECTS_GENERATED[name])
+);
+const RARITIES_IN_DATA = [...new Set([
+  ...raritiesOf(TRINKET_EFFECTS),
+  ...raritiesOf(handAuthoredModded),
+])];
 
 const rgb = (hex) => {
   const m = /^#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec(hex);
@@ -26,6 +43,22 @@ describe('the palette covers the data', () => {
   it('carries no tone the data never uses', () => {
     const orphans = Object.keys(RARITY_TONES).filter((r) => !RARITIES_IN_DATA.includes(r));
     expect(orphans).toEqual([]);
+  });
+
+  // Un tier que un mod se invento no tiene tono y no debe tenerlo: se dibuja
+  // como "sin tier", que es la respuesta honesta, y nunca revienta.
+  it('degrades a rarity a mod invented to no tier', () => {
+    const unknown = [...GENERATED_RARITIES].filter((r) => !RARITY_TONES[r]);
+    unknown.forEach((r) => {
+      expect(rarityTone(r)).toBe(NO_RARITY);
+    });
+    expect(rarityTone('Kuuga TH')).toBe(NO_RARITY);
+    expect(rarityTone(null)).toBe(NO_RARITY);
+  });
+
+  it('still draws a border for a trinket whose tier nothing knows', () => {
+    const style = rarityBorderStyle('a trinket that does not exist');
+    expect(style).toEqual(expect.objectContaining({ borderColor: expect.any(String) }));
   });
 
   it('gives every tone a label and a six-digit hex', () => {

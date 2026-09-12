@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { X, Palette, Puzzle, Star, Biohazard, Droplet, BookOpen, Swords, Trophy, RotateCcw, PackageCheck } from 'lucide-react';
+import Modal from '../common/Modal';
 import { THEMES } from '../../hooks/useSettings';
 import { SORT_OPTIONS } from '../../utils/compFilters';
 import { LOCATIONS } from '../../data/locations';
@@ -69,32 +70,18 @@ const Section = ({ title, children }) => (
 );
 
 const SettingsModal = ({ isOpen, onClose, settings, setSetting, toggleSetting, resetSettings }) => {
-  useEffect(() => {
-    if (!isOpen) return;
-    const handleKeyDown = (e) => {
-      if (e.key === 'Escape') onClose?.();
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, onClose]);
-
-  if (!isOpen) return null;
-
   const sortOptions = SORT_OPTIONS.filter((o) => !o.savedOnly);
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={onClose}>
-      <div className="fixed inset-0 bg-black/60 backdrop-blur-sm" />
-      <div
-        className="relative bg-gray-800 border-2 rounded-lg shadow-2xl max-w-lg w-full max-h-[85vh] flex flex-col"
-        style={{ borderColor: 'var(--dd-gold)' }}
-        onClick={(e) => e.stopPropagation()}
-        role="dialog"
-        aria-modal="true"
-        aria-label="Settings"
-      >
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      labelledBy="settings-title"
+      panelClassName="bg-gray-800 border-2 rounded-lg shadow-2xl max-w-lg w-full max-h-[85vh] flex flex-col"
+      panelStyle={{ borderColor: 'var(--dd-gold)' }}
+    >
         <div className="flex items-start justify-between gap-3 p-4 sm:p-6 pb-3">
-          <h3 className="font-darkest text-lg sm:text-xl text-dd-parchment tracking-wide">Settings</h3>
+          <h3 id="settings-title" className="font-darkest text-lg sm:text-xl text-dd-parchment tracking-wide">Settings</h3>
           <button
             onClick={onClose}
             className="p-1.5 text-gray-400 hover:text-dd-parchment transition-colors"
@@ -262,8 +249,7 @@ const SettingsModal = ({ isOpen, onClose, settings, setSetting, toggleSetting, r
             Done
           </button>
         </div>
-      </div>
-    </div>
+    </Modal>
   );
 };
 

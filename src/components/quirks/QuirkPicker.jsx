@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { X, Search } from 'lucide-react';
+import Modal from '../common/Modal';
 import { POSITIVE_QUIRKS, NEGATIVE_QUIRKS } from '../../data/quirks';
 import { DISEASES, CRIMSON_COURT_DISEASES } from '../../data/diseases';
 import { getQuirkEffect } from '../../data/quirkEffects';
@@ -69,15 +70,6 @@ const QuirkPicker = ({ isOpen, onClose, onSelect, kind, heroClass, showCrimsonCo
   const [search, setSearch] = useState('');
 
   useEffect(() => {
-    if (!isOpen) return;
-    const handleKeyDown = (e) => {
-      if (e.key === 'Escape') onClose?.();
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, onClose]);
-
-  useEffect(() => {
     if (isOpen) setSearch('');
   }, [isOpen]);
 
@@ -113,18 +105,19 @@ const QuirkPicker = ({ isOpen, onClose, onSelect, kind, heroClass, showCrimsonCo
 
   const fallbackTone = kind === 'disease' ? 'disease' : kind;
 
-  if (!isOpen) return null;
-
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={onClose}>
-      <div className="fixed inset-0 bg-black/60 backdrop-blur-sm" />
-      <div
-        className="relative bg-gray-800 border-2 rounded-lg shadow-2xl max-w-3xl w-full max-h-[85vh] flex flex-col"
-        style={{ borderColor: 'var(--dd-gold)' }}
-        onClick={(e) => e.stopPropagation()}
-      >
+    // autoFocus off: the search box carries its own, and landing there is what
+    // makes the picker usable from the keyboard.
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      labelledBy="quirk-picker-title"
+      autoFocus={false}
+      panelClassName="bg-gray-800 border-2 rounded-lg shadow-2xl max-w-3xl w-full max-h-[85vh] flex flex-col"
+      panelStyle={{ borderColor: 'var(--dd-gold)' }}
+    >
         <div className="flex items-start justify-between gap-3 p-4 sm:p-6 pb-3">
-          <h3 className="font-darkest text-lg sm:text-xl text-dd-parchment tracking-wide">
+          <h3 id="quirk-picker-title" className="font-darkest text-lg sm:text-xl text-dd-parchment tracking-wide">
             Select {TITLES[kind] || 'Quirk'}
           </h3>
           <button
@@ -203,8 +196,7 @@ const QuirkPicker = ({ isOpen, onClose, onSelect, kind, heroClass, showCrimsonCo
             </div>
           ))}
         </div>
-      </div>
-    </div>
+    </Modal>
   );
 };
 

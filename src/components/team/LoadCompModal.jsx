@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { createPortal } from 'react-dom';
 import { X, Search, SlidersHorizontal, ChevronLeft, ChevronRight, Users } from 'lucide-react';
+import Modal from '../common/Modal';
 import CompCard from './CompCard';
 import { toRosterCounts, missingForComp, rosterFromHeroes } from '../../utils/rosterAvailability';
 import CompFilters from './CompFilters';
@@ -146,20 +146,19 @@ const LoadCompModal = ({
     }
   }, [isOpen, resetView]);
 
+  // Escape es de `Modal` ahora. Las flechas siguen en `window` a proposito: son
+  // el paginador, tienen que responder con el foco en cualquier sitio del
+  // dialogo, y no son el gesto de cerrar.
   useEffect(() => {
     if (!isOpen) return;
     const handleKeyDown = (e) => {
-      if (e.key === 'Escape') { onClose?.(); return; }
-      // Flechas para pasar pagina, salvo mientras se escribe en el buscador.
       if (e.target?.tagName === 'INPUT' || e.target?.tagName === 'SELECT') return;
       if (e.key === 'ArrowRight') setPage((p) => Math.min(p + 1, pageCount));
       if (e.key === 'ArrowLeft') setPage((p) => Math.max(p - 1, 1));
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, onClose, pageCount]);
-
-  if (!isOpen) return null;
+  }, [isOpen, pageCount]);
 
   const tabButton = (id, label, count, tone) => (
     <button
@@ -182,18 +181,20 @@ const LoadCompModal = ({
     return Array.from({ length: last - first + 1 }, (_, i) => first + i);
   };
 
-  return createPortal(
+  return (
     <>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4" onClick={onClose}>
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm" />
-        <div
-          className="relative bg-gray-800 border-2 rounded-lg shadow-2xl w-full max-w-[76rem] max-h-[92vh] flex flex-col"
-          style={{ borderColor: 'var(--dd-gold)' }}
-          onClick={(e) => e.stopPropagation()}
-        >
+      <Modal
+        isOpen={isOpen}
+        onClose={onClose}
+        labelledBy="comp-library-title"
+        autoFocus={false}
+        className="p-2 sm:p-4"
+        panelClassName="bg-gray-800 border-2 rounded-lg shadow-2xl w-full max-w-[76rem] max-h-[92vh] flex flex-col"
+        panelStyle={{ borderColor: 'var(--dd-gold)' }}
+      >
           <div className="flex items-start justify-between gap-3 px-4 sm:px-5 pt-4 pb-2">
             <div>
-              <h3 className="font-darkest text-lg sm:text-xl text-dd-parchment tracking-wide">Comp Library</h3>
+              <h3 id="comp-library-title" className="font-darkest text-lg sm:text-xl text-dd-parchment tracking-wide">Comp Library</h3>
               <p className="text-gray-400 text-xs mt-0.5">
                 Search by name, hero, family, mechanic, skill or trinket
               </p>
@@ -408,8 +409,7 @@ const LoadCompModal = ({
               )}
             </div>
           </div>
-        </div>
-      </div>
+      </Modal>
 
       <ConfirmDialog
         isOpen={deleteConfirm.isOpen}
@@ -423,8 +423,7 @@ const LoadCompModal = ({
         }}
         onCancel={() => setDeleteConfirm({ isOpen: false, teamName: '' })}
       />
-    </>,
-    document.body
+    </>
   );
 };
 

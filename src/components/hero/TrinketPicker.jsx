@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { X, Search, PackageCheck } from 'lucide-react';
+import Modal from '../common/Modal';
 import { HERO_CLASSES } from '../../data/heroes';
 import { MODDED_HERO_CLASSES, MODDED_GENERAL_TRINKETS } from '../../data/modded_heroes';
 import { TRINKETS } from '../../data/trinkets';
@@ -52,15 +53,6 @@ const TrinketPicker = ({
   const ownedKeys = useMemo(() => new Set(ownedTrinkets.map(nameKey)), [ownedTrinkets]);
   const canFilterByOwned = ownedKeys.size > 0;
   const filterOwned = canFilterByOwned && ownedOnly;
-
-  useEffect(() => {
-    if (!isOpen) return;
-    const handleKeyDown = (e) => {
-      if (e.key === 'Escape') onClose?.();
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, onClose]);
 
   useEffect(() => {
     if (isOpen) { setSearch(''); setRarity(null); }
@@ -130,18 +122,20 @@ const TrinketPicker = ({
   );
   const isSearching = searchTerms(search).length > 0;
 
-  if (!isOpen) return null;
-
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={onClose}>
-      <div className="fixed inset-0 bg-black/60 backdrop-blur-sm" />
-      <div
-        className="relative bg-gray-800 border-2 rounded-lg shadow-2xl max-w-3xl w-full max-h-[85vh] flex flex-col"
-        style={{ borderColor: 'var(--dd-gold)' }}
-        onClick={(e) => e.stopPropagation()}
-      >
+    // autoFocus off: the search box below carries its own, and landing there is
+    // what makes the picker usable from the keyboard - Modal's default would
+    // take the close button instead.
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      labelledBy="trinket-picker-title"
+      autoFocus={false}
+      panelClassName="bg-gray-800 border-2 rounded-lg shadow-2xl max-w-3xl w-full max-h-[85vh] flex flex-col"
+      panelStyle={{ borderColor: 'var(--dd-gold)' }}
+    >
         <div className="flex items-start justify-between gap-3 p-4 sm:p-6 pb-3">
-          <h3 className="font-darkest text-lg sm:text-xl text-dd-parchment tracking-wide">
+          <h3 id="trinket-picker-title" className="font-darkest text-lg sm:text-xl text-dd-parchment tracking-wide">
             Select {slotLabel}
           </h3>
           <button
@@ -293,8 +287,7 @@ const TrinketPicker = ({
             );
           })}
         </div>
-      </div>
-    </div>
+    </Modal>
   );
 };
 

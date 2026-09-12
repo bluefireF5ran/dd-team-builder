@@ -81,7 +81,7 @@ describe('QuestMapModal', () => {
   it('closes on Escape', () => {
     const onClose = jest.fn();
     open({ onClose });
-    fireEvent.keyDown(window, { key: 'Escape' });
+    fireEvent.keyDown(screen.getByRole('dialog'), { key: 'Escape' });
     expect(onClose).toHaveBeenCalled();
   });
 
