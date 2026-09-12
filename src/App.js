@@ -11,6 +11,8 @@ import HeroConfiguration from './components/hero/HeroConfiguration';
 import Toast from './components/common/Toast';
 import KeyboardShortcuts from './components/common/KeyboardShortcuts';
 import { getAssetUrl } from './config/assets';
+import { compPayloadFromHash, decodeComp } from './utils/compLink';
+import ConfirmDialog from './components/common/ConfirmDialog';
 
 const ImageTester = lazy(() => import('./components/debug/ImageTester'));
 
@@ -46,6 +48,7 @@ const App = () => {
   const [toast, setToast] = useState(null);
   const [showSettings, setShowSettings] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
+  const [sharedComp, setSharedComp] = useState(null);
 
   // Las preferencias mandan sobre el equipo, no al reves: useTeam solo necesita
   // saber en que mazmorra empieza una comp nueva.
@@ -73,6 +76,7 @@ const App = () => {
     canUndo,
     canRedo,
     importFromClipboard,
+    applyImportedTeam,
     teamExists,
     describePreset,
     savePresetFile,
@@ -129,6 +133,66 @@ const App = () => {
       setIsExporting(false);
     }
   }, [teamName, isExporting, showToast]);
+
+  /**
+   * Una comp que llega por enlace.
+   *
+   * Tres reglas, y ninguna es de adorno:
+   *
+   * 1. **El hash se limpia nada mas leerlo.** Si se queda, un F5 vuelve a
+   *    importar y se lleva por delante lo que hayas editado desde que abriste
+   *    el enlace -- y parece que no ha pasado nada hasta que miras las cartas.
+   * 2. **Pisar una party ya montada se pregunta.** Es la misma regla que ya
+   *    siguen pegar un heroe y el boton de best-in-slot; sobre una party vacia
+   *    no pregunta nada.
+   * 3. **Entra por `applyImportedTeam`**, que canonicaliza y valida igual que
+   *    un fichero pegado. Un enlace lo escribe un desconocido: no puede llegar
+   *    a la party por una puerta mas blanda que la del portapapeles.
+   */
+  const takeSharedComp = useCallback((comp) => {
+    try {
+      applyImportedTeam(comp);
+      showToast(
+        `Loaded "${comp.teamName || 'a shared comp'}" from a link. Ctrl+Z to undo.`,
+        'success'
+      );
+    } catch (error) {
+      showToast(error.message || 'That link is not a comp this build can read.', 'error');
+    }
+  }, [applyImportedTeam, showToast]);
+
+  // Por ref y no por dependencia: el efecto de abajo debe leer la party SOLO
+  // cuando llega un enlace, no re-suscribirse cada vez que editas un heroe.
+  const heroesRef = useRef(heroes);
+  heroesRef.current = heroes;
+
+  const partyIsEmpty = useCallback(
+    () => heroesRef.current.every((h) => !h || !h.heroClass),
+    []
+  );
+
+  useEffect(() => {
+    const readLink = () => {
+      const payload = compPayloadFromHash(window.location.hash);
+      if (!payload) return;
+
+      // Fuera el hash antes de tocar nada, y sin apuntar en el historial: el
+      // enlace ya ha hecho su trabajo, y recargar tiene que dejarte donde estas.
+      window.history.replaceState(null, '', window.location.pathname + window.location.search);
+
+      const comp = decodeComp(payload);
+      if (!comp) {
+        showToast('That link is not a comp this build can read.', 'error');
+        return;
+      }
+      if (partyIsEmpty()) takeSharedComp(comp);
+      else setSharedComp(comp);
+    };
+
+    readLink();
+    window.addEventListener('hashchange', readLink);
+    return () => window.removeEventListener('hashchange', readLink);
+  }, [showToast, takeSharedComp, partyIsEmpty]);
 
   // Global keyboard shortcuts (using refs to avoid re-registering on every state change)
   const handlersRef = useRef({ undo, redo, saveTeam, exportToPNG, showToast, teamName, location, heroes });
@@ -341,7 +405,16 @@ const App = () => {
         <KeyboardShortcuts isOpen={showShortcuts} onClose={() => setShowShortcuts(false)} />
 
         {/* Toast Notifications */}
-        {toast && (
+        <ConfirmDialog
+        isOpen={!!sharedComp}
+        title="Load the shared comp?"
+        message={`"${sharedComp?.teamName || 'A shared comp'}" will replace the party you have now. This can be undone with Ctrl+Z.`}
+        confirmLabel="Load it"
+        onConfirm={() => { takeSharedComp(sharedComp); setSharedComp(null); }}
+        onCancel={() => setSharedComp(null)}
+      />
+
+      {toast && (
           <Toast
             key={toast.key}
             message={toast.message}

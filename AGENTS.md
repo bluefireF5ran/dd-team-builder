@@ -1652,6 +1652,63 @@ One **Save** button, two destinations (`SaveTeamModal`):
 Naming against the library never renames anything already in it: if the engine picks a name a
 bundled comp already wears, the new comp is the one that cedes.
 
+## Sharing a comp as a link
+
+**Share** in `TeamControls` copies a URL that carries the whole party;
+`#/comp/<payload>` opens the builder with it already loaded. There is no server,
+so what does not travel in the URL does not exist for whoever opens it.
+`src/utils/compLink.js` is the format.
+
+**The payload is positional text, not JSON, and the reason is length.** Measured
+over the 467 bundled comps, as base64url characters:
+
+| shape | median | p95 | max |
+| --- | --- | --- | --- |
+| the comp's own JSON | 2079 | 2239 | 2567 |
+| JSON with one-letter keys | 1315 | 1508 | 1847 |
+| what ships | **971** | **1142** | **1456** |
+
+A comp is a fixed shape - four heroes, ten fields each - so the key names carry
+no information, and JSON spends most of its bytes on them plus quotes and
+braces. A per-payload string dictionary was tried and came out **worse** (median
+1360): the repeated camp skills it collapses do not pay for the word list plus
+the indices, and base64 inflates whatever is left by a third.
+
+**Names, never roster indices.** Indices would be far shorter and are how a link
+goes stale: reorder `heroes.js` and every link ever posted describes a different
+party, silently and plausibly. Same rule as everywhere else here - *Class names
+are the key*.
+
+**`deflate` would roughly halve it again** (p95 736) and is deliberately not
+used: `CompressionStream` is async and does not exist in jsdom, so the encoder
+would be untestable in the suite whose job is to guarantee a link still opens.
+The leading version field is what keeps that door open - a `2` payload can be
+deflate, and `decodeComp` refuses a version it does not know rather than reading
+it with the wrong rules and handing back a plausible wrong party.
+
+Four things not to re-derive:
+
+1. **Escapes survive the split; unescaping happens once, at the leaf.** The
+   payload nests three deep (heroes `~`, fields `|`, items `,`). A splitter that
+   also unescaped would strip the inner delimiters' protection on the way
+   through the outer one, and `Boots, Spurs` came back as `Boots`. None of the
+   772 names in the library contains a delimiter, so this never fires today - a
+   mod is why it exists.
+2. **A link enters through `applyImportedTeam`**, the same door as a pasted
+   file: canonicalise, then `validateTeamSchema`. A stranger's link must not
+   reach the party by a softer route than the clipboard does.
+3. **The hash is cleared the moment it is read**, with `replaceState` so it
+   leaves no history entry. Left in place, an F5 re-imports and destroys
+   whatever you edited since opening the link - invisible until you look at the
+   four cards.
+4. **Replacing a party that is already built asks first**, the same rule paste
+   and best-in-slot follow; onto an empty party it just loads. Either way it is
+   one `commit`, so Ctrl+Z gives back the whole previous comp.
+
+`compLink.test.js` round-trips 200 real library comps and pins the length
+ceiling; `src/__tests__/shareLink.test.js` covers the app side - the hash
+clearing, the confirm, and a payload that is not a comp.
+
 ## Importing a Darkest Dungeon save
 
 The **Roster** button in `TeamControls` reads a real profile folder and builds with the heroes
