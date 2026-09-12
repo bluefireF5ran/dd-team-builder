@@ -20,6 +20,10 @@
  *     sangrado, porque solo pegar fuerte no es un plan
  *   - **que cada heroe pueda usar sus skills desde donde esta** (`rankLegal`)
  *
+ * Y cuando todo eso empata --pasa entre dos clases de fondo, que lanzan lo
+ * mismo desde el 3 y desde el 4-- desempata `rankHomeMiss`, o sea donde pone la
+ * libreria a cada clase. Solo desempata: ver `HOME_RANK_WEIGHT`.
+ *
  * ## Por que no es un algoritmo voraz a secas
  *
  * Un voraz determinista con el mismo roster devuelve siempre la misma comp, y
@@ -45,11 +49,13 @@
 import { PARTY_CONFIG } from '../constants';
 import { HERO_CLASSES } from '../data/heroes';
 import { MODDED_HERO_CLASSES } from '../data/modded_heroes';
-import { bisLoadout } from '../data/bisIndex';
+import { bisLoadout, rankHomeMiss } from '../data/bisIndex';
 import { classProfile, skillProfile } from './skillProfile';
 import { partyCoverage } from './synergyHelper';
 import { toRosterCounts, countOf } from './rosterAvailability';
 import { compClassKey, knownCompKeys } from './compIdentity';
+import { regionFit, bestRegionFor } from './regionFit';
+import { getTrinketLimit } from '../data/trinketEffects';
 
 /**
  * Dos heroes de la misma clase en la misma party.
@@ -76,6 +82,28 @@ const ATTEMPTS = 60;
 // otra" tiene que poder dar otra. Los intentos se guardan todos y se ordenan
 // por nota, asi que esto ensancha el abanico sin bajar el techo.
 const EXPLORE = 0.35;
+// Cuantos candidatos se puntuan a fondo en cada rango.
+//
+// Puntuar una party no es gratis y sin tope el coste crece con el roster:
+// 60 intentos x 4 rangos x N clases son 240*N partys puntuadas. Con las 20
+// vanilla no se nota; con 644 clases modded en `modded_heroes.js`, un roster de
+// 200 heroes tardaba cuatro segundos por sugerencia.
+//
+// 24 esta por encima de las 20 vanilla a proposito: un roster normal --las
+// vanilla mas unas cuantas modded-- cabe entero, no se muestrea nada y sale
+// exactamente la misma comp que antes. Solo los rosters grandes recortan, y el
+// recorte sale del barajado que ya habia, asi que la muestra es aleatoria y sin
+// sesgo: entre 60 intentos, una clase que merezca el sitio aparece de sobra.
+const CANDIDATES_PER_RANK = 24;
+
+/**
+ * La region de una comp cuando no hay ninguna que elegir.
+ *
+ * `bestRegionFor` compara perfiles, asi que sin perfiles no tiene nada que
+ * decir. Pasa con una libreria vacia o si `regionProfiles.js` se quedara sin
+ * datos, y en ese caso vale mas devolver la region de siempre que un hueco.
+ */
+const FALLBACK_LOCATION = 'The Ruins';
 
 const classData = (heroClass) => HERO_CLASSES[heroClass] || MODDED_HERO_CLASSES[heroClass];
 
@@ -153,13 +181,36 @@ const rankMisfit = (heroes) => {
 };
 
 /**
+ * Lo que cuesta plantar a un heroe lejos del sitio donde la libreria lo pone.
+ *
+ * `rankMisfit` ya castiga estar donde no puedes lanzar tus skills, pero eso no
+ * distingue entre dos sitios desde los que puedes lanzarlas todas, y hay
+ * clases de fondo para las que el 3 y el 4 son legales y aun asi no son lo
+ * mismo. Entre Arbalest 4 / Musketeer 3 y Arbalest 3 / Musketeer 4 la
+ * cobertura y la legalidad daban igual, asi que decidia el barajado -- y salia
+ * lo contrario de lo que dicen las 191 fichas de las dos.
+ *
+ * Tres puntos como mucho por heroe, o sea lo que descuenta UNA skill que no
+ * puede lanzar: suficiente para deshacer un empate, incapaz de comprar una
+ * cura (20) ni de tapar un heroe atrapado (-50). Sigue siendo un generador de
+ * comps nuevas y no un loro de la libreria; la libreria solo desempata.
+ */
+const HOME_RANK_WEIGHT = 3;
+
+/**
  * La nota de una party ya montada. Mas alto es mejor.
  *
  * Los pesos son un orden de importancia, no una medida: llegar a los cuatro
  * rangos vale mas que llevar un aturdidor, y un heroe que no puede actuar
  * descuenta mas de lo que suma cualquier extra, porque es una party rota.
+ *
+ * `location` es opcional y suma lo que diga `regionFit`: si el veneno prende
+ * aqui, si el sangrado esta desperdiciado, si automarcarse se paga. Sin region
+ * la nota es la de siempre --lo que se mide es si la party puede pelear, y eso
+ * es cierto en cualquier sitio-- que es como se puntua mientras se monta,
+ * porque hasta que no esta entera no se sabe adonde conviene llevarla.
  */
-export const scoreParty = (heroes) => {
+export const scoreParty = (heroes, location = null) => {
   const coverage = partyCoverage(heroes);
   const filled = coverage.size;
   if (!filled) return 0;
@@ -176,6 +227,13 @@ export const scoreParty = (heroes) => {
   score -= misfit.stranded * 50;
   score -= misfit.unusable * 3;
 
+  heroes.forEach((hero, index) => {
+    if (!hero?.heroClass) return;
+    score -= HOME_RANK_WEIGHT * rankHomeMiss(hero.heroClass, index + 1);
+  });
+
+  if (location) score += regionFit(heroes, location);
+
   return score;
 };
 
@@ -190,6 +248,10 @@ export const scoreParty = (heroes) => {
  */
 const improveBySwapping = (heroes) => {
   let current = heroes;
+  // La nota de la party actual no cambia mientras no se acepte un cambio, asi
+  // que se calcula una vez por pasada y no seis. `scoreParty` no es gratis y
+  // esto se llama una vez por intento.
+  let currentScore = scoreParty(current);
   let improving = true;
 
   while (improving) {
@@ -205,8 +267,10 @@ const improveBySwapping = (heroes) => {
         };
         next[a] = rebuild(current[b], a + 1);
         next[b] = rebuild(current[a], b + 1);
-        if (scoreParty(next) > scoreParty(current)) {
+        const nextScore = scoreParty(next);
+        if (nextScore > currentScore) {
           current = next;
+          currentScore = nextScore;
           improving = true;
         }
       }
@@ -214,6 +278,73 @@ const improveBySwapping = (heroes) => {
   }
 
   return current;
+};
+
+/**
+ * Reparte los trinkets de los que solo hay UNO.
+ *
+ * `bisLoadout` contesta por heroe y por rango, y hace bien: la mejor pieza para
+ * un Abomination de rango 2 es la que es, la lleve otro o no. Pero una party no
+ * es cuatro respuestas independientes -- es un equipo saliendo del pueblo con
+ * UN inventario--, y el juego marca cuantas copias deja tener a la vez
+ * (`getTrinketLimit`, que sale de `.entries.trinkets.json`). De `Ancestor's Map`
+ * hay una, asi que dos heroes no pueden salir con ella; de `Bleed Charm` hay las
+ * que quieras, asi que pueden.
+ *
+ * **El limite es por objeto, no por rareza ni por hueco.** Dos trinkets
+ * ancestrales DISTINTOS en la misma party son legales, y los dos en el mismo
+ * heroe tambien: lo unico que no cabe es la misma pieza dos veces.
+ *
+ * Quien la reclama mas arriba en SU cola se la queda, y el resto baja al
+ * siguiente que pueda llevar -- al tercero si el segundo tambien esta cogido.
+ * Es lo que haria cualquiera repartiendo el bagaje, y es determinista: el orden
+ * sale de las colas, no de en que orden se monto la party.
+ */
+export const resolveTrinketClashes = (heroes) => {
+  const claims = [];
+  heroes.forEach((hero, index) => {
+    if (!hero?.heroClass) return;
+    const options = bisLoadout(hero.heroClass, index + 1)?.trinketOptions || [];
+    [hero.trinket1, hero.trinket2].forEach((name, slot) => {
+      if (!name) return;
+      const rank = options.indexOf(name);
+      // Uno que no este en su cola se reclama el ultimo: no se sabe si lo
+      // quiere, solo que lo lleva puesto.
+      claims.push({ index, slot, name, options, rank: rank < 0 ? options.length : rank });
+    });
+  });
+  if (!claims.length) return heroes;
+
+  const used = new Map();
+  const mine = new Map();
+  const given = new Map();
+
+  [...claims]
+    .sort((a, b) => a.rank - b.rank || a.index - b.index || a.slot - b.slot)
+    .forEach((claim) => {
+      const already = mine.get(claim.index) || new Set();
+      const free = (name) =>
+        Boolean(name) && !already.has(name) && (used.get(name) || 0) < getTrinketLimit(name);
+
+      // El suyo si puede; si no, el primero de su cola que quede libre. Si no
+      // queda ninguno se deja el hueco vacio, que es mas honesto que repetir
+      // una pieza que no existe dos veces.
+      const pick = free(claim.name) ? claim.name : claim.options.find(free) || '';
+      if (pick) {
+        used.set(pick, (used.get(pick) || 0) + 1);
+        already.add(pick);
+      }
+      mine.set(claim.index, already);
+      given.set(`${claim.index}|${claim.slot}`, pick);
+    });
+
+  return heroes.map((hero, index) => {
+    if (!hero?.heroClass) return hero;
+    const first = given.has(`${index}|0`) ? given.get(`${index}|0`) : hero.trinket1;
+    const second = given.has(`${index}|1`) ? given.get(`${index}|1`) : hero.trinket2;
+    if (first === hero.trinket1 && second === hero.trinket2) return hero;
+    return { ...hero, trinket1: first, trinket2: second };
+  });
 };
 
 const shuffled = (list, rng) => {
@@ -253,7 +384,7 @@ const buildAt = (heroClass, rank) => {
  * reconstruye la loadout de quien entra y se ordena por nota, asi que la comp
  * nueva es la mejor de las nuevas y no la primera que aparezca.
  */
-const diversify = (heroes, available, counts, wanted) => {
+const diversify = (heroes, available, counts, wanted, place) => {
   const results = [];
 
   for (let slot = 0; slot < MAX_HEROES; slot += 1) {
@@ -272,9 +403,11 @@ const diversify = (heroes, available, counts, wanted) => {
       const overdrawn = [...used.entries()].some(([cls, n]) => n > countOf(counts, cls));
       if (overdrawn) return;
 
-      const improved = improveBySwapping(next);
-      if (!wanted(compClassKey(improved))) return;
-      results.push({ heroes: improved, score: scoreParty(improved) });
+      const swapped = improveBySwapping(next);
+      if (!wanted(compClassKey(swapped))) return;
+      const improved = resolveTrinketClashes(swapped);
+      const where = place(improved);
+      results.push({ heroes: improved, location: where, score: scoreParty(improved, where) });
     });
   }
 
@@ -286,7 +419,10 @@ const diversify = (heroes, available, counts, wanted) => {
  *
  * @param {object} options
  * @param {string[]|Map} options.roster  clases disponibles, con repeticiones
- * @param {string} [options.location]
+ * @param {string} [options.location]  para forzar una region. Sin ella se elige
+ *   la que mejor le siente a cada comp (`bestRegionFor`), que es lo que se
+ *   quiere casi siempre: una comp se construye PARA un sitio, y devolver todo
+ *   etiquetado "The Ruins" era una mentira comoda.
  * @param {number} [options.count]       cuantas alternativas distintas devolver
  * @param {boolean} [options.excludeKnown]  descartar los repartos que ya estan
  *   en la libreria, en el orden y la region que sea. Por defecto si: pedir una
@@ -298,7 +434,7 @@ const diversify = (heroes, available, counts, wanted) => {
  */
 export const generateComps = ({
   roster,
-  location = 'The Ruins',
+  location = null,
   count = 3,
   excludeKnown = true,
   allowRepeatClass = false,
@@ -312,11 +448,21 @@ export const generateComps = ({
   // heroes en otro orden son la misma comp (ver `compIdentity`), asi que dos
   // intentos que llegan al mismo reparto son un solo resultado y gana el mejor
   // colocado de los dos.
+  // Donde va cada comp. Se decide con la party YA montada, porque la region que
+  // le conviene depende de lo que acabe llevando: hasta que no estan las cuatro
+  // no se sabe si es una comp de veneno o de sangrado.
+  const place = (heroes) => location || bestRegionFor(heroes)?.location || FALLBACK_LOCATION;
+
   const found = new Map();
-  const keep = (heroes) => {
-    const key = compClassKey(heroes);
+  const keep = (raw) => {
+    const key = compClassKey(raw);
     if (!key) return;
-    const entry = { heroes, score: scoreParty(heroes) };
+    // El reparto de unicos va DESPUES de la pasada de intercambios, porque cada
+    // intercambio reconstruye la loadout desde `bisLoadout` y volveria a poner
+    // la misma pieza en dos sitios.
+    const heroes = resolveTrinketClashes(raw);
+    const where = place(heroes);
+    const entry = { heroes, location: where, score: scoreParty(heroes, where) };
     const previous = found.get(key);
     if (!previous || entry.score > previous.score) found.set(key, entry);
   };
@@ -329,7 +475,7 @@ export const generateComps = ({
       const candidates = shuffled(
         available.filter((name) => (remaining.get(name) || 0) > 0),
         rng
-      );
+      ).slice(0, CANDIDATES_PER_RANK);
       if (!candidates.length) break;
 
       // Se prueba cada candidato en este rango y se queda el que mas sube la
@@ -371,7 +517,7 @@ export const generateComps = ({
     [...found.values()]
       .sort((a, b) => b.score - a.score)
       .forEach((entry) => {
-        diversify(entry.heroes, available, counts, wanted).forEach((candidate) => {
+        diversify(entry.heroes, available, counts, wanted, place).forEach((candidate) => {
           const key = compClassKey(candidate.heroes);
           if (seen.has(key)) return;
           seen.add(key);
@@ -383,7 +529,7 @@ export const generateComps = ({
   return fresh
     .sort((a, b) => b.score - a.score)
     .slice(0, count)
-    .map((comp) => ({ ...comp, location, coverage: partyCoverage(comp.heroes) }));
+    .map((comp) => ({ ...comp, coverage: partyCoverage(comp.heroes) }));
 };
 
 /**

@@ -40,18 +40,41 @@ const judgedSkills = (hero) => {
   return { skills: classData(hero.heroClass)?.skills || [], assumed: true };
 };
 
+const tagsCache = new Map();
+
+/**
+ * Lo que sabe hacer un heroe, por etiqueta.
+ *
+ * Memoizado por clase + skills + skills de campamento, que es todo lo que mira:
+ * dos heroes con la misma loadout tienen las mismas etiquetas, esten en la
+ * party que esten. Importa porque el generador de comps puntua miles de partys
+ * por sugerencia y la inmensa mayoria repiten heroes -- la Vestal de rango 3 es
+ * literalmente la misma en todas--, asi que sin cache se recalculaba lo mismo
+ * una y otra vez.
+ *
+ * El Set se comparte, asi que quien lo recibe solo lo lee (`partyCoverage` lo
+ * recorre, no lo toca).
+ */
 const tagsOf = (hero) => {
+  const camp = (hero.activeCampSkills || []).filter(Boolean);
   const { skills, assumed } = judgedSkills(hero);
+  const key = `${hero.heroClass}\u0000${skills.join(',')}\u0000${camp.join(',')}`;
+  const cached = tagsCache.get(key);
+  if (cached) return cached;
+
   const tags = new Set();
   skills.forEach((name) => {
     const profile = skillProfile(hero.heroClass, name);
     if (profile) profile.tags.forEach((tag) => tags.add(tag));
   });
-  (hero.activeCampSkills || []).filter(Boolean).forEach((name) => {
+  camp.forEach((name) => {
     const profile = skillProfile(hero.heroClass, name);
     if (profile) profile.tags.forEach((tag) => tags.add(`camp:${tag}`));
   });
-  return { tags, assumed };
+
+  const result = { tags, assumed };
+  tagsCache.set(key, result);
+  return result;
 };
 
 /**

@@ -8,6 +8,7 @@ import LoadCompModal from './LoadCompModal';
 import SaveTeamModal from './SaveTeamModal';
 import SuggestCompModal from './SuggestCompModal';
 import ImportSaveModal from './ImportSaveModal';
+import { regionFitBreakdown } from '../../utils/regionFit';
 
 const TeamControls = ({
   heroes,
@@ -511,8 +512,13 @@ const TeamControls = ({
         onGenerate={(comp) => {
           const result = onGenerateComp?.(comp);
           const notes = comp.coverage?.has('heal') ? '' : ' It has no healing.';
+          // La region ya no es una etiqueta por defecto: se elige por como le
+          // sienta a esta party, asi que hay que decir cual y por que. El primer
+          // sumando del desglose es el que mas ha pesado.
+          const [why] = regionFitBreakdown(comp.heroes, comp.location);
+          const because = why && why.points > 0 ? ` — ${why.detail}.` : '.';
           showToast?.(
-            `Built "${result?.teamName || 'a new comp'}" from your roster.${notes}`,
+            `Built "${result?.teamName || 'a new comp'}" for ${comp.location}${because}${notes}`,
             'success'
           );
         }}
