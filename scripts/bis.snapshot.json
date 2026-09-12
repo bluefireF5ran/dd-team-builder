@@ -1,5 +1,5 @@
 {
-  "takenAt": "2026-09-10T07:31:04.592Z",
+  "takenAt": "2026-09-10T16:53:49.491Z",
   "cells": {
     "Abomination|1": {
       "heroClass": "Abomination",
@@ -50,7 +50,7 @@
         "Padlock of Transference"
       ],
       "source": "library",
-      "samples": 40,
+      "samples": 48,
       "rankLegal": true
     },
     "Abomination|3": {
@@ -76,7 +76,7 @@
         "Padlock of Transference"
       ],
       "source": "library",
-      "samples": 7,
+      "samples": 8,
       "rankLegal": true
     },
     "Abomination|4": {
@@ -125,7 +125,7 @@
         "The Tempting Goblet"
       ],
       "source": "library",
-      "samples": 4,
+      "samples": 11,
       "rankLegal": true
     },
     "Antiquarian|2": {
@@ -134,21 +134,21 @@
       "skills": [
         "Festering Vapours",
         "Get Down!",
-        "Invigorating Vapours",
+        "Fortifying Vapours",
         "Protect Me"
       ],
       "camp": [
         "Encourage",
-        "Wound Care",
+        "Resupply",
         "Strange Powders",
         "Curious Incantation"
       ],
       "trinkets": [
-        "Ancestor's Map",
-        "Camouflage Cloak"
+        "Smoking Skull",
+        "The Tempting Goblet"
       ],
-      "source": "model",
-      "samples": 3,
+      "source": "library",
+      "samples": 15,
       "rankLegal": true
     },
     "Antiquarian|3": {
@@ -167,11 +167,11 @@
         "Strange Powders"
       ],
       "trinkets": [
-        "Ancestor's Map",
-        "Smoking Skull"
+        "Smoking Skull",
+        "Ancestor's Map"
       ],
       "source": "library",
-      "samples": 17,
+      "samples": 29,
       "rankLegal": true
     },
     "Antiquarian|4": {
@@ -194,7 +194,7 @@
         "Ancestor's Map"
       ],
       "source": "library",
-      "samples": 12,
+      "samples": 27,
       "rankLegal": true
     },
     "Arbalest|1": {
@@ -214,7 +214,7 @@
       ],
       "trinkets": [
         "Ancestor's Map",
-        "Fuseman's Matchstick"
+        "Bedtime Story"
       ],
       "source": "model",
       "samples": 0,
@@ -260,10 +260,10 @@
       ],
       "trinkets": [
         "Ancestor's Map",
-        "Seer Stone"
+        "Bedtime Story"
       ],
       "source": "library",
-      "samples": 6,
+      "samples": 8,
       "rankLegal": true
     },
     "Arbalest|4": {
@@ -282,11 +282,11 @@
         "Triage"
       ],
       "trinkets": [
-        "Prophet's Eye",
-        "Ancestor's Map"
+        "Ancestor's Map",
+        "Bedtime Story"
       ],
       "source": "library",
-      "samples": 56,
+      "samples": 92,
       "rankLegal": true
     },
     "Bounty Hunter|1": {
@@ -309,7 +309,7 @@
         "Hunter's Talon"
       ],
       "source": "library",
-      "samples": 17,
+      "samples": 34,
       "rankLegal": true
     },
     "Bounty Hunter|2": {
@@ -329,10 +329,10 @@
       ],
       "trinkets": [
         "Hunter's Talon",
-        "Surgical Gloves"
+        "Mask Of The Timeless"
       ],
       "source": "library",
-      "samples": 14,
+      "samples": 34,
       "rankLegal": true
     },
     "Bounty Hunter|3": {
@@ -355,7 +355,7 @@
         "Vengeful Kill List"
       ],
       "source": "library",
-      "samples": 19,
+      "samples": 20,
       "rankLegal": true
     },
     "Bounty Hunter|4": {
@@ -401,7 +401,7 @@
         "Signed Conscription"
       ],
       "source": "library",
-      "samples": 26,
+      "samples": 27,
       "rankLegal": true
     },
     "Crusader|2": {
@@ -486,17 +486,17 @@
         "The Boot"
       ],
       "camp": [
-        "Encourage",
+        "Meditation",
         "Preparation",
         "Ruthless Instruction",
         "Again!"
       ],
       "trinkets": [
         "Gilded Mantle",
-        "Fortifying Garlic"
+        "Overture Box"
       ],
-      "source": "model",
-      "samples": 3,
+      "source": "library",
+      "samples": 12,
       "rankLegal": true
     },
     "Duelist|2": {
@@ -518,11 +518,11 @@
         "Again!"
       ],
       "trinkets": [
-        "Ancestor's Candle",
-        "Gilded Mantle"
+        "Gilded Mantle",
+        "Ancestor's Candle"
       ],
       "source": "library",
-      "samples": 7,
+      "samples": 9,
       "rankLegal": true
     },
     "Duelist|3": {
@@ -582,9 +582,9 @@
       "rank": 1,
       "skills": [
         "Punish",
+        "Rain of Sorrows",
         "Reclaim",
-        "Redeem",
-        "Endure"
+        "Redeem"
       ],
       "camp": [
         "Lash's Anger",
@@ -597,7 +597,7 @@
         "Ancestor's Map"
       ],
       "source": "library",
-      "samples": 18,
+      "samples": 36,
       "rankLegal": true
     },
     "Flagellant|2": {
@@ -606,8 +606,8 @@
       "skills": [
         "Punish",
         "Rain of Sorrows",
-        "Redeem",
-        "Endure"
+        "Reclaim",
+        "Redeem"
       ],
       "camp": [
         "Lash's Anger",
@@ -617,10 +617,10 @@
       ],
       "trinkets": [
         "Bleed Amulet",
-        "Book of Sanity"
+        "Flesh's Heart"
       ],
       "source": "library",
-      "samples": 4,
+      "samples": 7,
       "rankLegal": true
     },
     "Flagellant|3": {
@@ -674,8 +674,8 @@
       "rank": 1,
       "skills": [
         "Pick to the Face",
-        "Lunge",
         "Shadow Fade",
+        "Poison Darts",
         "Toxin Trickery"
       ],
       "camp": [
@@ -685,11 +685,11 @@
         "Gallows Humor"
       ],
       "trinkets": [
-        "Topshelf Tonic",
-        "Ancestor's Coat"
+        "Sharpened Letter Opener",
+        "Topshelf Tonic"
       ],
-      "source": "model",
-      "samples": 3,
+      "source": "library",
+      "samples": 8,
       "rankLegal": true
     },
     "Grave Robber|2": {
@@ -699,7 +699,7 @@
         "Pick to the Face",
         "Lunge",
         "Thrown Dagger",
-        "Poison Darts"
+        "Toxin Trickery"
       ],
       "camp": [
         "Encourage",
@@ -708,11 +708,11 @@
         "Night Moves"
       ],
       "trinkets": [
-        "Ancestor's Musket Ball",
-        "Lucky Talisman"
+        "Lucky Talisman",
+        "Sharpened Letter Opener"
       ],
       "source": "library",
-      "samples": 5,
+      "samples": 6,
       "rankLegal": true
     },
     "Grave Robber|3": {
@@ -961,11 +961,11 @@
         "Man's Best Friend"
       ],
       "trinkets": [
-        "Ancestor's Coat",
-        "Mildred's Locket"
+        "Wilbur's Flag",
+        "Ancestor's Coat"
       ],
       "source": "model",
-      "samples": 2,
+      "samples": 3,
       "rankLegal": true
     },
     "Houndmaster|2": {
@@ -984,11 +984,11 @@
         "Man's Best Friend"
       ],
       "trinkets": [
-        "Cudgel Weight",
-        "Ancestor's Coat"
+        "Ancestor's Coat",
+        "Wilbur's Flag"
       ],
       "source": "library",
-      "samples": 52,
+      "samples": 83,
       "rankLegal": true
     },
     "Houndmaster|3": {
@@ -1007,11 +1007,11 @@
         "Man's Best Friend"
       ],
       "trinkets": [
-        "Ancestor's Map",
-        "Evidence of Corruption"
+        "Wilbur's Flag",
+        "Ancestor's Coat"
       ],
       "source": "library",
-      "samples": 46,
+      "samples": 66,
       "rankLegal": true
     },
     "Houndmaster|4": {
@@ -1103,7 +1103,7 @@
         "Ancestor's Coat"
       ],
       "source": "library",
-      "samples": 29,
+      "samples": 30,
       "rankLegal": true
     },
     "Jester|4": {
@@ -1149,7 +1149,7 @@
         "Focus Ring"
       ],
       "source": "library",
-      "samples": 24,
+      "samples": 29,
       "rankLegal": true
     },
     "Leper|2": {
@@ -1241,7 +1241,7 @@
         "Wilbur's Flag"
       ],
       "source": "library",
-      "samples": 21,
+      "samples": 26,
       "rankLegal": true
     },
     "Man at Arms|2": {
@@ -1264,7 +1264,7 @@
         "Ancestor's Coat"
       ],
       "source": "library",
-      "samples": 7,
+      "samples": 10,
       "rankLegal": true
     },
     "Man at Arms|3": {
@@ -1329,8 +1329,8 @@
         "Field Dressing"
       ],
       "trinkets": [
-        "Fuseman's Matchstick",
-        "Prophet's Eye"
+        "Ancestor's Map",
+        "Silver Musket Ball"
       ],
       "source": "model",
       "samples": 0,
@@ -1364,32 +1364,9 @@
       "rank": 3,
       "skills": [
         "Aimed Shot",
+        "Smokescreen",
         "Buckshot",
-        "Patch Up",
-        "Skeet Shot"
-      ],
-      "camp": [
-        "Encourage",
-        "Wound Care",
-        "Marching Plan",
-        "Clean Musket"
-      ],
-      "trinkets": [
-        "Ancestor's Map",
-        "Fuseman's Matchstick"
-      ],
-      "source": "library",
-      "samples": 6,
-      "rankLegal": true
-    },
-    "Musketeer|4": {
-      "heroClass": "Musketeer",
-      "rank": 4,
-      "skills": [
-        "Aimed Shot",
-        "Buckshot",
-        "Patch Up",
-        "Skeet Shot"
+        "Patch Up"
       ],
       "camp": [
         "Encourage",
@@ -1399,10 +1376,33 @@
       ],
       "trinkets": [
         "Fuseman's Matchstick",
-        "Prophet's Eye"
+        "Silver Musket Ball"
       ],
       "source": "library",
-      "samples": 17,
+      "samples": 13,
+      "rankLegal": true
+    },
+    "Musketeer|4": {
+      "heroClass": "Musketeer",
+      "rank": 4,
+      "skills": [
+        "Aimed Shot",
+        "Smokescreen",
+        "Buckshot",
+        "Patch Up"
+      ],
+      "camp": [
+        "Encourage",
+        "Wound Care",
+        "Marching Plan",
+        "Clean Musket"
+      ],
+      "trinkets": [
+        "Ancestor's Map",
+        "Silver Musket Ball"
+      ],
+      "source": "library",
+      "samples": 47,
       "rankLegal": true
     },
     "Occultist|1": {
@@ -1425,17 +1425,17 @@
         "Ancestor's Signet Ring"
       ],
       "source": "library",
-      "samples": 41,
+      "samples": 53,
       "rankLegal": true
     },
     "Occultist|2": {
       "heroClass": "Occultist",
       "rank": 2,
       "skills": [
+        "Weakening Curse",
         "Wyrd Reconstruction",
         "Vulnerability Hex",
-        "Hands from the Abyss",
-        "Daemon's Pull"
+        "Hands from the Abyss"
       ],
       "camp": [
         "Encourage",
@@ -1448,7 +1448,7 @@
         "Ancestor's Pistol"
       ],
       "source": "library",
-      "samples": 25,
+      "samples": 27,
       "rankLegal": true
     },
     "Occultist|3": {
@@ -1514,7 +1514,7 @@
       ],
       "trinkets": [
         "Blasphemous Vial",
-        "Ancestor's Map"
+        "Ashen Distillation"
       ],
       "source": "model",
       "samples": 0,
@@ -1537,7 +1537,7 @@
       ],
       "trinkets": [
         "Blasphemous Vial",
-        "Ancestor's Map"
+        "Ashen Distillation"
       ],
       "source": "model",
       "samples": 0,
@@ -1560,10 +1560,10 @@
       ],
       "trinkets": [
         "Blasphemous Vial",
-        "Ancestor's Map"
+        "Ashen Distillation"
       ],
       "source": "library",
-      "samples": 28,
+      "samples": 41,
       "rankLegal": true
     },
     "Plague Doctor|4": {
@@ -1586,7 +1586,7 @@
         "Ancestor's Map"
       ],
       "source": "library",
-      "samples": 34,
+      "samples": 35,
       "rankLegal": true
     },
     "Runaway|1": {
@@ -1655,7 +1655,7 @@
         "Ancestor's Signet Ring"
       ],
       "source": "library",
-      "samples": 7,
+      "samples": 33,
       "rankLegal": true
     },
     "Runaway|4": {
@@ -1701,7 +1701,7 @@
         "Surgical Gloves"
       ],
       "source": "library",
-      "samples": 18,
+      "samples": 22,
       "rankLegal": true
     },
     "Shieldbreaker|2": {
@@ -1724,7 +1724,7 @@
         "Surgical Gloves"
       ],
       "source": "library",
-      "samples": 4,
+      "samples": 6,
       "rankLegal": true
     },
     "Shieldbreaker|3": {
@@ -1839,7 +1839,7 @@
         "Atonement Beads"
       ],
       "source": "library",
-      "samples": 9,
+      "samples": 10,
       "rankLegal": true
     },
     "Vestal|4": {
@@ -1862,7 +1862,7 @@
         "Atonement Beads"
       ],
       "source": "library",
-      "samples": 21,
+      "samples": 22,
       "rankLegal": true
     }
   }
