@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { Save, FileJson, AlertTriangle, Check } from 'lucide-react';
+import { Save, FileJson, AlertTriangle, Check, RefreshCw } from 'lucide-react';
 import Modal from '../common/Modal';
 
 /**
@@ -29,14 +29,21 @@ const SaveTeamModal = ({
   isComplete = true
 }) => {
   const [target, setTarget] = useState('browser');
+  // Cual de las coincidencias se sustituye. Normalmente hay una; cuando hay
+  // varias es porque la libreria ya lleva dos comps con la misma region y las
+  // mismas cuatro clases, y entonces hay que elegir.
+  const [updateKey, setUpdateKey] = useState(null);
   const confirmRef = useRef(null);
 
   // Nombrar una comp es compararla con la libreria entera: solo al abrir.
   const preset = useMemo(() => (isOpen ? describePreset() : null), [isOpen, describePreset]);
   const overwrites = isOpen && target === 'browser' && teamExists?.(teamName);
 
+  const updates = preset?.updates || [];
+  const chosenUpdate = updates.find((u) => u.key === updateKey) || updates[0] || null;
+
   useEffect(() => {
-    if (isOpen) setTarget('browser');
+    if (isOpen) { setTarget('browser'); setUpdateKey(null); }
   }, [isOpen]);
 
   useEffect(() => {
@@ -88,6 +95,46 @@ const SaveTeamModal = ({
             </>
           ))}
 
+          {updates.length > 0 && option('update', <RefreshCw size={16} />, 'Update an existing comp', (
+            <>
+              <p>
+                Rewrites <span className="text-dd-parchment">“{chosenUpdate?.teamName}”</span> in
+                place — same region, same four classes.
+              </p>
+              <p className="font-mono text-xs text-gray-500 break-all">{chosenUpdate?.key}.json</p>
+              <p className="text-gray-500">
+                Keeps its name; replaces its heroes. Drop it in and it overwrites the file.
+              </p>
+              {updates.length > 1 && (
+                <div className="mt-2 flex flex-wrap gap-1.5">
+                  {updates.map((u) => (
+                    <span
+                      key={u.key}
+                      role="button"
+                      tabIndex={0}
+                      onClick={(e) => { e.stopPropagation(); setTarget('update'); setUpdateKey(u.key); }}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          setTarget('update');
+                          setUpdateKey(u.key);
+                        }
+                      }}
+                      className={`px-2 py-0.5 text-xs rounded border cursor-pointer ${
+                        chosenUpdate?.key === u.key
+                          ? 'border-dd-gold bg-dd-gold/15 text-dd-parchment'
+                          : 'border-gray-600 bg-gray-800 text-gray-400 hover:text-gray-200'
+                      }`}
+                    >
+                      {u.teamName}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </>
+          ))}
+
           {option('preset', <FileJson size={16} />, 'Preset comp file', (
             <>
               <p>
@@ -124,6 +171,16 @@ const SaveTeamModal = ({
             </span>
           </div>
         )}
+        {target === 'update' && (
+          <div className="mt-4 flex items-start gap-2 text-sm text-sky-300 bg-sky-900/20 border border-sky-700/50 rounded p-2">
+            <Check size={16} className="flex-shrink-0 mt-0.5" />
+            <span>
+              The taxonomy is not re-run on a replacement — “{chosenUpdate?.teamName}” keeps its
+              name until <span className="font-mono text-xs">nameComps.v2.js --apply</span> reads
+              the library again.
+            </span>
+          </div>
+        )}
         {target === 'preset' && !isComplete && (
           <div className="mt-4 flex items-start gap-2 text-sm text-amber-300 bg-amber-900/20 border border-amber-700/50 rounded p-2">
             <AlertTriangle size={16} className="flex-shrink-0 mt-0.5" />
@@ -140,10 +197,15 @@ const SaveTeamModal = ({
           </button>
           <button
             ref={confirmRef}
-            onClick={() => (target === 'browser' ? onSaveToBrowser() : onSavePresetFile())}
+            onClick={() => {
+              if (target === 'browser') return onSaveToBrowser();
+              return onSavePresetFile(target === 'update' ? chosenUpdate : undefined);
+            }}
             className="px-4 py-2 rounded border transition-colors text-sm font-semibold bg-dd-gold/20 hover:bg-dd-gold/30 text-dd-gold border-dd-gold/50"
           >
-            {target === 'browser' ? (overwrites ? 'Overwrite' : 'Save') : 'Download'}
+            {target === 'browser' && (overwrites ? 'Overwrite' : 'Save')}
+            {target === 'preset' && 'Download'}
+            {target === 'update' && 'Replace it'}
           </button>
         </div>
     </Modal>

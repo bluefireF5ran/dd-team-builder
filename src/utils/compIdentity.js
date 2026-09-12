@@ -19,7 +19,7 @@
  * tutorial del juego-- y su clave son sus dos heroes, no dos huecos.
  */
 import { nameKey } from './nameNormalizer';
-import { getRawComps } from '../data/compIndex';
+import { getRawComps, getCompFiles } from '../data/compIndex';
 import { pendingCompKeys, pendingCompsRevision, prunePendingComps } from './pendingComps';
 
 const classNamesOf = (comp) => {
@@ -96,4 +96,46 @@ export const resetCompIdentityCache = () => {
   knownCache = null;
   unionCache = null;
   unionRevision = -1;
+};
+
+/**
+ * Las comps de la libreria que ESTA comp actualizaria, en vez de duplicar.
+ *
+ * Retocas los trinkets de una comp que ya tienes escrita, le das a guardar, y
+ * sale un fichero nuevo: ahora hay dos, casi iguales, y la libreria mide peor
+ * porque la misma idea cuenta dos veces. Esto es lo que da la opcion de
+ * sustituir la que ya hay.
+ *
+ * **La region SI cuenta aqui, y `compClassKey` a proposito NO la cuenta.** No
+ * es una incoherencia, son dos preguntas distintas:
+ *
+ *   · `isKnownComp` responde "¿esta idea ya esta escrita?", y ahi la region
+ *     sobra -- las mismas cuatro clases en los Warrens no son una idea nueva.
+ *   · esto responde "¿que FICHERO estoy reescribiendo?", y ahi la region es
+ *     justo lo que separa dos ficheros que quieres conservar los dos. La frase
+ *     de arriba -- *"si ya tengo una comp para las Ruinas, puedo hacer una
+ *     parecida para los Warrens"* -- describe dos comps, no una.
+ *
+ * Cambiar de region, por tanto, nunca ofrece sustituir: crea.
+ *
+ * El orden de las ranuras no cuenta, igual que en `compClassKey`: mover al
+ * Leper del 1 al 2 es la misma party mal puesta, y es exactamente el tipo de
+ * arreglo que se quiere guardar ENCIMA de la anterior.
+ *
+ * @param {{location?: string, heroes?: object[]}} comp  la party actual
+ * @returns {Array<{key: string, teamName: string, alias: string, location: string, heroes: object[]}>}
+ */
+export const updatableComps = (comp) => {
+  const key = compClassKey(comp);
+  if (!key) return [];
+  const here = nameKey(comp?.location || '');
+  return getCompFiles()
+    .filter(({ data }) => compClassKey(data) === key && nameKey(data?.location || '') === here)
+    .map(({ key: file, data }) => ({
+      key: file,
+      teamName: data.teamName || '',
+      alias: data.alias || '',
+      location: data.location || '',
+      heroes: data.heroes || [],
+    }));
 };

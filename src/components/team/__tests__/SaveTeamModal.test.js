@@ -88,3 +88,71 @@ describe('SaveTeamModal', () => {
     expect(describePreset).not.toHaveBeenCalled();
   });
 });
+
+/**
+ * Sustituir una comp que ya existe, en vez de bajar una casi igual.
+ *
+ * `describePreset().updates` trae las candidatas -- misma region y las mismas
+ * cuatro clases -- y el dialogo solo ofrece la opcion cuando hay alguna: sin
+ * coincidencias no hay nada que sustituir y una tercera fila vacia solo
+ * estorbaria.
+ */
+const withUpdates = (updates) => ({ ...preset, updates });
+
+// El fichero que se sustituye NO tiene por que llamarse como se llamaria esta
+// comp si fuese nueva: el que ya existe cedio su peldano en su dia y sigue
+// viviendo donde vive. Por eso la clave del fixture es distinta de `fileName`.
+const ONE = [{
+  key: 'The_Quarry__Sand__Contract_Hound_Money_Snipe',
+  teamName: 'The Quarry: Sand',
+  alias: 'my old hound team',
+  location: 'The Warrens',
+  heroes: [],
+}];
+
+describe('replacing a comp the library already has', () => {
+  it('does not offer the option when nothing matches', () => {
+    setup({ describePreset: jest.fn(() => withUpdates([])) });
+    expect(screen.queryByText('Update an existing comp')).not.toBeInTheDocument();
+  });
+
+  it('offers it when a comp shares the region and the four classes', () => {
+    setup({ describePreset: jest.fn(() => withUpdates(ONE)) });
+    expect(screen.getByText('Update an existing comp')).toBeInTheDocument();
+    expect(screen.getByText(/The_Quarry__Sand__Contract_Hound_Money_Snipe\.json/)).toBeInTheDocument();
+  });
+
+  it('saves under the existing comp rather than as a new one', () => {
+    const handlers = setup({ describePreset: jest.fn(() => withUpdates(ONE)) });
+    fireEvent.click(screen.getByText('Update an existing comp'));
+    fireEvent.click(screen.getByRole('button', { name: 'Replace it' }));
+    expect(handlers.onSavePresetFile).toHaveBeenCalledWith(ONE[0]);
+  });
+
+  it('still downloads a new comp when the preset row is the one chosen', () => {
+    const handlers = setup({ describePreset: jest.fn(() => withUpdates(ONE)) });
+    clickPreset();
+    fireEvent.click(screen.getByRole('button', { name: 'Download' }));
+    expect(handlers.onSavePresetFile).toHaveBeenCalledWith(undefined);
+  });
+
+  // El nombre no se vuelve a derivar al sustituir, y decirlo evita la sorpresa
+  // de ver un nombre viejo sobre una party que ha cambiado.
+  it('says the taxonomy is not re-run on a replacement', () => {
+    setup({ describePreset: jest.fn(() => withUpdates(ONE)) });
+    fireEvent.click(screen.getByText('Update an existing comp'));
+    expect(screen.getByText(/keeps its\s+name until/i)).toBeInTheDocument();
+  });
+
+  it('lets you pick when two comps match', () => {
+    const two = [
+      ONE[0],
+      { key: 'Other_File__Keen__Contract_Hound_Money_Snipe', teamName: 'Other Name', alias: '', location: 'The Warrens', heroes: [] },
+    ];
+    const handlers = setup({ describePreset: jest.fn(() => withUpdates(two)) });
+    fireEvent.click(screen.getByText('Update an existing comp'));
+    fireEvent.click(screen.getByText('Other Name'));
+    fireEvent.click(screen.getByRole('button', { name: 'Replace it' }));
+    expect(handlers.onSavePresetFile).toHaveBeenCalledWith(two[1]);
+  });
+});

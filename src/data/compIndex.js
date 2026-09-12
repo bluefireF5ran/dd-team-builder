@@ -44,6 +44,15 @@ export const getRawComps = () => PRESET_COMP_ENTRIES.map(({ data }) => data);
 export const getCompFileKeys = () => PRESET_COMP_ENTRIES.map(({ key }) => key);
 
 /**
+ * Fichero y contenido juntos, sin normalizar.
+ *
+ * `getRawComps` pierde de que fichero sale cada comp y `getCompFileKeys` pierde
+ * que hay dentro; para reescribir una comp EN SU SITIO hacen falta las dos
+ * mitades a la vez, porque el fichero es la identidad y el nombre se comparte.
+ */
+export const getCompFiles = () => PRESET_COMP_ENTRIES;
+
+/**
  * El nombrador por ejes, ya calibrado contra la libreria entera.
  *
  * Memoizado como el resto del modulo, y por el mismo motivo con mas razon:
