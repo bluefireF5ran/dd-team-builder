@@ -234,233 +234,234 @@ import comp230 from './Keen_Edge__Scatter__Hound_Snipe_Volley_Warlock.json';
 import comp231 from './Keen_Edge__Shadow__Ballad_Lunge_Volley_Warlock.json';
 import comp232 from './Keen_Edge__Shadow__Ballad_Plague_Sand_Warlock.json';
 import comp233 from './Keen_Edge__Shadow__Bulwark_Burn_Faith_Sand.json';
-import comp234 from './Keen_Edge__Snuffed__Hound_Lunge_Volley_Warlock.json';
-import comp235 from './Keen_Edge__Upheaval__Bulwark_Burn_Contract_Snipe.json';
-import comp236 from './Keen_Edge__Upheaval__Bulwark_Contract_Hound_Volley.json';
-import comp237 from './Keen_Edge__Withering__Bulwark_Hound_Plague_Warlock.json';
-import comp238 from './Keen_Edge__Withering__Bulwark_Snipe_Volley_Warlock.json';
-import comp239 from './Keen_Edge__Withering__Contract_Hound_Plague_Warlock.json';
-import comp240 from './Keen_Edge__Withering__Heist_Hound_Snipe_Warlock.json';
-import comp241 from './Keen_Edge__Withering__Heist_Hound_Volley_Warlock.json';
-import comp242 from './Keen_Edge__Withering__Hound_Plague_Snipe_Warlock.json';
-import comp243 from './Kindled_Resolve__Mercy__Beast_Blood_Cross_Royal.json';
-import comp244 from './Kindled_Resolve__Royal__Beast_Hound_Hound_Royal.json';
-import comp245 from './Kindled_Resolve__Royal__Beast_Hound_Royal_Volley.json';
-import comp246 from './Kindled_Resolve__Scatter__Beast_Cross_Hound_Snipe.json';
-import comp247 from './Long_Reach__Ballad__Ballad_Beast_Volley_Warlock.json';
-import comp248 from './Long_Reach__Berserk__Berserk_Money_Volley_Warlock.json';
-import comp249 from './Long_Reach__Heist__Beast_Cross_Heist_Lunge.json';
-import comp250 from './Long_Reach__Quickening__Beast_Contract_Money_Warlock.json';
-import comp251 from './Lunge_Quartet__Shadow__Lunge_Lunge_Lunge_Lunge.json';
-import comp252 from './Mercy_Ward__Beast__Beast_Cross_Hound_Volley.json';
-import comp253 from './Mercy_Ward__Blood_Money_Snipe_Warlock.json';
-import comp254 from './Mercy_Ward__Blood_Money_Volley_Warlock.json';
-import comp255 from './Mercy_Ward__Faith__Beast_Berserk_Blood_Faith.json';
-import comp256 from './Mercy_Ward__Quickening__Beast_Blood_Contract_Money.json';
-import comp257 from './Mercy_Ward__Resolve__Beast_Cross_Hound_Volley.json';
-import comp258 from './Mercy_Ward__Resolve__Beast_Cross_Plague_Royal.json';
-import comp259 from './Mercy_Ward__Royal__Blood_Money_Royal_Snipe.json';
-import comp260 from './Mercy_Ward__Royal__Blood_Money_Royal_Volley.json';
-import comp261 from './Mercy_Ward__Royal__Contract_Faith_Hound_Royal.json';
-import comp262 from './Mirage_Dance__Heist__Cross_Faith_Heist_Sand.json';
-import comp263 from './Mirage_Dance__Sand__Beast_Cross_Plague_Sand.json';
-import comp264 from './Mirage_Dance__Snuffed__Cross_Faith_Lunge_Sand.json';
-import comp265 from './Money_Quartet__Rot__Money_Money_Money_Money.json';
-import comp266 from './Open_Season__Aegis__Ballad_Contract_Hound_Money.json';
-import comp267 from './Open_Season__Aegis__Bulwark_Hound_Hound_Snipe.json';
-import comp268 from './Open_Season__Aegis__Bulwark_Hound_Hound_Volley.json';
-import comp269 from './Open_Season__Aegis__Burn_Contract_Hound_Money.json';
-import comp270 from './Open_Season__Aegis__Contract_Hound_Money_Sand.json';
-import comp271 from './Open_Season__Berserk__Berserk_Hound_Hound_Volley.json';
-import comp272 from './Open_Season__Berserk__Berserk_Hound_Snipe_Snipe.json';
-import comp273 from './Open_Season__Courtyard__Contract_Hound_Plague_Snipe.json';
-import comp274 from './Open_Season__Crimson__Blood_Contract_Hound_Money__Ruins.json';
-import comp275 from './Open_Season__Crimson__Blood_Contract_Hound_Money__Weald.json';
-import comp276 from './Open_Season__Crimson__Blood_Contract_Hound_Snipe.json';
-import comp277 from './Open_Season__Crimson__Blood_Contract_Hound_Volley.json';
-import comp278 from './Open_Season__Duel__Duel_Hound_Lunge_Money.json';
-import comp279 from './Open_Season__Duel__Duel_Hound_Money_Snipe.json';
-import comp280 from './Open_Season__Duel__Duel_Hound_Money_Volley.json';
-import comp281 from './Open_Season__Duel__Duel_Hound_Money_Warlock.json';
-import comp282 from './Open_Season__Duel__Duel_Hound_Snipe_Warlock.json';
-import comp283 from './Open_Season__Hound_Money_Snipe_Volley.json';
-import comp284 from './Open_Season__Melee__Burn_Contract_Duel_Hound.json';
-import comp285 from './Open_Season__Melee__Contract_Duel_Money_Snipe.json';
-import comp286 from './Open_Season__Melee__Contract_Duel_Money_Volley.json';
-import comp287 from './Open_Season__Reach__Beast_Contract_Hound_Warlock.json';
-import comp288 from './Open_Season__Reach__Contract_Money_Volley_Warlock.json';
-import comp289 from './Open_Season__Resolve__Beast_Contract_Hound_Volley.json';
-import comp290 from './Open_Season__Resolve__Blood_Hound_Hound_Snipe.json';
-import comp291 from './Open_Season__Resolve__Contract_Cross_Hound_Volley.json';
-import comp292 from './Open_Season__Resolve__Cross_Hound_Hound_Volley.json';
-import comp293 from './Open_Season__Resolve__Hound_Hound_Royal_Volley.json';
-import comp294 from './Open_Season__Resolve__Hound_Royal_Snipe_Volley.json';
-import comp295 from './Open_Season__Royal__Contract_Hound_Money_Royal.json';
-import comp296 from './Open_Season__Royal__Contract_Money_Royal_Volley.json';
-import comp297 from './Open_Season__Snuffed__Hound_Lunge_Money_Snipe.json';
-import comp298 from './Open_Season__Snuffed__Hound_Lunge_Money_Volley.json';
-import comp299 from './Open_Season__Upheaval__Beast_Contract_Hound_Snipe.json';
-import comp300 from './Open_Season__Upheaval__Beast_Contract_Hound_Volley.json';
-import comp301 from './Open_Season__Upheaval__Bulwark_Contract_Hound_Snipe.json';
-import comp302 from './Open_Season__Upheaval__Contract_Hound_Royal_Snipe.json';
-import comp303 from './Open_Season__Upheaval__Contract_Hound_Royal_Volley.json';
-import comp304 from './Open_Season__Upheaval__Contract_Hound_Sand_Volley.json';
-import comp305 from './Open_Season__Weald__Contract_Money_Snipe_Volley.json';
-import comp306 from './Open_Season__Withering__Duel_Hound_Volley_Warlock.json';
-import comp307 from './Open_Season__Withering__Royal_Snipe_Volley_Warlock.json';
-import comp308 from './Pestilence__Sibyl__Hound_Plague_Sibyl_Warlock.json';
-import comp309 from './Press_of_Steel__Courtyard__Blood_Duel_Money_Snipe.json';
-import comp310 from './Press_of_Steel__Duel__Beast_Berserk_Blood_Duel.json';
-import comp311 from './Press_of_Steel__Duel__Blood_Duel_Money_Volley.json';
-import comp312 from './Press_of_Steel__Heist__Beast_Contract_Heist_Volley.json';
-import comp313 from './Red_Harvest__Aegis__Blood_Hound_Money_Sand.json';
-import comp314 from './Red_Harvest__Ballad__Ballad_Blood_Hound_Plague.json';
-import comp315 from './Red_Harvest__Blood_Hound_Money_Snipe.json';
-import comp316 from './Red_Harvest__Blood_Hound_Money_Volley.json';
-import comp317 from './Red_Harvest__Blood_Hound_Money_Warlock.json';
-import comp318 from './Red_Harvest__Courtyard__Blood_Bulwark_Hound_Money.json';
-import comp319 from './Red_Harvest__Courtyard__Blood_Bulwark_Hound_Snipe.json';
-import comp320 from './Red_Harvest__Courtyard__Blood_Bulwark_Hound_Volley.json';
-import comp321 from './Red_Harvest__Darkest_Dungeon_II__Blood_Bulwark_Faith_Hound.json';
-import comp322 from './Red_Harvest__Duel__Blood_Duel_Hound_Plague.json';
-import comp323 from './Red_Harvest__Duel__Blood_Duel_Hound_Snipe.json';
-import comp324 from './Red_Harvest__Duel__Blood_Duel_Hound_Volley.json';
-import comp325 from './Red_Harvest__Heist__Cross_Heist_Hound_Warlock.json';
-import comp326 from './Red_Harvest__Mercy__Blood_Bulwark_Faith_Heist.json';
-import comp327 from './Red_Harvest__Mercy__Blood_Cross_Hound_Snipe.json';
-import comp328 from './Red_Harvest__Mercy__Blood_Cross_Hound_Volley.json';
-import comp329 from './Red_Harvest__Mercy__Blood_Faith_Hound_Money.json';
-import comp330 from './Red_Harvest__Mercy__Blood_Faith_Hound_Snipe.json';
-import comp331 from './Red_Harvest__Mercy__Blood_Faith_Hound_Volley.json';
-import comp332 from './Red_Harvest__Mercy__Blood_Hound_Plague_Volley.json';
-import comp333 from './Red_Harvest__Reach__Blood_Heist_Lunge_Sand.json';
-import comp334 from './Red_Harvest__Rot__Blood_Contract_Hound_Plague.json';
-import comp335 from './Red_Harvest__Royal__Royal_Blood_Hound_Volley__Ruins.json';
-import comp336 from './Red_Harvest__Royal__Royal_Blood_Hound_Volley__Warrens.json';
-import comp337 from './Red_Harvest__Sand__Blood_Hound_Sand_Snipe.json';
-import comp338 from './Red_Harvest__Sand__Blood_Hound_Sand_Volley.json';
-import comp339 from './Red_Harvest__Scatter__Beast_Blood_Hound_Money.json';
-import comp340 from './Red_Harvest__Scatter__Beast_Blood_Hound_Snipe.json';
-import comp341 from './Red_Harvest__Scatter__Beast_Blood_Hound_Volley.json';
-import comp342 from './Red_Harvest__Scatter__Berserk_Blood_Bulwark_Hound.json';
-import comp343 from './Red_Harvest__Scatter__Berserk_Blood_Money_Snipe.json';
-import comp344 from './Red_Harvest__Scatter__Berserk_Blood_Money_Volley.json';
-import comp345 from './Red_Harvest__Scatter__Blood_Bulwark_Hound_Plague.json';
-import comp346 from './Red_Harvest__Scatter__Blood_Hound_Plague_Snipe.json';
-import comp347 from './Red_Harvest__Snuffed__Blood_Hound_Lunge_Money.json';
-import comp348 from './Red_Harvest__Snuffed__Blood_Hound_Lunge_Plague.json';
-import comp349 from './Red_Harvest__Snuffed__Blood_Hound_Lunge_Volley.json';
-import comp350 from './Red_Harvest__Upheaval__Blood_Contract_Plague_Volley.json';
-import comp351 from './Red_Harvest__Weald__Blood_Hound_Money_Plague.json';
-import comp352 from './Red_Harvest__Withering__Blood_Hound_Snipe_Warlock.json';
-import comp353 from './Red_Harvest__Withering__Blood_Hound_Volley_Warlock.json';
-import comp354 from './Ruinous_Fortune__Faith__Burn_Contract_Faith_Warlock.json';
-import comp355 from './Ruinous_Fortune__Heist__Ballad_Heist_Snipe_Warlock.json';
-import comp356 from './Ruinous_Fortune__Reach__Ballad_Hound_Warlock_Warlock.json';
-import comp357 from './Scattered_Host__Courtyard__Bulwark_Contract_Royal_Volley.json';
-import comp358 from './Scattered_Shot__Berserk__Beast_Berserk_Volley_Warlock.json';
-import comp359 from './Scattered_Shot__Blood_Money_Snipe_Volley.json';
-import comp360 from './Scattered_Shot__Bulwark__Beast_Bulwark_Contract_Cross.json';
-import comp361 from './Scattered_Shot__Bulwark__Blood_Bulwark_Money_Snipe.json';
-import comp362 from './Scattered_Shot__Bulwark__Blood_Bulwark_Money_Volley.json';
-import comp363 from './Scattered_Shot__Courtyard__Bulwark_Hound_Snipe_Volley.json';
-import comp364 from './Scattered_Shot__Quickening__Beast_Hound_Snipe_Warlock.json';
-import comp365 from './Scattered_Shot__Quickening__Beast_Money_Snipe_Warlock.json';
-import comp366 from './Scattered_Shot__Quickening__Beast_Money_Volley_Warlock.json';
-import comp367 from './Scattered_Shot__Royal__Bulwark_Hound_Royal_Volley.json';
-import comp368 from './Scattered_Shot__Snuffed__Beast_Berserk_Faith_Lunge.json';
-import comp369 from './Shield_Wall__Bulwark__Bulwark_Hound_Money_Warlock.json';
-import comp370 from './Shield_Wall__Courtyard__Bulwark_Hound_Money_Snipe.json';
-import comp371 from './Shield_Wall__Courtyard__Bulwark_Hound_Money_Volley.json';
-import comp372 from './Shield_Wall__Sand__Hound_Money_Sand_Snipe.json';
-import comp373 from './Shield_Wall__Sand__Hound_Money_Sand_Volley.json';
-import comp374 from './Shifting_Shadow__Ballad__Ballad_Cross_Cross_Warlock.json';
-import comp375 from './Shifting_Shadow__Ballad__Ballad_Faith_Royal_Sand.json';
-import comp376 from './Shifting_Shadow__Heist__Cross_Heist_Lunge_Money.json';
-import comp377 from './Shifting_Shadow__Sand__Blood_Money_Sand_Snipe.json';
-import comp378 from './Shifting_Shadow__Sand__Blood_Money_Sand_Volley.json';
-import comp379 from './Silent_Choir__Berserk__Berserk_Hound_Plague_Snipe.json';
-import comp380 from './Silent_Choir__Bulwark__Bulwark_Hound_Plague_Snipe.json';
-import comp381 from './Silent_Choir__Bulwark__Bulwark_Hound_Plague_Volley.json';
-import comp382 from './Silent_Choir__Cove__Hound_Money_Plague_Warlock.json';
-import comp383 from './Silent_Choir__Cross__Cross_Hound_Plague_Snipe.json';
-import comp384 from './Silent_Choir__Cross__Cross_Hound_Plague_Volley.json';
-import comp385 from './Silent_Choir__Cross__Cross_Money_Plague_Warlock.json';
-import comp386 from './Silent_Choir__Cross__Cross_Plague_Volley_Warlock.json';
-import comp387 from './Silent_Choir__Hamlet__Blood_Bulwark_Faith_Plague.json';
-import comp388 from './Silent_Choir__Heist__Cross_Heist_Hound_Plague.json';
-import comp389 from './Silent_Choir__Heist__Cross_Heist_Plague_Warlock.json';
-import comp390 from './Silent_Choir__Quarry__Contract_Hound_Money_Plague.json';
-import comp391 from './Silent_Choir__Rot__Blood_Plague_Plague_Warlock.json';
-import comp392 from './Silent_Choir__Snuffed__Cross_Lunge_Plague_Warlock.json';
-import comp393 from './Sound_Company__Berserk__Berserk_Hound_Money_Snipe.json';
-import comp394 from './Sound_Company__Berserk__Berserk_Hound_Money_Volley.json';
-import comp395 from './Sound_Company__Berserk__Berserk_Hound_Money_Warlock.json';
-import comp396 from './Sound_Company__Berserk__Berserk_Money_Snipe_Warlock.json';
-import comp397 from './Sound_Company__Bulwark__Bulwark_Money_Snipe_Warlock.json';
-import comp398 from './Sound_Company__Bulwark__Bulwark_Money_Volley_Warlock.json';
-import comp399 from './Sound_Company__Cross__Cross_Hound_Money_Snipe.json';
-import comp400 from './Sound_Company__Cross__Cross_Hound_Money_Volley.json';
-import comp401 from './Sound_Company__Faith__Faith_Hound_Money_Snipe.json';
-import comp402 from './Sound_Company__Faith__Faith_Hound_Money_Volley.json';
-import comp403 from './Sound_Company__Hound_Money_Snipe_Warlock.json';
-import comp404 from './Sound_Company__Quickening__Beast_Contract_Hound_Money.json';
-import comp405 from './Sound_Company__Weald__Money_Snipe_Volley_Warlock.json';
-import comp406 from './Steady_Nerves__Ballad__Ballad_Beast_Contract_Cross.json';
-import comp407 from './Steady_Nerves__Ballad__Ballad_Beast_Cross_Lunge.json';
-import comp408 from './Steady_Nerves__Ballad__Ballad_Cross_Volley_Warlock.json';
-import comp409 from './Steady_Nerves__Ballad__Ballad_Royal_Volley_Warlock.json';
-import comp410 from './Steady_Nerves__Blood_Hound_Snipe_Volley.json';
-import comp411 from './Steady_Nerves__Cross__Cross_Hound_Volley_Warlock.json';
-import comp412 from './Steady_Nerves__Melee__Beast_Contract_Cross_Volley.json';
-import comp413 from './Steady_Nerves__Mercy__Beast_Beast_Contract_Cross.json';
-import comp414 from './Steady_Nerves__Quickening__Beast_Contract_Cross_Hound.json';
-import comp415 from './Steady_Nerves__Royal__Blood_Hound_Royal_Sand.json';
-import comp416 from './Steady_Nerves__Royal__Bulwark_Cross_Hound_Royal.json';
-import comp417 from './Steady_Nerves__Royal__Hound_Money_Royal_Snipe.json';
-import comp418 from './Steady_Nerves__Royal__Hound_Money_Royal_Volley.json';
-import comp419 from './Steady_Nerves__Royal__Hound_Royal_Volley_Warlock.json';
-import comp420 from './Steady_Nerves__Royal__Royal_Volley_Volley_Warlock.json';
-import comp421 from './Steady_Nerves__Scatter__Beast_Hound_Volley_Warlock.json';
-import comp422 from './Sweeping_Ruin__Mercy__Beast_Blood_Money_Snipe.json';
-import comp423 from './Sweeping_Ruin__Mercy__Beast_Blood_Money_Volley.json';
-import comp424 from './Sweeping_Ruin__Resolve__Beast_Berserk_Hound_Volley.json';
-import comp425 from './Sweeping_Ruin__Resolve__Beast_Berserk_Volley_Volley.json';
-import comp426 from './Sweeping_Ruin__Resolve__Beast_Bulwark_Hound_Volley.json';
-import comp427 from './The_Far_Shot__Sand__Hound_Sand_Volley_Warlock.json';
-import comp428 from './The_Far_Shot__Shadow__Ballad_Faith_Faith_Sand.json';
-import comp429 from './The_Far_Shot__Withering__Money_Sand_Volley_Warlock.json';
-import comp430 from './The_Long_Hush__Cross__Contract_Cross_Plague_Warlock.json';
-import comp431 from './The_Long_Hush__Keen__Faith_Hound_Plague_Warlock.json';
-import comp432 from './The_Long_Hush__Quickening__Beast_Cross_Plague_Warlock.json';
-import comp433 from './The_Long_Hush__Upheaval__Berserk_Contract_Plague_Warlock.json';
-import comp434 from './The_Long_Hush__Upheaval__Contract_Contract_Plague_Warlock.json';
-import comp435 from './The_Old_Road.json';
-import comp436 from './The_Quarry__Contract_Hound_Money_Warlock.json';
-import comp437 from './The_Quarry__Duel__Contract_Duel_Hound_Money.json';
-import comp438 from './The_Quarry__Melee__Contract_Duel_Hound_Snipe.json';
-import comp439 from './The_Quarry__Melee__Contract_Duel_Hound_Volley.json';
-import comp440 from './The_Quarry__Quickening__Beast_Contract_Hound_Volley.json';
-import comp441 from './The_Quarry__Resolve__Hound_Hound_Volley_Warlock.json';
-import comp442 from './The_Quarry__Snuffed__Contract_Hound_Lunge_Volley.json';
-import comp443 from './The_Quarry__Thorns__Contract_Duel_Heist_Hound.json';
-import comp444 from './The_Quarry__Upheaval__Contract_Hound_Snipe_Volley.json';
-import comp445 from './The_Quarry__Weald__Contract_Hound_Money_Snipe.json';
-import comp446 from './The_Quarry__Weald__Contract_Hound_Money_Volley.json';
-import comp447 from './The_Quarry__Weald__Contract_Hound_Plague_Volley.json';
-import comp448 from './The_Quarry__Withering__Contract_Money_Snipe_Warlock.json';
-import comp449 from './Toe_to_Toe__Duel__Berserk_Cross_Duel_Volley.json';
-import comp450 from './Toe_to_Toe__Duel__Bulwark_Duel_Lunge_Plague.json';
-import comp451 from './Waiting_Blade__Melee__Bulwark_Cross_Heist_Heist.json';
-import comp452 from './Wasting_Curse__Aegis__Hound_Money_Sand_Warlock.json';
-import comp453 from './Wasting_Curse__Cross__Cross_Hound_Snipe_Warlock.json';
-import comp454 from './Wasting_Curse__Duel__Duel_Hound_Plague_Warlock.json';
-import comp455 from './Wasting_Curse__Quickening__Beast_Hound_Money_Warlock.json';
-import comp456 from './Wasting_Curse__Reach__Hound_Money_Volley_Warlock.json';
-import comp457 from './Wasting_Curse__Sand__Hound_Sand_Snipe_Volley.json';
-import comp458 from './Wasting_Curse__Sand__Money_Sand_Snipe_Warlock.json';
-import comp459 from './Withering_Hand__Reach__Sand_Snipe_Volley_Warlock.json';
-import comp460 from './Withering_Hand__Sand__Hound_Sand_Snipe_Warlock.json';
+import comp234 from './Keen_Edge__Snuffed__Contract_Lunge_Money_Warlock.json';
+import comp235 from './Keen_Edge__Snuffed__Hound_Lunge_Volley_Warlock.json';
+import comp236 from './Keen_Edge__Upheaval__Bulwark_Burn_Contract_Snipe.json';
+import comp237 from './Keen_Edge__Upheaval__Bulwark_Contract_Hound_Volley.json';
+import comp238 from './Keen_Edge__Withering__Bulwark_Hound_Plague_Warlock.json';
+import comp239 from './Keen_Edge__Withering__Bulwark_Snipe_Volley_Warlock.json';
+import comp240 from './Keen_Edge__Withering__Contract_Hound_Plague_Warlock.json';
+import comp241 from './Keen_Edge__Withering__Heist_Hound_Snipe_Warlock.json';
+import comp242 from './Keen_Edge__Withering__Heist_Hound_Volley_Warlock.json';
+import comp243 from './Keen_Edge__Withering__Hound_Plague_Snipe_Warlock.json';
+import comp244 from './Kindled_Resolve__Mercy__Beast_Blood_Cross_Royal.json';
+import comp245 from './Kindled_Resolve__Royal__Beast_Hound_Hound_Royal.json';
+import comp246 from './Kindled_Resolve__Royal__Beast_Hound_Royal_Volley.json';
+import comp247 from './Kindled_Resolve__Scatter__Beast_Cross_Hound_Snipe.json';
+import comp248 from './Long_Reach__Ballad__Ballad_Beast_Volley_Warlock.json';
+import comp249 from './Long_Reach__Berserk__Berserk_Money_Volley_Warlock.json';
+import comp250 from './Long_Reach__Heist__Beast_Cross_Heist_Lunge.json';
+import comp251 from './Long_Reach__Quickening__Beast_Contract_Money_Warlock.json';
+import comp252 from './Lunge_Quartet__Shadow__Lunge_Lunge_Lunge_Lunge.json';
+import comp253 from './Mercy_Ward__Beast__Beast_Cross_Hound_Volley.json';
+import comp254 from './Mercy_Ward__Blood_Money_Snipe_Warlock.json';
+import comp255 from './Mercy_Ward__Blood_Money_Volley_Warlock.json';
+import comp256 from './Mercy_Ward__Faith__Beast_Berserk_Blood_Faith.json';
+import comp257 from './Mercy_Ward__Quickening__Beast_Blood_Contract_Money.json';
+import comp258 from './Mercy_Ward__Resolve__Beast_Cross_Hound_Volley.json';
+import comp259 from './Mercy_Ward__Resolve__Beast_Cross_Plague_Royal.json';
+import comp260 from './Mercy_Ward__Royal__Blood_Money_Royal_Snipe.json';
+import comp261 from './Mercy_Ward__Royal__Blood_Money_Royal_Volley.json';
+import comp262 from './Mercy_Ward__Royal__Contract_Faith_Hound_Royal.json';
+import comp263 from './Mirage_Dance__Heist__Cross_Faith_Heist_Sand.json';
+import comp264 from './Mirage_Dance__Sand__Beast_Cross_Plague_Sand.json';
+import comp265 from './Mirage_Dance__Snuffed__Cross_Faith_Lunge_Sand.json';
+import comp266 from './Money_Quartet__Rot__Money_Money_Money_Money.json';
+import comp267 from './Open_Season__Aegis__Ballad_Contract_Hound_Money.json';
+import comp268 from './Open_Season__Aegis__Bulwark_Hound_Hound_Snipe.json';
+import comp269 from './Open_Season__Aegis__Bulwark_Hound_Hound_Volley.json';
+import comp270 from './Open_Season__Aegis__Burn_Contract_Hound_Money.json';
+import comp271 from './Open_Season__Aegis__Contract_Hound_Money_Sand.json';
+import comp272 from './Open_Season__Berserk__Berserk_Hound_Hound_Volley.json';
+import comp273 from './Open_Season__Berserk__Berserk_Hound_Snipe_Snipe.json';
+import comp274 from './Open_Season__Courtyard__Contract_Hound_Plague_Snipe.json';
+import comp275 from './Open_Season__Crimson__Blood_Contract_Hound_Money__Ruins.json';
+import comp276 from './Open_Season__Crimson__Blood_Contract_Hound_Money__Weald.json';
+import comp277 from './Open_Season__Crimson__Blood_Contract_Hound_Snipe.json';
+import comp278 from './Open_Season__Crimson__Blood_Contract_Hound_Volley.json';
+import comp279 from './Open_Season__Duel__Duel_Hound_Lunge_Money.json';
+import comp280 from './Open_Season__Duel__Duel_Hound_Money_Snipe.json';
+import comp281 from './Open_Season__Duel__Duel_Hound_Money_Volley.json';
+import comp282 from './Open_Season__Duel__Duel_Hound_Money_Warlock.json';
+import comp283 from './Open_Season__Duel__Duel_Hound_Snipe_Warlock.json';
+import comp284 from './Open_Season__Hound_Money_Snipe_Volley.json';
+import comp285 from './Open_Season__Melee__Burn_Contract_Duel_Hound.json';
+import comp286 from './Open_Season__Melee__Contract_Duel_Money_Snipe.json';
+import comp287 from './Open_Season__Melee__Contract_Duel_Money_Volley.json';
+import comp288 from './Open_Season__Reach__Beast_Contract_Hound_Warlock.json';
+import comp289 from './Open_Season__Reach__Contract_Money_Volley_Warlock.json';
+import comp290 from './Open_Season__Resolve__Beast_Contract_Hound_Volley.json';
+import comp291 from './Open_Season__Resolve__Blood_Hound_Hound_Snipe.json';
+import comp292 from './Open_Season__Resolve__Contract_Cross_Hound_Volley.json';
+import comp293 from './Open_Season__Resolve__Cross_Hound_Hound_Volley.json';
+import comp294 from './Open_Season__Resolve__Hound_Hound_Royal_Volley.json';
+import comp295 from './Open_Season__Resolve__Hound_Royal_Snipe_Volley.json';
+import comp296 from './Open_Season__Royal__Contract_Hound_Money_Royal.json';
+import comp297 from './Open_Season__Royal__Contract_Money_Royal_Volley.json';
+import comp298 from './Open_Season__Snuffed__Hound_Lunge_Money_Snipe.json';
+import comp299 from './Open_Season__Snuffed__Hound_Lunge_Money_Volley.json';
+import comp300 from './Open_Season__Upheaval__Beast_Contract_Hound_Snipe.json';
+import comp301 from './Open_Season__Upheaval__Beast_Contract_Hound_Volley.json';
+import comp302 from './Open_Season__Upheaval__Bulwark_Contract_Hound_Snipe.json';
+import comp303 from './Open_Season__Upheaval__Contract_Hound_Royal_Snipe.json';
+import comp304 from './Open_Season__Upheaval__Contract_Hound_Royal_Volley.json';
+import comp305 from './Open_Season__Upheaval__Contract_Hound_Sand_Volley.json';
+import comp306 from './Open_Season__Weald__Contract_Money_Snipe_Volley.json';
+import comp307 from './Open_Season__Withering__Duel_Hound_Volley_Warlock.json';
+import comp308 from './Open_Season__Withering__Royal_Snipe_Volley_Warlock.json';
+import comp309 from './Pestilence__Sibyl__Hound_Plague_Sibyl_Warlock.json';
+import comp310 from './Press_of_Steel__Courtyard__Blood_Duel_Money_Snipe.json';
+import comp311 from './Press_of_Steel__Duel__Beast_Berserk_Blood_Duel.json';
+import comp312 from './Press_of_Steel__Duel__Blood_Duel_Money_Volley.json';
+import comp313 from './Press_of_Steel__Heist__Beast_Contract_Heist_Volley.json';
+import comp314 from './Red_Harvest__Aegis__Blood_Hound_Money_Sand.json';
+import comp315 from './Red_Harvest__Ballad__Ballad_Blood_Hound_Plague.json';
+import comp316 from './Red_Harvest__Blood_Hound_Money_Snipe.json';
+import comp317 from './Red_Harvest__Blood_Hound_Money_Volley.json';
+import comp318 from './Red_Harvest__Blood_Hound_Money_Warlock.json';
+import comp319 from './Red_Harvest__Courtyard__Blood_Bulwark_Hound_Money.json';
+import comp320 from './Red_Harvest__Courtyard__Blood_Bulwark_Hound_Snipe.json';
+import comp321 from './Red_Harvest__Courtyard__Blood_Bulwark_Hound_Volley.json';
+import comp322 from './Red_Harvest__Darkest_Dungeon_II__Blood_Bulwark_Faith_Hound.json';
+import comp323 from './Red_Harvest__Duel__Blood_Duel_Hound_Plague.json';
+import comp324 from './Red_Harvest__Duel__Blood_Duel_Hound_Snipe.json';
+import comp325 from './Red_Harvest__Duel__Blood_Duel_Hound_Volley.json';
+import comp326 from './Red_Harvest__Heist__Cross_Heist_Hound_Warlock.json';
+import comp327 from './Red_Harvest__Mercy__Blood_Bulwark_Faith_Heist.json';
+import comp328 from './Red_Harvest__Mercy__Blood_Cross_Hound_Snipe.json';
+import comp329 from './Red_Harvest__Mercy__Blood_Cross_Hound_Volley.json';
+import comp330 from './Red_Harvest__Mercy__Blood_Faith_Hound_Money.json';
+import comp331 from './Red_Harvest__Mercy__Blood_Faith_Hound_Snipe.json';
+import comp332 from './Red_Harvest__Mercy__Blood_Faith_Hound_Volley.json';
+import comp333 from './Red_Harvest__Mercy__Blood_Hound_Plague_Volley.json';
+import comp334 from './Red_Harvest__Reach__Blood_Heist_Lunge_Sand.json';
+import comp335 from './Red_Harvest__Rot__Blood_Contract_Hound_Plague.json';
+import comp336 from './Red_Harvest__Royal__Royal_Blood_Hound_Volley__Ruins.json';
+import comp337 from './Red_Harvest__Royal__Royal_Blood_Hound_Volley__Warrens.json';
+import comp338 from './Red_Harvest__Sand__Blood_Hound_Sand_Snipe.json';
+import comp339 from './Red_Harvest__Sand__Blood_Hound_Sand_Volley.json';
+import comp340 from './Red_Harvest__Scatter__Beast_Blood_Hound_Money.json';
+import comp341 from './Red_Harvest__Scatter__Beast_Blood_Hound_Snipe.json';
+import comp342 from './Red_Harvest__Scatter__Beast_Blood_Hound_Volley.json';
+import comp343 from './Red_Harvest__Scatter__Berserk_Blood_Bulwark_Hound.json';
+import comp344 from './Red_Harvest__Scatter__Berserk_Blood_Money_Snipe.json';
+import comp345 from './Red_Harvest__Scatter__Berserk_Blood_Money_Volley.json';
+import comp346 from './Red_Harvest__Scatter__Blood_Bulwark_Hound_Plague.json';
+import comp347 from './Red_Harvest__Scatter__Blood_Hound_Plague_Snipe.json';
+import comp348 from './Red_Harvest__Snuffed__Blood_Hound_Lunge_Money.json';
+import comp349 from './Red_Harvest__Snuffed__Blood_Hound_Lunge_Plague.json';
+import comp350 from './Red_Harvest__Snuffed__Blood_Hound_Lunge_Volley.json';
+import comp351 from './Red_Harvest__Upheaval__Blood_Contract_Plague_Volley.json';
+import comp352 from './Red_Harvest__Weald__Blood_Hound_Money_Plague.json';
+import comp353 from './Red_Harvest__Withering__Blood_Hound_Snipe_Warlock.json';
+import comp354 from './Red_Harvest__Withering__Blood_Hound_Volley_Warlock.json';
+import comp355 from './Ruinous_Fortune__Faith__Burn_Contract_Faith_Warlock.json';
+import comp356 from './Ruinous_Fortune__Heist__Ballad_Heist_Snipe_Warlock.json';
+import comp357 from './Ruinous_Fortune__Reach__Ballad_Hound_Warlock_Warlock.json';
+import comp358 from './Scattered_Host__Courtyard__Bulwark_Contract_Royal_Volley.json';
+import comp359 from './Scattered_Shot__Berserk__Beast_Berserk_Volley_Warlock.json';
+import comp360 from './Scattered_Shot__Blood_Money_Snipe_Volley.json';
+import comp361 from './Scattered_Shot__Bulwark__Beast_Bulwark_Contract_Cross.json';
+import comp362 from './Scattered_Shot__Bulwark__Blood_Bulwark_Money_Snipe.json';
+import comp363 from './Scattered_Shot__Bulwark__Blood_Bulwark_Money_Volley.json';
+import comp364 from './Scattered_Shot__Courtyard__Bulwark_Hound_Snipe_Volley.json';
+import comp365 from './Scattered_Shot__Quickening__Beast_Hound_Snipe_Warlock.json';
+import comp366 from './Scattered_Shot__Quickening__Beast_Money_Snipe_Warlock.json';
+import comp367 from './Scattered_Shot__Quickening__Beast_Money_Volley_Warlock.json';
+import comp368 from './Scattered_Shot__Royal__Bulwark_Hound_Royal_Volley.json';
+import comp369 from './Scattered_Shot__Snuffed__Beast_Berserk_Faith_Lunge.json';
+import comp370 from './Shield_Wall__Bulwark__Bulwark_Hound_Money_Warlock.json';
+import comp371 from './Shield_Wall__Courtyard__Bulwark_Hound_Money_Snipe.json';
+import comp372 from './Shield_Wall__Courtyard__Bulwark_Hound_Money_Volley.json';
+import comp373 from './Shield_Wall__Sand__Hound_Money_Sand_Snipe.json';
+import comp374 from './Shield_Wall__Sand__Hound_Money_Sand_Volley.json';
+import comp375 from './Shifting_Shadow__Ballad__Ballad_Cross_Cross_Warlock.json';
+import comp376 from './Shifting_Shadow__Ballad__Ballad_Faith_Royal_Sand.json';
+import comp377 from './Shifting_Shadow__Heist__Cross_Heist_Lunge_Money.json';
+import comp378 from './Shifting_Shadow__Sand__Blood_Money_Sand_Snipe.json';
+import comp379 from './Shifting_Shadow__Sand__Blood_Money_Sand_Volley.json';
+import comp380 from './Silent_Choir__Berserk__Berserk_Hound_Plague_Snipe.json';
+import comp381 from './Silent_Choir__Bulwark__Bulwark_Hound_Plague_Snipe.json';
+import comp382 from './Silent_Choir__Bulwark__Bulwark_Hound_Plague_Volley.json';
+import comp383 from './Silent_Choir__Cove__Hound_Money_Plague_Warlock.json';
+import comp384 from './Silent_Choir__Cross__Cross_Hound_Plague_Snipe.json';
+import comp385 from './Silent_Choir__Cross__Cross_Hound_Plague_Volley.json';
+import comp386 from './Silent_Choir__Cross__Cross_Money_Plague_Warlock.json';
+import comp387 from './Silent_Choir__Cross__Cross_Plague_Volley_Warlock.json';
+import comp388 from './Silent_Choir__Hamlet__Blood_Bulwark_Faith_Plague.json';
+import comp389 from './Silent_Choir__Heist__Cross_Heist_Hound_Plague.json';
+import comp390 from './Silent_Choir__Heist__Cross_Heist_Plague_Warlock.json';
+import comp391 from './Silent_Choir__Quarry__Contract_Hound_Money_Plague.json';
+import comp392 from './Silent_Choir__Rot__Blood_Plague_Plague_Warlock.json';
+import comp393 from './Silent_Choir__Snuffed__Cross_Lunge_Plague_Warlock.json';
+import comp394 from './Sound_Company__Berserk__Berserk_Hound_Money_Snipe.json';
+import comp395 from './Sound_Company__Berserk__Berserk_Hound_Money_Volley.json';
+import comp396 from './Sound_Company__Berserk__Berserk_Hound_Money_Warlock.json';
+import comp397 from './Sound_Company__Berserk__Berserk_Money_Snipe_Warlock.json';
+import comp398 from './Sound_Company__Bulwark__Bulwark_Money_Snipe_Warlock.json';
+import comp399 from './Sound_Company__Bulwark__Bulwark_Money_Volley_Warlock.json';
+import comp400 from './Sound_Company__Cross__Cross_Hound_Money_Snipe.json';
+import comp401 from './Sound_Company__Cross__Cross_Hound_Money_Volley.json';
+import comp402 from './Sound_Company__Faith__Faith_Hound_Money_Snipe.json';
+import comp403 from './Sound_Company__Faith__Faith_Hound_Money_Volley.json';
+import comp404 from './Sound_Company__Hound_Money_Snipe_Warlock.json';
+import comp405 from './Sound_Company__Quickening__Beast_Contract_Hound_Money.json';
+import comp406 from './Sound_Company__Weald__Money_Snipe_Volley_Warlock.json';
+import comp407 from './Steady_Nerves__Ballad__Ballad_Beast_Contract_Cross.json';
+import comp408 from './Steady_Nerves__Ballad__Ballad_Beast_Cross_Lunge.json';
+import comp409 from './Steady_Nerves__Ballad__Ballad_Cross_Volley_Warlock.json';
+import comp410 from './Steady_Nerves__Ballad__Ballad_Royal_Volley_Warlock.json';
+import comp411 from './Steady_Nerves__Blood_Hound_Snipe_Volley.json';
+import comp412 from './Steady_Nerves__Cross__Cross_Hound_Volley_Warlock.json';
+import comp413 from './Steady_Nerves__Melee__Beast_Contract_Cross_Volley.json';
+import comp414 from './Steady_Nerves__Mercy__Beast_Beast_Contract_Cross.json';
+import comp415 from './Steady_Nerves__Quickening__Beast_Contract_Cross_Hound.json';
+import comp416 from './Steady_Nerves__Royal__Blood_Hound_Royal_Sand.json';
+import comp417 from './Steady_Nerves__Royal__Bulwark_Cross_Hound_Royal.json';
+import comp418 from './Steady_Nerves__Royal__Hound_Money_Royal_Snipe.json';
+import comp419 from './Steady_Nerves__Royal__Hound_Money_Royal_Volley.json';
+import comp420 from './Steady_Nerves__Royal__Hound_Royal_Volley_Warlock.json';
+import comp421 from './Steady_Nerves__Royal__Royal_Volley_Volley_Warlock.json';
+import comp422 from './Steady_Nerves__Scatter__Beast_Hound_Volley_Warlock.json';
+import comp423 from './Sweeping_Ruin__Mercy__Beast_Blood_Money_Snipe.json';
+import comp424 from './Sweeping_Ruin__Mercy__Beast_Blood_Money_Volley.json';
+import comp425 from './Sweeping_Ruin__Resolve__Beast_Berserk_Hound_Volley.json';
+import comp426 from './Sweeping_Ruin__Resolve__Beast_Berserk_Volley_Volley.json';
+import comp427 from './Sweeping_Ruin__Resolve__Beast_Bulwark_Hound_Volley.json';
+import comp428 from './The_Far_Shot__Sand__Hound_Sand_Volley_Warlock.json';
+import comp429 from './The_Far_Shot__Shadow__Ballad_Faith_Faith_Sand.json';
+import comp430 from './The_Far_Shot__Withering__Money_Sand_Volley_Warlock.json';
+import comp431 from './The_Long_Hush__Cross__Contract_Cross_Plague_Warlock.json';
+import comp432 from './The_Long_Hush__Keen__Faith_Hound_Plague_Warlock.json';
+import comp433 from './The_Long_Hush__Quickening__Beast_Cross_Plague_Warlock.json';
+import comp434 from './The_Long_Hush__Upheaval__Berserk_Contract_Plague_Warlock.json';
+import comp435 from './The_Long_Hush__Upheaval__Contract_Contract_Plague_Warlock.json';
+import comp436 from './The_Old_Road.json';
+import comp437 from './The_Quarry__Contract_Hound_Money_Warlock.json';
+import comp438 from './The_Quarry__Duel__Contract_Duel_Hound_Money.json';
+import comp439 from './The_Quarry__Melee__Contract_Duel_Hound_Snipe.json';
+import comp440 from './The_Quarry__Melee__Contract_Duel_Hound_Volley.json';
+import comp441 from './The_Quarry__Quickening__Beast_Contract_Hound_Volley.json';
+import comp442 from './The_Quarry__Resolve__Hound_Hound_Volley_Warlock.json';
+import comp443 from './The_Quarry__Snuffed__Contract_Hound_Lunge_Volley.json';
+import comp444 from './The_Quarry__Thorns__Contract_Duel_Heist_Hound.json';
+import comp445 from './The_Quarry__Upheaval__Contract_Hound_Snipe_Volley.json';
+import comp446 from './The_Quarry__Weald__Contract_Hound_Money_Snipe.json';
+import comp447 from './The_Quarry__Weald__Contract_Hound_Money_Volley.json';
+import comp448 from './The_Quarry__Weald__Contract_Hound_Plague_Volley.json';
+import comp449 from './The_Quarry__Withering__Contract_Money_Snipe_Warlock.json';
+import comp450 from './Toe_to_Toe__Duel__Berserk_Cross_Duel_Volley.json';
+import comp451 from './Toe_to_Toe__Duel__Bulwark_Duel_Lunge_Plague.json';
+import comp452 from './Waiting_Blade__Melee__Bulwark_Cross_Heist_Heist.json';
+import comp453 from './Wasting_Curse__Aegis__Hound_Money_Sand_Warlock.json';
+import comp454 from './Wasting_Curse__Cross__Cross_Hound_Snipe_Warlock.json';
+import comp455 from './Wasting_Curse__Duel__Duel_Hound_Plague_Warlock.json';
+import comp456 from './Wasting_Curse__Quickening__Beast_Hound_Money_Warlock.json';
+import comp457 from './Wasting_Curse__Reach__Hound_Money_Volley_Warlock.json';
+import comp458 from './Wasting_Curse__Sand__Hound_Sand_Snipe_Volley.json';
+import comp459 from './Wasting_Curse__Sand__Money_Sand_Snipe_Warlock.json';
+import comp460 from './Withering_Hand__Reach__Sand_Snipe_Volley_Warlock.json';
+import comp461 from './Withering_Hand__Sand__Hound_Sand_Snipe_Warlock.json';
 
 export const PRESET_COMP_ENTRIES = [
   { key: "Ballad_Quartet__Keen__Ballad_Ballad_Ballad_Ballad", data: comp0 },
@@ -697,231 +698,232 @@ export const PRESET_COMP_ENTRIES = [
   { key: "Keen_Edge__Shadow__Ballad_Lunge_Volley_Warlock", data: comp231 },
   { key: "Keen_Edge__Shadow__Ballad_Plague_Sand_Warlock", data: comp232 },
   { key: "Keen_Edge__Shadow__Bulwark_Burn_Faith_Sand", data: comp233 },
-  { key: "Keen_Edge__Snuffed__Hound_Lunge_Volley_Warlock", data: comp234 },
-  { key: "Keen_Edge__Upheaval__Bulwark_Burn_Contract_Snipe", data: comp235 },
-  { key: "Keen_Edge__Upheaval__Bulwark_Contract_Hound_Volley", data: comp236 },
-  { key: "Keen_Edge__Withering__Bulwark_Hound_Plague_Warlock", data: comp237 },
-  { key: "Keen_Edge__Withering__Bulwark_Snipe_Volley_Warlock", data: comp238 },
-  { key: "Keen_Edge__Withering__Contract_Hound_Plague_Warlock", data: comp239 },
-  { key: "Keen_Edge__Withering__Heist_Hound_Snipe_Warlock", data: comp240 },
-  { key: "Keen_Edge__Withering__Heist_Hound_Volley_Warlock", data: comp241 },
-  { key: "Keen_Edge__Withering__Hound_Plague_Snipe_Warlock", data: comp242 },
-  { key: "Kindled_Resolve__Mercy__Beast_Blood_Cross_Royal", data: comp243 },
-  { key: "Kindled_Resolve__Royal__Beast_Hound_Hound_Royal", data: comp244 },
-  { key: "Kindled_Resolve__Royal__Beast_Hound_Royal_Volley", data: comp245 },
-  { key: "Kindled_Resolve__Scatter__Beast_Cross_Hound_Snipe", data: comp246 },
-  { key: "Long_Reach__Ballad__Ballad_Beast_Volley_Warlock", data: comp247 },
-  { key: "Long_Reach__Berserk__Berserk_Money_Volley_Warlock", data: comp248 },
-  { key: "Long_Reach__Heist__Beast_Cross_Heist_Lunge", data: comp249 },
-  { key: "Long_Reach__Quickening__Beast_Contract_Money_Warlock", data: comp250 },
-  { key: "Lunge_Quartet__Shadow__Lunge_Lunge_Lunge_Lunge", data: comp251 },
-  { key: "Mercy_Ward__Beast__Beast_Cross_Hound_Volley", data: comp252 },
-  { key: "Mercy_Ward__Blood_Money_Snipe_Warlock", data: comp253 },
-  { key: "Mercy_Ward__Blood_Money_Volley_Warlock", data: comp254 },
-  { key: "Mercy_Ward__Faith__Beast_Berserk_Blood_Faith", data: comp255 },
-  { key: "Mercy_Ward__Quickening__Beast_Blood_Contract_Money", data: comp256 },
-  { key: "Mercy_Ward__Resolve__Beast_Cross_Hound_Volley", data: comp257 },
-  { key: "Mercy_Ward__Resolve__Beast_Cross_Plague_Royal", data: comp258 },
-  { key: "Mercy_Ward__Royal__Blood_Money_Royal_Snipe", data: comp259 },
-  { key: "Mercy_Ward__Royal__Blood_Money_Royal_Volley", data: comp260 },
-  { key: "Mercy_Ward__Royal__Contract_Faith_Hound_Royal", data: comp261 },
-  { key: "Mirage_Dance__Heist__Cross_Faith_Heist_Sand", data: comp262 },
-  { key: "Mirage_Dance__Sand__Beast_Cross_Plague_Sand", data: comp263 },
-  { key: "Mirage_Dance__Snuffed__Cross_Faith_Lunge_Sand", data: comp264 },
-  { key: "Money_Quartet__Rot__Money_Money_Money_Money", data: comp265 },
-  { key: "Open_Season__Aegis__Ballad_Contract_Hound_Money", data: comp266 },
-  { key: "Open_Season__Aegis__Bulwark_Hound_Hound_Snipe", data: comp267 },
-  { key: "Open_Season__Aegis__Bulwark_Hound_Hound_Volley", data: comp268 },
-  { key: "Open_Season__Aegis__Burn_Contract_Hound_Money", data: comp269 },
-  { key: "Open_Season__Aegis__Contract_Hound_Money_Sand", data: comp270 },
-  { key: "Open_Season__Berserk__Berserk_Hound_Hound_Volley", data: comp271 },
-  { key: "Open_Season__Berserk__Berserk_Hound_Snipe_Snipe", data: comp272 },
-  { key: "Open_Season__Courtyard__Contract_Hound_Plague_Snipe", data: comp273 },
-  { key: "Open_Season__Crimson__Blood_Contract_Hound_Money__Ruins", data: comp274 },
-  { key: "Open_Season__Crimson__Blood_Contract_Hound_Money__Weald", data: comp275 },
-  { key: "Open_Season__Crimson__Blood_Contract_Hound_Snipe", data: comp276 },
-  { key: "Open_Season__Crimson__Blood_Contract_Hound_Volley", data: comp277 },
-  { key: "Open_Season__Duel__Duel_Hound_Lunge_Money", data: comp278 },
-  { key: "Open_Season__Duel__Duel_Hound_Money_Snipe", data: comp279 },
-  { key: "Open_Season__Duel__Duel_Hound_Money_Volley", data: comp280 },
-  { key: "Open_Season__Duel__Duel_Hound_Money_Warlock", data: comp281 },
-  { key: "Open_Season__Duel__Duel_Hound_Snipe_Warlock", data: comp282 },
-  { key: "Open_Season__Hound_Money_Snipe_Volley", data: comp283 },
-  { key: "Open_Season__Melee__Burn_Contract_Duel_Hound", data: comp284 },
-  { key: "Open_Season__Melee__Contract_Duel_Money_Snipe", data: comp285 },
-  { key: "Open_Season__Melee__Contract_Duel_Money_Volley", data: comp286 },
-  { key: "Open_Season__Reach__Beast_Contract_Hound_Warlock", data: comp287 },
-  { key: "Open_Season__Reach__Contract_Money_Volley_Warlock", data: comp288 },
-  { key: "Open_Season__Resolve__Beast_Contract_Hound_Volley", data: comp289 },
-  { key: "Open_Season__Resolve__Blood_Hound_Hound_Snipe", data: comp290 },
-  { key: "Open_Season__Resolve__Contract_Cross_Hound_Volley", data: comp291 },
-  { key: "Open_Season__Resolve__Cross_Hound_Hound_Volley", data: comp292 },
-  { key: "Open_Season__Resolve__Hound_Hound_Royal_Volley", data: comp293 },
-  { key: "Open_Season__Resolve__Hound_Royal_Snipe_Volley", data: comp294 },
-  { key: "Open_Season__Royal__Contract_Hound_Money_Royal", data: comp295 },
-  { key: "Open_Season__Royal__Contract_Money_Royal_Volley", data: comp296 },
-  { key: "Open_Season__Snuffed__Hound_Lunge_Money_Snipe", data: comp297 },
-  { key: "Open_Season__Snuffed__Hound_Lunge_Money_Volley", data: comp298 },
-  { key: "Open_Season__Upheaval__Beast_Contract_Hound_Snipe", data: comp299 },
-  { key: "Open_Season__Upheaval__Beast_Contract_Hound_Volley", data: comp300 },
-  { key: "Open_Season__Upheaval__Bulwark_Contract_Hound_Snipe", data: comp301 },
-  { key: "Open_Season__Upheaval__Contract_Hound_Royal_Snipe", data: comp302 },
-  { key: "Open_Season__Upheaval__Contract_Hound_Royal_Volley", data: comp303 },
-  { key: "Open_Season__Upheaval__Contract_Hound_Sand_Volley", data: comp304 },
-  { key: "Open_Season__Weald__Contract_Money_Snipe_Volley", data: comp305 },
-  { key: "Open_Season__Withering__Duel_Hound_Volley_Warlock", data: comp306 },
-  { key: "Open_Season__Withering__Royal_Snipe_Volley_Warlock", data: comp307 },
-  { key: "Pestilence__Sibyl__Hound_Plague_Sibyl_Warlock", data: comp308 },
-  { key: "Press_of_Steel__Courtyard__Blood_Duel_Money_Snipe", data: comp309 },
-  { key: "Press_of_Steel__Duel__Beast_Berserk_Blood_Duel", data: comp310 },
-  { key: "Press_of_Steel__Duel__Blood_Duel_Money_Volley", data: comp311 },
-  { key: "Press_of_Steel__Heist__Beast_Contract_Heist_Volley", data: comp312 },
-  { key: "Red_Harvest__Aegis__Blood_Hound_Money_Sand", data: comp313 },
-  { key: "Red_Harvest__Ballad__Ballad_Blood_Hound_Plague", data: comp314 },
-  { key: "Red_Harvest__Blood_Hound_Money_Snipe", data: comp315 },
-  { key: "Red_Harvest__Blood_Hound_Money_Volley", data: comp316 },
-  { key: "Red_Harvest__Blood_Hound_Money_Warlock", data: comp317 },
-  { key: "Red_Harvest__Courtyard__Blood_Bulwark_Hound_Money", data: comp318 },
-  { key: "Red_Harvest__Courtyard__Blood_Bulwark_Hound_Snipe", data: comp319 },
-  { key: "Red_Harvest__Courtyard__Blood_Bulwark_Hound_Volley", data: comp320 },
-  { key: "Red_Harvest__Darkest_Dungeon_II__Blood_Bulwark_Faith_Hound", data: comp321 },
-  { key: "Red_Harvest__Duel__Blood_Duel_Hound_Plague", data: comp322 },
-  { key: "Red_Harvest__Duel__Blood_Duel_Hound_Snipe", data: comp323 },
-  { key: "Red_Harvest__Duel__Blood_Duel_Hound_Volley", data: comp324 },
-  { key: "Red_Harvest__Heist__Cross_Heist_Hound_Warlock", data: comp325 },
-  { key: "Red_Harvest__Mercy__Blood_Bulwark_Faith_Heist", data: comp326 },
-  { key: "Red_Harvest__Mercy__Blood_Cross_Hound_Snipe", data: comp327 },
-  { key: "Red_Harvest__Mercy__Blood_Cross_Hound_Volley", data: comp328 },
-  { key: "Red_Harvest__Mercy__Blood_Faith_Hound_Money", data: comp329 },
-  { key: "Red_Harvest__Mercy__Blood_Faith_Hound_Snipe", data: comp330 },
-  { key: "Red_Harvest__Mercy__Blood_Faith_Hound_Volley", data: comp331 },
-  { key: "Red_Harvest__Mercy__Blood_Hound_Plague_Volley", data: comp332 },
-  { key: "Red_Harvest__Reach__Blood_Heist_Lunge_Sand", data: comp333 },
-  { key: "Red_Harvest__Rot__Blood_Contract_Hound_Plague", data: comp334 },
-  { key: "Red_Harvest__Royal__Royal_Blood_Hound_Volley__Ruins", data: comp335 },
-  { key: "Red_Harvest__Royal__Royal_Blood_Hound_Volley__Warrens", data: comp336 },
-  { key: "Red_Harvest__Sand__Blood_Hound_Sand_Snipe", data: comp337 },
-  { key: "Red_Harvest__Sand__Blood_Hound_Sand_Volley", data: comp338 },
-  { key: "Red_Harvest__Scatter__Beast_Blood_Hound_Money", data: comp339 },
-  { key: "Red_Harvest__Scatter__Beast_Blood_Hound_Snipe", data: comp340 },
-  { key: "Red_Harvest__Scatter__Beast_Blood_Hound_Volley", data: comp341 },
-  { key: "Red_Harvest__Scatter__Berserk_Blood_Bulwark_Hound", data: comp342 },
-  { key: "Red_Harvest__Scatter__Berserk_Blood_Money_Snipe", data: comp343 },
-  { key: "Red_Harvest__Scatter__Berserk_Blood_Money_Volley", data: comp344 },
-  { key: "Red_Harvest__Scatter__Blood_Bulwark_Hound_Plague", data: comp345 },
-  { key: "Red_Harvest__Scatter__Blood_Hound_Plague_Snipe", data: comp346 },
-  { key: "Red_Harvest__Snuffed__Blood_Hound_Lunge_Money", data: comp347 },
-  { key: "Red_Harvest__Snuffed__Blood_Hound_Lunge_Plague", data: comp348 },
-  { key: "Red_Harvest__Snuffed__Blood_Hound_Lunge_Volley", data: comp349 },
-  { key: "Red_Harvest__Upheaval__Blood_Contract_Plague_Volley", data: comp350 },
-  { key: "Red_Harvest__Weald__Blood_Hound_Money_Plague", data: comp351 },
-  { key: "Red_Harvest__Withering__Blood_Hound_Snipe_Warlock", data: comp352 },
-  { key: "Red_Harvest__Withering__Blood_Hound_Volley_Warlock", data: comp353 },
-  { key: "Ruinous_Fortune__Faith__Burn_Contract_Faith_Warlock", data: comp354 },
-  { key: "Ruinous_Fortune__Heist__Ballad_Heist_Snipe_Warlock", data: comp355 },
-  { key: "Ruinous_Fortune__Reach__Ballad_Hound_Warlock_Warlock", data: comp356 },
-  { key: "Scattered_Host__Courtyard__Bulwark_Contract_Royal_Volley", data: comp357 },
-  { key: "Scattered_Shot__Berserk__Beast_Berserk_Volley_Warlock", data: comp358 },
-  { key: "Scattered_Shot__Blood_Money_Snipe_Volley", data: comp359 },
-  { key: "Scattered_Shot__Bulwark__Beast_Bulwark_Contract_Cross", data: comp360 },
-  { key: "Scattered_Shot__Bulwark__Blood_Bulwark_Money_Snipe", data: comp361 },
-  { key: "Scattered_Shot__Bulwark__Blood_Bulwark_Money_Volley", data: comp362 },
-  { key: "Scattered_Shot__Courtyard__Bulwark_Hound_Snipe_Volley", data: comp363 },
-  { key: "Scattered_Shot__Quickening__Beast_Hound_Snipe_Warlock", data: comp364 },
-  { key: "Scattered_Shot__Quickening__Beast_Money_Snipe_Warlock", data: comp365 },
-  { key: "Scattered_Shot__Quickening__Beast_Money_Volley_Warlock", data: comp366 },
-  { key: "Scattered_Shot__Royal__Bulwark_Hound_Royal_Volley", data: comp367 },
-  { key: "Scattered_Shot__Snuffed__Beast_Berserk_Faith_Lunge", data: comp368 },
-  { key: "Shield_Wall__Bulwark__Bulwark_Hound_Money_Warlock", data: comp369 },
-  { key: "Shield_Wall__Courtyard__Bulwark_Hound_Money_Snipe", data: comp370 },
-  { key: "Shield_Wall__Courtyard__Bulwark_Hound_Money_Volley", data: comp371 },
-  { key: "Shield_Wall__Sand__Hound_Money_Sand_Snipe", data: comp372 },
-  { key: "Shield_Wall__Sand__Hound_Money_Sand_Volley", data: comp373 },
-  { key: "Shifting_Shadow__Ballad__Ballad_Cross_Cross_Warlock", data: comp374 },
-  { key: "Shifting_Shadow__Ballad__Ballad_Faith_Royal_Sand", data: comp375 },
-  { key: "Shifting_Shadow__Heist__Cross_Heist_Lunge_Money", data: comp376 },
-  { key: "Shifting_Shadow__Sand__Blood_Money_Sand_Snipe", data: comp377 },
-  { key: "Shifting_Shadow__Sand__Blood_Money_Sand_Volley", data: comp378 },
-  { key: "Silent_Choir__Berserk__Berserk_Hound_Plague_Snipe", data: comp379 },
-  { key: "Silent_Choir__Bulwark__Bulwark_Hound_Plague_Snipe", data: comp380 },
-  { key: "Silent_Choir__Bulwark__Bulwark_Hound_Plague_Volley", data: comp381 },
-  { key: "Silent_Choir__Cove__Hound_Money_Plague_Warlock", data: comp382 },
-  { key: "Silent_Choir__Cross__Cross_Hound_Plague_Snipe", data: comp383 },
-  { key: "Silent_Choir__Cross__Cross_Hound_Plague_Volley", data: comp384 },
-  { key: "Silent_Choir__Cross__Cross_Money_Plague_Warlock", data: comp385 },
-  { key: "Silent_Choir__Cross__Cross_Plague_Volley_Warlock", data: comp386 },
-  { key: "Silent_Choir__Hamlet__Blood_Bulwark_Faith_Plague", data: comp387 },
-  { key: "Silent_Choir__Heist__Cross_Heist_Hound_Plague", data: comp388 },
-  { key: "Silent_Choir__Heist__Cross_Heist_Plague_Warlock", data: comp389 },
-  { key: "Silent_Choir__Quarry__Contract_Hound_Money_Plague", data: comp390 },
-  { key: "Silent_Choir__Rot__Blood_Plague_Plague_Warlock", data: comp391 },
-  { key: "Silent_Choir__Snuffed__Cross_Lunge_Plague_Warlock", data: comp392 },
-  { key: "Sound_Company__Berserk__Berserk_Hound_Money_Snipe", data: comp393 },
-  { key: "Sound_Company__Berserk__Berserk_Hound_Money_Volley", data: comp394 },
-  { key: "Sound_Company__Berserk__Berserk_Hound_Money_Warlock", data: comp395 },
-  { key: "Sound_Company__Berserk__Berserk_Money_Snipe_Warlock", data: comp396 },
-  { key: "Sound_Company__Bulwark__Bulwark_Money_Snipe_Warlock", data: comp397 },
-  { key: "Sound_Company__Bulwark__Bulwark_Money_Volley_Warlock", data: comp398 },
-  { key: "Sound_Company__Cross__Cross_Hound_Money_Snipe", data: comp399 },
-  { key: "Sound_Company__Cross__Cross_Hound_Money_Volley", data: comp400 },
-  { key: "Sound_Company__Faith__Faith_Hound_Money_Snipe", data: comp401 },
-  { key: "Sound_Company__Faith__Faith_Hound_Money_Volley", data: comp402 },
-  { key: "Sound_Company__Hound_Money_Snipe_Warlock", data: comp403 },
-  { key: "Sound_Company__Quickening__Beast_Contract_Hound_Money", data: comp404 },
-  { key: "Sound_Company__Weald__Money_Snipe_Volley_Warlock", data: comp405 },
-  { key: "Steady_Nerves__Ballad__Ballad_Beast_Contract_Cross", data: comp406 },
-  { key: "Steady_Nerves__Ballad__Ballad_Beast_Cross_Lunge", data: comp407 },
-  { key: "Steady_Nerves__Ballad__Ballad_Cross_Volley_Warlock", data: comp408 },
-  { key: "Steady_Nerves__Ballad__Ballad_Royal_Volley_Warlock", data: comp409 },
-  { key: "Steady_Nerves__Blood_Hound_Snipe_Volley", data: comp410 },
-  { key: "Steady_Nerves__Cross__Cross_Hound_Volley_Warlock", data: comp411 },
-  { key: "Steady_Nerves__Melee__Beast_Contract_Cross_Volley", data: comp412 },
-  { key: "Steady_Nerves__Mercy__Beast_Beast_Contract_Cross", data: comp413 },
-  { key: "Steady_Nerves__Quickening__Beast_Contract_Cross_Hound", data: comp414 },
-  { key: "Steady_Nerves__Royal__Blood_Hound_Royal_Sand", data: comp415 },
-  { key: "Steady_Nerves__Royal__Bulwark_Cross_Hound_Royal", data: comp416 },
-  { key: "Steady_Nerves__Royal__Hound_Money_Royal_Snipe", data: comp417 },
-  { key: "Steady_Nerves__Royal__Hound_Money_Royal_Volley", data: comp418 },
-  { key: "Steady_Nerves__Royal__Hound_Royal_Volley_Warlock", data: comp419 },
-  { key: "Steady_Nerves__Royal__Royal_Volley_Volley_Warlock", data: comp420 },
-  { key: "Steady_Nerves__Scatter__Beast_Hound_Volley_Warlock", data: comp421 },
-  { key: "Sweeping_Ruin__Mercy__Beast_Blood_Money_Snipe", data: comp422 },
-  { key: "Sweeping_Ruin__Mercy__Beast_Blood_Money_Volley", data: comp423 },
-  { key: "Sweeping_Ruin__Resolve__Beast_Berserk_Hound_Volley", data: comp424 },
-  { key: "Sweeping_Ruin__Resolve__Beast_Berserk_Volley_Volley", data: comp425 },
-  { key: "Sweeping_Ruin__Resolve__Beast_Bulwark_Hound_Volley", data: comp426 },
-  { key: "The_Far_Shot__Sand__Hound_Sand_Volley_Warlock", data: comp427 },
-  { key: "The_Far_Shot__Shadow__Ballad_Faith_Faith_Sand", data: comp428 },
-  { key: "The_Far_Shot__Withering__Money_Sand_Volley_Warlock", data: comp429 },
-  { key: "The_Long_Hush__Cross__Contract_Cross_Plague_Warlock", data: comp430 },
-  { key: "The_Long_Hush__Keen__Faith_Hound_Plague_Warlock", data: comp431 },
-  { key: "The_Long_Hush__Quickening__Beast_Cross_Plague_Warlock", data: comp432 },
-  { key: "The_Long_Hush__Upheaval__Berserk_Contract_Plague_Warlock", data: comp433 },
-  { key: "The_Long_Hush__Upheaval__Contract_Contract_Plague_Warlock", data: comp434 },
-  { key: "The_Old_Road", data: comp435 },
-  { key: "The_Quarry__Contract_Hound_Money_Warlock", data: comp436 },
-  { key: "The_Quarry__Duel__Contract_Duel_Hound_Money", data: comp437 },
-  { key: "The_Quarry__Melee__Contract_Duel_Hound_Snipe", data: comp438 },
-  { key: "The_Quarry__Melee__Contract_Duel_Hound_Volley", data: comp439 },
-  { key: "The_Quarry__Quickening__Beast_Contract_Hound_Volley", data: comp440 },
-  { key: "The_Quarry__Resolve__Hound_Hound_Volley_Warlock", data: comp441 },
-  { key: "The_Quarry__Snuffed__Contract_Hound_Lunge_Volley", data: comp442 },
-  { key: "The_Quarry__Thorns__Contract_Duel_Heist_Hound", data: comp443 },
-  { key: "The_Quarry__Upheaval__Contract_Hound_Snipe_Volley", data: comp444 },
-  { key: "The_Quarry__Weald__Contract_Hound_Money_Snipe", data: comp445 },
-  { key: "The_Quarry__Weald__Contract_Hound_Money_Volley", data: comp446 },
-  { key: "The_Quarry__Weald__Contract_Hound_Plague_Volley", data: comp447 },
-  { key: "The_Quarry__Withering__Contract_Money_Snipe_Warlock", data: comp448 },
-  { key: "Toe_to_Toe__Duel__Berserk_Cross_Duel_Volley", data: comp449 },
-  { key: "Toe_to_Toe__Duel__Bulwark_Duel_Lunge_Plague", data: comp450 },
-  { key: "Waiting_Blade__Melee__Bulwark_Cross_Heist_Heist", data: comp451 },
-  { key: "Wasting_Curse__Aegis__Hound_Money_Sand_Warlock", data: comp452 },
-  { key: "Wasting_Curse__Cross__Cross_Hound_Snipe_Warlock", data: comp453 },
-  { key: "Wasting_Curse__Duel__Duel_Hound_Plague_Warlock", data: comp454 },
-  { key: "Wasting_Curse__Quickening__Beast_Hound_Money_Warlock", data: comp455 },
-  { key: "Wasting_Curse__Reach__Hound_Money_Volley_Warlock", data: comp456 },
-  { key: "Wasting_Curse__Sand__Hound_Sand_Snipe_Volley", data: comp457 },
-  { key: "Wasting_Curse__Sand__Money_Sand_Snipe_Warlock", data: comp458 },
-  { key: "Withering_Hand__Reach__Sand_Snipe_Volley_Warlock", data: comp459 },
-  { key: "Withering_Hand__Sand__Hound_Sand_Snipe_Warlock", data: comp460 }
+  { key: "Keen_Edge__Snuffed__Contract_Lunge_Money_Warlock", data: comp234 },
+  { key: "Keen_Edge__Snuffed__Hound_Lunge_Volley_Warlock", data: comp235 },
+  { key: "Keen_Edge__Upheaval__Bulwark_Burn_Contract_Snipe", data: comp236 },
+  { key: "Keen_Edge__Upheaval__Bulwark_Contract_Hound_Volley", data: comp237 },
+  { key: "Keen_Edge__Withering__Bulwark_Hound_Plague_Warlock", data: comp238 },
+  { key: "Keen_Edge__Withering__Bulwark_Snipe_Volley_Warlock", data: comp239 },
+  { key: "Keen_Edge__Withering__Contract_Hound_Plague_Warlock", data: comp240 },
+  { key: "Keen_Edge__Withering__Heist_Hound_Snipe_Warlock", data: comp241 },
+  { key: "Keen_Edge__Withering__Heist_Hound_Volley_Warlock", data: comp242 },
+  { key: "Keen_Edge__Withering__Hound_Plague_Snipe_Warlock", data: comp243 },
+  { key: "Kindled_Resolve__Mercy__Beast_Blood_Cross_Royal", data: comp244 },
+  { key: "Kindled_Resolve__Royal__Beast_Hound_Hound_Royal", data: comp245 },
+  { key: "Kindled_Resolve__Royal__Beast_Hound_Royal_Volley", data: comp246 },
+  { key: "Kindled_Resolve__Scatter__Beast_Cross_Hound_Snipe", data: comp247 },
+  { key: "Long_Reach__Ballad__Ballad_Beast_Volley_Warlock", data: comp248 },
+  { key: "Long_Reach__Berserk__Berserk_Money_Volley_Warlock", data: comp249 },
+  { key: "Long_Reach__Heist__Beast_Cross_Heist_Lunge", data: comp250 },
+  { key: "Long_Reach__Quickening__Beast_Contract_Money_Warlock", data: comp251 },
+  { key: "Lunge_Quartet__Shadow__Lunge_Lunge_Lunge_Lunge", data: comp252 },
+  { key: "Mercy_Ward__Beast__Beast_Cross_Hound_Volley", data: comp253 },
+  { key: "Mercy_Ward__Blood_Money_Snipe_Warlock", data: comp254 },
+  { key: "Mercy_Ward__Blood_Money_Volley_Warlock", data: comp255 },
+  { key: "Mercy_Ward__Faith__Beast_Berserk_Blood_Faith", data: comp256 },
+  { key: "Mercy_Ward__Quickening__Beast_Blood_Contract_Money", data: comp257 },
+  { key: "Mercy_Ward__Resolve__Beast_Cross_Hound_Volley", data: comp258 },
+  { key: "Mercy_Ward__Resolve__Beast_Cross_Plague_Royal", data: comp259 },
+  { key: "Mercy_Ward__Royal__Blood_Money_Royal_Snipe", data: comp260 },
+  { key: "Mercy_Ward__Royal__Blood_Money_Royal_Volley", data: comp261 },
+  { key: "Mercy_Ward__Royal__Contract_Faith_Hound_Royal", data: comp262 },
+  { key: "Mirage_Dance__Heist__Cross_Faith_Heist_Sand", data: comp263 },
+  { key: "Mirage_Dance__Sand__Beast_Cross_Plague_Sand", data: comp264 },
+  { key: "Mirage_Dance__Snuffed__Cross_Faith_Lunge_Sand", data: comp265 },
+  { key: "Money_Quartet__Rot__Money_Money_Money_Money", data: comp266 },
+  { key: "Open_Season__Aegis__Ballad_Contract_Hound_Money", data: comp267 },
+  { key: "Open_Season__Aegis__Bulwark_Hound_Hound_Snipe", data: comp268 },
+  { key: "Open_Season__Aegis__Bulwark_Hound_Hound_Volley", data: comp269 },
+  { key: "Open_Season__Aegis__Burn_Contract_Hound_Money", data: comp270 },
+  { key: "Open_Season__Aegis__Contract_Hound_Money_Sand", data: comp271 },
+  { key: "Open_Season__Berserk__Berserk_Hound_Hound_Volley", data: comp272 },
+  { key: "Open_Season__Berserk__Berserk_Hound_Snipe_Snipe", data: comp273 },
+  { key: "Open_Season__Courtyard__Contract_Hound_Plague_Snipe", data: comp274 },
+  { key: "Open_Season__Crimson__Blood_Contract_Hound_Money__Ruins", data: comp275 },
+  { key: "Open_Season__Crimson__Blood_Contract_Hound_Money__Weald", data: comp276 },
+  { key: "Open_Season__Crimson__Blood_Contract_Hound_Snipe", data: comp277 },
+  { key: "Open_Season__Crimson__Blood_Contract_Hound_Volley", data: comp278 },
+  { key: "Open_Season__Duel__Duel_Hound_Lunge_Money", data: comp279 },
+  { key: "Open_Season__Duel__Duel_Hound_Money_Snipe", data: comp280 },
+  { key: "Open_Season__Duel__Duel_Hound_Money_Volley", data: comp281 },
+  { key: "Open_Season__Duel__Duel_Hound_Money_Warlock", data: comp282 },
+  { key: "Open_Season__Duel__Duel_Hound_Snipe_Warlock", data: comp283 },
+  { key: "Open_Season__Hound_Money_Snipe_Volley", data: comp284 },
+  { key: "Open_Season__Melee__Burn_Contract_Duel_Hound", data: comp285 },
+  { key: "Open_Season__Melee__Contract_Duel_Money_Snipe", data: comp286 },
+  { key: "Open_Season__Melee__Contract_Duel_Money_Volley", data: comp287 },
+  { key: "Open_Season__Reach__Beast_Contract_Hound_Warlock", data: comp288 },
+  { key: "Open_Season__Reach__Contract_Money_Volley_Warlock", data: comp289 },
+  { key: "Open_Season__Resolve__Beast_Contract_Hound_Volley", data: comp290 },
+  { key: "Open_Season__Resolve__Blood_Hound_Hound_Snipe", data: comp291 },
+  { key: "Open_Season__Resolve__Contract_Cross_Hound_Volley", data: comp292 },
+  { key: "Open_Season__Resolve__Cross_Hound_Hound_Volley", data: comp293 },
+  { key: "Open_Season__Resolve__Hound_Hound_Royal_Volley", data: comp294 },
+  { key: "Open_Season__Resolve__Hound_Royal_Snipe_Volley", data: comp295 },
+  { key: "Open_Season__Royal__Contract_Hound_Money_Royal", data: comp296 },
+  { key: "Open_Season__Royal__Contract_Money_Royal_Volley", data: comp297 },
+  { key: "Open_Season__Snuffed__Hound_Lunge_Money_Snipe", data: comp298 },
+  { key: "Open_Season__Snuffed__Hound_Lunge_Money_Volley", data: comp299 },
+  { key: "Open_Season__Upheaval__Beast_Contract_Hound_Snipe", data: comp300 },
+  { key: "Open_Season__Upheaval__Beast_Contract_Hound_Volley", data: comp301 },
+  { key: "Open_Season__Upheaval__Bulwark_Contract_Hound_Snipe", data: comp302 },
+  { key: "Open_Season__Upheaval__Contract_Hound_Royal_Snipe", data: comp303 },
+  { key: "Open_Season__Upheaval__Contract_Hound_Royal_Volley", data: comp304 },
+  { key: "Open_Season__Upheaval__Contract_Hound_Sand_Volley", data: comp305 },
+  { key: "Open_Season__Weald__Contract_Money_Snipe_Volley", data: comp306 },
+  { key: "Open_Season__Withering__Duel_Hound_Volley_Warlock", data: comp307 },
+  { key: "Open_Season__Withering__Royal_Snipe_Volley_Warlock", data: comp308 },
+  { key: "Pestilence__Sibyl__Hound_Plague_Sibyl_Warlock", data: comp309 },
+  { key: "Press_of_Steel__Courtyard__Blood_Duel_Money_Snipe", data: comp310 },
+  { key: "Press_of_Steel__Duel__Beast_Berserk_Blood_Duel", data: comp311 },
+  { key: "Press_of_Steel__Duel__Blood_Duel_Money_Volley", data: comp312 },
+  { key: "Press_of_Steel__Heist__Beast_Contract_Heist_Volley", data: comp313 },
+  { key: "Red_Harvest__Aegis__Blood_Hound_Money_Sand", data: comp314 },
+  { key: "Red_Harvest__Ballad__Ballad_Blood_Hound_Plague", data: comp315 },
+  { key: "Red_Harvest__Blood_Hound_Money_Snipe", data: comp316 },
+  { key: "Red_Harvest__Blood_Hound_Money_Volley", data: comp317 },
+  { key: "Red_Harvest__Blood_Hound_Money_Warlock", data: comp318 },
+  { key: "Red_Harvest__Courtyard__Blood_Bulwark_Hound_Money", data: comp319 },
+  { key: "Red_Harvest__Courtyard__Blood_Bulwark_Hound_Snipe", data: comp320 },
+  { key: "Red_Harvest__Courtyard__Blood_Bulwark_Hound_Volley", data: comp321 },
+  { key: "Red_Harvest__Darkest_Dungeon_II__Blood_Bulwark_Faith_Hound", data: comp322 },
+  { key: "Red_Harvest__Duel__Blood_Duel_Hound_Plague", data: comp323 },
+  { key: "Red_Harvest__Duel__Blood_Duel_Hound_Snipe", data: comp324 },
+  { key: "Red_Harvest__Duel__Blood_Duel_Hound_Volley", data: comp325 },
+  { key: "Red_Harvest__Heist__Cross_Heist_Hound_Warlock", data: comp326 },
+  { key: "Red_Harvest__Mercy__Blood_Bulwark_Faith_Heist", data: comp327 },
+  { key: "Red_Harvest__Mercy__Blood_Cross_Hound_Snipe", data: comp328 },
+  { key: "Red_Harvest__Mercy__Blood_Cross_Hound_Volley", data: comp329 },
+  { key: "Red_Harvest__Mercy__Blood_Faith_Hound_Money", data: comp330 },
+  { key: "Red_Harvest__Mercy__Blood_Faith_Hound_Snipe", data: comp331 },
+  { key: "Red_Harvest__Mercy__Blood_Faith_Hound_Volley", data: comp332 },
+  { key: "Red_Harvest__Mercy__Blood_Hound_Plague_Volley", data: comp333 },
+  { key: "Red_Harvest__Reach__Blood_Heist_Lunge_Sand", data: comp334 },
+  { key: "Red_Harvest__Rot__Blood_Contract_Hound_Plague", data: comp335 },
+  { key: "Red_Harvest__Royal__Royal_Blood_Hound_Volley__Ruins", data: comp336 },
+  { key: "Red_Harvest__Royal__Royal_Blood_Hound_Volley__Warrens", data: comp337 },
+  { key: "Red_Harvest__Sand__Blood_Hound_Sand_Snipe", data: comp338 },
+  { key: "Red_Harvest__Sand__Blood_Hound_Sand_Volley", data: comp339 },
+  { key: "Red_Harvest__Scatter__Beast_Blood_Hound_Money", data: comp340 },
+  { key: "Red_Harvest__Scatter__Beast_Blood_Hound_Snipe", data: comp341 },
+  { key: "Red_Harvest__Scatter__Beast_Blood_Hound_Volley", data: comp342 },
+  { key: "Red_Harvest__Scatter__Berserk_Blood_Bulwark_Hound", data: comp343 },
+  { key: "Red_Harvest__Scatter__Berserk_Blood_Money_Snipe", data: comp344 },
+  { key: "Red_Harvest__Scatter__Berserk_Blood_Money_Volley", data: comp345 },
+  { key: "Red_Harvest__Scatter__Blood_Bulwark_Hound_Plague", data: comp346 },
+  { key: "Red_Harvest__Scatter__Blood_Hound_Plague_Snipe", data: comp347 },
+  { key: "Red_Harvest__Snuffed__Blood_Hound_Lunge_Money", data: comp348 },
+  { key: "Red_Harvest__Snuffed__Blood_Hound_Lunge_Plague", data: comp349 },
+  { key: "Red_Harvest__Snuffed__Blood_Hound_Lunge_Volley", data: comp350 },
+  { key: "Red_Harvest__Upheaval__Blood_Contract_Plague_Volley", data: comp351 },
+  { key: "Red_Harvest__Weald__Blood_Hound_Money_Plague", data: comp352 },
+  { key: "Red_Harvest__Withering__Blood_Hound_Snipe_Warlock", data: comp353 },
+  { key: "Red_Harvest__Withering__Blood_Hound_Volley_Warlock", data: comp354 },
+  { key: "Ruinous_Fortune__Faith__Burn_Contract_Faith_Warlock", data: comp355 },
+  { key: "Ruinous_Fortune__Heist__Ballad_Heist_Snipe_Warlock", data: comp356 },
+  { key: "Ruinous_Fortune__Reach__Ballad_Hound_Warlock_Warlock", data: comp357 },
+  { key: "Scattered_Host__Courtyard__Bulwark_Contract_Royal_Volley", data: comp358 },
+  { key: "Scattered_Shot__Berserk__Beast_Berserk_Volley_Warlock", data: comp359 },
+  { key: "Scattered_Shot__Blood_Money_Snipe_Volley", data: comp360 },
+  { key: "Scattered_Shot__Bulwark__Beast_Bulwark_Contract_Cross", data: comp361 },
+  { key: "Scattered_Shot__Bulwark__Blood_Bulwark_Money_Snipe", data: comp362 },
+  { key: "Scattered_Shot__Bulwark__Blood_Bulwark_Money_Volley", data: comp363 },
+  { key: "Scattered_Shot__Courtyard__Bulwark_Hound_Snipe_Volley", data: comp364 },
+  { key: "Scattered_Shot__Quickening__Beast_Hound_Snipe_Warlock", data: comp365 },
+  { key: "Scattered_Shot__Quickening__Beast_Money_Snipe_Warlock", data: comp366 },
+  { key: "Scattered_Shot__Quickening__Beast_Money_Volley_Warlock", data: comp367 },
+  { key: "Scattered_Shot__Royal__Bulwark_Hound_Royal_Volley", data: comp368 },
+  { key: "Scattered_Shot__Snuffed__Beast_Berserk_Faith_Lunge", data: comp369 },
+  { key: "Shield_Wall__Bulwark__Bulwark_Hound_Money_Warlock", data: comp370 },
+  { key: "Shield_Wall__Courtyard__Bulwark_Hound_Money_Snipe", data: comp371 },
+  { key: "Shield_Wall__Courtyard__Bulwark_Hound_Money_Volley", data: comp372 },
+  { key: "Shield_Wall__Sand__Hound_Money_Sand_Snipe", data: comp373 },
+  { key: "Shield_Wall__Sand__Hound_Money_Sand_Volley", data: comp374 },
+  { key: "Shifting_Shadow__Ballad__Ballad_Cross_Cross_Warlock", data: comp375 },
+  { key: "Shifting_Shadow__Ballad__Ballad_Faith_Royal_Sand", data: comp376 },
+  { key: "Shifting_Shadow__Heist__Cross_Heist_Lunge_Money", data: comp377 },
+  { key: "Shifting_Shadow__Sand__Blood_Money_Sand_Snipe", data: comp378 },
+  { key: "Shifting_Shadow__Sand__Blood_Money_Sand_Volley", data: comp379 },
+  { key: "Silent_Choir__Berserk__Berserk_Hound_Plague_Snipe", data: comp380 },
+  { key: "Silent_Choir__Bulwark__Bulwark_Hound_Plague_Snipe", data: comp381 },
+  { key: "Silent_Choir__Bulwark__Bulwark_Hound_Plague_Volley", data: comp382 },
+  { key: "Silent_Choir__Cove__Hound_Money_Plague_Warlock", data: comp383 },
+  { key: "Silent_Choir__Cross__Cross_Hound_Plague_Snipe", data: comp384 },
+  { key: "Silent_Choir__Cross__Cross_Hound_Plague_Volley", data: comp385 },
+  { key: "Silent_Choir__Cross__Cross_Money_Plague_Warlock", data: comp386 },
+  { key: "Silent_Choir__Cross__Cross_Plague_Volley_Warlock", data: comp387 },
+  { key: "Silent_Choir__Hamlet__Blood_Bulwark_Faith_Plague", data: comp388 },
+  { key: "Silent_Choir__Heist__Cross_Heist_Hound_Plague", data: comp389 },
+  { key: "Silent_Choir__Heist__Cross_Heist_Plague_Warlock", data: comp390 },
+  { key: "Silent_Choir__Quarry__Contract_Hound_Money_Plague", data: comp391 },
+  { key: "Silent_Choir__Rot__Blood_Plague_Plague_Warlock", data: comp392 },
+  { key: "Silent_Choir__Snuffed__Cross_Lunge_Plague_Warlock", data: comp393 },
+  { key: "Sound_Company__Berserk__Berserk_Hound_Money_Snipe", data: comp394 },
+  { key: "Sound_Company__Berserk__Berserk_Hound_Money_Volley", data: comp395 },
+  { key: "Sound_Company__Berserk__Berserk_Hound_Money_Warlock", data: comp396 },
+  { key: "Sound_Company__Berserk__Berserk_Money_Snipe_Warlock", data: comp397 },
+  { key: "Sound_Company__Bulwark__Bulwark_Money_Snipe_Warlock", data: comp398 },
+  { key: "Sound_Company__Bulwark__Bulwark_Money_Volley_Warlock", data: comp399 },
+  { key: "Sound_Company__Cross__Cross_Hound_Money_Snipe", data: comp400 },
+  { key: "Sound_Company__Cross__Cross_Hound_Money_Volley", data: comp401 },
+  { key: "Sound_Company__Faith__Faith_Hound_Money_Snipe", data: comp402 },
+  { key: "Sound_Company__Faith__Faith_Hound_Money_Volley", data: comp403 },
+  { key: "Sound_Company__Hound_Money_Snipe_Warlock", data: comp404 },
+  { key: "Sound_Company__Quickening__Beast_Contract_Hound_Money", data: comp405 },
+  { key: "Sound_Company__Weald__Money_Snipe_Volley_Warlock", data: comp406 },
+  { key: "Steady_Nerves__Ballad__Ballad_Beast_Contract_Cross", data: comp407 },
+  { key: "Steady_Nerves__Ballad__Ballad_Beast_Cross_Lunge", data: comp408 },
+  { key: "Steady_Nerves__Ballad__Ballad_Cross_Volley_Warlock", data: comp409 },
+  { key: "Steady_Nerves__Ballad__Ballad_Royal_Volley_Warlock", data: comp410 },
+  { key: "Steady_Nerves__Blood_Hound_Snipe_Volley", data: comp411 },
+  { key: "Steady_Nerves__Cross__Cross_Hound_Volley_Warlock", data: comp412 },
+  { key: "Steady_Nerves__Melee__Beast_Contract_Cross_Volley", data: comp413 },
+  { key: "Steady_Nerves__Mercy__Beast_Beast_Contract_Cross", data: comp414 },
+  { key: "Steady_Nerves__Quickening__Beast_Contract_Cross_Hound", data: comp415 },
+  { key: "Steady_Nerves__Royal__Blood_Hound_Royal_Sand", data: comp416 },
+  { key: "Steady_Nerves__Royal__Bulwark_Cross_Hound_Royal", data: comp417 },
+  { key: "Steady_Nerves__Royal__Hound_Money_Royal_Snipe", data: comp418 },
+  { key: "Steady_Nerves__Royal__Hound_Money_Royal_Volley", data: comp419 },
+  { key: "Steady_Nerves__Royal__Hound_Royal_Volley_Warlock", data: comp420 },
+  { key: "Steady_Nerves__Royal__Royal_Volley_Volley_Warlock", data: comp421 },
+  { key: "Steady_Nerves__Scatter__Beast_Hound_Volley_Warlock", data: comp422 },
+  { key: "Sweeping_Ruin__Mercy__Beast_Blood_Money_Snipe", data: comp423 },
+  { key: "Sweeping_Ruin__Mercy__Beast_Blood_Money_Volley", data: comp424 },
+  { key: "Sweeping_Ruin__Resolve__Beast_Berserk_Hound_Volley", data: comp425 },
+  { key: "Sweeping_Ruin__Resolve__Beast_Berserk_Volley_Volley", data: comp426 },
+  { key: "Sweeping_Ruin__Resolve__Beast_Bulwark_Hound_Volley", data: comp427 },
+  { key: "The_Far_Shot__Sand__Hound_Sand_Volley_Warlock", data: comp428 },
+  { key: "The_Far_Shot__Shadow__Ballad_Faith_Faith_Sand", data: comp429 },
+  { key: "The_Far_Shot__Withering__Money_Sand_Volley_Warlock", data: comp430 },
+  { key: "The_Long_Hush__Cross__Contract_Cross_Plague_Warlock", data: comp431 },
+  { key: "The_Long_Hush__Keen__Faith_Hound_Plague_Warlock", data: comp432 },
+  { key: "The_Long_Hush__Quickening__Beast_Cross_Plague_Warlock", data: comp433 },
+  { key: "The_Long_Hush__Upheaval__Berserk_Contract_Plague_Warlock", data: comp434 },
+  { key: "The_Long_Hush__Upheaval__Contract_Contract_Plague_Warlock", data: comp435 },
+  { key: "The_Old_Road", data: comp436 },
+  { key: "The_Quarry__Contract_Hound_Money_Warlock", data: comp437 },
+  { key: "The_Quarry__Duel__Contract_Duel_Hound_Money", data: comp438 },
+  { key: "The_Quarry__Melee__Contract_Duel_Hound_Snipe", data: comp439 },
+  { key: "The_Quarry__Melee__Contract_Duel_Hound_Volley", data: comp440 },
+  { key: "The_Quarry__Quickening__Beast_Contract_Hound_Volley", data: comp441 },
+  { key: "The_Quarry__Resolve__Hound_Hound_Volley_Warlock", data: comp442 },
+  { key: "The_Quarry__Snuffed__Contract_Hound_Lunge_Volley", data: comp443 },
+  { key: "The_Quarry__Thorns__Contract_Duel_Heist_Hound", data: comp444 },
+  { key: "The_Quarry__Upheaval__Contract_Hound_Snipe_Volley", data: comp445 },
+  { key: "The_Quarry__Weald__Contract_Hound_Money_Snipe", data: comp446 },
+  { key: "The_Quarry__Weald__Contract_Hound_Money_Volley", data: comp447 },
+  { key: "The_Quarry__Weald__Contract_Hound_Plague_Volley", data: comp448 },
+  { key: "The_Quarry__Withering__Contract_Money_Snipe_Warlock", data: comp449 },
+  { key: "Toe_to_Toe__Duel__Berserk_Cross_Duel_Volley", data: comp450 },
+  { key: "Toe_to_Toe__Duel__Bulwark_Duel_Lunge_Plague", data: comp451 },
+  { key: "Waiting_Blade__Melee__Bulwark_Cross_Heist_Heist", data: comp452 },
+  { key: "Wasting_Curse__Aegis__Hound_Money_Sand_Warlock", data: comp453 },
+  { key: "Wasting_Curse__Cross__Cross_Hound_Snipe_Warlock", data: comp454 },
+  { key: "Wasting_Curse__Duel__Duel_Hound_Plague_Warlock", data: comp455 },
+  { key: "Wasting_Curse__Quickening__Beast_Hound_Money_Warlock", data: comp456 },
+  { key: "Wasting_Curse__Reach__Hound_Money_Volley_Warlock", data: comp457 },
+  { key: "Wasting_Curse__Sand__Hound_Sand_Snipe_Volley", data: comp458 },
+  { key: "Wasting_Curse__Sand__Money_Sand_Snipe_Warlock", data: comp459 },
+  { key: "Withering_Hand__Reach__Sand_Snipe_Volley_Warlock", data: comp460 },
+  { key: "Withering_Hand__Sand__Hound_Sand_Snipe_Warlock", data: comp461 }
 ];
