@@ -17,6 +17,7 @@ import { STRESS_CONFIG, clampStress, isStrained } from '../../utils/heroStress';
 import { PARTY_CONFIG } from '../../constants';
 
 import { generateComp, generateComps } from '../../utils/compGenerator';
+import { clearPendingComps, pendingCompKeys } from '../../utils/pendingComps';
 
 export const SUGGEST_ROSTER_KEY = 'dd_team_builder_suggest_roster_v1';
 
@@ -88,6 +89,11 @@ const SuggestCompModal = ({
   const [requireOwnedTrinkets, setRequireOwnedTrinkets] = useState(false);
   const [reequip, setReequip] = useState(true);
   const [preferRested, setPreferRested] = useState(true);
+  // Comps que has guardado con la pagina abierta y que la app todavia no lleva
+  // dentro (ver `pendingComps`). Se ensena porque el apunte se hace al
+  // DESCARGAR el .json, y descargar no es quedarselo: si el fichero acabo en la
+  // papelera, esas cuatro clases se quedarian bloqueadas sin que se vea.
+  const [pendingCount, setPendingCount] = useState(0);
 
   const counts = useMemo(() => toRosterCounts(roster), [roster]);
   const busyCount = useMemo(
@@ -150,6 +156,12 @@ const SuggestCompModal = ({
     setRoster(valid.length ? valid : fallback);
     if (Array.isArray(initialRoster) && valid.length) writeJSON(SUGGEST_ROSTER_KEY, valid);
   }, [isOpen, heroPool, showModdedHeroes, initialRoster, normalizeRoster]);
+
+  // Al abrir, no en cada render: la lista solo cambia al guardar una comp, que
+  // es algo que pasa con este modal cerrado.
+  useEffect(() => {
+    if (isOpen) setPendingCount(pendingCompKeys().size);
+  }, [isOpen]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -498,7 +510,25 @@ const SuggestCompModal = ({
           )}
         </div>
 
-        <div className="flex justify-end gap-3 pt-4 border-t border-gray-700">
+        <div className="flex flex-wrap items-center justify-end gap-3 pt-4 border-t border-gray-700">
+          {pendingCount > 0 && (
+            <button
+              onClick={() => {
+                clearPendingComps();
+                setPendingCount(0);
+                showToast?.('Those comps can be suggested again.', 'success');
+              }}
+              title={
+                'Comps you saved with this page open. They are not in the app yet — run ' +
+                'npm run comps:index after dropping the .json files into src/data/presetComps ' +
+                'and they will be. Until then they are treated as already written, so you are ' +
+                'not offered them twice. Click to forget them.'
+              }
+              className="mr-auto text-[11px] text-gray-500 hover:text-dd-gold underline decoration-dotted underline-offset-2 transition-colors"
+            >
+              {pendingCount} saved {pendingCount === 1 ? 'comp' : 'comps'} not indexed yet — forget
+            </button>
+          )}
           <button
             onClick={onClose}
             className="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-gray-300 rounded border border-gray-600 transition-colors text-sm"
