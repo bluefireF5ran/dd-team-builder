@@ -1,6 +1,7 @@
 import { renderHook, act } from '@testing-library/react';
 import { useTeam } from '../useTeam';
 import { EMPTY_HERO } from '../../constants';
+import { planPart } from '../../utils/compNaming2';
 
 describe('useTeam', () => {
   beforeEach(() => {
@@ -512,6 +513,67 @@ describe('useTeam', () => {
       const { result } = renderHook(() => useTeam());
       expect(result.current.teamName).toBe('My Team');
       expect(result.current.heroes[0].heroClass).toBe('');
+    });
+  });
+
+  /**
+   * El guardado como preset es el unico sitio de la app donde la taxonomia
+   * nombra algo, asi que es donde se comprueba que nombra por EJES y no por
+   * firmas de clase. La señal que distingue los dos motores no es una palabra
+   * -- el vocabulario cambia-- sino la forma: el de ejes dice de donde sale la
+   * ranura 1 (`kind`) y no llama al fichero como al nombre.
+   */
+  describe('describePreset', () => {
+    const bleeders = ['Flagellant', 'Hellion', 'Bounty Hunter', 'Houndmaster'];
+    const skills = {
+      Flagellant: ['Punish', 'Rain of Sorrows', 'Reclaim', 'Redeem'],
+      Hellion: ['Wicked Hack', 'Iron Swan', 'Barbaric YAWP!', 'Adrenaline Rush'],
+      'Bounty Hunter': ['Collect Bounty', 'Mark for Death', 'Come Hither', 'Flashbang'],
+      Houndmaster: ["Hound's Rush", "Hound's Harry", 'Target Whistle', 'Guard Dog']
+    };
+
+    const seat = (result, name = 'my bleed team') => act(() => {
+      result.current.setTeamName(name);
+      result.current.setLocation('The Warrens');
+      bleeders.forEach((heroClass, i) => result.current.updateHero(i, {
+        ...EMPTY_HERO, heroClass, activeSkills: skills[heroClass], activeCampSkills: []
+      }));
+    });
+
+    test('names the party by what it does, and files it by who is in it', () => {
+      const { result } = renderHook(() => useTeam());
+      seat(result);
+
+      const preset = result.current.describePreset();
+      // `kind` solo lo devuelve el motor de ejes: es de donde salio la ranura 1.
+      expect(['stack', 'engine', 'shape', 'even']).toContain(preset.kind);
+      // El fichero empieza por el plan y lleva detras el reparto: el nombre solo
+      // -- que es lo que daba el motor viejo-- no separaria dos comps que
+      // comparten plan, y 100 de los 239 nombres los comparten.
+      expect(preset.fileName.startsWith(`${planPart(preset.name)}__`)).toBe(true);
+      expect(preset.fileName).not.toBe(`${planPart(preset.name)}.json`);
+      ['Blood', 'Berserk', 'Contract', 'Hound'].forEach((token) =>
+        expect(preset.fileName).toContain(token));
+    });
+
+    test('keeps your name as the alias, and drops it when the taxonomy had already said it', () => {
+      const { result } = renderHook(() => useTeam());
+      seat(result);
+      const preset = result.current.describePreset();
+      expect(preset.alias).toBe('my bleed team');
+
+      // Guardar dos veces no debe dejar un alias que repite el nombre.
+      seat(result, preset.name);
+      expect(result.current.describePreset().alias).toBe('');
+    });
+
+    test('does not hand the new comp a file the library already has', () => {
+      const { result } = renderHook(() => useTeam());
+      seat(result);
+      const { fileName } = result.current.describePreset();
+      // eslint-disable-next-line global-require
+      const { getCompFileKeys } = require('../../data/compIndex');
+      expect(getCompFileKeys()).not.toContain(fileName.replace(/.json$/, ''));
     });
   });
 });

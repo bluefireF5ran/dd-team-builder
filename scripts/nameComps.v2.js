@@ -40,7 +40,7 @@ const ROOT = path.join(__dirname, '..');
 const COMPS_DIR = path.join(ROOT, 'src', 'data', 'presetComps');
 const EOL = String.fromCharCode(10);
 
-const { buildNamer } = loadEsm(path.join(ROOT, 'src', 'utils', 'compNaming2.js'));
+const { buildNamer, compFileRungs } = loadEsm(path.join(ROOT, 'src', 'utils', 'compNaming2.js'));
 const { HERO_TOKENS } = loadEsm(path.join(ROOT, 'src', 'data', 'compTaxonomy.js'));
 const { PURPOSE_CAMP } = loadEsm(path.join(ROOT, 'src', 'data', 'compAxes.js'));
 
@@ -48,70 +48,41 @@ const MANIFEST = path.join(ROOT, 'scripts', 'nameComps.v2.manifest.json');
 const argv = process.argv.slice(2);
 const has = (flag) => argv.includes(flag);
 
-const tokenOf = (cls) => (HERO_TOKENS[cls] || {}).token || cls;
-const safe = (s) => String(s).replace(/[^A-Za-z0-9]+/g, '');
-
-/**
- * "Cinder Wake: Melee" -> "Cinder_Wake__Melee", igual que `toCompFileName`.
- *
- * Los dos guiones bajos son los dos puntos, y no se pueden colapsar contra los
- * simples: son lo que separa el plan de su matiz al leer la carpeta.
- */
-const planPart = (name) => String(name)
-  .replace(/\s*&\s*/g, ' ')
-  .replace(/:\s*/g, '__')
-  .replace(/\s+/g, '_')
-  .replace(/^_|_$/g, '');
-
-/**
- * Los peldaños de la escalera de nombres de fichero, del mas corto al mas
- * especifico. Se coge el PRIMERO que sea unico en la libreria.
- *
- * Delante va el PLAN, detras el REPARTO. Solo con el reparto la carpeta no
- * decia nada -- `Beast_Burn_Contract_Snipe` no cuenta que hace esa party-- y
- * solo con el plan no se puede, porque 100 de los 239 nombres los llevan dos
- * comps o mas y volverian los `... 2`. Juntos: la carpeta ordena por plan, que
- * es como se busca una comp, y el reparto la hace unica.
- */
-const fileRungs = (comp, name) => {
-  const plan = planPart(name);
-  const tokens = (comp.heroes || []).map((h) => tokenOf(h.heroClass));
-  const sorted = [...tokens].sort().join('_');
-  const ordered = tokens.join('_');
-  const region = safe(String(comp.location || '').replace(/^The /, ''));
-  const camps = [...new Set((comp.heroes || [])
-    .flatMap((h) => h.activeCampSkills || [])
-    .filter((s) => PURPOSE_CAMP[s])
-    .map((s) => PURPOSE_CAMP[s]))].sort().join('');
-  const withRegion = region ? `${ordered}__${region}` : ordered;
-  const tail = camps ? `${withRegion}_${camps}` : withRegion;
-  return [sorted, ordered, withRegion, tail].map((r) => `${plan}__${r}`);
-};
-
 /** Reparte un nombre de fichero unico a cada comp, y dice quien no se dejo separar. */
 const assignFiles = (list) => {
   const counts = [{}, {}, {}, {}];
-  list.forEach((rec) => fileRungs(rec.comp, rec.name)
+  list.forEach((rec) => compFileRungs(rec.comp, rec.name)
     .forEach((r, i) => { counts[i][r] = (counts[i][r] || 0) + 1; }));
-  const taken = new Map();
-  const stubborn = [];
   list.forEach((rec) => {
-    const rungs = fileRungs(rec.comp, rec.name);
-    let base = rungs.find((r, i) => counts[i][r] === 1);
-    if (!base) {
-      base = rungs[rungs.length - 1];
-      stubborn.push(rec);
+    const rungs = compFileRungs(rec.comp, rec.name);
+    const base = rungs.find((r, i) => counts[i][r] === 1);
+    rec.base = base || rungs[rungs.length - 1];
+    rec.rung = rungs.indexOf(rec.base);
+    rec.stubborn = !base;
+  });
+
+  const taken = new Map();
+  // El sufijo numerico solo cae entre comps que ya no se diferencian en nada
+  // que un nombre pueda decir, y ahi el reparto es arbitrario: se queda quien
+  // YA estaba. Sin esta primera vuelta las dos se van pasando el `_2` en cada
+  // --apply, y el renombrado no converge nunca.
+  list.forEach((rec) => {
+    const mine = new RegExp("^" + rec.base + "(_[0-9]+)?[.]json$").test(rec.file);
+    if (mine && !taken.has(rec.file)) {
+      taken.set(rec.file, rec);
+      rec.target = rec.file;
     }
-    // Un sufijo numerico solo puede quedar aqui, y solo entre comps que ya no se
-    // diferencian en nada que un nombre pueda decir.
-    let name = `${base}.json`;
+  });
+
+  list.filter((rec) => !rec.target).forEach((rec) => {
+    let name = `${rec.base}.json`;
     let n = 2;
-    while (taken.has(name)) { name = `${base}_${n}.json`; n += 1; }
+    while (taken.has(name)) { name = `${rec.base}_${n}.json`; n += 1; }
     taken.set(name, rec);
     rec.target = name;
-    rec.rung = rungs.indexOf(base);
   });
-  return { stubborn };
+
+  return { stubborn: list.filter((rec) => rec.stubborn) };
 };
 
 // --undo va antes de leer nada: restaura el estado previo sin consultar la

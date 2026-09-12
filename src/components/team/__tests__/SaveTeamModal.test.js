@@ -4,13 +4,15 @@ import SaveTeamModal from '../SaveTeamModal';
 
 // Un preset ya nombrado por la taxonomia: es lo que `useTeam.describePreset`
 // devuelve, y lo unico que el dialogo necesita saber del motor de nombres.
+//
+// El fichero NO es el nombre con guiones, y por eso el fixture los pone
+// distintos: el nombre dice el plan y lo comparten varias comps, el fichero
+// lleva detras el reparto de clases porque es el que tiene que ser unico.
 const preset = {
-  name: 'Marked Prey: Royal & Bulwark',
+  name: 'The Quarry: Keen',
   alias: 'my hound team',
-  family: 'Marked Prey',
-  variant: 'Royal & Bulwark',
-  familySource: 'signature',
-  fileName: 'Marked_Prey__Royal_&_Bulwark.json'
+  kind: 'engine',
+  fileName: 'The_Quarry__Keen__Contract_Hound_Money_Snipe.json'
 };
 
 const setup = (props = {}) => {
@@ -40,8 +42,8 @@ describe('SaveTeamModal', () => {
     // tiene que verse ANTES de pulsar, no despues en un toast.
     setup();
     clickPreset();
-    expect(screen.getByText(/Marked Prey: Royal & Bulwark/)).toBeInTheDocument();
-    expect(screen.getByText('Marked_Prey__Royal_&_Bulwark.json')).toBeInTheDocument();
+    expect(screen.getByText(/The Quarry: Keen/)).toBeInTheDocument();
+    expect(screen.getByText('The_Quarry__Keen__Contract_Hound_Money_Snipe.json')).toBeInTheDocument();
     expect(screen.getByText(/Your name is kept as the alias/)).toHaveTextContent('my hound team');
     expect(screen.getByRole('button', { name: 'Download' })).toBeInTheDocument();
   });
@@ -66,10 +68,18 @@ describe('SaveTeamModal', () => {
     expect(screen.queryByText(/Saving overwrites it/)).not.toBeInTheDocument();
   });
 
-  it('flags a preset whose family came from the mechanic, not a signature', () => {
-    setup({ describePreset: () => ({ ...preset, family: 'Hammer Fall', familySource: 'mechanic' }) });
+  it('flags the comp the taxonomy could not call anything in particular', () => {
+    // `even` es el unico `kind` que se avisa: ni motor ni figura destacan, asi
+    // que el nombre habla de lo repartida que esta y no de un plan.
+    setup({ describePreset: () => ({ ...preset, name: 'Sound Company', kind: 'even' }) });
     clickPreset();
-    expect(screen.getByText(/No family signature matched/)).toBeInTheDocument();
+    expect(screen.getByText(/Nothing this party does stands out/)).toBeInTheDocument();
+  });
+
+  it('says nothing of the sort when the name does carry a plan', () => {
+    setup();
+    clickPreset();
+    expect(screen.queryByText(/Nothing this party does stands out/)).not.toBeInTheDocument();
   });
 
   it('does not name the comp until it is opened', () => {

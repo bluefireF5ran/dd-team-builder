@@ -217,6 +217,68 @@ export const buildNamer = (library) => {
   return { nameFor, axisStats };
 };
 
-/** El nombre de fichero de un nombre: sin `&`, sin `:`, espacios a guion bajo. */
-export const toCompFileName2 = (name) =>
-  `${String(name).replace(/&/g, '').replace(/[:]/g, '').replace(/\s+/g, '_').replace(/_+/g, '_')}.json`;
+// ------------------------------------------------------------ el fichero
+
+const safe = (s) => String(s).replace(/[^A-Za-z0-9]+/g, '');
+
+/**
+ * "Cinder Wake: Melee" -> "Cinder_Wake__Melee".
+ *
+ * Los dos guiones bajos son los dos puntos, y no se pueden colapsar contra los
+ * simples: son lo que separa el plan de su matiz al leer la carpeta.
+ */
+export const planPart = (name) => String(name)
+  .replace(/\s*&\s*/g, ' ')
+  .replace(/:\s*/g, '__')
+  .replace(/\s+/g, '_')
+  .replace(/^_|_$/g, '');
+
+/**
+ * Los peldaños del nombre de fichero, del mas corto al mas especifico. Vale el
+ * PRIMERO que nadie tenga cogido.
+ *
+ * Delante va el PLAN y detras el REPARTO. Solo con el reparto la carpeta no
+ * decia nada -- `Beast_Burn_Contract_Snipe` no cuenta que hace esa party-- y
+ * solo con el plan no se puede, porque 100 de los 239 nombres los llevan dos
+ * comps o mas y volverian los `... 2`. Juntos: la carpeta ordena por plan, que
+ * es como se busca una comp, y el reparto la hace unica.
+ */
+export const compFileRungs = (comp, name) => {
+  const heroes = (comp && comp.heroes) || [];
+  const plan = planPart(name);
+  const tokens = heroes.map((h) => tokenOf(h.heroClass));
+  const sorted = [...tokens].sort().join('_');
+  const ordered = tokens.join('_');
+  const region = safe(String((comp && comp.location) || '').replace(/^The /, ''));
+  const camps = [...new Set(heroes
+    .flatMap((h) => h.activeCampSkills || [])
+    .filter((s) => PURPOSE_CAMP[s])
+    .map((s) => PURPOSE_CAMP[s]))].sort().join('');
+  const withRegion = region ? `${ordered}__${region}` : ordered;
+  const tail = camps ? `${withRegion}_${camps}` : withRegion;
+  return [sorted, ordered, withRegion, tail].map((r) => `${plan}__${r}`);
+};
+
+/**
+ * Como se llama el fichero de UNA comp nueva, sin renombrar ninguna de las que
+ * ya estan: el primer peldaño que no este ocupado.
+ *
+ * `taken` son los ficheros que la libreria tiene EN DISCO -- las `key` del
+ * barril de presets--, no los que le tocarian. Una comp que en su dia cedio su
+ * peldaño sigue viviendo en su fichero, y lo que no se puede es pisar ese.
+ */
+export const toCompFileName2 = (comp, name, taken = []) => {
+  const used = new Set([...taken].map((t) => String(t).replace(/\.json$/i, '')));
+  const rungs = compFileRungs(comp, name);
+  let base = rungs.find((r) => !used.has(r));
+  if (!base) {
+    // Agotada la escalera, la comp ya esta en la libreria salvo en algo que
+    // ningun nombre distingue. El sufijo es el ultimo recurso, igual que en
+    // `--apply`, y aqui ademas avisa de que hay una casi gemela.
+    base = rungs[rungs.length - 1];
+    let n = 2;
+    while (used.has(`${base}_${n}`)) n += 1;
+    base = `${base}_${n}`;
+  }
+  return `${base}.json`;
+};
