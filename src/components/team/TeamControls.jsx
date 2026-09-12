@@ -106,10 +106,17 @@ const TeamControls = ({
     }
   };
 
-  const handleSavePresetFile = () => {
-    const preset = onSavePresetFile();
+  const handleSavePresetFile = (update) => {
+    const preset = onSavePresetFile(update);
     setShowSaveModal(false);
-    showToast?.(`Exported as "${preset.name}".`, 'success');
+    // Sustituir y crear no son la misma noticia: en un caso el fichero que baja
+    // pisa uno que ya tienes, y conviene que lo diga antes de soltarlo.
+    showToast?.(
+      preset.replaced
+        ? `Replacement for "${preset.replaced}" downloaded — drop it in to overwrite.`
+        : `Exported as "${preset.name}".`,
+      'success'
+    );
   };
 
   const handleCopyToClipboard = async () => {

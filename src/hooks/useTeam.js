@@ -7,7 +7,7 @@ import { generateRandomTeam, generateRandomTeamFromRoster } from '../utils/rando
 import { validateTeamSchema } from '../utils/validation';
 import { canonicalizeTeam, canonicalizeHero } from '../utils/nameNormalizer';
 import { createEmptyHero } from '../utils/heroHelper';
-import { compClassKey } from '../utils/compIdentity';
+import { compClassKey, updatableComps } from '../utils/compIdentity';
 import { rememberPendingComp } from '../utils/pendingComps';
 
 const MAX_HISTORY = 20;
@@ -222,24 +222,53 @@ export const useTeam = ({ defaultLocation = 'The Ruins' } = {}) => {
       kind: record.kind,
       fileName: toCompFileName2(comp, record.name, getCompFileKeys()),
       location,
-      heroes
+      heroes,
+      // Las comps de la libreria que esta reescribiria en vez de duplicar:
+      // misma region y las mismas cuatro clases. Ver `updatableComps`.
+      updates: updatableComps(comp)
     };
   }, [teamName, location, heroes]);
 
   /**
    * Descarga el .json ya nombrado, listo para src/data/presetComps.
    *
-   * Y la apunta como pendiente. El fichero acaba de salir del navegador: hasta
-   * que no lo sueltes en la carpeta y no se regenere el index, esta comp no
-   * existe para la app, y el generador -- que solo ofrece comps NUEVAS-- te la
-   * volveria a proponer. Se apunta aqui, que es el unico sitio por el que pasa
-   * una comp camino de la libreria. Ver `pendingComps`.
+   * Sin argumento es una comp NUEVA, y ademas se apunta como pendiente: el
+   * fichero acaba de salir del navegador, y hasta que no lo sueltes en la
+   * carpeta y se regenere el index esta comp no existe para la app -- el
+   * generador, que solo ofrece comps nuevas, te la volveria a proponer. Se
+   * apunta aqui, el unico sitio por el que pasa una comp camino de la
+   * libreria. Ver `pendingComps`.
+   *
+   * Con `update` -- una de las que `describePreset().updates` ha encontrado --
+   * escribe **el fichero que ya existe**, para que soltarlo en la carpeta lo
+   * sustituya en vez de dejar dos comps casi iguales midiendo lo mismo dos
+   * veces.
+   *
+   * Lo que cambia al sustituir son los HEROES y nada mas. El `teamName` y el
+   * `alias` son los que ya tenia: el nombre lo decide la taxonomia comparando
+   * la libreria entera, y re-derivarlo aqui, comp a comp, es justo lo que
+   * `nameComps.v2.js --apply` existe para hacer de una pasada y en orden. La
+   * region no puede cambiar porque es parte de lo que hizo que coincidieran.
    */
-  const savePresetFile = useCallback(() => {
+  const savePresetFile = useCallback((update) => {
     const preset = describePreset();
-    savePresetToFile(preset);
-    rememberPendingComp(compClassKey(preset.heroes));
-    return preset;
+    const out = update
+      ? {
+        name: update.teamName,
+        alias: update.alias,
+        fileName: `${update.key}.json`,
+        location: preset.location,
+        heroes: preset.heroes,
+        replaced: update.teamName,
+        kind: preset.kind
+      }
+      : preset;
+    savePresetToFile(out);
+    // Una comp que sustituye a otra ya esta contada en la libreria: anotarla
+    // como pendiente la haria contar dos veces y el generador dejaria de
+    // ofrecer esas cuatro clases sin motivo.
+    if (!update) rememberPendingComp(compClassKey(preset.heroes));
+    return out;
   }, [describePreset]);
 
   const teamExists = useCallback((name) => {

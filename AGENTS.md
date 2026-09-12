@@ -1652,6 +1652,37 @@ One **Save** button, two destinations (`SaveTeamModal`):
 Naming against the library never renames anything already in it: if the engine picks a name a
 bundled comp already wears, the new comp is the one that cedes.
 
+### Updating a comp instead of duplicating it
+
+Tweak the trinkets on a comp you already wrote, hit Save, and you used to get a second file: two
+near-identical comps, and a library that now counts the same idea twice — which matters, because
+`generalistStats` and the naming engine both measure against those counts. The Save dialog offers
+a third destination, **Update an existing comp**, whenever the library already holds one with the
+**same region and the same four classes**. It rewrites that comp's own file, so dropping the
+download in replaces it.
+
+**The region counts here and `compClassKey` deliberately ignores it.** Two questions, not one
+inconsistency:
+
+- `isKnownComp` asks *"is this idea already written?"*, and there the region is noise — the same
+  four classes in the Warrens is not a new idea. That is the rule `compIdentity.js` opens with.
+- `updatableComps` asks *"which FILE am I rewriting?"*, and there the region is exactly what keeps
+  two files you want to keep apart. *"If I already have a comp for the Ruins, I can make a similar
+  one for the Warrens"* describes two comps. So **changing the region never offers to replace** —
+  it creates.
+
+Rank order does not count, in both. Moving the Leper from 1 to 2 is the same party badly placed,
+and fixing that is precisely the edit you want saved over the old file.
+
+**A replacement changes the heroes and nothing else.** It keeps the existing `teamName` and
+`alias`, and the dialog says so: the taxonomic name is decided by comparing the whole library, and
+re-deriving it one comp at a time is what `nameComps.v2.js --apply` exists to do in one ordered
+pass. The region cannot change, because it is half of what made them match.
+
+**A replacement is not recorded in `pendingComps`.** That list is for comps the app does not have
+yet, so the generator stops offering them; a comp that replaces one already in the bundle is
+already counted, and noting it again would block those four classes for no reason.
+
 ## Sharing a comp as a link
 
 **Share** in `TeamControls` copies a URL that carries the whole party;
