@@ -61,24 +61,68 @@ function walk(dir, fn) {
 /** The game ships CRLF; a stray \r turns the last monster of a line into junk. */
 const lines = (file) => fs.readFileSync(file, 'utf8').split(/\r?\n/);
 
-const dlcDirs = () => {
-  const dlc = path.join(GAME, 'dlc');
-  if (!fs.existsSync(dlc)) return [];
-  return fs.readdirSync(dlc).map((name) => path.join(dlc, name));
-};
+/**
+ * Every file in the install, once.
+ *
+ * It used to look in `<GAME>/monsters` and `<dlc>/<id>/monsters`, and that
+ * misses the Crimson Court entirely: its files do not hang off `<dlc>/<id>`,
+ * they live under `<dlc>/580100_crimson_court/features/crimson_court/`. The
+ * cost was 129 enemies and all 263 Courtyard mash rows going unseen, so `The
+ * Courtyard` came out with no profile at all — which read as "a region whose
+ * fights are scripted" and was really a wrong path.
+ *
+ * Walking the whole install and sorting by path takes about a tenth of a second
+ * and does not care how any future DLC nests its folders.
+ */
+const eachFile = (fn) => walk(GAME, fn);
+
+const isUnder = (file, folder) => file.includes(`${path.sep}${folder}${path.sep}`);
+
+// =================================================================== effects
+/**
+ * Which of the game's named effects talk about the MARK.
+ *
+ * A monster's `skill:` line names its effects by id (`.effect "Damage Marked
+ * Target"`), so the definitions have to be read to know what each one does
+ * rather than guessed from the name — `Lifesteal Mark` sounds like punishment
+ * and is the opposite, it *applies* the mark.
+ *
+ *   - **punishes**: `.keyStatus "tagged"` together with a damage
+ *     `.combat_stat_buff`, i.e. "I hit a marked hero harder".
+ *   - **applies**: `.tag 1`, i.e. "I mark you myself".
+ */
+function readMarkEffects() {
+  const punishes = new Set();
+  const applies = new Set();
+
+  eachFile((file) => {
+    if (!file.endsWith('.effects.darkest')) return;
+    lines(file).forEach((line) => {
+      const name = (line.match(/\.name\s+"([^"]+)"/) || [])[1];
+      if (!name) return;
+      const vsMarked =
+        /\.keyStatus\s+"tagged"/.test(line) &&
+        /\.combat_stat_buff\s+1/.test(line) &&
+        /\.damage_(low|high)_multiply/.test(line);
+      if (vsMarked) punishes.add(name);
+      if (/\.tag\s+1(?!\d)/.test(line)) applies.add(name);
+    });
+  });
+
+  return { punishes, applies };
+}
 
 // ================================================================== monsters
 /**
  * One row per enemy. Keyed by the file's own id (`cultist_brawler_A`), which is
  * exactly what a mash table names, so nothing has to be matched by guesswork.
  */
-function readMonsters() {
+function readMonsters(markEffects) {
   const monsters = {};
-  const roots = [path.join(GAME, 'monsters'), ...dlcDirs().map((d) => path.join(d, 'monsters'))];
 
-  roots.forEach((root) =>
-    walk(root, (file) => {
-      if (!file.endsWith('.info.darkest')) return;
+  eachFile((file) => {
+      // Heroes ship `.info.darkest` too, so the folder is what tells them apart.
+      if (!file.endsWith('.info.darkest') || !isUnder(file, 'monsters')) return;
       const id = path.basename(file, '.info.darkest');
       const text = fs.readFileSync(file, 'utf8');
 
@@ -93,11 +137,25 @@ function readMonsters() {
       const displayLine = text.split(/\r?\n/).find((l) => l.trimStart().startsWith('display:')) || '';
       const typeLine = text.split(/\r?\n/).find((l) => l.trimStart().startsWith('enemy_type:')) || '';
 
+      // Los efectos que nombran sus skills, para cruzarlos con `readMarkEffects`.
+      const effects = [];
+      text.split(/\r?\n/).forEach((line) => {
+        if (!line.trimStart().startsWith('skill:')) return;
+        const named = line.match(/\.effect\s+((?:"[^"]*"\s*)+)/);
+        if (!named) return;
+        (named[1].match(/"([^"]*)"/g) || []).forEach((quoted) =>
+          effects.push(quoted.slice(1, -1))
+        );
+      });
+
       monsters[id] = {
         size: num(displayLine, /\.size\s+(\d+)/) || 1,
         type: (typeLine.match(/\.id\s+"?([a-z_]+)"?/) || [])[1] || null,
         hp: num(statsLine, /\.hp\s+(\d+)/),
         prot: num(statsLine, /\.prot\s+(-?[\d.]+)/),
+        // `.def` is dodge. It was never read, and it is the one stat that says
+        // whether an accuracy problem is the region's fault.
+        dodge: num(statsLine, /\.def\s+(-?[\d.]+)%/),
         spd: num(statsLine, /\.spd\s+(-?\d+)/),
         stun: num(statsLine, /\.stun_resist\s+(-?[\d.]+)%/),
         blight: num(statsLine, /\.poison_resist\s+(-?[\d.]+)%/),
@@ -106,10 +164,14 @@ function readMonsters() {
         move: num(statsLine, /\.move_resist\s+(-?[\d.]+)%/),
         // `death_class ... .type "corpse"` is what decides whether killing it
         // leaves a body in the way.
-        corpse: /death_class:[^\n\r]*\.type\s+"corpse"/.test(text)
+        corpse: /death_class:[^\n\r]*\.type\s+"corpse"/.test(text),
+        // Hits a MARKED hero harder, and marks one itself. The first is what
+        // makes a self-marking hero a liability; the second is a threat to the
+        // whole party whatever it brings.
+        punishesMark: effects.some((name) => markEffects.punishes.has(name)),
+        marksHeroes: effects.some((name) => markEffects.applies.has(name))
       };
-    })
-  );
+  });
 
   return monsters;
 }
@@ -140,10 +202,8 @@ const ZONE_TO_LOCATION = {
 
 function readMashes() {
   const zones = {};
-  const roots = [path.join(GAME, 'dungeons'), ...dlcDirs().map((d) => path.join(d, 'dungeons'))];
 
-  roots.forEach((root) =>
-    walk(root, (file) => {
+  eachFile((file) => {
       const base = path.basename(file);
       if (!base.endsWith('.mash.darkest')) return;
       // The Shieldbreaker DLC drops `flashback.<zone>.*` tables into the real
@@ -164,8 +224,7 @@ function readMashes() {
           types: m[3].split(/\s+/).filter(Boolean)
         });
       });
-    })
-  );
+  });
 
   return zones;
 }
@@ -186,6 +245,10 @@ function summarise(rows, monsters, unknown) {
   let corpses = 0;
   let bodies = 0;
   let ranks = 0;
+  let prot = 0;
+  let dodge = 0;
+  let punishesMark = 0;
+  let marksHeroes = 0;
   const resistTotals = Object.fromEntries(RESISTS.map((r) => [r, 0]));
   const resistWeight = Object.fromEntries(RESISTS.map((r) => [r, 0]));
   const types = {};
@@ -203,6 +266,10 @@ function summarise(rows, monsters, unknown) {
       bodies += row.chance;
       ranks += row.chance * (monster.size || 1);
       if (monster.corpse) corpses += row.chance;
+      if (monster.punishesMark) punishesMark += row.chance;
+      if (monster.marksHeroes) marksHeroes += row.chance;
+      prot += row.chance * (monster.prot || 0);
+      dodge += row.chance * (monster.dodge || 0);
       if (monster.type) types[monster.type] = (types[monster.type] || 0) + row.chance;
       RESISTS.forEach((key) => {
         if (monster[key] === null || monster[key] === undefined) return;
@@ -227,6 +294,14 @@ function summarise(rows, monsters, unknown) {
     avgPartySize: round(partySize / weight),
     avgRanksTaken: round(ranks / weight),
     corpseRate: round((corpses / bodies) * 100),
+    // `.prot` ships as a fraction; as a percentage it reads like the game's own
+    // tooltip.
+    avgProt: round((prot / bodies) * 100),
+    avgDodge: round(dodge / bodies),
+    // Share of enemy bodies that hit a MARKED hero harder -- the cost of
+    // fielding a self-marker here -- and the share that mark one themselves.
+    markPunish: round((punishesMark / bodies) * 100),
+    markThreat: round((marksHeroes / bodies) * 100),
     resist: Object.fromEntries(
       RESISTS.map((key) => [key, resistWeight[key] ? Math.round(resistTotals[key] / resistWeight[key]) : null])
     ),
@@ -244,7 +319,7 @@ function readResolveThresholds() {
 }
 
 // ===================================================================== write
-const monsters = readMonsters();
+const monsters = readMonsters(readMarkEffects());
 const zones = readMashes();
 const unknown = new Set();
 

@@ -12,12 +12,42 @@
  */
 
 export const REGION_PROFILES = {
+  "The Courtyard": {
+    "tables": 263,
+    "enemies": 47,
+    "avgPartySize": 3.2,
+    "avgRanksTaken": 3.5,
+    "corpseRate": 72.8,
+    "avgProt": 7,
+    "avgDodge": 18.1,
+    "markPunish": 22.9,
+    "markThreat": 40.6,
+    "resist": {
+      "stun": 75,
+      "blight": 79,
+      "bleed": 50,
+      "debuff": 57,
+      "move": 64
+    },
+    "typeMix": {
+      "vampire": 60.7,
+      "beast": 29.7,
+      "man": 4.8,
+      "unholy": 4.2,
+      "eldritch": 0.7
+    },
+    "zone": "courtyard"
+  },
   "The Cove": {
     "tables": 211,
     "enemies": 63,
     "avgPartySize": 3.4,
     "avgRanksTaken": 3.7,
     "corpseRate": 77.8,
+    "avgProt": 10.4,
+    "avgDodge": 15.3,
+    "markPunish": 11.1,
+    "markThreat": 7.9,
     "resist": {
       "stun": 48,
       "blight": 40,
@@ -39,6 +69,10 @@ export const REGION_PROFILES = {
     "avgPartySize": 3.4,
     "avgRanksTaken": 3.6,
     "corpseRate": 81.8,
+    "avgProt": 9.8,
+    "avgDodge": 14.7,
+    "markPunish": 27.5,
+    "markThreat": 7.9,
     "resist": {
       "stun": 48,
       "blight": 35,
@@ -54,33 +88,16 @@ export const REGION_PROFILES = {
     },
     "zone": "crypts"
   },
-  "The Hamlet": {
-    "tables": 218,
-    "enemies": 55,
-    "avgPartySize": 3.3,
-    "avgRanksTaken": 3.5,
-    "corpseRate": 81.9,
-    "resist": {
-      "stun": 44,
-      "blight": 33,
-      "bleed": 149,
-      "debuff": 37,
-      "move": 40
-    },
-    "typeMix": {
-      "unholy": 61,
-      "man": 20.9,
-      "beast": 13.8,
-      "stonework": 4.3
-    },
-    "zone": "town"
-  },
   "The Warrens": {
     "tables": 249,
     "enemies": 56,
     "avgPartySize": 3.1,
     "avgRanksTaken": 3.4,
     "corpseRate": 90.3,
+    "avgProt": 8.4,
+    "avgDodge": 12.2,
+    "markPunish": 29.8,
+    "markThreat": 15.7,
     "resist": {
       "stun": 46,
       "blight": 62,
@@ -101,6 +118,10 @@ export const REGION_PROFILES = {
     "avgPartySize": 3.2,
     "avgRanksTaken": 3.6,
     "corpseRate": 66,
+    "avgProt": 9.5,
+    "avgDodge": 16.6,
+    "markPunish": 24,
+    "markThreat": 24,
     "resist": {
       "stun": 54,
       "blight": 62,
@@ -116,6 +137,31 @@ export const REGION_PROFILES = {
       "stonework": 1
     },
     "zone": "weald"
+  },
+  "The Hamlet": {
+    "tables": 218,
+    "enemies": 55,
+    "avgPartySize": 3.3,
+    "avgRanksTaken": 3.5,
+    "corpseRate": 81.9,
+    "avgProt": 9.4,
+    "avgDodge": 13.4,
+    "markPunish": 27.9,
+    "markThreat": 7.3,
+    "resist": {
+      "stun": 44,
+      "blight": 33,
+      "bleed": 149,
+      "debuff": 37,
+      "move": 40
+    },
+    "typeMix": {
+      "unholy": 61,
+      "man": 20.9,
+      "beast": 13.8,
+      "stonework": 4.3
+    },
+    "zone": "town"
   }
 };
 

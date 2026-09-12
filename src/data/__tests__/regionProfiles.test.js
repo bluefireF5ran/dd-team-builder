@@ -2,6 +2,20 @@ import { REGION_PROFILES, RESOLVE_THRESHOLDS, resolveLevel, getRegionProfile } f
 import { LOCATIONS } from '../locations';
 import { COMP_REGIONS } from '../../config/rankerRoster';
 
+/**
+ * Los sitios que nunca van a tener perfil, porque sus peleas no se sortean.
+ *
+ * La Darkest Dungeon trae una tabla con un bicho y la Granja dos: emitir "media
+ * de party 1" seria mentir con aplomo, y la regla en todo este repo es que
+ * callarse gana a adivinar.
+ *
+ * El Patio estuvo aqui y ya no. No era una region guionizada: el importador
+ * miraba en `<dlc>/<id>/dungeons` y sus tablas viven en
+ * `<dlc>/580100_crimson_court/features/crimson_court/dungeons/`, cuatro
+ * carpetas mas adentro. Eran 263 filas y 47 bichos que nadie leia.
+ */
+const NEVER_PROFILED = ['The Farmstead', 'The Darkest Dungeon I'];
+
 describe('region profiles', () => {
   it('names only locations the app knows', () => {
     Object.keys(REGION_PROFILES).forEach((name) => expect(LOCATIONS).toContain(name));
@@ -10,15 +24,26 @@ describe('region profiles', () => {
   it('covers every region the comp library is ranked in', () => {
     // Si una region se puede ordenar es que tiene comps, y una comp se
     // construye PARA una region: sin perfil no hay contra que juzgarla.
-    COMP_REGIONS.forEach((region) => expect(REGION_PROFILES[region]).toBeDefined());
+    //
+    // Lo que este test NO puede hacer es recortar `COMP_REGIONS` hasta que
+    // cuadre. Esa lista enciende los botones del ranker, asi que filtrarla por
+    // "tiene perfil" habria dejado las comps del Patio sin poder ordenarse --
+    // y las habria dejado fuera para tapar un fallo de rutas del importador.
+    const missing = COMP_REGIONS.filter((region) => !REGION_PROFILES[region]);
+    expect(missing).toEqual([]);
   });
 
   it('leaves out the places whose fights are scripted', () => {
-    // La Darkest Dungeon trae una tabla con un bicho y la Granja dos: sus
-    // peleas no se sortean asi. Callarse es mejor que inventar una media.
-    expect(REGION_PROFILES['The Darkest Dungeon I']).toBeUndefined();
-    expect(REGION_PROFILES['The Farmstead']).toBeUndefined();
-    expect(getRegionProfile('The Courtyard')).toBeNull();
+    NEVER_PROFILED.forEach((region) => expect(getRegionProfile(region)).toBeNull());
+  });
+
+  it('reads the Crimson Court, which lives four folders deeper than the rest', () => {
+    // El caso que costo una suite en rojo: el Patio existe, tiene 47 bichos, y
+    // resiste todo -- 75 de aturdimiento y 79 de veneno, los peores del juego.
+    const courtyard = getRegionProfile('The Courtyard');
+    expect(courtyard).not.toBeNull();
+    expect(courtyard.enemies).toBeGreaterThan(40);
+    expect(courtyard.typeMix.vampire).toBeGreaterThan(50);
   });
 
   it('reads the way the game actually plays', () => {
