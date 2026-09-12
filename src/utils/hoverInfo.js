@@ -5,6 +5,7 @@ import { getSkillTier, getSkillTierMeta } from '../data/skillTiers';
 import { getQuirkEffect } from '../data/quirkEffects';
 import { getModdedSkillEffect, getModdedTrinketEffect, getSetBonus } from '../data/moddedEffects';
 import { QUIRK_TONES, quirkTone } from './quirkStyle';
+import { skillAccuracy, skillChanceBonuses } from './skillAccuracy';
 
 /**
  * Turns a trinket, skill or quirk into the three fields `HoverCard` draws: a
@@ -45,7 +46,7 @@ export function trinketHover(name, otherTrinket) {
  *   subtitle. Opt-in, because the tier is an opinion and the setting that
  *   turns it on is off by default; callers that never got it keep their card.
  */
-export function skillHover(name, heroClass, { showTier = false } = {}) {
+export function skillHover(name, heroClass, { showTier = false, hero = null } = {}) {
   const entry = getSkillEffect(name, heroClass) || getModdedSkillEffect(name, heroClass);
   const tier = showTier ? getSkillTierMeta(getSkillTier(heroClass, name)) : null;
   const tierText = tier ? `Tier ${tier.id} — ${tier.label}` : null;
@@ -54,6 +55,9 @@ export function skillHover(name, heroClass, { showTier = false } = {}) {
   if (!entry) return { title: name, subtitle: tierText, lines: [] };
 
   const stats = [];
+  // Fuera del `if`: las lineas de abajo tambien lo miran, y una camp skill no
+  // tiene ACC que calcular (`skillAccuracy` devuelve null para ella).
+  const acc = skillAccuracy(entry, hero);
   if (entry.kind === 'camp') {
     if (entry.cost) stats.push(`${entry.cost} time`);
   } else {
@@ -61,12 +65,44 @@ export function skillHover(name, heroClass, { showTier = false } = {}) {
     if (entry.launch) stats.push(`from ${entry.launch}`);
     if (entry.target) stats.push(entry.target === 'Self' ? 'self' : `hits ${entry.target}`);
     if (entry.aoe) stats.push('AoE');
-    if (entry.dmg) stats.push(`DMG ${entry.dmg}`);
-    if (entry.acc) stats.push(`ACC ${entry.acc}`);
-    if (entry.crit) stats.push(`CRIT ${entry.crit}`);
+    /**
+     * Una skill que no tira para acertar trae TRES marcadores de posicion, no
+     * uno: `ACC 1000%`, `DMG -100%` y `CRIT +0%`. Los tres invitan a compararlos
+     * con los numeros reales de la skill de al lado, y ninguno significa nada
+     * -- son como la fuente dice "aqui no hay tirada". Se quitan los tres.
+     *
+     * Y "always hits" solo se dice donde informa: sobre una curacion sobra,
+     * porque nadie esperaba que fallase. Sobre una que apunta al enemigo -- que
+     * en vanilla no hay ninguna, pero en modded si-- es justo lo que quieres
+     * saber.
+     */
+    const noRoll = acc?.alwaysHits;
+    const hitsEnemies = !!entry.target && !/^(ally|self)/i.test(entry.target);
+    if (entry.dmg && !(noRoll && entry.dmg === '-100%')) stats.push(`DMG ${entry.dmg}`);
+    if (noRoll) {
+      if (hitsEnemies) stats.push('always hits');
+    } else if (acc && acc.delta) {
+      stats.push(`ACC ${acc.total}% (${entry.acc} ${acc.delta > 0 ? '+' : ''}${acc.delta})`);
+    } else if (entry.acc) {
+      stats.push(`ACC ${entry.acc}`);
+    }
+    if (entry.crit && !(noRoll && entry.crit === '+0%')) stats.push(`CRIT ${entry.crit}`);
   }
   if (tierText) stats.push(tierText);
-  return { title: name, subtitle: stats.join(' · ') || null, lines: clauses(entry.effect) };
+
+  // Lo que el heroe le suma a ESTA skill, en su propia linea: un `+10% Stun
+  // Skill Chance` solo cuenta en las que aturden, y decirlo en la carta de la
+  // skill es donde el jugador lo esta mirando.
+  const lines = clauses(entry.effect);
+  const bonuses = skillChanceBonuses(entry, heroClass, name, hero);
+  bonuses.forEach(({ label, amount, sources }) => {
+    lines.push(`${amount > 0 ? '+' : ''}${amount}% ${label} Chance — ${sources.join(', ')}`);
+  });
+  if (acc && !acc.alwaysHits && acc.sources.length) {
+    lines.push(`${acc.delta > 0 ? '+' : ''}${acc.delta} ACC — ${acc.sources.map((x) => x.name).join(', ')}`);
+  }
+
+  return { title: name, subtitle: stats.join(' · ') || null, lines };
 }
 
 export function quirkHover(name, fallbackTone) {

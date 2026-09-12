@@ -11,17 +11,40 @@ import {
 
 describe('parseClause', () => {
   it('reads sign, magnitude and stat', () => {
-    expect(parseClause('+10% DMG')).toEqual({ base: 'dmg', amount: 10, conditional: false });
-    expect(parseClause('-15 ACC')).toEqual({ base: 'acc', amount: -15, conditional: false });
+    expect(parseClause('+10% DMG')).toEqual({
+      base: 'dmg', amount: 10, percent: true, conditional: false, scoped: false
+    });
+    expect(parseClause('-15 ACC')).toEqual({
+      base: 'acc', amount: -15, percent: false, conditional: false, scoped: false
+    });
+  });
+
+  /**
+   * `+10 DODGE` adds points and `+15% MAX HP` multiplies a base. This file does
+   * not care -- it scores magnitudes -- but `heroStatLine` cannot add a number
+   * to a card without knowing which it is, so the flag is kept rather than
+   * parsed and dropped.
+   */
+  it('says whether the magnitude was a percentage', () => {
+    expect(parseClause('+15% MAX HP').percent).toBe(true);
+    expect(parseClause('+10 DODGE').percent).toBe(false);
+    expect(parseClause('+2 SPD').percent).toBe(false);
   });
 
   it('marks a conditional clause as one', () => {
     expect(parseClause('+25% DMG if in position 4')).toEqual({
       base: 'dmg',
       amount: 25,
-      conditional: true
+      percent: true,
+      conditional: true,
+      scoped: false
     });
     expect(parseClause('+15% DMG vs Beast').conditional).toBe(true);
+  });
+
+  it('marks a clause narrowed to half the kit', () => {
+    expect(parseClause('+18% DMG Melee Skills').scoped).toBe(true);
+    expect(parseClause('+18% DMG').scoped).toBe(false);
   });
 
   it('folds the melee/ranged split into the base stat', () => {
