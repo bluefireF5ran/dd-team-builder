@@ -341,12 +341,20 @@ export const useTeam = ({ defaultLocation = 'The Ruins' } = {}) => {
     return { teamName: named.name, kind: named.kind };
   }, [commit, defaultLocation]);
 
-  const importFromClipboard = useCallback(async () => {
-    const text = await navigator.clipboard.readText();
-    const raw = JSON.parse(text);
-    // Canonicalizar antes de validar: repara grafías y alias (p. ej. la clase
-    // 'sibyl_ms' del mod -> 'Sibyl') para que los límites del esquema se
-    // comprueben ya con los datos que la app reconoce.
+  /**
+   * La puerta unica para una comp que viene de fuera.
+   *
+   * Da igual si llega del portapapeles o de un enlace compartido: los dos son
+   * bytes que ha escrito otro, y los dos entran por aqui. Canonicalizar ANTES
+   * de validar repara grafias y alias (la clase 'sibyl_ms' del mod -> 'Sibyl')
+   * para que los limites del esquema se comprueben ya con los datos que la app
+   * reconoce -- sin eso, el roster de 7 skills de Sibyl choca contra el tope de
+   * 4 y se rechaza una comp valida.
+   *
+   * Un `commit`, asi que deshacer devuelve la comp anterior entera: nombre,
+   * mazmorra y los cuatro heroes.
+   */
+  const applyImportedTeam = useCallback((raw) => {
     const team = canonicalizeTeam(raw);
     const { valid, errors } = validateTeamSchema(team);
     if (!valid) {
@@ -357,7 +365,13 @@ export const useTeam = ({ defaultLocation = 'The Ruins' } = {}) => {
       location: team.location || defaultLocation,
       heroes: team.heroes || emptyParty()
     });
+    return team;
   }, [commit, defaultLocation]);
+
+  const importFromClipboard = useCallback(async () => {
+    const text = await navigator.clipboard.readText();
+    return applyImportedTeam(JSON.parse(text));
+  }, [applyImportedTeam]);
 
   const loadPreset = useCallback((preset) => {
     commit({
@@ -405,6 +419,7 @@ export const useTeam = ({ defaultLocation = 'The Ruins' } = {}) => {
     canUndo,
     canRedo,
     importFromClipboard,
+    applyImportedTeam,
     teamExists,
     describePreset,
     savePresetFile,

@@ -1,8 +1,9 @@
 import React, { useState, useMemo } from 'react';
-import { Save, Upload, AlertCircle, CheckCircle, Star, Puzzle, Image, Loader2, Clipboard, Dice5, Undo2, Redo2, ClipboardPaste, BookOpen, Archive, XCircle, Palette, Biohazard, Droplet, Settings, Sparkles, FolderOpen, AlertTriangle } from 'lucide-react';
+import { Save, Upload, AlertCircle, CheckCircle, Star, Puzzle, Image, Loader2, Clipboard, Dice5, Undo2, Redo2, ClipboardPaste, BookOpen, Archive, XCircle, Palette, Biohazard, Droplet, Settings, Sparkles, FolderOpen, AlertTriangle, Link2 } from 'lucide-react';
 import { validateTeam } from '../../utils/validation';
 import { rankWarnings } from '../../utils/rankValidity';
 import { copyTextToClipboard } from '../../utils/heroClipboard';
+import { compLinkFor } from '../../utils/compLink';
 import ConfirmDialog from '../common/ConfirmDialog';
 import LoadCompModal from './LoadCompModal';
 import SaveTeamModal from './SaveTeamModal';
@@ -119,6 +120,19 @@ const TeamControls = ({
     );
   };
 
+  /**
+   * El enlace lleva la comp entera, no una referencia: no hay servidor detras,
+   * asi que lo que no viaje en la URL no existe para quien la abre.
+   */
+  const handleCopyLink = async () => {
+    const url = compLinkFor({ teamName, location, heroes }, window.location.href);
+    const ok = await copyTextToClipboard(url);
+    showToast?.(
+      ok ? 'Share link copied — it carries the whole party.' : 'Could not access the clipboard.',
+      ok ? 'success' : 'error'
+    );
+  };
+
   const handlePasteFromClipboard = async () => {
     try {
       await onImportFromClipboard();
@@ -180,6 +194,16 @@ const TeamControls = ({
         >
           <Clipboard size={16} className="sm:w-[18px] sm:h-[18px]" />
           <span className="hidden sm:inline">Copy</span>
+        </button>
+
+        {/* Share link */}
+        <button
+          onClick={handleCopyLink}
+          className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-4 py-2 bg-sky-700/80 hover:bg-sky-600 text-dd-parchment rounded border border-sky-600 transition-colors text-sm sm:text-base"
+          title="Copy a link that opens this party in the builder"
+        >
+          <Link2 size={16} className="sm:w-[18px] sm:h-[18px]" />
+          <span className="hidden sm:inline">Share</span>
         </button>
 
         {/* Paste from Clipboard */}
