@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { getSkillRanks, reachableRanks } from '../../utils/rankValidity';
-import { AlertTriangle, ChevronDown, ChevronUp, Copy, ClipboardPaste, RotateCcw, Sparkles, UserPlus, X } from 'lucide-react';
+import { heroStatLine, statPosition, statSpread, STAT_ORDER } from '../../utils/heroStatLine';
+import { AlertTriangle, ChevronDown, ChevronRight, ChevronUp, Copy, ClipboardPaste, RotateCcw, Sparkles, UserPlus, X } from 'lucide-react';
 import { HERO_CLASSES } from '../../data/heroes';
 import { MODDED_HERO_CLASSES } from '../../data/modded_heroes';
 import { validateHero } from '../../utils/validation';
@@ -489,7 +490,7 @@ const HeroConfiguration = ({
                     <HoverCard
                       key={skill}
                       className="w-full"
-                      {...skillHover(skill, hero.heroClass, { showTier: showSkillTiers })}
+                      {...skillHover(skill, hero.heroClass, { showTier: showSkillTiers, hero })}
                     >
                       <button
                         onClick={() => toggleSkill(skill)}
@@ -540,7 +541,7 @@ const HeroConfiguration = ({
                 {heroCampSkills.map(skill => {
                   const isActive = activeCampSkills.includes(skill);
                   return (
-                    <HoverCard key={skill} className="w-full" {...skillHover(skill, hero.heroClass)}>
+                    <HoverCard key={skill} className="w-full" {...skillHover(skill, hero.heroClass, { hero })}>
                       <button
                         onClick={() => toggleCampSkill(skill)}
                         className={`w-full px-2 sm:px-3 py-1.5 sm:py-2 rounded text-xs sm:text-sm transition-colors text-left ${
@@ -584,6 +585,7 @@ const HeroConfiguration = ({
                 />
                 <TrinketSetLine trinket1={hero.trinket1} trinket2={hero.trinket2} />
               </div>
+              <HeroStats hero={hero} />
             </div>
           </div>
 
@@ -753,6 +755,104 @@ const QuirkList = ({
 
 // The set bonus for the equipped pair: gold when both members are on, grey and
 // struck through when only one is (so you can see what the second half buys).
+/**
+ * Lo que le queda al heroe una vez vestido, y si eso es mucho o poco.
+ *
+ * El numero solo no dice nada a quien no se sabe el juego de memoria: 61 de
+ * vida ¿esta bien? La barra lo contesta situandolo dentro de lo que el roster
+ * de verdad ofrece (`statSpread`), asi que el Leper sale lleno de vida y vacio
+ * de esquiva y el Bufon justo al reves, sin que nadie tenga que escribir
+ * "mucho" o "poco" en ninguna parte.
+ *
+ * Se dibuja junto a los trinkets a proposito: es lo que lo mueve, y verlo
+ * cambiar al equipar es la mitad de para que sirve. Y se puede plegar, porque
+ * seis filas es mucho sitio cuando ya te sabes los numeros.
+ *
+ * Una estadistica cuyo rango en el roster es plano -- PROT, que ninguna clase
+ * vanilla trae de base-- no lleva barra: no hay contra que compararla, y una
+ * barra vacia diria que es baja en vez de que no aplica.
+ */
+const StatBar = ({ position }) => (
+  <span className="inline-block align-middle w-14 sm:w-16 h-1.5 rounded bg-gray-700/80 overflow-hidden">
+    <span
+      className="block h-full bg-dd-gold/70"
+      style={{ width: `${Math.round(position * 100)}%` }}
+    />
+  </span>
+);
+
+const HeroStats = ({ hero }) => {
+  const [open, setOpen] = useState(true);
+  const line = useMemo(() => heroStatLine(hero), [hero]);
+  const spread = useMemo(() => statSpread(), []);
+  // Una clase modded que nadie ha importado no tiene estadisticas, y ahi la
+  // respuesta honesta es no dibujar nada en vez de ceros.
+  if (!line) return null;
+
+  const pending = line.skipped.conditional + line.skipped.scoped;
+  const rows = [
+    ...STAT_ORDER.map(({ key, label, suffix }) => ({
+      key, label, suffix: suffix || '',
+      now: line.total[key], was: line.base[key],
+      position: statPosition(key, line.total[key]),
+      range: spread[key],
+    })),
+    {
+      key: 'dmg', label: 'DMG', suffix: '',
+      now: `${line.total.dmgMin}-${line.total.dmgMax}`,
+      was: `${line.base.dmgMin}-${line.base.dmgMax}`,
+      position: statPosition('dmgMax', line.total.dmgMax),
+      range: spread.dmgMax,
+    },
+  ];
+
+  return (
+    <div className="mt-2 pt-2 border-t border-gray-700/60">
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
+        className="flex items-center gap-1 text-[11px] text-gray-500 hover:text-dd-parchment transition-colors font-darkest tracking-wide"
+      >
+        {open ? <ChevronDown size={12} /> : <ChevronRight size={12} />}
+        Stats
+      </button>
+
+      {open && (
+        <div className="mt-1.5 space-y-1">
+          {rows.map(({ key, label, suffix, now, was, position, range }) => {
+            const moved = String(now) !== String(was);
+            return (
+              <div key={key} className="flex items-center gap-2 text-[11px] leading-none">
+                <span className="text-gray-500 font-darkest tracking-wide w-12 shrink-0">{label}</span>
+                <span className={`w-12 shrink-0 tabular-nums ${moved ? 'text-dd-gold font-semibold' : 'text-gray-300'}`}>
+                  {now}{suffix}
+                </span>
+                {position === null ? (
+                  <span className="text-gray-600 text-[10px]">—</span>
+                ) : (
+                  <span title={`Roster ${range.min}${suffix} – ${range.max}${suffix}`}>
+                    <StatBar position={position} />
+                  </span>
+                )}
+                {moved && <span className="text-gray-600 tabular-nums">was {was}{suffix}</span>}
+              </div>
+            );
+          })}
+          <p className="text-[10px] text-gray-600 pt-0.5">
+            Bars show where this sits among the 20 base classes.
+          </p>
+          {pending > 0 && (
+            <p className="text-[10px] text-gray-500">
+              {pending} conditional {pending === 1 ? 'clause is' : 'clauses are'} not counted.
+            </p>
+          )}
+        </div>
+      )}
+    </div>
+  );
+};
+
 const TrinketSetLine = ({ trinket1, trinket2 }) => {
   const set = getSetBonus(trinket1, trinket2);
   if (!set) return null;

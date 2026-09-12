@@ -30,6 +30,7 @@ nothing under `src/` ever needs the game):
 | `scripts/importRegionProfiles.js` | `src/data/regionProfiles.js`, `regionEnemies.js` |
 | `scripts/importModdedHeroes.js` | `src/data/modded_heroes.js` + its manifest |
 | `scripts/importModdedEffects.js` | `src/data/moddedEffectsGenerated.js` (needs `--workshop`) |
+| `scripts/importHeroStats.js` | `src/data/heroStats.js` (`--workshop` adds the modded classes) |
 
 `prestart`, `prebuild` and `pretest` all regenerate `src/data/presetComps/index.js`, so run
 things through `npm` rather than calling `react-scripts` directly.
@@ -1121,6 +1122,190 @@ combat skills, 157 camp skills, 331 class trinkets.** The other 606 classes repo
 (which is 397 kB now). Covering all 644 would be several hundred kB — on top of the 131 kB
 `modded_heroes.js` already spends there — so the day this gets broad, it and the roster want the
 lazy treatment `compIndex` and `recommendations` already have.
+
+## What a hero IS (`src/data/heroStats.js`)
+
+**Generated — don't hand-edit.** `scripts/importHeroStats.js` reads
+`<hero>.info.darkest`, the same file the game reads:
+
+```bash
+node scripts/importHeroStats.js --game "D:/…/common/DarkestDungeon"
+node scripts/importHeroStats.js --game … --workshop "D:/…/workshop/content/262060"
+node scripts/importHeroStats.js --game … --check
+```
+
+| what | line |
+| --- | --- |
+| HP, DODGE, PROT | `armour:` (`.hp`, `.def`, `.prot`) |
+| DMG, CRIT | `weapon:` (`.dmg min max`, `.crit`) |
+| SPD | `weapon.spd` **+** `armour.spd` — neither piece is the hero's speed alone |
+| the eight resistances | `resistances:`, one line, no level |
+
+All 20 vanilla classes, plus whatever modded ones the installed workshop lets it
+read (38 today), carried over like the effects importer when a mod is missing.
+
+Four things that are deliberate:
+
+1. **`gear` is indexed by EQUIPMENT RANK (0–4), not resolve level.** That is
+   what the file has — `weapon_0`…`weapon_4`. They are different things that
+   travel together: resolve goes to 6, equipment to 4, and levelling up does not
+   upgrade your gear, it only lets you pay for it. Calling the index a "level"
+   would assert a correspondence the file never makes.
+2. **No ACC is emitted.** `weapon.atk` is `0%` on all twenty classes — the
+   accuracy progression lives in the skill (`.atk 85%` → `105%`), where
+   `skillEffects.js` already carries it. An `acc: 0` would invite someone to add
+   it to something.
+3. **Resistances are the base and are emitted as written.** The game raises them
+   with resolve level and **that increment is in no game file** — searched
+   `campaign/`, `shared/` and the whole tree; it lives in the engine. Inventing
+   a +10%/level curve here is exactly the confident-wrong number this repo keeps
+   refusing to write.
+4. **`getHeroStats` returns null, never a zeroed object.** A modded class nobody
+   has imported is *unknown*, and drawing zeroes would say the hero has no
+   health.
+
+### The number you are actually choosing (`src/utils/heroStatLine.js`)
+
+`heroStatLine(hero)` is the base plus what the hero is wearing and stuck with:
+trinkets, quirks and diseases. It is drawn under the trinket slots in
+`HeroConfiguration`, on purpose — that is what moves it, and watching it move as
+you equip is half the point. Only stats that actually changed are highlighted.
+
+**Two kinds of number, and mixing them is the whole trap.** `+10 DODGE` adds ten
+points; `+15% MAX HP` multiplies the base. The game writes both the same way and
+only the `%` separates them, which is why `parseClause` now keeps that flag
+instead of parsing and discarding it. And the `%` alone is not enough either:
+**PROT and CRIT are written in percent and still add as points** — `+10% PROT`
+on a 0-PROT Crusader gives 10, not `0 × 1.1`. `MULTIPLIES` is the short list
+(MAX HP, DMG) where a percentage really is a multiplier.
+
+Percentages accumulate against the **base**, not against each other, because
+that is how the game stacks them; and flat points are added *after* the
+percentage, or the percentage would scale them too.
+
+**What it refuses to fold in, and reports instead:** conditional clauses
+(`+25% DMG if in position 4`) and skill-scoped ones (`+18% DMG Melee Skills`).
+Both are real and neither is the hero's number — folding them into a flat total
+would state something false most of the time. The card says how many are not
+counted, because a total that quietly swallows three clauses is a total nobody
+can check.
+
+**A bar says whether the number is high** (`statSpread` / `statPosition`). "61
+HP" tells a player who does not know the game by heart nothing at all, so each
+stat is drawn against the range the roster actually offers — measured, never
+hand-written, from the twenty base classes at the same gear rank. The Leper
+comes out full on HP and empty on dodge and the Jester the other way round, with
+nobody having typed "high" or "low" anywhere.
+
+Three details:
+
+- **Modded classes are not in the yardstick.** One mod with a 200 HP hero would
+  flatten the whole scale and pile the twenty vanilla classes against zero. The
+  ruler is the game; a modded hero is drawn against it and may run off the end,
+  which is information rather than an error.
+- **A stat whose roster range is flat gets no bar** — PROT, which no base class
+  carries. An empty bar would say "low" where the truth is "does not apply", so
+  `statPosition` returns null and the row draws a dash.
+- **The block collapses.** Six rows is a lot of space once you know the numbers.
+
+### How the game rounds
+
+Not a preference — these are Darkest Dungeon's own rules, and getting one wrong
+is the size of error nobody spots and that makes the whole sheet untrustworthy.
+Anything here that computes a game quantity follows them.
+
+**Rounded UP**
+
+- damage dealt by a hero, when the attack did not crit
+- healing
+- **MAX HP**
+- damage reflection (Man-at-Arms' Circus trinket, and modded ones)
+- damage over time
+
+**Rounded to the NEAREST integer**
+
+- stress damage and stress healing
+- crit damage, hero and enemy alike — *except* where the rounded-up non-crit
+  damage would be higher, in which case that wins
+- food consumed while camping
+- extended durations of applied effects (the crit bonus on bleed and blight, the
+  Houndmaster Circus trinket's guard)
+- damage dealt by an enemy, when the attack did not crit
+
+**Rounded DOWN**
+
+- the accuracy figure shown bottom-right in combat
+- food consumed outside camping
+- rooms needed to finish a "90% of rooms" mission
+
+**Damage reduction from PROT** works in two steps, and the first is the one that
+gets forgotten: *any* amount of PROT, however small, always reduces incoming
+damage by at least 1. Then the result rounds to the nearest integer. That is why
+a 5% PROT trinket is not the rounding error it looks like.
+
+`heroStatLine` uses the first list: MAX HP and hero damage are `Math.ceil`, not
+`Math.round`. It is worth a literal example, because the gap is one point and
+one point is invisible — a Crusader at 61 HP with +25% has **77**, not 76, and
+with -15% damage hits for **17**, not 16. The tests pin those numbers as
+literals rather than by repeating `Math.ceil`, so putting `Math.round` back is
+caught rather than mirrored.
+
+### The skills that cannot miss (`src/utils/skillAccuracy.js`)
+
+Thirty-five of the 140 vanilla skills read `ACC 1000%`, and it is not an
+accuracy — it is how the source writes *"this makes no attack roll"*. Every one
+of the 35 also carries `dmg -100%` and no CRIT: the heals, the buffs, the
+guards, the self-moves. Printing `1000%` invites comparing it with the 105% on
+the next skill, so all three placeholders are dropped from the card.
+
+**The game's own files say it more plainly and agree**: in `<hero>.info.darkest`
+those same skills carry `.atk 0%`, and *nothing in the base game exceeds 500%*.
+`effectRender.renderSkills` already reads that and emits `acc: null`. The 1000%
+arrives only through the **wiki CSV** the combat half of `skillEffects.js` comes
+from — a quirk of that source, not of the game, which is why the rule lives at
+the point of reading rather than in a generated file nobody can rebuild without
+the CSV.
+
+The threshold is 500, not 1000, for two reasons: one modded skill writes 500%
+for the same idea, and the CSV files Musketeer's `Aimed Shot` as `Ally/Team`
+while giving it 115% and `+0% DMG`. **Reading the ACC rather than the type is
+what makes the rule survive that mislabelled row.** `always hits` is only said
+where it informs — on a skill that targets enemies; on a heal nobody expected a
+miss.
+
+### What the hero does to a skill
+
+A skill's printed ACC is its own, and the hero's trinkets and quirks move it —
+`+10 ACC` is the difference between a 105% skill and a 115% one, and the card
+never said so. The hover now reads `ACC 115% (105% +10)` and names the source.
+
+The same for `... Skill Chance`, which is the other half of whether a skill
+lands: `+10% Stun Skill Chance` only matters on a skill that stuns, and
+`skillProfile`'s tags are what say which ones do — `stun`, `bleed`, `blight`,
+`enemyMove` and `debuff`, each checked against the tags the vanilla roster
+actually produces.
+
+`move skill chance` matches `enemyMove` and **not** `selfMove`: the chance is
+the roll against the target's move resist, and walking yourself backwards rolls
+against nothing.
+
+**`burn skill amount` is the one clause still unmatched**, because there is no
+`burn` tag. Adding one means editing the tag vocabulary that `partyCoverage` and
+`scoreParty` read, so it would move comp generation as a side effect — worth
+doing deliberately rather than in passing.
+
+The worked example, and the reason this is pinned by a test: **Bedtime Story**
+(Arbalest, CC Set) carries `+35% Debuff Skill Chance` and `+35% Move Skill
+Chance`. Suppressing Fire applies `-20 ACC, -19% CRIT` — a debuff — and Bola
+applies `Knockback 1` — a move, so in the game both halves of the trinket are
+live, each on its own skill. The first did not show up at first because
+`debuff skill chance` had been excluded by hand on the claim that no tag says a
+skill debuffs. **The tag exists**; the limitation had been asserted without
+being checked.
+
+Both leave conditional clauses out of the total, for the reason above. The hero
+is passed through `skillHover`'s options like `showTier`, so `PartyHeroCard` —
+which is what html2canvas exports — is untouched.
 
 ## What a skill does (`src/utils/skillProfile.js`)
 

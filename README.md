@@ -14,6 +14,7 @@ A team composition planner for **Darkest Dungeon 1**. Build and save your party 
 - 🎲 **Quirk Management** - Add positive and negative quirks with locking support
 - 🔄 **Drag & Drop** - Reorder heroes in your party composition
 - 💾 **Auto-Save** - The party you are building survives a reload; named teams are saved to localStorage on demand
+- 📊 **Hero Stats** - HP, dodge, prot, speed, crit and damage, with what your trinkets and quirks do to them
 - 🔗 **Share Links** - Copy a link that carries the whole party; opening it loads the comp
 - 📱 **Responsive Design** - Works on desktop and mobile
 - 🎨 **Darkest Dungeon Theme** - Gothic styling with the DwarvenAxe font

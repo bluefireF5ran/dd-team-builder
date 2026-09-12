@@ -70,22 +70,38 @@ const clausesOf = (effectText) =>
   typeof effectText === 'string' ? effectText.split(' | ').map((c) => c.trim()).filter(Boolean) : [];
 
 /**
- * One clause -> `{ base, amount, conditional }`, or null when it is prose.
- * Roughly a fifth of the corpus is prose ("Attacks usable in any position"),
- * and prose carries no vector: it is skipped rather than guessed at.
+ * One clause -> `{ base, amount, percent, conditional, scoped }`, or null when
+ * it is prose. Roughly a fifth of the corpus is prose ("Attacks usable in any
+ * position"), and prose carries no vector: it is skipped rather than guessed at.
+ *
+ * `percent` is the difference between `+10 DODGE` and `+15% MAX HP`, and this
+ * file does not care -- it scores magnitudes -- but `heroStatLine` does: one
+ * adds points and the other multiplies a base. It was being parsed and thrown
+ * away, so it is simply kept.
+ *
+ * `scoped` marks a clause narrowed to half a hero's skills ("+10% DMG Melee
+ * Skills"). Same reason: worth the same when scoring, not the same when adding
+ * it to a number on a card.
  */
 export const parseClause = (clause) => {
   const match = /^([+-])([\d.]+)(%?)\s+(.+)$/.exec(clause);
   if (!match) return null;
-  const [, sign, digits, , rest] = match;
+  const [, sign, digits, unit, rest] = match;
   const amount = Number(digits);
   if (!Number.isFinite(amount)) return null;
 
   const conditional = CONDITION.test(rest);
+  const scoped = SKILL_SCOPE.test(rest.replace(CONDITION, ''));
   const base = rest.replace(CONDITION, '').replace(SKILL_SCOPE, '').trim().toLowerCase();
   if (!base) return null;
 
-  return { base, amount: sign === '-' ? -amount : amount, conditional };
+  return {
+    base,
+    amount: sign === '-' ? -amount : amount,
+    percent: unit === '%',
+    conditional,
+    scoped,
+  };
 };
 
 /** Signed magnitude -> benefit: positive is good, whichever way the sign ran. */
