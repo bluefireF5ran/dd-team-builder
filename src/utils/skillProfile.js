@@ -76,6 +76,15 @@ const stripPrefix = (clause) => clause.replace(SELF_PREFIX, '').replace(ALLY_PRE
  */
 const cleanseSpans = () => /\b(?:clear|cure|remove|transfer|receive)\b[^,;\]|]*/gi;
 
+/**
+ * El corchete de un riposte, que describe el contraataque y no al enemigo.
+ *
+ * `Riposte: [-20% DMG, +4% CRIT (3 rds)]` dice que el contraataque pega un 20%
+ * menos, no que el objetivo quede debilitado. El Man at Arms lo escribe detras
+ * de `Self:` y el Highwayman no, asi que el prefijo no basta para distinguirlos.
+ */
+const riposteSpans = () => /\briposte\s*:\s*\[[^\]]*\]/gi;
+
 // `Blight Resist` / `Bleed Resist` / `Blight Skill Chance` no aplican nada, y
 // `vs Bleeding` / `vs Stunned` / `vs Marked` son bonificaciones condicionales.
 const applies = (text, word) =>
@@ -100,6 +109,22 @@ const stressKinds = (text) => {
 };
 
 /**
+ * Los tipos de bicho que el juego usa para bonificar dano, y como se llaman en
+ * `enemy_type` de los monstruos.
+ *
+ * Las skills dicen "Human" y los ficheros del juego `.id "man"`, asi que la
+ * tabla no es decoracion: sin ella el `+35% DMG vs Human` del Bounty Hunter no
+ * casaria con el 54% de `man` de la Guarida.
+ */
+const ENEMY_TYPES = {
+  unholy: 'unholy',
+  eldritch: 'eldritch',
+  beast: 'beast',
+  human: 'man',
+  man: 'man'
+};
+
+/**
  * Las etiquetas de una clausula ya desprefijada, dado su alcance.
  */
 const tagsForClause = (clause, scope, out) => {
@@ -116,8 +141,37 @@ const tagsForClause = (clause, scope, out) => {
   // `Mark Target` marca al enemigo; `Mark Self` es como el Man at Arms se
   // ofrece de senuelo, que es lo contrario de preparar el foco del equipo.
   if (/\bmark\s+target\b/i.test(applied)) out.add('mark');
-  if (/\bmark\s+self\b/i.test(applied)) out.add('markSelf');
+  // `Mark Self` y `Self: Mark` son la misma cosa escrita al reves, y el Duelist
+  // usa la segunda forma en `Feint` y en `Fleche`. Leyendo solo la primera, la
+  // clase que mas se automarca del juego se quedaba sin la etiqueta -- y con
+  // ella se decide si conviene llevarla a una region que pega mas fuerte a los
+  // marcados. `\bmark\b` no pica en "Marked", asi que `vs Marked` no cuenta.
+  if (/\bmark\s+self\b/i.test(applied) || (scope === 'self' && /\bmark\b/i.test(applied))) {
+    out.add('markSelf');
+  }
   if (/vs\s+marked/i.test(text)) out.add('markPayoff');
+
+  // Bajarle al enemigo PROT, DODGE, ACC, SPD o DMG. Con el alcance por delante,
+  // porque el `-4 SPD` del `Transform` del Abomination es el precio de
+  // transformarse y no algo que le hagas a nadie. Y sin el corchete del
+  // riposte: el `-15% DMG` del `Duelist's Advance` describe lo flojo que pega
+  // SU contraataque, no una debilidad que le ponga al enemigo.
+  const debuffable = applied.replace(riposteSpans(), ' ');
+  if (scope === 'target' && /-\s*\d+\s*%?\s*(prot|dodge|acc|spd|dmg)\b/i.test(debuffable)) {
+    out.add('debuff');
+  }
+
+  // `+35% DMG vs Unholy` solo vale si la region trae ese bicho, asi que el tipo
+  // viaja EN la etiqueta. Solo los que el juego usa para bonificar: `vs Marked`
+  // y `vs Stunned` son condiciones de combate, no censos de region -- y hay que
+  // recorrerlas TODAS, porque el `Collect Bounty` del Bounty Hunter pone la
+  // condicion de combate primero y el tipo de bicho detras.
+  if (scope === 'target') {
+    [...applied.matchAll(/\+\s*\d+\s*%?\s*DMG\s+vs\s+([A-Za-z]+)/gi)].forEach((match) => {
+      const type = ENEMY_TYPES[match[1].toLowerCase()];
+      if (type) out.add(`bonus:${type}`);
+    });
+  }
 
   // `Healing Received` es un buff a la curacion ajena, no una curacion.
   if (/\bheal\b(?!ing)/i.test(applied)) out.add('heal');
@@ -143,12 +197,8 @@ const tagsForClause = (clause, scope, out) => {
 
 const DAMAGE_TYPES = new Set(['Melee', 'Ranged']);
 
-/**
- * Lo que se sabe de una skill, o `null` si esta app no la conoce.
- *
- * @returns {{kind, type, launch:number[], target:number[], targetKind, aoe, tags:Set}|null}
- */
-export const skillProfile = (heroClass, skillName) => {
+/** El analisis de verdad. Se llama una vez por skill; ver `skillProfile`. */
+const computeSkillProfile = (heroClass, skillName) => {
   const entry = getSkillEffect(skillName, heroClass) || getModdedSkillEffect(skillName, heroClass);
   if (!entry) return null;
 
@@ -184,6 +234,39 @@ export const skillProfile = (heroClass, skillName) => {
     aoe: !!entry.aoe,
     tags
   };
+};
+
+const profileCache = new Map();
+
+/**
+ * Lo que se sabe de una skill, o `null` si esta app no la conoce.
+ *
+ * Memoizado, y no por adorno: analizar una skill es partir su `effect` por
+ * `|`, pasarle una docena de regex a cada clausula y montar un Set. Cuesta
+ * microsegundos, pero el generador de comps la llama cientos de miles de veces
+ * por sugerencia -- `scoreParty` sola son ~80 llamadas, y se puntuan miles de
+ * partys-- y ahi los microsegundos eran ocho segundos de reloj.
+ *
+ * La entrada es estatica (`skillEffects.js` y `moddedEffects.js` son datos
+ * generados, no estado), asi que la misma pareja clase+skill da siempre la
+ * misma respuesta. Se cachea tambien el `null`: una clase modded sin datos es
+ * el caso que mas cuesta, porque falla en las dos tablas antes de rendirse, y
+ * con 644 clases modded en el fichero es tambien el mas frecuente.
+ *
+ * El objeto se comparte entre todos los que lo piden, asi que **nadie puede
+ * tocarlo**: `tags`, `launch` y `target` son de solo lectura para quien llama.
+ * Hoy nadie los muta -- los consumidores solo leen-- y quien necesite una
+ * copia que se la haga.
+ *
+ * @returns {{kind, type, launch:number[], target:number[], targetKind, aoe, tags:Set}|null}
+ */
+export const skillProfile = (heroClass, skillName) => {
+  const key = `${heroClass}\u0000${skillName}`;
+  const cached = profileCache.get(key);
+  if (cached !== undefined) return cached;
+  const result = computeSkillProfile(heroClass, skillName);
+  profileCache.set(key, result);
+  return result;
 };
 
 /** Atajo: `true` si la skill lleva esa etiqueta. `null` cuenta como no. */
