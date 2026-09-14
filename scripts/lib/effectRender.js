@@ -1,8 +1,9 @@
 /**
  * Turning the game's own data into the sentence a player reads.
  *
- * This is the renderer half of `importSkillEffects.js`, lifted out so a Steam
- * Workshop mod can go through **exactly the same code** as the base game. The
+ * The renderer `importSkillEffects.js` and `importModdedEffects.js` both call -
+ * lifted out of the first so a Steam Workshop mod goes through **exactly the
+ * same code** as the base game. The
  * two halves of that sentence both matter:
  *
  *   · A mod is an overlay of the game's tree. Its `.info.darkest`, its
@@ -487,9 +488,9 @@ const DURATION_WORD = {
  * gate is about which output can be verified:
  *
  *   · The base game's committed files (`skillEffects.js`, `trinketEffects.js`)
- *     are the contract. `skillEffects.js` cannot even be regenerated without the
- *     wiki CSV its combat half comes from, so a change here that shifts it is a
- *     change nobody can check today.
+ *     are the contract. `skillEffects.js` only regenerates with the wiki CSV its
+ *     combat half comes from, and `importSkillEffects.js --check` is how a
+ *     change here proves it moved nothing.
  *   · A modded class has no committed output to protect. The alternative to
  *     rendering it is not older text, it is no text at all.
  */
@@ -641,9 +642,9 @@ function makeRenderer(ctx, { extended = false } = {}) {
      * Off by default, and that is a statement about verification rather than
      * about value. Vanilla effects carry every one of these - 73 `healstress`,
      * 131 `stress`, 73 `summon_monsters` - so switching them on rewrites
-     * `skillEffects.js`, and that file cannot be regenerated without the wiki
-     * CSV its combat half comes from. Changing a generated file nobody can
-     * re-derive today is how a silent wrong answer gets committed.
+     * `skillEffects.js`, whose combat half only regenerates with the wiki CSV.
+     * That is a deliberate change to vanilla text, to be made and diffed on its
+     * own, never as a side effect of a mod fix.
      *
      * The modded importer turns them on because there is no committed output to
      * protect there: the alternative is not "the old text", it is no text.

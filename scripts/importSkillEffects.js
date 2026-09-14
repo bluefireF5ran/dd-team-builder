@@ -37,137 +37,16 @@ if (!GAME || !fs.existsSync(path.join(GAME, 'heroes'))) {
   process.exit(1);
 }
 
-// ============================================================ generic loaders
-function walk(dir, fn) {
-  if (!fs.existsSync(dir)) return;
-  for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
-    const p = path.join(dir, e.name);
-    if (e.isDirectory()) walk(p, fn);
-    else fn(p);
-  }
-}
-function readJson(p) {
-  let t = fs.readFileSync(p, 'utf8').replace(/^\uFEFF/, '');
-  return JSON.parse(t.replace(/\/\/[^\n\r]*/g, '').replace(/,(\s*[}\]])/g, '$1'));
-}
-function englishStrings(file) {
-  const xml = fs.readFileSync(file, 'utf8');
-  const start = xml.indexOf('<language id="english">');
-  if (start < 0) return [];
-  const end = xml.indexOf('</language>', start);
-  const block = xml.slice(start, end < 0 ? xml.length : end);
-  const out = [];
-  const re = /<entry id="([^"]+)"><!\[CDATA\[([\s\S]*?)\]\]><\/entry>/g;
-  let m;
-  while ((m = re.exec(block))) out.push([m[1], m[2]]);
-  return out;
-}
-
-const STR = new Map();
-for (const f of [path.join(GAME, 'localization/miscellaneous.string_table.xml')]) {
-  if (fs.existsSync(f)) for (const [k, v] of englishStrings(f)) if (!STR.has(k)) STR.set(k, v);
-}
-for (const dir of ['dlc', 'localization']) {
-  walk(path.join(GAME, dir), (p) => {
-    if (!p.endsWith('.string_table.xml')) return;
-    try { for (const [k, v] of englishStrings(p)) if (!STR.has(k)) STR.set(k, v); } catch (e) { /* skip */ }
-  });
-}
-
-const BUFFS = new Map();
-function loadBuffs(p) {
-  try { for (const b of readJson(p).buffs || []) if (!BUFFS.has(b.id)) BUFFS.set(b.id, b); } catch (e) { /* encrypted */ }
-}
-loadBuffs(path.join(GAME, 'shared/buffs/base.buffs.json'));
-loadBuffs(path.join(GAME, 'shared/buffs/non_exported.buffs.json'));
-walk(path.join(GAME, 'dlc'), (p) => { if (p.endsWith('.buffs.json')) loadBuffs(p); });
-
-// ------------------------------------------------------------- .darkest files
-// Lines read "type: .key value .key value". A value never starts with "." —
-// that is how the next key is told apart from a value, since both may contain
-// dots and digits.
-const VAL = '(?:"[^"]*"|[~+-]?[A-Za-z0-9_%][A-Za-z0-9_%+.-]*)';
-function parseDarkest(body) {
-  const out = {};
-  const re = new RegExp('\\.([A-Za-z_]+)((?:\\s+' + VAL + ')*)', 'g');
-  let m;
-  while ((m = re.exec(body))) {
-    const vals = [...m[2].matchAll(new RegExp('"([^"]*)"|([~+-]?[A-Za-z0-9_%][A-Za-z0-9_%+.-]*)', 'g'))]
-      .map((v) => (v[1] !== undefined ? v[1] : v[2]));
-    out[m[1]] = vals.length === 0 ? true : (vals.length === 1 ? vals[0] : vals);
-  }
-  return out;
-}
-function readDarkest(file, type) {
-  if (!fs.existsSync(file)) return [];
-  return fs.readFileSync(file, 'utf8').split(/\r?\n/)
-    .filter((l) => l.trim().startsWith(type + ':'))
-    .map((l) => parseDarkest(l.slice(l.indexOf(':') + 1)));
-}
-
-const EFFECTS = new Map();
-walk(GAME, (p) => {
-  if (!/\.effects\.darkest$/.test(p) && !/dd_effects\.darkest$/.test(p)) return;
-  for (const e of readDarkest(p, 'effect')) if (e.name && !EFFECTS.has(e.name)) EFFECTS.set(e.name, e);
-});
-
-// ============================================================ text helpers
-const plain = (s) => (s || '')
-  .replace(/\{colour_start\|[^}]*\}/g, '').replace(/\{colour_end\}/g, '')
-  // {?decimal1} and friends only mark which argument fills the next specifier.
-  .replace(/\{\?[a-z0-9]+\}/gi, '')
-  .replace(/\u00c2\u00a0/g, ' ').replace(/\u00c2/g, '').replace(/\u00a0/g, ' ')
-  .replace(/\s+/g, ' ').trim();
-const house = (s) => s.replace(/\bCRT\b/g, 'CRIT').replace(/\s+/g, ' ').trim();
-const norm = (s) => s.toLowerCase().replace(/[\u2019']/g, '').replace(/[^a-z0-9]+/g, '');
-const pct = (n) => (n >= 0 ? '+' : '') + n + '%';
-
-// Buff text, shared with the trinket importer's renderer.
-// Most amounts are 0-1 fractions; these few are already whole units.
-const FLAT_STATS = /^(combat_stat_add_speed_rating|hp_dot_heal|hp_dot_burn|hp_dot_bleed|hp_dot_poison)$|_STRESS_AMOUNT$/;
-function scaledBuff(b) {
-  const k = b.stat_sub_type ? b.stat_type + '_' + b.stat_sub_type : b.stat_type;
-  return FLAT_STATS.test(k) ? Math.round(b.amount) : Math.round(b.amount * 100);
-}
-function fillNumber(tpl, n) {
-  const sign = n >= 0 ? '+' : '';
-  return tpl.replace(/%\+d%%/g, sign + n + '%').replace(/%\+d/g, sign + n)
-    .replace(/%d%%/g, n + '%').replace(/%d/g, String(n));
-}
-function ruleDataText(s) {
-  return plain(STR.get('buff_rule_data_tooltip_' + s) || STR.get('enemy_type_name_' + s) || s.replace(/_/g, ' '));
-}
-function renderBuff(id) {
-  const b = BUFFS.get(id);
-  if (!b) return null;
-  // A buff that carries its own description says what it does far better than
-  // the generic stat template - "Attacks usable in any position" beats the
-  // "+0 DODGE" its stat line would otherwise render as. The description still
-  // takes the amount, so it goes through the same formatter.
-  if (b.description_tooltip_id && STR.has(b.description_tooltip_id)) {
-    return house(plain(fillNumber(plain(STR.get(b.description_tooltip_id)), scaledBuff(b))));
-  }
-  const k = b.stat_sub_type ? b.stat_type + '_' + b.stat_sub_type : b.stat_type;
-  const tpl = STR.get('buff_stat_tooltip_' + k);
-  if (tpl === undefined) return null;
-  let text = plain(fillNumber(plain(tpl), scaledBuff(b)));
-  const rule = b.rule_type || 'always';
-  if (rule !== 'always' || b.is_false_rule) {
-    let rt = STR.get('buff_rule_tooltip_' + rule + (b.is_false_rule ? '_false' : ''));
-    if (rt === undefined && b.is_false_rule) rt = STR.get('buff_rule_tooltip_' + rule);
-    if (rt !== undefined) {
-      const d = b.rule_data || {};
-      let num = d.float || 0;
-      if (/^(target_)?in_rank$/.test(rule)) num += 1;
-      else if (/^hp(above|below)$/.test(rule)) num = Math.round(num * 100);
-      const order = rule === 'skill' ? [ruleDataText(d.string || ''), text] : [text, ruleDataText(d.string || '')];
-      let i = 0;
-      text = plain(fillNumber(plain(rt).replace(/\{\?[a-z0-9]+\}/g, ''), num)
-        .replace(/%s/g, () => order[Math.min(i++, order.length - 1)]));
-    }
-  }
-  return house(text);
-}
+// ============================================================ the game, read once
+// The loaders and renderers live in `lib/effectRender.js`, shared with the
+// modded importer, so the base game and a workshop mod go through the same
+// code. Its defaults - the narrow string reader and no `extended` - reproduce
+// what this script always wrote, byte for byte; that is the check.
+const R = require('./lib/effectRender');
+const { walk, readDarkest, plain, house, norm, num, pct } = R;
+const ctx = R.loadGameContext(GAME);
+const STR = ctx.strings;
+const renderer = R.makeRenderer(ctx);
 
 // ============================================================ combat: the CSV
 function parseCSV(text) {
@@ -201,12 +80,8 @@ if (CSV && fs.existsSync(CSV)) {
   }
 }
 
-// The CSV writes numbers the European way and pads a stray space before "%".
-const num = (s) => {
-  const t = (s || '').replace(/\s*%\s*$/, '').replace(',', '.').trim();
-  const v = Number(t);
-  return Number.isFinite(v) ? v : null;
-};
+// `num` comes from effectRender: the CSV writes numbers the European way and
+// pads a stray space before "%", and so do some game files.
 // "Yes"/"No" columns, read rank 1 first so it matches the app's heroes[0] = rank 1.
 function ranksFrom(row, keys) {
   const on = [];
@@ -313,211 +188,19 @@ function movesFor(cls) {
   moveCache[cls] = out;
   return out;
 }
-const TARGET_LABEL = {
-  performer: 'Self', performer_group: 'Party', target: null, target_group: 'Enemies',
-};
-// Effect attributes that carry displayable meaning. Anything else is timing or
-// bookkeeping (queue, apply_once, on_hit …) and never reaches the text.
-function renderEffect(fx) {
-  const bits = [];
-  const chance = num(fx.chance);
-  const dur = fx.duration ? ` (${fx.duration} rds)` : '';
-  const at = chance !== null && chance !== 100 ? ` (${chance}% base)` : '';
-
-  for (const [k, label] of [['dotBurn', 'Burn'], ['dotBleed', 'Bleed'], ['dotPoison', 'Blight'], ['dotStress', 'Stress']]) {
-    if (fx[k]) bits.push(`${label} ${fx[k]} pts/rd${at}`);
-  }
-  if (fx.stun) bits.push(`Stun${at}`);
-  if (fx.push) bits.push(`Knockback ${fx.push}${at}`);
-  if (fx.pull) bits.push(`Pull ${fx.pull}${at}`);
-  if (fx.tag) bits.push('Mark');
-  if (fx.riposte) bits.push(`Riposte${dur}`);
-  if (fx.unstealth) bits.push('Removes Stealth');
-  if (fx.stealth) bits.push(`Stealth${dur}`);
-  if (fx.set_mode) bits.push('Change to mode: ' + String(fx.set_mode).replace(/^stance_/, '').replace(/_/g, ' '));
-  if (fx.torch_increase) bits.push(`+${fx.torch_increase} Torch`);
-  if (fx.torch_decrease) bits.push(`-${fx.torch_decrease} Torch`);
-  if (fx.kill_enemy_types) bits.push('Clears ' + String(fx.kill_enemy_types).replace(/_/g, ' ') + 's');
-  if (fx.bonus_action_next_turn) bits.push('Bonus action next turn');
-  if (fx.heal) bits.push(`Heal ${fx.heal}`);
-  // `controlled_burn_*` es su propia mecanica, no una quemadura mas: decirlo
-  // "Burn" la escondia entre las otras dos quemaduras de la misma skill.
-  if (fx.controlled_burn_amount) bits.push(`Controlled Burn ${fx.controlled_burn_amount} pts/rd for ${fx.controlled_burn_duration || '?'} rds`);
-
-  // Stat changes written straight onto the effect rather than via a buff id.
-  // ACC, DODGE and SPD are flat ratings even though the file writes them with
-  // a "%" sign; CRIT, PROT and DMG are genuine percentages.
-  for (const [k, label, isPct] of [
-    ['attack_rating_add', 'ACC', false], ['speed_rating_add', 'SPD', false],
-    ['defense_rating_add', 'DODGE', false],
-    ['crit_chance_add', 'CRIT', true], ['protection_rating_add', 'PROT', true],
-    ['damage_low_multiply', 'DMG', true], ['damage_high_multiply', 'DMG', true],
-  ]) {
-    if (fx[k] === undefined) continue;
-    const v = num(fx[k]);
-    if (v === null) continue;
-    const t = `${v >= 0 ? '+' : ''}${v}${isPct ? '%' : ''} ${label}`;
-    if (!bits.includes(t + dur)) bits.push(t + dur);
-  }
-  for (const id of [].concat(fx.buff_ids || [])) {
-    const t = renderBuff(id);
-    if (t && !bits.some((b) => b.startsWith(t))) bits.push(t + dur);
-  }
-  if (!bits.length) return null;
-
-  let text = [...new Set(bits)].join(', ');
-  if (fx.keyStatus) text += ' vs ' + ruleDataText(fx.keyStatus);
-  if (fx.requires_kill_target) text += ' on kill';
-  const who = TARGET_LABEL[fx.target];
-  return house(who ? `${who}: ${text}` : text);
-}
-
+// Fire's Edge is missing from the CSV, so its skills are rendered from the
+// install by the shared renderer, at the rank the app shows (level 4 in the
+// file, the game's level 5).
 function feSkills(hero) {
-  const file = path.join(GAME, FE_HEROES[hero]);
-  const rows = readDarkest(file, 'combat_skill').filter((s) => s.level === '4');
-  const out = new Map();
-  for (const s of rows) {
-    const name = plain(STR.get('combat_skill_name_' + hero.toLowerCase() + '_' + s.id) || '');
-    if (!name) continue;
-    const launch = String(s.launch === true ? '' : s.launch || '').split('').filter(Boolean).sort();
-    // Target syntax: "@" targets allies, "~" makes it an area attack, and the
-    // digits are the ranks. "@~1234" is the whole party, "~1234" all enemies.
-    const rawTarget = s.target === true ? '' : String(s.target || '');
-    const ally = rawTarget.includes('@');
-    const aoe = rawTarget.includes('~');
-    const target = rawTarget.replace(/[@~]/g, '').split('').filter(Boolean).sort();
-
-    const parts = [];
-    for (const n of [].concat(s.effect || [], s.stance_defensive_effects || [], s.stance_aggressive_effects || [])) {
-      const fx = EFFECTS.get(n);
-      if (!fx) continue;
-      const t = renderEffect(fx);
-      if (t && !parts.includes(t)) parts.push(t);
-    }
-    if (s.dmg_per_burn_stack) parts.push(`+${Math.round(num(s.dmg_per_burn_stack) * 100)}% DMG per Burn stack`);
-    if (s.copy_burn_behind) parts.push('Copies Burn to the target behind');
-    if (s.ignore_protection) parts.unshift('Ignores PROT');
-    if (s.ignore_guard) parts.unshift('Ignores Guard');
-    if (s.ignore_stealth) parts.unshift('Ignores Stealth');
-    if (s.requires_burning) parts.unshift('Requires Burning');
-    if (s.per_battle_limit) parts.push(`${s.per_battle_limit} uses per battle`);
-    if (s.valid_modes) {
-      const modes = [].concat(s.valid_modes).map((m) => m.replace(/^stance_/, ''));
-      parts.unshift('Stance: ' + modes.join('/'));
-    }
-
-    // A skill with no attack roll is a self/support skill; its 0% DMG and ACC
-    // are placeholders in the file, not something to show.
-    const attacks = num(s.atk) !== null && num(s.atk) !== 0;
-    out.set(name, {
-      type: s.type ? s.type[0].toUpperCase() + s.type.slice(1) : null,
-      launch: launch.length ? launch.join('\u00b7') : null,
-      target: target.length ? (ally ? 'ally ' : '') + target.join('\u00b7') : 'Self',
-      aoe,
-      dmg: attacks && s.dmg ? pct(num(s.dmg)) : null,
-      acc: attacks ? num(s.atk) + '%' : null,
-      crit: attacks && s.crit ? pct(num(s.crit)) : null,
-      effect: parts.join(' | ') || null,
-    });
-  }
-  return out;
+  const prefix = 'combat_skill_name_' + hero.toLowerCase() + '_';
+  return renderer.renderSkills(path.join(GAME, FE_HEROES[hero]), {
+    nameFor: (id) => plain(STR.get(prefix + id) || ''),
+  });
 }
 
 // ============================================================== camp skills
-const CAMP = new Map();
-walk(GAME, (p) => {
-  if (!/\.camping_skills\.json$/.test(p)) return;
-  let d;
-  try { d = readJson(p); } catch (e) { return; }
-  for (const s of d.skills || []) {
-    const prev = CAMP.get(s.id);
-    if (!prev || Number(s.level) >= Number(prev.level)) CAMP.set(s.id, s);
-  }
-});
-
-const SELECTION = {
-  individual: 'One hero', party: 'Party', party_other: 'Other heroes', self: 'Self',
-};
-
-// Camp skills that hand out loot name a loot table, not an item. Summarise the
-// table by what it can actually drop rather than printing its internal code.
-const LOOT = new Map();
-walk(GAME, (p) => {
-  // The base table is plain "loot/loot.json"; DLC ones are "<name>.loot.json".
-  if (!/(^|[.\\/])loot\.json$/.test(p)) return;
-  let d;
-  try { d = readJson(p); } catch (e) { return; }
-  for (const t of d.loot_tables || []) if (!LOOT.has(t.id)) LOOT.set(t.id, t);
-});
-function lootSummary(id) {
-  const t = LOOT.get(id);
-  if (!t) return null;
-  const kinds = new Set();
-  for (const e of t.entries || []) {
-    if (!e.chances) continue;
-    if (e.type === 'trinket') kinds.add('a trinket');
-    else if (e.type === 'jewellery') kinds.add('jewellery');
-    else if (e.type === 'heirloom') kinds.add('an heirloom');
-    else if (e.type === 'gold' || e.type === 'currency') kinds.add('gold');
-    else if (e.type === 'item') {
-      const name = plain(STR.get('str_inventory_title_' + (e.data && e.data.type) + (e.data && e.data.id)) || '');
-      kinds.add(name || String((e.data && e.data.id) || 'an item').replace(/_/g, ' '));
-    }
-  }
-  return kinds.size ? [...kinds].join(' / ') : null;
-}
-function renderCampEffect(e) {
-  const base = e.type;
-  let text = null;
-
-  if (base === 'buff') {
-    // The generic "Buff +%d%%" template does not say what is buffed; the
-    // sub_type is the buff id, so render that instead.
-    text = renderBuff(e.sub_type);
-    if (!text) return null;
-  } else if (base === 'loot') {
-    const what = lootSummary(e.sub_type);
-    const tpl = STR.get('camping_skill_effect_item');
-    if (!what || !tpl) return null;
-    text = plain(tpl).replace(/%s/g, what);
-  } else {
-    const tpl = STR.get('camping_skill_effect_' + base);
-    if (tpl === undefined) return null;
-    let amount = Number(e.amount) || 0;
-    // Percent templates carry a 0-1 fraction; flat ones carry the number.
-    if (/%d%%/.test(tpl)) amount = Math.round(amount * 100);
-    else amount = Math.round(amount);
-    text = plain(fillNumber(plain(tpl), amount));
-  }
-
-  const chance = e.chance && typeof e.chance.amount === 'number' ? e.chance.amount : 1;
-  if (chance < 1) {
-    const tpl = STR.get('camping_skill_chance_effect_format');
-    text = tpl ? plain(tpl).replace(/%d%%/g, Math.round(chance * 100) + '%').replace(/%s/g, text)
-      : `${Math.round(chance * 100)}% chance: ${text}`;
-  }
-  // A requirement is usually a bare string ("religious"), occasionally an
-  // object carrying data ("has_quirk").
-  for (const r of e.requirements || []) {
-    const type = typeof r === 'string' ? r : r.type;
-    const rt = STR.get('camping_skill_requirement_' + type + (r && r.is_false ? '_false' : ''));
-    if (rt) text += ' (' + plain(rt).replace(/%s/g, String((r && r.data) || '').replace(/_/g, ' ')).trim() + ')';
-  }
-  const who = SELECTION[e.selection];
-  return house(who && who !== 'One hero' ? `${who}: ${text}` : text);
-}
-
-function campEntry(id) {
-  const s = CAMP.get(id);
-  if (!s) return null;
-  const parts = [];
-  for (const e of s.effects || []) {
-    const t = renderCampEffect(e);
-    if (t && !parts.includes(t)) parts.push(t);
-  }
-  if (!parts.length) return null;
-  return { cost: Number(s.cost) || null, effect: parts.join(' | ') };
-}
+// Camp skills are not in the CSV at all: `renderer.campEntry` renders every one
+// from `*.camping_skills.json` and the `camping_skill_*` templates.
 
 // ================================================================= app roster
 const heroSrc = fs.readFileSync(path.join(ROOT, 'src/data/heroes.js'), 'utf8');
@@ -554,7 +237,7 @@ function csvFor(cls, name) {
 }
 
 const campByName = new Map();
-for (const id of CAMP.keys()) {
+for (const id of ctx.camps.keys()) {
   const n = plain(STR.get('camping_skill_name_' + id) || '');
   if (n && !campByName.has(norm(n))) campByName.set(norm(n), id);
 }
@@ -600,7 +283,7 @@ for (const r of roster) {
     for (const name of r.list) {
       if (camp.has(name)) continue;
       const id = campByName.get(norm(name));
-      const e = id ? campEntry(id) : null;
+      const e = id ? renderer.campEntry(id) : null;
       if (e) camp.set(name, e);
       else missing.camp.push(`${r.cls}: ${name}`);
     }
@@ -701,6 +384,8 @@ export function getSkillEffectText(name, heroClass) {
 `;
 
 const prevText = fs.existsSync(OUT) ? fs.readFileSync(OUT, 'utf8') : '';
+// Line endings are git's business (autocrlf), not content.
+const sameText = prevText.replace(/\r\n/g, '\n') === text;
 const total = [...combat.values()].reduce((a, m) => a + m.size, 0);
 console.log(`combat skills ${total} (csv ${stats.csv}, game ${stats.game}) across ${combat.size} classes`);
 console.log(`camp skills ${camp.size}`);
@@ -708,8 +393,8 @@ if (missing.combat.length) console.log('MISSING combat:', missing.combat.join(' 
 if (missing.camp.length) console.log('MISSING camp:', missing.camp.join(' | '));
 
 if (CHECK) {
-  console.log(prevText === text ? 'al dia' : 'DESACTUALIZADO - run without --check to rewrite');
-  process.exit(prevText === text ? 0 : 1);
+  console.log(sameText ? 'al dia' : 'DESACTUALIZADO - run without --check to rewrite');
+  process.exit(sameText ? 0 : 1);
 }
 fs.writeFileSync(OUT, text, 'utf8');
 console.log('wrote ' + path.relative(ROOT, OUT));
