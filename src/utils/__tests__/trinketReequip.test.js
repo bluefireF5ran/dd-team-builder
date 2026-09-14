@@ -28,11 +28,75 @@ describe('heroNeeds reads what a hero wants from its kit', () => {
     expect(needsOf('Houndmaster', 2).roles.bleedPrimary).toBe(false);
   });
 
-  it('keeps a dodge tank off the HP and PROT frontline, even when it marks itself', () => {
-    const jester = needsOf('Jester', 3);
-    expect(jester.roles.dodgeTank).toBe(true);
-    expect(jester.roles.tank).toBe(false);
-    expect(jester.goals[0]).toBe('dodge sustain');
+  /**
+   * There is no list of dodge tanks any more: what a hero can REACH decides it
+   * (Fran, 2026-09-14). The Jester is the case that proves it - the library
+   * plays him two ways in almost equal numbers, 19 of its 38 Jester slots on
+   * Solo (+30 DODGE on himself) and 20 on Battle Ballad (buffing everyone
+   * else), and they are not the same hero to dress.
+   */
+  const jesterWith = (skills, rank) => ({
+    heroClass: 'Jester',
+    activeSkills: skills,
+    activeCampSkills: [],
+    trinket1: '',
+    trinket2: '',
+    quirks: { positive: [], negative: [] },
+    diseases: [],
+    rank
+  });
+  const needsFor = (skills, rank) => {
+    const party = [0, 1, 2, 3].map((i) => (i === rank - 1 ? jesterWith(skills, rank) : hero('Leper', i + 1)));
+    return heroNeeds(party[rank - 1], { party, heroIndex: rank - 1 });
+  };
+  const SOLO = ['Dirk Stab', 'Finale', 'Inspiring Tune', 'Solo'];
+  const BALLAD = ['Battle Ballad', 'Dirk Stab', 'Finale', 'Inspiring Tune'];
+
+  it('reads dodge off the build in front of it, not off the class', () => {
+    const solo = needsFor(SOLO, 3);
+    expect(solo.sustain.reachableDodge).toBeGreaterThan(80);
+    expect(solo.goals[0]).toBe('dodge sustain');
+    expect(trinketValue("Ancestor's Coat", solo).value)
+      .toBeGreaterThan(trinketValue('Tough Ring', solo).value);
+
+    const ballad = needsFor(BALLAD, 3);
+    expect(ballad.sustain.reachableDodge).toBeLessThan(solo.sustain.reachableDodge);
+    expect(ballad.goals).not.toContain('dodge sustain');
+  });
+
+  /**
+   * Solo launches from ranks 3 and 4, but a hero casts from where he can GET
+   * to. Fran: "those rank 2 jester comps usually start with a grave robber or
+   * other jester or some one that will move it to the back".
+   */
+  it('counts a buff the hero can move himself into range for', () => {
+    // This loadout carries Finale, `Self: Back 3`, so he puts himself there.
+    const alone = [hero('Leper', 1), jesterWith(SOLO, 2), hero('Leper', 3), hero('Leper', 4)];
+    expect(heroNeeds(alone[1], { party: alone, heroIndex: 1 }).sustain.reachableDodge)
+      .toBeGreaterThan(80);
+  });
+
+  it('counts one an ally moves him into range for, and not one nobody can', () => {
+    // No self-move in this loadout: Dirk Stab only goes forward.
+    const STUCK = ['Dirk Stab', 'Harvest', 'Solo', 'Slice Off'];
+    const stranded = [hero('Leper', 1), jesterWith(STUCK, 2), hero('Leper', 3), hero('Leper', 4)];
+    const shuffled = [hero('Leper', 1), jesterWith(STUCK, 2), hero('Grave Robber', 3), hero('Leper', 4)];
+    const stuck = heroNeeds(stranded[1], { party: stranded, heroIndex: 1 });
+    const moved = heroNeeds(shuffled[1], { party: shuffled, heroIndex: 1 });
+    expect(stuck.goals).not.toContain('dodge sustain');
+    expect(moved.sustain.reachableDodge).toBeGreaterThan(stuck.sustain.reachableDodge);
+    expect(moved.goals).toContain('dodge sustain');
+  });
+
+  it('gives the same hero a different answer in a different party', () => {
+    // The Shieldbreaker reaches DODGE 38 on her own and much more beside an
+    // Antiquarian, which is exactly what a class list could never say.
+    const alone = [hero('Shieldbreaker', 1), hero('Leper', 2), hero('Leper', 3), hero('Leper', 4)];
+    const helped = [hero('Shieldbreaker', 1), hero('Antiquarian', 2), hero('Vestal', 3), hero('Arbalest', 4)];
+    const a = heroNeeds(alone[0], { party: alone, heroIndex: 0 });
+    const b = heroNeeds(helped[0], { party: helped, heroIndex: 0 });
+    expect(b.sustain.reachableDodge).toBeGreaterThan(a.sustain.reachableDodge);
+    expect(b.sustain.dodge).toBeGreaterThan(a.sustain.dodge);
   });
 
   it('knows a party healer and a heavy hitter', () => {

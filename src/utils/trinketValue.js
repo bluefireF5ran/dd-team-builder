@@ -26,6 +26,23 @@ import { LOWER_IS_BETTER, statScale } from './trinketProfile';
 import { canonicalizeTrinket, nameKey } from './nameNormalizer';
 import { DODGE_TANK_BAR, DODGE_EXTREME_BAR } from './heroNeeds';
 
+
+/**
+ * What a share of the incoming damage is worth as a trinket weight.
+ *
+ * `heroNeeds.sustain` says what one point of DODGE, PROT or MAX HP removes;
+ * these turn that into the same currency as every other clause. They are
+ * anchored to the picks Fran already agreed with rather than argued from first
+ * principles: at DODGE_RATE the Jester and the Antiquarian keep the cloaks they
+ * were wearing before the class list went, and a Leper's dodge stays the filler
+ * he treats it as.
+ */
+const DODGE_RATE = 37.5;
+const PROT_RATE = 60;
+const HP_RATE = 8.9;
+/** The middle of the roster, so the scale sits around 1 for an ordinary hero. */
+const HP_REFERENCE = 0.58;
+
 /** Build-goal multipliers: Fran's priority order. */
 const SUSTAIN = 1.4;
 const THRESHOLD = 1.25;
@@ -128,8 +145,6 @@ const chanceFactor = (needs, kind) => {
 const dotWeight = (kind, needs) => {
   const { roles } = needs;
   if (roles[`${kind}Primary`]) {
-    // A dodge tank is never one: `heroNeeds` settles that, because its trinkets
-    // go to staying alive however much its kit happens to blight.
     return { weight: 1.1 * THRESHOLD * chanceFactor(needs, kind), goal: `${kind} damage` };
   }
   return { weight: roles[`${kind}Any`] ? 0.15 * chanceFactor(needs, kind) : 0 };
@@ -146,18 +161,36 @@ const weightOf = (base, needs, context) => {
   if (/ at death's door$/.test(base)) return { weight: 0.1 };
 
   switch (base) {
-    case 'dodge':
-      if (roles.dodgeTank) return { weight: 1.3 * SUSTAIN, goal: 'dodge sustain' };
-      // A riposte hero wants to stay up to riposte (Fran): DODGE or HP.
-      if (roles.riposte) return { weight: 0.7, goal: 'riposte sustain' };
-      return { weight: needs.position.dodge >= 0.6 ? 0.7 : 0.35 };
+    case 'dodge': {
+      // How much of the damage coming at him one more point removes, where he
+      // can already get to with his kit, his party and his own class trinket.
+      const worth = (needs.sustain ? needs.sustain.dodge : 0.016) * DODGE_RATE;
+      const goal = worth >= SUSTAIN ? 'dodge sustain' : roles.riposte ? 'riposte sustain' : null;
+      return { weight: Math.max(worth, roles.riposte ? 0.7 : 0), goal };
+    }
     case 'max hp':
-    case 'prot':
+    case 'prot': {
+      /**
+       * Fran's rule is that PROT and HP are for the heroes who actually take
+       * the hits - "high-HP heroes or self-marking tanks" - and the derived
+       * part is how much they are worth to THAT hero, not whether he is one.
+       * `tank` is already read off his HP among the twenty classes and whether
+       * he marks himself, and `sustain.hp` scales it: a percent of a Leper's
+       * pool is a whole champion hit, a percent of an Antiquarian's is half of
+       * one. Left un-scaled it made every hero buy PROT.
+       */
+      const sustain = needs.sustain || {};
+      const worth = base === 'prot' ? (sustain.prot || 0.011) * PROT_RATE : (sustain.hp || 0.065) * HP_RATE;
+      const scale = worth / HP_REFERENCE;
       if (roles.tank) {
-        return { weight: 0.9 * (roles.selfHealSustain ? SUSTAIN : 1), goal: roles.selfHealSustain ? 'self-heal sustain' : 'frontline' };
+        return {
+          weight: 0.9 * scale * (roles.selfHealSustain ? SUSTAIN : 1),
+          goal: roles.selfHealSustain ? 'self-heal sustain' : 'frontline'
+        };
       }
-      if (roles.riposte) return { weight: 0.5, goal: 'riposte sustain' };
-      return { weight: 0.2 * GENERAL };
+      if (roles.riposte) return { weight: 0.5 * scale, goal: 'riposte sustain' };
+      return { weight: 0.2 * GENERAL * scale };
+    }
     case 'acc': {
       const threshold = needs.accNeed >= 0.4 && (roles.debuff || roles.stun);
       return {
@@ -194,7 +227,7 @@ const weightOf = (base, needs, context) => {
       return roles.stun
         ? {
           weight: (0.5 + 0.3 * Math.min(roles.stun, 2)) * (roles.stun >= 2 ? THRESHOLD : 1) *
-            (roles.dodgeTank ? 0.6 : 1) * chanceFactor(needs, 'stun'),
+            chanceFactor(needs, 'stun'),
           goal: 'stun'
         }
         : { weight: 0 };
@@ -315,8 +348,11 @@ export const trinketValue = (name, needs, context = {}) => {
     }
   });
 
-  // Crossing a DODGE bar is worth more than the points themselves.
-  if (needs.roles.dodgeTank && dodgeGain > 0 && typeof context.currentDodge === 'number') {
+  // Crossing a DODGE bar is worth more than the points themselves: past them a
+  // hero is practically safe from the ordinary attack, which is a different
+  // thing from being hit a little less. The bars come from champion data
+  // (`heroNeeds`), and the hero has to be somewhere they are reachable.
+  if (dodgeGain > 0 && typeof context.currentDodge === 'number' && needs.sustain) {
     const before = context.currentDodge;
     const after = before + dodgeGain;
     [[DODGE_TANK_BAR, 'dodge tank'], [DODGE_EXTREME_BAR, 'extreme dodge']].forEach(([bar, label]) => {

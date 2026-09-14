@@ -9,8 +9,12 @@
  * chance only where the hero lives on that effect, ACC and scouting stop paying
  * past a point, CRIT is worth more on a wide damage roll.
  *
- * The one list that is not derived is `DODGE_TANK_CLASSES`: which classes play
- * as dodge tanks is Fran's call, and the kit alone does not say it.
+ * Nothing here is a list of classes. What a hero can reach defensively - with
+ * his gear, his own skills, the party he is standing in and his own class
+ * trinket - is what decides whether DODGE, PROT or MAX HP is worth a slot
+ * (`sustain`, measured against `enemyThreat.js`), because a list cannot answer
+ * for a modded hero and cannot change its mind about the same hero in a
+ * different party.
  */
 import { getSkillEffect } from '../data/skillEffects';
 import { getModdedSkillEffect } from '../data/moddedEffects';
@@ -19,6 +23,10 @@ import { getModdedHeroClasses } from '../data/moddedRoster';
 import { getGearStats, MAX_GEAR_RANK } from '../data/heroStats';
 import { districtEffects } from '../data/estate';
 import { effectPointWorth } from '../data/enemyResists';
+import { dodgeWorthAt, protWorthAt, CHAMPION_ATTACK_DAMAGE } from '../data/enemyThreat';
+import { HERO_SPECIFIC_TRINKETS } from '../data/hero_specific_trinkets';
+import { getTrinketEffect } from '../data/trinketEffects';
+import { getModdedTrinketEffect } from '../data/moddedEffects';
 import { skillProfile, splitClauses, scopeOf } from './skillProfile';
 import { statPosition } from './heroStatLine';
 import { statBreakdown } from './statBreakdown';
@@ -54,18 +62,46 @@ export const BACK_ENEMY_DODGE = 30;
  */
 export const RIPOSTE_ACC = 85;
 
-/** Classes Fran plays as dodge tanks (2026-09-14). */
-export const DODGE_TANK_CLASSES = new Set([
-  'Jester',
-  'Houndmaster',
-  'Man at Arms',
-  'Antiquarian',
-  'Duelist',
-  'Grave Robber',
-  'Bounty Hunter'
-]);
+/**
+ * There is no list of dodge tanks any more (Fran, 2026-09-14): "i dont want to
+ * hand pick what is a dodge or not, this should be modeled around what can the
+ * hero and all the tools available to him reach". `sustain` below is that
+ * model, and it answers per party rather than per class - the Shieldbreaker
+ * reaches DODGE 38 on her own and 56 beside an Antiquarian, and only one of
+ * those is worth buying more dodge for.
+ */
 
 const clamp01 = (n) => Math.max(0, Math.min(1, n));
+
+/**
+ * The biggest DODGE and PROT a hero's OWN class trinkets can hand him.
+ *
+ * Part of what he can reach, and the part a class list was really standing in
+ * for: the Bounty Hunter and the Duelist have no dodge skill between them, and
+ * are dodge heroes because Mask Of The Timeless is +15 and Gilded Mantle +10.
+ * Conditional clauses count - a trinket worn for its dodge is worn in the
+ * situation it pays - but at a discount, because the condition is not always on.
+ */
+const CONDITIONAL_SHARE = 0.6;
+const classTrinketCache = new Map();
+const bestFromClassTrinkets = (heroClass) => {
+  if (classTrinketCache.has(heroClass)) return classTrinketCache.get(heroClass);
+  const best = { dodge: 0, prot: 0 };
+  (HERO_SPECIFIC_TRINKETS[heroClass] || []).forEach((name) => {
+    const entry = getTrinketEffect(name) || getModdedTrinketEffect(name);
+    if (!entry) return;
+    String(entry.effect || '').split('|').forEach((clause) => {
+      const dodge = clause.match(/\+\s*(\d+(?:\.\d+)?)\s+DODGE/i);
+      const prot = clause.match(/\+\s*(\d+(?:\.\d+)?)%?\s+PROT/i);
+      const conditional = /\b(if|while|vs|when)\b/i.test(clause);
+      const share = conditional ? CONDITIONAL_SHARE : 1;
+      if (dodge) best.dodge = Math.max(best.dodge, Number(dodge[1]) * share);
+      if (prot) best.prot = Math.max(best.prot, Number(prot[1]) * share);
+    });
+  });
+  classTrinketCache.set(heroClass, best);
+  return best;
+};
 const classData = (heroClass) => HERO_CLASSES[heroClass] || getModdedHeroClasses()[heroClass] || null;
 const entryOf = (heroClass, name) => getSkillEffect(name, heroClass) || getModdedSkillEffect(name, heroClass);
 const percentOf = (value) => {
@@ -168,6 +204,58 @@ export const heroNeeds = (hero, { party = null, heroIndex = -1, estate = true } 
   const accNeed = attacks.length
     ? attacks.reduce((total, attack) => total + needOf(attack), 0) / attacks.length
     : 0;
+  // Where DODGE gets without trinkets: base, estate, light and the party's own
+  // buffs, which is what the trinkets have to top up to reach a bar.
+  const bare = { ...hero, trinket1: '', trinket2: '' };
+  /**
+   * With no party given, the hero still stands somewhere and still buffs
+   * himself: `statBreakdown` reads skill buffs off the party, so a lone hero
+   * gets a party of his own to stand in. Without this a Jester read the same
+   * DODGE everywhere and his own Solo counted for nothing.
+   */
+  const at = heroIndex >= 0 ? heroIndex : 0;
+  const team = Array.isArray(party)
+    ? party.map((member, i) => (i === heroIndex ? bare : member))
+    : [0, 1, 2, 3].map((i) => (i === at ? bare : {}));
+  const line = statBreakdown(bare, { party: team, heroIndex: at, estate, launchAware: true });
+  const reach = (stat, fallback) =>
+    (line ? line.stats[stat].total + line.stats[stat].potential : fallback);
+
+  /**
+   * Where the hero gets WITHOUT spending the slot being valued: his gear, the
+   * estate, the light, what his own skills buff him to, what this party can
+   * buff him to, and his own class trinket. That is the whole point of doing
+   * this instead of naming classes - the same Shieldbreaker reaches 38 alone
+   * and 56 next to an Antiquarian, and only one of those is worth more dodge.
+   */
+  const own = bestFromClassTrinkets(heroClass);
+  const reachableDodge = reach('dodge', gear.dodge) + own.dodge;
+  const reachableProt = reach('prot', gear.prot) + own.prot;
+  const reachableHp = reach('hp', gear.hp);
+
+  /**
+   * What one more point buys, as the share of the incoming damage it removes
+   * (`enemyThreat.js`). DODGE compounds - the less you are hit the more the
+   * next point is worth - PROT scales what lands, and HP is a percentage of a
+   * pool, so a percent of a big pool is more hits than a percent of a small one.
+   */
+  const sustain = {
+    dodge: dodgeWorthAt(reachableDodge),
+    prot: protWorthAt(reachableProt),
+    hp: reachableHp > 0 ? (reachableHp / 100) / CHAMPION_ATTACK_DAMAGE : 0,
+    reachableDodge,
+    reachableProt,
+    reachableHp
+  };
+
+  /**
+   * Whether survival is what this hero's slots should buy: a point of DODGE
+   * removing about as much as it does near the tank bar. This is the derived
+   * stand-in for the class list, and it is what keeps blight chance off the
+   * Antiquarian - "she is a dodge-reliant support, so blight chance is filler".
+   */
+  const dodgeIsTheGoal = sustain.dodge >= dodgeWorthAt(DODGE_TANK_BAR - 25);
+
   /**
    * How often the hero connects at all. Every effect chance sits behind it:
    * Fran's rule is that the blight, stun or debuff rolls only AFTER the attack
@@ -198,18 +286,17 @@ export const heroNeeds = (hero, { party = null, heroIndex = -1, estate = true } 
       if (profile.tags.has('damage')) carriers[kind] += 1;
     });
   });
-  const dodgeTank = DODGE_TANK_CLASSES.has(heroClass);
   /**
    * A DoT is what the hero's trinkets are for when it deals at least as much as
-   * the hits that carry it AND rides on half the kit - and when the hero is not
-   * a dodge tank. Fran: blight chance is for "primary DoT dealers (Plague
-   * Doctor, Flagellant), not heroes that merely happen to apply one
-   * (Houndmaster, Antiquarian: she is a dodge-reliant support, so blight chance
-   * is filler)". Both of those are dodge tanks, and a dodge tank's trinkets go
-   * to staying alive whatever else the kit does.
+   * the hits that carry it AND rides on half the kit. Fran: blight chance is
+   * for "primary DoT dealers (Plague Doctor, Flagellant), not heroes that
+   * merely happen to apply one (Houndmaster, Antiquarian: she is a
+   * dodge-reliant support, so blight chance is filler)". Those two are held off
+   * it by `sustain` rather than by name now: what their slots buy is survival,
+   * and the chance clause loses the comparison on its own.
    */
   const dotPrimary = (kind) =>
-    !dodgeTank && dot[kind] > 0 && dot[kind] >= dotCarrier[kind] &&
+    !dodgeIsTheGoal && dot[kind] > 0 && dot[kind] >= dotCarrier[kind] &&
     carriers[kind] * 2 >= Math.max(1, damaging.length);
 
   /**
@@ -331,12 +418,11 @@ export const heroNeeds = (hero, { party = null, heroIndex = -1, estate = true } 
     // A frontline that wants HP and PROT: high HP or marking itself (Fran).
     // Guard is not a test: Protect Me tags the Antiquarian, who is the one being
     // guarded. Riposte is not one either: it made a Highwayman value +20% PROT
-    // over his own trinkets. And a dodge tank is not one even when it marks
-    // itself: it lives on DODGE, not on HP.
-    tank: !dodgeTank && (position.hp >= 0.7 || count(tagged('markSelf')) > 0),
+    // over his own trinkets. Whether HP beats DODGE on this hero is `sustain`'s
+    // to answer, not this flag's.
+    tank: position.hp >= 0.7 || count(tagged('markSelf')) > 0,
     support: allyHeal > 0 || count(tagged('stressHeal')) > 0 ||
       count((s) => s.profile.targetKind === 'ally' && !s.profile.tags.has('heal')) > 0,
-    dodgeTank,
     selfHealSustain,
     partyHealSustain
   };
@@ -355,7 +441,7 @@ export const heroNeeds = (hero, { party = null, heroIndex = -1, estate = true } 
 
   // Fran's build goals, highest first. A hero can have several.
   const goals = [];
-  if (dodgeTank) goals.push('dodge sustain');
+  if (dodgeIsTheGoal) goals.push('dodge sustain');
   if (selfHealSustain) goals.push('self-heal sustain');
   if (partyHealSustain) goals.push('party-heal sustain');
   // Occultist lives on two debuffs; Leper's one (Intimidate) counts because he
@@ -365,12 +451,6 @@ export const heroNeeds = (hero, { party = null, heroIndex = -1, estate = true } 
   }
   if (roles.damageDealer) goals.push('damage');
 
-  // Where DODGE gets without trinkets: base, estate, light and the party's own
-  // buffs, which is what the trinkets have to top up to reach a bar.
-  const bare = { ...hero, trinket1: '', trinket2: '' };
-  const team = Array.isArray(party) ? party.map((member, i) => (i === heroIndex ? bare : member)) : null;
-  const line = statBreakdown(bare, { party: team, heroIndex, estate });
-  const reachableDodge = line ? line.stats.dodge.total + line.stats.dodge.potential : gear.dodge;
 
   return {
     heroClass,
@@ -389,6 +469,7 @@ export const heroNeeds = (hero, { party = null, heroIndex = -1, estate = true } 
     rollWidth: gear.dmgMax > 0 ? (gear.dmgMax - gear.dmgMin) / gear.dmgMax : 0,
     usableAt: [1, 2, 3, 4].map((rank) => count((s) => s.profile.launch.includes(rank))),
     reachableDodge,
+    sustain,
     roles,
     goals,
     classTrinkets: new Set(data.classSpecificTrinkets || [])

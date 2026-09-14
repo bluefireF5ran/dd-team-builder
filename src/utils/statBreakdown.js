@@ -241,7 +241,10 @@ export const skillBuffs = (heroClass, skill) => {
  */
 export const statBreakdown = (
   hero,
-  { party = null, heroIndex = -1, rank = MAX_GEAR_RANK, difficulty = DIFFICULTY, estate = true } = {}
+  {
+    party = null, heroIndex = -1, rank = MAX_GEAR_RANK, difficulty = DIFFICULTY, estate = true,
+    launchAware = false
+  } = {}
 ) => {
   const heroClass = hero?.heroClass;
   const stats = getHeroStats(heroClass);
@@ -372,10 +375,59 @@ export const statBreakdown = (
   };
 
   if (party && heroIndex >= 0) {
+    /**
+     * Where each hero can cast from, which is not only where he is standing.
+     *
+     * Fran (2026-09-14) on the rank 2 Jester holding Solo: "those rank 2 jester
+     * comps usually start with a grave robber or other jester or some one that
+     * will move it to the back". So a skill's launch ranks are checked against
+     * everywhere the hero can GET to - his own moves, and one rank either way
+     * when somebody else in the party moves themselves, because a hero stepping
+     * past shuffles the rest along.
+     */
+    const selfMoveOf = (member, at) => {
+      let shift = null;
+      (member.activeSkills || []).filter(Boolean).forEach((skill) => {
+        const profile = skillProfile(member.heroClass, skill);
+        if (!profile || (profile.launch.length && !profile.launch.includes(at))) return;
+        const entry = getSkillEffect(skill, member.heroClass) || getModdedSkillEffect(skill, member.heroClass);
+        const text = String(entry?.effect || '');
+        const forward = text.match(/self\s*:[^|]*?forward\s*(\d)/i);
+        const back = text.match(/self\s*:[^|]*?back\s*(\d)/i);
+        if (forward) shift = (shift || new Set()).add(at - Number(forward[1]));
+        if (back) shift = (shift || new Set()).add(at + Number(back[1]));
+      });
+      return shift || new Set();
+    };
+    const movesItself = party.some((member, j) =>
+      member?.heroClass && j !== heroIndex && selfMoveOf(member, j + 1).size > 0);
+    const castableFrom = (member, at) => {
+      const ranks = new Set([at]);
+      selfMoveOf(member, at).forEach((rank) => ranks.add(Math.max(1, Math.min(4, rank))));
+      if (movesItself) {
+        ranks.add(Math.max(1, at - 1));
+        ranks.add(Math.min(4, at + 1));
+      }
+      return ranks;
+    };
+
     const seen = new Set();
     party.forEach((member, j) => {
       if (!member?.heroClass) return;
       (member.activeSkills || []).filter(Boolean).forEach((skill) => {
+        // `launchAware`: contar solo lo que se puede lanzar desde donde el
+        // heroe esta. El `Solo` del Bufon sale de los rangos 3 y 4, asi que
+        // en el 2 son +30 DODGE que no puede activar sin moverse antes.
+        // La barra lo sigue dibujando -- es lo que la party PODRIA darle, y
+        // moverse es parte del juego-- pero quien decide un trinket pregunta
+        // por lo que tiene desde donde esta (`heroNeeds`).
+        if (launchAware) {
+          const profile = skillProfile(member.heroClass, skill);
+          if (profile && profile.launch.length) {
+            const canReach = [...castableFrom(member, j + 1)].some((rank) => profile.launch.includes(rank));
+            if (!canReach) return;
+          }
+        }
         skillBuffs(member.heroClass, skill).forEach((buff) => {
           if (!(j === heroIndex ? buff.self : buff.others)) return;
           const isPercent = buff.percent && MULTIPLIES.has(buff.stat);

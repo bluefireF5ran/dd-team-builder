@@ -1,5 +1,6 @@
 import { generateRandomTeam, generateRandomTeamFromRoster } from '../randomTeam';
 import { PARTY_CONFIG, HERO_CONFIG } from '../../constants';
+import { TRINKETS } from '../../data/trinkets';
 
 describe('generateRandomTeam', () => {
   test('generates 4 heroes', () => {
@@ -400,7 +401,41 @@ describe('generateRandomTeamFromRoster', () => {
           expect(swap.wanted).toBeTruthy();
           expect(swap.got).toBeTruthy();
           expect(swap.got).not.toBe(swap.wanted);
+          // And why, which the substitution it replaces could not say.
+          expect(typeof swap.tier).toBe('string');
         });
+      });
+
+      /**
+       * Lo que cambia al pasar de `substituteTrinkets` a `reequipParty`: antes
+       * un hueco que la comp no pedia se quedaba vacio aunque tuvieras algo
+       * util que poner. El orden de Fran pone un trinket que suma MUY por
+       * encima de un hueco.
+       */
+      test('leaves no slot empty when the inventory can fill it', () => {
+        const team = suggest({ ownedTrinkets: [...TRINKETS], reequip: true });
+        expect(team.unequipped).toBe(0);
+        team.forEach((hero) => {
+          expect(hero.trinket1).toBeTruthy();
+          expect(hero.trinket2).toBeTruthy();
+        });
+      });
+
+      test('counts a trinket the comp already wanted as kept, not swapped', () => {
+        // The two trinkets on a hero are a set: giving them back in the other
+        // order is not a change, and reporting it as two would be noise.
+        const team = suggest({ ownedTrinkets: [...TRINKETS], reequip: true });
+        team.trinketSwaps.forEach((swap) => {
+          const hero = team[swap.index];
+          expect([hero.trinket1, hero.trinket2]).not.toContain(swap.wanted);
+        });
+      });
+
+      test('says how many empty slots it filled', () => {
+        const team = suggest({ ownedTrinkets: [...TRINKETS], reequip: true });
+        expect(typeof team.trinketFills).toBe('number');
+        // Every preset hero comes dressed, so there is nothing empty to fill.
+        expect(team.trinketFills).toBe(0);
       });
     });
   });
