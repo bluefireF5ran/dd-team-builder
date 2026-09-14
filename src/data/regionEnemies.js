@@ -31,7 +31,97 @@ export const REGION_ENEMIES = {
   "move": 300,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 2,
+  "skills": [
+   {
+    "id": "sapper_throw",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "sapper_detonate",
+    "dmgMin": 23,
+    "dmgMax": 45,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "sapper_summon",
+    "dmgMin": 2,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2,
+     3
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "sapper_guard",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "sapper_stress",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "baron_B": {
   "size": 1,
@@ -47,7 +137,120 @@ export const REGION_ENEMIES = {
   "move": 85,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 3,
+  "skills": [
+   {
+    "id": "necessary_discipline",
+    "dmgMin": 5,
+    "dmgMax": 11,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "forced_enthusiasm",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "baron_hunger",
+    "dmgMin": 5,
+    "dmgMax": 9,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "intro_change_to_curtain",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "change_to_curtain_1-3",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "change_to_curtain_2-3",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "crowd_pleaser",
+    "dmgMin": 5,
+    "dmgMax": 6,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "body_average_A": {
   "size": 1,
@@ -63,7 +266,9 @@ export const REGION_ENEMIES = {
   "move": 35,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "body_average_B": {
   "size": 1,
@@ -79,7 +284,9 @@ export const REGION_ENEMIES = {
   "move": 55,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "body_average_C": {
   "size": 1,
@@ -95,7 +302,9 @@ export const REGION_ENEMIES = {
   "move": 75,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "body_bloated_A": {
   "size": 1,
@@ -111,7 +320,9 @@ export const REGION_ENEMIES = {
   "move": 45,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "body_bloated_B": {
   "size": 1,
@@ -127,7 +338,9 @@ export const REGION_ENEMIES = {
   "move": 65,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "body_bloated_C": {
   "size": 1,
@@ -143,7 +356,9 @@ export const REGION_ENEMIES = {
   "move": 115,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "body_emaciated_A": {
   "size": 1,
@@ -159,7 +374,9 @@ export const REGION_ENEMIES = {
   "move": 10,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "body_emaciated_B": {
   "size": 1,
@@ -175,7 +392,9 @@ export const REGION_ENEMIES = {
   "move": 30,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "body_emaciated_C": {
   "size": 1,
@@ -191,7 +410,9 @@ export const REGION_ENEMIES = {
   "move": 50,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "bulrush_A": {
   "size": 1,
@@ -207,7 +428,9 @@ export const REGION_ENEMIES = {
   "move": 200,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "bulrush_B": {
   "size": 1,
@@ -223,7 +446,9 @@ export const REGION_ENEMIES = {
   "move": 220,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "bulrush_C": {
   "size": 1,
@@ -239,7 +464,9 @@ export const REGION_ENEMIES = {
   "move": 240,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "castellan_A": {
   "size": 1,
@@ -255,7 +482,46 @@ export const REGION_ENEMIES = {
   "move": 50,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": true
+  "marksHeroes": true,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "enraging_slight",
+    "dmgMin": 1,
+    "dmgMax": 3,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "elusive_exit",
+    "dmgMin": 2,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "castellan_B": {
   "size": 1,
@@ -271,7 +537,46 @@ export const REGION_ENEMIES = {
   "move": 70,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": true
+  "marksHeroes": true,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "enraging_slight",
+    "dmgMin": 2,
+    "dmgMax": 3,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "elusive_exit",
+    "dmgMin": 3,
+    "dmgMax": 3,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "castellan_C": {
   "size": 1,
@@ -287,7 +592,46 @@ export const REGION_ENEMIES = {
   "move": 90,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": true
+  "marksHeroes": true,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "enraging_slight",
+    "dmgMin": 2,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "elusive_exit",
+    "dmgMin": 4,
+    "dmgMax": 4,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "cattail_A": {
   "size": 1,
@@ -303,7 +647,9 @@ export const REGION_ENEMIES = {
   "move": 200,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "cattail_B": {
   "size": 1,
@@ -319,7 +665,9 @@ export const REGION_ENEMIES = {
   "move": 220,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "cattail_C": {
   "size": 1,
@@ -335,7 +683,9 @@ export const REGION_ENEMIES = {
   "move": 240,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "chevalier_A": {
   "size": 1,
@@ -351,7 +701,45 @@ export const REGION_ENEMIES = {
   "move": 250,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "buried_blast",
+    "dmgMin": 4,
+    "dmgMax": 6,
+    "launch": [
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "buried_skewer",
+    "dmgMin": 6,
+    "dmgMax": 8,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "chevalier_B": {
   "size": 1,
@@ -367,7 +755,45 @@ export const REGION_ENEMIES = {
   "move": 270,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "buried_blast",
+    "dmgMin": 5,
+    "dmgMax": 9,
+    "launch": [
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "buried_skewer",
+    "dmgMin": 8,
+    "dmgMax": 11,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "chevalier_C": {
   "size": 1,
@@ -383,7 +809,45 @@ export const REGION_ENEMIES = {
   "move": 290,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "buried_blast",
+    "dmgMin": 7,
+    "dmgMax": 12,
+    "launch": [
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "buried_skewer",
+    "dmgMin": 10,
+    "dmgMax": 16,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "countess_D": {
   "size": 4,
@@ -399,7 +863,77 @@ export const REGION_ENEMIES = {
   "move": 220,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 3,
+  "skills": [
+   {
+    "id": "transform_to_weak",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "claw_swipe_normal",
+    "dmgMin": 8,
+    "dmgMax": 16,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "pheromonal_delirium",
+    "dmgMin": 4,
+    "dmgMax": 4,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "life_feeds_on_life",
+    "dmgMin": 6,
+    "dmgMax": 10,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "countess_E": {
   "size": 4,
@@ -415,7 +949,46 @@ export const REGION_ENEMIES = {
   "move": 220,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "fan_flutter",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "transform_to_berserk",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "countess_F": {
   "size": 4,
@@ -431,7 +1004,93 @@ export const REGION_ENEMIES = {
   "move": 220,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 4,
+  "skills": [
+   {
+    "id": "clear_the_court",
+    "dmgMin": 3,
+    "dmgMax": 13,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "transform_to_normal",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "claw_swipe_berserk",
+    "dmgMin": 10,
+    "dmgMax": 14,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "feed_berserk",
+    "dmgMin": 7,
+    "dmgMax": 17,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "be_silent",
+    "dmgMin": 2,
+    "dmgMax": 4,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "courtesan_A": {
   "size": 1,
@@ -447,7 +1106,153 @@ export const REGION_ENEMIES = {
   "move": 30,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": true
+  "marksHeroes": true,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "careless_whispers",
+    "dmgMin": 2,
+    "dmgMax": 2,
+    "launch": [
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "midnight_minuet",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "damsel_in_distress",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "renewed_appetite",
+    "dmgMin": 2,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "expose_the_vein",
+    "dmgMin": 1,
+    "dmgMax": 3,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "the_hunger_human",
+    "dmgMin": 2,
+    "dmgMax": 4,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "the_hunger_beast",
+    "dmgMin": 2,
+    "dmgMax": 8,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "rebuff_slap",
+    "dmgMin": 3,
+    "dmgMax": 4,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "courtesan_B": {
   "size": 1,
@@ -463,7 +1268,153 @@ export const REGION_ENEMIES = {
   "move": 50,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": true
+  "marksHeroes": true,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "careless_whispers",
+    "dmgMin": 2,
+    "dmgMax": 3,
+    "launch": [
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "midnight_minuet",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "damsel_in_distress",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "renewed_appetite",
+    "dmgMin": 3,
+    "dmgMax": 6,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "expose_the_vein",
+    "dmgMin": 2,
+    "dmgMax": 3,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "the_hunger_human",
+    "dmgMin": 3,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "the_hunger_beast",
+    "dmgMin": 4,
+    "dmgMax": 11,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "rebuff_slap",
+    "dmgMin": 3,
+    "dmgMax": 6,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "courtesan_C": {
   "size": 1,
@@ -479,7 +1430,153 @@ export const REGION_ENEMIES = {
   "move": 70,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": true
+  "marksHeroes": true,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "careless_whispers",
+    "dmgMin": 3,
+    "dmgMax": 4,
+    "launch": [
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "midnight_minuet",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "damsel_in_distress",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "renewed_appetite",
+    "dmgMin": 4,
+    "dmgMax": 9,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "expose_the_vein",
+    "dmgMin": 2,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "the_hunger_human",
+    "dmgMin": 4,
+    "dmgMax": 7,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "the_hunger_beast",
+    "dmgMin": 5,
+    "dmgMax": 14,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "rebuff_slap",
+    "dmgMin": 5,
+    "dmgMax": 8,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "crocodile_A": {
   "size": 1,
@@ -495,7 +1592,92 @@ export const REGION_ENEMIES = {
   "move": 35,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 2,
+  "skills": [
+   {
+    "id": "angry_hive",
+    "dmgMin": 1,
+    "dmgMax": 6,
+    "launch": [
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "teeth_rake",
+    "dmgMin": 4,
+    "dmgMax": 8,
+    "launch": [
+     1,
+     2,
+     3
+    ],
+    "hits": [
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "submerge",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     2,
+     3
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "submerge_nuke",
+    "dmgMin": 11,
+    "dmgMax": 13,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "move_from_right",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "move_from_left",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1
+    ],
+    "hits": [],
+    "aoe": false
+   }
+  ]
  },
  "crocodile_B": {
   "size": 1,
@@ -511,7 +1693,92 @@ export const REGION_ENEMIES = {
   "move": 55,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 2,
+  "skills": [
+   {
+    "id": "angry_hive",
+    "dmgMin": 2,
+    "dmgMax": 7,
+    "launch": [
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "teeth_rake",
+    "dmgMin": 5,
+    "dmgMax": 11,
+    "launch": [
+     1,
+     2,
+     3
+    ],
+    "hits": [
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "submerge",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     2,
+     3
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "submerge_nuke",
+    "dmgMin": 14,
+    "dmgMax": 18,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "move_from_right",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "move_from_left",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1
+    ],
+    "hits": [],
+    "aoe": false
+   }
+  ]
  },
  "crocodile_C": {
   "size": 1,
@@ -527,7 +1794,92 @@ export const REGION_ENEMIES = {
   "move": 75,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 2,
+  "skills": [
+   {
+    "id": "angry_hive",
+    "dmgMin": 3,
+    "dmgMax": 10,
+    "launch": [
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "teeth_rake",
+    "dmgMin": 7,
+    "dmgMax": 15,
+    "launch": [
+     1,
+     2,
+     3
+    ],
+    "hits": [
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "submerge",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     2,
+     3
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "submerge_nuke",
+    "dmgMin": 20,
+    "dmgMax": 24,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "move_from_right",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "move_from_left",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1
+    ],
+    "hits": [],
+    "aoe": false
+   }
+  ]
  },
  "curtain_A": {
   "size": 1,
@@ -543,7 +1895,9 @@ export const REGION_ENEMIES = {
   "move": 55,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "curtain_B": {
   "size": 1,
@@ -559,7 +1913,9 @@ export const REGION_ENEMIES = {
   "move": 75,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "curtain_C": {
   "size": 1,
@@ -575,7 +1931,9 @@ export const REGION_ENEMIES = {
   "move": 100,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "curtain_E": {
   "size": 1,
@@ -591,7 +1949,9 @@ export const REGION_ENEMIES = {
   "move": 55,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "curtain_F": {
   "size": 1,
@@ -607,7 +1967,9 @@ export const REGION_ENEMIES = {
   "move": 55,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "curtain_G": {
   "size": 1,
@@ -623,7 +1985,9 @@ export const REGION_ENEMIES = {
   "move": 55,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "curtain_H": {
   "size": 1,
@@ -639,7 +2003,49 @@ export const REGION_ENEMIES = {
   "move": 55,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "hatch_cocoons_A",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "hatch_cocoons_B",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "hatch_cocoons_C",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   }
+  ]
  },
  "curtain_I": {
   "size": 1,
@@ -655,7 +2061,49 @@ export const REGION_ENEMIES = {
   "move": 55,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "hatch_cocoons_A",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "hatch_cocoons_B",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "hatch_cocoons_C",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   }
+  ]
  },
  "curtain_J": {
   "size": 1,
@@ -671,7 +2119,49 @@ export const REGION_ENEMIES = {
   "move": 55,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "hatch_cocoons_A",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "hatch_cocoons_B",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "hatch_cocoons_C",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   }
+  ]
  },
  "esquire_A": {
   "size": 1,
@@ -687,7 +2177,108 @@ export const REGION_ENEMIES = {
   "move": 35,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": true
+  "marksHeroes": true,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "rib_cracker",
+    "dmgMin": 3,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "skewering_repartee",
+    "dmgMin": 4,
+    "dmgMax": 8,
+    "launch": [
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "the_hunger_human",
+    "dmgMin": 2,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "piercing_foreleg",
+    "dmgMin": 6,
+    "dmgMax": 10,
+    "launch": [
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "needling_execration",
+    "dmgMin": 2,
+    "dmgMax": 6,
+    "launch": [
+     1,
+     2,
+     3
+    ],
+    "hits": [
+     1,
+     2,
+     3
+    ],
+    "aoe": false
+   },
+   {
+    "id": "the_hunger_beast",
+    "dmgMin": 3,
+    "dmgMax": 7,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "esquire_B": {
   "size": 1,
@@ -703,7 +2294,108 @@ export const REGION_ENEMIES = {
   "move": 55,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": true
+  "marksHeroes": true,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "rib_cracker",
+    "dmgMin": 4,
+    "dmgMax": 7,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "skewering_repartee",
+    "dmgMin": 6,
+    "dmgMax": 10,
+    "launch": [
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "the_hunger_human",
+    "dmgMin": 2,
+    "dmgMax": 6,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "piercing_foreleg",
+    "dmgMin": 8,
+    "dmgMax": 14,
+    "launch": [
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "needling_execration",
+    "dmgMin": 3,
+    "dmgMax": 8,
+    "launch": [
+     1,
+     2,
+     3
+    ],
+    "hits": [
+     1,
+     2,
+     3
+    ],
+    "aoe": false
+   },
+   {
+    "id": "the_hunger_beast",
+    "dmgMin": 5,
+    "dmgMax": 9,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "esquire_C": {
   "size": 1,
@@ -719,7 +2411,108 @@ export const REGION_ENEMIES = {
   "move": 75,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": true
+  "marksHeroes": true,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "rib_cracker",
+    "dmgMin": 6,
+    "dmgMax": 9,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "skewering_repartee",
+    "dmgMin": 8,
+    "dmgMax": 14,
+    "launch": [
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "the_hunger_human",
+    "dmgMin": 3,
+    "dmgMax": 8,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "piercing_foreleg",
+    "dmgMin": 11,
+    "dmgMax": 20,
+    "launch": [
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "needling_execration",
+    "dmgMin": 5,
+    "dmgMax": 11,
+    "launch": [
+     1,
+     2,
+     3
+    ],
+    "hits": [
+     1,
+     2,
+     3
+    ],
+    "aoe": false
+   },
+   {
+    "id": "the_hunger_beast",
+    "dmgMin": 6,
+    "dmgMax": 13,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "fanatic_A": {
   "size": 2,
@@ -735,7 +2528,118 @@ export const REGION_ENEMIES = {
   "move": 55,
   "corpse": false,
   "punishesMark": true,
-  "marksHeroes": true
+  "marksHeroes": true,
+  "turns": 3,
+  "skills": [
+   {
+    "id": "sentence_rendered",
+    "dmgMin": 1,
+    "dmgMax": 1,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "righteous_condemnation",
+    "dmgMin": 1,
+    "dmgMax": 1,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "holy_stake",
+    "dmgMin": 3,
+    "dmgMax": 7,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "brand_tainted",
+    "dmgMin": 1,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "beat_down",
+    "dmgMin": 2,
+    "dmgMax": 4,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "crush_tainted",
+    "dmgMin": 4,
+    "dmgMax": 6,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "fanatic_B": {
   "size": 2,
@@ -751,7 +2655,118 @@ export const REGION_ENEMIES = {
   "move": 75,
   "corpse": false,
   "punishesMark": true,
-  "marksHeroes": true
+  "marksHeroes": true,
+  "turns": 3,
+  "skills": [
+   {
+    "id": "sentence_rendered",
+    "dmgMin": 1,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "righteous_condemnation",
+    "dmgMin": 1,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "holy_stake",
+    "dmgMin": 5,
+    "dmgMax": 9,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "brand_tainted",
+    "dmgMin": 1,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "beat_down",
+    "dmgMin": 3,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "crush_tainted",
+    "dmgMin": 6,
+    "dmgMax": 8,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "fanatic_C": {
   "size": 2,
@@ -767,7 +2782,118 @@ export const REGION_ENEMIES = {
   "move": 95,
   "corpse": false,
   "punishesMark": true,
-  "marksHeroes": true
+  "marksHeroes": true,
+  "turns": 3,
+  "skills": [
+   {
+    "id": "sentence_rendered",
+    "dmgMin": 1,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "righteous_condemnation",
+    "dmgMin": 1,
+    "dmgMax": 3,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "holy_stake",
+    "dmgMin": 6,
+    "dmgMax": 13,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "brand_tainted",
+    "dmgMin": 1,
+    "dmgMax": 3,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "beat_down",
+    "dmgMin": 4,
+    "dmgMax": 7,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "crush_tainted",
+    "dmgMin": 8,
+    "dmgMax": 11,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "pyre_empty_A": {
   "size": 2,
@@ -783,7 +2909,9 @@ export const REGION_ENEMIES = {
   "move": 200,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "pyre_empty_B": {
   "size": 2,
@@ -799,7 +2927,9 @@ export const REGION_ENEMIES = {
   "move": 220,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "pyre_empty_C": {
   "size": 2,
@@ -815,7 +2945,9 @@ export const REGION_ENEMIES = {
   "move": 240,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "pyre_full_A": {
   "size": 2,
@@ -831,7 +2963,9 @@ export const REGION_ENEMIES = {
   "move": 200,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "pyre_full_B": {
   "size": 2,
@@ -847,7 +2981,9 @@ export const REGION_ENEMIES = {
   "move": 220,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "pyre_full_C": {
   "size": 2,
@@ -863,7 +2999,9 @@ export const REGION_ENEMIES = {
   "move": 245,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "statue_hand_A": {
   "size": 1,
@@ -879,7 +3017,28 @@ export const REGION_ENEMIES = {
   "move": 200,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "blood_rain",
+    "dmgMin": 3,
+    "dmgMax": 3,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "statue_hand_B": {
   "size": 1,
@@ -895,7 +3054,28 @@ export const REGION_ENEMIES = {
   "move": 220,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "blood_rain",
+    "dmgMin": 3,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "statue_hand_C": {
   "size": 1,
@@ -911,7 +3091,28 @@ export const REGION_ENEMIES = {
   "move": 240,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "blood_rain",
+    "dmgMin": 5,
+    "dmgMax": 6,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "statue_head_A": {
   "size": 2,
@@ -927,7 +3128,41 @@ export const REGION_ENEMIES = {
   "move": 200,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "head_prep",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "head_spew",
+    "dmgMin": 5,
+    "dmgMax": 7,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "statue_head_B": {
   "size": 2,
@@ -943,7 +3178,41 @@ export const REGION_ENEMIES = {
   "move": 220,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "head_prep",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "head_spew",
+    "dmgMin": 6,
+    "dmgMax": 10,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "statue_head_C": {
   "size": 2,
@@ -959,7 +3228,41 @@ export const REGION_ENEMIES = {
   "move": 240,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "head_prep",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "head_spew",
+    "dmgMin": 9,
+    "dmgMax": 13,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "statue_shield_A": {
   "size": 1,
@@ -975,7 +3278,39 @@ export const REGION_ENEMIES = {
   "move": 200,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "shield_launch",
+    "dmgMin": null,
+    "dmgMax": null,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "shield_smash",
+    "dmgMin": 5,
+    "dmgMax": 6,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   }
+  ]
  },
  "statue_shield_B": {
   "size": 1,
@@ -991,7 +3326,39 @@ export const REGION_ENEMIES = {
   "move": 220,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "shield_launch",
+    "dmgMin": null,
+    "dmgMax": null,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "shield_smash",
+    "dmgMin": 7,
+    "dmgMax": 8,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   }
+  ]
  },
  "statue_shield_C": {
   "size": 1,
@@ -1007,7 +3374,39 @@ export const REGION_ENEMIES = {
   "move": 240,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "shield_launch",
+    "dmgMin": null,
+    "dmgMax": null,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "shield_smash",
+    "dmgMin": 9,
+    "dmgMax": 11,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   }
+  ]
  },
  "steward_A": {
   "size": 1,
@@ -1023,7 +3422,134 @@ export const REGION_ENEMIES = {
   "move": 10,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": true
+  "marksHeroes": true,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "enraging_slight",
+    "dmgMin": 1,
+    "dmgMax": 3,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "the_hunger_human",
+    "dmgMin": 2,
+    "dmgMax": 4,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "infallible_servant",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "refined_palate",
+    "dmgMin": 1,
+    "dmgMax": 3,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "choice_cut",
+    "dmgMin": 2,
+    "dmgMax": 4,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "gibbering_entourage",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "the_hunger_beast",
+    "dmgMin": 2,
+    "dmgMax": 6,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "steward_B": {
   "size": 1,
@@ -1039,7 +3565,134 @@ export const REGION_ENEMIES = {
   "move": 30,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": true
+  "marksHeroes": true,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "enraging_slight",
+    "dmgMin": 2,
+    "dmgMax": 3,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "the_hunger_human",
+    "dmgMin": 3,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "infallible_servant",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "refined_palate",
+    "dmgMin": 2,
+    "dmgMax": 3,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "choice_cut",
+    "dmgMin": 2,
+    "dmgMax": 6,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "gibbering_entourage",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "the_hunger_beast",
+    "dmgMin": 2,
+    "dmgMax": 9,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "steward_C": {
   "size": 1,
@@ -1055,7 +3708,134 @@ export const REGION_ENEMIES = {
   "move": 50,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": true
+  "marksHeroes": true,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "enraging_slight",
+    "dmgMin": 2,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "the_hunger_human",
+    "dmgMin": 4,
+    "dmgMax": 7,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "infallible_servant",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "refined_palate",
+    "dmgMin": 2,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "choice_cut",
+    "dmgMin": 3,
+    "dmgMax": 8,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "gibbering_entourage",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "the_hunger_beast",
+    "dmgMin": 3,
+    "dmgMax": 12,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "sycophant_A": {
   "size": 1,
@@ -1071,7 +3851,100 @@ export const REGION_ENEMIES = {
   "move": 5,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "maddening_whine",
+    "dmgMin": 2,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "the_hunger_human",
+    "dmgMin": 2,
+    "dmgMax": 4,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "deafening_whine",
+    "dmgMin": 1,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "bombing_run",
+    "dmgMin": 3,
+    "dmgMax": 4,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "the_hunger_beast",
+    "dmgMin": 4,
+    "dmgMax": 6,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "sycophant_B": {
   "size": 1,
@@ -1087,7 +3960,100 @@ export const REGION_ENEMIES = {
   "move": 25,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "maddening_whine",
+    "dmgMin": 3,
+    "dmgMax": 3,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "the_hunger_human",
+    "dmgMin": 3,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "deafening_whine",
+    "dmgMin": 2,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "bombing_run",
+    "dmgMin": 4,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "the_hunger_beast",
+    "dmgMin": 6,
+    "dmgMax": 8,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "sycophant_C": {
   "size": 1,
@@ -1103,7 +4069,100 @@ export const REGION_ENEMIES = {
   "move": 45,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "maddening_whine",
+    "dmgMin": 4,
+    "dmgMax": 4,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "the_hunger_human",
+    "dmgMin": 4,
+    "dmgMax": 7,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "deafening_whine",
+    "dmgMin": 2,
+    "dmgMax": 4,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "bombing_run",
+    "dmgMin": 5,
+    "dmgMax": 8,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "the_hunger_beast",
+    "dmgMin": 8,
+    "dmgMax": 11,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "tick_zombie_A": {
   "size": 1,
@@ -1119,7 +4178,44 @@ export const REGION_ENEMIES = {
   "move": 25,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "gather_the_blood",
+    "dmgMin": 2,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "predigestion",
+    "dmgMin": 1,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "tick_zombie_B": {
   "size": 1,
@@ -1135,7 +4231,44 @@ export const REGION_ENEMIES = {
   "move": 45,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "gather_the_blood",
+    "dmgMin": 2,
+    "dmgMax": 6,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "predigestion",
+    "dmgMin": 2,
+    "dmgMax": 6,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "tick_zombie_C": {
   "size": 1,
@@ -1151,7 +4284,44 @@ export const REGION_ENEMIES = {
   "move": 65,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "gather_the_blood",
+    "dmgMin": 3,
+    "dmgMax": 8,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "predigestion",
+    "dmgMin": 2,
+    "dmgMax": 9,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "viscount_C": {
   "size": 1,
@@ -1167,7 +4337,116 @@ export const REGION_ENEMIES = {
   "move": 90,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 3,
+  "skills": [
+   {
+    "id": "feed_on_emaciated",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "feed_on_average",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "hungry_eyes",
+    "dmgMin": 2,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "fine_pairing",
+    "dmgMin": 5,
+    "dmgMax": 14,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "feed_on_bloated",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "served_rare",
+    "dmgMin": 7,
+    "dmgMax": 12,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   }
+  ]
  },
  "snake_big_adder_A": {
   "size": 2,
@@ -1183,7 +4462,55 @@ export const REGION_ENEMIES = {
   "move": 80,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "snake_head_poison",
+    "dmgMin": 2,
+    "dmgMax": 4,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "snake_head_stun",
+    "dmgMin": 5,
+    "dmgMax": 9,
+    "launch": [
+     1,
+     2,
+     3
+    ],
+    "hits": [
+     1,
+     2,
+     3
+    ],
+    "aoe": false
+   },
+   {
+    "id": "molt",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     2,
+     3
+    ],
+    "hits": [],
+    "aoe": false
+   }
+  ]
  },
  "snake_big_adder_B": {
   "size": 2,
@@ -1199,7 +4526,55 @@ export const REGION_ENEMIES = {
   "move": 100,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "snake_head_poison",
+    "dmgMin": 3,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "snake_head_stun",
+    "dmgMin": 6,
+    "dmgMax": 13,
+    "launch": [
+     1,
+     2,
+     3
+    ],
+    "hits": [
+     1,
+     2,
+     3
+    ],
+    "aoe": false
+   },
+   {
+    "id": "molt",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     2,
+     3
+    ],
+    "hits": [],
+    "aoe": false
+   }
+  ]
  },
  "snake_big_adder_C": {
   "size": 2,
@@ -1215,7 +4590,55 @@ export const REGION_ENEMIES = {
   "move": 120,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "snake_head_poison",
+    "dmgMin": 4,
+    "dmgMax": 7,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "snake_head_stun",
+    "dmgMin": 9,
+    "dmgMax": 17,
+    "launch": [
+     1,
+     2,
+     3
+    ],
+    "hits": [
+     1,
+     2,
+     3
+    ],
+    "aoe": false
+   },
+   {
+    "id": "molt",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     2,
+     3
+    ],
+    "hits": [],
+    "aoe": false
+   }
+  ]
  },
  "snake_cobra_A": {
   "size": 1,
@@ -1231,7 +4654,40 @@ export const REGION_ENEMIES = {
   "move": 25,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "cobra_spit",
+    "dmgMin": 1,
+    "dmgMax": 1,
+    "launch": [
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "cobra_bite",
+    "dmgMin": 3,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   }
+  ]
  },
  "snake_cobra_B": {
   "size": 1,
@@ -1247,7 +4703,40 @@ export const REGION_ENEMIES = {
   "move": 45,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "cobra_spit",
+    "dmgMin": 2,
+    "dmgMax": 2,
+    "launch": [
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "cobra_bite",
+    "dmgMin": 4,
+    "dmgMax": 7,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   }
+  ]
  },
  "snake_cobra_C": {
   "size": 1,
@@ -1263,7 +4752,40 @@ export const REGION_ENEMIES = {
   "move": 65,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "cobra_spit",
+    "dmgMin": 2,
+    "dmgMax": 2,
+    "launch": [
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "cobra_bite",
+    "dmgMin": 5,
+    "dmgMax": 10,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   }
+  ]
  },
  "snake_rattler_A": {
   "size": 1,
@@ -1279,7 +4801,57 @@ export const REGION_ENEMIES = {
   "move": 50,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "snake_guard",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "snake_bite",
+    "dmgMin": 3,
+    "dmgMax": 7,
+    "launch": [
+     1,
+     2,
+     3
+    ],
+    "hits": [
+     1,
+     2,
+     3
+    ],
+    "aoe": false
+   },
+   {
+    "id": "slither_forward",
+    "dmgMin": 1,
+    "dmgMax": 3,
+    "launch": [
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   }
+  ]
  },
  "snake_rattler_B": {
   "size": 1,
@@ -1295,7 +4867,57 @@ export const REGION_ENEMIES = {
   "move": 70,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "snake_guard",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "snake_bite",
+    "dmgMin": 5,
+    "dmgMax": 9,
+    "launch": [
+     1,
+     2,
+     3
+    ],
+    "hits": [
+     1,
+     2,
+     3
+    ],
+    "aoe": false
+   },
+   {
+    "id": "slither_forward",
+    "dmgMin": 2,
+    "dmgMax": 3,
+    "launch": [
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   }
+  ]
  },
  "snake_rattler_C": {
   "size": 1,
@@ -1311,7 +4933,57 @@ export const REGION_ENEMIES = {
   "move": 90,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "snake_guard",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "snake_bite",
+    "dmgMin": 6,
+    "dmgMax": 13,
+    "launch": [
+     1,
+     2,
+     3
+    ],
+    "hits": [
+     1,
+     2,
+     3
+    ],
+    "aoe": false
+   },
+   {
+    "id": "slither_forward",
+    "dmgMin": 2,
+    "dmgMax": 5,
+    "launch": [
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   }
+  ]
  },
  "cocoon_A": {
   "size": 1,
@@ -1327,7 +4999,41 @@ export const REGION_ENEMIES = {
   "move": 0,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "xform_to_farmhand",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "murmurs",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "cocoon_B": {
   "size": 1,
@@ -1343,7 +5049,41 @@ export const REGION_ENEMIES = {
   "move": 20,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "xform_to_farmhand",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "murmurs",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "cocoon_C": {
   "size": 1,
@@ -1359,7 +5099,41 @@ export const REGION_ENEMIES = {
   "move": 40,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "xform_to_farmhand",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "murmurs",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "com_bulrush_D": {
   "size": 1,
@@ -1375,7 +5149,9 @@ export const REGION_ENEMIES = {
   "move": 240,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "com_cattail_D": {
   "size": 1,
@@ -1391,7 +5167,9 @@ export const REGION_ENEMIES = {
   "move": 240,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "com_crocodile_D": {
   "size": 1,
@@ -1407,7 +5185,92 @@ export const REGION_ENEMIES = {
   "move": 75,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 2,
+  "skills": [
+   {
+    "id": "com_angry_hive",
+    "dmgMin": 3,
+    "dmgMax": 10,
+    "launch": [
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "com_teeth_rake",
+    "dmgMin": 7,
+    "dmgMax": 15,
+    "launch": [
+     1,
+     2,
+     3
+    ],
+    "hits": [
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "com_submerge",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     2,
+     3
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "com_submerge_nuke",
+    "dmgMin": 20,
+    "dmgMax": 24,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "com_move_from_right",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "com_move_from_left",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1
+    ],
+    "hits": [],
+    "aoe": false
+   }
+  ]
  },
  "corpse_crystal_A": {
   "size": 1,
@@ -1423,7 +5286,46 @@ export const REGION_ENEMIES = {
   "move": 0,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "crystal_ranged_suicide",
+    "dmgMin": 10,
+    "dmgMax": 15,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "crystal_suicide",
+    "dmgMin": 2,
+    "dmgMax": 4,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "corpse_crystal_B": {
   "size": 1,
@@ -1439,7 +5341,46 @@ export const REGION_ENEMIES = {
   "move": 0,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "crystal_ranged_suicide",
+    "dmgMin": 12,
+    "dmgMax": 16,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "crystal_suicide",
+    "dmgMin": 3,
+    "dmgMax": 6,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "corpse_crystal_C": {
   "size": 1,
@@ -1455,7 +5396,46 @@ export const REGION_ENEMIES = {
   "move": 0,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "crystal_ranged_suicide",
+    "dmgMin": 20,
+    "dmgMax": 25,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "crystal_suicide",
+    "dmgMin": 5,
+    "dmgMax": 8,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "corpse_crystal_D": {
   "size": 1,
@@ -1471,7 +5451,46 @@ export const REGION_ENEMIES = {
   "move": 0,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "crystal_ranged_suicide",
+    "dmgMin": 1,
+    "dmgMax": 1,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "crystal_suicide",
+    "dmgMin": 2,
+    "dmgMax": 4,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "farmer_A": {
   "size": 1,
@@ -1487,7 +5506,57 @@ export const REGION_ENEMIES = {
   "move": 10,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "sowing_seeds",
+    "dmgMin": 1,
+    "dmgMax": 1,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "pause_from_labour",
+    "dmgMin": null,
+    "dmgMax": null,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "farmer_attack",
+    "dmgMin": 3,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   }
+  ]
  },
  "farmer_B": {
   "size": 1,
@@ -1503,7 +5572,57 @@ export const REGION_ENEMIES = {
   "move": 30,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "sowing_seeds",
+    "dmgMin": 1,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "pause_from_labour",
+    "dmgMin": null,
+    "dmgMax": null,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "farmer_attack",
+    "dmgMin": 4,
+    "dmgMax": 7,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   }
+  ]
  },
  "farmer_C": {
   "size": 1,
@@ -1519,7 +5638,57 @@ export const REGION_ENEMIES = {
   "move": 50,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "sowing_seeds",
+    "dmgMin": 2,
+    "dmgMax": 3,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "pause_from_labour",
+    "dmgMin": null,
+    "dmgMax": null,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "farmer_attack",
+    "dmgMin": 5,
+    "dmgMax": 9,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   }
+  ]
  },
  "foreman_A": {
   "size": 1,
@@ -1535,7 +5704,64 @@ export const REGION_ENEMIES = {
   "move": 20,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": true
+  "marksHeroes": true,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "hasten_sowing",
+    "dmgMin": null,
+    "dmgMax": null,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "no_tresspassers",
+    "dmgMin": 5,
+    "dmgMax": 9,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "many_hands",
+    "dmgMin": null,
+    "dmgMax": null,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "foreman_B": {
   "size": 1,
@@ -1551,7 +5777,64 @@ export const REGION_ENEMIES = {
   "move": 40,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": true
+  "marksHeroes": true,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "hasten_sowing",
+    "dmgMin": null,
+    "dmgMax": null,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "no_tresspassers",
+    "dmgMin": 7,
+    "dmgMax": 12,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "many_hands",
+    "dmgMin": null,
+    "dmgMax": null,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "foreman_C": {
   "size": 1,
@@ -1567,7 +5850,64 @@ export const REGION_ENEMIES = {
   "move": 60,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": true
+  "marksHeroes": true,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "hasten_sowing",
+    "dmgMin": null,
+    "dmgMax": null,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "no_tresspassers",
+    "dmgMin": 9,
+    "dmgMax": 16,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "many_hands",
+    "dmgMin": null,
+    "dmgMax": null,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "galaxy_D": {
   "size": 4,
@@ -1583,7 +5923,46 @@ export const REGION_ENEMIES = {
   "move": 240,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "rend_the_warp",
+    "dmgMin": 14,
+    "dmgMax": 22,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "the_husking",
+    "dmgMin": 6,
+    "dmgMax": 14,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "gatekeeper_A": {
   "size": 1,
@@ -1599,7 +5978,28 @@ export const REGION_ENEMIES = {
   "move": 10,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "dimensional_gate",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "gatekeeper_B": {
   "size": 1,
@@ -1615,7 +6015,28 @@ export const REGION_ENEMIES = {
   "move": 30,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "dimensional_gate",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "gatekeeper_C": {
   "size": 1,
@@ -1631,7 +6052,28 @@ export const REGION_ENEMIES = {
   "move": 50,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "dimensional_gate",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "miller_A": {
   "size": 2,
@@ -1647,7 +6089,121 @@ export const REGION_ENEMIES = {
   "move": 50,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 2,
+  "skills": [
+   {
+    "id": "harvest",
+    "dmgMin": 2,
+    "dmgMax": 4,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "winters_breath",
+    "dmgMin": null,
+    "dmgMax": null,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "grind_the_grist",
+    "dmgMin": 5,
+    "dmgMax": 8,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "sadness",
+    "dmgMin": 1,
+    "dmgMax": 1,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "summon_scarecrow",
+    "dmgMin": null,
+    "dmgMax": null,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "summon_farmers",
+    "dmgMin": null,
+    "dmgMax": null,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "summon_revenant",
+    "dmgMin": null,
+    "dmgMax": null,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   }
+  ]
  },
  "miller_B": {
   "size": 2,
@@ -1663,7 +6219,121 @@ export const REGION_ENEMIES = {
   "move": 70,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 2,
+  "skills": [
+   {
+    "id": "harvest",
+    "dmgMin": 3,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "winters_breath",
+    "dmgMin": null,
+    "dmgMax": null,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "grind_the_grist",
+    "dmgMin": 6,
+    "dmgMax": 10,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "sadness",
+    "dmgMin": 2,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "summon_scarecrow",
+    "dmgMin": null,
+    "dmgMax": null,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "summon_farmers",
+    "dmgMin": null,
+    "dmgMax": null,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "summon_revenant",
+    "dmgMin": null,
+    "dmgMax": null,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   }
+  ]
  },
  "miller_C": {
   "size": 2,
@@ -1679,7 +6349,121 @@ export const REGION_ENEMIES = {
   "move": 90,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 2,
+  "skills": [
+   {
+    "id": "harvest",
+    "dmgMin": 4,
+    "dmgMax": 7,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "winters_breath",
+    "dmgMin": null,
+    "dmgMax": null,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "grind_the_grist",
+    "dmgMin": 8,
+    "dmgMax": 14,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "sadness",
+    "dmgMin": 2,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "summon_scarecrow",
+    "dmgMin": null,
+    "dmgMax": null,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "summon_farmers",
+    "dmgMin": null,
+    "dmgMax": null,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "summon_revenant",
+    "dmgMin": null,
+    "dmgMax": null,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   }
+  ]
  },
  "plowhorse_A": {
   "size": 2,
@@ -1695,7 +6479,75 @@ export const REGION_ENEMIES = {
   "move": 60,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "trample",
+    "dmgMin": 2,
+    "dmgMax": 4,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "rearing_stomp",
+    "dmgMin": 3,
+    "dmgMax": 7,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "paw_ground",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "scream",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "plowhorse_B": {
   "size": 2,
@@ -1711,7 +6563,75 @@ export const REGION_ENEMIES = {
   "move": 80,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "trample",
+    "dmgMin": 3,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "rearing_stomp",
+    "dmgMin": 5,
+    "dmgMax": 9,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "paw_ground",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "scream",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "plowhorse_C": {
   "size": 2,
@@ -1727,7 +6647,75 @@ export const REGION_ENEMIES = {
   "move": 100,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "trample",
+    "dmgMin": 4,
+    "dmgMax": 7,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "rearing_stomp",
+    "dmgMin": 6,
+    "dmgMax": 12,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "paw_ground",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "scream",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "revenant_A": {
   "size": 1,
@@ -1743,7 +6731,28 @@ export const REGION_ENEMIES = {
   "move": 20,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "nothing_is_right",
+    "dmgMin": 1,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "revenant_B": {
   "size": 1,
@@ -1759,7 +6768,28 @@ export const REGION_ENEMIES = {
   "move": 40,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "nothing_is_right",
+    "dmgMin": 1,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "revenant_C": {
   "size": 1,
@@ -1775,7 +6805,28 @@ export const REGION_ENEMIES = {
   "move": 60,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "nothing_is_right",
+    "dmgMin": 1,
+    "dmgMax": 3,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "scarecrow_A": {
   "size": 1,
@@ -1791,7 +6842,44 @@ export const REGION_ENEMIES = {
   "move": 10,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "the_wonders",
+    "dmgMin": 1,
+    "dmgMax": 3,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "insistent_grasp",
+    "dmgMin": 3,
+    "dmgMax": 7,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   }
+  ]
  },
  "scarecrow_B": {
   "size": 1,
@@ -1807,7 +6895,44 @@ export const REGION_ENEMIES = {
   "move": 30,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "the_wonders",
+    "dmgMin": 2,
+    "dmgMax": 4,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "insistent_grasp",
+    "dmgMin": 5,
+    "dmgMax": 9,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   }
+  ]
  },
  "scarecrow_C": {
   "size": 1,
@@ -1823,7 +6948,79 @@ export const REGION_ENEMIES = {
   "move": 50,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "the_wonders",
+    "dmgMin": 2,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "insistent_grasp",
+    "dmgMin": 6,
+    "dmgMax": 12,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "root_down",
+    "dmgMin": 4,
+    "dmgMax": 6,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "ashen_breeze",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "seedling_black_D": {
   "size": 1,
@@ -1839,7 +7036,9 @@ export const REGION_ENEMIES = {
   "move": 65,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "seedling_grey_D": {
   "size": 1,
@@ -1855,7 +7054,9 @@ export const REGION_ENEMIES = {
   "move": 65,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "seedling_purple_D": {
   "size": 1,
@@ -1871,7 +7072,9 @@ export const REGION_ENEMIES = {
   "move": 65,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "seedling_red_D": {
   "size": 1,
@@ -1887,7 +7090,9 @@ export const REGION_ENEMIES = {
   "move": 65,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "seedling_yellow_D": {
   "size": 1,
@@ -1903,7 +7108,9 @@ export const REGION_ENEMIES = {
   "move": 65,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "seed_black_D": {
   "size": 1,
@@ -1919,7 +7126,28 @@ export const REGION_ENEMIES = {
   "move": 65,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "black_seed_suicide",
+    "dmgMin": 3,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "seed_grey_D": {
   "size": 1,
@@ -1935,7 +7163,9 @@ export const REGION_ENEMIES = {
   "move": 75,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "seed_purple_D": {
   "size": 1,
@@ -1951,7 +7181,28 @@ export const REGION_ENEMIES = {
   "move": 65,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "purple_seed_suicide",
+    "dmgMin": 5,
+    "dmgMax": 11,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "seed_red_D": {
   "size": 1,
@@ -1967,7 +7218,28 @@ export const REGION_ENEMIES = {
   "move": 65,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "red_seed_suicide",
+    "dmgMin": 4,
+    "dmgMax": 6,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "seed_yellow_D": {
   "size": 1,
@@ -1983,7 +7255,28 @@ export const REGION_ENEMIES = {
   "move": 65,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "yellow_seed_suicide",
+    "dmgMin": 6,
+    "dmgMax": 10,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "spire_D": {
   "size": 1,
@@ -1999,7 +7292,197 @@ export const REGION_ENEMIES = {
   "move": 140,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 3,
+  "skills": [
+   {
+    "id": "spawn_sprout",
+    "dmgMin": null,
+    "dmgMax": null,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "initial_sprouts",
+    "dmgMin": null,
+    "dmgMax": null,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "grow_seed_yellow",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "grow_seed_red",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "grow_seed_black",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "grow_seed_purple",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "grow_seed_grey",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "slow_the_sands",
+    "dmgMin": 3,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "xform_to_galaxy",
+    "dmgMin": null,
+    "dmgMax": null,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "sprout_to_seedling_grey",
+    "dmgMin": null,
+    "dmgMax": null,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "sprout_to_seedling_red",
+    "dmgMin": null,
+    "dmgMax": null,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "sprout_to_seedling_black",
+    "dmgMin": null,
+    "dmgMax": null,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "sprout_to_seedling_purple",
+    "dmgMin": null,
+    "dmgMax": null,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "sprout_to_seedling_yellow",
+    "dmgMin": null,
+    "dmgMax": null,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   }
+  ]
  },
  "sprout_D": {
   "size": 1,
@@ -2015,7 +7498,9 @@ export const REGION_ENEMIES = {
   "move": 40,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "thing_A": {
   "size": 2,
@@ -2031,7 +7516,134 @@ export const REGION_ENEMIES = {
   "move": 25,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 2,
+  "skills": [
+   {
+    "id": "phase_gnaw",
+    "dmgMin": 3,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "consume_self",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "tainting_touch",
+    "dmgMin": 6,
+    "dmgMax": 9,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "emit_globule_stun",
+    "dmgMin": 1,
+    "dmgMax": 1,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "emit_globule_debuff",
+    "dmgMin": 1,
+    "dmgMax": 1,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "emit_globule_combatnerf",
+    "dmgMin": 1,
+    "dmgMax": 1,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "consume_self_once",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "thing_B": {
   "size": 2,
@@ -2047,7 +7659,134 @@ export const REGION_ENEMIES = {
   "move": 45,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 2,
+  "skills": [
+   {
+    "id": "phase_gnaw",
+    "dmgMin": 5,
+    "dmgMax": 6,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "consume_self",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "tainting_touch",
+    "dmgMin": 9,
+    "dmgMax": 12,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "emit_globule_stun",
+    "dmgMin": 2,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "emit_globule_debuff",
+    "dmgMin": 2,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "emit_globule_combatnerf",
+    "dmgMin": 2,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "consume_self_once",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "thing_C": {
   "size": 2,
@@ -2063,7 +7802,134 @@ export const REGION_ENEMIES = {
   "move": 65,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 2,
+  "skills": [
+   {
+    "id": "phase_gnaw",
+    "dmgMin": 6,
+    "dmgMax": 8,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "consume_self",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "tainting_touch",
+    "dmgMin": 11,
+    "dmgMax": 16,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "emit_globule_stun",
+    "dmgMin": 2,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "emit_globule_debuff",
+    "dmgMin": 2,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "emit_globule_combatnerf",
+    "dmgMin": 2,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "consume_self_once",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "ancestor_big_D": {
   "size": 1,
@@ -2079,7 +7945,77 @@ export const REGION_ENEMIES = {
   "move": 0,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "ancestor_fuse_two",
+    "dmgMin": 5,
+    "dmgMax": 14,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "ancestor_fuse_all",
+    "dmgMin": 2,
+    "dmgMax": 7,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "ancestor_contemplate",
+    "dmgMin": 1,
+    "dmgMax": 3,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "kill_self",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   }
+  ]
  },
  "ancestor_flawed_D": {
   "size": 1,
@@ -2095,7 +8031,46 @@ export const REGION_ENEMIES = {
   "move": 58,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": true
+  "marksHeroes": true,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "flawed_mark",
+    "dmgMin": 1,
+    "dmgMax": 3,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "flawed_reveal",
+    "dmgMin": 2,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "ancestor_heart_D": {
   "size": 4,
@@ -2111,7 +8086,82 @@ export const REGION_ENEMIES = {
   "move": 88,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "kill_pill",
+    "dmgMin": 11,
+    "dmgMax": 23,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "heart_stress",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "heart_pierce",
+    "dmgMin": 13,
+    "dmgMax": 16,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "heart_stun",
+    "dmgMin": 13,
+    "dmgMax": 16,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "ancestor_nebula_D": {
   "size": 1,
@@ -2127,7 +8177,9 @@ export const REGION_ENEMIES = {
   "move": 1000,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "ancestor_perfect_D": {
   "size": 1,
@@ -2143,7 +8195,46 @@ export const REGION_ENEMIES = {
   "move": 73,
   "corpse": false,
   "punishesMark": true,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "perfect_bloodsteal",
+    "dmgMin": 5,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "perfect_reveal",
+    "dmgMin": 2,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "ancestor_pod_D": {
   "size": 4,
@@ -2159,7 +8250,41 @@ export const REGION_ENEMIES = {
   "move": 73,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "pod_emit",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "pod_die",
+    "dmgMin": null,
+    "dmgMax": null,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   }
+  ]
  },
  "ancestor_small_D": {
   "size": 1,
@@ -2175,7 +8300,79 @@ export const REGION_ENEMIES = {
   "move": 73,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "summon_perfect",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "summon_mixed",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "summon_flawed",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "ancestor_aoe_heal",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "kill_self",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   }
+  ]
  },
  "bloated_corpse_A": {
   "size": 1,
@@ -2191,7 +8388,44 @@ export const REGION_ENEMIES = {
   "move": 25,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "bloated_swipe",
+    "dmgMin": 5,
+    "dmgMax": 9,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "explode",
+    "dmgMin": 5,
+    "dmgMax": 13,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "bloated_corpse_B": {
   "size": 1,
@@ -2207,7 +8441,44 @@ export const REGION_ENEMIES = {
   "move": 45,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "bloated_swipe",
+    "dmgMin": 6,
+    "dmgMax": 13,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "explode",
+    "dmgMin": 7,
+    "dmgMax": 17,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "bloated_corpse_C": {
   "size": 1,
@@ -2223,7 +8494,44 @@ export const REGION_ENEMIES = {
   "move": 65,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "bloated_swipe",
+    "dmgMin": 9,
+    "dmgMax": 17,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "explode",
+    "dmgMin": 10,
+    "dmgMax": 23,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "brigand_barrel_D": {
   "size": 1,
@@ -2239,7 +8547,9 @@ export const REGION_ENEMIES = {
   "move": 300,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "brigand_blood_A": {
   "size": 2,
@@ -2255,7 +8565,56 @@ export const REGION_ENEMIES = {
   "move": 75,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "whip_party",
+    "dmgMin": 1,
+    "dmgMax": 1,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "whip_single",
+    "dmgMin": 2,
+    "dmgMax": 4,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "point_blank_shot",
+    "dmgMin": 4,
+    "dmgMax": 11,
+    "launch": [
+     1
+    ],
+    "hits": [
+     1
+    ],
+    "aoe": false
+   }
+  ]
  },
  "brigand_blood_B": {
   "size": 2,
@@ -2271,7 +8630,56 @@ export const REGION_ENEMIES = {
   "move": 95,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "whip_party",
+    "dmgMin": 1,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "whip_single",
+    "dmgMin": 3,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "point_blank_shot",
+    "dmgMin": 5,
+    "dmgMax": 14,
+    "launch": [
+     1
+    ],
+    "hits": [
+     1
+    ],
+    "aoe": false
+   }
+  ]
  },
  "brigand_blood_C": {
   "size": 2,
@@ -2287,7 +8695,56 @@ export const REGION_ENEMIES = {
   "move": 115,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "whip_party",
+    "dmgMin": 1,
+    "dmgMax": 3,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "whip_single",
+    "dmgMin": 4,
+    "dmgMax": 7,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "point_blank_shot",
+    "dmgMin": 7,
+    "dmgMax": 20,
+    "launch": [
+     1
+    ],
+    "hits": [
+     1
+    ],
+    "aoe": false
+   }
+  ]
  },
  "brigand_cannon_A": {
   "size": 1,
@@ -2303,7 +8760,59 @@ export const REGION_ENEMIES = {
   "move": 100,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "cannon_boom",
+    "dmgMin": 9,
+    "dmgMax": 27,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "cannon_misfire",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "cannon_summon",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   }
+  ]
  },
  "brigand_cannon_B": {
   "size": 1,
@@ -2319,7 +8828,59 @@ export const REGION_ENEMIES = {
   "move": 120,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "cannon_boom",
+    "dmgMin": 12,
+    "dmgMax": 37,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "cannon_misfire",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "cannon_summon",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   }
+  ]
  },
  "brigand_cannon_C": {
   "size": 1,
@@ -2335,7 +8896,59 @@ export const REGION_ENEMIES = {
   "move": 140,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "cannon_boom",
+    "dmgMin": 17,
+    "dmgMax": 50,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "cannon_misfire",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "cannon_summon",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   }
+  ]
  },
  "brigand_cutthroat_A": {
   "size": 1,
@@ -2351,7 +8964,72 @@ export const REGION_ENEMIES = {
   "move": 25,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "double_slice",
+    "dmgMin": 3,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2,
+     3
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": true
+   },
+   {
+    "id": "uppercut_slice",
+    "dmgMin": 2,
+    "dmgMax": 4,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2,
+     3
+    ],
+    "aoe": false
+   },
+   {
+    "id": "bandit_stabby",
+    "dmgMin": 4,
+    "dmgMax": 8,
+    "launch": [
+     1,
+     2,
+     3
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "bandit_stabby_weak",
+    "dmgMin": 2,
+    "dmgMax": 4,
+    "launch": [
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "brigand_cutthroat_B": {
   "size": 1,
@@ -2367,7 +9045,72 @@ export const REGION_ENEMIES = {
   "move": 45,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "double_slice",
+    "dmgMin": 4,
+    "dmgMax": 7,
+    "launch": [
+     1,
+     2,
+     3
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": true
+   },
+   {
+    "id": "uppercut_slice",
+    "dmgMin": 3,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2,
+     3
+    ],
+    "aoe": false
+   },
+   {
+    "id": "bandit_stabby",
+    "dmgMin": 5,
+    "dmgMax": 11,
+    "launch": [
+     1,
+     2,
+     3
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "bandit_stabby_weak",
+    "dmgMin": 3,
+    "dmgMax": 5,
+    "launch": [
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "brigand_cutthroat_C": {
   "size": 1,
@@ -2383,7 +9126,72 @@ export const REGION_ENEMIES = {
   "move": 65,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "double_slice",
+    "dmgMin": 5,
+    "dmgMax": 10,
+    "launch": [
+     1,
+     2,
+     3
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": true
+   },
+   {
+    "id": "uppercut_slice",
+    "dmgMin": 4,
+    "dmgMax": 7,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2,
+     3
+    ],
+    "aoe": false
+   },
+   {
+    "id": "bandit_stabby",
+    "dmgMin": 7,
+    "dmgMax": 15,
+    "launch": [
+     1,
+     2,
+     3
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "bandit_stabby_weak",
+    "dmgMin": 4,
+    "dmgMax": 7,
+    "launch": [
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "brigand_fuseman_A": {
   "size": 1,
@@ -2399,7 +9207,46 @@ export const REGION_ENEMIES = {
   "move": 25,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "light_fuse",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "hot_shot",
+    "dmgMin": 1,
+    "dmgMax": 1,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "brigand_fuseman_B": {
   "size": 1,
@@ -2415,7 +9262,46 @@ export const REGION_ENEMIES = {
   "move": 45,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "light_fuse",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "hot_shot",
+    "dmgMin": 1,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "brigand_fuseman_C": {
   "size": 1,
@@ -2431,7 +9317,46 @@ export const REGION_ENEMIES = {
   "move": 65,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "light_fuse",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "hot_shot",
+    "dmgMin": 1,
+    "dmgMax": 3,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "brigand_fusilier_A": {
   "size": 1,
@@ -2447,7 +9372,41 @@ export const REGION_ENEMIES = {
   "move": 25,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "blunderbuss_shot",
+    "dmgMin": 1,
+    "dmgMax": 3,
+    "launch": [
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "rushed_shot",
+    "dmgMin": 2,
+    "dmgMax": 4,
+    "launch": [
+     1
+    ],
+    "hits": [
+     1,
+     2,
+     3
+    ],
+    "aoe": false
+   }
+  ]
  },
  "brigand_fusilier_B": {
   "size": 1,
@@ -2463,7 +9422,41 @@ export const REGION_ENEMIES = {
   "move": 45,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "blunderbuss_shot",
+    "dmgMin": 1,
+    "dmgMax": 4,
+    "launch": [
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "rushed_shot",
+    "dmgMin": 3,
+    "dmgMax": 5,
+    "launch": [
+     1
+    ],
+    "hits": [
+     1,
+     2,
+     3
+    ],
+    "aoe": false
+   }
+  ]
  },
  "brigand_fusilier_C": {
   "size": 1,
@@ -2479,7 +9472,41 @@ export const REGION_ENEMIES = {
   "move": 65,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "blunderbuss_shot",
+    "dmgMin": 2,
+    "dmgMax": 5,
+    "launch": [
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "rushed_shot",
+    "dmgMin": 4,
+    "dmgMax": 7,
+    "launch": [
+     1
+    ],
+    "hits": [
+     1,
+     2,
+     3
+    ],
+    "aoe": false
+   }
+  ]
  },
  "brigand_hunter_D": {
   "size": 1,
@@ -2495,7 +9522,41 @@ export const REGION_ENEMIES = {
   "move": 73,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "blunderbuss_shot",
+    "dmgMin": 2,
+    "dmgMax": 6,
+    "launch": [
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "rushed_shot",
+    "dmgMin": 4,
+    "dmgMax": 9,
+    "launch": [
+     1
+    ],
+    "hits": [
+     1,
+     2,
+     3
+    ],
+    "aoe": false
+   }
+  ]
  },
  "brigand_raider_D": {
   "size": 1,
@@ -2511,7 +9572,72 @@ export const REGION_ENEMIES = {
   "move": 73,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": true
+  "marksHeroes": true,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "double_slice",
+    "dmgMin": 6,
+    "dmgMax": 11,
+    "launch": [
+     1,
+     2,
+     3
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": true
+   },
+   {
+    "id": "uppercut_slice",
+    "dmgMin": 4,
+    "dmgMax": 9,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2,
+     3
+    ],
+    "aoe": false
+   },
+   {
+    "id": "bandit_stabby",
+    "dmgMin": 7,
+    "dmgMax": 15,
+    "launch": [
+     1,
+     2,
+     3
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "bandit_stabby_weak",
+    "dmgMin": 4,
+    "dmgMax": 9,
+    "launch": [
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "carrion_eater_A": {
   "size": 1,
@@ -2527,7 +9653,27 @@ export const REGION_ENEMIES = {
   "move": 50,
   "corpse": true,
   "punishesMark": true,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "munch",
+    "dmgMin": 2,
+    "dmgMax": 4,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3
+    ],
+    "aoe": false
+   }
+  ]
  },
  "carrion_eater_B": {
   "size": 1,
@@ -2543,7 +9689,27 @@ export const REGION_ENEMIES = {
   "move": 70,
   "corpse": true,
   "punishesMark": true,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "munch",
+    "dmgMin": 3,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3
+    ],
+    "aoe": false
+   }
+  ]
  },
  "carrion_eater_C": {
   "size": 1,
@@ -2559,7 +9725,27 @@ export const REGION_ENEMIES = {
   "move": 90,
   "corpse": true,
   "punishesMark": true,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "munch",
+    "dmgMin": 4,
+    "dmgMax": 7,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3
+    ],
+    "aoe": false
+   }
+  ]
  },
  "carrion_eater_big_A": {
   "size": 2,
@@ -2575,7 +9761,44 @@ export const REGION_ENEMIES = {
   "move": 75,
   "corpse": true,
   "punishesMark": true,
-  "marksHeroes": true
+  "marksHeroes": true,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "weaken_prey",
+    "dmgMin": 2,
+    "dmgMax": 4,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3
+    ],
+    "aoe": false
+   },
+   {
+    "id": "tentacle_devour",
+    "dmgMin": 5,
+    "dmgMax": 11,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3
+    ],
+    "aoe": false
+   }
+  ]
  },
  "carrion_eater_big_B": {
   "size": 2,
@@ -2591,7 +9814,44 @@ export const REGION_ENEMIES = {
   "move": 95,
   "corpse": true,
   "punishesMark": true,
-  "marksHeroes": true
+  "marksHeroes": true,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "weaken_prey",
+    "dmgMin": 3,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3
+    ],
+    "aoe": false
+   },
+   {
+    "id": "tentacle_devour",
+    "dmgMin": 7,
+    "dmgMax": 15,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3
+    ],
+    "aoe": false
+   }
+  ]
  },
  "carrion_eater_big_C": {
   "size": 2,
@@ -2607,7 +9867,44 @@ export const REGION_ENEMIES = {
   "move": 115,
   "corpse": true,
   "punishesMark": true,
-  "marksHeroes": true
+  "marksHeroes": true,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "weaken_prey",
+    "dmgMin": 4,
+    "dmgMax": 7,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3
+    ],
+    "aoe": false
+   },
+   {
+    "id": "tentacle_devour",
+    "dmgMin": 10,
+    "dmgMax": 20,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3
+    ],
+    "aoe": false
+   }
+  ]
  },
  "cauldron_empty_A": {
   "size": 2,
@@ -2623,7 +9920,9 @@ export const REGION_ENEMIES = {
   "move": 200,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "cauldron_empty_B": {
   "size": 2,
@@ -2639,7 +9938,9 @@ export const REGION_ENEMIES = {
   "move": 220,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "cauldron_empty_C": {
   "size": 2,
@@ -2655,7 +9956,9 @@ export const REGION_ENEMIES = {
   "move": 240,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "cauldron_full_A": {
   "size": 2,
@@ -2671,7 +9974,9 @@ export const REGION_ENEMIES = {
   "move": 200,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "cauldron_full_B": {
   "size": 2,
@@ -2687,7 +9992,9 @@ export const REGION_ENEMIES = {
   "move": 220,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "cauldron_full_C": {
   "size": 2,
@@ -2703,7 +10010,9 @@ export const REGION_ENEMIES = {
   "move": 240,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "cell_battle_D": {
   "size": 1,
@@ -2719,7 +10028,27 @@ export const REGION_ENEMIES = {
   "move": 73,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "battlecell_bam",
+    "dmgMin": 8,
+    "dmgMax": 17,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3
+    ],
+    "aoe": false
+   }
+  ]
  },
  "cell_white_D": {
   "size": 1,
@@ -2735,7 +10064,64 @@ export const REGION_ENEMIES = {
   "move": 73,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "cell_reconstruct",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "cell_teleport",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "cell_shuffle",
+    "dmgMin": 1,
+    "dmgMax": 3,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "collector_A": {
   "size": 1,
@@ -2751,7 +10137,68 @@ export const REGION_ENEMIES = {
   "move": 25,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": true
+  "marksHeroes": true,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "show_collection",
+    "dmgMin": 1,
+    "dmgMax": 1,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": true
+   },
+   {
+    "id": "collect_call",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "life_steal",
+    "dmgMin": 3,
+    "dmgMax": 7,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "collect_call_battle",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   }
+  ]
  },
  "collector_B": {
   "size": 1,
@@ -2767,7 +10214,68 @@ export const REGION_ENEMIES = {
   "move": 45,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": true
+  "marksHeroes": true,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "show_collection",
+    "dmgMin": 1,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": true
+   },
+   {
+    "id": "collect_call",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "life_steal",
+    "dmgMin": 5,
+    "dmgMax": 9,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "collect_call_battle",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   }
+  ]
  },
  "collector_C": {
   "size": 1,
@@ -2783,7 +10291,68 @@ export const REGION_ENEMIES = {
   "move": 65,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": true
+  "marksHeroes": true,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "show_collection",
+    "dmgMin": 1,
+    "dmgMax": 3,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": true
+   },
+   {
+    "id": "collect_call",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "life_steal",
+    "dmgMin": 6,
+    "dmgMax": 13,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "collect_call_battle",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   }
+  ]
  },
  "collector_battle_A": {
   "size": 1,
@@ -2799,7 +10368,28 @@ export const REGION_ENEMIES = {
   "move": 10,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "head_chomp",
+    "dmgMin": 5,
+    "dmgMax": 11,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "collector_battle_B": {
   "size": 1,
@@ -2815,7 +10405,28 @@ export const REGION_ENEMIES = {
   "move": 30,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "head_chomp",
+    "dmgMin": 7,
+    "dmgMax": 15,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "collector_battle_C": {
   "size": 1,
@@ -2831,7 +10442,28 @@ export const REGION_ENEMIES = {
   "move": 50,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "head_chomp",
+    "dmgMin": 10,
+    "dmgMax": 20,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "collector_protect_A": {
   "size": 1,
@@ -2847,7 +10479,46 @@ export const REGION_ENEMIES = {
   "move": 10,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "head_guard",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "head_crush",
+    "dmgMin": 3,
+    "dmgMax": 7,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "collector_protect_B": {
   "size": 1,
@@ -2863,7 +10534,46 @@ export const REGION_ENEMIES = {
   "move": 30,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "head_guard",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "head_crush",
+    "dmgMin": 5,
+    "dmgMax": 9,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "collector_protect_C": {
   "size": 1,
@@ -2879,7 +10589,46 @@ export const REGION_ENEMIES = {
   "move": 50,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "head_guard",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "head_crush",
+    "dmgMin": 6,
+    "dmgMax": 13,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "collector_shaman_A": {
   "size": 1,
@@ -2895,7 +10644,64 @@ export const REGION_ENEMIES = {
   "move": 10,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "head_heal",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "head_buff",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "head_stress",
+    "dmgMin": 2,
+    "dmgMax": 4,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "collector_shaman_B": {
   "size": 1,
@@ -2911,7 +10717,64 @@ export const REGION_ENEMIES = {
   "move": 30,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "head_heal",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "head_buff",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "head_stress",
+    "dmgMin": 3,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "collector_shaman_C": {
   "size": 1,
@@ -2927,7 +10790,64 @@ export const REGION_ENEMIES = {
   "move": 50,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "head_heal",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "head_buff",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "head_stress",
+    "dmgMin": 4,
+    "dmgMax": 7,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "corpse_A": {
   "size": 1,
@@ -2943,7 +10863,9 @@ export const REGION_ENEMIES = {
   "move": 200,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "corpse_B": {
   "size": 1,
@@ -2959,7 +10881,9 @@ export const REGION_ENEMIES = {
   "move": 220,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "corpse_C": {
   "size": 1,
@@ -2975,7 +10899,9 @@ export const REGION_ENEMIES = {
   "move": 240,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "corpse_D": {
   "size": 1,
@@ -2991,7 +10917,9 @@ export const REGION_ENEMIES = {
   "move": 245,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "corpse_large_A": {
   "size": 2,
@@ -3007,7 +10935,9 @@ export const REGION_ENEMIES = {
   "move": 200,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "corpse_large_B": {
   "size": 2,
@@ -3023,7 +10953,9 @@ export const REGION_ENEMIES = {
   "move": 220,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "corpse_large_C": {
   "size": 2,
@@ -3039,7 +10971,9 @@ export const REGION_ENEMIES = {
   "move": 240,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "corpse_large_D": {
   "size": 2,
@@ -3055,7 +10989,9 @@ export const REGION_ENEMIES = {
   "move": 245,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "crone_A": {
   "size": 1,
@@ -3071,7 +11007,60 @@ export const REGION_ENEMIES = {
   "move": 10,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": true
+  "marksHeroes": true,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "curse_vulnerability",
+    "dmgMin": 1,
+    "dmgMax": 1,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "fetid_censer",
+    "dmgMin": 1,
+    "dmgMax": 3,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": true
+   },
+   {
+    "id": "embrace_the_dark",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "crone_B": {
   "size": 1,
@@ -3087,7 +11076,60 @@ export const REGION_ENEMIES = {
   "move": 30,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": true
+  "marksHeroes": true,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "curse_vulnerability",
+    "dmgMin": 1,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "fetid_censer",
+    "dmgMin": 2,
+    "dmgMax": 3,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": true
+   },
+   {
+    "id": "embrace_the_dark",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "crone_C": {
   "size": 1,
@@ -3103,7 +11145,60 @@ export const REGION_ENEMIES = {
   "move": 50,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": true
+  "marksHeroes": true,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "curse_vulnerability",
+    "dmgMin": 1,
+    "dmgMax": 3,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "fetid_censer",
+    "dmgMin": 2,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": true
+   },
+   {
+    "id": "embrace_the_dark",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "crow_A": {
   "size": 2,
@@ -3119,7 +11214,100 @@ export const REGION_ENEMIES = {
   "move": 55,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 3,
+  "skills": [
+   {
+    "id": "peck",
+    "dmgMin": 6,
+    "dmgMax": 10,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "caw",
+    "dmgMin": 1,
+    "dmgMax": 1,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "flutter",
+    "dmgMin": 1,
+    "dmgMax": 1,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "distract",
+    "dmgMin": 1,
+    "dmgMax": 1,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "escape",
+    "dmgMin": 1,
+    "dmgMax": 1,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "crow_B": {
   "size": 2,
@@ -3135,7 +11323,100 @@ export const REGION_ENEMIES = {
   "move": 75,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 3,
+  "skills": [
+   {
+    "id": "peck",
+    "dmgMin": 9,
+    "dmgMax": 13,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "caw",
+    "dmgMin": 2,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "flutter",
+    "dmgMin": 2,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "distract",
+    "dmgMin": 2,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "escape",
+    "dmgMin": 2,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "crow_C": {
   "size": 2,
@@ -3151,7 +11432,100 @@ export const REGION_ENEMIES = {
   "move": 95,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 3,
+  "skills": [
+   {
+    "id": "peck",
+    "dmgMin": 12,
+    "dmgMax": 18,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "caw",
+    "dmgMin": 2,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "flutter",
+    "dmgMin": 2,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "distract",
+    "dmgMin": 2,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "escape",
+    "dmgMin": 2,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "crow_D": {
   "size": 2,
@@ -3167,7 +11541,100 @@ export const REGION_ENEMIES = {
   "move": 95,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 3,
+  "skills": [
+   {
+    "id": "peck",
+    "dmgMin": 12,
+    "dmgMax": 18,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "caw",
+    "dmgMin": 2,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "flutter",
+    "dmgMin": 2,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "distract",
+    "dmgMin": 2,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "escape",
+    "dmgMin": 2,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "cultist_brawler_A": {
   "size": 1,
@@ -3183,7 +11650,38 @@ export const REGION_ENEMIES = {
   "move": 25,
   "corpse": true,
   "punishesMark": true,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "brawler_claw",
+    "dmgMin": 2,
+    "dmgMax": 4,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "brawler_claw_weak",
+    "dmgMin": 2,
+    "dmgMax": 4,
+    "launch": [
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   }
+  ]
  },
  "cultist_brawler_B": {
   "size": 1,
@@ -3199,7 +11697,38 @@ export const REGION_ENEMIES = {
   "move": 45,
   "corpse": true,
   "punishesMark": true,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "brawler_claw",
+    "dmgMin": 3,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "brawler_claw_weak",
+    "dmgMin": 3,
+    "dmgMax": 5,
+    "launch": [
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   }
+  ]
  },
  "cultist_brawler_C": {
   "size": 1,
@@ -3215,7 +11744,38 @@ export const REGION_ENEMIES = {
   "move": 65,
   "corpse": true,
   "punishesMark": true,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "brawler_claw",
+    "dmgMin": 4,
+    "dmgMax": 7,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "brawler_claw_weak",
+    "dmgMin": 4,
+    "dmgMax": 7,
+    "launch": [
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   }
+  ]
  },
  "cultist_harpy_D": {
   "size": 1,
@@ -3231,7 +11791,59 @@ export const REGION_ENEMIES = {
   "move": 58,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": true
+  "marksHeroes": true,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "cultist_pull_D",
+    "dmgMin": 1,
+    "dmgMax": 3,
+    "launch": [
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "cultist_push_D",
+    "dmgMin": 1,
+    "dmgMax": 3,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "cultist_incantation_D",
+    "dmgMin": 1,
+    "dmgMax": 3,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "cultist_orgiastic_D": {
   "size": 1,
@@ -3247,7 +11859,46 @@ export const REGION_ENEMIES = {
   "move": 48,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "orgiastic_heal",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "orgiastic_guard",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "cultist_shrouded_D": {
   "size": 1,
@@ -3263,7 +11914,44 @@ export const REGION_ENEMIES = {
   "move": 73,
   "corpse": true,
   "punishesMark": true,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "shrouded_melee",
+    "dmgMin": 4,
+    "dmgMax": 7,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": true
+   },
+   {
+    "id": "shrouded_ranged",
+    "dmgMin": 7,
+    "dmgMax": 14,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "cultist_warlord_D": {
   "size": 1,
@@ -3279,7 +11967,38 @@ export const REGION_ENEMIES = {
   "move": 73,
   "corpse": true,
   "punishesMark": true,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "brawler_claw_D",
+    "dmgMin": 4,
+    "dmgMax": 9,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "brawler_claw_weak",
+    "dmgMin": 4,
+    "dmgMax": 9,
+    "launch": [
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   }
+  ]
  },
  "cultist_witch_A": {
   "size": 1,
@@ -3295,7 +12014,59 @@ export const REGION_ENEMIES = {
   "move": 10,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "cultist_pull",
+    "dmgMin": 1,
+    "dmgMax": 1,
+    "launch": [
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "cultist_push",
+    "dmgMin": 1,
+    "dmgMax": 1,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "cultist_incantation",
+    "dmgMin": 1,
+    "dmgMax": 1,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "cultist_witch_B": {
   "size": 1,
@@ -3311,7 +12082,59 @@ export const REGION_ENEMIES = {
   "move": 30,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": true
+  "marksHeroes": true,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "cultist_pull",
+    "dmgMin": 1,
+    "dmgMax": 2,
+    "launch": [
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "cultist_push",
+    "dmgMin": 1,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "cultist_incantation",
+    "dmgMin": 1,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "cultist_witch_C": {
   "size": 1,
@@ -3327,7 +12150,59 @@ export const REGION_ENEMIES = {
   "move": 50,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": true
+  "marksHeroes": true,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "cultist_pull",
+    "dmgMin": 1,
+    "dmgMax": 3,
+    "launch": [
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "cultist_push",
+    "dmgMin": 1,
+    "dmgMax": 3,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "cultist_incantation",
+    "dmgMin": 1,
+    "dmgMax": 3,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "cyst_D": {
   "size": 3,
@@ -3343,7 +12218,77 @@ export const REGION_ENEMIES = {
   "move": 73,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 2,
+  "skills": [
+   {
+    "id": "beholder_gaze",
+    "dmgMin": 8,
+    "dmgMax": 13,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "beholder_burn",
+    "dmgMin": 8,
+    "dmgMax": 17,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "beholder_healself",
+    "dmgMin": null,
+    "dmgMax": null,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "beholder_summon",
+    "dmgMin": null,
+    "dmgMax": null,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "drowned_anchor_A": {
   "size": 1,
@@ -3359,7 +12304,22 @@ export const REGION_ENEMIES = {
   "move": 200,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "anchor_grapple",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1
+    ],
+    "hits": [
+     1
+    ],
+    "aoe": false
+   }
+  ]
  },
  "drowned_anchor_B": {
   "size": 1,
@@ -3375,7 +12335,22 @@ export const REGION_ENEMIES = {
   "move": 220,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "anchor_grapple",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1
+    ],
+    "hits": [
+     1
+    ],
+    "aoe": false
+   }
+  ]
  },
  "drowned_anchor_C": {
   "size": 1,
@@ -3391,7 +12366,22 @@ export const REGION_ENEMIES = {
   "move": 240,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "anchor_grapple",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1
+    ],
+    "hits": [
+     1
+    ],
+    "aoe": false
+   }
+  ]
  },
  "drowned_anchored_A": {
   "size": 1,
@@ -3407,7 +12397,9 @@ export const REGION_ENEMIES = {
   "move": 200,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "drowned_anchored_B": {
   "size": 1,
@@ -3423,7 +12415,9 @@ export const REGION_ENEMIES = {
   "move": 220,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "drowned_anchored_C": {
   "size": 1,
@@ -3439,7 +12433,9 @@ export const REGION_ENEMIES = {
   "move": 245,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "drowned_captain_A": {
   "size": 3,
@@ -3455,7 +12451,79 @@ export const REGION_ENEMIES = {
   "move": 200,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 2,
+  "skills": [
+   {
+    "id": "all_hands",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "gaffer_hook",
+    "dmgMin": 3,
+    "dmgMax": 7,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "captain_shout",
+    "dmgMin": 1,
+    "dmgMax": 1,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "captain_shout_debuff",
+    "dmgMin": 1,
+    "dmgMax": 1,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "drowned_captain_B": {
   "size": 3,
@@ -3471,7 +12539,79 @@ export const REGION_ENEMIES = {
   "move": 220,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 2,
+  "skills": [
+   {
+    "id": "all_hands",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "gaffer_hook",
+    "dmgMin": 5,
+    "dmgMax": 9,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "captain_shout",
+    "dmgMin": 1,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "captain_shout_debuff",
+    "dmgMin": 1,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "drowned_captain_C": {
   "size": 3,
@@ -3487,7 +12627,79 @@ export const REGION_ENEMIES = {
   "move": 240,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 2,
+  "skills": [
+   {
+    "id": "all_hands",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "gaffer_hook",
+    "dmgMin": 6,
+    "dmgMax": 13,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "captain_shout",
+    "dmgMin": 1,
+    "dmgMax": 3,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "captain_shout_debuff",
+    "dmgMin": 1,
+    "dmgMax": 3,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "drowned_pirate_A": {
   "size": 1,
@@ -3503,7 +12715,44 @@ export const REGION_ENEMIES = {
   "move": 5,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "maddening_shanty",
+    "dmgMin": 1,
+    "dmgMax": 1,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "offkilter_jig",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "drowned_pirate_B": {
   "size": 1,
@@ -3519,7 +12768,44 @@ export const REGION_ENEMIES = {
   "move": 25,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "maddening_shanty",
+    "dmgMin": 1,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "offkilter_jig",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "drowned_pirate_C": {
   "size": 1,
@@ -3535,7 +12821,44 @@ export const REGION_ENEMIES = {
   "move": 45,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "maddening_shanty",
+    "dmgMin": 1,
+    "dmgMax": 3,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "offkilter_jig",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "ectoplasm_A": {
   "size": 1,
@@ -3551,7 +12874,64 @@ export const REGION_ENEMIES = {
   "move": 25,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "slime",
+    "dmgMin": 3,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "summon_slime",
+    "dmgMin": 1,
+    "dmgMax": 1,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "summon_big_slime",
+    "dmgMin": 1,
+    "dmgMax": 1,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "ectoplasm_B": {
   "size": 1,
@@ -3567,7 +12947,64 @@ export const REGION_ENEMIES = {
   "move": 45,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "slime",
+    "dmgMin": 4,
+    "dmgMax": 7,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "summon_slime",
+    "dmgMin": 2,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "summon_big_slime",
+    "dmgMin": 2,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "ectoplasm_C": {
   "size": 1,
@@ -3583,7 +13020,64 @@ export const REGION_ENEMIES = {
   "move": 65,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "slime",
+    "dmgMin": 6,
+    "dmgMax": 9,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "summon_slime",
+    "dmgMin": 2,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "summon_big_slime",
+    "dmgMin": 2,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "ectoplasm_large_A": {
   "size": 2,
@@ -3599,7 +13093,62 @@ export const REGION_ENEMIES = {
   "move": 50,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "slime_lg",
+    "dmgMin": 4,
+    "dmgMax": 8,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "slime_stun",
+    "dmgMin": 2,
+    "dmgMax": 4,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": true
+   },
+   {
+    "id": "summon_little_slime",
+    "dmgMin": 2,
+    "dmgMax": 4,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "ectoplasm_large_B": {
   "size": 2,
@@ -3615,7 +13164,62 @@ export const REGION_ENEMIES = {
   "move": 70,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "slime_lg",
+    "dmgMin": 5,
+    "dmgMax": 11,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "slime_stun",
+    "dmgMin": 3,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": true
+   },
+   {
+    "id": "summon_little_slime",
+    "dmgMin": 3,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "ectoplasm_large_C": {
   "size": 2,
@@ -3631,7 +13235,62 @@ export const REGION_ENEMIES = {
   "move": 90,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "slime_lg",
+    "dmgMin": 7,
+    "dmgMax": 15,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "slime_stun",
+    "dmgMin": 4,
+    "dmgMax": 7,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": true
+   },
+   {
+    "id": "summon_little_slime",
+    "dmgMin": 4,
+    "dmgMax": 7,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "errant_flesh_bat_D": {
   "size": 1,
@@ -3647,7 +13306,56 @@ export const REGION_ENEMIES = {
   "move": 73,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": true
+  "marksHeroes": true,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "errant_spit",
+    "dmgMin": 4,
+    "dmgMax": 9,
+    "launch": [
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "errant_cough",
+    "dmgMin": 1,
+    "dmgMax": 3,
+    "launch": [
+     1
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "errant_push",
+    "dmgMin": 4,
+    "dmgMax": 9,
+    "launch": [
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   }
+  ]
  },
  "errant_flesh_dog_D": {
   "size": 1,
@@ -3663,7 +13371,58 @@ export const REGION_ENEMIES = {
   "move": 73,
   "corpse": true,
   "punishesMark": true,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "errant_bite",
+    "dmgMin": 6,
+    "dmgMax": 13,
+    "launch": [
+     1,
+     2,
+     3
+    ],
+    "hits": [
+     1,
+     2,
+     3
+    ],
+    "aoe": false
+   },
+   {
+    "id": "errant_nip",
+    "dmgMin": 1,
+    "dmgMax": 3,
+    "launch": [
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "errant_pull",
+    "dmgMin": 4,
+    "dmgMax": 9,
+    "launch": [
+     1,
+     2,
+     3
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "fishman_crabby_A": {
   "size": 2,
@@ -3679,7 +13438,40 @@ export const REGION_ENEMIES = {
   "move": 50,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "the_pinch",
+    "dmgMin": 1,
+    "dmgMax": 1,
+    "launch": [
+     1,
+     2,
+     3
+    ],
+    "hits": [
+     1,
+     2,
+     3
+    ],
+    "aoe": false
+   },
+   {
+    "id": "pincer_smack",
+    "dmgMin": 3,
+    "dmgMax": 7,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   }
+  ]
  },
  "fishman_crabby_B": {
   "size": 2,
@@ -3695,7 +13487,40 @@ export const REGION_ENEMIES = {
   "move": 70,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "the_pinch",
+    "dmgMin": 1,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3
+    ],
+    "hits": [
+     1,
+     2,
+     3
+    ],
+    "aoe": false
+   },
+   {
+    "id": "pincer_smack",
+    "dmgMin": 5,
+    "dmgMax": 9,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   }
+  ]
  },
  "fishman_crabby_C": {
   "size": 2,
@@ -3711,7 +13536,40 @@ export const REGION_ENEMIES = {
   "move": 90,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "the_pinch",
+    "dmgMin": 1,
+    "dmgMax": 3,
+    "launch": [
+     1,
+     2,
+     3
+    ],
+    "hits": [
+     1,
+     2,
+     3
+    ],
+    "aoe": false
+   },
+   {
+    "id": "pincer_smack",
+    "dmgMin": 6,
+    "dmgMax": 13,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   }
+  ]
  },
  "fishman_harpoon_A": {
   "size": 1,
@@ -3727,7 +13585,38 @@ export const REGION_ENEMIES = {
   "move": 10,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "fish_cutlass",
+    "dmgMin": 5,
+    "dmgMax": 9,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "fish_harpoon",
+    "dmgMin": 3,
+    "dmgMax": 7,
+    "launch": [
+     3,
+     4
+    ],
+    "hits": [
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "fishman_harpoon_B": {
   "size": 1,
@@ -3743,7 +13632,38 @@ export const REGION_ENEMIES = {
   "move": 30,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "fish_cutlass",
+    "dmgMin": 6,
+    "dmgMax": 13,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "fish_harpoon",
+    "dmgMin": 5,
+    "dmgMax": 9,
+    "launch": [
+     3,
+     4
+    ],
+    "hits": [
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "fishman_harpoon_C": {
   "size": 1,
@@ -3759,7 +13679,38 @@ export const REGION_ENEMIES = {
   "move": 50,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "fish_cutlass",
+    "dmgMin": 9,
+    "dmgMax": 17,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "fish_harpoon",
+    "dmgMin": 6,
+    "dmgMax": 13,
+    "launch": [
+     3,
+     4
+    ],
+    "hits": [
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "fishman_shaman_A": {
   "size": 1,
@@ -3775,7 +13726,74 @@ export const REGION_ENEMIES = {
   "move": 10,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "fish_stresscast",
+    "dmgMin": 1,
+    "dmgMax": 1,
+    "launch": [
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "call_of_the_deep",
+    "dmgMin": 1,
+    "dmgMax": 1,
+    "launch": [
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "shaman_stab",
+    "dmgMin": 2,
+    "dmgMax": 4,
+    "launch": [
+     1
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "shaman_heal",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "fishman_shaman_B": {
   "size": 1,
@@ -3791,7 +13809,74 @@ export const REGION_ENEMIES = {
   "move": 30,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "fish_stresscast",
+    "dmgMin": 1,
+    "dmgMax": 2,
+    "launch": [
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "call_of_the_deep",
+    "dmgMin": 1,
+    "dmgMax": 2,
+    "launch": [
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "shaman_stab",
+    "dmgMin": 3,
+    "dmgMax": 5,
+    "launch": [
+     1
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "shaman_heal",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "fishman_shaman_C": {
   "size": 1,
@@ -3807,7 +13892,74 @@ export const REGION_ENEMIES = {
   "move": 50,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "fish_stresscast",
+    "dmgMin": 1,
+    "dmgMax": 3,
+    "launch": [
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "call_of_the_deep",
+    "dmgMin": 1,
+    "dmgMax": 3,
+    "launch": [
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "shaman_stab",
+    "dmgMin": 4,
+    "dmgMax": 7,
+    "launch": [
+     1
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "shaman_heal",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "formless_guard_A": {
   "size": 1,
@@ -3823,7 +13975,28 @@ export const REGION_ENEMIES = {
   "move": 200,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "formless_guard_attack",
+    "dmgMin": 2,
+    "dmgMax": 4,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "formless_guard_B": {
   "size": 1,
@@ -3839,7 +14012,28 @@ export const REGION_ENEMIES = {
   "move": 220,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "formless_guard_attack",
+    "dmgMin": 3,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "formless_guard_C": {
   "size": 1,
@@ -3855,7 +14049,28 @@ export const REGION_ENEMIES = {
   "move": 240,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "formless_guard_attack",
+    "dmgMin": 4,
+    "dmgMax": 7,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "formless_melee_A": {
   "size": 1,
@@ -3871,7 +14086,24 @@ export const REGION_ENEMIES = {
   "move": 200,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "formless_melee_attack",
+    "dmgMin": 6,
+    "dmgMax": 12,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   }
+  ]
  },
  "formless_melee_B": {
   "size": 1,
@@ -3887,7 +14119,24 @@ export const REGION_ENEMIES = {
   "move": 220,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "formless_melee_attack",
+    "dmgMin": 8,
+    "dmgMax": 16,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   }
+  ]
  },
  "formless_melee_C": {
   "size": 1,
@@ -3903,7 +14152,24 @@ export const REGION_ENEMIES = {
   "move": 240,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "formless_melee_attack",
+    "dmgMin": 11,
+    "dmgMax": 22,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   }
+  ]
  },
  "formless_ranged_A": {
   "size": 1,
@@ -3919,7 +14185,24 @@ export const REGION_ENEMIES = {
   "move": 200,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "formless_ranged_attack",
+    "dmgMin": 5,
+    "dmgMax": 9,
+    "launch": [
+     3,
+     4
+    ],
+    "hits": [
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "formless_ranged_B": {
   "size": 1,
@@ -3935,7 +14218,24 @@ export const REGION_ENEMIES = {
   "move": 220,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "formless_ranged_attack",
+    "dmgMin": 6,
+    "dmgMax": 13,
+    "launch": [
+     3,
+     4
+    ],
+    "hits": [
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "formless_ranged_C": {
   "size": 1,
@@ -3951,7 +14251,24 @@ export const REGION_ENEMIES = {
   "move": 240,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "formless_ranged_attack",
+    "dmgMin": 9,
+    "dmgMax": 17,
+    "launch": [
+     3,
+     4
+    ],
+    "hits": [
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "formless_weak_A": {
   "size": 1,
@@ -3967,7 +14284,28 @@ export const REGION_ENEMIES = {
   "move": 200,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "formless_weak_heal",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "formless_weak_B": {
   "size": 1,
@@ -3983,7 +14321,28 @@ export const REGION_ENEMIES = {
   "move": 220,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "formless_weak_heal",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "formless_weak_C": {
   "size": 1,
@@ -3999,7 +14358,28 @@ export const REGION_ENEMIES = {
   "move": 240,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "formless_weak_heal",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "fungal_artillery_A": {
   "size": 1,
@@ -4015,7 +14395,52 @@ export const REGION_ENEMIES = {
   "move": 25,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": true
+  "marksHeroes": true,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "artillery_tag",
+    "dmgMin": 1,
+    "dmgMax": 1,
+    "launch": [
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "artillery_blight",
+    "dmgMin": 1,
+    "dmgMax": 1,
+    "launch": [
+     3,
+     4
+    ],
+    "hits": [
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "escape_cloud",
+    "dmgMin": 1,
+    "dmgMax": 1,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": true
+   }
+  ]
  },
  "fungal_artillery_B": {
   "size": 1,
@@ -4031,7 +14456,52 @@ export const REGION_ENEMIES = {
   "move": 45,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": true
+  "marksHeroes": true,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "artillery_tag",
+    "dmgMin": 1,
+    "dmgMax": 2,
+    "launch": [
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "artillery_blight",
+    "dmgMin": 2,
+    "dmgMax": 2,
+    "launch": [
+     3,
+     4
+    ],
+    "hits": [
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "escape_cloud",
+    "dmgMin": 2,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": true
+   }
+  ]
  },
  "fungal_artillery_C": {
   "size": 1,
@@ -4047,7 +14517,52 @@ export const REGION_ENEMIES = {
   "move": 65,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": true
+  "marksHeroes": true,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "artillery_tag",
+    "dmgMin": 1,
+    "dmgMax": 3,
+    "launch": [
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "artillery_blight",
+    "dmgMin": 2,
+    "dmgMax": 2,
+    "launch": [
+     3,
+     4
+    ],
+    "hits": [
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "escape_cloud",
+    "dmgMin": 2,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": true
+   }
+  ]
  },
  "fungal_bloat_A": {
   "size": 1,
@@ -4063,7 +14578,52 @@ export const REGION_ENEMIES = {
   "move": 25,
   "corpse": true,
   "punishesMark": true,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "groping_swipe",
+    "dmgMin": 3,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "fierce_swipe",
+    "dmgMin": 3,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "groping_swipe_weak",
+    "dmgMin": 2,
+    "dmgMax": 4,
+    "launch": [
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   }
+  ]
  },
  "fungal_bloat_B": {
   "size": 1,
@@ -4079,7 +14639,52 @@ export const REGION_ENEMIES = {
   "move": 45,
   "corpse": true,
   "punishesMark": true,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "groping_swipe",
+    "dmgMin": 4,
+    "dmgMax": 7,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "fierce_swipe",
+    "dmgMin": 4,
+    "dmgMax": 7,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "groping_swipe_weak",
+    "dmgMin": 3,
+    "dmgMax": 5,
+    "launch": [
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   }
+  ]
  },
  "fungal_bloat_C": {
   "size": 1,
@@ -4095,7 +14700,52 @@ export const REGION_ENEMIES = {
   "move": 65,
   "corpse": true,
   "punishesMark": true,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "groping_swipe",
+    "dmgMin": 5,
+    "dmgMax": 10,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "fierce_swipe",
+    "dmgMin": 5,
+    "dmgMax": 10,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "groping_swipe_weak",
+    "dmgMin": 4,
+    "dmgMax": 7,
+    "launch": [
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   }
+  ]
  },
  "gargoyle_A": {
   "size": 1,
@@ -4111,7 +14761,43 @@ export const REGION_ENEMIES = {
   "move": 10,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "claw_flurry",
+    "dmgMin": 1,
+    "dmgMax": 3,
+    "launch": [
+     1,
+     2,
+     3
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": true
+   },
+   {
+    "id": "tail_whip",
+    "dmgMin": 1,
+    "dmgMax": 1,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "gargoyle_B": {
   "size": 1,
@@ -4127,7 +14813,43 @@ export const REGION_ENEMIES = {
   "move": 30,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "claw_flurry",
+    "dmgMin": 2,
+    "dmgMax": 3,
+    "launch": [
+     1,
+     2,
+     3
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": true
+   },
+   {
+    "id": "tail_whip",
+    "dmgMin": 1,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "gargoyle_C": {
   "size": 1,
@@ -4143,7 +14865,43 @@ export const REGION_ENEMIES = {
   "move": 50,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "claw_flurry",
+    "dmgMin": 2,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2,
+     3
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": true
+   },
+   {
+    "id": "tail_whip",
+    "dmgMin": 1,
+    "dmgMax": 3,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "ghoul_A": {
   "size": 2,
@@ -4159,7 +14917,58 @@ export const REGION_ENEMIES = {
   "move": 62,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "rend",
+    "dmgMin": 4,
+    "dmgMax": 8,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "skull_toss",
+    "dmgMin": 4,
+    "dmgMax": 8,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "howl",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "ghoul_B": {
   "size": 2,
@@ -4175,7 +14984,58 @@ export const REGION_ENEMIES = {
   "move": 82,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "rend",
+    "dmgMin": 5,
+    "dmgMax": 11,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "skull_toss",
+    "dmgMin": 5,
+    "dmgMax": 11,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "howl",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "ghoul_C": {
   "size": 2,
@@ -4191,7 +15051,58 @@ export const REGION_ENEMIES = {
   "move": 102,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "rend",
+    "dmgMin": 7,
+    "dmgMax": 15,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "skull_toss",
+    "dmgMin": 7,
+    "dmgMax": 15,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "howl",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "hag_A": {
   "size": 2,
@@ -4207,7 +15118,82 @@ export const REGION_ENEMIES = {
   "move": 200,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 2,
+  "skills": [
+   {
+    "id": "hag_grab",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "hag_tenderize",
+    "dmgMin": 2,
+    "dmgMax": 4,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "hag_season",
+    "dmgMin": 1,
+    "dmgMax": 1,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "hag_taste",
+    "dmgMin": 1,
+    "dmgMax": 1,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "hag_B": {
   "size": 2,
@@ -4223,7 +15209,82 @@ export const REGION_ENEMIES = {
   "move": 220,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 2,
+  "skills": [
+   {
+    "id": "hag_grab",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "hag_tenderize",
+    "dmgMin": 3,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "hag_season",
+    "dmgMin": 1,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "hag_taste",
+    "dmgMin": 2,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "hag_C": {
   "size": 2,
@@ -4239,7 +15300,82 @@ export const REGION_ENEMIES = {
   "move": 240,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 2,
+  "skills": [
+   {
+    "id": "hag_grab",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "hag_tenderize",
+    "dmgMin": 4,
+    "dmgMax": 7,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "hag_season",
+    "dmgMin": 1,
+    "dmgMax": 3,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "hag_taste",
+    "dmgMin": 2,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "jellyfish_A": {
   "size": 1,
@@ -4255,7 +15391,46 @@ export const REGION_ENEMIES = {
   "move": 10,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "jellyfish_sting",
+    "dmgMin": 1,
+    "dmgMax": 1,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "jellyfish_rend",
+    "dmgMin": 2,
+    "dmgMax": 4,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "jellyfish_B": {
   "size": 1,
@@ -4271,7 +15446,46 @@ export const REGION_ENEMIES = {
   "move": 30,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "jellyfish_sting",
+    "dmgMin": 1,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "jellyfish_rend",
+    "dmgMin": 3,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "jellyfish_C": {
   "size": 1,
@@ -4287,7 +15501,46 @@ export const REGION_ENEMIES = {
   "move": 50,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "jellyfish_sting",
+    "dmgMin": 1,
+    "dmgMax": 3,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "jellyfish_rend",
+    "dmgMin": 4,
+    "dmgMax": 7,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "madman_A": {
   "size": 1,
@@ -4303,7 +15556,46 @@ export const REGION_ENEMIES = {
   "move": 10,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "accusation",
+    "dmgMin": 1,
+    "dmgMax": 1,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "doomsay",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "madman_B": {
   "size": 1,
@@ -4319,7 +15611,46 @@ export const REGION_ENEMIES = {
   "move": 30,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "accusation",
+    "dmgMin": 1,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "doomsay",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "madman_C": {
   "size": 1,
@@ -4335,7 +15666,46 @@ export const REGION_ENEMIES = {
   "move": 50,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "accusation",
+    "dmgMin": 1,
+    "dmgMax": 3,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "doomsay",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "maggot_A": {
   "size": 1,
@@ -4351,7 +15721,28 @@ export const REGION_ENEMIES = {
   "move": 0,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "grave_nibble",
+    "dmgMin": 2,
+    "dmgMax": 4,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "maggot_B": {
   "size": 1,
@@ -4367,7 +15758,28 @@ export const REGION_ENEMIES = {
   "move": 20,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "grave_nibble",
+    "dmgMin": 3,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "maggot_C": {
   "size": 1,
@@ -4383,7 +15795,28 @@ export const REGION_ENEMIES = {
   "move": 40,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "grave_nibble",
+    "dmgMin": 4,
+    "dmgMax": 7,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "necromancer_A": {
   "size": 1,
@@ -4399,7 +15832,60 @@ export const REGION_ENEMIES = {
   "move": 25,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "unholy_smite",
+    "dmgMin": 4,
+    "dmgMax": 8,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": true
+   },
+   {
+    "id": "unholy_judgement",
+    "dmgMin": 3,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "unholy_curse",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "necromancer_B": {
   "size": 1,
@@ -4415,7 +15901,60 @@ export const REGION_ENEMIES = {
   "move": 45,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "unholy_smite",
+    "dmgMin": 5,
+    "dmgMax": 11,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": true
+   },
+   {
+    "id": "unholy_judgement",
+    "dmgMin": 4,
+    "dmgMax": 7,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "unholy_curse",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "necromancer_C": {
   "size": 1,
@@ -4431,7 +15970,60 @@ export const REGION_ENEMIES = {
   "move": 65,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "unholy_smite",
+    "dmgMin": 7,
+    "dmgMax": 15,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": true
+   },
+   {
+    "id": "unholy_judgement",
+    "dmgMin": 5,
+    "dmgMax": 10,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "unholy_curse",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "nest_A": {
   "size": 2,
@@ -4447,7 +16039,9 @@ export const REGION_ENEMIES = {
   "move": 20,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "nest_B": {
   "size": 2,
@@ -4463,7 +16057,9 @@ export const REGION_ENEMIES = {
   "move": 40,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "nest_C": {
   "size": 2,
@@ -4479,7 +16075,9 @@ export const REGION_ENEMIES = {
   "move": 60,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "octotank_A": {
   "size": 1,
@@ -4495,7 +16093,44 @@ export const REGION_ENEMIES = {
   "move": 50,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "octo_cestus",
+    "dmgMin": 3,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "octo_guard",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "octotank_B": {
   "size": 1,
@@ -4511,7 +16146,44 @@ export const REGION_ENEMIES = {
   "move": 70,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "octo_cestus",
+    "dmgMin": 4,
+    "dmgMax": 7,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "octo_guard",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "octotank_C": {
   "size": 1,
@@ -4527,7 +16199,44 @@ export const REGION_ENEMIES = {
   "move": 90,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "octo_cestus",
+    "dmgMin": 5,
+    "dmgMax": 10,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "octo_guard",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "pew_large_A": {
   "size": 1,
@@ -4543,7 +16252,9 @@ export const REGION_ENEMIES = {
   "move": 300,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "pew_large_B": {
   "size": 1,
@@ -4559,7 +16270,9 @@ export const REGION_ENEMIES = {
   "move": 320,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "pew_large_C": {
   "size": 1,
@@ -4575,7 +16288,9 @@ export const REGION_ENEMIES = {
   "move": 340,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "pew_medium_A": {
   "size": 1,
@@ -4591,7 +16306,9 @@ export const REGION_ENEMIES = {
   "move": 300,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "pew_medium_B": {
   "size": 1,
@@ -4607,7 +16324,9 @@ export const REGION_ENEMIES = {
   "move": 320,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "pew_medium_C": {
   "size": 1,
@@ -4623,7 +16342,9 @@ export const REGION_ENEMIES = {
   "move": 340,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "pew_small_A": {
   "size": 1,
@@ -4639,7 +16360,9 @@ export const REGION_ENEMIES = {
   "move": 300,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "pew_small_B": {
   "size": 1,
@@ -4655,7 +16378,9 @@ export const REGION_ENEMIES = {
   "move": 320,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "pew_small_C": {
   "size": 1,
@@ -4671,7 +16396,9 @@ export const REGION_ENEMIES = {
   "move": 340,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "prophet_A": {
   "size": 1,
@@ -4687,7 +16414,82 @@ export const REGION_ENEMIES = {
   "move": 300,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "prophet_mark",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "prophet_attack",
+    "dmgMin": 11,
+    "dmgMax": 23,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "eye_on_you",
+    "dmgMin": 1,
+    "dmgMax": 1,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "fulminate",
+    "dmgMin": 1,
+    "dmgMax": 1,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "prophet_B": {
   "size": 1,
@@ -4703,7 +16505,82 @@ export const REGION_ENEMIES = {
   "move": 320,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "prophet_mark",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "prophet_attack",
+    "dmgMin": 15,
+    "dmgMax": 31,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "eye_on_you",
+    "dmgMin": 1,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "fulminate",
+    "dmgMin": 1,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "prophet_C": {
   "size": 1,
@@ -4719,7 +16596,82 @@ export const REGION_ENEMIES = {
   "move": 340,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "prophet_mark",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "prophet_attack",
+    "dmgMin": 21,
+    "dmgMax": 42,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "eye_on_you",
+    "dmgMin": 1,
+    "dmgMax": 3,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "fulminate",
+    "dmgMin": 1,
+    "dmgMax": 3,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "rabid_dog_A": {
   "size": 1,
@@ -4735,7 +16687,28 @@ export const REGION_ENEMIES = {
   "move": 10,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "rabid_rush",
+    "dmgMin": 1,
+    "dmgMax": 3,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "rabid_dog_B": {
   "size": 1,
@@ -4751,7 +16724,28 @@ export const REGION_ENEMIES = {
   "move": 30,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "rabid_rush",
+    "dmgMin": 2,
+    "dmgMax": 4,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "rabid_dog_C": {
   "size": 1,
@@ -4767,7 +16761,28 @@ export const REGION_ENEMIES = {
   "move": 50,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "rabid_rush",
+    "dmgMin": 2,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "shambler_A": {
   "size": 2,
@@ -4783,7 +16798,64 @@ export const REGION_ENEMIES = {
   "move": 50,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "shamble_fwd",
+    "dmgMin": 1,
+    "dmgMax": 1,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "shamble_back",
+    "dmgMin": 1,
+    "dmgMax": 1,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "shambler_howl",
+    "dmgMin": 1,
+    "dmgMax": 1,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "shambler_B": {
   "size": 2,
@@ -4799,7 +16871,64 @@ export const REGION_ENEMIES = {
   "move": 70,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "shamble_fwd",
+    "dmgMin": 1,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "shamble_back",
+    "dmgMin": 1,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "shambler_howl",
+    "dmgMin": 1,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "shambler_C": {
   "size": 2,
@@ -4815,7 +16944,64 @@ export const REGION_ENEMIES = {
   "move": 90,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "shamble_fwd",
+    "dmgMin": 1,
+    "dmgMax": 3,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "shamble_back",
+    "dmgMin": 1,
+    "dmgMax": 3,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "shambler_howl",
+    "dmgMin": 1,
+    "dmgMax": 3,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "shambler_E": {
   "size": 2,
@@ -4831,7 +17017,64 @@ export const REGION_ENEMIES = {
   "move": 95,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "shamble_fwd",
+    "dmgMin": 2,
+    "dmgMax": 3,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "shamble_back",
+    "dmgMin": 2,
+    "dmgMax": 3,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "shambler_howl",
+    "dmgMin": 2,
+    "dmgMax": 3,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "shambler_tentacle_A": {
   "size": 1,
@@ -4847,7 +17090,28 @@ export const REGION_ENEMIES = {
   "move": 40,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "tentacle_slap",
+    "dmgMin": 2,
+    "dmgMax": 4,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "shambler_tentacle_B": {
   "size": 1,
@@ -4863,7 +17127,28 @@ export const REGION_ENEMIES = {
   "move": 60,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "tentacle_slap",
+    "dmgMin": 3,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "shambler_tentacle_C": {
   "size": 1,
@@ -4879,7 +17164,28 @@ export const REGION_ENEMIES = {
   "move": 80,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "tentacle_slap",
+    "dmgMin": 4,
+    "dmgMax": 7,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "shambler_tentacle_E": {
   "size": 1,
@@ -4895,7 +17201,28 @@ export const REGION_ENEMIES = {
   "move": 85,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "tentacle_slap",
+    "dmgMin": 5,
+    "dmgMax": 9,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "shuffler_D": {
   "size": 3,
@@ -4911,7 +17238,64 @@ export const REGION_ENEMIES = {
   "move": 98,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 2,
+  "skills": [
+   {
+    "id": "shuffler_eat",
+    "dmgMin": 5,
+    "dmgMax": 9,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "shuffler_howl",
+    "dmgMin": 1,
+    "dmgMax": 3,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "shuffler_shuffle",
+    "dmgMin": 1,
+    "dmgMax": 1,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "siren_A": {
   "size": 2,
@@ -4927,7 +17311,77 @@ export const REGION_ENEMIES = {
   "move": 25,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 2,
+  "skills": [
+   {
+    "id": "siren_song",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "conch_summon",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "conch_horror",
+    "dmgMin": 1,
+    "dmgMax": 1,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "conch_celldisrupt",
+    "dmgMin": 1,
+    "dmgMax": 1,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "siren_B": {
   "size": 2,
@@ -4943,7 +17397,77 @@ export const REGION_ENEMIES = {
   "move": 45,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 2,
+  "skills": [
+   {
+    "id": "siren_song",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "conch_summon",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "conch_horror",
+    "dmgMin": 1,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "conch_celldisrupt",
+    "dmgMin": 1,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "siren_C": {
   "size": 2,
@@ -4959,7 +17483,77 @@ export const REGION_ENEMIES = {
   "move": 65,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 2,
+  "skills": [
+   {
+    "id": "siren_song",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "conch_summon",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "conch_horror",
+    "dmgMin": 1,
+    "dmgMax": 3,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "conch_celldisrupt",
+    "dmgMin": 1,
+    "dmgMax": 3,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "skeleton_arbalist_A": {
   "size": 1,
@@ -4975,7 +17569,39 @@ export const REGION_ENEMIES = {
   "move": 25,
   "corpse": true,
   "punishesMark": true,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "crossbow_shot",
+    "dmgMin": 3,
+    "dmgMax": 7,
+    "launch": [
+     3,
+     4
+    ],
+    "hits": [
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "bayonet_jab",
+    "dmgMin": 2,
+    "dmgMax": 4,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   }
+  ]
  },
  "skeleton_arbalist_B": {
   "size": 1,
@@ -4991,7 +17617,39 @@ export const REGION_ENEMIES = {
   "move": 45,
   "corpse": true,
   "punishesMark": true,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "crossbow_shot",
+    "dmgMin": 5,
+    "dmgMax": 9,
+    "launch": [
+     3,
+     4
+    ],
+    "hits": [
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "bayonet_jab",
+    "dmgMin": 3,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   }
+  ]
  },
  "skeleton_arbalist_C": {
   "size": 1,
@@ -5007,7 +17665,39 @@ export const REGION_ENEMIES = {
   "move": 65,
   "corpse": true,
   "punishesMark": true,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "crossbow_shot",
+    "dmgMin": 6,
+    "dmgMax": 13,
+    "launch": [
+     3,
+     4
+    ],
+    "hits": [
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "bayonet_jab",
+    "dmgMin": 4,
+    "dmgMax": 7,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   }
+  ]
  },
  "skeleton_bearer_A": {
   "size": 1,
@@ -5023,7 +17713,55 @@ export const REGION_ENEMIES = {
   "move": 15,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "into_the_ranks",
+    "dmgMin": 2,
+    "dmgMax": 6,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "wicked_surge",
+    "dmgMin": 1,
+    "dmgMax": 1,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "unholy_rally",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   }
+  ]
  },
  "skeleton_bearer_B": {
   "size": 1,
@@ -5039,7 +17777,55 @@ export const REGION_ENEMIES = {
   "move": 35,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "into_the_ranks",
+    "dmgMin": 3,
+    "dmgMax": 8,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "wicked_surge",
+    "dmgMin": 1,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "unholy_rally",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   }
+  ]
  },
  "skeleton_bearer_C": {
   "size": 1,
@@ -5055,7 +17841,55 @@ export const REGION_ENEMIES = {
   "move": 55,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "into_the_ranks",
+    "dmgMin": 5,
+    "dmgMax": 11,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "wicked_surge",
+    "dmgMin": 1,
+    "dmgMax": 3,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "unholy_rally",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   }
+  ]
  },
  "skeleton_captain_A": {
   "size": 2,
@@ -5071,7 +17905,42 @@ export const REGION_ENEMIES = {
   "move": 75,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "crushing_blow",
+    "dmgMin": 6,
+    "dmgMax": 12,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "ground_pound",
+    "dmgMin": 2,
+    "dmgMax": 4,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "skeleton_captain_B": {
   "size": 2,
@@ -5087,7 +17956,42 @@ export const REGION_ENEMIES = {
   "move": 95,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "crushing_blow",
+    "dmgMin": 8,
+    "dmgMax": 16,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "ground_pound",
+    "dmgMin": 3,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "skeleton_captain_C": {
   "size": 2,
@@ -5103,7 +18007,42 @@ export const REGION_ENEMIES = {
   "move": 115,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "crushing_blow",
+    "dmgMin": 11,
+    "dmgMax": 22,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "ground_pound",
+    "dmgMin": 4,
+    "dmgMax": 7,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "skeleton_common_A": {
   "size": 1,
@@ -5119,7 +18058,38 @@ export const REGION_ENEMIES = {
   "move": 10,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "cudgel",
+    "dmgMin": 2,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2,
+     3
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "cudgel_weak",
+    "dmgMin": 2,
+    "dmgMax": 5,
+    "launch": [
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   }
+  ]
  },
  "skeleton_common_B": {
   "size": 1,
@@ -5135,7 +18105,38 @@ export const REGION_ENEMIES = {
   "move": 30,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "cudgel",
+    "dmgMin": 2,
+    "dmgMax": 6,
+    "launch": [
+     1,
+     2,
+     3
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "cudgel_weak",
+    "dmgMin": 2,
+    "dmgMax": 6,
+    "launch": [
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   }
+  ]
  },
  "skeleton_common_C": {
   "size": 1,
@@ -5151,7 +18152,38 @@ export const REGION_ENEMIES = {
   "move": 50,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "cudgel",
+    "dmgMin": 3,
+    "dmgMax": 8,
+    "launch": [
+     1,
+     2,
+     3
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "cudgel_weak",
+    "dmgMin": 3,
+    "dmgMax": 8,
+    "launch": [
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   }
+  ]
  },
  "skeleton_courtier_A": {
   "size": 1,
@@ -5167,7 +18199,41 @@ export const REGION_ENEMIES = {
   "move": 10,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "tempting_goblet",
+    "dmgMin": 2,
+    "dmgMax": 4,
+    "launch": [
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "dagger_jab",
+    "dmgMin": 2,
+    "dmgMax": 4,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   }
+  ]
  },
  "skeleton_courtier_B": {
   "size": 1,
@@ -5183,7 +18249,41 @@ export const REGION_ENEMIES = {
   "move": 30,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "tempting_goblet",
+    "dmgMin": 3,
+    "dmgMax": 5,
+    "launch": [
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "dagger_jab",
+    "dmgMin": 3,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   }
+  ]
  },
  "skeleton_courtier_C": {
   "size": 1,
@@ -5199,7 +18299,41 @@ export const REGION_ENEMIES = {
   "move": 50,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "tempting_goblet",
+    "dmgMin": 4,
+    "dmgMax": 7,
+    "launch": [
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "dagger_jab",
+    "dmgMin": 4,
+    "dmgMax": 7,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   }
+  ]
  },
  "skeleton_defender_A": {
   "size": 1,
@@ -5215,7 +18349,52 @@ export const REGION_ENEMIES = {
   "move": 50,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "axe_strike",
+    "dmgMin": 3,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "shield_bash",
+    "dmgMin": 2,
+    "dmgMax": 4,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "axe_strike_weak",
+    "dmgMin": 2,
+    "dmgMax": 4,
+    "launch": [
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   }
+  ]
  },
  "skeleton_defender_B": {
   "size": 1,
@@ -5231,7 +18410,70 @@ export const REGION_ENEMIES = {
   "move": 70,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "axe_strike",
+    "dmgMin": 4,
+    "dmgMax": 7,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "shield_bash",
+    "dmgMin": 3,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "axe_strike_weak",
+    "dmgMin": 3,
+    "dmgMax": 5,
+    "launch": [
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "shield_defend",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "skeleton_defender_C": {
   "size": 1,
@@ -5247,7 +18489,70 @@ export const REGION_ENEMIES = {
   "move": 90,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "axe_strike",
+    "dmgMin": 5,
+    "dmgMax": 10,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "shield_bash",
+    "dmgMin": 4,
+    "dmgMax": 7,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "axe_strike_weak",
+    "dmgMin": 4,
+    "dmgMax": 7,
+    "launch": [
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "shield_defend",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "skeleton_militia_A": {
   "size": 1,
@@ -5263,7 +18568,39 @@ export const REGION_ENEMIES = {
   "move": 20,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "sword_strike",
+    "dmgMin": 3,
+    "dmgMax": 8,
+    "launch": [
+     1,
+     2,
+     3
+    ],
+    "hits": [
+     1,
+     2,
+     3
+    ],
+    "aoe": false
+   },
+   {
+    "id": "sword_strike_weak",
+    "dmgMin": 2,
+    "dmgMax": 5,
+    "launch": [
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   }
+  ]
  },
  "skeleton_militia_B": {
   "size": 1,
@@ -5279,7 +18616,39 @@ export const REGION_ENEMIES = {
   "move": 40,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "sword_strike",
+    "dmgMin": 4,
+    "dmgMax": 11,
+    "launch": [
+     1,
+     2,
+     3
+    ],
+    "hits": [
+     1,
+     2,
+     3
+    ],
+    "aoe": false
+   },
+   {
+    "id": "sword_strike_weak",
+    "dmgMin": 2,
+    "dmgMax": 6,
+    "launch": [
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   }
+  ]
  },
  "skeleton_militia_C": {
   "size": 1,
@@ -5295,7 +18664,39 @@ export const REGION_ENEMIES = {
   "move": 60,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "sword_strike",
+    "dmgMin": 5,
+    "dmgMax": 14,
+    "launch": [
+     1,
+     2,
+     3
+    ],
+    "hits": [
+     1,
+     2,
+     3
+    ],
+    "aoe": false
+   },
+   {
+    "id": "sword_strike_weak",
+    "dmgMin": 3,
+    "dmgMax": 8,
+    "launch": [
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   }
+  ]
  },
  "skeleton_spear_A": {
   "size": 1,
@@ -5311,7 +18712,44 @@ export const REGION_ENEMIES = {
   "move": 25,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "spear_thrust",
+    "dmgMin": 4,
+    "dmgMax": 8,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "impale",
+    "dmgMin": 2,
+    "dmgMax": 4,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "skeleton_spear_B": {
   "size": 1,
@@ -5327,7 +18765,44 @@ export const REGION_ENEMIES = {
   "move": 45,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "spear_thrust",
+    "dmgMin": 5,
+    "dmgMax": 11,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "impale",
+    "dmgMin": 3,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "skeleton_spear_C": {
   "size": 1,
@@ -5343,7 +18818,44 @@ export const REGION_ENEMIES = {
   "move": 65,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "spear_thrust",
+    "dmgMin": 7,
+    "dmgMax": 15,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "impale",
+    "dmgMin": 4,
+    "dmgMax": 7,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "snail_urchin_A": {
   "size": 1,
@@ -5359,7 +18871,28 @@ export const REGION_ENEMIES = {
   "move": 10,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "snail_slime",
+    "dmgMin": 2,
+    "dmgMax": 4,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "snail_urchin_B": {
   "size": 1,
@@ -5375,7 +18908,28 @@ export const REGION_ENEMIES = {
   "move": 30,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "snail_slime",
+    "dmgMin": 3,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "snail_urchin_C": {
   "size": 1,
@@ -5391,7 +18945,28 @@ export const REGION_ENEMIES = {
   "move": 50,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "snail_slime",
+    "dmgMin": 4,
+    "dmgMax": 7,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "spider_spitter_A": {
   "size": 1,
@@ -5407,7 +18982,42 @@ export const REGION_ENEMIES = {
   "move": 10,
   "corpse": false,
   "punishesMark": true,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "spider_spit",
+    "dmgMin": 3,
+    "dmgMax": 5,
+    "launch": [
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "spider_bite",
+    "dmgMin": 1,
+    "dmgMax": 3,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "spider_spitter_B": {
   "size": 1,
@@ -5423,7 +19033,42 @@ export const REGION_ENEMIES = {
   "move": 30,
   "corpse": false,
   "punishesMark": true,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "spider_spit",
+    "dmgMin": 4,
+    "dmgMax": 7,
+    "launch": [
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "spider_bite",
+    "dmgMin": 2,
+    "dmgMax": 3,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "spider_spitter_C": {
   "size": 1,
@@ -5439,7 +19084,42 @@ export const REGION_ENEMIES = {
   "move": 50,
   "corpse": false,
   "punishesMark": true,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "spider_spit",
+    "dmgMin": 5,
+    "dmgMax": 10,
+    "launch": [
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "spider_bite",
+    "dmgMin": 2,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "spider_webber_A": {
   "size": 1,
@@ -5455,7 +19135,46 @@ export const REGION_ENEMIES = {
   "move": 10,
   "corpse": false,
   "punishesMark": true,
-  "marksHeroes": true
+  "marksHeroes": true,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "spider_web",
+    "dmgMin": 1,
+    "dmgMax": 1,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "spider_bite",
+    "dmgMin": 1,
+    "dmgMax": 3,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "spider_webber_B": {
   "size": 1,
@@ -5471,7 +19190,46 @@ export const REGION_ENEMIES = {
   "move": 30,
   "corpse": false,
   "punishesMark": true,
-  "marksHeroes": true
+  "marksHeroes": true,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "spider_web",
+    "dmgMin": 2,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "spider_bite",
+    "dmgMin": 2,
+    "dmgMax": 3,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "spider_webber_C": {
   "size": 1,
@@ -5487,7 +19245,46 @@ export const REGION_ENEMIES = {
   "move": 50,
   "corpse": false,
   "punishesMark": true,
-  "marksHeroes": true
+  "marksHeroes": true,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "spider_web",
+    "dmgMin": 2,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "spider_bite",
+    "dmgMin": 2,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "swinetaur_A": {
   "size": 2,
@@ -5503,7 +19300,65 @@ export const REGION_ENEMIES = {
   "move": 100,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "pig_spear",
+    "dmgMin": 3,
+    "dmgMax": 7,
+    "launch": [
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "bull_rush",
+    "dmgMin": 6,
+    "dmgMax": 12,
+    "launch": [
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "trot_retreat",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "backhand",
+    "dmgMin": 3,
+    "dmgMax": 7,
+    "launch": [
+     1
+    ],
+    "hits": [
+     1,
+     2,
+     3
+    ],
+    "aoe": false
+   }
+  ]
  },
  "swinetaur_B": {
   "size": 2,
@@ -5519,7 +19374,65 @@ export const REGION_ENEMIES = {
   "move": 120,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "pig_spear",
+    "dmgMin": 4,
+    "dmgMax": 10,
+    "launch": [
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "bull_rush",
+    "dmgMin": 8,
+    "dmgMax": 16,
+    "launch": [
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "trot_retreat",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "backhand",
+    "dmgMin": 5,
+    "dmgMax": 9,
+    "launch": [
+     1
+    ],
+    "hits": [
+     1,
+     2,
+     3
+    ],
+    "aoe": false
+   }
+  ]
  },
  "swinetaur_C": {
   "size": 2,
@@ -5535,7 +19448,65 @@ export const REGION_ENEMIES = {
   "move": 140,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "pig_spear",
+    "dmgMin": 6,
+    "dmgMax": 13,
+    "launch": [
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "bull_rush",
+    "dmgMin": 11,
+    "dmgMax": 22,
+    "launch": [
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "trot_retreat",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [],
+    "aoe": false
+   },
+   {
+    "id": "backhand",
+    "dmgMin": 6,
+    "dmgMax": 13,
+    "launch": [
+     1
+    ],
+    "hits": [
+     1,
+     2,
+     3
+    ],
+    "aoe": false
+   }
+  ]
  },
  "swine_drummer_A": {
   "size": 1,
@@ -5551,7 +19522,46 @@ export const REGION_ENEMIES = {
   "move": 25,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": true
+  "marksHeroes": true,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "drum_fear",
+    "dmgMin": 1,
+    "dmgMax": 1,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "drum_debuff",
+    "dmgMin": 1,
+    "dmgMax": 1,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "swine_drummer_B": {
   "size": 1,
@@ -5567,7 +19577,46 @@ export const REGION_ENEMIES = {
   "move": 45,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": true
+  "marksHeroes": true,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "drum_fear",
+    "dmgMin": 2,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "drum_debuff",
+    "dmgMin": 2,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "swine_drummer_C": {
   "size": 1,
@@ -5583,7 +19632,46 @@ export const REGION_ENEMIES = {
   "move": 65,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": true
+  "marksHeroes": true,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "drum_fear",
+    "dmgMin": 2,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "drum_debuff",
+    "dmgMin": 2,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "swine_piglet_A": {
   "size": 1,
@@ -5599,7 +19687,75 @@ export const REGION_ENEMIES = {
   "move": 0,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": true
+  "marksHeroes": true,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "squeal",
+    "dmgMin": 1,
+    "dmgMax": 1,
+    "launch": [
+     1
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "wilbur_mark_1",
+    "dmgMin": 1,
+    "dmgMax": 1,
+    "launch": [
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "wilbur_mark_2",
+    "dmgMin": 1,
+    "dmgMax": 1,
+    "launch": [
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": true
+   },
+   {
+    "id": "squeal_single",
+    "dmgMin": 1,
+    "dmgMax": 1,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "swine_piglet_B": {
   "size": 1,
@@ -5615,7 +19771,75 @@ export const REGION_ENEMIES = {
   "move": 20,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": true
+  "marksHeroes": true,
+  "turns": 2,
+  "skills": [
+   {
+    "id": "squeal",
+    "dmgMin": 2,
+    "dmgMax": 2,
+    "launch": [
+     1
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "wilbur_mark_1",
+    "dmgMin": 2,
+    "dmgMax": 2,
+    "launch": [
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "wilbur_mark_2",
+    "dmgMin": 2,
+    "dmgMax": 2,
+    "launch": [
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": true
+   },
+   {
+    "id": "squeal_single",
+    "dmgMin": 2,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "swine_piglet_C": {
   "size": 1,
@@ -5631,7 +19855,75 @@ export const REGION_ENEMIES = {
   "move": 40,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": true
+  "marksHeroes": true,
+  "turns": 2,
+  "skills": [
+   {
+    "id": "squeal",
+    "dmgMin": 2,
+    "dmgMax": 2,
+    "launch": [
+     1
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "wilbur_mark_1",
+    "dmgMin": 2,
+    "dmgMax": 2,
+    "launch": [
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "wilbur_mark_2",
+    "dmgMin": 2,
+    "dmgMax": 2,
+    "launch": [
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": true
+   },
+   {
+    "id": "squeal_single",
+    "dmgMin": 2,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "swine_prince_A": {
   "size": 3,
@@ -5647,7 +19939,80 @@ export const REGION_ENEMIES = {
   "move": 100,
   "corpse": false,
   "punishesMark": true,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "obliterate_marked_one",
+    "dmgMin": 5,
+    "dmgMax": 9,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "obliterate_marked_two",
+    "dmgMin": 3,
+    "dmgMax": 7,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": true
+   },
+   {
+    "id": "obliterate_enraged",
+    "dmgMin": 5,
+    "dmgMax": 9,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "obliterate_blind",
+    "dmgMin": 5,
+    "dmgMax": 9,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "swine_prince_B": {
   "size": 3,
@@ -5663,7 +20028,80 @@ export const REGION_ENEMIES = {
   "move": 120,
   "corpse": false,
   "punishesMark": true,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "obliterate_marked_one",
+    "dmgMin": 6,
+    "dmgMax": 13,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "obliterate_marked_two",
+    "dmgMin": 5,
+    "dmgMax": 9,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": true
+   },
+   {
+    "id": "obliterate_enraged",
+    "dmgMin": 6,
+    "dmgMax": 13,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "obliterate_blind",
+    "dmgMin": 6,
+    "dmgMax": 13,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "swine_prince_C": {
   "size": 3,
@@ -5679,7 +20117,80 @@ export const REGION_ENEMIES = {
   "move": 140,
   "corpse": false,
   "punishesMark": true,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "obliterate_marked_one",
+    "dmgMin": 9,
+    "dmgMax": 17,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "obliterate_marked_two",
+    "dmgMin": 6,
+    "dmgMax": 13,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": true
+   },
+   {
+    "id": "obliterate_enraged",
+    "dmgMin": 9,
+    "dmgMax": 17,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "obliterate_blind",
+    "dmgMin": 9,
+    "dmgMax": 17,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "swine_reaver_A": {
   "size": 1,
@@ -5695,7 +20206,41 @@ export const REGION_ENEMIES = {
   "move": 50,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "butcher_cut",
+    "dmgMin": 3,
+    "dmgMax": 7,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2,
+     3
+    ],
+    "aoe": false
+   },
+   {
+    "id": "ball_and_chain",
+    "dmgMin": 2,
+    "dmgMax": 4,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "swine_reaver_B": {
   "size": 1,
@@ -5711,7 +20256,41 @@ export const REGION_ENEMIES = {
   "move": 70,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "butcher_cut",
+    "dmgMin": 5,
+    "dmgMax": 9,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2,
+     3
+    ],
+    "aoe": false
+   },
+   {
+    "id": "ball_and_chain",
+    "dmgMin": 3,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "swine_reaver_C": {
   "size": 1,
@@ -5727,7 +20306,41 @@ export const REGION_ENEMIES = {
   "move": 90,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "butcher_cut",
+    "dmgMin": 6,
+    "dmgMax": 13,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2,
+     3
+    ],
+    "aoe": false
+   },
+   {
+    "id": "ball_and_chain",
+    "dmgMin": 4,
+    "dmgMax": 7,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "swine_skiver_A": {
   "size": 1,
@@ -5743,7 +20356,56 @@ export const REGION_ENEMIES = {
   "move": 25,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "spit_to_roast",
+    "dmgMin": 6,
+    "dmgMax": 10,
+    "launch": [
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3
+    ],
+    "aoe": false
+   },
+   {
+    "id": "cripple_them",
+    "dmgMin": 3,
+    "dmgMax": 7,
+    "launch": [
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "goring_flight",
+    "dmgMin": 2,
+    "dmgMax": 4,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   }
+  ]
  },
  "swine_skiver_B": {
   "size": 1,
@@ -5759,7 +20421,56 @@ export const REGION_ENEMIES = {
   "move": 45,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "spit_to_roast",
+    "dmgMin": 9,
+    "dmgMax": 13,
+    "launch": [
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3
+    ],
+    "aoe": false
+   },
+   {
+    "id": "cripple_them",
+    "dmgMin": 4,
+    "dmgMax": 10,
+    "launch": [
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "goring_flight",
+    "dmgMin": 3,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   }
+  ]
  },
  "swine_skiver_C": {
   "size": 1,
@@ -5775,7 +20486,56 @@ export const REGION_ENEMIES = {
   "move": 65,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "spit_to_roast",
+    "dmgMin": 12,
+    "dmgMax": 18,
+    "launch": [
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3
+    ],
+    "aoe": false
+   },
+   {
+    "id": "cripple_them",
+    "dmgMin": 6,
+    "dmgMax": 13,
+    "launch": [
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "goring_flight",
+    "dmgMin": 4,
+    "dmgMax": 7,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   }
+  ]
  },
  "swine_slasher_A": {
   "size": 1,
@@ -5791,7 +20551,27 @@ export const REGION_ENEMIES = {
   "move": 25,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "hook_where_it_hurts",
+    "dmgMin": 3,
+    "dmgMax": 7,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3
+    ],
+    "aoe": false
+   }
+  ]
  },
  "swine_slasher_B": {
   "size": 1,
@@ -5807,7 +20587,27 @@ export const REGION_ENEMIES = {
   "move": 45,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "hook_where_it_hurts",
+    "dmgMin": 5,
+    "dmgMax": 9,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3
+    ],
+    "aoe": false
+   }
+  ]
  },
  "swine_slasher_C": {
   "size": 1,
@@ -5823,7 +20623,27 @@ export const REGION_ENEMIES = {
   "move": 65,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "hook_where_it_hurts",
+    "dmgMin": 6,
+    "dmgMax": 13,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3
+    ],
+    "aoe": false
+   }
+  ]
  },
  "swine_wretch_A": {
   "size": 1,
@@ -5839,7 +20659,28 @@ export const REGION_ENEMIES = {
   "move": 0,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "vomit",
+    "dmgMin": 1,
+    "dmgMax": 1,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "swine_wretch_B": {
   "size": 1,
@@ -5855,7 +20696,28 @@ export const REGION_ENEMIES = {
   "move": 20,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "vomit",
+    "dmgMin": 1,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "swine_wretch_C": {
   "size": 1,
@@ -5871,7 +20733,28 @@ export const REGION_ENEMIES = {
   "move": 40,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "vomit",
+    "dmgMin": 1,
+    "dmgMax": 3,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "templar_melee_D": {
   "size": 2,
@@ -5887,7 +20770,57 @@ export const REGION_ENEMIES = {
   "move": 73,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "templar_pinch",
+    "dmgMin": 8,
+    "dmgMax": 17,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": true
+   },
+   {
+    "id": "templar_sting",
+    "dmgMin": 9,
+    "dmgMax": 20,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2,
+     3
+    ],
+    "aoe": false
+   },
+   {
+    "id": "templar_slam",
+    "dmgMin": 8,
+    "dmgMax": 18,
+    "launch": [
+     1,
+     2,
+     3
+    ],
+    "hits": [
+     1,
+     2,
+     3
+    ],
+    "aoe": false
+   }
+  ]
  },
  "templar_melee_mb_D": {
   "size": 2,
@@ -5903,7 +20836,75 @@ export const REGION_ENEMIES = {
   "move": 73,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 2,
+  "skills": [
+   {
+    "id": "templar_pinch",
+    "dmgMin": 8,
+    "dmgMax": 17,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": true
+   },
+   {
+    "id": "templar_sting",
+    "dmgMin": 9,
+    "dmgMax": 20,
+    "launch": [
+     1,
+     2
+    ],
+    "hits": [
+     1,
+     2,
+     3
+    ],
+    "aoe": false
+   },
+   {
+    "id": "templar_slam",
+    "dmgMin": 8,
+    "dmgMax": 18,
+    "launch": [
+     1,
+     2,
+     3
+    ],
+    "hits": [
+     1,
+     2,
+     3
+    ],
+    "aoe": false
+   },
+   {
+    "id": "darkest_eye",
+    "dmgMin": 16,
+    "dmgMax": 26,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "templar_ranged_D": {
   "size": 2,
@@ -5919,7 +20920,57 @@ export const REGION_ENEMIES = {
   "move": 48,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "templar_pinch",
+    "dmgMin": 8,
+    "dmgMax": 17,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": true
+   },
+   {
+    "id": "templar_snipe",
+    "dmgMin": 12,
+    "dmgMax": 17,
+    "launch": [
+     3,
+     4
+    ],
+    "hits": [
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "templar_aoe",
+    "dmgMin": 5,
+    "dmgMax": 8,
+    "launch": [
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "templar_ranged_mb_D": {
   "size": 2,
@@ -5935,7 +20986,75 @@ export const REGION_ENEMIES = {
   "move": 98,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 2,
+  "skills": [
+   {
+    "id": "templar_pinch",
+    "dmgMin": 8,
+    "dmgMax": 17,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": true
+   },
+   {
+    "id": "templar_snipe",
+    "dmgMin": 12,
+    "dmgMax": 17,
+    "launch": [
+     3,
+     4
+    ],
+    "hits": [
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "templar_aoe",
+    "dmgMin": 5,
+    "dmgMax": 8,
+    "launch": [
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "darkest_eye",
+    "dmgMin": 16,
+    "dmgMax": 26,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "totem_attack_D": {
   "size": 1,
@@ -5951,7 +21070,44 @@ export const REGION_ENEMIES = {
   "move": 148,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "totem_maul",
+    "dmgMin": 8,
+    "dmgMax": 15,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "totem_stun",
+    "dmgMin": 4,
+    "dmgMax": 9,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   }
+  ]
  },
  "totem_guard_D": {
   "size": 1,
@@ -5967,7 +21123,81 @@ export const REGION_ENEMIES = {
   "move": 148,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "totem_guard",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "totem_bolster",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "totem_heal",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "totem_stressblast",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   }
+  ]
  },
  "unclean_giant_A": {
   "size": 2,
@@ -5983,7 +21213,62 @@ export const REGION_ENEMIES = {
   "move": 75,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "club_smack",
+    "dmgMin": 10,
+    "dmgMax": 20,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "confusion_spores",
+    "dmgMin": 1,
+    "dmgMax": 1,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "poison_spores",
+    "dmgMin": 1,
+    "dmgMax": 1,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "unclean_giant_B": {
   "size": 2,
@@ -5999,7 +21284,62 @@ export const REGION_ENEMIES = {
   "move": 95,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "club_smack",
+    "dmgMin": 14,
+    "dmgMax": 27,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "confusion_spores",
+    "dmgMin": 2,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "poison_spores",
+    "dmgMin": 2,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "unclean_giant_C": {
   "size": 2,
@@ -6015,7 +21355,62 @@ export const REGION_ENEMIES = {
   "move": 115,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "club_smack",
+    "dmgMin": 19,
+    "dmgMax": 37,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2
+    ],
+    "aoe": false
+   },
+   {
+    "id": "confusion_spores",
+    "dmgMin": 2,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": true
+   },
+   {
+    "id": "poison_spores",
+    "dmgMin": 2,
+    "dmgMax": 2,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   }
+  ]
  },
  "virago_hateful_A": {
   "size": 1,
@@ -6031,7 +21426,58 @@ export const REGION_ENEMIES = {
   "move": 30,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": true
+  "marksHeroes": true,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "ruinous_hex",
+    "dmgMin": 2,
+    "dmgMax": 4,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "putrefying_breath",
+    "dmgMin": 3,
+    "dmgMax": 7,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3
+    ],
+    "aoe": false
+   },
+   {
+    "id": "from_death_comes_life",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   }
+  ]
  },
  "virago_hateful_B": {
   "size": 1,
@@ -6047,7 +21493,58 @@ export const REGION_ENEMIES = {
   "move": 50,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": true
+  "marksHeroes": true,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "ruinous_hex",
+    "dmgMin": 3,
+    "dmgMax": 5,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "putrefying_breath",
+    "dmgMin": 5,
+    "dmgMax": 9,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3
+    ],
+    "aoe": false
+   },
+   {
+    "id": "from_death_comes_life",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   }
+  ]
  },
  "virago_hateful_C": {
   "size": 1,
@@ -6063,7 +21560,58 @@ export const REGION_ENEMIES = {
   "move": 70,
   "corpse": true,
   "punishesMark": false,
-  "marksHeroes": true
+  "marksHeroes": true,
+  "turns": 1,
+  "skills": [
+   {
+    "id": "ruinous_hex",
+    "dmgMin": 4,
+    "dmgMax": 7,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "aoe": false
+   },
+   {
+    "id": "putrefying_breath",
+    "dmgMin": 6,
+    "dmgMax": 13,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [
+     1,
+     2,
+     3
+    ],
+    "aoe": false
+   },
+   {
+    "id": "from_death_comes_life",
+    "dmgMin": 0,
+    "dmgMax": 0,
+    "launch": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "hits": [],
+    "aoe": false
+   }
+  ]
  },
  "virago_shroom_A": {
   "size": 1,
@@ -6079,7 +21627,9 @@ export const REGION_ENEMIES = {
   "move": 120,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "virago_shroom_B": {
   "size": 1,
@@ -6095,7 +21645,9 @@ export const REGION_ENEMIES = {
   "move": 120,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  },
  "virago_shroom_C": {
   "size": 1,
@@ -6111,6 +21663,8 @@ export const REGION_ENEMIES = {
   "move": 120,
   "corpse": false,
   "punishesMark": false,
-  "marksHeroes": false
+  "marksHeroes": false,
+  "turns": 1,
+  "skills": []
  }
 };

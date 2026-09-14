@@ -1688,6 +1688,82 @@ Three things worth not re-deriving:
    fights this way. "The Darkest Dungeon: average party size 1" would be a confident lie,
    and the rule everywhere else here is that silence beats a guess.
 
+### What makes an enemy dangerous, which is not what makes it tough
+
+`regionEnemies.js` now also carries, per enemy, **what it threatens** rather than
+only what it is: each `skill:` line's damage range, its `launch` (which enemy
+ranks it can act from) and its `target`/`hits` (which hero ranks it reaches, and
+whether that is an AoE), plus `initiative: .number_of_turns_per_round`. Each mash
+row also records its dungeon difficulty, so veteran is addressable on its own.
+
+**Damage is close to useless as a measure of threat.** Measured against Fran's
+own list of the 22 enemies that decide a fight, versus the other 86 veteran
+enemies, the dangerous ones are on average *squishier and easier to control*:
+
+| | dangerous | rest |
+| --- | --- | --- |
+| HP | 33.1 | 61.2 |
+| DODGE | 16.7 | 27.1 |
+| move resist | 53.0 | 103.5 |
+| stun resist | 71.1 | 102.9 |
+
+What separates them is what they **do** — applies blight (+369% over the rest),
+marks heroes (+161%), prefers a marked target (+148%), deals stress (+108%),
+shuffles the party (+95%), AoEs the back ranks (+50%). Damage is the weakest real
+signal at +39%.
+
+The `Necrotic Fungus` is the clean proof: `number_of_turns_per_round: 0` and no
+`skill:` lines at all, and it is one of the most dangerous things in the Weald
+because it blocks *all* healing while it lives. A damage-shaped threat score reads
+those two facts as harmless, which is the exact opposite of what they mean.
+
+**Do not collapse this into one weighted score.** The 22 are plainly two
+archetypes and averaging them buries both — the same mistake this file already
+records for `regionFit`'s axis weights:
+
+- **disruptors** — squishy, fast, and they apply something. Crone (3 damage, 29
+  DODGE, blight + disease + mark), Fungal Artillery, Squiffy Ghast (2 damage,
+  pure stress), Swine Drummer, Cultist Acolyte, Madman, Spitter.
+- **bruisers** — size 2, high HP, huge damage. Unclean Giant (27 damage, 98 HP,
+  shuffles), Swinetaur, Bone Captain, Large Carrion Eater, Thrall (explodes).
+
+`Hateful Virago` is the one that is both, and the reason she is a kill priority:
+`stun_resist 220%` and 34 DODGE so control cannot remove her, she marks, and
+`from_death_comes_life` summons the Fungus off any corpse.
+
+**The AI files are readable, and they carry intent.**
+`raid/ai/base.monster_brains.json` has 165 brains, and the wiki's numbers are
+literally the numbers in it: the Swine Skiver's `marked_target` desire is
+`base_chance: 6.0` against `random_target` 2.0 — the "6x more likely to target
+marked heroes" — and its retreat skill jumps to `7.0` once it has been pulled
+forward (`monsters_size_min: 3`). The Virago picks `ruinous_hex` at `4.0` while
+two heroes are still unmarked and carries `marked_target: -100000` on it so she
+never wastes it re-marking. Read these rather than inferring behaviour from stats.
+
+**Three kinds of hazard, and only the first is a property of the region:**
+
+1. **Region-fielded** — whatever the mash tables actually draw.
+2. **Region-weighted mechanics** — disease and corpses, derivable from the
+   enemies a zone fields rather than listed separately.
+3. **Party-dependent** — the Shieldbreaker's nightmare serpents (`snake_cobra`
+   = *Pliskin*, `snake_rattler`, `snake_big_adder`). Their rows are in
+   `regionEnemies.js` because the importer reads every file under `monsters/`,
+   but **no `dungeons/` mash table draws them**: they arrive because she is in
+   the party, anywhere. That is the same fact the `flashback.<zone>.*` skip rule
+   above protects, seen from the data side.
+
+**Two traps when resolving an enemy's name.** The display name changes with the
+difficulty variant — `skeleton_arbalist_A` is "Bone Arbalist", `_B` is "Bone
+Marksman", `_C` is "Bone Sharpshooter" — so a name has to be matched against the
+**base** id, never against a variant. And DLC monster names are **not** in
+`localization/`: the Shieldbreaker's are under `dlc/`, which is why `Pliskin`
+looks unresolvable until that folder is read too.
+
+**No scorer is built on any of this yet.** The data is here and the signals are
+measured; turning them into a judgement about whether a party answers a region is
+open work, and the archetype split above is the shape it should take rather than
+a single number.
+
 `src/data/regionEnemies.js` holds the 310 per-enemy rows and **nothing imports it on
 purpose**. It is provenance — with it the summary can be re-derived or re-weighted without
 the game, the same reason `importModdedHeroes` keeps its manifest — and it lives in its own
