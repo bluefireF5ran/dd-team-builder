@@ -2,7 +2,7 @@ import {
   RARITY_TONES, NO_RARITY, withAlpha, trinketRarity, rarityTone, trinketTone, rarityBorderStyle
 } from '../trinketRarity';
 import { TRINKET_EFFECTS } from '../../data/trinketEffects';
-import { MODDED_TRINKET_EFFECTS } from '../../data/moddedEffects';
+import { getModdedTrinketEffects } from '../../data/moddedEffects';
 import { MODDED_TRINKET_EFFECTS_GENERATED } from '../../data/moddedEffectsGenerated';
 
 const raritiesOf = (store) => Object.values(store).map((e) => e.rarity).filter(Boolean);
@@ -20,6 +20,8 @@ const raritiesOf = (store) => Object.values(store).map((e) => e.rarity).filter(B
  * mod" en "suite roja", y ponerles uno a ojo seria inventar una jerarquia que
  * el mod no declara. Lo que si se les exige esta abajo: degradar limpiamente.
  */
+// A getter now (the generated half loads on demand); setupTests installs it.
+const MODDED_TRINKET_EFFECTS = getModdedTrinketEffects();
 const GENERATED_RARITIES = new Set(raritiesOf(MODDED_TRINKET_EFFECTS_GENERATED));
 const handAuthoredModded = Object.fromEntries(
   Object.entries(MODDED_TRINKET_EFFECTS).filter(([name]) => !MODDED_TRINKET_EFFECTS_GENERATED[name])

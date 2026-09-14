@@ -1,6 +1,6 @@
 {
-  "teamName": "Fortune Favours: Ember",
-  "location": "The Warrens",
+  "teamName": "Mercy Ward: Cross",
+  "location": "The Cove",
   "heroes": [
     {
       "heroClass": "Occultist",
@@ -17,7 +17,7 @@
         "Unspeakable Commune"
       ],
       "trinket1": "Demon's Cauldron",
-      "trinket2": "Ancestor's Pistol",
+      "trinket2": "Ancestor's Coat",
       "quirks": {
         "positive": [
           "Corvids Grace",
@@ -33,21 +33,51 @@
       "diseases": []
     },
     {
-      "heroClass": "Houndmaster",
+      "heroClass": "Crusader",
       "activeSkills": [
-        "Hound's Rush",
-        "Target Whistle",
-        "Guard Dog",
-        "Blackjack"
+        "Smite",
+        "Battle Heal",
+        "Holy Lance",
+        "Inspiring Cry"
       ],
       "activeCampSkills": [
         "Encourage",
-        "Hound's Watch",
-        "Therapy Dog",
-        "Man's Best Friend"
+        "Stand Tall",
+        "Zealous Speech",
+        "Zealous Vigil"
       ],
-      "trinket1": "Ancestor's Coat",
-      "trinket2": "Wilbur's Flag",
+      "trinket1": "Ancestor's Scroll",
+      "trinket2": "Signed Conscription",
+      "quirks": {
+        "positive": [
+          "Corvids Eye",
+          "Luminous",
+          "Hippocratic"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    },
+    {
+      "heroClass": "Antiquarian",
+      "activeSkills": [
+        "Festering Vapours",
+        "Fortifying Vapours",
+        "Invigorating Vapours",
+        "Protect Me"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Resupply",
+        "Curious Incantation"
+      ],
+      "trinket1": "Smoking Skull",
+      "trinket2": "The Tempting Goblet",
       "quirks": {
         "positive": [
           "Luminous",
@@ -63,56 +93,26 @@
       "diseases": []
     },
     {
-      "heroClass": "Runaway",
+      "heroClass": "Arbalest",
       "activeSkills": [
-        "Firefly",
-        "Run and Hide",
-        "Controlled Burn",
-        "Backdraft"
+        "Sniper Shot",
+        "Suppressing Fire",
+        "Bola",
+        "Battlefield Bandage"
       ],
       "activeCampSkills": [
         "Encourage",
-        "Kindle",
-        "Cauterize",
-        "Play with Fire"
-      ],
-      "trinket1": "Searing Sunstone",
-      "trinket2": "Ancestor's Signet Ring",
-      "quirks": {
-        "positive": [
-          "Evasive",
-          "Luminous",
-          "Corvids Eye"
-        ],
-        "negative": []
-      },
-      "lockedQuirks": {
-        "positive": [],
-        "negative": []
-      },
-      "diseases": []
-    },
-    {
-      "heroClass": "Musketeer",
-      "activeSkills": [
-        "Aimed Shot",
-        "Smokescreen",
-        "Buckshot",
-        "Patch Up"
-      ],
-      "activeCampSkills": [
-        "Encourage",
-        "Wound Care",
         "Marching Plan",
-        "Clean Musket"
+        "Restring Crossbow",
+        "Triage"
       ],
       "trinket1": "Ancestor's Map",
-      "trinket2": "Silver Musket Ball",
+      "trinket2": "Bedtime Story",
       "quirks": {
         "positive": [
-          "Luminous",
-          "Corvids Grace",
-          "Hippocratic"
+          "Corvids Eye",
+          "Hippocratic",
+          "Luminous"
         ],
         "negative": []
       },

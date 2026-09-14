@@ -802,12 +802,16 @@ redefining (`encourage`, `first_aid`) and what lets a rebalance mod borrow the b
 ### The modded roster loads on demand (`src/data/moddedRoster.js`)
 
 The file is ~122 kB gzipped and `showModdedHeroes` is off by default, so most visitors never see a
-modded class. Since 2026-09-14 it is its own webpack chunk: `main.js` went from ~420 kB to ~300 kB
-gzip, and a default visit never fetches the roster.
+modded class. Since 2026-09-14 it is its own webpack chunk, and the generated effects for workshop
+classes (`moddedEffectsGenerated.js`, ~32 kB) ride in the same one: `main.js` went from ~420 kB to
+~268 kB gzip, the chunk is ~154 kB, and a default visit never fetches it. What `moddedEffects.js`
+writes by hand (Sibyl) stays in `main.js`, because the comp library's Sibyl comps read it.
 
-**Nothing in the app imports `modded_heroes.js`.** Everything reads it through the registry
-(`getModdedHeroClasses`, `getModdedGeneralTrinkets`, `getModdedGeneralTrinketMods`), which hands
-back empty data until `loadModdedRoster()` has fetched the chunk. It fetches once, concurrent
+**Nothing in the app imports `modded_heroes.js` or `moddedEffectsGenerated.js`.** Everything reads
+them through the registry (`getModdedHeroClasses`, `getModdedGeneralTrinkets`,
+`getModdedGeneralTrinketMods`, `getModdedEffectsGenerated`, which `moddedEffects.js` merges into
+`getModdedCombatSkillEffects`, `getModdedCampSkillEffects` and `getModdedTrinketEffects`). All of
+them hand back empty data until `loadModdedRoster()` has fetched the chunk. It fetches once, concurrent
 callers share the promise, and a failed fetch can be retried. One static import anywhere puts the
 whole file back into `main.js`, and `src/data/__tests__/moddedRoster.test.js` fails if any app
 module has one. Tests may import it: `setupTests.js` installs the roster for every suite so they
@@ -816,7 +820,9 @@ read modded classes as before, and the registry suite resets it to test the app 
 **Nothing may be derived from it at import.** An index built at import freezes the empty roster.
 `memoByModdedRoster(build)` rebuilds on first use after the roster changes; the name indexes in
 `nameNormalizer` and `saveParser`, the trinket Set in `imageHelper`, the comp index entries and
-`getModdedHeroNames` / `getAllHeroNames` in `rankerItems` (functions now, not constants) use it.
+`getModdedHeroNames` / `getAllHeroNames` in `rankerItems` (functions now, not constants) use it,
+and so do the caches in `skillProfile`, `skillColours` and `statBreakdown`'s `skillBuffs`, which
+read the generated effects.
 `bisIndex`, `trinketSubstitution` and `generalistIndex` compare `getModdedRosterVersion()` instead.
 React reads it with `useModdedRoster(wanted)`, which re-renders when the roster lands and returns
 the registry's own objects, so a memo can depend on exactly what it reads.
@@ -849,7 +855,10 @@ turned out to be a bug in the loaded app: three workshop classes locked a **gene
 from every vanilla hero (Temple Assassin lists Blight Stone, Chain Warden Seer Stone, Snake Charmer
 Crystal Pendant), so re-equipping from a save never offered them. `trinketSubstitution` now lets a
 modded class claim only what vanilla has not, general trinkets included, pinned in
-`trinketSubstitution.test.js`.
+`trinketSubstitution.test.js`. The generated effects were moved the same way: the oracle grew four
+sections (every generated class's skill hovers, profiles, colours, buffs, ranks and class profile,
+plus the generated camp skills and trinkets). Loaded they matched, and unloaded the only
+differences were workshop content, never Sibyl or vanilla.
 
 ### What the old pipeline got wrong
 
@@ -1218,10 +1227,9 @@ nobody can act on.
 combat skills, 157 camp skills, 331 class trinkets.** The other 606 classes report as
 `mod no instalado`. Install more, re-run, get more.
 
-**Watch the bundle.** The generated file costs ~34 kB gzip for 38 classes and still rides in
-`main.js` (~300 kB since the roster left it). Covering all 644 would be several hundred kB, so the
-day this gets broad it wants what the roster got: its own chunk behind a registry (**The modded
-roster loads on demand**).
+**Watch the bundle.** The generated file costs ~32 kB gzip for 38 classes. It no longer rides in
+`main.js`: it loads with the modded roster (**The modded roster loads on demand**), so covering all
+644 classes grows that chunk, not the first download.
 
 ## What a hero IS (`src/data/heroStats.js`)
 

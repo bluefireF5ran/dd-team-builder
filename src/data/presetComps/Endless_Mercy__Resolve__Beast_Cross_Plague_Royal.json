@@ -1,23 +1,23 @@
 {
-  "teamName": "Exsanguination",
-  "alias": "Plague Hounds",
-  "location": "The Warrens",
+  "teamName": "Endless Mercy: Resolve",
+  "location": "The Ruins",
   "heroes": [
     {
-      "heroClass": "Flagellant",
+      "heroClass": "Leper",
       "activeSkills": [
-        "Punish",
-        "Rain of Sorrows",
-        "Reclaim",
-        "Redeem"
+        "Chop",
+        "Purge",
+        "Solemnity",
+        "Intimidate"
       ],
       "activeCampSkills": [
-        "Lash's Solace",
-        "Lash's Kiss",
-        "Lash's Cure"
+        "Encourage",
+        "Let the Mask Down",
+        "Reflection",
+        "Quarantine"
       ],
-      "trinket1": "Flesh's Heart",
-      "trinket2": "Ancestor's Map",
+      "trinket1": "Ancestor's Signet Ring",
+      "trinket2": "Debuff Amulet",
       "quirks": {
         "positive": [],
         "negative": []
@@ -28,21 +28,24 @@
       }
     },
     {
-      "heroClass": "Houndmaster",
+      "heroClass": "Abomination",
       "activeSkills": [
-        "Hound's Rush",
-        "Cry Havoc",
-        "Guard Dog",
-        "Blackjack"
+        "Transform",
+        "Manacles",
+        "Beast's Bile",
+        "Absolution",
+        "Rake",
+        "Rage",
+        "Slam"
       ],
       "activeCampSkills": [
         "Encourage",
-        "Hound's Watch",
-        "Therapy Dog",
-        "Man's Best Friend"
+        "Wound Care",
+        "The Quickening",
+        "Eldritch Blood"
       ],
-      "trinket1": "Ancestor's Pistol",
-      "trinket2": "Cudgel Weight",
+      "trinket1": "Broken Key",
+      "trinket2": "Padlock of Transference",
       "quirks": {
         "positive": [],
         "negative": []
@@ -55,8 +58,8 @@
     {
       "heroClass": "Plague Doctor",
       "activeSkills": [
+        "Noxious Blast",
         "Blinding Gas",
-        "Incision",
         "Battlefield Medicine",
         "Disorienting Blast"
       ],
@@ -67,7 +70,7 @@
         "The Cure"
       ],
       "trinket1": "Blasphemous Vial",
-      "trinket2": "Witch's Vial",
+      "trinket2": "Ancestor's Map",
       "quirks": {
         "positive": [],
         "negative": []
@@ -78,21 +81,21 @@
       }
     },
     {
-      "heroClass": "Houndmaster",
+      "heroClass": "Crusader",
       "activeSkills": [
-        "Hound's Rush",
-        "Target Whistle",
-        "Cry Havoc",
-        "Guard Dog"
+        "Smite",
+        "Battle Heal",
+        "Holy Lance",
+        "Inspiring Cry"
       ],
       "activeCampSkills": [
         "Encourage",
-        "Hound's Watch",
-        "Therapy Dog",
-        "Man's Best Friend"
+        "Stand Tall",
+        "Zealous Speech",
+        "Zealous Vigil"
       ],
-      "trinket1": "Ancestor's Coat",
-      "trinket2": "Wilbur's Flag",
+      "trinket1": "Ancestor's Scroll",
+      "trinket2": "Signed Conscription",
       "quirks": {
         "positive": [],
         "negative": []

@@ -38,6 +38,7 @@
 
 import { getSkillEffect } from '../data/skillEffects';
 import { getModdedSkillEffect } from '../data/moddedEffects';
+import { memoByModdedRoster } from '../data/moddedRoster';
 import { parseRanks } from './rankValidity';
 
 /** Las clausulas dirigidas a uno mismo o a los companeros, no al objetivo. */
@@ -236,7 +237,9 @@ const computeSkillProfile = (heroClass, skillName) => {
   };
 };
 
-const profileCache = new Map();
+// Por version del roster modded: los efectos generados de las clases del
+// workshop llegan con el, y una respuesta calculada sin ellos no puede quedarse.
+const profileCache = memoByModdedRoster(() => new Map());
 
 /**
  * Lo que se sabe de una skill, o `null` si esta app no la conoce.
@@ -262,10 +265,10 @@ const profileCache = new Map();
  */
 export const skillProfile = (heroClass, skillName) => {
   const key = `${heroClass}\u0000${skillName}`;
-  const cached = profileCache.get(key);
+  const cached = profileCache().get(key);
   if (cached !== undefined) return cached;
   const result = computeSkillProfile(heroClass, skillName);
-  profileCache.set(key, result);
+  profileCache().set(key, result);
   return result;
 };
 
@@ -284,7 +287,7 @@ export const skillHasTag = (heroClass, skillName, tag) => {
   return !!profile && profile.tags.has(tag);
 };
 
-const classProfileCache = new Map();
+const classProfileCache = memoByModdedRoster(() => new Map());
 
 /**
  * El perfil de una CLASE, no de una skill: de cuantas de sus skills dispone
@@ -296,7 +299,7 @@ const classProfileCache = new Map();
  */
 export const classProfile = (heroClass, skillNames) => {
   const key = `${heroClass}|${(skillNames || []).join(',')}`;
-  if (classProfileCache.has(key)) return classProfileCache.get(key);
+  if (classProfileCache().has(key)) return classProfileCache().get(key);
 
   const profiles = (skillNames || [])
     .map((name) => ({ name, profile: skillProfile(heroClass, name) }))
@@ -318,6 +321,6 @@ export const classProfile = (heroClass, skillNames) => {
     isDancer: profiles.some(({ profile }) => profile.tags.has('selfMove'))
   };
 
-  classProfileCache.set(key, result);
+  classProfileCache().set(key, result);
   return result;
 };

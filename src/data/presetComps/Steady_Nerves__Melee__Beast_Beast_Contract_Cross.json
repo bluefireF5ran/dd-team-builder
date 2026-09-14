@@ -1,23 +1,27 @@
 {
-  "teamName": "Mercy Ward: Resolve",
+  "teamName": "Steady Nerves: Melee",
+  "alias": "Battlefield 4",
   "location": "The Ruins",
   "heroes": [
     {
-      "heroClass": "Leper",
+      "heroClass": "Abomination",
       "activeSkills": [
-        "Chop",
-        "Purge",
-        "Solemnity",
-        "Intimidate"
+        "Transform",
+        "Manacles",
+        "Beast's Bile",
+        "Absolution",
+        "Rake",
+        "Rage",
+        "Slam"
       ],
       "activeCampSkills": [
         "Encourage",
-        "Let the Mask Down",
-        "Reflection",
-        "Quarantine"
+        "Anger Management",
+        "The Quickening",
+        "Eldritch Blood"
       ],
-      "trinket1": "Ancestor's Signet Ring",
-      "trinket2": "Debuff Amulet",
+      "trinket1": "Ancestor's Pen",
+      "trinket2": "Focus Ring",
       "quirks": {
         "positive": [],
         "negative": []
@@ -40,7 +44,7 @@
       ],
       "activeCampSkills": [
         "Encourage",
-        "Wound Care",
+        "Anger Management",
         "The Quickening",
         "Eldritch Blood"
       ],
@@ -56,21 +60,21 @@
       }
     },
     {
-      "heroClass": "Plague Doctor",
+      "heroClass": "Bounty Hunter",
       "activeSkills": [
-        "Noxious Blast",
-        "Blinding Gas",
-        "Battlefield Medicine",
-        "Disorienting Blast"
+        "Collect Bounty",
+        "Mark for Death",
+        "Come Hither",
+        "Finish Him"
       ],
       "activeCampSkills": [
         "Encourage",
         "Wound Care",
-        "Leeches",
-        "The Cure"
+        "This Is How We Do It",
+        "Tracking"
       ],
-      "trinket1": "Blasphemous Vial",
-      "trinket2": "Ancestor's Map",
+      "trinket1": "Debuff Amulet",
+      "trinket2": "Vengeful Kill List",
       "quirks": {
         "positive": [],
         "negative": []

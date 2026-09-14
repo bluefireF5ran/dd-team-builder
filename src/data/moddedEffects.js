@@ -19,11 +19,10 @@
  */
 
 import { TRINKET_SETS, getSetBonus as vanillaSetBonus } from './trinketEffects';
-import {
-  MODDED_COMBAT_SKILL_EFFECTS_GENERATED,
-  MODDED_CAMP_SKILL_EFFECTS_GENERATED,
-  MODDED_TRINKET_EFFECTS_GENERATED,
-} from './moddedEffectsGenerated';
+// The generated half loads on demand with the modded roster (`moddedRoster.js`).
+// What is written by hand here stays in the bundle: the comp library's Sibyl
+// comps read it.
+import { getModdedEffectsGenerated, memoByModdedRoster } from './moddedRoster';
 
 // ===== Sibyl (Workshop 3490076588) =====
 // A stance class: Alignment cycles Moon -> Eclipse -> Sun, and most skills read
@@ -98,19 +97,20 @@ const mergeByClass = (generated, manual) => {
  */
 export const MODDED_HAND_AUTHORED = ['Sibyl'];
 
-export const MODDED_COMBAT_SKILL_EFFECTS = mergeByClass(
-  MODDED_COMBAT_SKILL_EFFECTS_GENERATED,
-  { Sibyl: SIBYL_COMBAT }
+// Getters, not constants: the generated half arrives on demand, and a merge made
+// at import would keep the empty version.
+export const getModdedCombatSkillEffects = memoByModdedRoster(() =>
+  mergeByClass(getModdedEffectsGenerated().MODDED_COMBAT_SKILL_EFFECTS_GENERATED, { Sibyl: SIBYL_COMBAT })
 );
 
 export const MODDED_TRINKET_SETS = {
   ...SIBYL_SETS,
 };
 
-export const MODDED_CAMP_SKILL_EFFECTS = {
-  ...MODDED_CAMP_SKILL_EFFECTS_GENERATED,
+export const getModdedCampSkillEffects = memoByModdedRoster(() => ({
+  ...getModdedEffectsGenerated().MODDED_CAMP_SKILL_EFFECTS_GENERATED,
   ...SIBYL_CAMP,
-};
+}));
 
 /**
  * Por CAMPO, no por entrada.
@@ -131,22 +131,22 @@ const mergeTrinkets = (generated, manual) => {
   return out;
 };
 
-export const MODDED_TRINKET_EFFECTS = mergeTrinkets(
-  MODDED_TRINKET_EFFECTS_GENERATED,
-  SIBYL_TRINKETS
+export const getModdedTrinketEffects = memoByModdedRoster(() =>
+  mergeTrinkets(getModdedEffectsGenerated().MODDED_TRINKET_EFFECTS_GENERATED, SIBYL_TRINKETS)
 );
 
 export function getModdedSkillEffect(name, heroClass) {
   if (!name) return null;
-  const byClass = heroClass && MODDED_COMBAT_SKILL_EFFECTS[heroClass];
+  const byClass = heroClass && getModdedCombatSkillEffects()[heroClass];
   if (byClass && byClass[name]) return { kind: 'combat', ...byClass[name] };
-  if (MODDED_CAMP_SKILL_EFFECTS[name]) return { kind: 'camp', ...MODDED_CAMP_SKILL_EFFECTS[name] };
+  const camp = getModdedCampSkillEffects()[name];
+  if (camp) return { kind: 'camp', ...camp };
   return null;
 }
 
 export function getModdedTrinketEffect(name) {
   if (!name) return null;
-  return MODDED_TRINKET_EFFECTS[name] || null;
+  return getModdedTrinketEffects()[name] || null;
 }
 
 const ALL_SETS = { ...TRINKET_SETS, ...MODDED_TRINKET_SETS };

@@ -1,6 +1,6 @@
 {
-  "teamName": "Fortune Favours: Ember",
-  "location": "The Cove",
+  "teamName": "Fortune Favours: Withering",
+  "location": "The Warrens",
   "heroes": [
     {
       "heroClass": "Occultist",
@@ -93,26 +93,26 @@
       "diseases": []
     },
     {
-      "heroClass": "Plague Doctor",
+      "heroClass": "Musketeer",
       "activeSkills": [
-        "Noxious Blast",
-        "Plague Grenade",
-        "Blinding Gas",
-        "Battlefield Medicine"
+        "Aimed Shot",
+        "Smokescreen",
+        "Buckshot",
+        "Patch Up"
       ],
       "activeCampSkills": [
         "Encourage",
         "Wound Care",
-        "Leeches",
-        "The Cure"
+        "Marching Plan",
+        "Clean Musket"
       ],
-      "trinket1": "Blasphemous Vial",
-      "trinket2": "Ancestor's Map",
+      "trinket1": "Ancestor's Map",
+      "trinket2": "Silver Musket Ball",
       "quirks": {
         "positive": [
           "Luminous",
-          "Corvids Eye",
-          "Corvids Grace"
+          "Corvids Grace",
+          "Hippocratic"
         ],
         "negative": []
       },
