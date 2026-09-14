@@ -9,6 +9,7 @@ import { searchEntries, searchTerms } from '../../utils/entrySearch';
 import { quirkClasses } from '../../utils/quirkStyle';
 import { quirkHover } from '../../utils/hoverInfo';
 import HoverCard from '../common/HoverCard';
+import Keywords from '../common/Keywords';
 
 /**
  * Choosing a quirk, the way choosing a trinket already works: a modal with a
@@ -185,7 +186,7 @@ const QuirkPicker = ({ isOpen, onClose, onSelect, kind, heroClass, showCrimsonCo
                           <span className={`block text-[10px] sm:text-[11px] leading-tight mt-0.5 ${clamp} ${
                             match?.inEffect ? 'text-dd-gold/90' : 'text-gray-400'
                           }`}>
-                            {effect.effect}
+                            <Keywords text={effect.effect} />
                           </span>
                         )}
                       </button>

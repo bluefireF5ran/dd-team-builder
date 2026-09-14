@@ -340,6 +340,8 @@ const App = () => {
                 <HeroConfiguration
                   hero={hero}
                   position={position}
+                  party={heroes}
+                  heroIndex={actualIndex}
                   onUpdate={(updatedHero) => updateHero(actualIndex, updatedHero)}
                   showBackerTrinkets={settings.showBackerTrinkets}
                   showModdedHeroes={settings.showModdedHeroes}

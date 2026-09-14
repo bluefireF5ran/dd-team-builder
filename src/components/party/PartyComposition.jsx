@@ -94,9 +94,15 @@ const PartyComposition = forwardRef(({ heroes, onSwapHeroes, teamName, location 
         </div>
       )}
 
-      <h3 className="font-darkest text-3xl sm:text-4xl mb-2 text-center text-dd-red-light tracking-wide">
-        Party Composition
-      </h3>
+      {/* Con nombre de comp, el nombre ES el titulo: un "Party Composition" rojo
+          y mas grande debajo lo eclipsaba y repetia lo que ya dice el panel.
+          Sin nombre, hace de titulo, al tamaño que tendria el nombre. Este panel
+          es tambien el que sale en el PNG, asi que el titulo tiene que ser la comp. */}
+      {!teamName && (
+        <h3 className="font-darkest text-2xl sm:text-3xl mb-1 text-center text-dd-red-light tracking-wide">
+          Party Composition
+        </h3>
+      )}
       {/* "Tap and hold to reorder" used to be the mobile copy, and it was not
           true: HTML5 drag-and-drop does not fire on touch, and there is no
           touch handler anywhere. The arrows below work everywhere - touch,

@@ -17,8 +17,15 @@ describe('PartyComposition', () => {
     expect(screen.getByText('The Ruins')).toBeInTheDocument();
   });
 
-  test('renders Party Composition heading', () => {
+  // Con nombre, el nombre de la comp es el titulo del panel (y del PNG); el
+  // "Party Composition" solo hace de titulo cuando no hay nombre.
+  test('lets the comp name be the title when there is one', () => {
     render(<PartyComposition {...defaultProps} />);
+    expect(screen.queryByText('Party Composition')).not.toBeInTheDocument();
+  });
+
+  test('falls back to a Party Composition heading without a comp name', () => {
+    render(<PartyComposition {...defaultProps} teamName="" />);
     expect(screen.getByText('Party Composition')).toBeInTheDocument();
   });
 

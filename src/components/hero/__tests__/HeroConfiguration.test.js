@@ -262,6 +262,41 @@ describe('HeroConfiguration', () => {
     });
   });
 
+  describe('synergies and the larger stats window', () => {
+    test('marks a skill that cashes in a teammate\'s mark, and says whose', () => {
+      const arbalest = { ...EMPTY_HERO, heroClass: 'Arbalest', activeSkills: ['Sniper Shot'] };
+      const party = [
+        { ...EMPTY_HERO, heroClass: 'Bounty Hunter', activeSkills: ['Mark for Death'] },
+        arbalest,
+      ];
+      render(<HeroConfiguration {...defaultProps} hero={arbalest} party={party} heroIndex={1} />);
+
+      const shot = screen.getByRole('button', { name: /^Sniper Shot/ });
+      expect(within(shot).getByText(/Mark/)).toHaveAttribute(
+        'title',
+        expect.stringContaining('Bounty Hunter (Mark for Death)')
+      );
+    });
+
+    test('shows no synergy chips without a party', () => {
+      const arbalest = { ...EMPTY_HERO, heroClass: 'Arbalest', activeSkills: ['Sniper Shot'] };
+      render(<HeroConfiguration {...defaultProps} hero={arbalest} />);
+      expect(screen.queryByText(/⇄/)).not.toBeInTheDocument();
+    });
+
+    test('opens the stats larger, and closes on Escape', () => {
+      render(<HeroConfiguration {...defaultProps} hero={{ ...EMPTY_HERO, heroClass: 'Crusader' }} />);
+      fireEvent.click(screen.getByRole('button', { name: /Open Crusader stats larger/ }));
+
+      const dialog = screen.getByRole('dialog', { name: 'Crusader' });
+      expect(within(dialog).getByText('Resistances')).toBeInTheDocument();
+      expect(within(dialog).getByTestId('stat-hp')).toHaveTextContent('61');
+
+      fireEvent.keyDown(dialog, { key: 'Escape' });
+      expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    });
+  });
+
   describe('trinket effects', () => {
     // 'Holy Orders' is the Crusader's Very Rare; 'Flickering Lamplight' is the
     // Fire's Edge generic the game ships with an empty buff list, so it has no
@@ -269,6 +304,9 @@ describe('HeroConfiguration', () => {
     const withTrinket = (trinket1) => ({ ...EMPTY_HERO, heroClass: 'Crusader', trinket1 });
     const HOLY_ORDERS = '+15% Virtue Chance | -20% Stress | +12% Death Blow Resist'
       + ' | -20% Blight Resist | -20% Bleed Resist';
+    // Las palabras clave van en su propio span de color (`Keywords`), asi que
+    // el texto ya no es un solo nodo: se compara el contenido entero.
+    const fullText = (text) => (_, node) => node?.textContent === text;
     // The handler sits on HoverCard's own span, and React's onMouseEnter does
     // not bubble, so the event has to be aimed at the wrapper rather than the
     // icon or button inside it.
@@ -286,7 +324,10 @@ describe('HeroConfiguration', () => {
       // The name resolves twice (the mocked image renders its alt as text), so
       // the effect line is the assertion that actually pins the new markup.
       expect(screen.getAllByText('Holy Orders').length).toBeGreaterThan(0);
-      expect(screen.getByText(HOLY_ORDERS)).toBeInTheDocument();
+      expect(screen.getByText(fullText(HOLY_ORDERS))).toBeInTheDocument();
+      // Y las palabras clave salen en el color del juego.
+      expect(screen.getByText('Blight', { selector: '[data-keyword="blight"]' })).toBeInTheDocument();
+      expect(screen.getByText('Stress', { selector: '[data-keyword="stress"]' })).toBeInTheDocument();
     });
 
     test('hovering the equipped slot opens a card with rarity and every clause', () => {
@@ -298,7 +339,7 @@ describe('HeroConfiguration', () => {
       expect(within(card).getByText('Very Rare')).toBeInTheDocument();
       // The card splits the effect on " | " so each clause is its own line.
       HOLY_ORDERS.split(' | ').forEach((clause) => {
-        expect(within(card).getByText(clause)).toBeInTheDocument();
+        expect(within(card).getByText(fullText(clause))).toBeInTheDocument();
       });
 
       unhover(screen.getByTitle('Holy Orders'));
@@ -320,7 +361,7 @@ describe('HeroConfiguration', () => {
 
       // The picker may list the same trinket under both Recommended and Class
       // Specific, so this asserts presence rather than a single match.
-      expect(screen.getAllByText(HOLY_ORDERS).length).toBeGreaterThan(0);
+      expect(screen.getAllByText(fullText(HOLY_ORDERS)).length).toBeGreaterThan(0);
 
       hover(screen.getAllByTitle('Holy Orders')[0]);
       expect(within(screen.getByRole('tooltip')).getByText('Very Rare')).toBeInTheDocument();

@@ -617,7 +617,8 @@ function makeRenderer(ctx, { extended = false } = {}) {
     if (fx.kill_enemy_types) bits.push('Clears ' + String(fx.kill_enemy_types).replace(/_/g, ' ') + 's');
     if (fx.bonus_action_next_turn) bits.push('Bonus action next turn');
     if (fx.heal) bits.push(`Heal ${fx.heal}`);
-    if (fx.controlled_burn_amount) bits.push(`Burn ${fx.controlled_burn_amount} pts/rd for ${fx.controlled_burn_duration || '?'} rds`);
+    // Su propia mecanica, no una quemadura mas (ver importSkillEffects).
+    if (fx.controlled_burn_amount) bits.push(`Controlled Burn ${fx.controlled_burn_amount} pts/rd for ${fx.controlled_burn_duration || '?'} rds`);
 
     // Stat changes written straight onto the effect rather than via a buff id.
     // ACC, DODGE and SPD are flat ratings even though the file writes them with

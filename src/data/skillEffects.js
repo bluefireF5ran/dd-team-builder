@@ -182,7 +182,7 @@ export const COMBAT_SKILL_EFFECTS = {
     "Run and Hide":     { type: "Ranged", launch: "1·2·3·4", target: "Self", move: 2, effect: "Self: Stealth (4 rds), Cannot be Stealthed while in position 1 (4 rds), Cannot be Stealthed while in position 2 (4 rds) | Self: Heal 5 pts/rd for 3 rds while Stealthed (3 rds) | Self: +50% Burn Skill Amount while Stealthed (4 rds)" },
     "Ransack":          { type: "Melee", launch: "1·2·3·4", target: "1·2·3·4", move: -1, dmg: "-10%", acc: "105%", crit: "+7%", effect: "Pull 1 (140% base) | Enemies: Clears corpses | Self: +10 ACC while Stealthed" },
     "Hearthlight":      { type: "Ranged", launch: "1·2·3·4", target: "1·2·3·4", aoe: true, dmg: "-100%", acc: "120%", crit: "+0%", effect: "Ignores Stealth | Removes Stealth | Self: +8 Torch | Party: +10 ACC (3 rds) | Party: +12% CRIT vs Burning (3 rds)" },
-    "Controlled Burn":  { type: "Ranged", launch: "1·2·3", target: "1·2·3", dmg: "-100%", acc: "115%", crit: "+0%", effect: "Ignores Stealth | Burn 4 pts/rd | Self: +6 Torch | Burn 5 pts/rd for 3 rds | 2 uses per battle" },
+    "Controlled Burn":  { type: "Ranged", launch: "1·2·3", target: "1·2·3", dmg: "-100%", acc: "115%", crit: "+0%", effect: "Ignores Stealth | Burn 4 pts/rd | Self: +6 Torch | Controlled Burn 5 pts/rd for 3 rds | 2 uses per battle" },
     "Backdraft":        { type: "Ranged", launch: "1·2·3", target: "1·2", dmg: "-50%", acc: "115%", crit: "+11%", effect: "Requires Burning | Ignores Guard | +25% DMG per Burn stack | Copies Burn to the target behind" },
   },
   "Shieldbreaker": {
@@ -192,7 +192,7 @@ export const COMBAT_SKILL_EFFECTS = {
     "Impale":        { type: "Ranged", launch: "1", target: "1·2·3·4", aoe: true, move: 1, dmg: "-60%", acc: "110%", crit: "-2%", effect: "Blight (140% base)2 pts/rd for 3 rds | Self: Back 1" },
     "Expose":        { type: "Melee", launch: "1·2·3", target: "1·2·3", move: 1, dmg: "-40%", acc: "105%", crit: "+6.5%", effect: "Bypass/Remove Stealth, +10% Crits Received (140% base, 3 rds), -8 SPD (140% base, 4 rds) | Self: Back 1" },
     "Captivate":     { type: "Ranged", launch: "2·3", target: "2·3", dmg: "-25%", acc: "105%", crit: "+8%", effect: "+60% DMG vs Marked, Blight (140% base) 5 pts/rd for 3 rds" },
-    "Serpent Sway":  { type: "Self", launch: "1·2·3", target: "Self", move: -1, dmg: "-100%", acc: "1000%", crit: "+0%", effect: "Self: Forward 1,2 https://darkestdungeon.wiki.gg/wiki/Status_effects#Aegis, +4 SPD (4 rds)" },
+    "Serpent Sway":  { type: "Self", launch: "1·2·3", target: "Self", move: -1, dmg: "-100%", acc: "1000%", crit: "+0%", effect: "Self: Forward 1, +2 Block, +4 SPD (4 rds)" },
   },
   "Vestal": {
     "Mace Bash":       { type: "Melee", launch: "1·2", target: "1·2", dmg: "+0%", acc: "105%", crit: "+4%", effect: "+35% DMG vs Unholy" },

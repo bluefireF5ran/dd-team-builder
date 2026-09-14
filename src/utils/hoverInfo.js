@@ -6,6 +6,9 @@ import { getQuirkEffect } from '../data/quirkEffects';
 import { getModdedSkillEffect, getModdedTrinketEffect, getSetBonus } from '../data/moddedEffects';
 import { QUIRK_TONES, quirkTone } from './quirkStyle';
 import { skillAccuracy, skillChanceBonuses } from './skillAccuracy';
+import { skillSynergies, synergyLines } from './skillSynergy';
+import { skillProfile } from './skillProfile';
+import { statBreakdown } from './statBreakdown';
 
 /**
  * Turns a trinket, skill or quirk into the three fields `HoverCard` draws: a
@@ -46,7 +49,7 @@ export function trinketHover(name, otherTrinket) {
  *   subtitle. Opt-in, because the tier is an opinion and the setting that
  *   turns it on is off by default; callers that never got it keep their card.
  */
-export function skillHover(name, heroClass, { showTier = false, hero = null } = {}) {
+export function skillHover(name, heroClass, { showTier = false, hero = null, party = null, heroIndex = -1 } = {}) {
   const entry = getSkillEffect(name, heroClass) || getModdedSkillEffect(name, heroClass);
   const tier = showTier ? getSkillTierMeta(getSkillTier(heroClass, name)) : null;
   const tierText = tier ? `Tier ${tier.id} — ${tier.label}` : null;
@@ -55,16 +58,22 @@ export function skillHover(name, heroClass, { showTier = false, hero = null } = 
   if (!entry) return { title: name, subtitle: tierText, lines: [] };
 
   const stats = [];
+  let line = null;
   // Fuera del `if`: las lineas de abajo tambien lo miran, y una camp skill no
   // tiene ACC que calcular (`skillAccuracy` devuelve null para ella).
   const acc = skillAccuracy(entry, hero);
   if (entry.kind === 'camp') {
     if (entry.cost) stats.push(`${entry.cost} time`);
   } else {
-    if (entry.type) stats.push(entry.type);
-    if (entry.launch) stats.push(`from ${entry.launch}`);
-    if (entry.target) stats.push(entry.target === 'Self' ? 'self' : `hits ${entry.target}`);
-    if (entry.aoe) stats.push('AoE');
+    // El tipo y los rangos ya no van en texto: `kind` y `ranks` los dibuja
+    // `HoverCard` con color y puntos (`RankDots`).
+    //
+    // Las estadisticas del heroe que lleva la skill, o las de su clase a equipo
+    // maximo cuando no hay heroe concreto (el ranker, una comp sin trinkets):
+    // es lo que convierte `DMG -50%` en el daño que de verdad hace.
+    // El mismo desglose que las barras, para que el CRIT del hover y el de la
+    // ficha sean el mismo numero (Hacienda y luz incluidas).
+    line = statBreakdown(hero?.heroClass ? hero : { heroClass }, { party, heroIndex });
     /**
      * Una skill que no tira para acertar trae TRES marcadores de posicion, no
      * uno: `ACC 1000%`, `DMG -100%` y `CRIT +0%`. Los tres invitan a compararlos
@@ -78,7 +87,21 @@ export function skillHover(name, heroClass, { showTier = false, hero = null } = 
      */
     const noRoll = acc?.alwaysHits;
     const hitsEnemies = !!entry.target && !/^(ally|self)/i.test(entry.target);
-    if (entry.dmg && !(noRoll && entry.dmg === '-100%')) stats.push(`DMG ${entry.dmg}`);
+    /**
+     * La tirada, no el modificador: `DMG -50%` obliga a saberse el daño de la
+     * clase y hacer la cuenta. Se redondea HACIA ARRIBA, que es la regla del
+     * juego para el daño de heroe sin critico (AGENTS.md, How the game rounds).
+     * Una skill a -100% no hace daño y no dice nada. Una clase sin estadisticas
+     * (modded sin importar) sigue diciendo el modificador, que es lo que se sabe.
+     */
+    const dmgMod = percentOf(entry.dmg);
+    if (line && dmgMod !== null) {
+      if (dmgMod > -100) {
+        stats.push(`DMG ${rollDamage(line.total.dmgMin, dmgMod)}-${rollDamage(line.total.dmgMax, dmgMod)}`);
+      }
+    } else if (entry.dmg && !(noRoll && entry.dmg === '-100%')) {
+      stats.push(`DMG ${entry.dmg}`);
+    }
     if (noRoll) {
       if (hitsEnemies) stats.push('always hits');
     } else if (acc && acc.delta) {
@@ -86,7 +109,16 @@ export function skillHover(name, heroClass, { showTier = false, hero = null } = 
     } else if (entry.acc) {
       stats.push(`ACC ${entry.acc}`);
     }
-    if (entry.crit && !(noRoll && entry.crit === '+0%')) stats.push(`CRIT ${entry.crit}`);
+    // El critico total: el del heroe mas el de la skill. Una skill sin daño y
+    // sin critico propio no lo muestra.
+    const critMod = percentOf(entry.crit);
+    if (line && critMod !== null) {
+      if (!(critMod === 0 && (noRoll || (dmgMod !== null && dmgMod <= -100)))) {
+        stats.push(`CRIT ${Math.round((line.total.crit + critMod) * 10) / 10}%`);
+      }
+    } else if (entry.crit && !(noRoll && entry.crit === '+0%')) {
+      stats.push(`CRIT ${entry.crit}`);
+    }
   }
   if (tierText) stats.push(tierText);
 
@@ -101,8 +133,38 @@ export function skillHover(name, heroClass, { showTier = false, hero = null } = 
   if (acc && !acc.alwaysHits && acc.sources.length) {
     lines.push(`${acc.delta > 0 ? '+' : ''}${acc.delta} ACC — ${acc.sources.map((x) => x.name).join(', ')}`);
   }
+  // Con quien encaja ESTA skill en la party que tienes delante. Al final, debajo
+  // del efecto que la explica, y con la palabra clave delante para que salga del
+  // mismo color que ese efecto.
+  if (party && heroIndex >= 0 && entry.kind !== 'camp') {
+    lines.push(...synergyLines(skillSynergies(party, heroIndex, name)));
+  }
 
-  return { title: name, subtitle: stats.join(' · ') || null, lines };
+  const profile = entry.kind === 'camp' ? null : skillProfile(heroClass, name);
+  return {
+    title: name,
+    subtitle: stats.join(' · ') || null,
+    lines,
+    kind: entry.kind === 'camp' ? null : entry.type || null,
+    ranks: profile
+      ? { launch: profile.launch, target: profile.target, targetKind: profile.targetKind, aoe: profile.aoe }
+      : null,
+  };
+}
+
+/** `"+11.5%"` -> 11.5; cualquier otra cosa -> null. */
+function percentOf(value) {
+  const m = /^\s*([+-]?\d+(?:\.\d+)?)\s*%\s*$/.exec(String(value ?? ''));
+  return m ? Number(m[1]) : null;
+}
+
+/**
+ * Daño de heroe con el modificador de la skill, hacia arriba. En enteros de
+ * milesimas antes del `ceil`, porque `20 * 0.85` en coma flotante puede quedar
+ * en 17.000000000000004 y subir a 18.
+ */
+function rollDamage(value, modifier) {
+  return Math.max(0, Math.ceil(Math.round(value * (100 + modifier) * 1000) / 100000));
 }
 
 export function quirkHover(name, fallbackTone) {

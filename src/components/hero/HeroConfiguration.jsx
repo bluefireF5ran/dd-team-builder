@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { getSkillRanks, reachableRanks } from '../../utils/rankValidity';
-import { heroStatLine, statPosition, statSpread, STAT_ORDER } from '../../utils/heroStatLine';
-import { AlertTriangle, ChevronDown, ChevronRight, ChevronUp, Copy, ClipboardPaste, RotateCcw, Sparkles, UserPlus, X } from 'lucide-react';
+import { statBreakdown } from '../../utils/statBreakdown';
+import StatRows from './StatRows';
+import { AlertTriangle, ChevronDown, ChevronRight, ChevronUp, Copy, ClipboardPaste, Maximize2, RotateCcw, Sparkles, UserPlus, X } from 'lucide-react';
 import { HERO_CLASSES } from '../../data/heroes';
 import { MODDED_HERO_CLASSES } from '../../data/modded_heroes';
 import { validateHero } from '../../utils/validation';
@@ -18,6 +19,10 @@ import { rarityBorderStyle } from '../../utils/trinketRarity';
 import ImageWithFallback from '../common/ImageWithFallback';
 import ConfirmDialog from '../common/ConfirmDialog';
 import HoverCard from '../common/HoverCard';
+import Keywords from '../common/Keywords';
+import HeroStatsDialog from './HeroStatsDialog';
+import { skillSynergies, synergyLines } from '../../utils/skillSynergy';
+import { keywordColour } from '../../data/gameColours';
 import HeroSelector from './HeroSelector';
 import TrinketPicker from './TrinketPicker';
 import QuirkSlot from '../quirks/QuirkSlot';
@@ -39,9 +44,47 @@ const SkillTierBadge = ({ tier }) => {
   );
 };
 
+/**
+ * Una sinergia, en el boton de la skill: la palabra clave en el color del
+ * juego, con borde de ese color. Una por palabra aunque la skill prepare Y cobre
+ * la misma cosa; el hover dice con quien.
+ *
+ * Esta en el boton y no solo en el hover porque una sinergia que hay que ir a
+ * buscar pasando el raton por siete skills no destaca.
+ */
+const SYNERGY_LABEL = { mark: 'Mark', stun: 'Stun', bleed: 'Bleed', blight: 'Blight' };
+
+const SynergyChips = ({ synergies }) => {
+  if (!synergies.length) return null;
+  const byKeyword = new Map();
+  synergies.forEach((s) => {
+    if (!byKeyword.has(s.keyword)) byKeyword.set(s.keyword, []);
+    byKeyword.get(s.keyword).push(s);
+  });
+  return [...byKeyword.entries()].map(([keyword, list]) => {
+    const colour = keywordColour(keyword);
+    return (
+      <span
+        key={keyword}
+        data-synergy={keyword}
+        className="text-[10px] leading-none px-1 py-0.5 rounded border bg-gray-900/70 font-semibold"
+        style={{ color: colour, borderColor: colour }}
+        title={synergyLines(list).join('\n')}
+      >
+        ⇄ {SYNERGY_LABEL[keyword]}
+      </span>
+    );
+  });
+};
+
 const HeroConfiguration = ({
   hero,
   position,
+  // La party entera y el indice de este heroe en ella (0 = rango 1), para decir
+  // con que skill de un companero encaja cada una. Opcionales: sin ellos la
+  // ficha es la de siempre.
+  party = null,
+  heroIndex = -1,
   onUpdate,
   showBackerTrinkets,
   showModdedHeroes,
@@ -490,7 +533,7 @@ const HeroConfiguration = ({
                     <HoverCard
                       key={skill}
                       className="w-full"
-                      {...skillHover(skill, hero.heroClass, { showTier: showSkillTiers, hero })}
+                      {...skillHover(skill, hero.heroClass, { showTier: showSkillTiers, hero, party, heroIndex })}
                     >
                       <button
                         onClick={() => toggleSkill(skill)}
@@ -504,6 +547,7 @@ const HeroConfiguration = ({
                       >
                         <span className="min-w-0 truncate">{skill}</span>
                         <span className="flex items-center gap-1 shrink-0">
+                          <SynergyChips synergies={party ? skillSynergies(party, heroIndex, skill) : []} />
                           {outOfRank && (
                             <span
                               className="text-[10px] leading-none px-1 py-0.5 rounded bg-gray-900/70 border border-gray-500/60 text-gray-300"
@@ -585,7 +629,7 @@ const HeroConfiguration = ({
                 />
                 <TrinketSetLine trinket1={hero.trinket1} trinket2={hero.trinket2} />
               </div>
-              <HeroStats hero={hero} />
+              <HeroStats hero={hero} party={party} heroIndex={heroIndex} />
             </div>
           </div>
 
@@ -772,75 +816,46 @@ const QuirkList = ({
  * vanilla trae de base-- no lleva barra: no hay contra que compararla, y una
  * barra vacia diria que es baja en vez de que no aplica.
  */
-const StatBar = ({ position }) => (
-  <span className="inline-block align-middle w-14 sm:w-16 h-1.5 rounded bg-gray-700/80 overflow-hidden">
-    <span
-      className="block h-full bg-dd-gold/70"
-      style={{ width: `${Math.round(position * 100)}%` }}
-    />
-  </span>
-);
-
-const HeroStats = ({ hero }) => {
+const HeroStats = ({ hero, party, heroIndex }) => {
   const [open, setOpen] = useState(true);
-  const line = useMemo(() => heroStatLine(hero), [hero]);
-  const spread = useMemo(() => statSpread(), []);
+  const [zoomed, setZoomed] = useState(false);
+  const breakdown = useMemo(() => statBreakdown(hero, { party, heroIndex }), [hero, party, heroIndex]);
   // Una clase modded que nadie ha importado no tiene estadisticas, y ahi la
   // respuesta honesta es no dibujar nada en vez de ceros.
-  if (!line) return null;
+  if (!breakdown) return null;
 
-  const pending = line.skipped.conditional + line.skipped.scoped;
-  const rows = [
-    ...STAT_ORDER.map(({ key, label, suffix }) => ({
-      key, label, suffix: suffix || '',
-      now: line.total[key], was: line.base[key],
-      position: statPosition(key, line.total[key]),
-      range: spread[key],
-    })),
-    {
-      key: 'dmg', label: 'DMG', suffix: '',
-      now: `${line.total.dmgMin}-${line.total.dmgMax}`,
-      was: `${line.base.dmgMin}-${line.base.dmgMax}`,
-      position: statPosition('dmgMax', line.total.dmgMax),
-      range: spread.dmgMax,
-    },
-  ];
+  const pending = breakdown.skipped.conditional + breakdown.skipped.scoped;
 
   return (
     <div className="mt-2 pt-2 border-t border-gray-700/60">
-      <button
-        type="button"
-        onClick={() => setOpen((v) => !v)}
-        aria-expanded={open}
-        className="flex items-center gap-1 text-[11px] text-gray-500 hover:text-dd-parchment transition-colors font-darkest tracking-wide"
-      >
-        {open ? <ChevronDown size={12} /> : <ChevronRight size={12} />}
-        Stats
-      </button>
+      <div className="flex items-center justify-between gap-2">
+        <button
+          type="button"
+          onClick={() => setOpen((v) => !v)}
+          aria-expanded={open}
+          className="flex items-center gap-1 text-[11px] text-gray-500 hover:text-dd-parchment transition-colors font-darkest tracking-wide"
+        >
+          {open ? <ChevronDown size={12} /> : <ChevronRight size={12} />}
+          Stats
+        </button>
+        {/* A 11px hay que acercarse para leerlo; esto lo abre en grande. */}
+        <button
+          type="button"
+          onClick={() => setZoomed(true)}
+          className="flex items-center gap-1 px-1.5 py-0.5 rounded border border-gray-600 text-[10px] text-gray-400 hover:text-dd-parchment hover:border-dd-gold/60 transition-colors"
+          aria-label={`Open ${hero.heroClass} stats larger`}
+        >
+          <Maximize2 size={11} /> Larger
+        </button>
+      </div>
+      <HeroStatsDialog isOpen={zoomed} onClose={() => setZoomed(false)} hero={hero} party={party} heroIndex={heroIndex} />
 
       {open && (
         <div className="mt-1.5 space-y-1">
-          {rows.map(({ key, label, suffix, now, was, position, range }) => {
-            const moved = String(now) !== String(was);
-            return (
-              <div key={key} className="flex items-center gap-2 text-[11px] leading-none">
-                <span className="text-gray-500 font-darkest tracking-wide w-12 shrink-0">{label}</span>
-                <span className={`w-12 shrink-0 tabular-nums ${moved ? 'text-dd-gold font-semibold' : 'text-gray-300'}`}>
-                  {now}{suffix}
-                </span>
-                {position === null ? (
-                  <span className="text-gray-600 text-[10px]">—</span>
-                ) : (
-                  <span title={`Roster ${range.min}${suffix} – ${range.max}${suffix}`}>
-                    <StatBar position={position} />
-                  </span>
-                )}
-                {moved && <span className="text-gray-600 tabular-nums">was {was}{suffix}</span>}
-              </div>
-            );
-          })}
+          <StatRows breakdown={breakdown} />
           <p className="text-[10px] text-gray-600 pt-0.5">
-            Bars show where this sits among the 20 base classes.
+            Base coloured red to green across the 20 classes; bars run to the best a class can be kitted to.
+            {' '}{breakdown.light.label} light{breakdown.light.source ? ` (${breakdown.light.source})` : ''}.
           </p>
           {pending > 0 && (
             <p className="text-[10px] text-gray-500">
@@ -915,7 +930,7 @@ const TrinketSlotButton = ({ trinketName, otherTrinketName, heroClass, placehold
             <span className="block text-xs sm:text-sm text-dd-parchment truncate">{trinketName}</span>
             {trinketEffect && (
               <span className="block text-[10px] sm:text-[11px] text-gray-400 leading-tight line-clamp-2">
-                {trinketEffect.effect}
+                <Keywords text={trinketEffect.effect} />
               </span>
             )}
           </span>

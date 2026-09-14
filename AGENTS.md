@@ -1206,6 +1206,85 @@ Three details:
 - **A stat whose roster range is flat gets no bar** — PROT, which no base class
   carries. An empty bar would say "low" where the truth is "does not apply", so
   `statPosition` returns null and the row draws a dash.
+- **The bars are drawn by `statBreakdown`, not by this module any more** — see
+  *Where each number comes from* below. What survives from here is the
+  roster yardstick: the **base** layer is still coloured red → amber → green by
+  `statColor(statPosition(...))`, one HSL hue rather than thresholds, so it says
+  whether the *class* is high or low. **No LOWEST / HIGHEST label** — there was
+  one, and Fran found the colour enough and the label noise on every row.
+
+### Where each number comes from (`src/utils/statBreakdown.js`, `src/data/estate.js`)
+
+Fran's specification, and its test, is a Jester's DODGE stacked from the most
+fixed source to the most temporary:
+
+```
+35 base + 3 Académie Duello + 7.5 radiant light (Cartographer's Camp)
++ 15 Ancestor's Coat + 15 Camouflage Cloak (torch above 75)
++ 6 Corvids Grace + 5 Luminous + 5 Evasive            = 91.5
++ 30 striped: Solo
+```
+
+Each layer is its own colour (estate slate, light torch-yellow, trinkets blue,
+quirks violet) blended into the next rather than cut; the base keeps the
+red-green roster colour; skill buffs the party *could* give are cyan stripes
+after the total; a negative layer is red hatching over what it takes away.
+
+**The estate is read from the game, and assumed fully built.** `estate.js`
+copies the districts that move a barred stat — Académie Duello (+3 DODGE all,
++1 SPD Duelist), House of the Yellow Hand (+4% CRIT: Bounty Hunter, Grave
+Robber, Highwayman), Altar of the Light (+10% stun resist: Crusader, Vestal,
+Flagellant), Training Ring (+10% MAX HP: Arbalest, Houndmaster, Man-at-Arms,
+Musketeer, Shieldbreaker), Performance Hall (+2 SPD: Jester) — from
+`districts_districts.json`, `runaway_duelist.districts.json` and their
+`.buffs.json`, with who gets each from `tag: .id` in the hero's `.info.darkest`.
+Match classes through `classId` (`Man-at-Arms` → `man_at_arms`), never by
+display name.
+
+**Light belongs to the party, not the hero.** Cartographer's Camp
+(`illuminators_guild`) replaces the torch table: above 75 heroes get +7.5 DODGE
+and +1 CRIT; darker bands give CRIT instead (+1/+2/+3/+4). `partyLight` assumes
+radiant unless **a trinket** in the party says `if Torch below N`, and then runs
+the torch at N-1 — which switches off the radiant DODGE and every "above 75"
+clause (the Camouflage Cloak's +15) and switches on the "below" ones. Only
+trinkets decide it: that is Fran's rule, and a quirk does not decide how a party
+plays.
+
+**The numbers are Darkest difficulty.** It is the game's baseline — the files
+with no `modes/` prefix. Radiant gives +10 / +2.5 DODGE in the top two bands and
+Stygian/Bloodmoon +3.5 CRIT in the 1-25 band; `CARTOGRAPHER_LIGHT` carries all
+four so a difficulty selector only has to pass the key.
+
+**The bar runs from 0 to what the best class can be kitted to** (`statScale`),
+not to the best naked class — with that yardstick the best-dressed hero is the
+one that overflows. Per vanilla class: base + estate + radiant light + its two
+best trinkets for the stat + its five best positive quirks + its best self-buff
++ the best ally buff anyone in the roster gives; the scale is the highest of the
+twenty. The two buffs are the room the stripes need — without them the Jester
+above already fills the bar and Solo's +30 has nowhere to be drawn. Starting at
+0 is what makes stacked layers proportional; "high or low for a class" is the
+base colour's job.
+
+**Potential is potential.** `skillBuffs` reads a skill's `+N STAT` pieces with
+their reach (`Self:` → caster, `Other Heroes:` → the rest, unprefixed on a
+support skill → the ally, and the caster too when the target says `/ self`).
+The striped amount is every *chosen* skill in the party that reaches this hero,
+with no turn or rank bookkeeping, and **the same skill on two heroes counts
+once** — it is the same buff. `Finale: +75% DMG` is not a buff to the hero.
+
+**Trinket conditions are evaluated where they can be, not just skipped.**
+Light is the party's (above). **"if … in inventory" always counts** — Smoking
+Skull's +35 DODGE "if Shard Dust in inventory" is a matter of packing the bag,
+which is the player's choice. **"if in position N" counts at that rank only**:
+the breakdown knows the hero's rank from `heroIndex`, and the bar's scale counts
+it as met. Everything else (vs Marked, HP below 25%, on First Round, while
+Camping) is still skipped and reported. `Party:` buffs (Hearthlight) reach every
+hero, the caster included.
+
+The hover's DMG roll and CRIT total read the same breakdown, so the sheet and
+the hover never disagree (a Crusader's Smite shows CRIT 12%: 7 + 1 radiant light
++ 4). jsdom drops gradients from inline styles, so tests read the fill's
+`data-layers` rather than `style.background`.
 - **The block collapses.** Six rows is a lot of space once you know the numbers.
 
 ### How the game rounds
@@ -1815,6 +1894,184 @@ one dense string into a readable stack.
 Note for tests: React's `onMouseEnter` does not bubble, so `fireEvent` has to be aimed at the
 `HoverCard` wrapper, not at the icon or button inside it.
 
+## Reading a loadout at a glance
+
+Effect text was the same grey prose for everything, so "Mark Target" on one
+skill and "+100% DMG vs Marked" on another looked unrelated even though they
+are the two halves of one play. Three pieces fix that, and they are meant to
+be read together.
+
+### Keywords in the game's own colours (`src/data/gameColours.js`, `utils/keywords.js`, `common/Keywords.jsx`)
+
+The colours are **copied from the game**, `colours/base.colours.darkest` lines
+9-36 — the file behind `{colour_start|stun}` in its string tables. A player
+already reads amber as stun and pale green as blight, and reusing those is what
+makes "Stun" on a skill and "Stun Resist" on a trinket read as the same thing.
+Nothing is invented:
+
+- `game` is the file's value; `text` is what is painted, and differs only where
+  the game's colour does not survive as 11px text on this app's background:
+  `bleed` / `mark` / `deathblow` / `deathdoor` (#b10000, under 2.5:1 on
+  gray-900) and `stealth` (#443f86) keep their hue with more light.
+- **`disease` is the quirk-list green** (line 350), not the generic red of line
+  23, because that green is what this app already paints disease chips with.
+- **Mark and bleed share one red** — that is the game's choice, kept.
+- Keywords render semibold as well as coloured: `stress` is near-white in the
+  game and would not stand out on colour alone.
+
+`keywordSegments` is pure and rule-based rather than a word list, because the
+game conjugates (`Stun`/`Stunned`, `Bleed`/`Bleeding`, `Mark Target`/`vs
+Marked`) and because some words are only keywords with a number after them:
+`Back 2` is a move, "Turn Back Time" is not. `Blight Resist` colours only
+`Blight` — the link between trinket and skill is exactly the point.
+
+It is applied wherever effect text is drawn: every `HoverCard` line, the
+trinket slot, the trinket and quirk pickers, the ranker's skill cards, and the
+resistance labels (painted in the colour of what they resist,
+`RESISTANCE_ORDER` in `heroStatLine.js`). **Any test that matches effect text
+must match the whole `textContent`**, because the keyword is its own span.
+
+### Synergies inside the party (`src/utils/skillSynergy.js`)
+
+`synergyHelper` already said "Mark synergy: X marks, Y cashes it in", in a
+panel of its own and for mark only. This answers the question a player asks
+while looking at one skill: *which skill in this party does this one fit with?*
+
+- **enabler** — the skill applies the condition; read from `skillProfile`,
+  which already tells applying from rewarding (`+60% DMG vs Stunned` does not
+  stun).
+- **payoff** — the skill rewards `vs <condition>`; read from the effect text in
+  the exact form the data uses.
+- **Four conditions only**, because they are the ones with both halves in the
+  data: `vs Marked` (90 uses), `vs Bleeding` (34), `vs Stunned` (24),
+  `vs Blighted` (24). `vs Burning` exists but there is no `burn` tag, and adding
+  one would change the vocabulary the comp generator and `partyCoverage` read.
+- **Chosen skills only**, never a class kit — unlike `synergyHelper`. This
+  describes the loadout on screen, and "your Arbalest cashes in a mark from a
+  skill the Bounty Hunter is not carrying" would be false.
+
+It shows in two places: a `⇄ Mark` chip in the keyword's colour on the skill
+button in the hero sheet (a synergy you have to hover seven skills to find does
+not stand out), and a `Synergy: Mark set up by Bounty Hunter (Mark for Death)`
+line at the bottom of the skill hover. `App` passes `party` and `heroIndex`
+(0 = rank 1) to `HeroConfiguration`; without them the sheet is unchanged.
+
+### A skill icon says what the skill does (`utils/skillColours.js`, `common/SkillIconFrame.jsx`)
+
+Every combat skill icon on the party card used to wear the same green border,
+so a `Nervous Stab` that only hits and a `Festering Vapours` that blights and
+strips blight resist looked identical until hovered. The border is now what the
+skill does, as up to three colours in a diagonal split (70/30 for two, 50/25/25
+for three). Fran specified it against *Money Quartet: Rot*, and those cases are
+the tests: Nervous Stab grey; Festering Vapours blight + darker blight;
+Get Down! self-move + buff; Flashpowder debuff + reveal; Fortifying Vapours
+heal + lighter blight + lighter bleed; Invigorating Vapours buff; Protect Me
+guard + buff.
+
+Rules that are not obvious:
+
+- **The game reuses colours for different things** — mark and bleed one red,
+  guard and buff one cyan, riposte and debuff one brown, self-move and enemy
+  move one blue. In text the word disambiguates; on a border there is no word.
+  Every keyword in `gameColours.js` names the `effect` category whose colour it
+  shares, so **the text and the border are the same colour** — lightened by
+  `legible` only as far as small text on gray-900 needs — and an icon and its
+  hover agree.
+- **A resistance takes its family's colour**: darker when stripped from an
+  enemy, lighter when granted to your side. The family and the direction both
+  read.
+- **Scope decides, per clause.** `Mark Target` in `Protect Me` marks *your*
+  hero as a decoy; in `Mark for Death` it marks the enemy. `skillProfile` tags
+  do not carry that, and must not be extended for it — the comp generator,
+  `partyCoverage` and the taxonomy read that vocabulary. `skillColours` reuses
+  its exported clause helpers to ask a different question.
+- **No colour per stat.** +DODGE, +SPD and +PROT are all `buff`; fifteen hues
+  are not memorable and the hover says which. Costs a skill pays itself
+  (`Self: -4 SPD`, the Flagellant's `Self: Bleed`) are not coloured.
+- **`bypass` is getting through a defence**: Bypass/Remove/Ignores Stealth,
+  Break/Ignores Guard, Can't be Guarded, Armor Piercing, Ignores PROT. It is not
+  a cleanse, even though `cleanseSpans` matches "Remove".
+- Camp skills keep their purple border: it is what separates them from combat
+  skills on the card.
+
+#### Round two: prices, Block, burn, and a palette that was searched
+
+Fran's second pass found what the first left uncoloured, and each is a test in
+`skillColours.test`:
+
+- **What a skill costs you is coloured too**, and sorts last so it shows when
+  the skill does little else: `selfDebuff` for stat drops, stress, a self-mark
+  or self-blight (Finale, Barbaric YAWP!, Redeem, Breakthrough), `selfBleed`
+  for bleeding yourself or an ally (Reclaim).
+- **`block`** (Damage Block, the "Aegis tokens"), **`controlledBurn`** (its own
+  mechanic, `controlled_burn_amount`, beside an ordinary Burn), **`burnBoost`**
+  (Burn Decay, Burn Skill Amount — the game files call Firefly's a *debuff on
+  the enemy*, which is a boost to your burn), and `+N% DMG per Burn stack` is
+  `bonus` like any other extra damage.
+- **Two prefixes `skillProfile` does not know**, handled locally by
+  `scopeFor`: `Party:` is your whole side, `Enemies:` the other. `Forward N` /
+  `Back N` is a move of your own in any clause (no one moves an enemy forward),
+  and `Activates Riposte` belongs to the caster in any clause.
+
+**The palette is searched, not picked.** Picked by eye, stun and torch sat at
+ΔE 8 and extra damage between them. The game's own colours (stun, blight,
+bleed, burn, stress, buff, plain) are fixed; every other category is chosen
+inside a range that means something (heal green, mark pink, torch yellow) with
+restrained saturation, as far as possible in CIEDE2000 from everything already
+placed — **including each family's resist variants**, without which
+"+X% Debuff Resist" landed ΔE 5 from the self-cost colour and "-X% Stun Resist"
+ΔE 5 from debuff. The closest remaining pairs are a family and its own
+lighter/darker variant, which is the point. To change a colour, re-run the
+search rather than nudging one hex: moving one moves its neighbours' distances.
+
+**Only families the data actually has.** `burn` was a resist family until a
+search of every skill, trinket and quirk found no "Burn Resist" anywhere; as a
+phantom family its variants pushed Controlled Burn towards the ordinary Burn
+orange it shares an icon with. Controlled Burn is therefore set by hand to a
+darker ember (`#aa470e`), and the test pins it more than 20 (Lab) from Burn.
+
+**Two data fixes, made in the importers as well as in the generated file**, so
+a rebuild keeps them:
+
+- **Serpent Sway** carried a wiki link where its effect belonged ("Forward 1,2
+  https://…/Status_effects#Aegis"). `shieldbreaker.info.darkest` says
+  `.move 0 1` with "SB Aegis" (`health_damage_blocks 2`) and "SB Serpent Speed
+  5" (`speed_rating_add 4`): **"Self: Forward 1, +2 Block, +4 SPD (4 rds)"**.
+  It lives in `CSV_CORRECTIONS` in `importSkillEffects.js`.
+- **Controlled Burn** rendered its `controlled_burn_*` effect as a plain "Burn",
+  hiding it between the skill's two other burns. Both `importSkillEffects.js`
+  and `effectRender.js` now write "Controlled Burn".
+
+### The hover says type, ranks and the real roll (`common/RankDots.jsx`, `hoverInfo.skillHover`)
+
+- **Type** is a coloured label (Melee, Ranged, Self, Ally) instead of the first
+  word of a dotted string.
+- **Ranks are dots, numbered.** Your side reads 4 3 2 1 (it faces right, rank 1
+  next to the enemy), the enemy side 1 2 3 4. Launch ranks are gold, enemy
+  targets red, AoE targets joined by a bar. **Ally targets are drawn in green on
+  your side** — the game draws nothing for a support skill's targets; the
+  *Friendly Target UI* mod (workshop 2191394645) fixes that with green dots
+  before the name, and its green (115 201 73) is the one used. The numbers are
+  in the dots because the game's unnumbered pips make you remember which end is
+  rank 1.
+- **DMG is the roll, not the modifier**: the hero's damage (with trinkets, or
+  the class at max gear when there is no hero) × the skill modifier, rounded
+  up — the game's rule for hero non-crit damage. **CRIT is the total**, hero
+  plus skill. A class with no imported stats keeps the modifier, which is what
+  is known. Whether a trinket's `+X% DMG` stacks additively with the skill
+  modifier or multiplies is **not verified**; today it multiplies, because the
+  hero's total already includes it.
+
+### Stats you can read without leaning in (`hero/HeroStatsDialog.jsx`)
+
+The stat rows are 11px on the sheet and the ranker card because they share the
+space with everything else. **Larger** (sheet) and **Stats** (ranker hero card)
+open the same numbers in a `Modal` at `StatRows size="lg"`, with the
+resistances in keyword colours and the list of which trinket, quirk or disease
+moved each number. On the ranker the button sits beside the card, not inside
+it — the card is itself the pick button — and `ComparisonView` ignores
+← → 1 2 while the window is open, so a pick can never happen behind it.
+
 ## Every dialog goes through `Modal`
 
 `src/components/common/Modal.jsx` is the shell: the portal, the backdrop, `role="dialog"`,
@@ -2274,6 +2531,21 @@ boots the dev server and opens that URL.
 - **Item pools** — `src/utils/rankerItems.js` turns the roster into hero / skill / camp-skill items.
   Skills and camp skills are deduped by name (Encourage is shared by 19 classes) and carry the list
   of owning classes for on-card context.
+- **A card says what the thing IS, never what it is worth** (`components/ranker/ItemDetails.jsx`).
+  A card used to be a portrait, a name and "Vanilla class", so choosing between a Leper and a
+  Jester meant knowing by heart that one has nearly twice the health (63 to 35) and the other nearly
+  twice the dodge (35 to 20). A
+  hero card now carries its stats at max gear with the roster bars (`StatRows`, shared with the
+  hero sheet), its eight base resistances, and its skills and class trinkets as icons with their
+  hover cards; a skill or camp-skill card carries the same stat line and effect text the Team
+  Builder's hover shows. **No score, tier or recommendation goes on a pairwise card**: Fran's
+  ranking is the ruler with no model in it (see the comps section above), and a number beside the
+  name would anchor the very pick it is meant to record. Skill tiers stay off here for the same
+  reason, even when the setting is on.
+- A deduped **combat** skill shared by several classes is read as `classes[0]` uses it, and the
+  card says so, because ACC and ranks belong to that class. A shared **camp** skill is identical
+  everywhere and says nothing. A modded class with no imported stats draws no stats section
+  rather than zeroes.
 
 ### Generalist mode (`src/utils/generalistStats.js`)
 
