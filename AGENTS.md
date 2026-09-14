@@ -1413,6 +1413,27 @@ node scripts/importModdedHeroes.js --workshop "<…/workshop/content/262060>" --
 
 A class that tags no district has no `district` and nothing changes for it.
 
+### A thin best-in-slot cell picks its trinkets by value
+
+`bisIndex` has three sources for **skills** - the comp library where a cell has samples, then
+`modelUsage.json`, then rank legality as a filter - and had only one for **trinkets**: the library's
+own counts, falling back to the hand-written per-class list in `recommendations.js`. With 35 of the
+80 cells under four comps, that hand list was effectively the answer for nearly half the table, and
+it does not know about ranks: the same eight names for a Duelist whether she stands at 1 or at 4,
+which is how `Champion's Mantle` ended up recommended at rank 3 where it values at **-0.8**.
+
+So a cell under `MIN_LIBRARY_SAMPLES` now orders its trinkets by `trinketValue`, the same machinery
+the re-equip uses. The hero is valued **alone**, with no party: a cell is a general answer, not one
+for a particular comp. The whole queue is still returned with the old ordering behind it, because
+`resolveTrinketClashes` needs somewhere to fall when two heroes want the same unique item, and
+anything that values negative is dropped rather than ranked last.
+
+It reaches for the hero's own class trinkets, which is what a best-in-slot should say: the Flagellant
+goes from `Ancestor's Map + Flesh's Heart` to `Resurrection's Collar + Ancestor's Scroll`, the
+Arbalest to `Keening Bolts + Fuseman's Matchstick`. Seven of 160 party rows move on the bench.
+
+The 45 cells the library can answer are untouched, and so is the skill side.
+
 ### Whether a defensive stat is worth a slot (`src/data/enemyThreat.js`)
 
 **There is no list of dodge tanks.** Fran, 2026-09-14: "i dont want to hand pick what is a dodge or
