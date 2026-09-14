@@ -1598,6 +1598,18 @@ spent deliberately on covering a shuffle, because the best skill in the kit is w
 nothing the turn you get pushed out of position. But covering is not free, and it competes
 with what the library plays.
 
+**Off home, the kit may not reach three.** Twelve cells cannot meet the rule with any loadout,
+because the whole kit launches fewer than three skills from that rank. The Leper and the
+Shieldbreaker in rank 4 have one each. The Arbalest and Musketeer in ranks 1-2, the Plague
+Doctor and Jester in rank 1, the Hellion, Highwayman and Abomination in rank 4, and the Leper
+in rank 3 have two. `chooseSkills` already takes every one of them (`onRankQuota` is capped by
+what the kit has), so those builds are the best there is. They are not a reach prior outvoted
+by the library: all twelve are thin model cells, and no library cell breaks the rule (checked
+2026-09-14). `rankLegal` stays false there on purpose, because the comp generator's bonus and
+the hero card's "little to do here" warning read it as a fact about the rank, which it still
+is. `kitCanReach` says why, and `reportBis.js` counts the two apart: `--` where the kit cannot,
+`!!` where a choice could have and did not.
+
 **The reach bonus is a prior, so it shrinks as the evidence arrives** (`REACH_WEIGHT`,
 `priorWeight`). Adding a flat 0.35 on top of a cell with 110 comps in it counts the same
 thing twice: the people who wrote those 110 already weighed flexibility and decided. And

@@ -313,3 +313,32 @@ describe('bisLoadout', () => {
     });
   });
 });
+
+describe('the 3-of-4 rule off home', () => {
+  // Fuera de su casa el kit puede no llegar a tres: el Leper en el 4 solo lanza
+  // Revenge. Ninguna loadout cumple la regla ahi, y la celda lo dice aparte.
+  it('tells a cell the kit cannot satisfy from one a choice failed', () => {
+    const offHome = bisLoadout('Leper', 4);
+    expect(offHome.rankLegal).toBe(false);
+    expect(offHome.kitCanReach).toBe(false);
+    // Aun asi se lleva todo lo que el kit lanza desde ahi.
+    expect(legalCount('Leper', offHome.activeSkills, 4)).toBe(
+      legalCount('Leper', HERO_CLASSES.Leper.skills, 4)
+    );
+
+    const home = bisLoadout('Leper', 1);
+    expect(home.kitCanReach).toBe(true);
+    expect(home.rankLegal).toBe(true);
+  });
+
+  it('breaks the rule only where the kit cannot reach three', () => {
+    const choiceFailures = [];
+    Object.keys(HERO_CLASSES).forEach((heroClass) => {
+      [1, 2, 3, 4].forEach((rank) => {
+        const build = bisLoadout(heroClass, rank);
+        if (build && !build.rankLegal && build.kitCanReach) choiceFailures.push(`${heroClass} r${rank}`);
+      });
+    });
+    expect(choiceFailures).toEqual([]);
+  });
+});

@@ -52,7 +52,8 @@ const sweep = () => {
         trinkets: [build.trinket1, build.trinket2].filter(Boolean),
         source: build.source,
         samples: build.samples,
-        rankLegal: build.rankLegal
+        rankLegal: build.rankLegal,
+        kitCanReach: build.kitCanReach
       };
     });
   });
@@ -71,9 +72,14 @@ const readSnapshot = () => {
   }
 };
 
+// `!!` una eleccion que podia cumplir la regla de 3 de 4 y no la cumple; `--` una
+// celda donde el kit entero no lanza tres skills desde ese rango, asi que nada la
+// cumple. Una foto vieja sin `kitCanReach` sale como `!!`, por si acaso.
+const reachMark = (cell) => (cell.rankLegal ? '   ' : cell.kitCanReach === false ? ' --' : ' !!');
+
 const line = (cell) =>
   `  ${cell.heroClass.padEnd(16)} r${cell.rank}  ${String(cell.source).padEnd(8)}` +
-  ` n=${String(cell.samples).padEnd(4)}${cell.rankLegal ? '   ' : ' !!'} ${cell.skills.join(', ')}`;
+  ` n=${String(cell.samples).padEnd(4)}${reachMark(cell)} ${cell.skills.join(', ')}`;
 
 const listChanged = (before, after) => {
   const changed = [];
@@ -102,12 +108,13 @@ const summarise = (cells) => {
   all.forEach((c) => { bySource[c.source] = (bySource[c.source] || 0) + 1; });
   const thin = all.filter((c) => c.samples < MIN_LIBRARY_SAMPLES);
   const illegal = all.filter((c) => !c.rankLegal);
-  return { all, bySource, thin, illegal };
+  const impossible = illegal.filter((c) => c.kitCanReach === false);
+  return { all, bySource, thin, illegal, impossible };
 };
 
 const args = process.argv.slice(2);
 const after = sweep();
-const { all, bySource, thin, illegal } = summarise(after);
+const { all, bySource, thin, illegal, impossible } = summarise(after);
 
 if (args.includes('--json')) {
   console.log(JSON.stringify({ cells: after }, null, 2));
@@ -167,6 +174,7 @@ console.log(`  celdas: ${all.length}  (${classes.length} clases x ${RANKS.length
 console.log(`  por fuente: ${Object.entries(bySource).map(([k, v]) => `${k}=${v}`).join('  ')}`);
 console.log(`  con menos de ${MIN_LIBRARY_SAMPLES} muestras: ${thin.length}`);
 console.log(`  sin 3 de 4 skills lanzables desde su rango: ${illegal.length}`);
+console.log(`    de ellas, el kit entero no llega a tres desde ese rango (--): ${impossible.length}`);
 
 if (args.includes('--save') || !before) {
   fs.writeFileSync(
