@@ -7,7 +7,7 @@
 import { LOCATIONS } from '../data/locations';
 import { COMP_LIBRARY } from '../data/compLibrary';
 import { HERO_CLASSES } from '../data/heroes';
-import { MODDED_HERO_CLASSES } from '../data/modded_heroes';
+import { getModdedHeroClasses, memoByModdedRoster } from '../data/moddedRoster';
 import {
   getHeroImagePath,
   getSkillImagePath,
@@ -15,15 +15,19 @@ import {
 } from './imageHelper';
 
 /** Every hero class the ranker can offer, vanilla first. */
-export const getHeroDefinition = (name) => HERO_CLASSES[name] || MODDED_HERO_CLASSES[name] || null;
+export const getHeroDefinition = (name) => HERO_CLASSES[name] || getModdedHeroClasses()[name] || null;
 
 export const isVanillaHero = (name) => !!HERO_CLASSES[name];
 
 export const VANILLA_HERO_NAMES = Object.keys(HERO_CLASSES).sort();
-export const MODDED_HERO_NAMES = Object.keys(MODDED_HERO_CLASSES)
-  .filter((name) => !HERO_CLASSES[name])
-  .sort((a, b) => a.localeCompare(b));
-export const ALL_HERO_NAMES = [...VANILLA_HERO_NAMES, ...MODDED_HERO_NAMES];
+// Functions, not constants: the modded roster loads on demand, and a list built
+// at import would stay empty after it arrived. Empty until then.
+export const getModdedHeroNames = memoByModdedRoster(() =>
+  Object.keys(getModdedHeroClasses())
+    .filter((name) => !HERO_CLASSES[name])
+    .sort((a, b) => a.localeCompare(b))
+);
+export const getAllHeroNames = memoByModdedRoster(() => [...VANILLA_HERO_NAMES, ...getModdedHeroNames()]);
 
 const heroItem = (name) => ({
   id: `hero:${name}`,
@@ -53,21 +57,26 @@ const buildNamedPool = (heroNames, listKey, imageFor, prefix) => {
       byName.set(entryName, {
         id: `${prefix}:${entryName}`,
         name: entryName,
-        image: imageFor(entryName, heroName),
-        classes: [heroName],
-        modded: !isVanillaHero(heroName)
+        classes: [heroName]
       });
     });
   });
 
-  return [...byName.values()].map((item) => ({
-    ...item,
-    heroImage: getHeroImagePath(item.classes[0]),
-    subtitle:
-      item.classes.length === 1
-        ? item.classes[0]
-        : `Shared — ${item.classes.length} classes`
-  }));
+  // Vanilla owners first. A shared name is drawn as its FIRST owner uses it
+  // (portrait, stat line, damage roll), and roster order alone put whichever
+  // class was added first there: a modded Chop with no stats would stand in for
+  // the Leper's, and the card lost the Leper's own damage.
+  return [...byName.values()].map((item) => {
+    const classes = [...item.classes].sort((a, b) => Number(isVanillaHero(b)) - Number(isVanillaHero(a)));
+    return {
+      ...item,
+      classes,
+      image: imageFor(item.name, classes[0]),
+      modded: !isVanillaHero(classes[0]),
+      heroImage: getHeroImagePath(classes[0]),
+      subtitle: classes.length === 1 ? classes[0] : `Shared — ${classes.length} classes`
+    };
+  });
 };
 
 // ---------------------------------------------------------------------------
@@ -78,8 +87,8 @@ const buildNamedPool = (heroNames, listKey, imageFor, prefix) => {
 // meant to be read back outside this app, so the export has to carry what was
 // actually compared.
 //
-// Scoped to one region, always. The library is ~160 comps and an exact pairwise
-// sort of that is over a thousand picks; more importantly a comp is built FOR a
+// Scoped to one region, always. The library is 467 comps and an exact pairwise
+// sort of that is over four thousand picks; more importantly a comp is built FOR a
 // region, so one global order would average four different questions together.
 // ---------------------------------------------------------------------------
 

@@ -74,7 +74,8 @@ Constants like `MAX_SKILLS: 4`, `MAX_TRINKETS: 2`, `MAX_HEROES: 4`, `MAX_DISEASE
 
 ### Data files (`src/data/`)
 - `heroes.js` — Vanilla hero definitions with skills and camp skills
-- `modded_heroes.js` — Modded hero classes, general trinkets, and workshop IDs
+- `modded_heroes.js` — Modded hero classes, general trinkets, and workshop IDs. Loaded on demand
+  through `moddedRoster.js` and never imported directly (see **The modded roster loads on demand**)
 - `trinkets.js` — Full trinket database
 - `hero_specific_trinkets.js` — Class-to-trinket mappings
 - `backer_trinkets.js` — Backer-specific trinkets
@@ -87,7 +88,7 @@ Constants like `MAX_SKILLS: 4`, `MAX_TRINKETS: 2`, `MAX_HEROES: 4`, `MAX_DISEASE
   (see **Importing a Darkest Dungeon save**)
 - `locations.js` — Dungeon locations plus `LOCATION_THEME` (per-zone accent colour and short label)
 - `questMap.js` — where each zone sits on the game's Quest Select map (see below)
-- `presetComps/` — 163 community comps as JSON, wired up by an auto-generated `index.js`
+- `presetComps/` — the community comp library as JSON (467 comps on 2026-09-14), wired up by an auto-generated `index.js`
 - `compLibrary.js` — presets + community comps normalized into one list
 - `compTaxonomy.js` / `compIndex.js` — naming vocabulary, and the memoized search index built from it
 - `compNaming.js` (in `utils/`) — the engine that turns a comp into `Family: Variant` (see below)
@@ -116,8 +117,8 @@ Rules that must not be regressed:
   `buildCompItems(region)`). Not a convenience filter: a comp is *built* for a
   region — the enemy pool, the DoT resistances and the corpse and size mix all
   differ — so a single global order would average four different questions into
-  one answer. It is also what makes a run finishable: the library is ~160 comps
-  and an exact pairwise sort of that is over a thousand picks.
+  one answer. It is also what makes a run finishable: the library is 467 comps
+  and an exact pairwise sort of that is over four thousand picks.
 - **Results are stored per region** (`resultsKey` = `comps:<region>`), so
   ranking the Weald cannot overwrite the Ruins.
 - **A session belongs to its region.** `isSessionUsable` checks it, because
@@ -154,7 +155,7 @@ width. A new breakpoint goes in `@theme` as `--breakpoint-*`.
 
 ## Key patterns
 
-- **Modded content**: Toggled via `showModdedHeroes` state. Modded heroes have a `modId` linking to their Steam Workshop ID and may reference `vanillaCampSkills` for skills that use vanilla art assets.
+- **Modded content**: Toggled via `showModdedHeroes` state. Modded heroes have a `modId` linking to their Steam Workshop ID and may reference `vanillaCampSkills` for skills that use vanilla art assets. The roster itself is a separate chunk fetched on demand: read it through `src/data/moddedRoster.js`, never by importing `modded_heroes.js`.
 - **Backer trinkets**: Toggled separately via `showBackerTrinkets`. Checked via `BACKER_TRINKETS` array for image path routing.
 - **Drag & drop**: PartyComposition uses HTML5 drag-and-drop to swap hero positions via `swapHeroes` callback.
 - **Persistence**: localStorage auto-save + optional JSON file download. `src/utils/storageHelper.js` handles all serialization.
@@ -175,7 +176,7 @@ The bundled comps and the user's saved teams share one browser. Three layers:
   in skills, trinkets or region are separate rows, and that test pins it. Two Curious Coin
   comps once looked like the modal refusing a duplicate; they were simply never imported.
 - **`src/data/compIndex.js`** — memoized, and built on first open rather than at import:
-  the app boots without paying for 163 comps. `src/data/recommendations.js` is lazy for
+  the app boots without paying for 467 comps. `src/data/recommendations.js` is lazy for
   the same reason (it sweeps the whole library to rank trinkets/quirks per class).
 - **`src/utils/compFilters.js`** — pure functions over normalized comps. `buildCompEntry`
   turns a comp into family/variant, hero classes, mechanics, flags and a lowercase
@@ -188,8 +189,8 @@ The bundled comps and the user's saved teams share one browser. Three layers:
   nothing is not offered.
 
 Sort by name, family, region, party size, or by class reading from either end of the rank
-line. Paginated at 24 (4×6) by default; rendering all 163 cards at once meant ~600 portrait
-requests to the assets repo in one go.
+line. Paginated at 24 (4×6) by default; rendering all 467 cards at once would mean ~1,870
+portrait requests to the assets repo in one go.
 
 **Rank convention** (easy to get backwards — `PartyComposition` reverses on render): the
 `heroes` array runs front to back, so `heroes[0]` is rank 1 and `heroes[3]` is rank 4. Both
@@ -341,18 +342,17 @@ through `--apply`.
 
 `node scripts/nameComps.js` reports; `--changed`, `--warnings`, `--json`, `--check` narrow it;
 `--apply` rewrites `teamName`, renames the files, regenerates the index and leaves an undo manifest
-in `scripts/nameComps.manifest.json`. `rebuild_taxonomy.bat` wraps that with a confirmation. The
-warnings are the point of the report: `DUPLICADA` (identical body), `MISMO ROSTER` (same classes, so
+in `scripts/nameComps.manifest.json`. The warnings are the point of the report: `DUPLICADA`
+(identical body), `MISMO ROSTER` (same classes, so
 only an ordinal separates them) and `SIN FIRMA`.
 
-**The two `.bat` wrappers still call v1, and that is a trap.** `bat/rebuild_taxonomy.bat` runs
-`nameComps.js --check`, `--changed` and `--apply`; `bat/push_comps.bat` warns whenever
-`nameComps.js --check` finds renames pending. Against the library as it stands — named by v2 — v1
-proposes renaming **465 comps** (measured 2026-09-14). So `push_comps.bat` always warns, and
-accepting `rebuild_taxonomy.bat`'s prompt would rename the whole library back into the retired
-scheme. Rename with `node scripts/nameComps.v2.js --changed` and `--apply` (undo: `--undo`). The
-wrappers were left pointing at v1 on purpose: repointing them changes what they do, and that has
-not been decided.
+**The two `.bat` wrappers run v2.** `bat/rebuild_taxonomy.bat` runs `nameComps.v2.js --check`, then
+`--changed`, then `--apply` behind a confirmation (undo: `--undo`); `bat/push_comps.bat` warns when
+`--check` finds anything pending. v2's `--check` exits 1 when `--apply` would change a name **or**
+move a file, and lists the moves, because `--changed` only shows names. Until 2026-09-14 both
+wrappers called v1, which against a library named by v2 proposed renaming 465 comps: every push
+warned, and accepting the rebuild prompt would have renamed the library back into the retired
+scheme.
 
 ## Names that only mean something next to a class
 
@@ -556,7 +556,7 @@ Two rules that are easy to break:
 - **Auto-sort only fires when a slot changes.** It lives in `toggleSkill` / `toggleCampSkill` in
   `HeroConfiguration` and nowhere else, so a comp you merely *load* keeps the order it was saved
   with and one you *edit* gets tidied into the class's declared order. Putting it in a render effect
-  would rewrite all 163 preset comps the moment you opened them. `sortToRoster` (in `heroHelper.js`)
+  would rewrite all 467 preset comps the moment you opened them. `sortToRoster` (in `heroHelper.js`)
   keeps a name the roster has never heard of, at the end — sorting must never lose a selection.
 - **Turning optional content off never hides data that is really there.** A comp carrying diseases
   still shows them with the switch off; the switch only decides whether you can *add* more. Same
@@ -798,6 +798,58 @@ node scripts/exportModdedAssets.js --workshop … --game … --out "<assets>/ima
 
 `--game` is optional but wanted: it is what resolves the vanilla ids a mod reuses without
 redefining (`encourage`, `first_aid`) and what lets a rebalance mod borrow the base game's art.
+
+### The modded roster loads on demand (`src/data/moddedRoster.js`)
+
+The file is ~122 kB gzipped and `showModdedHeroes` is off by default, so most visitors never see a
+modded class. Since 2026-09-14 it is its own webpack chunk: `main.js` went from ~420 kB to ~300 kB
+gzip, and a default visit never fetches the roster.
+
+**Nothing in the app imports `modded_heroes.js`.** Everything reads it through the registry
+(`getModdedHeroClasses`, `getModdedGeneralTrinkets`, `getModdedGeneralTrinketMods`), which hands
+back empty data until `loadModdedRoster()` has fetched the chunk. It fetches once, concurrent
+callers share the promise, and a failed fetch can be retried. One static import anywhere puts the
+whole file back into `main.js`, and `src/data/__tests__/moddedRoster.test.js` fails if any app
+module has one. Tests may import it: `setupTests.js` installs the roster for every suite so they
+read modded classes as before, and the registry suite resets it to test the app unloaded.
+
+**Nothing may be derived from it at import.** An index built at import freezes the empty roster.
+`memoByModdedRoster(build)` rebuilds on first use after the roster changes; the name indexes in
+`nameNormalizer` and `saveParser`, the trinket Set in `imageHelper`, the comp index entries and
+`getModdedHeroNames` / `getAllHeroNames` in `rankerItems` (functions now, not constants) use it.
+`bisIndex`, `trinketSubstitution` and `generalistIndex` compare `getModdedRosterVersion()` instead.
+React reads it with `useModdedRoster(wanted)`, which re-renders when the roster lands and returns
+the registry's own objects, so a memo can depend on exactly what it reads.
+
+**The rule that keeps it correct: a modded hero never enters app state before the roster is
+there.** Components memoize what they derive from a party (synergy, validation), and a memo built
+without the roster would stay wrong until the party changed. So:
+
+- `index.js` holds the first render when the settings have modded heroes on, the draft party names
+  a class vanilla does not have (`heroesNeedModdedRoster`, which forgives `leper` and
+  `Man-at-Arms`), or the URL is a shared link that does. If the fetch fails the builder renders
+  anyway, with the names as written, which is what it does with any mod it does not carry.
+- **The ranker always waits**, and says so rather than mounting without it: `useRanker` prunes
+  class names it does not know from the stored ranker roster and saves the pruned list.
+- Every way a comp gets in after boot waits for it. `afterModdedRosterFor(heroes, task)` runs the
+  task synchronously for a vanilla party, so loading one is exactly as immediate as before, and
+  after the fetch otherwise: shared links, the team paste, saved teams, library presets. File
+  restore and backup import `await ensureModdedRosterFor`. A pasted hero and an imported save parse
+  once, and parse again after the fetch if they named a class vanilla does not know.
+- Views that draw modded data ask for it when they open: the hero selector and trinket picker with
+  the switch on, a party or hero card showing a modded class, the comp library (it carries 14 Sibyl
+  comps), the save import modal when the save holds modded heroes, and the image tester.
+
+**How it was checked.** A throwaway oracle recorded twenty sweeps that touch the roster before the
+change and after it: comp library, index, facets and names, usage stats, recommendations,
+best-in-slot, synergy, party scores, generated comps, trinket locks and substitution, validation,
+canonicalization, image paths, ranker pools, save profiles and random teams. With the roster loaded
+all twenty were identical. Without it, every difference was about a modded class except one, which
+turned out to be a bug in the loaded app: three workshop classes locked a **general** trinket away
+from every vanilla hero (Temple Assassin lists Blight Stone, Chain Warden Seer Stone, Snake Charmer
+Crystal Pendant), so re-equipping from a save never offered them. `trinketSubstitution` now lets a
+modded class claim only what vanilla has not, general trinkets included, pinned in
+`trinketSubstitution.test.js`.
 
 ### What the old pipeline got wrong
 
@@ -1166,10 +1218,10 @@ nobody can act on.
 combat skills, 157 camp skills, 331 class trinkets.** The other 606 classes report as
 `mod no instalado`. Install more, re-run, get more.
 
-**Watch the bundle.** The generated file costs ~33 kB gzip for 38 classes and rides in `main.js`
-(which is 397 kB now). Covering all 644 would be several hundred kB — on top of the 131 kB
-`modded_heroes.js` already spends there — so the day this gets broad, it and the roster want the
-lazy treatment `compIndex` and `recommendations` already have.
+**Watch the bundle.** The generated file costs ~34 kB gzip for 38 classes and still rides in
+`main.js` (~300 kB since the roster left it). Covering all 644 would be several hundred kB, so the
+day this gets broad it wants what the roster got: its own chunk behind a registry (**The modded
+roster loads on demand**).
 
 ## What a hero IS (`src/data/heroStats.js`)
 
@@ -2129,13 +2181,20 @@ a rebuild keeps them:
   before the name, and its green (115 201 73) is the one used. The numbers are
   in the dots because the game's unnumbered pips make you remember which end is
   rank 1.
-- **DMG is the roll, not the modifier**: the hero's damage (with trinkets, or
-  the class at max gear when there is no hero) × the skill modifier, rounded
-  up — the game's rule for hero non-crit damage. **CRIT is the total**, hero
-  plus skill. A class with no imported stats keeps the modifier, which is what
-  is known. Whether a trinket's `+X% DMG` stacks additively with the skill
-  modifier or multiplies is **not verified**; today it multiplies, because the
-  hero's total already includes it.
+- **DMG is the roll, not the modifier**: the class's base damage at its gear
+  rank × (100 + the hero's `+X% DMG` + the skill modifier) / 100, plus any flat
+  DMG, rounded up once — the game's rule for hero non-crit damage. **CRIT is the
+  total**, hero plus skill. A class with no imported stats keeps the modifier,
+  which is what is known. **The hero's `+X% DMG` adds to the skill modifier; it
+  does not multiply the already-raised damage** (Fran, 2026-09-14): Lock of Fury
+  (+10%) on Stunning Blow (-50%) is -40% of the Crusader's 10-19, so 6-12, not
+  half of 11-21. It counts every percent source the same — trinkets, quirks and
+  districts — because the game defines all of them as one buff type
+  (`combat_stat_multiply`, `damage_low`/`damage_high`, checked in
+  `shared/buffs/base.buffs.json`). `statBreakdown` hands the parts over as
+  `dmgBase`, `dmgPercent` and `dmgPoints`. Its own `dmgMin`/`dmgMax` still
+  multiply, because that is the character-sheet number with no skill in it.
+  Pinned by `skillHoverRoll.test.js`.
 
 ### Stats you can read without leaning in (`hero/HeroStatsDialog.jsx`)
 
@@ -2646,7 +2705,7 @@ A usage ranking over the comp library — heroes, skills, camp skills and trinke
 preference ranking. `src/data/generalistIndex.js` memoizes the sweep and builds it on first use,
 same as `compIndex`/`recommendations`; the stats module itself is pure and takes the comp entries.
 
-The library is not a neutral census: the Houndmaster holds 95 of 650 hero slots, so counting raw
+The library is not a neutral census: the Houndmaster holds 246 of 1,866 hero slots, so counting raw
 appearances puts his whole kit above everyone else's before any skill is judged. Two knobs correct
 for that, and both are exposed in the UI because they answer different questions:
 
@@ -2656,8 +2715,8 @@ for that, and both are exposed in the UI because they answer different questions
   `alpha=1` is adoption rate (class popularity cancels — it is in both numerator and denominator),
   in between interpolates in log space. Flattening only reorders *across* classes; within one
   class's seven skills the denominator is shared, so nothing moves.
-- **`unit`, what counts as one observation.** Per hero slot, or per comp *family* — "Dark Ritual"
-  alone is 16 of the 163 comps, and counting families makes those 16 worth one.
+- **`unit`, what counts as one observation.** Per hero slot, or per comp *family* — "Keen Edge"
+  alone is 49 of the 467 comps, and counting families makes those 49 worth one.
 
 Rates are shrunk towards the library average with a prior (~5% of the observations, floor 2) so a
 5-of-5 does not tie a 50-of-50 at 100%. `flattenSwing` reports how many places an item moves

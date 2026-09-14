@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent, within } from '@testing-library/react';
 import ComparisonView from '../ComparisonView';
-import { buildItems, MODDED_HERO_NAMES } from '../../../utils/rankerItems';
+import { buildItems, getModdedHeroNames } from '../../../utils/rankerItems';
 import { getHeroStats } from '../../../data/heroStats';
 
 // La carta tiene que decir lo bastante para elegir sobre la clase y no sobre
@@ -81,7 +81,7 @@ describe('ComparisonView — hero cards', () => {
   });
 
   it('draws no stats for a modded class nobody imported, rather than zeroes', () => {
-    const unknown = MODDED_HERO_NAMES.find((n) => !getHeroStats(n));
+    const unknown = getModdedHeroNames().find((n) => !getHeroStats(n));
     if (!unknown) return; // every modded class has stats: nothing to guard
     const leper = itemNamed('heroes', ['Leper'], 'Leper');
     showPair(itemNamed('heroes', [unknown], unknown), leper, 'heroes');

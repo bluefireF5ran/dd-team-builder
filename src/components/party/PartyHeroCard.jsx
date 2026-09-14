@@ -1,7 +1,8 @@
 import React from 'react';
 import { Lock } from 'lucide-react';
 import { HERO_CLASSES } from '../../data/heroes';
-import { MODDED_HERO_CLASSES } from '../../data/modded_heroes';
+import { isPossiblyModdedClass } from '../../data/moddedRoster';
+import { useModdedRoster } from '../../hooks/useModdedRoster';
 import { getHeroImagePath, getSkillImagePath, getCampSkillImagePath, getTrinketImagePath } from '../../utils/imageHelper';
 import ImageWithFallback from '../common/ImageWithFallback';
 import HoverCard from '../common/HoverCard';
@@ -105,7 +106,9 @@ const TrinketIcon = ({ name, other, heroClass }) => {
 };
 
 const PartyHeroCard = ({ hero, position, party = null, heroIndex = -1 }) => {
-  const heroData = HERO_CLASSES[hero.heroClass] || MODDED_HERO_CLASSES[hero.heroClass];
+  // A modded hero on the card asks for the roster even with the switch off.
+  const { heroClasses: moddedHeroClasses } = useModdedRoster(isPossiblyModdedClass(hero.heroClass));
+  const heroData = HERO_CLASSES[hero.heroClass] || moddedHeroClasses[hero.heroClass];
   const isAlwaysActive = heroData?.alwaysActive || false;
   const activeSkills = hero.activeSkills || [];
   const activeCampSkills = hero.activeCampSkills || [];

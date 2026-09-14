@@ -9,22 +9,20 @@ import { COMP_LIBRARY } from './compLibrary';
 import { PRESET_COMP_ENTRIES } from './presetComps/index';
 import { buildCompEntry, buildFacets } from '../utils/compFilters';
 import { buildNamer } from '../utils/compNaming2';
+import { memoByModdedRoster } from './moddedRoster';
 
-let entriesCache = null;
-let facetsCache = null;
 let namerCache = null;
 
+// Por version del roster modded, que llega bajo demanda: la libreria trae comps
+// de Sibyl, y lo que se derive de sus clases no puede quedarse con el vacio.
+const entries = memoByModdedRoster(() => COMP_LIBRARY.map(buildCompEntry));
+const facets = memoByModdedRoster(() => buildFacets(entries()));
+
 /** Todas las comps del bundle, ya con familia, tags, flags y blob de busqueda. */
-export const getCompEntries = () => {
-  if (!entriesCache) entriesCache = COMP_LIBRARY.map(buildCompEntry);
-  return entriesCache;
-};
+export const getCompEntries = () => entries();
 
 /** Recuento por heroe, region, familia y flag sobre la libreria entera. */
-export const getCompFacets = () => {
-  if (!facetsCache) facetsCache = buildFacets(getCompEntries());
-  return facetsCache;
-};
+export const getCompFacets = () => facets();
 
 /**
  * Las comps del bundle TAL CUAL estan en disco ({teamName, alias, location, heroes}).

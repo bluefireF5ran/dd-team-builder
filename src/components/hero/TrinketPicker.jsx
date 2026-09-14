@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { X, Search, PackageCheck } from 'lucide-react';
 import Modal from '../common/Modal';
 import { HERO_CLASSES } from '../../data/heroes';
-import { MODDED_HERO_CLASSES, MODDED_GENERAL_TRINKETS } from '../../data/modded_heroes';
+import { useModdedRoster } from '../../hooks/useModdedRoster';
 import { TRINKETS } from '../../data/trinkets';
 import { BACKER_TRINKETS } from '../../data/backer_trinkets';
 import { getRecommendedTrinkets } from '../../data/recommendations';
@@ -70,15 +70,17 @@ const TrinketPicker = ({
     };
   }, []);
 
+  const { heroClasses: moddedHeroClasses, generalTrinkets: moddedGeneralTrinkets } = useModdedRoster(showModdedHeroes);
+
   const baseCategories = useMemo(() => {
     const recommended = getRecommendedTrinkets(heroClass);
     const classSpecific = [
       ...(HERO_CLASSES[heroClass]?.classSpecificTrinkets || []),
-      ...(showModdedHeroes ? (MODDED_HERO_CLASSES[heroClass]?.classSpecificTrinkets || []) : [])
+      ...(showModdedHeroes ? (moddedHeroClasses[heroClass]?.classSpecificTrinkets || []) : [])
     ];
     const generic = [...TRINKETS];
     const moddedKickstarter = [
-      ...(showModdedHeroes ? MODDED_GENERAL_TRINKETS : []),
+      ...(showModdedHeroes ? moddedGeneralTrinkets : []),
       ...(showBackerTrinkets ? BACKER_TRINKETS : [])
     ];
     return [
@@ -87,7 +89,7 @@ const TrinketPicker = ({
       { key: 'generic', items: generic },
       { key: 'moddedKickstarter', items: moddedKickstarter }
     ];
-  }, [heroClass, showBackerTrinkets, showModdedHeroes]);
+  }, [heroClass, showBackerTrinkets, showModdedHeroes, moddedHeroClasses, moddedGeneralTrinkets]);
 
   // Which rarity chips to offer: only the ones some trinket in this picker
   // actually has, so no chip can lead to an empty grid.

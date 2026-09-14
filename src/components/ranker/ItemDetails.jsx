@@ -143,8 +143,9 @@ export const HeroDetails = ({ heroClass }) => {
  * Una skill o camp skill: su linea de datos y lo que hace.
  *
  * Los nombres del pool estan deduplicados, asi que una skill de combate con el
- * mismo nombre en dos clases se lee como la usa la primera; se dice cual,
- * porque el ACC y los rangos son de esa clase y no de las otras.
+ * mismo nombre en dos clases se lee como la usa la primera -- una vanilla si la
+ * hay (`buildNamedPool` las pone delante) --; se dice cual, porque el daño, el
+ * ACC y los rangos son de esa clase y no de las otras.
  */
 export const SkillDetails = ({ item }) => {
   const heroClass = item.classes?.[0];

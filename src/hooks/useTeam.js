@@ -6,6 +6,7 @@ import { getRawComps, getCompNamer, getCompFileKeys } from '../data/compIndex';
 import { generateRandomTeam, generateRandomTeamFromRoster } from '../utils/randomTeam';
 import { validateTeamSchema } from '../utils/validation';
 import { canonicalizeTeam, canonicalizeHero } from '../utils/nameNormalizer';
+import { afterModdedRosterFor } from '../data/moddedRoster';
 import { createEmptyHero } from '../utils/heroHelper';
 import { compClassKey, updatableComps } from '../utils/compIdentity';
 import { rememberPendingComp } from '../utils/pendingComps';
@@ -296,11 +297,13 @@ export const useTeam = ({ defaultLocation = 'The Ruins' } = {}) => {
     // modal sin decir nada hacia que un fallo y un exito se vieran igual.
     if (!team) return false;
 
-    commit({
+    // A modded hero enters the party only once the modded roster is there: what
+    // the cards memoize from a party would otherwise be built without it.
+    afterModdedRosterFor(team.heroes, () => commit({
       teamName: team.teamName,
       location: team.location || defaultLocation,
       heroes: team.heroes || emptyParty()
-    });
+    }));
     return true;
   }, [commit, defaultLocation]);
 
@@ -399,17 +402,19 @@ export const useTeam = ({ defaultLocation = 'The Ruins' } = {}) => {
 
   const importFromClipboard = useCallback(async () => {
     const text = await navigator.clipboard.readText();
-    return applyImportedTeam(JSON.parse(text));
+    const raw = JSON.parse(text);
+    return afterModdedRosterFor(raw?.heroes, () => applyImportedTeam(raw));
   }, [applyImportedTeam]);
 
   const loadPreset = useCallback((preset) => {
-    commit({
+    // Una comp con un heroe modded (las de Sibyl) espera al roster modded.
+    afterModdedRosterFor(preset.heroes, () => commit({
       teamName: preset.name,
       location: preset.location || defaultLocation,
       // Clonar: los heroes del preset son objetos compartidos del bundle.
       // Se canonicaliza por si el preset trae una grafía antigua de algún nombre.
       heroes: JSON.parse(JSON.stringify(preset.heroes)).map(canonicalizeHero)
-    });
+    }));
   }, [commit, defaultLocation]);
 
   const backupAllTeams = useCallback(() => {

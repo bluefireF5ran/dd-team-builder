@@ -23,8 +23,12 @@ public/images
 
 # Repositorio de assets (es un repo separado)
 dd-team-builder-assets/
-# Mapa old->new de la ultima pasada de scripts/nameComps.js --apply
+# Mapa old->new de la ultima pasada de scripts/nameComps.js / nameComps.v2.js --apply
 scripts/nameComps.manifest.json
+scripts/nameComps.v2.manifest.json
+
+# Informe de npm test -- --coverage
+coverage/
 
 # Save de pruebas del importador (es una partida real, no del repo)
 testsave/

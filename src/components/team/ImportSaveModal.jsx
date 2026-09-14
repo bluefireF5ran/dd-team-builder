@@ -5,6 +5,8 @@ import {
 import Modal from '../common/Modal';
 import ImageWithFallback from '../common/ImageWithFallback';
 import { getHeroImagePath, isModdedHero } from '../../utils/imageHelper';
+import { heroesNeedModdedRoster } from '../../data/moddedRoster';
+import { useModdedRoster } from '../../hooks/useModdedRoster';
 import { quirkClasses } from '../../utils/quirkStyle';
 import { toBuilderHero, SAVE_FILES } from '../../utils/saveParser';
 import { PARTY_CONFIG } from '../../constants';
@@ -138,6 +140,9 @@ const ImportSaveModal = ({
   onUseAsRoster,
   showToast
 }) => {
+  // A stored save can hold modded heroes, and their badge and portrait read the
+  // modded roster, which loads on demand: an open modal asks for it.
+  useModdedRoster(!!isOpen && heroesNeedModdedRoster(profile?.heroes));
   const [query, setQuery] = useState('');
   const [picked, setPicked] = useState([]);
   const [busy, setBusy] = useState(false);

@@ -1,11 +1,16 @@
 import { BACKER_TRINKETS } from '../data/backer_trinkets';
-import { MODDED_HERO_CLASSES, MODDED_GENERAL_TRINKETS, MODDED_GENERAL_TRINKET_MODS } from '../data/modded_heroes';
+import {
+  getModdedHeroClasses,
+  getModdedGeneralTrinkets,
+  getModdedGeneralTrinketMods,
+  memoByModdedRoster
+} from '../data/moddedRoster';
 import { COMMON_VANILLA_CAMP_SKILLS } from '../constants';
 import { getAssetUrl } from '../config/assets';
 
 // Un Set y no `includes` sobre el array: esto se pregunta una vez por ruta de
 // imagen de trinket, y el picker abre ~700 celdas contra ~460 genericos modded.
-const MODDED_GENERAL_TRINKET_SET = new Set(MODDED_GENERAL_TRINKETS);
+const moddedGeneralTrinketSet = memoByModdedRoster(() => new Set(getModdedGeneralTrinkets()));
 
 // Nombres cuyo asset está subido con otra grafía. La clave es el nombre
 // canónico que se muestra en la UI; el valor, el nombre de archivo real.
@@ -48,13 +53,13 @@ export const toImageFileName = (name) => {
 
 // Obtener el modId de un héroe
 const getModIdFromHeroClass = (heroClass) => {
-  const moddedHero = MODDED_HERO_CLASSES[heroClass];
+  const moddedHero = getModdedHeroClasses()[heroClass];
   return moddedHero?.modId || null;
 };
 
 // Verificar si un héroe es modded
 export const isModdedHero = (heroClass) => {
-  return !!MODDED_HERO_CLASSES[heroClass];
+  return !!getModdedHeroClasses()[heroClass];
 };
 
 // Rutas de imágenes
@@ -62,7 +67,7 @@ export const getHeroImagePath = (heroClass) => {
   if (!heroClass) return null;
   
   if (isModdedHero(heroClass)) {
-    const moddedHero = MODDED_HERO_CLASSES[heroClass];
+    const moddedHero = getModdedHeroClasses()[heroClass];
     const fileName = moddedHero?.image || `${toImageFileName(heroClass)}.png`;
     return getAssetUrl(`/images/modded/heroes/${fileName}`);
   }
@@ -92,7 +97,7 @@ export const getCampSkillImagePath = (skillName, heroClass = null) => {
   
   // Si es un héroe modded, verificar si la camp skill es vanilla
   if (heroClass && isModdedHero(heroClass)) {
-    const moddedHero = MODDED_HERO_CLASSES[heroClass];
+    const moddedHero = getModdedHeroClasses()[heroClass];
     
     // Si está en vanillaCampSkills o es una skill vanilla común, usar imagen vanilla
     if (moddedHero.vanillaCampSkills?.includes(skillName) || COMMON_VANILLA_CAMP_SKILLS.includes(skillName)) {
@@ -119,7 +124,7 @@ export const getTrinketImagePath = (trinketName, heroClass = null) => {
   
   // Verificar si es un trinket específico de clase modded
   if (heroClass && isModdedHero(heroClass)) {
-    const moddedHero = MODDED_HERO_CLASSES[heroClass];
+    const moddedHero = getModdedHeroClasses()[heroClass];
     if (moddedHero.classSpecificTrinkets?.includes(trinketName)) {
       return getAssetUrl(`/images/modded/trinkets/class_specific/${moddedHero.modId}_${fileName}.png`);
     }
@@ -127,8 +132,8 @@ export const getTrinketImagePath = (trinketName, heroClass = null) => {
   
   // Verificar si es un trinket general modded. Lleva prefijo de modId igual que
   // el resto de assets modded: el nombre por sí solo no es único entre 800 mods.
-  if (MODDED_GENERAL_TRINKET_SET.has(trinketName)) {
-    const modId = MODDED_GENERAL_TRINKET_MODS[trinketName];
+  if (moddedGeneralTrinketSet().has(trinketName)) {
+    const modId = getModdedGeneralTrinketMods()[trinketName];
     return getAssetUrl(`/images/modded/trinkets/${modId ? `${modId}_` : ''}${fileName}.png`);
   }
   

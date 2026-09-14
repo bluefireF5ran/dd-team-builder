@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useRef, useCallback } from 'react';
 import { Search } from 'lucide-react';
 import { HERO_CLASSES } from '../../data/heroes';
-import { MODDED_HERO_CLASSES } from '../../data/modded_heroes';
+import { useModdedRoster } from '../../hooks/useModdedRoster';
 import { getHeroImagePath } from '../../utils/imageHelper';
 import ImageWithFallback from '../common/ImageWithFallback';
 
@@ -11,15 +11,18 @@ const HeroSelector = ({ value, onChange, className, showModdedHeroes }) => {
   const [focusedIndex, setFocusedIndex] = useState(-1);
   const listRef = useRef(null);
 
+  // El roster modded llega bajo demanda; la lista se rehace cuando aterriza.
+  const { heroClasses: moddedHeroClasses } = useModdedRoster(showModdedHeroes);
+
   // Combinar héroes vanilla y modded
   const allHeroes = useMemo(() => {
     const vanilla = Object.keys(HERO_CLASSES);
     if (showModdedHeroes) {
-      const modded = Object.keys(MODDED_HERO_CLASSES);
+      const modded = Object.keys(moddedHeroClasses);
       return { vanilla, modded };
     }
     return { vanilla, modded: [] };
-  }, [showModdedHeroes]);
+  }, [showModdedHeroes, moddedHeroClasses]);
 
   const filteredVanilla = allHeroes.vanilla.filter(hero =>
     hero.toLowerCase().includes(search.toLowerCase())

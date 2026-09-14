@@ -1,5 +1,5 @@
 import { HERO_CLASSES } from '../data/heroes';
-import { MODDED_HERO_CLASSES, MODDED_GENERAL_TRINKETS } from '../data/modded_heroes';
+import { getModdedHeroClasses, getModdedGeneralTrinkets } from '../data/moddedRoster';
 import { TRINKETS } from '../data/trinkets';
 import { POSITIVE_QUIRKS, NEGATIVE_QUIRKS } from '../data/quirks';
 import { EMPTY_HERO, PARTY_CONFIG, HERO_CONFIG } from '../constants';
@@ -37,7 +37,7 @@ const shuffle = (arr) => {
 const pickRandom = (arr, count) => shuffle(arr).slice(0, count);
 
 export const buildHeroFromClass = (heroClass, includeModded) => {
-  const heroData = HERO_CLASSES[heroClass] || MODDED_HERO_CLASSES[heroClass];
+  const heroData = HERO_CLASSES[heroClass] || getModdedHeroClasses()[heroClass];
   const isAlwaysActive = heroData?.alwaysActive || false;
   const allSkills = heroData?.skills || [];
   const allCampSkills = heroData?.campSkills || [];
@@ -46,7 +46,7 @@ export const buildHeroFromClass = (heroClass, includeModded) => {
   const activeCampSkills = pickRandom(allCampSkills, HERO_CONFIG.MAX_CAMP_SKILLS);
 
   const classTrinkets = heroData?.classSpecificTrinkets || [];
-  const allGenericTrinkets = [...TRINKETS, ...(includeModded ? MODDED_GENERAL_TRINKETS : [])];
+  const allGenericTrinkets = [...TRINKETS, ...(includeModded ? getModdedGeneralTrinkets() : [])];
   const trinketPool = [...classTrinkets, ...allGenericTrinkets];
   const pickedTrinkets = pickRandom(trinketPool, 2);
 
@@ -69,7 +69,7 @@ export const buildHeroFromClass = (heroClass, includeModded) => {
 
 export const generateRandomTeam = (includeModded = false) => {
   const vanillaClasses = Object.keys(HERO_CLASSES);
-  const moddedClasses = includeModded ? Object.keys(MODDED_HERO_CLASSES) : [];
+  const moddedClasses = includeModded ? Object.keys(getModdedHeroClasses()) : [];
   const allClasses = [...vanillaClasses, ...moddedClasses];
 
   const selectedClasses = pickRandom(allClasses, PARTY_CONFIG.MAX_HEROES);
@@ -237,7 +237,7 @@ export const generateRandomTeamFromRoster = (roster = [], includeModded = false,
   // Fallback aleatorio: se reparte sobre el roster expandido, así que sólo
   // repite una clase si de verdad tienes dos.
   const validNames = expandRoster(counts).filter(
-    (name) => !!(HERO_CLASSES[name] || MODDED_HERO_CLASSES[name])
+    (name) => !!(HERO_CLASSES[name] || getModdedHeroClasses()[name])
   );
   const namePool = validNames.length >= PARTY_CONFIG.MAX_HEROES ? validNames : Object.keys(HERO_CLASSES);
 

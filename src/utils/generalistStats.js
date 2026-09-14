@@ -29,7 +29,7 @@
 // observaciones, asi que una muestra pequena no se dispara al primer puesto.
 
 import { HERO_CLASSES } from '../data/heroes';
-import { MODDED_HERO_CLASSES } from '../data/modded_heroes';
+import { getModdedHeroClasses } from '../data/moddedRoster';
 import { HERO_SPECIFIC_TRINKETS } from '../data/hero_specific_trinkets';
 
 export const USAGE_CATEGORIES = [
@@ -90,7 +90,7 @@ export const COUNT_UNITS = [
   }
 ];
 
-const heroDefinition = (name) => HERO_CLASSES[name] || MODDED_HERO_CLASSES[name] || null;
+const heroDefinition = (name) => HERO_CLASSES[name] || getModdedHeroClasses()[name] || null;
 
 /** trinket -> clases que lo pueden llevar. Lo que no esta aqui es universal. */
 const TRINKET_OWNERS = (() => {

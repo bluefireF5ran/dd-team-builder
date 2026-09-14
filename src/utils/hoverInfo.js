@@ -97,11 +97,17 @@ export function skillHover(
      * juego para el daño de heroe sin critico (AGENTS.md, How the game rounds).
      * Una skill a -100% no hace daño y no dice nada. Una clase sin estadisticas
      * (modded sin importar) sigue diciendo el modificador, que es lo que se sabe.
+     *
+     * Sobre el daño BASE, con el +% DMG del heroe sumado al de la skill: Lock of
+     * Fury (+10%) en Stunning Blow (-50%) es un -40%, no un -50% del daño ya
+     * subido un 10% (ver `dmgPercent` en `statBreakdown`).
      */
     const dmgMod = percentOf(entry.dmg);
     if (line && dmgMod !== null) {
       if (dmgMod > -100) {
-        stats.push(`DMG ${rollDamage(line.total.dmgMin, dmgMod)}-${rollDamage(line.total.dmgMax, dmgMod)}`);
+        const { dmgBase, dmgPercent, dmgPoints } = line.total;
+        const roll = (base) => rollDamage(base, dmgPercent + dmgMod, dmgPoints);
+        stats.push(`DMG ${roll(dmgBase.min)}-${roll(dmgBase.max)}`);
       }
     } else if (entry.dmg && !(noRoll && entry.dmg === '-100%')) {
       stats.push(`DMG ${entry.dmg}`);
@@ -163,12 +169,12 @@ function percentOf(value) {
 }
 
 /**
- * Daño de heroe con el modificador de la skill, hacia arriba. En enteros de
- * milesimas antes del `ceil`, porque `20 * 0.85` en coma flotante puede quedar
- * en 17.000000000000004 y subir a 18.
+ * Daño de heroe con el modificador total (heroe + skill), mas los puntos
+ * planos, hacia arriba. En enteros de milesimas antes del `ceil`, porque
+ * `20 * 0.85` en coma flotante puede quedar en 17.000000000000004 y subir a 18.
  */
-function rollDamage(value, modifier) {
-  return Math.max(0, Math.ceil(Math.round(value * (100 + modifier) * 1000) / 100000));
+function rollDamage(value, modifier, points = 0) {
+  return Math.max(0, Math.ceil(Math.round((value * (100 + modifier) + points * 100) * 1000) / 100000));
 }
 
 export function quirkHover(name, fallbackTone) {
