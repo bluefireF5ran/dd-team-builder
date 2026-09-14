@@ -1464,6 +1464,54 @@ It is a registry rather than a prop because the callers are not components: `bis
 cell knowing nothing about the UI. `App` installs it from settings, the way the modded roster is
 installed.
 
+### The base chance belongs to the clause that rolls it
+
+Three bugs sat under the flat score, and the third is the one that mattered.
+
+**It read the wrong clause's number.** `baseChanceFor` took the largest `(N% base)`
+anywhere in a skill carrying the tag. The Shieldbreaker's `Puncture` writes `Can't be
+Guarded (500% base, 2 rds)` beside `-3 SPD (140% base, 4 rds)`, so her debuff chance was
+priced at **exactly zero** - `effectPointWorth` reads 500% as "already guaranteed against
+everything". Now it reads the segment that carries the effect, asking `skillProfile`'s own
+`clauseTags` rather than a second copy of the vocabulary. The split is paren-aware: a plain
+`split(',')` tears `(140% base, 4 rds)` in half and the surviving half keeps no duration,
+which had Puncture inheriting the `2 rds` of a clause three pieces earlier.
+
+**An unprinted chance escaped the hit gate.** With no number, `chanceWorth` was left unset
+and `chanceFactor` fell back to `1` - which skips the district *and* `hitRate`, so Fran's
+rule that the effect rolls only after the attack lands did not apply to the skills whose
+text we can read least. `carrier` and `base` are now two answers instead of one, and
+`ASSUMED_BASE = 140` fills the gap (84% of the base game's printed clauses, 54% of the
+mods'). A test pins the invariant across all 80 cells: no chance is worth more than a
+certainty.
+
+**And the prose was missing the number in the first place.** In `scripts/lib/effectRender.js`
+the `(N% base)` suffix reached DoTs, stuns, knockbacks and pulls but never the stat clauses
+- so every debuff rendered from the game files lost it. One `effect:` entry is one roll, so
+a bare stat change it renders shares that chance; a buff carrying its **own description** is
+free prose that may already name a number, so only the templated ones inherit it. `0%`
+joins the sentinel family beside the 1000%/negative ones: the base game writes it 0 times
+in 2.080 effects, and all 49 mod ones are `.has_description false` bookkeeping
+(`Ringmaster_Fan_Favourite_Fake_Mark`, `cer_vip_sway_fake`).
+
+The scale of it was almost entirely on the modded side:
+
+| | skills with the effect | base printed, before | after |
+|---|---|---|---|
+| modded debuff | 24 | **0** | 24 |
+| modded blight | 30 | 13 | - |
+| modded bleed | 38 | 22 | - |
+| modded stun | 31 | 23 | - |
+
+Vanilla moves by **two lines**: the Duelist's `Feint`, whose own file says `.chance 150%`
+and whose wiki prose never printed it, and the Runaway's `Firefly`. Modded moves by 113, of
+which 111 are purely base-chance text - 140 chances added, 34 meaningless `(0% base)`
+removed. The two that are not: a spurious `Stress +8 (0% base)` duplicate collapsing, and
+`Private Rations`, whose 100% and 50% effects used to render identically and now read apart.
+
+Both importers share the renderer, so `importSkillEffects.js` and `importModdedEffects.js`
+were regenerated together.
+
 ### Whether a defensive stat is worth a slot (`src/data/enemyThreat.js`)
 
 **There is no list of dodge tanks.** Fran, 2026-09-14: "i dont want to hand pick what is a dodge or
