@@ -10,6 +10,7 @@ import SaveTeamModal from './SaveTeamModal';
 import SuggestCompModal from './SuggestCompModal';
 import ImportSaveModal from './ImportSaveModal';
 import { regionFitBreakdown } from '../../utils/regionFit';
+import { useStatSettings } from '../../hooks/useStatSettings';
 
 const TeamControls = ({
   heroes,
@@ -58,6 +59,9 @@ const TeamControls = ({
   const [showSaveModal, setShowSaveModal] = useState(false);
   const [showSuggestModal, setShowSuggestModal] = useState(false);
   const [showImportSave, setShowImportSave] = useState(false);
+  // Dificultad y Hacienda, las mismas con las que se dibujan las barras.
+  const statSettings = useStatSettings();
+
   // Set when the import modal hands its classes over; SuggestCompModal owns
   // the storage, so it is passed the list rather than the key.
   const [suggestRoster, setSuggestRoster] = useState(null);
@@ -515,12 +519,26 @@ const TeamControls = ({
             // The comp is the build; these are the heroes it gets built on.
             saveHeroes: saveProfile?.heroes || null,
             ownedTrinkets: saveProfile?.ownedTrinkets || null,
+            // The estate changes what a hero still wants from a trinket, so the
+            // re-equip needs the same districts the stat bars are drawn with.
+            estate: statSettings.estate,
             ...options
           });
-          const swapped = result?.trinketSwaps?.length
-            ? ` Re-equipped ${result.trinketSwaps.length} trinket${
-                result.trinketSwaps.length === 1 ? '' : 's'
-              } from your inventory${result.unequipped ? `, ${result.unequipped} slot(s) left empty` : ''}.`
+          // Two different things worth saying: where it could not give the comp
+          // what it asked for, and where it filled a slot the comp left empty.
+          const changes = [];
+          if (result?.trinketSwaps?.length) {
+            changes.push(
+              `swapped ${result.trinketSwaps.length} trinket${result.trinketSwaps.length === 1 ? '' : 's'}`
+            );
+          }
+          if (result?.trinketFills) {
+            changes.push(`filled ${result.trinketFills} empty slot${result.trinketFills === 1 ? '' : 's'}`);
+          }
+          const swapped = changes.length
+            ? ` Re-equipped from your inventory: ${changes.join(', ')}${
+                result.unequipped ? `, ${result.unequipped} slot(s) left empty` : ''
+              }.`
             : '';
           // Stress only biases the draw, so a strained hero can still land in
           // the comp — better said out loud than discovered in the dungeon.

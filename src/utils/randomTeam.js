@@ -11,7 +11,7 @@ import {
   rosterSize
 } from './rosterAvailability';
 import { nameKey } from './nameNormalizer';
-import { substituteTrinkets } from './trinketSubstitution';
+import { reequipParty } from './trinketReequip';
 import {
   bySuitability,
   STRESS_CONFIG,
@@ -163,16 +163,73 @@ const missingTrinketsFor = (comp, ownedKeys) => [
  * @param options.saveHeroes  héroes importados de la partida, para vestir la comp
  * @param options.ownedTrinkets  inventario; con `requireOwnedTrinkets` filtra
  * @param options.requireOwnedTrinkets  sólo comps que puedas equipar entera
- * @param options.reequip  re-equipa la comp con TUS trinkets, buscando los que
- *   hacen el mismo trabajo que los ideales (ver utils/trinketProfile.js)
+ * @param options.reequip  re-equipa la comp con TUS trinkets, en el orden de
+ *   Fran: los de la comp, el BiS del personaje, lo que la clase usa, algo
+ *   parecido, algo util, algo que sume -- y solo entonces un hueco
+ *   (ver utils/trinketReequip.js)
+ * @param options.estate  la Hacienda, como en `statBreakdown`: `true`, `false`
+ *   o la lista de distritos construidos, que cambia lo que un heroe necesita
  * @param options.preferRested  sesga el sorteo hacia los héroes descansados
  */
+const SLOTS = ['trinket1', 'trinket2'];
+
+/**
+ * Viste la party con el inventario y cuenta que ha pasado.
+ *
+ * `reequipParty` llena TODOS los huecos en el orden de Fran, asi que hay dos
+ * cosas distintas que contarle al jugador: donde no pudo darle a la comp lo que
+ * pedia (`swaps`), y donde puso algo en un hueco que la comp dejaba vacio
+ * (`filled`), que es justo lo que la sustitucion anterior no hacia.
+ *
+ * **Se compara por heroe, no por casilla.** Los dos trinkets de un heroe son un
+ * conjunto: si la comp pedia A y B y vuelven puestos B y A, no ha cambiado
+ * nada, y compararlos casilla a casilla inventaba dos cambios que nadie hizo.
+ */
+const reequipFrom = (party, owned, options) => {
+  const result = reequipParty(party, owned, options);
+  const byHero = new Map();
+  result.picks.forEach((pick) => {
+    if (!byHero.has(pick.index)) byHero.set(pick.index, []);
+    byHero.get(pick.index).push(pick);
+  });
+
+  const swaps = [];
+  let filled = 0;
+  party.forEach((hero, index) => {
+    if (!hero?.heroClass) return;
+    const wanted = SLOTS.map((slot) => hero[slot]).filter(Boolean);
+    const picks = byHero.get(index) || [];
+    const kept = new Set(
+      picks.filter((pick) => wanted.some((name) => nameKey(name) === pick.key)).map((pick) => pick.key)
+    );
+    const lost = wanted.filter((name) => !kept.has(nameKey(name)));
+    const gained = picks.filter((pick) => !kept.has(pick.key));
+    gained.forEach((pick, i) => {
+      // Uno que entra sin que saliera nada es un hueco que la comp dejaba vacio.
+      if (i >= lost.length) {
+        filled += 1;
+        return;
+      }
+      swaps.push({
+        index,
+        heroClass: hero.heroClass,
+        wanted: lost[i],
+        got: pick.name,
+        tier: pick.tierLabel,
+        why: pick.reasons[0] || ''
+      });
+    });
+  });
+  return { heroes: result.heroes, swaps, filled, unfilled: result.unfilled };
+};
+
 export const generateRandomTeamFromRoster = (roster = [], includeModded = false, options = {}) => {
   const {
     saveHeroes = null,
     ownedTrinkets = null,
     requireOwnedTrinkets = false,
     reequip = false,
+    estate = true,
     preferRested = true
   } = options;
   const counts = toRosterCounts(roster);
@@ -215,7 +272,7 @@ export const generateRandomTeamFromRoster = (roster = [], includeModded = false,
     // Re-equipping happens after the heroes are chosen, because a trinket that
     // is locked to a class can only be judged once we know who is wearing it.
     const reequipped = reequip && ownedTrinkets
-      ? substituteTrinkets(dressed, ownedTrinkets)
+      ? reequipFrom(dressed, ownedTrinkets, { estate })
       : null;
     const heroes = reequipped ? reequipped.heroes : dressed;
 
@@ -227,6 +284,7 @@ export const generateRandomTeamFromRoster = (roster = [], includeModded = false,
     heroes.stressedHeroes = stressed;
     heroes.missingTrinkets = ownedKeys.size ? missingTrinketsFor(chosenComp, ownedKeys) : [];
     heroes.trinketSwaps = reequipped ? reequipped.swaps : [];
+    heroes.trinketFills = reequipped ? reequipped.filled : 0;
     heroes.unequipped = reequipped ? reequipped.unfilled : 0;
     heroes.warning = trinketWarning;
     heroes.fromPreset = true;
@@ -258,7 +316,7 @@ export const generateRandomTeamFromRoster = (roster = [], includeModded = false,
   const rolled = selectedClasses.map((heroClass) => buildHeroFromClass(heroClass, includeModded));
   const { heroes: withHeroes, assigned, stressed } = assignSaveHeroes(rolled, saveHeroes);
   const rolledReequipped = reequip && ownedTrinkets
-    ? substituteTrinkets(withHeroes, ownedTrinkets)
+    ? reequipFrom(withHeroes, ownedTrinkets, { estate })
     : null;
   const dressed = rolledReequipped ? rolledReequipped.heroes : withHeroes;
 
@@ -266,6 +324,7 @@ export const generateRandomTeamFromRoster = (roster = [], includeModded = false,
   dressed.stressedHeroes = stressed;
   dressed.missingTrinkets = [];
   dressed.trinketSwaps = rolledReequipped ? rolledReequipped.swaps : [];
+  dressed.trinketFills = rolledReequipped ? rolledReequipped.filled : 0;
   dressed.unequipped = rolledReequipped ? rolledReequipped.unfilled : 0;
   dressed.warning = rosterSize(counts) >= PARTY_CONFIG.MAX_HEROES
     ? 'No bundled comp fits your roster — rolled a random party from it instead.'

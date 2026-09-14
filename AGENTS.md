@@ -1275,9 +1275,19 @@ combat skills, 157 camp skills, 331 class trinkets.** The other 606 classes repo
 
 ## What a trinket is worth on a hero (`heroNeeds`, `trinketValue`, `trinketReequip`)
 
-**Status (2026-09-14): built and benchmarked, not yet wired into the app.** Suggest Comp still
-re-equips through `trinketSubstitution`, which only keeps a comp's trinkets or a close lookalike
-and otherwise leaves the slot empty. Fran is reviewing the bench report before it replaces that.
+**Status (2026-09-14): wired into Suggest Comp.** `randomTeam.js` re-equips through
+`reequipParty` on both paths (the preset comp and the random fallback), and
+`trinketSubstitution.js` is no longer called by the app - what it did was keep a comp's trinkets or
+a close lookalike and leave the slot empty otherwise.
+
+The suggestion reports two things, because they are different: `trinketSwaps` is where it could not
+give the comp what it asked for, `trinketFills` is where it put something in a slot the comp left
+empty, and `unequipped` is what is still bare. **The comparison is per hero, not per slot**: a
+hero's two trinkets are a set, so handing them back in the other order is not a change, and
+comparing slot by slot invented swaps nobody made.
+
+`TeamControls` passes `estate` from `useStatSettings`, so the re-equip weighs a hero's needs with
+the same districts the stat bars are drawn with.
 
 **The fill order is Fran's** (`trinketReequip.js`):
 1. the comp's own trinkets;

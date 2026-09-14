@@ -344,6 +344,7 @@ export const useTeam = ({ defaultLocation = 'The Ruins' } = {}) => {
       stressedHeroes: suggestedHeroes.stressedHeroes || [],
       missingTrinkets: suggestedHeroes.missingTrinkets || [],
       trinketSwaps: suggestedHeroes.trinketSwaps || [],
+      trinketFills: suggestedHeroes.trinketFills || 0,
       unequipped: suggestedHeroes.unequipped || 0,
       warning: suggestedHeroes.warning || '',
       fromPreset: !!suggestedHeroes.fromPreset
