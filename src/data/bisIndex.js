@@ -433,7 +433,7 @@ const rankedFrom = (map, fallback = []) => {
  * La loadout recomendada de `heroClass` en `rank` (1-4, frente a fondo).
  *
  * @returns {{heroClass, rank, activeSkills, activeCampSkills, trinket1, trinket2,
- *            trinketOptions, quirks, source, samples, rankLegal}|null}
+ *            trinketOptions, quirks, source, samples, rankLegal, kitCanReach}|null}
  */
 export const bisLoadout = (heroClass, rank) => {
   syncWithRoster();
@@ -462,6 +462,11 @@ export const bisLoadout = (heroClass, rank) => {
   const onRankCount = activeSkills.filter((name) =>
     scored.find((entry) => entry.name === name)?.onRank
   ).length;
+  // Cuantas skills del kit ENTERO se lanzan desde este rango. Fuera de su casa
+  // una clase puede no llegar a tres (el Leper en el 4 solo tiene Revenge), y
+  // entonces ninguna loadout cumple la regla: `chooseSkills` ya se lleva todas
+  // las que hay, asi que la celda es imposible, no una mala eleccion.
+  const kitOnRank = scored.filter((entry) => entry.onRank).length;
 
   const build = {
     heroClass,
@@ -478,7 +483,11 @@ export const bisLoadout = (heroClass, rank) => {
     // presentar una celda de dos muestras como si fuera consenso.
     source: scored.length ? sourceOf(scored) : 'rules',
     samples: cell.n,
-    rankLegal: onRankCount >= HERO_CONFIG.MAX_SKILLS - 1
+    // `rankLegal` se queda en false tambien donde el kit no llega, a proposito:
+    // el generador de comps y el aviso de la tarjeta lo leen como "esta clase
+    // pinta poco aqui", y eso sigue siendo verdad. `kitCanReach` dice por que.
+    rankLegal: onRankCount >= HERO_CONFIG.MAX_SKILLS - 1,
+    kitCanReach: kitOnRank >= HERO_CONFIG.MAX_SKILLS - 1
   };
 
   loadoutCache.set(cacheKey, build);
