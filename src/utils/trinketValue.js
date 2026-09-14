@@ -139,6 +139,14 @@ const conditionFactor = (condition, needs, context) => {
  * often it hits at all, because the chance is rolled after the attack lands.
  * 1 when the kit has no carrier to measure - the clause is then worth 0 anyway.
  */
+/**
+ * The scale of a debuff, against the measured worth of one. Chosen so the mean
+ * debuffer keeps the weight the flat `0.5 + 0.35 * n` gave him (0.94 over the
+ * eight vanilla classes that carry one), which leaves every other stat's
+ * calibration where it was and lets the ordering do the work.
+ */
+const DEBUFF_RATE = 0.212;
+
 const chanceFactor = (needs, kind) => {
   const worth = needs.chanceWorth ? needs.chanceWorth[kind] : undefined;
   return typeof worth === 'number' ? worth : 1;
@@ -252,8 +260,18 @@ const weightOf = (base, needs, context) => {
     case 'bleed skill chance':
       return dotWeight('bleed', needs);
     case 'debuff skill chance':
-      return roles.debuff
-        ? { weight: (0.5 + 0.35 * Math.min(roles.debuff, 2)) * chanceFactor(needs, 'debuff'), goal: 'debuffs' }
+      /**
+       * By what the debuffs DO, not how many there are.
+       *
+       * `0.5 + 0.35 * n` gave the Leper's `-33% DMG (3 rds)` and the Plague
+       * Doctor's `-7 ACC (3 rds)` the same score, and the first is worth about
+       * five times the second against the champion spread. `debuffPower`
+       * (`heroNeeds`, over `enemyThreat.debuffRoundWorth`) reads the clauses;
+       * `DEBUFF_RATE` only sets the scale, and is set so the average debuffer
+       * lands where the flat score had him - what moves is the ORDERING.
+       */
+      return needs.debuffPower > 0
+        ? { weight: DEBUFF_RATE * needs.debuffPower * chanceFactor(needs, 'debuff'), goal: 'debuffs' }
         : { weight: 0 };
     case 'move skill chance':
       return { weight: roles.enemyMove ? 0.35 * chanceFactor(needs, 'move') : 0 };

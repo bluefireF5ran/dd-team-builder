@@ -61,6 +61,28 @@ all
     if (attacks.length) attacksOf.set(id, attacks);
   });
 
+/**
+ * And the champion's own defensive line, which is what a DEBUFF works against.
+ * `.def` is DODGE in points, `.prot` a 0-1 fraction, `.spd` points of speed.
+ */
+const statOf = new Map();
+all
+  .filter((f) => f.endsWith('.info.darkest') && /\/monsters\//.test(f))
+  .forEach((file) => {
+    const id = path.basename(file, '.info.darkest');
+    if (statOf.has(id)) return;
+    const line = fs.readFileSync(file, 'utf8').split(/\r?\n/).find((l) => l.trimStart().startsWith('stats:'));
+    if (!line) return;
+    const dodge = line.match(/[.]def\s+(-?[0-9.]+)%/);
+    const prot = line.match(/[.]prot\s+(-?[0-9.]+)/);
+    const spd = line.match(/[.]spd\s+(-?[0-9.]+)/);
+    statOf.set(id, {
+      dodge: dodge ? Number(dodge[1]) : null,
+      prot: prot ? Number(prot[1]) * 100 : null,
+      spd: spd ? Number(spd[1]) : null,
+    });
+  });
+
 const weightFor = (file) =>
   (MAIN.some((region) => path.basename(file).startsWith(region + '.')) ? 1 : OTHER_WEIGHT);
 
@@ -124,3 +146,45 @@ console.log('hit rate against a hero at that DODGE, full population vs these dec
   console.log('  DODGE ' + String(dodge).padStart(3) + '   ' +
     (hitFull(dodge) * 100).toFixed(1).padStart(5) + '%  vs  ' + (hitDec(dodge) * 100).toFixed(1).padStart(5) + '%');
 });
+
+// ============================================================ the defensive line
+// One row per ENEMY here, not per attack: a debuff is put on the monster, so it
+// is the monster that should be weighted by how often a mash row lists it.
+const defenders = [];
+seen.forEach((weight, id) => {
+  const stats = statOf.get(id);
+  if (stats) defenders.push({ weight, ...stats });
+});
+const defTotal = defenders.reduce((t, r) => t + r.weight, 0);
+const defDeciles = (key) => {
+  const vals = defenders.filter((r) => typeof r[key] === 'number').sort((a, b) => a[key] - b[key]);
+  const tot = vals.reduce((t, r) => t + r.weight, 0);
+  const out = [];
+  for (let i = 0; i < 10; i += 1) {
+    let acc = 0;
+    for (const row of vals) {
+      acc += row.weight;
+      if (acc >= tot * ((i + 0.5) / 10)) {
+        out.push(Number(row[key].toFixed(2)));
+        break;
+      }
+    }
+  }
+  return out;
+};
+const defMean = (key) => {
+  const vals = defenders.filter((r) => typeof r[key] === 'number');
+  return vals.reduce((t, r) => t + r.weight * r[key], 0) / vals.reduce((t, r) => t + r.weight, 0);
+};
+
+console.log('');
+console.log(defenders.length + ' champion enemies on the receiving end of a debuff\n');
+console.log('export const CHAMPION_DODGE = ' + defMean('dodge').toFixed(1) + ';');
+console.log('export const CHAMPION_PROT_DECILES = [' + defDeciles('prot').join(', ') + '];');
+console.log('export const CHAMPION_SPD_DECILES = [' + defDeciles('spd').join(', ') + '];\n');
+const armoured = defenders.filter((r) => r.prot > 0);
+const armouredW = armoured.reduce((t, r) => t + r.weight, 0);
+console.log('PROT is the situational one: ' + armoured.length + ' of ' + defenders.length +
+  ' enemies carry any, ' + (100 * armouredW / defTotal).toFixed(1) + '% of weighted appearances, mean ' +
+  (armoured.reduce((t, r) => t + r.weight * r.prot, 0) / armouredW).toFixed(1) + '% where present.');
+console.log('mean SPD ' + defMean('spd').toFixed(1) + ', mean DODGE ' + defMean('dodge').toFixed(1) + '.');

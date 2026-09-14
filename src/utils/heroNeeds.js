@@ -23,7 +23,7 @@ import { getModdedHeroClasses } from '../data/moddedRoster';
 import { getGearStats, MAX_GEAR_RANK } from '../data/heroStats';
 import { districtEffects } from '../data/estate';
 import { effectPointWorth } from '../data/enemyResists';
-import { dodgeWorthAt, protWorthAt, hitRateAt, CHAMPION_ATTACK_DAMAGE } from '../data/enemyThreat';
+import { dodgeWorthAt, protWorthAt, hitRateAt, debuffRoundWorth, CHAMPION_ATTACK_DAMAGE } from '../data/enemyThreat';
 import { HERO_SPECIFIC_TRINKETS } from '../data/hero_specific_trinkets';
 import { getTrinketEffect } from '../data/trinketEffects';
 import { getModdedTrinketEffect } from '../data/moddedEffects';
@@ -495,6 +495,51 @@ export const heroNeeds = (hero, { party = null, heroIndex = -1, estate = true } 
   const selfHeal = count((s) => s.profile.tags.has('heal') && s.profile.targetKind === 'self');
   const stun = count(tagged('stun'));
   const debuff = count(tagged('debuff'));
+
+  /**
+   * What this hero's debuffs are WORTH, not how many of them there are.
+   *
+   * The count was the whole answer and it could not tell the Leper's `-33% DMG
+   * (3 rds)` from the Shieldbreaker's `-3 SPD`: both scored `0.5 + 0.35`, and
+   * the first is worth about thirteen times the Plague Doctor's `-7 ACC` while
+   * the second is pure tempo. `enemyThreat.debuffRoundWorth` prices one round
+   * of one clause against the champion spread; this reads the clauses.
+   *
+   * Duration multiplies because a debuff keeps working: a `-20 DODGE (4 rds)`
+   * is four rounds of the party hitting more, off one cast.
+   */
+  const DEBUFF_SEGMENT = /-\s*(\d+(?:\.\d+)?)\s*%?\s*(prot|dodge|acc|spd|dmg)\b/i;
+  const DEBUFF_ROUNDS = /\((?:[^)]*?\s)?(\d+)\s*rds?\)/i;
+  /**
+   * `vs Marked`, `vs Stunned`: real, but only when the condition is met, and
+   * whether it is met is a question about the PARTY rather than about the
+   * clause. Half, rather than nothing or everything.
+   */
+  const CONDITIONAL = /\bvs\s+[a-z]/i;
+  const CONDITIONAL_SHARE = 0.5;
+  let debuffPower = 0;
+  skills.forEach(({ entry, profile }) => {
+    if (!profile.tags.has('debuff')) return;
+    const fallback = profile.targetKind === 'ally' ? 'ally' : profile.targetKind === 'self' ? 'self' : 'target';
+    splitClauses(entry.effect).forEach((clause) => {
+      const scope = scopeOf(clause, fallback);
+      // A `Self: -20% DMG` is the Hellion paying for Barbaric YAWP!, not
+      // something done to anybody - the same reading `baseChanceFor` makes.
+      if (scope !== 'target') return;
+      const clauseRounds = DEBUFF_ROUNDS.exec(clause);
+      segmentsOf(clause).forEach((segment) => {
+        if (!clauseTags(segment, scope).has('debuff')) return;
+        const match = DEBUFF_SEGMENT.exec(segment);
+        if (!match) return;
+        // The duration can sit in the segment (`-30 DODGE (140% base, 4 rds)`)
+        // or trail the whole clause (`-33% DMG (140% base), -5 SPD (140%
+        // base)(3 rds)`), and a clause that names none lasts the one round.
+        const rounds = Number((DEBUFF_ROUNDS.exec(segment) || clauseRounds || [])[1]) || 1;
+        const worth = debuffRoundWorth(match[2].toLowerCase(), Number(match[1]), gear.spd) * rounds;
+        debuffPower += CONDITIONAL.test(segment) ? worth * CONDITIONAL_SHARE : worth;
+      });
+    });
+  });
   const position = {
     hp: statPosition('hp', gear.hp) ?? 0.5,
     dodge: statPosition('dodge', gear.dodge) ?? 0.5,
@@ -582,6 +627,7 @@ export const heroNeeds = (hero, { party = null, heroIndex = -1, estate = true } 
     accNeed,
     hitRate,
     chanceWorth,
+    debuffPower,
     district,
     damage,
     damageShare: { melee: typeShare('Melee'), ranged: typeShare('Ranged') },
