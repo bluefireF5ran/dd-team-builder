@@ -138,14 +138,36 @@ function readMonsters(markEffects) {
       const typeLine = text.split(/\r?\n/).find((l) => l.trimStart().startsWith('enemy_type:')) || '';
 
       // Los efectos que nombran sus skills, para cruzarlos con `readMarkEffects`.
-      const effects = [];
+  const effects = [];
+      /**
+       * Y lo que la skill AMENAZA, que es la mitad que no se leia.
+       *
+       * `.launch` son las posiciones desde las que el bicho puede usarla y
+       * `.target` los rangos de heroe a los que llega, con `~` delante si es
+       * area. Sin esto no se puede decir si una party alcanza al enemigo
+       * peligroso, ni si el enemigo peligroso alcanza a tu rango 4.
+       */
+      const skills = [];
+      const digitsOf = (v) => (v
+        ? [...new Set(String(v).replace(/[^0-9]/g, '').split(''))].map(Number).sort((a, b) => a - b)
+        : []);
       text.split(/\r?\n/).forEach((line) => {
         if (!line.trimStart().startsWith('skill:')) return;
-        const named = line.match(/\.effect\s+((?:"[^"]*"\s*)+)/);
-        if (!named) return;
-        (named[1].match(/"([^"]*)"/g) || []).forEach((quoted) =>
-          effects.push(quoted.slice(1, -1))
-        );
+        const named = line.match(/[.]effect\s+((?:"[^"]*"\s*)+)/);
+        if (named) {
+          (named[1].match(/"([^"]*)"/g) || []).forEach((quoted) => effects.push(quoted.slice(1, -1)));
+        }
+        const dmg = line.match(/[.]dmg\s+(\d+)\s+(\d+)/);
+        const launch = line.match(/[.]launch\s+([0-9]+)/);
+        const target = line.match(/[.]target\s+(~?@?[0-9]+)/);
+        skills.push({
+          id: (line.match(/[.]id\s+"([^"]*)"/) || [])[1] || null,
+          dmgMin: dmg ? Number(dmg[1]) : null,
+          dmgMax: dmg ? Number(dmg[2]) : null,
+          launch: digitsOf(launch && launch[1]),
+          hits: digitsOf(target && target[1]),
+          aoe: !!(target && target[1].includes('~')),
+        });
       });
 
       monsters[id] = {
@@ -169,7 +191,14 @@ function readMonsters(markEffects) {
         // makes a self-marking hero a liability; the second is a threat to the
         // whole party whatever it brings.
         punishesMark: effects.some((name) => markEffects.punishes.has(name)),
-        marksHeroes: effects.some((name) => markEffects.applies.has(name))
+        marksHeroes: effects.some((name) => markEffects.applies.has(name)),
+        // Dos acciones por ronda es la excepcion que marca la guia de
+        // velocidad: contra eso no basta con ir 7 de SPD por delante.
+        turns: num(
+          text.split(/\r?\n/).find((l) => l.trimStart().startsWith('initiative:')) || '',
+          /[.]number_of_turns_per_round\s+(\d+)/
+        ) || 1,
+        skills
       };
   });
 
@@ -214,12 +243,19 @@ function readMashes() {
       const zone = path.basename(path.dirname(file));
       if (!ZONE_TO_LOCATION[zone]) return;
 
+      // `<zone>.<n>.mash.darkest`: the number is the dungeon difficulty and the
+      // enemy variant follows it (`.1` draws `_A`, `.3` `_B`, `.5` `_C`). The
+      // summary below pools every level on purpose - it is a profile of the
+      // place - but a threat model has to know which fight is which.
+      const level = Number((base.match(/[.](\d+)[.]mash[.]darkest$/) || [])[1]) || null;
+
       (zones[zone] ??= []);
       lines(file).forEach((line) => {
         const m = line.match(/^\s*(hall|room):\s*\.chance\s+(\d+)\s+\.types\s+(.+?)\s*$/);
         if (!m) return;
         zones[zone].push({
           kind: m[1],
+          level,
           chance: Number(m[2]),
           types: m[3].split(/\s+/).filter(Boolean)
         });

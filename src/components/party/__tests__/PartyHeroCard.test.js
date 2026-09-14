@@ -38,9 +38,12 @@ describe('PartyHeroCard hover cards', () => {
 
     const card = screen.getByRole('tooltip');
     expect(within(card).getByText('Smite')).toBeInTheDocument();
-    // Smite is a front-rank melee attack that reaches the front two enemies.
-    expect(within(card).getByText('Melee · from 1·2 · hits 1·2 · DMG +0% · ACC 105% · CRIT +4%'))
-      .toBeInTheDocument();
+    // Smite is a front-rank melee attack that reaches the front two enemies:
+    // said as a coloured type and rank dots, not as "from 1·2 · hits 1·2".
+    expect(within(card).getByText('Melee')).toBeInTheDocument();
+    expect(within(card).getByRole('img', { name: 'From rank 1, 2 · hits enemy rank 1, 2' })).toBeInTheDocument();
+    // The roll this Crusader makes and their total crit, not the skill's modifiers.
+    expect(within(card).getByText(/^DMG \d+-\d+ · ACC .+ · CRIT \d+(\.\d+)?%$/)).toBeInTheDocument();
     expect(within(card).getByText(/Unholy/)).toBeInTheDocument();
   });
 
@@ -51,7 +54,10 @@ describe('PartyHeroCard hover cards', () => {
     const card = screen.getByRole('tooltip');
     expect(within(card).getByText('Encourage')).toBeInTheDocument();
     expect(within(card).getByText('2 time')).toBeInTheDocument();
-    expect(within(card).getByText('-15 Stress')).toBeInTheDocument();
+    // "Stress" va en su propio span de color, asi que se mira el texto de la
+    // carta entera (con una sola linea, la linea y su contenedor dirian lo mismo).
+    expect(card).toHaveTextContent('-15 Stress');
+    expect(within(card).getByText('Stress', { selector: '[data-keyword="stress"]' })).toBeInTheDocument();
   });
 
   it('describes a trinket by rarity, one line per clause', () => {
@@ -61,7 +67,7 @@ describe('PartyHeroCard hover cards', () => {
     const card = screen.getByRole('tooltip');
     expect(within(card).getByText('Very Rare')).toBeInTheDocument();
     ['+15% Virtue Chance', '-20% Stress', '+12% Death Blow Resist'].forEach((clause) => {
-      expect(within(card).getByText(clause)).toBeInTheDocument();
+      expect(within(card).getByText((_, node) => node?.textContent === clause)).toBeInTheDocument();
     });
   });
 

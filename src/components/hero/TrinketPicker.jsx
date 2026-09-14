@@ -15,6 +15,7 @@ import { searchEntries, searchTerms } from '../../utils/entrySearch';
 import { rarityBorderStyle, rarityTone, withAlpha } from '../../utils/trinketRarity';
 import ImageWithFallback from '../common/ImageWithFallback';
 import HoverCard from '../common/HoverCard';
+import Keywords from '../common/Keywords';
 
 const CATEGORY_META = {
   recommended: { label: 'Recommended', text: 'text-emerald-400' },
@@ -275,7 +276,7 @@ const TrinketPicker = ({
                         <span className={`text-[9px] sm:text-[10px] text-center leading-tight mt-0.5 ${clamp} ${
                           match?.inEffect ? 'text-dd-gold/90' : 'text-gray-400'
                         }`}>
-                          {effect.effect}
+                          <Keywords text={effect.effect} />
                         </span>
                       )}
                     </button>

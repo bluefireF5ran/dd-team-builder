@@ -5,6 +5,7 @@ import { MODDED_HERO_CLASSES } from '../../data/modded_heroes';
 import { getHeroImagePath, getSkillImagePath, getCampSkillImagePath, getTrinketImagePath } from '../../utils/imageHelper';
 import ImageWithFallback from '../common/ImageWithFallback';
 import HoverCard from '../common/HoverCard';
+import SkillIconFrame from '../common/SkillIconFrame';
 import { skillHover, trinketHover, quirkHover } from '../../utils/hoverInfo';
 import { quirkClasses } from '../../utils/quirkStyle';
 import { rarityBorderStyle, withAlpha } from '../../utils/trinketRarity';
@@ -13,9 +14,36 @@ import { rarityBorderStyle, withAlpha } from '../../utils/trinketRarity';
 // reads from, so the icon itself is one component.
 const ICON = 'w-[40px] h-[40px] sm:w-[64px] sm:h-[64px]';
 
-const SkillIcon = ({ name, heroClass, camp }) => {
-  const colour = camp ? 'border-purple-600' : 'border-green-600';
-  const fallbackColour = camp ? 'bg-purple-900/40 text-purple-300' : 'bg-green-900/40 text-green-300';
+// Una skill de combate lleva en el marco lo que HACE (`SkillIconFrame`): gris
+// si solo pega, plaga si envenena, degradado si hace dos cosas. Las de
+// campamento conservan el morado, que es lo que las separa de las de combate.
+const CombatSkillIcon = ({ name, heroClass, hero }) => (
+  <HoverCard {...skillHover(name, heroClass, { hero })}>
+    <SkillIconFrame
+      heroClass={heroClass}
+      skill={name}
+      // 4px y no 3: a 3px el 30% del segundo color apenas se veia en la esquina.
+      // La imagen encoge lo mismo, asi que el icono ocupa lo de siempre.
+      className="p-[3px] sm:p-[4px] shadow-md hover:scale-110 transition-transform skill-icon"
+    >
+      <ImageWithFallback
+        src={getSkillImagePath(name, heroClass)}
+        alt={name}
+        className="block w-[34px] h-[34px] sm:w-[56px] sm:h-[56px] object-contain rounded-sm bg-gray-800"
+        fallback={(
+          <div className="w-[34px] h-[34px] sm:w-[56px] sm:h-[56px] flex items-center justify-center bg-gray-800 text-gray-300 rounded-sm text-sm sm:text-lg font-bold">
+            ?
+          </div>
+        )}
+      />
+    </SkillIconFrame>
+  </HoverCard>
+);
+
+const SkillIcon = ({ name, heroClass, camp, hero }) => {
+  if (!camp) return <CombatSkillIcon name={name} heroClass={heroClass} hero={hero} />;
+  const colour = 'border-purple-600';
+  const fallbackColour = 'bg-purple-900/40 text-purple-300';
   return (
     <HoverCard {...skillHover(name, heroClass)}>
       <ImageWithFallback
@@ -129,7 +157,7 @@ const PartyHeroCard = ({ hero, position }) => {
                 {/* Primera fila - 4 skills */}
                 <div className="flex justify-center gap-1 sm:gap-1.5">
                   {firstRowSkills.map((skill, idx) => (
-                    <SkillIcon key={`skill-${idx}-${skill}`} name={skill} heroClass={hero.heroClass} />
+                    <SkillIcon key={`skill-${idx}-${skill}`} name={skill} heroClass={hero.heroClass} hero={hero} />
                   ))}
                   {!isAlwaysActive && Array(Math.max(0, 4 - firstRowSkills.length)).fill(null).map((_, idx) => (
                     <div
@@ -145,7 +173,7 @@ const PartyHeroCard = ({ hero, position }) => {
                 {isAlwaysActive && secondRowSkills.length > 0 && (
                   <div className="flex justify-center gap-1 sm:gap-1.5">
                     {secondRowSkills.map((skill, idx) => (
-                      <SkillIcon key={`skill2-${idx}-${skill}`} name={skill} heroClass={hero.heroClass} />
+                      <SkillIcon key={`skill2-${idx}-${skill}`} name={skill} heroClass={hero.heroClass} hero={hero} />
                     ))}
                   </div>
                 )}

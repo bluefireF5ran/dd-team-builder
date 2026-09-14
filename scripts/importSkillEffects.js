@@ -215,6 +215,21 @@ function ranksFrom(row, keys) {
 }
 const rankText = (list) => (list.length ? list.join('\u00b7') : null);
 
+/**
+ * Filas del CSV que la wiki exporto rotas, corregidas contra el juego.
+ *
+ * - Shieldbreaker / Serpent Sway: la celda traia un enlace de la wiki donde iba
+ *   el efecto ("Forward 1,2 https://…/Status_effects#Aegis"). En
+ *   `shieldbreaker.info.darkest`, `serpents_sway` es `.move 0 1` con los efectos
+ *   "SB Aegis" (`health_damage_blocks 2`: +2 Block, los "Aegis tokens") y
+ *   "SB Serpent Speed 5" (`speed_rating_add 4`).
+ */
+const CSV_CORRECTIONS = {
+  Shieldbreaker: {
+    'Serpent Sway': { effect: 'Self: Forward 1, +2 Block, +4 SPD (4 rds)' },
+  },
+};
+
 function fromCsvRow(row) {
   const launch = ranksFrom(row, ['From1', 'From2', 'From3', 'From4']);
   const enemy = ranksFrom(row, ['Enemy1', 'Enemy2', 'Enemy3', 'Enemy4']);
@@ -325,7 +340,9 @@ function renderEffect(fx) {
   if (fx.kill_enemy_types) bits.push('Clears ' + String(fx.kill_enemy_types).replace(/_/g, ' ') + 's');
   if (fx.bonus_action_next_turn) bits.push('Bonus action next turn');
   if (fx.heal) bits.push(`Heal ${fx.heal}`);
-  if (fx.controlled_burn_amount) bits.push(`Burn ${fx.controlled_burn_amount} pts/rd for ${fx.controlled_burn_duration || '?'} rds`);
+  // `controlled_burn_*` es su propia mecanica, no una quemadura mas: decirlo
+  // "Burn" la escondia entre las otras dos quemaduras de la misma skill.
+  if (fx.controlled_burn_amount) bits.push(`Controlled Burn ${fx.controlled_burn_amount} pts/rd for ${fx.controlled_burn_duration || '?'} rds`);
 
   // Stat changes written straight onto the effect rather than via a buff id.
   // ACC, DODGE and SPD are flat ratings even though the file writes them with
@@ -558,7 +575,13 @@ for (const r of roster) {
     for (const name of r.list) {
       if (bucket.has(name)) continue;
       const row = csvFor(r.cls, name);
-      if (row) { bucket.set(name, fromCsvRow(row)); stats.csv++; continue; }
+      if (row) {
+        const entry = fromCsvRow(row);
+        Object.assign(entry, CSV_CORRECTIONS[r.cls]?.[name] || {});
+        bucket.set(name, entry);
+        stats.csv++;
+        continue;
+      }
       if (FE_HEROES[r.cls]) {
         feCache[r.cls] = feCache[r.cls] || feSkills(r.cls);
         const e = feCache[r.cls].get(name);

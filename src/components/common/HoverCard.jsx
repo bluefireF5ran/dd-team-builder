@@ -1,5 +1,7 @@
 import React, { useCallback, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
+import Keywords from './Keywords';
+import RankDots, { SKILL_TYPES } from './RankDots';
 
 /**
  * A hover panel for the small icons - trinkets, combat skills, camp skills.
@@ -24,7 +26,7 @@ const WIDTH = 260;
 // Above z-50, the app's modal layer.
 const LAYER = 9999;
 
-const HoverCard = ({ title, subtitle, lines = [], className = '', children }) => {
+const HoverCard = ({ title, subtitle, lines = [], kind = null, ranks = null, className = '', children }) => {
   const [rect, setRect] = useState(null);
   const ref = useRef(null);
 
@@ -34,7 +36,7 @@ const HoverCard = ({ title, subtitle, lines = [], className = '', children }) =>
   const close = useCallback(() => setRect(null), []);
 
   const body = (lines || []).filter(Boolean);
-  if (!title || (!body.length && !subtitle)) return children;
+  if (!title || (!body.length && !subtitle && !ranks)) return children;
 
   let style = null;
   if (rect) {
@@ -59,6 +61,21 @@ const HoverCard = ({ title, subtitle, lines = [], className = '', children }) =>
       className="block rounded border border-dd-gold/60 bg-gray-900 px-3 py-2 shadow-xl shadow-black/60"
     >
       <span className="block font-darkest tracking-wide text-sm text-dd-gold">{title}</span>
+      {/* Tipo y rangos de una skill de combate: color y puntos en vez de
+          "Melee · from 1·2 · hits 1·2", que habia que leer entero. */}
+      {(kind || ranks) && (
+        <span className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1">
+          {kind && SKILL_TYPES[kind] && (
+            <span
+              className="text-[10px] uppercase tracking-wider font-bold"
+              style={{ color: SKILL_TYPES[kind].colour }}
+            >
+              {SKILL_TYPES[kind].label}
+            </span>
+          )}
+          {ranks && <RankDots {...ranks} />}
+        </span>
+      )}
       {subtitle && (
         <span className="mt-0.5 block text-[11px] uppercase tracking-wider text-gray-400">{subtitle}</span>
       )}
@@ -66,7 +83,7 @@ const HoverCard = ({ title, subtitle, lines = [], className = '', children }) =>
         <span className="mt-1.5 block space-y-0.5">
           {body.map((line, i) => (
             <span key={i} className="block text-[11px] leading-snug text-dd-parchment">
-              {line}
+              <Keywords text={line} />
             </span>
           ))}
         </span>

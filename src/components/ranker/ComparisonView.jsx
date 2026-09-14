@@ -1,6 +1,9 @@
-import React, { useEffect } from 'react';
-import { Undo2, Flag, X } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { Undo2, Flag, Maximize2, X } from 'lucide-react';
 import ImageWithFallback from '../common/ImageWithFallback';
+import HeroStatsDialog from '../hero/HeroStatsDialog';
+import { HeroDetails, SkillDetails } from './ItemDetails';
+import { getHeroStats } from '../../data/heroStats';
 import {
   getHeroImagePath,
   getSkillImagePath,
@@ -111,13 +114,26 @@ const CompCard = ({ item, side, onPick }) => {
   );
 };
 
-const ContenderCard = ({ item, category, side, onPick }) => {
+const ContenderCard = ({ item, category, side, onPick, onShowStats }) => {
   if (!item) return null;
   if (isCompCategory(category)) return <CompCard item={item} side={side} onPick={onPick} />;
   const heroCard = isHeroCategory(category);
   const hotkey = side === 'left' ? '1' : '2';
 
+  // La carta entera es un boton de elegir, y un boton no puede ir dentro de
+  // otro: el de "estadisticas en grande" va al lado, encima, en el envoltorio.
   return (
+    <div className="relative flex-1 min-w-0 flex">
+    {heroCard && getHeroStats(item.name) && (
+      <button
+        type="button"
+        onClick={() => onShowStats(item.name)}
+        className="absolute top-2 right-2 z-20 flex items-center gap-1 px-2 py-1 rounded border border-gray-600 bg-gray-900/80 text-[11px] text-gray-300 hover:text-dd-parchment hover:border-dd-gold/60 transition-colors"
+        aria-label={`Open ${item.name} stats larger`}
+      >
+        <Maximize2 size={12} /> Stats
+      </button>
+    )}
     <button
       onClick={() => onPick(side)}
       className="group relative flex-1 min-w-0 rounded-lg border-2 border-gray-700 hover:border-dd-gold bg-gray-800/80 overflow-hidden transition-all duration-150 hover:shadow-torch hover:-translate-y-1 focus:outline-none focus:border-dd-gold"
@@ -138,17 +154,19 @@ const ContenderCard = ({ item, category, side, onPick }) => {
         {hotkey}
       </span>
 
-      <span className="relative z-10 flex flex-col items-center justify-end gap-3 p-4 sm:p-6 h-full">
+      <span className="relative z-10 flex flex-col items-center justify-start gap-3 px-4 pb-4 pt-10 sm:px-6 sm:pb-6 h-full">
+        {/* The portrait gave up height to the details: a pick is made on what
+            the class or skill does, and the picture only has to say which. */}
         <ImageWithFallback
           src={item.image}
           alt={item.name}
           className={
             heroCard
-              ? 'w-full max-w-[260px] h-[220px] sm:h-[320px] object-contain drop-shadow-[0_6px_16px_rgba(0,0,0,0.7)]'
-              : 'w-[150px] h-[150px] sm:w-[190px] sm:h-[190px] object-contain drop-shadow-[0_6px_16px_rgba(0,0,0,0.8)] my-6 sm:my-10'
+              ? 'w-full max-w-[200px] h-[140px] sm:h-[190px] object-contain drop-shadow-[0_6px_16px_rgba(0,0,0,0.7)]'
+              : 'w-[96px] h-[96px] sm:w-[120px] sm:h-[120px] object-contain drop-shadow-[0_6px_16px_rgba(0,0,0,0.8)]'
           }
           fallback={
-            <span className="w-[150px] h-[150px] sm:w-[190px] sm:h-[190px] my-6 sm:my-10 flex items-center justify-center rounded border border-gray-700 bg-gray-900 text-4xl text-gray-400">
+            <span className="w-[96px] h-[96px] sm:w-[120px] sm:h-[120px] flex items-center justify-center rounded border border-gray-700 bg-gray-900 text-4xl text-gray-400">
               {item.name.charAt(0)}
             </span>
           }
@@ -176,8 +194,13 @@ const ContenderCard = ({ item, category, side, onPick }) => {
             )}
           </span>
         </span>
+
+        <span className="block w-full max-w-sm rounded border border-gray-700/60 bg-gray-900/70 p-3">
+          {heroCard ? <HeroDetails heroClass={item.name} /> : <SkillDetails item={item} />}
+        </span>
       </span>
     </button>
+    </div>
   );
 };
 
@@ -193,9 +216,14 @@ const ComparisonView = ({
   onFinishEarly,
   onQuit
 }) => {
+  const [statsClass, setStatsClass] = useState(null);
+
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
+      // Con la ventana de estadisticas abierta, ← → 1 2 no pueden elegir por
+      // detras de ella, y Escape es de la ventana (que ya lo para).
+      if (statsClass) return;
       if (e.key === 'ArrowLeft' || e.key === '1') {
         e.preventDefault();
         onPick('left');
@@ -212,7 +240,7 @@ const ComparisonView = ({
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [onPick, onUndo, onQuit]);
+  }, [onPick, onUndo, onQuit, statsClass]);
 
   if (!pair) return null;
 
@@ -259,12 +287,18 @@ const ComparisonView = ({
       </div>
 
       <div className="flex flex-col sm:flex-row items-stretch gap-3 sm:gap-4">
-        <ContenderCard item={pair.left} category={category} side="left" onPick={onPick} />
+        <ContenderCard item={pair.left} category={category} side="left" onPick={onPick} onShowStats={setStatsClass} />
         <div className="flex sm:flex-col items-center justify-center gap-2 py-1">
           <span className="font-darkest text-2xl sm:text-3xl text-dd-red-light tracking-widest">VS</span>
         </div>
-        <ContenderCard item={pair.right} category={category} side="right" onPick={onPick} />
+        <ContenderCard item={pair.right} category={category} side="right" onPick={onPick} onShowStats={setStatsClass} />
       </div>
+
+      <HeroStatsDialog
+        isOpen={!!statsClass}
+        onClose={() => setStatsClass(null)}
+        hero={{ heroClass: statsClass }}
+      />
 
       <p className="text-center text-[11px] text-gray-500 mt-4">
         Click a card, or use <kbd className="px-1 border border-gray-700 rounded">←</kbd>/

@@ -70,16 +70,18 @@ describe('the skills that make no attack roll', () => {
 describe('the hover card', () => {
   it('says nothing about accuracy on a skill that cannot miss', () => {
     const card = skillHover('Battle Heal', 'Crusader');
-    expect(card.subtitle).not.toMatch(/ACC/);
-    expect(card.subtitle).not.toMatch(/1000/);
+    // Sin tipo ni rangos en texto (van en puntos), a una curacion puede no
+    // quedarle linea de estadisticas: null tambien es "no dice nada".
+    expect(card.subtitle || '').not.toMatch(/ACC/);
+    expect(card.subtitle || '').not.toMatch(/1000/);
   });
 
   // Los otros dos marcadores de posicion tampoco: `-100% DMG` y `+0% CRIT` en
   // una curacion invitan a compararlos con los numeros de la skill de al lado.
   it('drops the DMG and CRIT placeholders with it', () => {
     const card = skillHover('Battle Heal', 'Crusader');
-    expect(card.subtitle).not.toMatch(/DMG/);
-    expect(card.subtitle).not.toMatch(/CRIT/);
+    expect(card.subtitle || '').not.toMatch(/DMG/);
+    expect(card.subtitle || '').not.toMatch(/CRIT/);
   });
 
   it('keeps every number on a real attack', () => {

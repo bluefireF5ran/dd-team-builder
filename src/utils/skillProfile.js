@@ -269,6 +269,15 @@ export const skillProfile = (heroClass, skillName) => {
   return result;
 };
 
+/**
+ * Las piezas del analisis, para quien necesita hacer OTRA pregunta a las mismas
+ * clausulas sin tocar el vocabulario de etiquetas -- `skillColours` pregunta
+ * "¿de que color es esto?", que depende del alcance de cada clausula igual que
+ * las etiquetas pero no puede cambiarlas: el generador de comps, `partyCoverage`
+ * y la taxonomia leen ese vocabulario.
+ */
+export { splitClauses, scopeOf, stripPrefix, cleanseSpans, riposteSpans, applies, stressKinds };
+
 /** Atajo: `true` si la skill lleva esa etiqueta. `null` cuenta como no. */
 export const skillHasTag = (heroClass, skillName, tag) => {
   const profile = skillProfile(heroClass, skillName);

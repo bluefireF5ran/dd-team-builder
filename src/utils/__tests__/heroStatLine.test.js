@@ -1,5 +1,5 @@
 import {
-  heroStatLine, statSources, statSpread, statPosition, STAT_ORDER,
+  heroStatLine, statSources, statSpread, statPosition, statColor, STAT_ORDER,
 } from '../heroStatLine';
 import { HERO_STATS, getGearStats, MAX_GEAR_RANK } from '../../data/heroStats';
 import { HERO_CLASSES } from '../../data/heroes';
@@ -274,6 +274,26 @@ describe('the roster spread', () => {
   it('says nothing for a stat it does not track', () => {
     expect(statPosition('nonsense', 5)).toBeNull();
     expect(statPosition('hp', null)).toBeNull();
+  });
+});
+
+describe('statColor', () => {
+  const hue = (css) => Number(css.match(/^hsl\((\d+),/)[1]);
+
+  it('runs red at the bottom, amber in the middle, green at the top', () => {
+    expect(hue(statColor(0))).toBe(0);
+    expect(hue(statColor(0.5))).toBe(60);
+    expect(hue(statColor(1))).toBe(120);
+  });
+
+  it('keeps neighbouring values neighbouring colours instead of stepping', () => {
+    expect(Math.abs(hue(statColor(0.49)) - hue(statColor(0.51)))).toBeLessThanOrEqual(3);
+  });
+
+  it('clamps and tolerates junk rather than producing an invalid colour', () => {
+    expect(hue(statColor(5))).toBe(120);
+    expect(hue(statColor(-1))).toBe(0);
+    expect(hue(statColor(null))).toBe(0);
   });
 });
 

@@ -178,6 +178,22 @@ export const heroStatLine = (hero, { rank = MAX_GEAR_RANK } = {}) => {
   return { base, total, resistances, applied, skipped };
 };
 
+/**
+ * Las ocho resistencias en el orden del juego, con su palabra clave: se pintan
+ * del color de la cosa a la que resisten (`gameColours.js`), para que "Stun 40%"
+ * y el "Stun" de una skill se lean como lo mismo.
+ */
+export const RESISTANCE_ORDER = [
+  { key: 'stun', label: 'Stun', keyword: 'stun' },
+  { key: 'blight', label: 'Blight', keyword: 'blight' },
+  { key: 'bleed', label: 'Bleed', keyword: 'bleed' },
+  { key: 'disease', label: 'Disease', keyword: 'disease' },
+  { key: 'move', label: 'Move', keyword: 'move' },
+  { key: 'debuff', label: 'Debuff', keyword: 'debuff' },
+  { key: 'death', label: 'Death', keyword: 'deathblow' },
+  { key: 'trap', label: 'Trap', keyword: 'trap' },
+];
+
 /** The stats a card shows, in the order a player reads them. */
 export const STAT_ORDER = [
   { key: 'hp', label: 'HP' },
@@ -241,5 +257,17 @@ export const statPosition = (statKey, value, rank = MAX_GEAR_RANK) => {
   if (!range || typeof value !== 'number') return null;
   if (range.max === range.min) return null;
   return Math.max(0, Math.min(1, (value - range.min) / (range.max - range.min)));
+};
+
+/**
+ * El color de la barra: rojo abajo, ambar en medio, verde arriba.
+ *
+ * Un tono en HSL y no tres colores con umbrales: con umbrales un 49% y un 51%
+ * saldrian de colores distintos siendo casi iguales, y dos numeros vecinos
+ * tienen que verse vecinos.
+ */
+export const statColor = (position) => {
+  const p = Math.max(0, Math.min(1, Number(position) || 0));
+  return `hsl(${Math.round(p * 120)}, 65%, 45%)`;
 };
 
