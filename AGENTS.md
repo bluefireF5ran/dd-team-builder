@@ -1371,8 +1371,20 @@ Two of those are wired in, both because they are the same units as something alr
 - **Yellow Hand's +5% scouting** seeds `partyScouting`, the same pool a scouting trinket fills, so a
   party of those three starts most of the way to the map and spends the slot elsewhere.
 
-`heroNeeds` and `reequipParty` take `estate` exactly as `statBreakdown` does: `true`, `false`, or the
-list of districts an imported save has really built.
+**The same two reach the skill card** (2026-09-14), because the estate is on the same side of the sum
+as a trinket even though it is not in `statSources`:
+
+- `skillAccuracy` adds the district ACC to every attack the hero makes, riposte included, and names
+  it: an Arbalest's Sniper's Mark reads `ACC 124%` with `+4 ACC — Training Ring` under it.
+- `skillChanceBonuses` adds the Athenaeum's 15% to the skills that actually blight or debuff, on the
+  same line a trinket's `+15% Blight Skill Chance` would use. Plague Grenade gets it, Blinding Gas
+  (a stun) does not, and a Crusader never does.
+
+Both take `estate` and resolve a modded class's own district through `moddedDistrictOf`, so an
+imported save that has not built the Athenaeum sees none of it.
+
+`heroNeeds`, `reequipParty`, `skillAccuracy` and `skillChanceBonuses` all take `estate` exactly as
+`statBreakdown` does: `true`, `false`, or the list of districts an imported save has really built.
 
 **This extrapolates to modded classes**, which is the point of doing it from data. A modded class
 declares its district with the same `tag: .id "<district>"` line, so `importModdedHeroes` keeps it as
@@ -1402,10 +1414,15 @@ Pinned by `src/utils/__tests__/trinketReequip.test.js`.
 - Runaway's burn beyond `burn skill amount`;
 - prose clauses ("On Attack: …");
 - utility and resist weights, which are first guesses;
-- the other district effects. They are in the data and on `needs.district`, but blight/debuff chance,
-  healing dealt, stress received and riposte damage have no threshold in the code to be measured
-  against the way ACC and scouting do, and guessing one would be inventing Fran's judgement. Ask him
-  what 15 points of free blight chance is worth against a trinket's before weighting them.
+- **what a district effect is WORTH when choosing a trinket.** The Athenaeum's 15% now shows on the
+  skill card, but `trinketValue` still weights a blight-chance clause the same whether the hero has
+  the district or not: there is no threshold in the code for effect chance the way `accNeed` is a gap
+  in ACC points, and inventing one would be inventing Fran's judgement. Ask him what 15 points of
+  free blight chance is worth against a trinket's before weighting it.
+- **healing dealt, stress received, riposte damage and the Jester's Finale.** These are in the data
+  and on `needs.district`, and nothing uses them - not because they were skipped, but because the app
+  computes no heal amount, no stress-received figure and no riposte damage for them to enter. They
+  wait on those numbers existing.
 
 ## What a hero IS (`src/data/heroStats.js`)
 

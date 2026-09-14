@@ -119,6 +119,13 @@ const looseKey = (name) =>
 const VANILLA_KEYS = new Set(Object.keys(HERO_CLASSES).map(looseKey));
 
 /** True when a class name is not one of the vanilla classes (empty is not a class). */
+/**
+ * The estate district a modded class tags itself with, or null. Vanilla classes
+ * are in the district table by name and do not need this; a modded one is not,
+ * and carries the id its mod declares (`importModdedHeroes` keeps it).
+ */
+export const moddedDistrictOf = (heroClass) => getModdedHeroClasses()[heroClass]?.district || null;
+
 export const isPossiblyModdedClass = (heroClass) =>
   typeof heroClass === 'string' && heroClass.trim() !== '' && !VANILLA_KEYS.has(looseKey(heroClass));
 
