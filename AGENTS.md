@@ -1413,6 +1413,55 @@ node scripts/importModdedHeroes.js --workshop "<…/workshop/content/262060>" --
 
 A class that tags no district has no `district` and nothing changes for it.
 
+### Whether a defensive stat is worth a slot (`src/data/enemyThreat.js`)
+
+**There is no list of dodge tanks.** Fran, 2026-09-14: "i dont want to hand pick what is a dodge or
+not, this should be modeled around what can the hero and all the tools available to him reach... if
+dodge investment wont be worth, dont invest on it, same for prot or +hp... we need to generalize if
+we want it to work as well on modded heroes". A list cannot say that the Shieldbreaker's dodge is
+worth buying beside an Antiquarian and not worth it alone, and it says nothing at all about a
+workshop class.
+
+`heroNeeds.sustain` is the replacement. **Reachable** is where the hero gets without spending the
+slot being valued: gear, estate, light, his own skills, *this party's* buffs, and his own class
+trinket - which is the half a list was really standing in for, since the Bounty Hunter and the
+Duelist have no dodge skill between them and are dodge heroes because Mask Of The Timeless is +15
+and Gilded Mantle +10. **Worth** is then what one more point removes from the damage coming in:
+
+- **DODGE compounds.** A hit lands at `ACC + 5 - DODGE`, so a point takes one point off the chance,
+  which is `1 / hit%` of the damage. At reachable 40 that is 1.6%; at 65, 5.9%; at 87, 4.9% of a much
+  smaller number. Stacking pays on the heroes it pays on, as arithmetic rather than as a category.
+- **PROT** scales what lands (`1 / (100 - PROT)`), and **MAX HP** is a share of a pool measured
+  against a real champion hit - a percent of a Leper's 63 is a whole hit, a percent of an
+  Antiquarian's 29 is half of one. Both are then scaled by `tank`, which is read off the hero's HP
+  among the twenty classes and whether he marks himself. Un-scaled, PROT came out ~1% for everyone
+  and Heavy Boots started appearing on the Man at Arms, the Duelist and the Runaway.
+
+`CHAMPION_ATTACK_ACC` and `CHAMPION_ATTACK_DAMAGE` come from `scripts/measureEnemyThreat.js`: 259
+damaging skills over 121 champion enemies, each enemy's appearances spread across its own kit, the
+four main regions counting fully and the rest a fifth. Mean damage 6.2, ACC median 102.5.
+
+**A hero casts from where he can GET to** (`launchAware` in `statBreakdown`). Fran on the rank 2
+Jester holding Solo: "those rank 2 jester comps usually start with a grave robber or other jester or
+some one that will move it to the back". So a skill's launch ranks are checked against the hero's own
+moves (Finale is `Self: Back 3`) and one rank either way when anybody else in the party moves
+themselves, because a hero stepping past shuffles the rest along. The Grave Robber's Lunge is the
+case: with her behind him the rank 2 Jester reaches DODGE 87.5, without her 57.5.
+
+It is opt-in because the stat bars mean something slightly different: the bar draws what the party
+*could* give him, and moving is part of the game, so `statBreakdown` still shows Solo's +30 on Fran's
+own rank 1 Jester example. Only the valuation asks what he can cast from where he stands.
+
+**The Jester is the case that proves reading the build and not the class.** The library plays him two
+ways in near-equal numbers - 19 of its 38 Jester slots carry Solo (+30 DODGE on himself), 20 carry
+Battle Ballad (buffing everyone else) - and at rank 3 the Solo build reads DODGE 87.5 with
+Ancestor's Coat at 4.25 while the Ballad build reads 57.5 and 1.86.
+
+**Two constants are hand-set**, anchored so the picks Fran had already accepted survived the change
+(the Jester and the Antiquarian keep their cloaks, a Leper's dodge stays filler): `DODGE_RATE` 37.5
+and the PROT/HP scale in `trinketValue`. Everything else is measured. On Fran's save, same save and
+inventory either side, the model moved 21 of 160 party rows.
+
 ### What a point of effect chance buys (`src/data/enemyResists.js`)
 
 **Fran's rule** (2026-09-14): an effect lands on `chance - resist`, rolled only **after** the attack
