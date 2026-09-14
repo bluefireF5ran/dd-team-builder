@@ -18,7 +18,8 @@ import { HERO_CLASSES } from '../data/heroes';
 import { getModdedHeroClasses } from '../data/moddedRoster';
 import { getGearStats, MAX_GEAR_RANK } from '../data/heroStats';
 import { districtEffects } from '../data/estate';
-import { skillProfile } from './skillProfile';
+import { effectPointWorth } from '../data/enemyResists';
+import { skillProfile, splitClauses, scopeOf } from './skillProfile';
 import { statPosition } from './heroStatLine';
 import { statBreakdown } from './statBreakdown';
 
@@ -73,8 +74,12 @@ const percentOf = (value) => {
 };
 
 // "Blight (140% base),7 pts/rd for 3 rds" and the hand-written "Blight 5/turn (3 rds)".
+//
+// `pts?` because two skills write it singular, and both are ones that matter:
+// the Antiquarian's Festering Vapours ("4 pt/rd") and the Occultist's Wyrd
+// Reconstruction ("3 pt/rd"), which is the bleed his heal puts on the ally.
 const DOT_PATTERNS = [
-  /\b(blight|bleed)\b[^|]*?(\d+(?:\.\d+)?)\s*pts\/rd\s+for\s+(\d+)\s*rds?/gi,
+  /\b(blight|bleed)\b[^|]*?(\d+(?:\.\d+)?)\s*pts?\/rd\s+for\s+(\d+)\s*rds?/gi,
   /\b(blight|bleed)\s+(\d+(?:\.\d+)?)\s*\/\s*turn\s*\((\d+)\s*rds?\)/gi
 ];
 
@@ -163,6 +168,19 @@ export const heroNeeds = (hero, { party = null, heroIndex = -1, estate = true } 
   const accNeed = attacks.length
     ? attacks.reduce((total, attack) => total + needOf(attack), 0) / attacks.length
     : 0;
+  /**
+   * How often the hero connects at all. Every effect chance sits behind it:
+   * Fran's rule is that the blight, stun or debuff rolls only AFTER the attack
+   * has hit, so a hero who misses a third of the time gets a third less out of
+   * any chance clause. A displayed 95% is a guaranteed hit; 5% is the floor.
+   */
+  const hitOf = ({ acc: value, dodge }) => {
+    const shown = value + (district.acc || 0) + 5 - dodge;
+    return shown >= 95 ? 1 : Math.max(0.05, Math.min(1, shown / 100));
+  };
+  const hitRate = attacks.length
+    ? attacks.reduce((total, attack) => total + hitOf(attack), 0) / attacks.length
+    : 1;
 
   // A DoT is what the hero's trinkets are for when it deals at least as much as
   // the hits that carry it (Noxious Blast yes, Hound's Rush no) AND rides on at
@@ -180,8 +198,92 @@ export const heroNeeds = (hero, { party = null, heroIndex = -1, estate = true } 
       if (profile.tags.has('damage')) carriers[kind] += 1;
     });
   });
+  const dodgeTank = DODGE_TANK_CLASSES.has(heroClass);
+  /**
+   * A DoT is what the hero's trinkets are for when it deals at least as much as
+   * the hits that carry it AND rides on half the kit - and when the hero is not
+   * a dodge tank. Fran: blight chance is for "primary DoT dealers (Plague
+   * Doctor, Flagellant), not heroes that merely happen to apply one
+   * (Houndmaster, Antiquarian: she is a dodge-reliant support, so blight chance
+   * is filler)". Both of those are dodge tanks, and a dodge tank's trinkets go
+   * to staying alive whatever else the kit does.
+   */
   const dotPrimary = (kind) =>
-    dot[kind] > 0 && dot[kind] >= dotCarrier[kind] && carriers[kind] * 2 >= Math.max(1, damaging.length);
+    !dodgeTank && dot[kind] > 0 && dot[kind] >= dotCarrier[kind] &&
+    carriers[kind] * 2 >= Math.max(1, damaging.length);
+
+  /**
+   * What one more point of a chance is worth to this hero.
+   *
+   * `Blight (140% base)` is the skill's own roll; the estate adds to it before
+   * any trinket does. Against the champion resists (`enemyResists.js`) a point
+   * only changes an outcome where the hero is not already guaranteed, so the
+   * Athenaeum's 15% is not just 15 more points - it moves the Plague Doctor
+   * from a point being worth ~1.0 to ~0.7, and a Blasphemous Vial on top takes
+   * it to ~0.4, which is the dossier's "more than enough". Then the hit gate.
+   */
+  const BASE_CHANCE = /\((\d+(?:\.\d+)?)%\s*base/gi;
+  const baseChanceFor = (tag) => {
+    let best = null;
+    skills.forEach(({ entry, profile }) => {
+      if (!profile.tags.has(tag)) return;
+      // Only what is rolled at the enemy. The Flagellant's Reclaim reads
+      // `Self: Bleed (160% base)`, and that one rolls against HIS OWN bleed
+      // resist (Fran), which is a different question from what an enemy-facing
+      // chance clause buys - and the reason +Bleed Resist earns a slot on him,
+      // handled as `selfDot` below. The fallback scope is `skillProfile`'s own:
+      // a clause with no prefix belongs to whatever the skill targets.
+      const fallback = profile.targetKind === 'ally' ? 'ally' : profile.targetKind === 'self' ? 'self' : 'target';
+      splitClauses(entry.effect).forEach((clause) => {
+        if (scopeOf(clause, fallback) !== 'target') return;
+        [...clause.matchAll(BASE_CHANCE)].forEach((match) => {
+          const value = Number(match[1]);
+          if (Number.isFinite(value) && (best === null || value > best)) best = value;
+        });
+      });
+    });
+    return best;
+  };
+  // kind as `enemyResists` names it, the `skillProfile` tag, the district effect.
+  const CHANCE_KINDS = [
+    ['blight', 'blight', 'blightChance'],
+    ['bleed', 'bleed', null],
+    ['stun', 'stun', null],
+    ['debuff', 'debuff', 'debuffChance'],
+    ['move', 'enemyMove', null]
+  ];
+  const chanceWorth = {};
+  CHANCE_KINDS.forEach(([kind, tag, districtKey]) => {
+    const base = baseChanceFor(tag);
+    // No carrier for it in this kit: there is nothing to be worth anything.
+    if (base === null) return;
+    chanceWorth[kind] = effectPointWorth(kind, base + (districtKey ? district[districtKey] || 0 : 0)) * hitRate;
+  });
+
+  /**
+   * A DoT the hero puts on his OWN side, and on whom.
+   *
+   * Both roll against the resist of the hero who takes them (Fran, 2026-09-14),
+   * which is what makes +Bleed Resist a real pick rather than filler: the
+   * Flagellant's Reclaim bleeds HIM for 5 a round, and the Occultist's Wyrd
+   * Reconstruction bleeds the ALLY it heals. One is paid by the hero wearing
+   * the trinket, the other by whoever he heals, so they are kept apart.
+   */
+  const selfDot = { blight: false, bleed: false };
+  const allyDot = { blight: false, bleed: false };
+  skills.forEach(({ entry, profile }) => {
+    const fallback = profile.targetKind === 'ally' ? 'ally' : profile.targetKind === 'self' ? 'self' : 'target';
+    splitClauses(entry.effect).forEach((clause) => {
+      const scope = scopeOf(clause, fallback);
+      if (scope !== 'self' && scope !== 'ally') return;
+      const totals = dotTotals(clause);
+      ['blight', 'bleed'].forEach((kind) => {
+        if (totals[kind] <= 0) return;
+        if (scope === 'self') selfDot[kind] = true;
+        else allyDot[kind] = true;
+      });
+    });
+  });
 
   const allyHeal = count((s) => s.profile.tags.has('heal') && s.profile.targetKind === 'ally');
   const selfHeal = count((s) => s.profile.tags.has('heal') && s.profile.targetKind === 'self');
@@ -199,7 +301,6 @@ export const heroNeeds = (hero, { party = null, heroIndex = -1, estate = true } 
   const typeShare = (type) =>
     damaging.length ? damaging.filter(({ entry }) => entry.type === type).length / damaging.length : 0;
 
-  const dodgeTank = DODGE_TANK_CLASSES.has(heroClass);
   const selfHealSustain = selfHeal >= 2 || (selfHeal >= 1 && position.hp >= 0.9);
   const partyHealSustain = allyHeal >= 2;
 
@@ -218,6 +319,10 @@ export const heroNeeds = (hero, { party = null, heroIndex = -1, estate = true } 
     stressHeal: count(tagged('stressHeal')) > 0,
     markSelf: count(tagged('markSelf')) > 0,
     stealth: count(tagged('stealth')) > 0,
+    selfBlight: selfDot.blight,
+    selfBleed: selfDot.bleed,
+    allyBlight: allyDot.blight,
+    allyBleed: allyDot.bleed,
     riposte: count(tagged('riposte')) > 0,
     // Guarding someone ("Guard Ally"), not being guarded ("Force Guard by Ally"
     // on Protect Me) and not ignoring guard ("Bypass Guard").
@@ -276,6 +381,8 @@ export const heroNeeds = (hero, { party = null, heroIndex = -1, estate = true } 
     position,
     acc,
     accNeed,
+    hitRate,
+    chanceWorth,
     district,
     damage,
     damageShare: { melee: typeShare('Melee'), ranged: typeShare('Ranged') },

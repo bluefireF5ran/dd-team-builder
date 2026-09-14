@@ -77,6 +77,20 @@ export const reequipParty = (heroes, owned, { lowTorch = false, estate = true } 
 
   const next = party.map((hero) => (hero ? { ...hero, trinket1: '', trinket2: '' } : hero));
 
+  /**
+   * DoTs the party inflicts on its own side: an Occultist's heal bleeds the
+   * hero it heals, and that bleed rolls against THAT hero's resist, so the
+   * resist is worth something to everyone he might heal.
+   */
+  const partyDot = { blight: false, bleed: false };
+  party.forEach((hero, index) => {
+    if (!hero?.heroClass) return;
+    const needs = heroNeeds(hero, { party, heroIndex: index, estate });
+    if (!needs) return;
+    if (needs.roles.allyBlight) partyDot.blight = true;
+    if (needs.roles.allyBleed) partyDot.bleed = true;
+  });
+
   const partyTags = new Set();
   party.forEach((hero) =>
     (hero?.activeSkills || []).forEach((skill) =>
@@ -129,6 +143,7 @@ export const reequipParty = (heroes, owned, { lowTorch = false, estate = true } 
         lowTorch,
         partyScouting: scoutingSoFar,
         partyTags,
+        partyDot,
         currentDodge,
         otherTrinket: other,
         available: (partner) => pool.has(nameKey(partner))

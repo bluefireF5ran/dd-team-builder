@@ -113,13 +113,26 @@ const conditionFactor = (condition, needs, context) => {
   return { factor: /^vs /.test(text) ? 0.3 : 0.35, note: `only ${text}` };
 };
 
+/**
+ * What a point of `... Skill Chance` is worth on this hero, from
+ * `enemyResists`: 1 while nearly every point still changes an outcome, less as
+ * the hero's own chance climbs past what the enemies resist, and scaled by how
+ * often it hits at all, because the chance is rolled after the attack lands.
+ * 1 when the kit has no carrier to measure - the clause is then worth 0 anyway.
+ */
+const chanceFactor = (needs, kind) => {
+  const worth = needs.chanceWorth ? needs.chanceWorth[kind] : undefined;
+  return typeof worth === 'number' ? worth : 1;
+};
+
 const dotWeight = (kind, needs) => {
   const { roles } = needs;
   if (roles[`${kind}Primary`]) {
-    // A dodge tank that also blights spends its trinkets on staying alive.
-    return { weight: 1.1 * THRESHOLD * (roles.dodgeTank ? 0.4 : 1), goal: `${kind} damage` };
+    // A dodge tank is never one: `heroNeeds` settles that, because its trinkets
+    // go to staying alive however much its kit happens to blight.
+    return { weight: 1.1 * THRESHOLD * chanceFactor(needs, kind), goal: `${kind} damage` };
   }
-  return { weight: roles[`${kind}Any`] ? 0.15 : 0 };
+  return { weight: roles[`${kind}Any`] ? 0.15 * chanceFactor(needs, kind) : 0 };
 };
 
 /** What one unit of `base` is worth on this hero. */
@@ -179,16 +192,22 @@ const weightOf = (base, needs, context) => {
     case 'stun skill chance':
     case 'stun/daze skill chance':
       return roles.stun
-        ? { weight: (0.5 + 0.3 * Math.min(roles.stun, 2)) * (roles.stun >= 2 ? THRESHOLD : 1) * (roles.dodgeTank ? 0.6 : 1), goal: 'stun' }
+        ? {
+          weight: (0.5 + 0.3 * Math.min(roles.stun, 2)) * (roles.stun >= 2 ? THRESHOLD : 1) *
+            (roles.dodgeTank ? 0.6 : 1) * chanceFactor(needs, 'stun'),
+          goal: 'stun'
+        }
         : { weight: 0 };
     case 'blight skill chance':
       return dotWeight('blight', needs);
     case 'bleed skill chance':
       return dotWeight('bleed', needs);
     case 'debuff skill chance':
-      return roles.debuff ? { weight: 0.5 + 0.35 * Math.min(roles.debuff, 2), goal: 'debuffs' } : { weight: 0 };
+      return roles.debuff
+        ? { weight: (0.5 + 0.35 * Math.min(roles.debuff, 2)) * chanceFactor(needs, 'debuff'), goal: 'debuffs' }
+        : { weight: 0 };
     case 'move skill chance':
-      return { weight: roles.enemyMove ? 0.35 : 0 };
+      return { weight: roles.enemyMove ? 0.35 * chanceFactor(needs, 'move') : 0 };
     case 'healing skills':
     case 'healing':
       if (roles.partyHealSustain) return { weight: 1.1 * SUSTAIN, goal: 'party-heal sustain' };
@@ -220,7 +239,22 @@ const weightOf = (base, needs, context) => {
       if (roles.guardAlly || roles.riposte) return { weight: 0.5, goal: roles.guardAlly ? 'keeps guarding' : 'keeps riposting' };
       return { weight: 0.12 };
     case 'blight resist':
-    case 'bleed resist':
+    case 'bleed resist': {
+      // A DoT put on your own side rolls against the resist of whoever takes it
+      // (Fran), so the resist cancels a cost the party charges itself. The
+      // Flagellant's Reclaim charges him; an Occultist's heal charges the ally
+      // he heals, which is why the party matters and not just the wearer.
+      const kind = base === 'bleed resist' ? 'bleed' : 'blight';
+      if (roles[kind === 'bleed' ? 'selfBleed' : 'selfBlight']) {
+        return { weight: 0.5, goal: `its own ${kind}` };
+      }
+      // A first guess at the party case: the same job, paid less often, since
+      // the Occultist only charges it when his heal actually lands on you.
+      if (context.partyDot && context.partyDot[kind]) {
+        return { weight: 0.35, goal: `the ${kind} its own party deals` };
+      }
+      return { weight: 0.12 };
+    }
     case 'disease resist':
     case 'debuff resist':
     case 'move resist':
