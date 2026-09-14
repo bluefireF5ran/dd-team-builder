@@ -36,6 +36,20 @@
 import { parseClause } from './trinketProfile';
 import { skillProfile } from './skillProfile';
 import { statSources } from './heroStatLine';
+import { districtEffectList } from '../data/estate';
+import { moddedDistrictOf } from '../data/moddedRoster';
+
+/**
+ * What the estate hands this hero, named by the district that hands it.
+ *
+ * The town is not a trinket, so it is not in `statSources`, but it is on the
+ * same side of the sum: the Training Ring's +4 ACC lands on every attack the
+ * hero makes, riposte included, and the Athenaeum's +15% on every blight the
+ * Plague Doctor throws. `estate` is `statBreakdown`'s: true, false, or the
+ * districts an imported save has really built.
+ */
+const fromEstate = (heroClass, estate) =>
+  (heroClass ? districtEffectList(heroClass, estate, moddedDistrictOf(heroClass)) : []);
 
 /**
  * At or above this, the ACC is a sentinel rather than a number.
@@ -79,7 +93,7 @@ const scopeOf = (clause) => {
  * @returns {null|{alwaysHits: boolean, base: number|null, delta: number,
  *   total: number|null, sources: Array<{name: string, amount: number, scope: string|null}>}}
  */
-export const skillAccuracy = (entry, hero) => {
+export const skillAccuracy = (entry, hero, { estate = true } = {}) => {
   if (!entry || entry.kind === 'camp') return null;
   if (skillAlwaysHits(entry)) return { alwaysHits: true, base: null, delta: 0, total: null, sources: [] };
 
@@ -99,6 +113,12 @@ export const skillAccuracy = (entry, hero) => {
     if (scope && entry.type && scope !== entry.type) return;
     delta += parsed.amount;
     sources.push({ name, amount: parsed.amount, scope });
+  });
+
+  fromEstate(hero?.heroClass, estate).forEach(({ district, kind, amount }) => {
+    if (kind !== 'acc') return;
+    delta += amount;
+    sources.push({ name: district, amount, scope: null });
   });
 
   return { alwaysHits: false, base, delta, total: base + delta, sources };
@@ -121,6 +141,16 @@ export const skillAccuracy = (entry, hero) => {
  * and `scoreParty` read, which would move comp generation as a side effect —
  * worth doing on purpose, not in passing.
  */
+/**
+ * The district effects that are the same thing as a `... Skill Chance` clause.
+ * The Athenaeum gives its three classes 15% of each, which is why the Plague
+ * Doctor dossier can say a Blasphemous Vial takes him to 175% base blight.
+ */
+const DISTRICT_CHANCE = [
+  ['blightChance', 'blight', 'Blight'],
+  ['debuffChance', 'debuff', 'Debuff'],
+];
+
 const CHANCE_TAGS = [
   [/^stun(\/daze)? skill (chance|amount)$/, 'stun', 'Stun'],
   [/^bleed skill (chance|amount)$/, 'bleed', 'Bleed'],
@@ -134,7 +164,7 @@ const CHANCE_TAGS = [
  *
  * @returns {Array<{label: string, amount: number, sources: string[]}>}
  */
-export const skillChanceBonuses = (entry, heroClass, skillName, hero) => {
+export const skillChanceBonuses = (entry, heroClass, skillName, hero, { estate = true } = {}) => {
   if (!entry || entry.kind === 'camp') return [];
   const profile = skillProfile(heroClass, skillName);
   if (!profile) return [];
@@ -152,5 +182,17 @@ export const skillChanceBonuses = (entry, heroClass, skillName, hero) => {
     if (!row.sources.includes(name)) row.sources.push(name);
     byLabel.set(label, row);
   });
+
+  fromEstate(heroClass, estate).forEach(({ district, kind, amount }) => {
+    const match = DISTRICT_CHANCE.find(([effect]) => effect === kind);
+    if (!match) return;
+    const [, tag, label] = match;
+    if (!profile.tags.has(tag)) return;
+    const row = byLabel.get(label) || { label, amount: 0, sources: [] };
+    row.amount += amount;
+    if (!row.sources.includes(district)) row.sources.push(district);
+    byLabel.set(label, row);
+  });
+
   return [...byLabel.values()];
 };

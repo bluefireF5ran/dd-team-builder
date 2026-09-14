@@ -65,7 +65,7 @@ export function skillHover(
   let line = null;
   // Fuera del `if`: las lineas de abajo tambien lo miran, y una camp skill no
   // tiene ACC que calcular (`skillAccuracy` devuelve null para ella).
-  const acc = skillAccuracy(entry, hero);
+  const acc = skillAccuracy(entry, hero, { estate });
   if (entry.kind === 'camp') {
     if (entry.cost) stats.push(`${entry.cost} time`);
   } else {
@@ -136,7 +136,7 @@ export function skillHover(
   // Skill Chance` solo cuenta en las que aturden, y decirlo en la carta de la
   // skill es donde el jugador lo esta mirando.
   const lines = clauses(entry.effect);
-  const bonuses = skillChanceBonuses(entry, heroClass, name, hero);
+  const bonuses = skillChanceBonuses(entry, heroClass, name, hero, { estate });
   bonuses.forEach(({ label, amount, sources }) => {
     lines.push(`${amount > 0 ? '+' : ''}${amount}% ${label} Chance — ${sources.join(', ')}`);
   });

@@ -139,17 +139,24 @@ export const districtsFor = (heroClass, districtId = null) => {
  * una habilidad, no para el heroe entero.
  */
 export const districtEffects = (heroClass, estate = true, districtId = null) => {
-  const built = (id) => (Array.isArray(estate) ? estate.includes(id) : !!estate);
   const out = {};
-  districtsFor(heroClass, districtId)
-    .filter((district) => built(district.id))
-    .forEach((district) => {
-      (district.effects || []).forEach((effect) => {
-        const key = effect.skill ? `${effect.kind}:${effect.skill}` : effect.kind;
-        out[key] = (out[key] || 0) + effect.amount;
-      });
-    });
+  districtEffectList(heroClass, estate, districtId).forEach((effect) => {
+    const key = effect.skill ? `${effect.kind}:${effect.skill}` : effect.kind;
+    out[key] = (out[key] || 0) + effect.amount;
+  });
   return out;
+};
+
+/**
+ * Lo mismo sin sumar: cada efecto con el distrito que lo da, que es lo que hace
+ * falta para decir de DONDE sale un +4 ACC en la carta de una skill. Sumar un
+ * numero sin nombre es lo que obliga al jugador a creerselo.
+ */
+export const districtEffectList = (heroClass, estate = true, districtId = null) => {
+  const built = (id) => (Array.isArray(estate) ? estate.includes(id) : !!estate);
+  return districtsFor(heroClass, districtId)
+    .filter((district) => built(district.id))
+    .flatMap((district) => (district.effects || []).map((effect) => ({ district: district.name, ...effect })));
 };
 
 /**

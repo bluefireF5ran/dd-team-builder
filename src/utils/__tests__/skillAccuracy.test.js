@@ -16,6 +16,63 @@ const hero = (over = {}) => ({
 
 const entry = (cls, name) => COMBAT_SKILL_EFFECTS[cls][name];
 
+describe('the estate is part of the roll', () => {
+  // Training Ring: +4 ACC on every attack its five classes make. The Arbalest
+  // dossier reads "she doesn't desperately need ACC investments" off this.
+  it('adds the district ACC, and says which district', () => {
+    const shot = skillAccuracy(entry('Arbalest', "Sniper's Mark"), hero({ heroClass: 'Arbalest' }));
+    expect(shot.sources).toContainEqual({ name: 'Training Ring', amount: 4, scope: null });
+    expect(shot.total).toBe(shot.base + 4);
+  });
+
+  it('leaves a class with no ACC district where it was', () => {
+    const chop = skillAccuracy(entry('Leper', 'Chop'), hero({ heroClass: 'Leper' }));
+    expect(chop.total).toBe(chop.base);
+    expect(chop.sources).toEqual([]);
+  });
+
+  it('counts only the districts the estate actually has', () => {
+    const built = skillAccuracy(entry('Arbalest', "Sniper's Mark"), hero({ heroClass: 'Arbalest' }));
+    const none = skillAccuracy(entry('Arbalest', "Sniper's Mark"), hero({ heroClass: 'Arbalest' }), { estate: false });
+    const save = skillAccuracy(entry('Arbalest', "Sniper's Mark"), hero({ heroClass: 'Arbalest' }), { estate: ['training_ring'] });
+    expect(none.total).toBe(built.total - 4);
+    expect(save.total).toBe(built.total);
+  });
+
+  // The Athenaeum's 15% is the same thing a "+15% Blight Skill Chance" trinket
+  // gives, so it belongs on the same line of the card.
+  it('puts the Athenaeum on the blights and debuffs it applies to', () => {
+    const grenade = skillChanceBonuses(
+      entry('Plague Doctor', 'Plague Grenade'), 'Plague Doctor', 'Plague Grenade', hero({ heroClass: 'Plague Doctor' })
+    );
+    expect(grenade).toContainEqual({ label: 'Blight', amount: 15, sources: ['Athenaeum'] });
+
+    const curse = skillChanceBonuses(
+      entry('Occultist', 'Weakening Curse'), 'Occultist', 'Weakening Curse', hero({ heroClass: 'Occultist' })
+    );
+    expect(curse).toContainEqual({ label: 'Debuff', amount: 15, sources: ['Athenaeum'] });
+  });
+
+  it('keeps it off a skill that does neither, and off a class without the district', () => {
+    // Blinding Gas stuns; the Athenaeum gives blight and debuff chance.
+    expect(skillChanceBonuses(
+      entry('Plague Doctor', 'Blinding Gas'), 'Plague Doctor', 'Blinding Gas', hero({ heroClass: 'Plague Doctor' })
+    )).toEqual([]);
+    expect(skillChanceBonuses(
+      entry('Crusader', 'Stunning Blow'), 'Crusader', 'Stunning Blow', hero()
+    )).toEqual([]);
+    expect(skillChanceBonuses(
+      entry('Plague Doctor', 'Plague Grenade'), 'Plague Doctor', 'Plague Grenade',
+      hero({ heroClass: 'Plague Doctor' }), { estate: false }
+    )).toEqual([]);
+  });
+
+  it('reaches the skill card, named', () => {
+    const card = skillHover('Plague Grenade', 'Plague Doctor', { hero: hero({ heroClass: 'Plague Doctor' }) });
+    expect(card.lines.join(' | ')).toMatch(/\+15% Blight Chance — Athenaeum/);
+  });
+});
+
 describe('the skills that make no attack roll', () => {
   /**
    * `ACC 1000%` no es una punteria, es como la fuente dice "aqui no hay
@@ -188,11 +245,16 @@ describe('Bedtime Story on the Arbalest', () => {
 
   /**
    * Los otros dos clausulas de Bedtime Story son "vs Marked": condicionales, y
-   * por eso no se suman al total de ACC aunque el trinket las lleve.
+   * por eso no se suman al total de ACC aunque el trinket las lleve. El +4 del
+   * Training Ring si se suma -- no es condicional -- asi que lo que dice que la
+   * regla se cumple es QUIEN aparece en el desglose, no que no haya desglose.
    */
   it('does not fold its "vs Marked" accuracy into the total', () => {
+    const acc = skillAccuracy(entry('Arbalest', 'Sniper Shot'), arb('Bedtime Story'));
+    expect(acc.sources.map((s) => s.name)).toEqual(['Training Ring']);
+    expect(acc.total).toBe(acc.base + 4);
     const card = skillHover('Sniper Shot', 'Arbalest', { hero: arb('Bedtime Story') });
-    expect(card.subtitle).not.toMatch(/ACC \d+% \(/);
+    expect(card.subtitle).not.toMatch(/Bedtime Story/);
   });
 });
 
