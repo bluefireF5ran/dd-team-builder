@@ -35,7 +35,7 @@
 import { HERO_STATS, getHeroStats, getGearStats, MAX_GEAR_RANK } from '../data/heroStats';
 import { TRINKET_EFFECTS, getTrinketEffect } from '../data/trinketEffects';
 import { getModdedTrinketEffect, getModdedSkillEffect } from '../data/moddedEffects';
-import { memoByModdedRoster } from '../data/moddedRoster';
+import { memoByModdedRoster, getModdedHeroClasses } from '../data/moddedRoster';
 import { QUIRK_EFFECTS, getQuirkEffect } from '../data/quirkEffects';
 import { HERO_SPECIFIC_TRINKETS, ALL_HERO_SPECIFIC_TRINKETS } from '../data/hero_specific_trinkets';
 import { getSkillEffect } from '../data/skillEffects';
@@ -272,7 +272,10 @@ export const statBreakdown = (
   // `estate`: true (todo construido), false (nada) o la lista de distritos que
   // una partida importada tiene construidos de verdad.
   const built = (districtId) => (Array.isArray(estate) ? estate.includes(districtId) : !!estate);
-  districtsFor(heroClass).filter((district) => built(district.id)).forEach((district) => {
+  // Una clase modded no esta en la tabla de distritos, pero su info file trae
+  // el mismo `tag:` que las vanilla y el importador lo guarda como `district`.
+  const ownDistrict = getModdedHeroClasses()[heroClass]?.district || null;
+  districtsFor(heroClass, ownDistrict).filter((district) => built(district.id)).forEach((district) => {
     district.buffs.forEach((buff) => {
       if (buff.resist) {
         if (resistances[buff.resist] !== undefined) resistances[buff.resist] += buff.amount;

@@ -11,11 +11,16 @@
  * - A quien toca cada distrito: `tag: .id "<distrito>"` en `<heroe>.info.darkest`.
  * - Los nombres: `str_<distrito>_title` en las string tables.
  *
- * Solo lo que mueve una barra de estadisticas. Lo demas existe y no se dibuja:
- * Training Ring da +4 ACC, Athenaeum +15% de probabilidad de blight y debuff,
- * Altar of the Light +10% de curacion, Yellow Hand +5% de exploracion,
- * Performance Hall -10% de estres recibido y +20% DMG a Finale, la Académie
- * +15% al daño de riposte.
+ * `buffs` es lo que mueve una barra de estadisticas. `effects` es el resto de
+ * lo que da el distrito, que no se dibuja pero si cuenta para saber que quiere
+ * un heroe de sus trinkets: Training Ring +4 ACC, Athenaeum +15% de blight y
+ * de debuff, Altar of the Light +10% de curacion, Yellow Hand +5% de
+ * exploracion, Performance Hall -10% de estres recibido y +20% DMG a Finale, y
+ * la Académie +15% al daño de riposte A TODO EL MUNDO (`hero_type_tags: []`),
+ * no solo a la Duelist, que lo unico suyo es el +1 SPD.
+ *
+ * Granary (+15% a lo que cura la comida) y Outsiders Bonfire (+2 puntos de
+ * descanso) no estan: no tocan a un heroe en combate.
  *
  * ## La dificultad
  *
@@ -35,27 +40,49 @@ export const classId = (heroClass) =>
  * `amount` son puntos; `percent` multiplica la base (solo MAX HP aqui).
  */
 export const DISTRICTS = [
-  { id: 'conservatory_of_steel', name: 'Académie Duello', classes: null, buffs: [{ stat: 'dodge', amount: 3 }] },
+  {
+    id: 'conservatory_of_steel',
+    name: 'Académie Duello',
+    classes: null,
+    buffs: [{ stat: 'dodge', amount: 3 }],
+    effects: [{ kind: 'riposteDamage', amount: 15 }],
+  },
   { id: 'conservatory_of_steel', name: 'Académie Duello', classes: ['duelist'], buffs: [{ stat: 'spd', amount: 1 }] },
   {
     id: 'house_of_the_yellow_hand',
     name: 'House of the Yellow Hand',
     classes: ['bounty_hunter', 'grave_robber', 'highwayman'],
     buffs: [{ stat: 'crit', amount: 4 }],
+    effects: [{ kind: 'scouting', amount: 5 }],
   },
   {
     id: 'altar_of_light',
     name: 'Altar of the Light',
     classes: ['crusader', 'vestal', 'flagellant'],
     buffs: [{ resist: 'stun', amount: 10 }],
+    effects: [{ kind: 'healingDealt', amount: 10 }],
   },
   {
     id: 'training_ring',
     name: 'Training Ring',
     classes: ['arbalest', 'houndmaster', 'man_at_arms', 'musketeer', 'shieldbreaker'],
     buffs: [{ stat: 'hp', percent: 10 }],
+    effects: [{ kind: 'acc', amount: 4 }],
   },
-  { id: 'theater', name: 'Performance Hall', classes: ['jester'], buffs: [{ stat: 'spd', amount: 2 }] },
+  {
+    id: 'library',
+    name: 'Athenaeum',
+    classes: ['antiquarian', 'occultist', 'plague_doctor'],
+    buffs: [],
+    effects: [{ kind: 'blightChance', amount: 15 }, { kind: 'debuffChance', amount: 15 }],
+  },
+  {
+    id: 'theater',
+    name: 'Performance Hall',
+    classes: ['jester'],
+    buffs: [{ stat: 'spd', amount: 2 }],
+    effects: [{ kind: 'stressReceived', amount: -10 }, { kind: 'skillDamage', amount: 20, skill: 'heroic_end' }],
+  },
 ];
 
 /**
@@ -89,10 +116,40 @@ export const DISTRICT_NAMES = {
 /** El nombre de un distrito, o su id legible si no esta en la tabla. */
 export const districtName = (id) => DISTRICT_NAMES[id] || String(id).replace(/_/g, ' ');
 
-/** Los distritos que tocan a esta clase. */
-export const districtsFor = (heroClass) => {
+/**
+ * Los distritos que tocan a esta clase.
+ *
+ * `districtId` es para las clases que la tabla no nombra: una modded declara su
+ * distrito con el mismo `tag: .id` que las vanilla, y el importador lo guarda
+ * como `district` en `modded_heroes.js`. Con el, una clase modded del Training
+ * Ring cobra su +10% MAX HP y su +4 ACC como cualquier otra.
+ */
+export const districtsFor = (heroClass, districtId = null) => {
   const id = classId(heroClass);
-  return DISTRICTS.filter((d) => !d.classes || d.classes.includes(id));
+  return DISTRICTS.filter((d) => !d.classes || d.classes.includes(id) || d.id === districtId);
+};
+
+/**
+ * Lo que los distritos CONSTRUIDOS le dan a esta clase fuera de las barras,
+ * sumado por tipo: `{ acc: 4 }` para quien tiene Training Ring. `estate` es
+ * lo mismo que en `statBreakdown`: `true` (todo construido), `false` (nada)
+ * o la lista de distritos de una partida importada.
+ *
+ * Un efecto con `skill` se guarda aparte (`skillDamage:heroic_end`): vale para
+ * una habilidad, no para el heroe entero.
+ */
+export const districtEffects = (heroClass, estate = true, districtId = null) => {
+  const built = (id) => (Array.isArray(estate) ? estate.includes(id) : !!estate);
+  const out = {};
+  districtsFor(heroClass, districtId)
+    .filter((district) => built(district.id))
+    .forEach((district) => {
+      (district.effects || []).forEach((effect) => {
+        const key = effect.skill ? `${effect.kind}:${effect.skill}` : effect.kind;
+        out[key] = (out[key] || 0) + effect.amount;
+      });
+    });
+  return out;
 };
 
 /**

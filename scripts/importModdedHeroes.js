@@ -13,7 +13,7 @@
  * What is read, and from where:
  *
  *   heroes/<id>/<id>.info.darkest   combat skills in kit order, skill_selection,
- *                                   mode: lines (stances)
+ *                                   mode: lines (stances), the estate district tag
  *   heroes/<id>/<id>.art.darkest    icon ordinal, which is the order the player
  *                                   sees on the skill buttons
  *   raid/camping/*.camping_skills.json   camp skills granted to the class

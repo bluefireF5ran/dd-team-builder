@@ -109,6 +109,9 @@ function makeBuilder(ctx) {
     if (hero.kit.modes.length > 1) {
       entry.stances = hero.kit.modes.map((m) => titleCase(m.replace(/_/g, ' ').toUpperCase()));
     }
+    // The estate district the class tags itself with, which says what the town
+    // already gives it and so what it still wants from a trinket.
+    if (hero.kit.district) entry.district = hero.kit.district;
 
     return { entry, skillPairs, campPairs, trinketPairs, invented, dropped, paired, orphaned };
   };

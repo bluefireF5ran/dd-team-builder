@@ -25,6 +25,7 @@ import { trinketProfile, targetProfile, profileMatch } from './trinketProfile';
 import { nameKey } from './nameNormalizer';
 import { skillProfile } from './skillProfile';
 import { statBreakdown } from './statBreakdown';
+import { districtEffects } from '../data/estate';
 import { heroNeeds } from './heroNeeds';
 import { trinketValue, scoutingOf, USEFUL_VALUE, NET_POSITIVE_VALUE } from './trinketValue';
 
@@ -62,10 +63,12 @@ const SLOTS = ['trinket1', 'trinket2'];
  * @param {object[]} heroes party in rank order; `trinket1`/`trinket2` are the
  *   comp's own trinkets (tier 1), empty for a party with none
  * @param {string[]} owned every trinket you own
- * @param {{lowTorch?: boolean}} [options]
+ * @param {{lowTorch?: boolean, estate?: boolean|string[]}} [options] `estate`
+ *   is the one `statBreakdown` takes: `true`, `false`, or the districts an
+ *   imported save has actually built
  * @returns {{heroes: object[], picks: object[], unfilled: number}}
  */
-export const reequipParty = (heroes, owned, { lowTorch = false } = {}) => {
+export const reequipParty = (heroes, owned, { lowTorch = false, estate = true } = {}) => {
   const party = Array.isArray(heroes) ? heroes : [];
   const pool = new Map();
   (owned || []).filter(Boolean).forEach((name) => {
@@ -100,15 +103,21 @@ export const reequipParty = (heroes, owned, { lowTorch = false } = {}) => {
   });
 
   const picks = [];
-  let partyScouting = 0;
+  // The estate scouts too. House of the Yellow Hand gives the Highwayman, the
+  // Grave Robber and the Bounty Hunter +5% each, so a party of them starts most
+  // of the way to the map one trinket would buy, and buys something else.
+  let partyScouting = next.reduce(
+    (total, hero) => total + (hero?.heroClass ? districtEffects(hero.heroClass, estate).scouting || 0 : 0),
+    0
+  );
   const openSlots = next.reduce((total, hero) => total + (hero?.heroClass ? SLOTS.length : 0), 0);
 
   const bestFor = (hero, index, scoutingSoFar) => {
     const slot = SLOTS.find((s) => !hero[s]);
     if (!slot) return null;
-    const needs = heroNeeds(hero, { party: next, heroIndex: index });
+    const needs = heroNeeds(hero, { party: next, heroIndex: index, estate });
     if (!needs) return null;
-    const worn = statBreakdown(hero, { party: next, heroIndex: index });
+    const worn = statBreakdown(hero, { party: next, heroIndex: index, estate });
     const currentDodge = worn ? worn.stats.dodge.total + worn.stats.dodge.potential : needs.reachableDodge;
     const other = SLOTS.map((s) => hero[s]).find(Boolean) || '';
     const list = lists[index];
