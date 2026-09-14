@@ -7,7 +7,7 @@
 import { LOCATIONS } from '../data/locations';
 import { COMP_LIBRARY } from '../data/compLibrary';
 import { HERO_CLASSES } from '../data/heroes';
-import { MODDED_HERO_CLASSES } from '../data/modded_heroes';
+import { getModdedHeroClasses, memoByModdedRoster } from '../data/moddedRoster';
 import {
   getHeroImagePath,
   getSkillImagePath,
@@ -15,15 +15,19 @@ import {
 } from './imageHelper';
 
 /** Every hero class the ranker can offer, vanilla first. */
-export const getHeroDefinition = (name) => HERO_CLASSES[name] || MODDED_HERO_CLASSES[name] || null;
+export const getHeroDefinition = (name) => HERO_CLASSES[name] || getModdedHeroClasses()[name] || null;
 
 export const isVanillaHero = (name) => !!HERO_CLASSES[name];
 
 export const VANILLA_HERO_NAMES = Object.keys(HERO_CLASSES).sort();
-export const MODDED_HERO_NAMES = Object.keys(MODDED_HERO_CLASSES)
-  .filter((name) => !HERO_CLASSES[name])
-  .sort((a, b) => a.localeCompare(b));
-export const ALL_HERO_NAMES = [...VANILLA_HERO_NAMES, ...MODDED_HERO_NAMES];
+// Functions, not constants: the modded roster loads on demand, and a list built
+// at import would stay empty after it arrived. Empty until then.
+export const getModdedHeroNames = memoByModdedRoster(() =>
+  Object.keys(getModdedHeroClasses())
+    .filter((name) => !HERO_CLASSES[name])
+    .sort((a, b) => a.localeCompare(b))
+);
+export const getAllHeroNames = memoByModdedRoster(() => [...VANILLA_HERO_NAMES, ...getModdedHeroNames()]);
 
 const heroItem = (name) => ({
   id: `hero:${name}`,

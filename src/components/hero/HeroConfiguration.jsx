@@ -5,7 +5,13 @@ import { useStatSettings } from '../../hooks/useStatSettings';
 import StatRows from './StatRows';
 import { AlertTriangle, ChevronDown, ChevronRight, ChevronUp, Copy, ClipboardPaste, Maximize2, RotateCcw, Sparkles, UserPlus, X } from 'lucide-react';
 import { HERO_CLASSES } from '../../data/heroes';
-import { MODDED_HERO_CLASSES } from '../../data/modded_heroes';
+import {
+  getModdedHeroClasses,
+  isModdedRosterLoaded,
+  isPossiblyModdedClass,
+  loadModdedRoster
+} from '../../data/moddedRoster';
+import { useModdedRoster } from '../../hooks/useModdedRoster';
 import { validateHero } from '../../utils/validation';
 import { hasHeroConfiguration, sortToRoster } from '../../utils/heroHelper';
 import { HERO_CONFIG } from '../../constants';
@@ -106,12 +112,17 @@ const HeroConfiguration = ({
   const [trinketPickerSlot, setTrinketPickerSlot] = useState(null); // 1 | 2 | null
   // Dificultad y Hacienda: el CRIT y el daño del hover son los de las barras.
   const statSettings = useStatSettings();
+  // The class on the card can be modded with the switch off (a pasted hero, a
+  // shared link), so a modded class asks for the roster too.
+  const { heroClasses: moddedHeroClasses } = useModdedRoster(
+    showModdedHeroes || isPossiblyModdedClass(hero.heroClass)
+  );
   const allHeroClasses = useMemo(() => {
     if (showModdedHeroes) {
-      return { ...HERO_CLASSES, ...MODDED_HERO_CLASSES };
+      return { ...HERO_CLASSES, ...moddedHeroClasses };
     }
     return HERO_CLASSES;
-  }, [showModdedHeroes]);
+  }, [showModdedHeroes, moddedHeroClasses]);
 
   // Where this hero can get to on their own. A skill that only launches from
   // rank 3 is not a mistake in the hands of someone holding Shadow Fade; the
@@ -269,7 +280,8 @@ const HeroConfiguration = ({
     showToast?.(`Pasted ${pasted.heroClass} into position #${position}!`, 'success');
     // Pegar una clase modded con el interruptor apagado deja una tarjeta sin
     // skills que tocar: los datos son validos, pero no se pueden editar.
-    if (MODDED_HERO_CLASSES[pasted.heroClass] && !showModdedHeroes) {
+    // The registry, not the render's copy: the paste may have just fetched it.
+    if (getModdedHeroClasses()[pasted.heroClass] && !showModdedHeroes) {
       showToast?.(`${pasted.heroClass} is modded — enable modded heroes to edit it.`, 'error');
     }
   };
@@ -277,7 +289,14 @@ const HeroConfiguration = ({
   const handlePasteHero = async () => {
     let pasted;
     try {
-      pasted = parseHeroClipboard(await readClipboardText());
+      const text = await readClipboardText();
+      pasted = parseHeroClipboard(text);
+      // A modded class only canonicalizes against the roster (`sibyl_ms` ->
+      // `Sibyl`), so fetch it and read the paste again before it reaches the party.
+      if (isPossiblyModdedClass(pasted.heroClass) && !isModdedRosterLoaded()) {
+        await loadModdedRoster().catch(() => {});
+        pasted = parseHeroClipboard(text);
+      }
     } catch (error) {
       showToast?.(error.message, 'error');
       return;

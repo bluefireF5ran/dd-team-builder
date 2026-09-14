@@ -1,6 +1,6 @@
 import { EMPTY_HERO } from '../constants';
 import { HERO_CLASSES } from '../data/heroes';
-import { MODDED_HERO_CLASSES } from '../data/modded_heroes';
+import { getModdedHeroClasses } from '../data/moddedRoster';
 import { nameKey } from './nameNormalizer';
 
 export const createEmptyHero = () => ({ ...EMPTY_HERO, quirks: { positive: [], negative: [] }, lockedQuirks: { positive: [], negative: [] }, diseases: [] });
@@ -60,7 +60,7 @@ export const sortToRoster = (selected, roster) => {
   return [...(selected || [])].sort((a, b) => rank(a) - rank(b));
 };
 
-const kitOf = (heroClass) => HERO_CLASSES[heroClass] || MODDED_HERO_CLASSES[heroClass];
+const kitOf = (heroClass) => HERO_CLASSES[heroClass] || getModdedHeroClasses()[heroClass];
 
 /**
  * Las skills y camp skills de un heroe, en el orden en que las declara su clase

@@ -1,5 +1,5 @@
 import { HERO_CLASSES } from '../data/heroes';
-import { MODDED_HERO_CLASSES, MODDED_GENERAL_TRINKETS } from '../data/modded_heroes';
+import { getModdedHeroClasses, getModdedGeneralTrinkets, memoByModdedRoster } from '../data/moddedRoster';
 import { TRINKETS } from '../data/trinkets';
 import { BACKER_TRINKETS } from '../data/backer_trinkets';
 import { POSITIVE_QUIRKS, NEGATIVE_QUIRKS } from '../data/quirks';
@@ -69,22 +69,25 @@ export const nameMatchesSearch = (name, query) => {
   return getNameAliases(name).some((alias) => alias.toLowerCase().includes(q));
 };
 
-const getHeroData = (heroClass) => HERO_CLASSES[heroClass] || MODDED_HERO_CLASSES[heroClass];
+const getHeroData = (heroClass) => HERO_CLASSES[heroClass] || getModdedHeroClasses()[heroClass];
 
-const HERO_CLASS_INDEX = buildIndex(Object.keys(HERO_CLASSES), Object.keys(MODDED_HERO_CLASSES));
-
-const ALL_CLASS_SPECIFIC_TRINKETS = [
-  ...Object.values(HERO_CLASSES),
-  ...Object.values(MODDED_HERO_CLASSES)
-].flatMap((data) => data.classSpecificTrinkets || []);
+// Lo que sale del roster modded se reconstruye cuando llega (`memoByModdedRoster`):
+// construido al importar se quedaria para siempre con la version vacia.
+const heroClassIndex = memoByModdedRoster(() =>
+  buildIndex(Object.keys(HERO_CLASSES), Object.keys(getModdedHeroClasses()))
+);
 
 // Índice global: se usa cuando el trinket no pertenece a la clase del héroe
 // (por ejemplo comps importadas antes de cambiar de clase).
-const TRINKET_INDEX = buildIndex(
-  TRINKETS,
-  ALL_CLASS_SPECIFIC_TRINKETS,
-  MODDED_GENERAL_TRINKETS,
-  BACKER_TRINKETS
+const trinketIndex = memoByModdedRoster(() =>
+  buildIndex(
+    TRINKETS,
+    [...Object.values(HERO_CLASSES), ...Object.values(getModdedHeroClasses())].flatMap(
+      (data) => data.classSpecificTrinkets || []
+    ),
+    getModdedGeneralTrinkets(),
+    BACKER_TRINKETS
+  )
 );
 
 const QUIRK_INDEX = {
@@ -95,7 +98,7 @@ const QUIRK_INDEX = {
 const DISEASE_INDEX = buildIndex(ALL_DISEASES);
 
 // Índices por clase, construidos bajo demanda y cacheados.
-const perClassCache = new Map();
+const perClassCache = memoByModdedRoster(() => new Map());
 
 /**
  * Añade a un índice ya construido las grafías que sólo valen en esta clase.
@@ -118,7 +121,7 @@ const addClassAliases = (index, aliasTable) => {
 };
 
 const getClassIndexes = (heroClass) => {
-  if (perClassCache.has(heroClass)) return perClassCache.get(heroClass);
+  if (perClassCache().has(heroClass)) return perClassCache().get(heroClass);
 
   const heroData = getHeroData(heroClass);
   const classAliases = CLASS_NAME_ALIASES[heroClass] || {};
@@ -138,7 +141,7 @@ const getClassIndexes = (heroClass) => {
     trinkets: addClassAliases(buildIndex(heroData?.classSpecificTrinkets), classAliases.trinkets)
   };
 
-  perClassCache.set(heroClass, indexes);
+  perClassCache().set(heroClass, indexes);
   return indexes;
 };
 
@@ -156,10 +159,10 @@ const resolve = (name, ...indexes) => {
   return ALIAS_INDEX.get(key) || name;
 };
 
-export const canonicalizeHeroClass = (heroClass) => resolve(heroClass, HERO_CLASS_INDEX);
+export const canonicalizeHeroClass = (heroClass) => resolve(heroClass, heroClassIndex());
 
 export const canonicalizeTrinket = (trinketName, heroClass) =>
-  resolve(trinketName, getClassIndexes(heroClass).trinkets, TRINKET_INDEX);
+  resolve(trinketName, getClassIndexes(heroClass).trinkets, trinketIndex());
 
 export const canonicalizeSkill = (skillName, heroClass) =>
   resolve(skillName, getClassIndexes(heroClass).skills);

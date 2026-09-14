@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
 import { parseSaveFileList, REQUIRED_SAVE_FILE } from '../utils/saveParser';
+import { isModdedRosterLoaded, loadModdedRoster } from '../data/moddedRoster';
 
 /**
  * The player's imported Darkest Dungeon save, kept between visits.
@@ -35,7 +36,14 @@ export const useSaveProfile = () => {
     const files = [...(fileList || [])];
     if (!files.length) throw new Error('No files selected.');
 
-    const next = await parseSaveFileList(files);
+    let next = await parseSaveFileList(files);
+    // A class id vanilla does not know may be a modded one, and the roster that
+    // resolves those loads on demand: fetch it and read the save again. A
+    // vanilla save never pays for it.
+    if (next.unmatched?.heroClasses?.length && !isModdedRosterLoaded()) {
+      await loadModdedRoster().catch(() => {});
+      if (isModdedRosterLoaded()) next = await parseSaveFileList(files);
+    }
     if (!next.heroes.length) {
       throw new Error(`No living heroes found in ${REQUIRED_SAVE_FILE}.`);
     }

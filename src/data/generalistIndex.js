@@ -10,11 +10,18 @@
 // las familias con muchas variantes.
 
 import { getCompEntries } from './compIndex';
+import { getModdedRosterVersion } from './moddedRoster';
 import { buildUsageStats } from '../utils/generalistStats';
 
 let cache = null;
+// La disponibilidad por clase lee el roster modded, que llega bajo demanda: un
+// barrido hecho antes no conoce sus clases.
+let cacheVersion = -1;
 
 export const getUsageStats = () => {
-  if (!cache) cache = buildUsageStats(getCompEntries());
+  if (!cache || cacheVersion !== getModdedRosterVersion()) {
+    cache = buildUsageStats(getCompEntries());
+    cacheVersion = getModdedRosterVersion();
+  }
   return cache;
 };

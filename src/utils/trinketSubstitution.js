@@ -23,7 +23,8 @@
 
 import { HERO_SPECIFIC_TRINKETS } from '../data/hero_specific_trinkets';
 import { HERO_CLASSES } from '../data/heroes';
-import { MODDED_HERO_CLASSES } from '../data/modded_heroes';
+import { TRINKETS } from '../data/trinkets';
+import { getModdedHeroClasses, getModdedRosterVersion } from '../data/moddedRoster';
 import { nameKey } from './nameNormalizer';
 import { targetProfile, trinketProfile, profileMatch, sameTrinket } from './trinketProfile';
 
@@ -31,6 +32,9 @@ import { targetProfile, trinketProfile, profileMatch, sameTrinket } from './trin
 const MIN_MATCH = 0.15;
 
 let ownerCache = null;
+// The roster version it was built against: built before the modded roster
+// loaded, the cache would never lock a modded class trinket to its class.
+let ownerCacheVersion = -1;
 
 /**
  * trinket key -> the one class that may equip it, for class-locked trinkets.
@@ -39,16 +43,20 @@ let ownerCache = null;
  * scraped from workshop mods and several of them copy vanilla class trinkets
  * wholesale — the Carbineer claims the Crusader's Holy Orders. Treating that as
  * a contested name and giving up on the restriction let Holy Orders onto a
- * Vestal. So modded classes may only claim what vanilla has not.
+ * Vestal. So modded classes may only claim what vanilla has not, and that
+ * includes the general trinkets anyone may wear: the Chain Warden listing Seer
+ * Stone among its own took Seer Stone off every vanilla hero.
  */
 const trinketOwners = () => {
-  if (ownerCache) return ownerCache;
+  if (ownerCache && ownerCacheVersion === getModdedRosterVersion()) return ownerCache;
+  ownerCacheVersion = getModdedRosterVersion();
   ownerCache = new Map();
 
+  const generalKeys = new Set(TRINKETS.map(nameKey));
   const claim = (heroClass, list, authoritative) =>
     (list || []).forEach((name) => {
       const key = nameKey(name);
-      if (!authoritative && ownerCache.has(key)) return;
+      if (!authoritative && (ownerCache.has(key) || generalKeys.has(key))) return;
       // Two vanilla classes claiming one name is not a lock in any useful sense.
       if (ownerCache.has(key) && ownerCache.get(key) !== heroClass) ownerCache.set(key, null);
       else ownerCache.set(key, heroClass);
@@ -56,7 +64,7 @@ const trinketOwners = () => {
 
   Object.entries(HERO_SPECIFIC_TRINKETS).forEach(([c, list]) => claim(c, list, true));
   Object.entries(HERO_CLASSES).forEach(([c, data]) => claim(c, data.classSpecificTrinkets, true));
-  Object.entries(MODDED_HERO_CLASSES).forEach(([c, data]) =>
+  Object.entries(getModdedHeroClasses()).forEach(([c, data]) =>
     claim(c, data.classSpecificTrinkets, false)
   );
   return ownerCache;

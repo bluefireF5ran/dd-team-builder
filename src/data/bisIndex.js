@@ -41,7 +41,7 @@
  * porque sea Shieldbreaker.
  */
 import { HERO_CLASSES } from './heroes';
-import { MODDED_HERO_CLASSES } from './modded_heroes';
+import { getModdedHeroClasses, getModdedRosterVersion } from './moddedRoster';
 import { getRawComps } from './compIndex';
 import { getModelUsageStats } from './modelUsageIndex';
 import { getRecommendedTrinkets, getRecommendedQuirks } from './recommendations';
@@ -54,7 +54,16 @@ export const MIN_LIBRARY_SAMPLES = 4;
 
 const loadoutCache = new Map();
 
-const classData = (heroClass) => HERO_CLASSES[heroClass] || MODDED_HERO_CLASSES[heroClass];
+const classData = (heroClass) => HERO_CLASSES[heroClass] || getModdedHeroClasses()[heroClass];
+
+// Los barridos de abajo leen las clases, y uno hecho antes de que llegara el
+// roster modded no conoce las suyas: se tiran en cuanto cambia.
+let cachesVersion = getModdedRosterVersion();
+const syncWithRoster = () => {
+  if (cachesVersion === getModdedRosterVersion()) return;
+  cachesVersion = getModdedRosterVersion();
+  resetBisCaches();
+};
 
 // ---------------------------------------------------------------- la libreria
 
@@ -137,6 +146,7 @@ let homeCache = null;
 
 /** clase -> [desvio en r1..r4], ver `rankHomeMiss`. */
 const homeIndex = () => {
+  syncWithRoster();
   if (homeCache) return homeCache;
   homeCache = new Map();
   libraryIndex().forEach((byRank, heroClass) => {
@@ -426,6 +436,7 @@ const rankedFrom = (map, fallback = []) => {
  *            trinketOptions, quirks, source, samples, rankLegal}|null}
  */
 export const bisLoadout = (heroClass, rank) => {
+  syncWithRoster();
   const data = classData(heroClass);
   if (!data) return null;
 

@@ -3,12 +3,12 @@ import { Dice5, X, Check, Users, RotateCcw, Sparkles, Upload, FolderOpen, Packag
 import Modal from '../common/Modal';
 import ImageWithFallback from '../common/ImageWithFallback';
 import {
-  ALL_HERO_NAMES,
+  getAllHeroNames,
   VANILLA_HERO_NAMES,
-  MODDED_HERO_NAMES,
   getHeroDefinition,
   isVanillaHero
 } from '../../utils/rankerItems';
+import { useModdedRoster } from '../../hooks/useModdedRoster';
 import { getHeroImagePath } from '../../utils/imageHelper';
 import { ROSTER_STORAGE_KEY } from '../../config/rankerRoster';
 import { parseRosterFile } from '../../utils/rosterLoader';
@@ -113,7 +113,11 @@ const SuggestCompModal = ({
   );
   const strainedCount = useMemo(() => stressedHeroes.filter(isStrained).length, [stressedHeroes]);
 
-  const heroPool = useMemo(() => (showModdedHeroes ? ALL_HERO_NAMES : VANILLA_HERO_NAMES), [showModdedHeroes]);
+  // A getter, not a constant: the modded roster loads on demand. It keeps one
+  // array per roster version, so `heroPool` is stable between renders and
+  // changes once, when the roster lands.
+  useModdedRoster(showModdedHeroes);
+  const heroPool = showModdedHeroes ? getAllHeroNames() : VANILLA_HERO_NAMES;
 
   // Keeps repeats (that is the whole point) but drops names this app does not
   // know and caps a class at the party size — a fifth Jester can never matter.
@@ -140,7 +144,7 @@ const SuggestCompModal = ({
     // last edited here → the ranker's → all vanilla heroes.
     const stored = readJSON(SUGGEST_ROSTER_KEY, null);
     const rankerRoster = readJSON(ROSTER_STORAGE_KEY, null);
-    const fallback = showModdedHeroes ? [...VANILLA_HERO_NAMES, ...MODDED_HERO_NAMES] : VANILLA_HERO_NAMES;
+    const fallback = showModdedHeroes ? [...getAllHeroNames()] : VANILLA_HERO_NAMES;
 
     const initial = Array.isArray(initialRoster) && initialRoster.length
       ? initialRoster

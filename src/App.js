@@ -12,6 +12,8 @@ import Toast from './components/common/Toast';
 import KeyboardShortcuts from './components/common/KeyboardShortcuts';
 import { getAssetUrl } from './config/assets';
 import { compPayloadFromHash, decodeComp } from './utils/compLink';
+import { afterModdedRosterFor } from './data/moddedRoster';
+import { useModdedRoster } from './hooks/useModdedRoster';
 import ConfirmDialog from './components/common/ConfirmDialog';
 import { StatSettingsContext, statSettingsFrom } from './hooks/useStatSettings';
 
@@ -55,6 +57,9 @@ const App = () => {
   // saber en que mazmorra empieza una comp nueva.
   const { settings, setSetting, toggleSetting, resetSettings, cycleTheme } = useSettings();
   const { profile: saveProfile, importFiles: importSaveFiles, clearProfile: clearSaveProfile } = useSaveProfile();
+  // Turning modded heroes on fetches the roster straight away, so the pickers
+  // open with it instead of filling in a moment later.
+  useModdedRoster(settings.showModdedHeroes);
   // Dificultad y Hacienda para todas las estadisticas de la app (`useStatSettings`).
   const statSettings = useMemo(() => statSettingsFrom(settings, saveProfile), [settings, saveProfile]);
   const {
@@ -153,15 +158,19 @@ const App = () => {
    *    a la party por una puerta mas blanda que la del portapapeles.
    */
   const takeSharedComp = useCallback((comp) => {
-    try {
-      applyImportedTeam(comp);
-      showToast(
-        `Loaded "${comp.teamName || 'a shared comp'}" from a link. Ctrl+Z to undo.`,
-        'success'
-      );
-    } catch (error) {
-      showToast(error.message || 'That link is not a comp this build can read.', 'error');
-    }
+    // A modded class canonicalizes only against the modded roster, which loads
+    // on demand: a link naming one waits for it before touching the party.
+    afterModdedRosterFor(comp?.heroes, () => {
+      try {
+        applyImportedTeam(comp);
+        showToast(
+          `Loaded "${comp.teamName || 'a shared comp'}" from a link. Ctrl+Z to undo.`,
+          'success'
+        );
+      } catch (error) {
+        showToast(error.message || 'That link is not a comp this build can read.', 'error');
+      }
+    });
   }, [applyImportedTeam, showToast]);
 
   // Por ref y no por dependencia: el efecto de abajo debe leer la party SOLO

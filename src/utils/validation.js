@@ -1,5 +1,5 @@
 import { HERO_CLASSES } from '../data/heroes';
-import { MODDED_HERO_CLASSES } from '../data/modded_heroes';
+import { getModdedHeroClasses } from '../data/moddedRoster';
 import { HERO_CONFIG, PARTY_CONFIG } from '../constants';
 
 export const validateHero = (hero) => {
@@ -8,7 +8,7 @@ export const validateHero = (hero) => {
   const quirks = hero.quirks || { positive: [], negative: [] };
 
   // Check both vanilla and modded heroes for alwaysActive
-  const heroData = HERO_CLASSES[hero.heroClass] || MODDED_HERO_CLASSES[hero.heroClass];
+  const heroData = HERO_CLASSES[hero.heroClass] || getModdedHeroClasses()[hero.heroClass];
   const isAlwaysActive = heroData?.alwaysActive || false;
   const requiredSkills = isAlwaysActive ? (heroData.skills?.length || 7) : HERO_CONFIG.MAX_SKILLS;
 
@@ -59,7 +59,7 @@ export const validateHeroSchema = (hero) => {
   if (!Array.isArray(hero.activeSkills)) {
     errors.push('activeSkills must be an array');
   } else {
-    const heroData = HERO_CLASSES[hero.heroClass] || MODDED_HERO_CLASSES[hero.heroClass];
+    const heroData = HERO_CLASSES[hero.heroClass] || getModdedHeroClasses()[hero.heroClass];
     // An unrecognised class gets a loose ceiling rather than the four-skill
     // cap. We cannot know what a mod we do not carry allows, and rejecting the
     // comp for it would lose content the rest of the app is careful to keep -

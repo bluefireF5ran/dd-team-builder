@@ -26,9 +26,9 @@
 import { rankWarnings } from './rankValidity';
 import { skillProfile } from './skillProfile';
 import { HERO_CLASSES } from '../data/heroes';
-import { MODDED_HERO_CLASSES } from '../data/modded_heroes';
+import { getModdedHeroClasses, memoByModdedRoster } from '../data/moddedRoster';
 
-const classData = (heroClass) => HERO_CLASSES[heroClass] || MODDED_HERO_CLASSES[heroClass];
+const classData = (heroClass) => HERO_CLASSES[heroClass] || getModdedHeroClasses()[heroClass];
 
 /**
  * Las skills por las que se juzga a un heroe: las que lleva, o el kit entero
@@ -40,7 +40,9 @@ const judgedSkills = (hero) => {
   return { skills: classData(hero.heroClass)?.skills || [], assumed: true };
 };
 
-const tagsCache = new Map();
+// Por version del roster modded: sin el, una clase modded no tiene kit que
+// asumir, y esa respuesta no puede sobrevivir a que llegue.
+const tagsCache = memoByModdedRoster(() => new Map());
 
 /**
  * Lo que sabe hacer un heroe, por etiqueta.
@@ -59,7 +61,7 @@ const tagsOf = (hero) => {
   const camp = (hero.activeCampSkills || []).filter(Boolean);
   const { skills, assumed } = judgedSkills(hero);
   const key = `${hero.heroClass}\u0000${skills.join(',')}\u0000${camp.join(',')}`;
-  const cached = tagsCache.get(key);
+  const cached = tagsCache().get(key);
   if (cached) return cached;
 
   const tags = new Set();
@@ -73,7 +75,7 @@ const tagsOf = (hero) => {
   });
 
   const result = { tags, assumed };
-  tagsCache.set(key, result);
+  tagsCache().set(key, result);
   return result;
 };
 

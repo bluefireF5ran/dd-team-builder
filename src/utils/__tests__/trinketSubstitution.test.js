@@ -22,6 +22,19 @@ describe('canEquip', () => {
   });
 });
 
+describe('canEquip with the modded roster loaded', () => {
+  // Three workshop classes list a general trinket among their own. A general
+  // trinket is anyone's, so none of them may lock it away from vanilla heroes.
+  it.each([
+    ['Blight Stone', 'Temple Assassin'],
+    ['Seer Stone', 'Chain Warden'],
+    ['Crystal Pendant', 'Snake Charmer']
+  ])('lets a vanilla hero wear %s even though %s lists it', (trinket, moddedClass) => {
+    expect(canEquip(trinket, 'Jester')).toBe(true);
+    expect(canEquip(trinket, moddedClass)).toBe(true);
+  });
+});
+
 describe('substituteTrinkets', () => {
   it('keeps a trinket the comp asked for when you own it', () => {
     const party = [hero('Vestal', 'Sun Ring', 'Sun Cloak')];

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { HERO_CLASSES } from '../../data/heroes';
-import { MODDED_HERO_CLASSES } from '../../data/modded_heroes';
+import { getModdedHeroClasses } from '../../data/moddedRoster';
+import { useModdedRoster } from '../../hooks/useModdedRoster';
 import { TRINKETS } from '../../data/trinkets';
 import { BACKER_TRINKETS } from '../../data/backer_trinkets';
 import { getHeroImagePath, getSkillImagePath, getCampSkillImagePath, getTrinketImagePath } from '../../utils/imageHelper';
@@ -24,12 +25,12 @@ const buildAllImages = () => {
     });
   });
 
-  Object.keys(MODDED_HERO_CLASSES).forEach(heroClass => {
+  Object.keys(getModdedHeroClasses()).forEach(heroClass => {
     images.push({ type: 'hero', name: `[MOD] ${heroClass}`, url: getHeroImagePath(heroClass) });
-    MODDED_HERO_CLASSES[heroClass].skills?.forEach(skill => {
+    getModdedHeroClasses()[heroClass].skills?.forEach(skill => {
       images.push({ type: 'skill', name: `[MOD] ${heroClass} - ${skill}`, url: getSkillImagePath(skill, heroClass) });
     });
-    MODDED_HERO_CLASSES[heroClass].campSkills?.forEach(skill => {
+    getModdedHeroClasses()[heroClass].campSkills?.forEach(skill => {
       images.push({ type: 'camp', name: `[MOD] ${heroClass} - ${skill}`, url: getCampSkillImagePath(skill, heroClass) });
     });
   });
@@ -45,7 +46,7 @@ const buildAllImages = () => {
   return images;
 };
 
-const ImageTester = ({ onClose }) => {
+const ImageTesterBody = ({ onClose }) => {
   // Not the shared Modal: this is a full-screen scrolling overlay rather than a
   // centred panel, so it only wants the key handling.
   useEffect(() => {
@@ -227,6 +228,20 @@ const ImageTester = ({ onClose }) => {
       </div>
     </div>
   );
+};
+
+// The test covers the modded roster too, which loads on demand: the body builds
+// its image list once, so it waits until the roster is there.
+const ImageTester = (props) => {
+  const { loaded } = useModdedRoster(true);
+  if (!loaded) {
+    return (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900/95 text-dd-gold">
+        Loading the modded roster...
+      </div>
+    );
+  }
+  return <ImageTesterBody {...props} />;
 };
 
 export default ImageTester;

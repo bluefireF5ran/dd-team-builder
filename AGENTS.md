@@ -74,7 +74,8 @@ Constants like `MAX_SKILLS: 4`, `MAX_TRINKETS: 2`, `MAX_HEROES: 4`, `MAX_DISEASE
 
 ### Data files (`src/data/`)
 - `heroes.js` — Vanilla hero definitions with skills and camp skills
-- `modded_heroes.js` — Modded hero classes, general trinkets, and workshop IDs
+- `modded_heroes.js` — Modded hero classes, general trinkets, and workshop IDs. Loaded on demand
+  through `moddedRoster.js` and never imported directly (see **The modded roster loads on demand**)
 - `trinkets.js` — Full trinket database
 - `hero_specific_trinkets.js` — Class-to-trinket mappings
 - `backer_trinkets.js` — Backer-specific trinkets
@@ -154,7 +155,7 @@ width. A new breakpoint goes in `@theme` as `--breakpoint-*`.
 
 ## Key patterns
 
-- **Modded content**: Toggled via `showModdedHeroes` state. Modded heroes have a `modId` linking to their Steam Workshop ID and may reference `vanillaCampSkills` for skills that use vanilla art assets.
+- **Modded content**: Toggled via `showModdedHeroes` state. Modded heroes have a `modId` linking to their Steam Workshop ID and may reference `vanillaCampSkills` for skills that use vanilla art assets. The roster itself is a separate chunk fetched on demand: read it through `src/data/moddedRoster.js`, never by importing `modded_heroes.js`.
 - **Backer trinkets**: Toggled separately via `showBackerTrinkets`. Checked via `BACKER_TRINKETS` array for image path routing.
 - **Drag & drop**: PartyComposition uses HTML5 drag-and-drop to swap hero positions via `swapHeroes` callback.
 - **Persistence**: localStorage auto-save + optional JSON file download. `src/utils/storageHelper.js` handles all serialization.
@@ -798,6 +799,58 @@ node scripts/exportModdedAssets.js --workshop … --game … --out "<assets>/ima
 `--game` is optional but wanted: it is what resolves the vanilla ids a mod reuses without
 redefining (`encourage`, `first_aid`) and what lets a rebalance mod borrow the base game's art.
 
+### The modded roster loads on demand (`src/data/moddedRoster.js`)
+
+The file is ~122 kB gzipped and `showModdedHeroes` is off by default, so most visitors never see a
+modded class. Since 2026-09-14 it is its own webpack chunk: `main.js` went from ~420 kB to ~300 kB
+gzip, and a default visit never fetches the roster.
+
+**Nothing in the app imports `modded_heroes.js`.** Everything reads it through the registry
+(`getModdedHeroClasses`, `getModdedGeneralTrinkets`, `getModdedGeneralTrinketMods`), which hands
+back empty data until `loadModdedRoster()` has fetched the chunk. It fetches once, concurrent
+callers share the promise, and a failed fetch can be retried. One static import anywhere puts the
+whole file back into `main.js`, and `src/data/__tests__/moddedRoster.test.js` fails if any app
+module has one. Tests may import it: `setupTests.js` installs the roster for every suite so they
+read modded classes as before, and the registry suite resets it to test the app unloaded.
+
+**Nothing may be derived from it at import.** An index built at import freezes the empty roster.
+`memoByModdedRoster(build)` rebuilds on first use after the roster changes; the name indexes in
+`nameNormalizer` and `saveParser`, the trinket Set in `imageHelper`, the comp index entries and
+`getModdedHeroNames` / `getAllHeroNames` in `rankerItems` (functions now, not constants) use it.
+`bisIndex`, `trinketSubstitution` and `generalistIndex` compare `getModdedRosterVersion()` instead.
+React reads it with `useModdedRoster(wanted)`, which re-renders when the roster lands and returns
+the registry's own objects, so a memo can depend on exactly what it reads.
+
+**The rule that keeps it correct: a modded hero never enters app state before the roster is
+there.** Components memoize what they derive from a party (synergy, validation), and a memo built
+without the roster would stay wrong until the party changed. So:
+
+- `index.js` holds the first render when the settings have modded heroes on, the draft party names
+  a class vanilla does not have (`heroesNeedModdedRoster`, which forgives `leper` and
+  `Man-at-Arms`), or the URL is a shared link that does. If the fetch fails the builder renders
+  anyway, with the names as written, which is what it does with any mod it does not carry.
+- **The ranker always waits**, and says so rather than mounting without it: `useRanker` prunes
+  class names it does not know from the stored ranker roster and saves the pruned list.
+- Every way a comp gets in after boot waits for it. `afterModdedRosterFor(heroes, task)` runs the
+  task synchronously for a vanilla party, so loading one is exactly as immediate as before, and
+  after the fetch otherwise: shared links, the team paste, saved teams, library presets. File
+  restore and backup import `await ensureModdedRosterFor`. A pasted hero and an imported save parse
+  once, and parse again after the fetch if they named a class vanilla does not know.
+- Views that draw modded data ask for it when they open: the hero selector and trinket picker with
+  the switch on, a party or hero card showing a modded class, the comp library (it carries 14 Sibyl
+  comps), the save import modal when the save holds modded heroes, and the image tester.
+
+**How it was checked.** A throwaway oracle recorded twenty sweeps that touch the roster before the
+change and after it: comp library, index, facets and names, usage stats, recommendations,
+best-in-slot, synergy, party scores, generated comps, trinket locks and substitution, validation,
+canonicalization, image paths, ranker pools, save profiles and random teams. With the roster loaded
+all twenty were identical. Without it, every difference was about a modded class except one, which
+turned out to be a bug in the loaded app: three workshop classes locked a **general** trinket away
+from every vanilla hero (Temple Assassin lists Blight Stone, Chain Warden Seer Stone, Snake Charmer
+Crystal Pendant), so re-equipping from a save never offered them. `trinketSubstitution` now lets a
+modded class claim only what vanilla has not, general trinkets included, pinned in
+`trinketSubstitution.test.js`.
+
 ### What the old pipeline got wrong
 
 The file was previously produced by `scraper/dd_mod_scraper.py` in the assets repo, which listed a
@@ -1165,10 +1218,10 @@ nobody can act on.
 combat skills, 157 camp skills, 331 class trinkets.** The other 606 classes report as
 `mod no instalado`. Install more, re-run, get more.
 
-**Watch the bundle.** The generated file costs ~33 kB gzip for 38 classes and rides in `main.js`
-(which is 397 kB now). Covering all 644 would be several hundred kB — on top of the 131 kB
-`modded_heroes.js` already spends there — so the day this gets broad, it and the roster want the
-lazy treatment `compIndex` and `recommendations` already have.
+**Watch the bundle.** The generated file costs ~34 kB gzip for 38 classes and still rides in
+`main.js` (~300 kB since the roster left it). Covering all 644 would be several hundred kB, so the
+day this gets broad it wants what the roster got: its own chunk behind a registry (**The modded
+roster loads on demand**).
 
 ## What a hero IS (`src/data/heroStats.js`)
 

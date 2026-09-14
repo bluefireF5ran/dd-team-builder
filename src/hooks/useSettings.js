@@ -71,6 +71,9 @@ const read = () => {
   }
 };
 
+/** The stored settings merged over the defaults, readable before React renders. */
+export const readSettings = read;
+
 export const useSettings = () => {
   const [settings, setSettings] = useState(read);
 

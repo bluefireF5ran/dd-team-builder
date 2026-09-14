@@ -1,5 +1,6 @@
 import { validateTeamSchema } from './validation';
 import { canonicalizeTeam } from './nameNormalizer';
+import { ensureModdedRosterFor } from '../data/moddedRoster';
 import { downloadJSON } from './download';
 
 const STORAGE_KEY = 'dd_team_builder_teams';
@@ -39,12 +40,15 @@ export const loadTeamFromFile = (file) => {
     }
 
     const reader = new FileReader();
-    reader.onload = (event) => {
+    reader.onload = async (event) => {
       try {
+        const data = JSON.parse(event.target.result);
         // Canonicalizar antes de validar: los alias (p. ej. la clase 'sibyl_ms'
         // del mod -> 'Sibyl') deben resolverse para que los límites del esquema
-        // se comprueben con los datos que la app reconoce.
-        const team = canonicalizeTeam(JSON.parse(event.target.result));
+        // se comprueben con los datos que la app reconoce. Esos alias viven en
+        // el roster modded, que se carga bajo demanda: primero se espera a el.
+        await ensureModdedRosterFor(data?.heroes).catch(() => {});
+        const team = canonicalizeTeam(data);
         const { valid, errors } = validateTeamSchema(team);
         if (!valid) {
           reject(new Error('Invalid team file: ' + errors.join(', ')));
@@ -194,7 +198,7 @@ export const importTeamsFromFile = (file) => {
       return;
     }
     const reader = new FileReader();
-    reader.onload = (event) => {
+    reader.onload = async (event) => {
       try {
         const data = JSON.parse(event.target.result);
         // Support both single team and multi-team formats
@@ -207,6 +211,10 @@ export const importTeamsFromFile = (file) => {
           // Single team file
           teams = [data];
         }
+        // Modded classes canonicalize against the modded roster, which loads on demand.
+        await ensureModdedRosterFor(
+          teams.flatMap((team) => (Array.isArray(team?.heroes) ? team.heroes : []))
+        ).catch(() => {});
         // Validate each team
         const validTeams = [];
         const errors = [];

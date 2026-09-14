@@ -48,7 +48,7 @@
  */
 import { PARTY_CONFIG } from '../constants';
 import { HERO_CLASSES } from '../data/heroes';
-import { MODDED_HERO_CLASSES } from '../data/modded_heroes';
+import { getModdedHeroClasses } from '../data/moddedRoster';
 import { bisLoadout, rankHomeMiss } from '../data/bisIndex';
 import { classProfile, skillProfile } from './skillProfile';
 import { partyCoverage } from './synergyHelper';
@@ -105,7 +105,7 @@ const CANDIDATES_PER_RANK = 24;
  */
 const FALLBACK_LOCATION = 'The Ruins';
 
-const classData = (heroClass) => HERO_CLASSES[heroClass] || MODDED_HERO_CLASSES[heroClass];
+const classData = (heroClass) => HERO_CLASSES[heroClass] || getModdedHeroClasses()[heroClass];
 
 /**
  * Cuanto le pega esta clase a este rango, de 0 a 1: que parte de su kit puede

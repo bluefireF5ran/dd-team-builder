@@ -6,6 +6,7 @@ import { toRosterCounts, missingForComp, rosterFromHeroes } from '../../utils/ro
 import CompFilters from './CompFilters';
 import ConfirmDialog from '../common/ConfirmDialog';
 import { getCompEntries } from '../../data/compIndex';
+import { useModdedRoster } from '../../hooks/useModdedRoster';
 import {
   SORT_OPTIONS,
   buildCompEntry,
@@ -58,7 +59,15 @@ const LoadCompModal = ({
 
   // El indice de la libreria se construye la primera vez que se abre el modal,
   // no al arrancar la app: quien nunca abre la libreria no lo paga.
-  const libraryEntries = useMemo(() => (isOpen ? getCompEntries() : []), [isOpen]);
+  // The library carries modded comps (Sibyl): their cards need the modded
+  // roster, so opening the modal asks for it and re-renders when it lands.
+  const { heroClasses: moddedHeroClasses } = useModdedRoster(isOpen);
+  // `getCompEntries` rebuilds per roster version; reading the roster here is
+  // what re-runs this memo when it arrives.
+  const libraryEntries = useMemo(
+    () => (isOpen && moddedHeroClasses ? getCompEntries() : []),
+    [isOpen, moddedHeroClasses]
+  );
   const savedEntries = useMemo(
     () => (isOpen ? savedTeams.map((t) => buildCompEntry(normalizeSavedTeam(t))) : []),
     [isOpen, savedTeams]

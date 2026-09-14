@@ -31,7 +31,7 @@
 import { parseDson, isDsonBuffer } from './dson';
 import { nameKey } from './nameNormalizer';
 import { HERO_CLASSES } from '../data/heroes';
-import { MODDED_HERO_CLASSES, MODDED_GENERAL_TRINKETS } from '../data/modded_heroes';
+import { getModdedHeroClasses, getModdedGeneralTrinkets, memoByModdedRoster } from '../data/moddedRoster';
 import { TRINKETS } from '../data/trinkets';
 import { BACKER_TRINKETS } from '../data/backer_trinkets';
 import { POSITIVE_QUIRKS, NEGATIVE_QUIRKS } from '../data/quirks';
@@ -102,7 +102,11 @@ const lookupWithRenames = (index, id, renames) => {
   return renamed && index.has(nameKey(renamed)) ? renamed : null;
 };
 
-const HERO_CLASS_INDEX = buildIndex(Object.keys(HERO_CLASSES), Object.keys(MODDED_HERO_CLASSES));
+// Rebuilt once the modded roster arrives: an index built at import would keep
+// the empty roster forever (`memoByModdedRoster`).
+const heroClassIndex = memoByModdedRoster(() =>
+  buildIndex(Object.keys(HERO_CLASSES), Object.keys(getModdedHeroClasses()))
+);
 
 const QUIRK_KINDS = [
   ['positive', POSITIVE_QUIRKS],
@@ -114,25 +118,27 @@ const QUIRK_KINDS = [
 // lists a quirk id belongs to — the name is what decides.
 const QUIRK_INDEXES = QUIRK_KINDS.map(([kind, list]) => [kind, buildIndex(list)]);
 
-const TRINKET_INDEX = buildIndex(
-  TRINKETS,
-  ...Object.values(HERO_CLASSES).map((data) => data.classSpecificTrinkets),
-  ...Object.values(MODDED_HERO_CLASSES).map((data) => data.classSpecificTrinkets),
-  MODDED_GENERAL_TRINKETS,
-  BACKER_TRINKETS
+const trinketIndex = memoByModdedRoster(() =>
+  buildIndex(
+    TRINKETS,
+    ...Object.values(HERO_CLASSES).map((data) => data.classSpecificTrinkets),
+    ...Object.values(getModdedHeroClasses()).map((data) => data.classSpecificTrinkets),
+    getModdedGeneralTrinkets(),
+    BACKER_TRINKETS
+  )
 );
 
-const classIndexCache = new Map();
+const classIndexCache = memoByModdedRoster(() => new Map());
 
 const getClassIndexes = (heroClass) => {
-  if (classIndexCache.has(heroClass)) return classIndexCache.get(heroClass);
-  const data = HERO_CLASSES[heroClass] || MODDED_HERO_CLASSES[heroClass];
+  if (classIndexCache().has(heroClass)) return classIndexCache().get(heroClass);
+  const data = HERO_CLASSES[heroClass] || getModdedHeroClasses()[heroClass];
   const indexes = {
     skills: buildIndex(data?.skills),
     campSkills: buildIndex(data?.campSkills, COMMON_VANILLA_CAMP_SKILLS),
     trinkets: buildIndex(data?.classSpecificTrinkets)
   };
-  classIndexCache.set(heroClass, indexes);
+  classIndexCache().set(heroClass, indexes);
   return indexes;
 };
 
@@ -179,7 +185,7 @@ const readHero = (guid, entry, unmatched) => {
   if (!data || typeof data !== 'object') return null;
 
   const classId = typeof data.heroClass === 'string' ? data.heroClass : '';
-  const heroClass = lookup(HERO_CLASS_INDEX, classId);
+  const heroClass = lookup(heroClassIndex(), classId);
   if (!heroClass) {
     if (classId) unmatched.heroClasses.push(classId);
     return null;
@@ -233,15 +239,15 @@ const readHero = (guid, entry, unmatched) => {
   });
 
   const equipped = readItemIds(data.trinkets).map((id) => {
-    const name = lookup(indexes.trinkets, id) || lookup(TRINKET_INDEX, id) || TRINKET_ID_RENAMES[id]
-      || lookup(indexes.trinkets, TRINKET_NAMES[id]) || lookup(TRINKET_INDEX, TRINKET_NAMES[id]);
+    const name = lookup(indexes.trinkets, id) || lookup(trinketIndex(), id) || TRINKET_ID_RENAMES[id]
+      || lookup(indexes.trinkets, TRINKET_NAMES[id]) || lookup(trinketIndex(), TRINKET_NAMES[id]);
     if (!name) unmatched.trinkets.push(id);
     return name || null;
   }).filter(Boolean);
 
-  const isAlwaysActive = !!(HERO_CLASSES[heroClass] || MODDED_HERO_CLASSES[heroClass])?.alwaysActive;
+  const isAlwaysActive = !!(HERO_CLASSES[heroClass] || getModdedHeroClasses()[heroClass])?.alwaysActive;
   const maxSkills = isAlwaysActive
-    ? (HERO_CLASSES[heroClass] || MODDED_HERO_CLASSES[heroClass])?.skills?.length || HERO_CONFIG.MAX_SKILLS
+    ? (HERO_CLASSES[heroClass] || getModdedHeroClasses()[heroClass])?.skills?.length || HERO_CONFIG.MAX_SKILLS
     : HERO_CONFIG.MAX_SKILLS;
 
   return {
@@ -373,7 +379,7 @@ export const buildProfile = ({ roster, estate = null, game = null, log = null, t
     .map(({ hero }) => ({ guid: hero.guid, name: hero.name, heroClass: hero.heroClass }));
 
   const inventory = readItemIds(estate?.trinkets).map((id) => {
-    const name = lookup(TRINKET_INDEX, id) || TRINKET_ID_RENAMES[id] || lookup(TRINKET_INDEX, TRINKET_NAMES[id]);
+    const name = lookup(trinketIndex(), id) || TRINKET_ID_RENAMES[id] || lookup(trinketIndex(), TRINKET_NAMES[id]);
     if (!name) unmatched.trinkets.push(id);
     return name || null;
   }).filter(Boolean);

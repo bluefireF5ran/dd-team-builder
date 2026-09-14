@@ -2,9 +2,9 @@ import React, { useMemo, useState } from 'react';
 import { Search, X, RotateCcw, ClipboardCopy, Plus, Check } from 'lucide-react';
 import ImageWithFallback from '../common/ImageWithFallback';
 import {
-  ALL_HERO_NAMES,
+  getAllHeroNames,
   VANILLA_HERO_NAMES,
-  MODDED_HERO_NAMES,
+  getModdedHeroNames,
   getHeroDefinition,
   isVanillaHero
 } from '../../utils/rankerItems';
@@ -36,14 +36,14 @@ const RosterManager = ({ activeHeroes, onToggleHero, onSetRoster, onReset, onNot
   const activeSet = useMemo(() => new Set(activeHeroes), [activeHeroes]);
 
   const suggestions = useMemo(() => {
-    const pool = showModded ? ALL_HERO_NAMES : VANILLA_HERO_NAMES;
+    const pool = showModded ? getAllHeroNames() : VANILLA_HERO_NAMES;
     const q = query.trim().toLowerCase();
     const matches = q ? pool.filter((name) => name.toLowerCase().includes(q)) : pool;
     return matches.slice(0, MAX_SUGGESTIONS);
   }, [query, showModded]);
 
   const totalMatches = useMemo(() => {
-    const pool = showModded ? ALL_HERO_NAMES : VANILLA_HERO_NAMES;
+    const pool = showModded ? getAllHeroNames() : VANILLA_HERO_NAMES;
     const q = query.trim().toLowerCase();
     return q ? pool.filter((name) => name.toLowerCase().includes(q)).length : pool.length;
   }, [query, showModded]);
@@ -144,7 +144,7 @@ const RosterManager = ({ activeHeroes, onToggleHero, onSetRoster, onReset, onNot
               onChange={(e) => setShowModded(e.target.checked)}
               className="accent-[color:var(--dd-gold)]"
             />
-            Include modded ({MODDED_HERO_NAMES.length})
+            Include modded ({getModdedHeroNames().length})
           </label>
         </div>
 
