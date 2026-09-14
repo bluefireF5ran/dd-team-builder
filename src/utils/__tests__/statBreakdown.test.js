@@ -113,12 +113,17 @@ describe('the estate', () => {
   });
 
   it('gives a modded class the district its own mod files tag it with', () => {
-    // The table names no modded class, but the mod does: the same
-    // `tag: .id "training_ring"` the Arbalest carries, kept as `district` by
-    // `importModdedHeroes`. Installed here on a class that has stats, so the
-    // test does not depend on which mods are on this machine.
-    const CLASS = 'Hedge Knight';
+    // The table names no modded class, but the mod does, with the same
+    // `tag: .id` line the Arbalest carries. The roster carries it for the mods
+    // installed here: Hedge Knight trains at the Training Ring like she does.
+    expect(moddedHeroes.MODDED_HERO_CLASSES['Hedge Knight'].district).toBe('training_ring');
+    expect(partOf(statBreakdown({ heroClass: 'Hedge Knight' }).stats.hp, 'estate')).toBeGreaterThan(0);
+
+    // And the plumbing, on a class that tags no district, so the test does not
+    // turn on which mods are on this machine.
+    const CLASS = 'Sibyl';
     const real = moddedHeroes.MODDED_HERO_CLASSES[CLASS];
+    expect(real.district).toBeUndefined();
     const before = statBreakdown({ heroClass: CLASS }).stats.hp.total;
     installModdedRoster(
       {

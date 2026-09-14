@@ -31,6 +31,9 @@
  *   node scripts/importModdedHeroes.js --workshop … --game "<install>"   (resolve vanilla ids)
  *   node scripts/importModdedHeroes.js … --check                         (report, write nothing)
  *   node scripts/importModdedHeroes.js … --prune                         (drop what cannot be shown)
+ *
+ * A class whose mod was re-uploaded under a new id is pinned to the installed
+ * one in `lib/modPins.js`; see there for why that is not guesswork.
  *   node scripts/importModdedHeroes.js … --report scripts/importModdedHeroes.report.json
  *
  * Both paths can also come from DD_WORKSHOP_DIR / DD_GAME_DIR.
@@ -43,14 +46,16 @@ const { isLatinName, translationFor } = require('./lib/heroNames');
 const { makeBuilder } = require('./lib/moddedEntry');
 const { pairAppNames } = require('./lib/scraperReplay');
 const HERO_PINS = require('./lib/heroPins');
+const MOD_PINS = require('./lib/modPins');
 const { loadGameContext } = require('./lib/gameContext');
 const { ROOT, loadDataModule } = require('./lib/appData');
 
 const OUT = path.join(ROOT, 'src/data/modded_heroes.js');
-// The id -> name mapping this run settled on, so the asset exporter can file
+// The id -> name mapping settled for each class, so the asset exporter can file
 // each picture under the name the app will ask for without re-deriving it.
 // Re-deriving is not idempotent: the names in the file feed the next run, and a
 // class whose repeated names were deduped no longer replays to the same count.
+// Merged across runs, because a run can only settle the mods it has on disk.
 const MANIFEST = path.join(ROOT, 'scripts/importModdedHeroes.manifest.json');
 
 const argv = process.argv.slice(2);
@@ -164,12 +169,18 @@ const manifest = {};
 const claimed = new Set();
 
 for (const [className, def] of Object.entries(APP_CLASSES)) {
-  const mod = mods.get(String(def.modId));
+  // A pin re-points a class at the upload that is installed; without one the
+  // class's own `modId` is the answer, as it is for all but a handful.
+  const modId = MOD_PINS[className] || def.modId;
+  const mod = mods.get(String(modId));
   const hero = pickHero(mod, className, def);
-  if (!mod) { out[className] = def; report.noMod.push({ className, modId: def.modId }); continue; }
+  if (!mod) { out[className] = def; report.noMod.push({ className, modId }); continue; }
   if (!hero) { out[className] = def; report.noHero.push({ className, modId: def.modId, heroes: mod.heroes.map((h) => h.id) }); continue; }
 
-  claimed.add(def.modId + '/' + hero.id);
+  // By the mod the hero was read from, which is what the new-class pass checks
+  // against. A pinned class claims its installed upload, so that upload is no
+  // longer a class nobody carries.
+  claimed.add(mod.modId + '/' + hero.id);
   const built = buildEntry(className, def, mod, hero);
   const { entry, invented, paired, orphaned, dropped } = built;
   out[className] = entry;
@@ -394,6 +405,14 @@ for (const d of Object.values(out)) {
   for (const t of d.classSpecificTrinkets || []) takenTrinketNames.add(nameKey(t));
 }
 
+// What earlier runs settled, on machines with other mods installed. Both the
+// general trinket list and the manifest are merged against it rather than
+// replaced: a run sees only the mods on this disk, and on any one machine that
+// is a fraction of what the app carries.
+const priorManifest = fs.existsSync(MANIFEST)
+  ? JSON.parse(fs.readFileSync(MANIFEST, 'utf8'))
+  : {};
+
 const generalTrinkets = new Map();
 for (const mod of mods.values()) {
   for (const id of mod.generalTrinkets) {
@@ -406,9 +425,35 @@ for (const mod of mods.values()) {
     generalTrinkets.set(key, { name, modId: mod.modId, id });
   }
 }
+// A trinket the app carries whose mod is not on this disk is kept, exactly as
+// its class would be: nothing here can verify it, and dropping it would delete
+// it from the app. One whose mod IS installed and no longer ships it goes,
+// because that is the mod's own answer.
+const priorGeneralPairs = new Map(
+  (priorManifest.__generalTrinkets || []).map(([modId, id, name]) => [nameKey(name), { modId, id, name }])
+);
+for (const name of app.MODDED_GENERAL_TRINKETS || []) {
+  const key = nameKey(name);
+  if (generalTrinkets.has(key)) continue;
+  // The shadow rule applies to a carried name too. Pinning the Ringmaster and
+  // the Aesthete to their installed uploads gave them an "Arena Helmet" and a
+  // "Black Market Delicacies" of their own, and a general trinket of that name
+  // would take the class trinket's picture.
+  if (takenTrinketNames.has(key)) {
+    report.generalSkipped.push({ modId: null, id: null, name, why: 'a class trinket now carries this name' });
+    continue;
+  }
+  const known = priorGeneralPairs.get(key);
+  const modId = String((app.MODDED_GENERAL_TRINKET_MODS || {})[name] || (known && known.modId) || '');
+  if (mods.has(modId)) { report.generalSkipped.push({ modId, id: known && known.id, name, why: 'its mod no longer ships it' }); continue; }
+  generalTrinkets.set(key, { name, modId, id: known ? known.id : null });
+}
+
 const generalSorted = [...generalTrinkets.values()]
   .sort((a, b) => a.name.localeCompare(b.name, 'en'));
-manifest.__generalTrinkets = generalSorted.map((g) => [g.modId, g.id, g.name]);
+// Only the ones with an id: the pair exists so `exportModdedAssets` can find the
+// picture, and a carried trinket whose id no run ever settled has none to find.
+manifest.__generalTrinkets = generalSorted.filter((g) => g.id).map((g) => [g.modId, g.id, g.name]);
 
 // =================================================================== emitting
 const q = (s) => "'" + String(s).replace(/\\/g, '\\\\').replace(/'/g, "\\'") + "'";
@@ -430,6 +475,7 @@ function render(classes) {
       `    vanillaCampSkills: ${arr(d.vanillaCampSkills || [], 4)},`,
       d.alwaysActive ? '    alwaysActive: true,' : null,
       d.stances && d.stances.length ? `    stances: ${arr(d.stances, 4)},` : null,
+      d.district ? `    district: ${q(d.district)},` : null,
       `    image: ${q(d.image)},`,
       `    classSpecificTrinkets: ${arr(d.classSpecificTrinkets || [], 4)},`,
     ].filter(Boolean);
@@ -446,8 +492,11 @@ function render(classes) {
  * not a guess: those classes fight with the whole kit instead of four chosen
  * skills, which is why several of them carry more than seven. \`stances\` lists
  * the \`mode:\` ids such a class switches between, and is why the kit is that
- * size. \`heroId\` is the mod's internal id for the class - the link back to the
- * workshop folder, and what \`scripts/exportModdedAssets.js\` names images from.
+ * size. \`district\` is the estate district the class tags itself with, the
+ * same \`tag: .id\` line the vanilla heroes carry, and says what the town
+ * already gives it. \`heroId\` is the mod's internal id for the class -
+ * the link back to the workshop folder, and what
+ * \`scripts/exportModdedAssets.js\` names images from.
  *
  * Rerun with:
  *   node scripts/importModdedHeroes.js --workshop "<…/workshop/content/262060>" --game "<install>"
@@ -496,9 +545,22 @@ report.counts = {
 };
 
 const text = render(out);
+
+// The manifest is merged, not replaced, against the prior copy read above: a
+// run settles only the classes whose mods are installed, and writing its
+// answers alone would throw away what a machine with more mods worked out.
+// A class that is gone from the data file goes from here too.
+const mergedManifest = {};
+for (const className of Object.keys(out)) {
+  const settled = manifest[className] || priorManifest[className];
+  if (settled) mergedManifest[className] = settled;
+}
+// Last, as it always was, so the classes read in the data file's own order.
+mergedManifest.__generalTrinkets = manifest.__generalTrinkets;
+
 if (!CHECK) {
   fs.writeFileSync(OUT, text, 'utf8');
-  fs.writeFileSync(MANIFEST, JSON.stringify(manifest, null, 1), 'utf8');
+  fs.writeFileSync(MANIFEST, JSON.stringify(mergedManifest, null, 1), 'utf8');
 }
 if (REPORT) fs.writeFileSync(path.resolve(REPORT), JSON.stringify(report, null, 1), 'utf8');
 

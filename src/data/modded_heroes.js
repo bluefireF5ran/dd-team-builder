@@ -8,8 +8,11 @@
  * not a guess: those classes fight with the whole kit instead of four chosen
  * skills, which is why several of them carry more than seven. `stances` lists
  * the `mode:` ids such a class switches between, and is why the kit is that
- * size. `heroId` is the mod's internal id for the class - the link back to the
- * workshop folder, and what `scripts/exportModdedAssets.js` names images from.
+ * size. `district` is the estate district the class tags itself with, the
+ * same `tag: .id` line the vanilla heroes carry, and says what the town
+ * already gives it. `heroId` is the mod's internal id for the class -
+ * the link back to the workshop folder, and what
+ * `scripts/exportModdedAssets.js` names images from.
  *
  * Rerun with:
  *   node scripts/importModdedHeroes.js --workshop "<…/workshop/content/262060>" --game "<install>"
@@ -262,7 +265,7 @@ export const MODDED_HERO_CLASSES = {
     ],
   },
   'Aesthete': {
-    modId: '3440294120',
+    modId: '3409701879',
     heroId: 'aesthete',
     skills: [
       'Ellight',
@@ -275,34 +278,30 @@ export const MODDED_HERO_CLASSES = {
     ],
     campSkills: [
       'Encourage',
-      'Hobby',
+      'Wound Care',
       'Pep Talk',
       'Banquet for the Eyes',
       'Ashera\'s Blessing',
       'Admirable Poise',
-      'Loving Protection',
-      'Additional Information'
+      'Loving Protection'
     ],
     vanillaCampSkills: [
       'Encourage',
-      'Hobby',
+      'Wound Care',
       'Pep Talk'
     ],
-    stances: [
-      'Aes Fakemode',
-      'Aes Bold Mode',
-      'Token Trinketjes'
-    ],
+    district: 'altar_of_light',
     image: 'aesthete.png',
     classSpecificTrinkets: [
-      'Bestial Shackles',
       'Broken Vase',
+      'Bestial Shackles',
       'Senator\'s Sigil',
-      'Rexaura Tome',
       'Bold and Brash',
-      'Tome of Favors',
+      'Rexaura Tome',
+      'Black Market Delicacies',
+      'Crystalline Likeness',
       'Heron Feather',
-      'Unrefined Refinement'
+      'Tome of Favors'
     ],
   },
   'Ailuoli': {
@@ -1053,6 +1052,7 @@ export const MODDED_HERO_CLASSES = {
       'Eagle Base',
       'Eagle Fake'
     ],
+    district: 'house_of_the_yellow_hand',
     image: 'eagle.png',
     classSpecificTrinkets: [
       'Full Metal Jacket',
@@ -2515,7 +2515,7 @@ export const MODDED_HERO_CLASSES = {
     ],
   },
   'Bogatyr': {
-    modId: '3431289969',
+    modId: '1976300413',
     heroId: 'bogatyr',
     skills: [
       'Sunder',
@@ -2533,8 +2533,7 @@ export const MODDED_HERO_CLASSES = {
       'Whiteout',
       'Tune Gusli',
       'Keivan Warrior\'s Cry',
-      'Grooming',
-      'Additional Info'
+      'Grooming'
     ],
     vanillaCampSkills: [
       'Encourage',
@@ -2585,6 +2584,7 @@ export const MODDED_HERO_CLASSES = {
       'Ready',
       'Trigger'
     ],
+    district: 'training_ring',
     image: 'bombard.png',
     classSpecificTrinkets: [
       'Extra Powder',
@@ -2729,6 +2729,7 @@ export const MODDED_HERO_CLASSES = {
       'Bleed',
       'Blight'
     ],
+    district: 'outsiders_bonfire',
     image: 'bowman.png',
     classSpecificTrinkets: [
       'Goggle Wipes',
@@ -4164,17 +4165,16 @@ export const MODDED_HERO_CLASSES = {
     ],
   },
   'Commandant': {
-    modId: '2903347408',
+    modId: '2472629364',
     heroId: 'commandant',
     skills: [
       'Officer\'s Pistol',
       'Whiplash',
       'Perilous Ground',
       'Stranglethorn',
-      'Rally the Troops (CD: 1 rds)',
-      'Iron Embrace (CD: 4 rds)',
-      'On My Target (CD: 1 rds)',
-      'Cull the Weak'
+      'Rally the Troops',
+      'Iron Embrace',
+      'On My Target'
     ],
     campSkills: [
       'Encourage',
@@ -4195,11 +4195,16 @@ export const MODDED_HERO_CLASSES = {
       'Commandant Prepare',
       'Commandant Firing'
     ],
+    district: 'training_ring',
     image: 'commandant.png',
     classSpecificTrinkets: [
       'Flare Gun',
+      'Commissar\'s Pistol',
       'Chemical Shells',
+      'Recruitment Poster',
       'Bunker Buster Shell',
+      'Stained Flag',
+      'Service Medal',
       'Incomprehensible Battleplan'
     ],
   },
@@ -6055,7 +6060,7 @@ export const MODDED_HERO_CLASSES = {
     ],
   },
   'Dredge': {
-    modId: '3481828578',
+    modId: '2865308693',
     heroId: 'dredge',
     skills: [
       'Eldritch Core',
@@ -6067,16 +6072,15 @@ export const MODDED_HERO_CLASSES = {
       'Jovian Discharge'
     ],
     campSkills: [
-      'Encourage',
       'Pep Talk',
+      'Find Supplies',
       'Wound Care',
       'Tinker',
       'Overclock',
       'Calibrate Omnitool',
-      'Find Supplies'
+      'Tale of the Fall'
     ],
     vanillaCampSkills: [
-      'Encourage',
       'Pep Talk',
       'Wound Care'
     ],
@@ -6111,20 +6115,18 @@ export const MODDED_HERO_CLASSES = {
       'Mech Heat 17',
       'Mech Heat 18',
       'Mech Heat 19',
-      'Mech Heat 20',
-      'Amber Mech Heat 0'
+      'Mech Heat 20'
     ],
+    district: 'outsiders_bonfire',
     image: 'dredge.png',
     classSpecificTrinkets: [
-      'Anti-Organic Metal Plating',
+      'Anti-Organic Focal Array',
       'Particle Tether Module',
       'Heavy Boring Augment',
       'Eldritchfire Capacitor Bank',
-      'Crystalline Core',
-      'Clockwork Heart',
-      'Ostvengr Trauma Pouch',
+      'Ostvengr Rationed Knapsack',
       'The First Design',
-      'Amber Core'
+      'Crystalline Core'
     ],
   },
   'drowner': {
@@ -6315,6 +6317,7 @@ export const MODDED_HERO_CLASSES = {
       'Human',
       'Beast'
     ],
+    district: 'outsiders_bonfire',
     image: 'duchess3325173032.png',
     classSpecificTrinkets: [
       'Basket of Heads',
@@ -6945,14 +6948,14 @@ export const MODDED_HERO_CLASSES = {
     ],
   },
   'Estranged': {
-    modId: '3371578215',
+    modId: '3371578144',
     heroId: 'estranged',
     skills: [
       'Scraping Driver',
       'Scraping Auger',
       'Stinger Smack',
       'Pierce Earth',
-      'Buzzing Nuisance',
+      'Enemy Nuisance',
       'Twisting Arrows',
       'Stinger Skewer'
     ],
@@ -6970,12 +6973,14 @@ export const MODDED_HERO_CLASSES = {
       'Wound Care',
       'Pep Talk'
     ],
+    alwaysActive: true,
     stances: [
       'Estranged Melee',
       'Estranged Melee Dummy',
       'Estranged Melee Riposte',
       'Estranged Ranged'
     ],
+    district: 'training_ring',
     image: 'estranged.png',
     classSpecificTrinkets: [
       'Weighted Chains',
@@ -6985,7 +6990,7 @@ export const MODDED_HERO_CLASSES = {
       'Kindred Of Rot’s Exultation',
       'Aromatic Sparks',
       'A Life He Will Miss',
-      'Transparent Sight',
+      'Crystallized Sight',
       'Little Buddy',
       'Lazulite Whetknife',
       'Malcontent Whistle'
@@ -7110,7 +7115,7 @@ export const MODDED_HERO_CLASSES = {
     ],
   },
   'Exanimate': {
-    modId: '2999479423',
+    modId: '2998367658',
     heroId: 'dd2exanimate',
     skills: [
       'Punish',
@@ -7122,29 +7127,20 @@ export const MODDED_HERO_CLASSES = {
       'Necrosis'
     ],
     campSkills: [
-      'Dd2exanimate Kx',
-      'Dd2exanimate Zl',
-      'Dd2exanimate Zc',
-      'Lash\'s Anger',
-      'Lash\'s Solace',
-      'Lash\'s Kiss',
-      'Lash\'s Cure'
+      'Pain Box',
+      'Suffer',
+      'Fester',
+      'Endure',
+      'Undying'
     ],
-    vanillaCampSkills: [
-      'Lash\'s Anger',
-      'Lash\'s Solace',
-      'Lash\'s Kiss',
-      'Lash\'s Cure'
-    ],
+    vanillaCampSkills: [],
     stances: [
       'Dd2flagmode1',
       'Dd2flagmode2'
     ],
+    district: 'outsiders_bonfire',
     image: 'dd2exanimate.png',
     classSpecificTrinkets: [
-      'Dd2exanimate Mzm',
-      'Dd2exanimate Hmg',
-      'Dd2exanimate Hmd',
       'Emancipation',
       'His Prison',
       'Seal of the Exanimate',
@@ -7497,7 +7493,7 @@ export const MODDED_HERO_CLASSES = {
     classSpecificTrinkets: [],
   },
   'Falconer': {
-    modId: '3628324761',
+    modId: '1089257023',
     heroId: 'falconer',
     skills: [
       'Quickshot / Crippling Shot',
@@ -7526,6 +7522,7 @@ export const MODDED_HERO_CLASSES = {
       'Skillsetone',
       'Skillsettwo'
     ],
+    district: 'outsiders_bonfire',
     image: 'falconer.png',
     classSpecificTrinkets: [
       'Raptor Charm',
@@ -8003,6 +8000,7 @@ export const MODDED_HERO_CLASSES = {
       'Fl1',
       'Fl2'
     ],
+    district: 'house_of_the_yellow_hand',
     image: 'forlorn.png',
     classSpecificTrinkets: [
       'Dreamer\'s Collection',
@@ -8133,6 +8131,7 @@ export const MODDED_HERO_CLASSES = {
       'Snor Wakamo Default',
       'Snor Wakamo Stuff'
     ],
+    district: 'outsiders_bonfire',
     image: 'snor_wakamo.png',
     classSpecificTrinkets: [
       'My Shirt',
@@ -9030,7 +9029,7 @@ export const MODDED_HERO_CLASSES = {
     ],
   },
   'Gunwitch': {
-    modId: '3685961036',
+    modId: '3181881842',
     heroId: 'comradewitch',
     skills: [
       'Cauldron Mortar',
@@ -9048,8 +9047,7 @@ export const MODDED_HERO_CLASSES = {
       'Bandolier',
       'Witches\' Sabbath',
       'Desperado',
-      'Strange Concoction',
-      'Additional Information'
+      'Strange Concoction'
     ],
     vanillaCampSkills: [
       'Encourage',
@@ -9066,6 +9064,7 @@ export const MODDED_HERO_CLASSES = {
       'Comwitch Bullet 3Corp',
       'Comwitch Riposte'
     ],
+    district: 'training_ring',
     image: 'comradewitch.png',
     classSpecificTrinkets: [
       'Preserved Eye',
@@ -9407,6 +9406,7 @@ export const MODDED_HERO_CLASSES = {
       'Hedge Normal',
       'Hedge Indom'
     ],
+    district: 'training_ring',
     image: 'hedgeknight.png',
     classSpecificTrinkets: [
       'Simon Strap',
@@ -10905,6 +10905,7 @@ export const MODDED_HERO_CLASSES = {
       'Vz Ironclad Fiend 1',
       'Vz Ironclad Fiend 2'
     ],
+    district: 'outsiders_bonfire',
     image: 'ironclad.png',
     classSpecificTrinkets: [
       'Burning Blood',
@@ -11315,6 +11316,7 @@ export const MODDED_HERO_CLASSES = {
       'Wound Care',
       'Pep Talk'
     ],
+    district: 'altar_of_light',
     image: 'judicator.png',
     classSpecificTrinkets: [
       'Chevalier\'s Seal',
@@ -11869,7 +11871,7 @@ export const MODDED_HERO_CLASSES = {
     ],
   },
   'Lamia': {
-    modId: '3628342964',
+    modId: '1130829365',
     heroId: 'lamia',
     skills: [
       'The Veil',
@@ -12186,6 +12188,7 @@ export const MODDED_HERO_CLASSES = {
       'Bloodlust 6',
       'Bloodlust 7'
     ],
+    district: 'training_ring',
     image: 'legion.png',
     classSpecificTrinkets: [
       'Brass Laurel',
@@ -12780,6 +12783,7 @@ export const MODDED_HERO_CLASSES = {
       'Croc2kills',
       'Croc3kills'
     ],
+    district: 'outsiders_bonfire',
     image: 'croc.png',
     classSpecificTrinkets: [
       'Cultist\'s Staff',
@@ -13038,6 +13042,7 @@ export const MODDED_HERO_CLASSES = {
       'Ranni Sword',
       'Ranni Magic'
     ],
+    district: 'outsiders_bonfire',
     image: 'millap_ranni.png',
     classSpecificTrinkets: [
       'Helm of the Tarnished',
@@ -13429,6 +13434,7 @@ export const MODDED_HERO_CLASSES = {
       'Encourage',
       'Pep Talk'
     ],
+    district: 'training_ring',
     image: 'wusheng.png',
     classSpecificTrinkets: [
       'Hot Wine',
@@ -13501,6 +13507,7 @@ export const MODDED_HERO_CLASSES = {
       'Dragon Default',
       'Dragon Special'
     ],
+    district: 'outsiders_bonfire',
     image: 'dragon_matriarch.png',
     classSpecificTrinkets: [
       'Handmade Tea Set',
@@ -13702,6 +13709,7 @@ export const MODDED_HERO_CLASSES = {
       'Messiah Normal',
       'Messiah Battery'
     ],
+    district: 'outsiders_bonfire',
     image: 'messiah.png',
     classSpecificTrinkets: [
       'Bottle of Alcohol',
@@ -14031,6 +14039,7 @@ export const MODDED_HERO_CLASSES = {
       'Numisc Cc2 Command',
       'Numisc Command Disable'
     ],
+    district: 'house_of_the_yellow_hand',
     image: 'miscreant3786371991.png',
     classSpecificTrinkets: [
       'Stabilizing Dwymeryth Gauntlet',
@@ -14247,14 +14256,14 @@ export const MODDED_HERO_CLASSES = {
     ],
   },
   'Monk': {
-    modId: '1895132201',
+    modId: '1442225067',
     heroId: 'monk',
     skills: [
       'Dragon Tail',
       'Howling Fist',
-      'Shadow Strike',
+      'Iron Mountain',
       'Sweeping Kick',
-      'Spirit Block',
+      'Transfer',
       'Mantram',
       'Inner Fire'
     ],
@@ -14272,6 +14281,7 @@ export const MODDED_HERO_CLASSES = {
       'Wound Care',
       'Pep Talk'
     ],
+    district: 'outsiders_bonfire',
     image: 'monk.png',
     classSpecificTrinkets: [
       'Atonement',
@@ -14470,6 +14480,7 @@ export const MODDED_HERO_CLASSES = {
       'Mordekaiser C',
       'Tooltip'
     ],
+    district: 'theater',
     image: '3144299757.png',
     classSpecificTrinkets: [
       'Jak\'Sho, the Protean',
@@ -14961,6 +14972,7 @@ export const MODDED_HERO_CLASSES = {
       'Wound Care',
       'Pep Talk'
     ],
+    district: 'outsiders_bonfire',
     image: 'snor_nurse.png',
     classSpecificTrinkets: [
       'Medical Diploma',
@@ -15203,6 +15215,7 @@ export const MODDED_HERO_CLASSES = {
       'Yuugirulemode',
       'Yuugimomentumdesk'
     ],
+    district: 'outsiders_bonfire',
     image: 'yuugi.png',
     classSpecificTrinkets: [
       'Whale Warmer',
@@ -15473,6 +15486,7 @@ export const MODDED_HERO_CLASSES = {
       'Nbb Owl',
       'Nbb Owl2'
     ],
+    district: 'house_of_the_yellow_hand',
     image: 'nbb_owlwing.png',
     classSpecificTrinkets: [
       'Heavy Armor Suit',
@@ -15756,6 +15770,7 @@ export const MODDED_HERO_CLASSES = {
       'Dolstinger',
       'Doluca'
     ],
+    district: 'outsiders_bonfire',
     image: 'fishman_idol.png',
     classSpecificTrinkets: [
       'Eerie Mural',
@@ -17189,6 +17204,7 @@ export const MODDED_HERO_CLASSES = {
       'Lb Fire0',
       'Lb Fire1'
     ],
+    district: 'altar_of_light',
     image: 'reckoning.png',
     classSpecificTrinkets: [
       'Blessed Rosary',
@@ -17709,7 +17725,7 @@ export const MODDED_HERO_CLASSES = {
     ],
   },
   'Ringmaster': {
-    modId: '2572516217',
+    modId: '2325415039',
     heroId: 'ringmaster',
     skills: [
       'Last Laugh',
@@ -17727,16 +17743,17 @@ export const MODDED_HERO_CLASSES = {
       'Prize Box',
       'Coin Flip',
       'Entertain',
-      'Prestigious Aura',
-      'Additional Information'
+      'Prestigious Aura'
     ],
     vanillaCampSkills: [
       'Encourage',
       'Wound Care',
       'Pep Talk'
     ],
+    district: 'theater',
     image: 'ringmaster.png',
     classSpecificTrinkets: [
+      'Arena Helmet',
       'Circus Merchandise',
       'Spiked Mace',
       'Buffoon\'s Folly',
@@ -17747,13 +17764,13 @@ export const MODDED_HERO_CLASSES = {
     ],
   },
   'Ripperkin': {
-    modId: '3428245706',
+    modId: '3427245711',
     heroId: 'wildlander_ripperkin',
     skills: [
       'Rip And Tear',
       'Blood Is Fuel',
       'Whiplash',
-      'Come Forth',
+      'Rhythm Of The Beast',
       'Day Of Ruin',
       'Rev Up',
       'Bloody Gust'
@@ -17765,8 +17782,7 @@ export const MODDED_HERO_CLASSES = {
       'Terrible Night',
       'It\'s Going Down!',
       'Perpetual Motion Machine',
-      'Solar Wind',
-      'Additional Information'
+      'Solar Wind'
     ],
     vanillaCampSkills: [
       'Encourage',
@@ -17779,16 +17795,23 @@ export const MODDED_HERO_CLASSES = {
       'Sated',
       'Bloodlust'
     ],
+    district: 'outsiders_bonfire',
     image: 'wildlander_ripperkin.png',
     classSpecificTrinkets: [
-      'Ripper\'s Sidearm',
-      'Pristine Bearing',
       'Sharpening Stone',
+      'Hungering Pebble',
       'Rider\'s Headpiece',
+      'Pristine Bearing',
+      'Claw of Legends',
+      'Claw of Legends (Daring)',
+      'Ripper\'s Sidearm',
       'Deserter\'s Crest',
       'Futile Struggle',
-      'Amber Infused Ripsaw',
-      'Inordinate Exsanguination'
+      'Klein Saw',
+      'Nokogiri',
+      'Ignis Sanguinis Ruber',
+      'Sawblade Launcher',
+      'General\'s Hat'
     ],
   },
   'Rogue': {
@@ -18126,6 +18149,7 @@ export const MODDED_HERO_CLASSES = {
       'Wound Care',
       'Pep Talk'
     ],
+    district: 'house_of_the_yellow_hand',
     image: 'salad.png',
     classSpecificTrinkets: [
       'Assorted Scrap',
@@ -18325,6 +18349,7 @@ export const MODDED_HERO_CLASSES = {
       'Sawhunter1',
       'Sawhunter2'
     ],
+    district: 'house_of_the_yellow_hand',
     image: 'sawhunter.png',
     classSpecificTrinkets: [
       'Saw Hunter Badge',
@@ -18779,7 +18804,7 @@ export const MODDED_HERO_CLASSES = {
     ],
   },
   'Seraph': {
-    modId: '3434413170',
+    modId: '1221097087',
     heroId: 'seraph',
     skills: [
       'Vengeance',
@@ -18797,8 +18822,7 @@ export const MODDED_HERO_CLASSES = {
       'Cauterize',
       'Zealous Indoctrination',
       'Martyr\'s Offering',
-      'Guardian Angel',
-      'Additional Information'
+      'Guardian Angel'
     ],
     vanillaCampSkills: [
       'Encourage',
@@ -18811,16 +18835,17 @@ export const MODDED_HERO_CLASSES = {
       'Mortal',
       'Ascended'
     ],
+    district: 'altar_of_light',
     image: 'seraph.png',
     classSpecificTrinkets: [
       'Holy Chainmail',
-      'Faithful Pendant',
+      'Protector\'s Pendant',
       'Barbed Crown',
       'Torture Mask',
       'Radiant Censer',
       'Consecrated Ashes',
       'Heretical Standard',
-      'Kvarotz Breastplate'
+      'Ashen Breastplate'
     ],
   },
   'Serona': {
@@ -19326,6 +19351,7 @@ export const MODDED_HERO_CLASSES = {
       'Silentstshand1',
       'Silentstshand2'
     ],
+    district: 'house_of_the_yellow_hand',
     image: 'silent_sts.png',
     classSpecificTrinkets: [
       'Ring of the Serpent',
@@ -21095,6 +21121,7 @@ export const MODDED_HERO_CLASSES = {
       'Snor Commando Base',
       'Snor Commando Stuff'
     ],
+    district: 'outsiders_bonfire',
     image: 'snor_commando.png',
     classSpecificTrinkets: [
       'Focus Crystal',
@@ -21935,7 +21962,7 @@ export const MODDED_HERO_CLASSES = {
     ],
   },
   'Thrall': {
-    modId: '3628356366',
+    modId: '1175904375',
     heroId: 'thrall',
     skills: [
       'Maim',
@@ -22355,6 +22382,7 @@ export const MODDED_HERO_CLASSES = {
       'Wound Care',
       'Pep Talk'
     ],
+    district: 'outsiders_bonfire',
     image: 'dis_trapper.png',
     classSpecificTrinkets: [
       'Serrated Jaws',
@@ -22428,6 +22456,7 @@ export const MODDED_HERO_CLASSES = {
       'Encourage',
       'Pep Talk'
     ],
+    district: 'outsiders_bonfire',
     image: 'twilight_knight.png',
     classSpecificTrinkets: [
       'Founding Stone',
@@ -22503,6 +22532,7 @@ export const MODDED_HERO_CLASSES = {
       'Ucs Toz',
       'Ucs Dmark'
     ],
+    district: 'outsiders_bonfire',
     image: 'uncrowneds.png',
     classSpecificTrinkets: [
       'Bloodlust Brooch',
@@ -22791,6 +22821,7 @@ export const MODDED_HERO_CLASSES = {
       'Fourtyhp',
       'Tenhp'
     ],
+    district: 'library',
     image: 'veiled.png',
     classSpecificTrinkets: [
       'Martyr\'s Crown',
@@ -22930,6 +22961,7 @@ export const MODDED_HERO_CLASSES = {
       'Hk Knight',
       'Hk Knight Dummy'
     ],
+    district: 'training_ring',
     image: 'hk_knight.png',
     classSpecificTrinkets: [
       'Wayward Compass',
@@ -22960,7 +22992,7 @@ export const MODDED_HERO_CLASSES = {
     classSpecificTrinkets: [],
   },
   'Vh Oni': {
-    modId: '3298822617',
+    modId: '3280389755',
     heroId: 'VH_oni',
     skills: [
       'Pillage',
@@ -23072,6 +23104,7 @@ export const MODDED_HERO_CLASSES = {
       'Viper',
       'Viper Dummy'
     ],
+    district: 'outsiders_bonfire',
     image: 'viper.png',
     classSpecificTrinkets: [
       'Black Powder Flask',
@@ -24135,6 +24168,7 @@ export const MODDED_HERO_CLASSES = {
       'Wizard Light',
       'Wizard Infernal'
     ],
+    district: 'outsiders_bonfire',
     image: 'wizard.png',
     classSpecificTrinkets: [
       'Dying Light',
@@ -24221,7 +24255,7 @@ export const MODDED_HERO_CLASSES = {
     ],
   },
   'Wraith Ms': {
-    modId: '3628386289',
+    modId: '1697037179',
     heroId: 'wraith_ms',
     skills: [
       'Reap',
@@ -24700,7 +24734,6 @@ export const MODDED_GENERAL_TRINKETS = [
   'Ancient Idol',
   'Ancient Scroll (Torn)',
   'Apostate\'s Scrawls',
-  'Arena Helmet',
   'Aria\'s Head',
   'Arnaud\'s Head',
   'Arthur\'s Head',
@@ -24714,7 +24747,6 @@ export const MODDED_GENERAL_TRINKETS = [
   'Bionic Arm',
   'Bionic Leg',
   'Bishop\'s Head',
-  'Black Market Delicacies',
   'Blackfire Torch',
   'Blade Mail',
   'Blake\'s Head',
@@ -25175,7 +25207,6 @@ export const MODDED_GENERAL_TRINKET_MODS = {
   'Ancient Idol': '1811578299',
   'Ancient Scroll (Torn)': '3505465771',
   'Apostate\'s Scrawls': '1917819568',
-  'Arena Helmet': '2572516217',
   'Aria\'s Head': '1597176026',
   'Arnaud\'s Head': '2307597881',
   'Arthur\'s Head': '2464921617',
@@ -25189,7 +25220,6 @@ export const MODDED_GENERAL_TRINKET_MODS = {
   'Bionic Arm': '3747683481',
   'Bionic Leg': '3747683481',
   'Bishop\'s Head': '1917819568',
-  'Black Market Delicacies': '3440294120',
   'Blackfire Torch': '1281619108',
   'Blade Mail': '3577605870',
   'Blake\'s Head': '3010456600',

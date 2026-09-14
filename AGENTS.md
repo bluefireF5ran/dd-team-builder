@@ -956,11 +956,41 @@ both name a hero `Gabriel`. 134 installed heroes are re-uploads of a class alrea
 skipped on that basis; 29 more share a *name* with a different kit and are added under the app's
 `Name (modId)` convention.
 
+**A class whose upload is no longer installed is pinned to the one that is**
+(`scripts/lib/modPins.js`). The app carried `Falconer` from mod 3628324761 and only 1089257023 was
+on disk: nothing matches those, so the class was kept as unverifiable content and the installed
+upload was added beside it as `Falconer (1089257023)` — the same character twice, once playable and
+once not. Sixteen classes were in that state. Each pin was checked the same way: the installed mod
+ships a hero with the id the class already carries, which is what `pickHero` resolves on. Two were
+a choice rather than a match and say so in the file (`Lamia`, `Commandant`), and `Wraith Ms` is why
+the pin goes on the class carrying the hero id rather than the one with the obvious name — the app
+has a different `Wraith` as well.
+
 **The skills decide whether a class is worth adding, not its name.** A class whose seven skills
 all read `jd_skill1` is content nobody can use, and 93 of those are skipped. A class the mod names
 only in Chinese but whose whole kit is in english is the opposite case, and its folder id stands in
 for the missing name — that is where `Abysssinker`, `Gabriel`, `Ailuoli`, `Doombringer`, `Altair`
 and `Uika` come from.
+
+### A run only sees the mods on this disk
+
+Which is a fraction of what the app carries: 590 of 644 classes belong to mods that are not
+installed here. Everything the importer writes is therefore **merged, not replaced**, or a
+re-import would delete the rest of the roster:
+
+- classes whose mod is absent are kept as they are (`noMod`), which the importer always did;
+- `importModdedHeroes.manifest.json` keeps every entry it already had and rewrites only the classes
+  this run resolved. It used to be written from the run alone, which on this machine would have
+  dropped 590 of its 645 entries — and the file exists precisely because re-deriving them is not
+  idempotent;
+- `MODDED_GENERAL_TRINKETS` keeps a trinket whose mod is absent and drops one whose mod is
+  installed and no longer ships it. Written from the run alone it fell from 467 names to 31.
+  A carried name still faces the shadow rule: pinning the Ringmaster and the Aesthete gave them an
+  "Arena Helmet" and a "Black Market Delicacies" of their own, so the general trinkets of those
+  names go and the list settles at 465.
+
+Both were real: a regeneration from this machine before the merge would have quietly taken 436
+general trinkets out of the app.
 
 ### Translating the Chinese-only mods
 
@@ -1339,15 +1369,16 @@ declares its district with the same `tag: .id "<district>"` line, so `importModd
 lists vanilla classes in. Of the mods installed here, 45 heroes tag one: Hedge Knight, Commandant and
 Legion take the Training Ring, the Veiled the Athenaeum, the Ringmaster the Performance Hall.
 
-**The modded data itself is not refreshed yet.** `modded_heroes.js` is generated, and re-running the
-importer would also bring in 16 classes installed since the last run and rebuild 7 — a roster change,
-which is Fran's call, not a side effect of this one:
+44 classes in `modded_heroes.js` now carry one, and 22 of those carry a district that does something
+for trinkets: 8 Training Ring, 7 House of the Yellow Hand, 4 Altar of the Light, 2 Performance Hall,
+1 Athenaeum. The other 22 tag Outsiders Bonfire, which is respite points — recorded, and used by
+nothing. Refresh them with:
 
 ```
 node scripts/importModdedHeroes.js --workshop "<…/workshop/content/262060>" --game "<install>"
 ```
 
-Until then a modded class simply has no `district` and nothing changes for it.
+A class that tags no district has no `district` and nothing changes for it.
 
 **Bench:** `node scripts/benchReequip.js --save <profile folder> --out report.md` re-equips every
 four-hero expedition in the save's campaign log from the trinkets owned today. It runs the old
