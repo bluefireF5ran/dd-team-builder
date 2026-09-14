@@ -1,5 +1,5 @@
 {
-  "takenAt": "2026-09-10T16:53:49.491Z",
+  "takenAt": "2026-09-14T21:17:46.723Z",
   "cells": {
     "Abomination|1": {
       "heroClass": "Abomination",
@@ -15,7 +15,7 @@
       ],
       "camp": [
         "Encourage",
-        "Anger Management",
+        "Wound Care",
         "The Quickening",
         "Eldritch Blood"
       ],
@@ -25,7 +25,8 @@
       ],
       "source": "model",
       "samples": 2,
-      "rankLegal": true
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Abomination|2": {
       "heroClass": "Abomination",
@@ -50,8 +51,9 @@
         "Padlock of Transference"
       ],
       "source": "library",
-      "samples": 48,
-      "rankLegal": true
+      "samples": 61,
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Abomination|3": {
       "heroClass": "Abomination",
@@ -77,7 +79,8 @@
       ],
       "source": "library",
       "samples": 8,
-      "rankLegal": true
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Abomination|4": {
       "heroClass": "Abomination",
@@ -94,8 +97,8 @@
       "camp": [
         "Encourage",
         "Wound Care",
-        "Pep Talk",
-        "Anger Management"
+        "The Quickening",
+        "Eldritch Blood"
       ],
       "trinkets": [
         "Broken Key",
@@ -103,7 +106,8 @@
       ],
       "source": "model",
       "samples": 0,
-      "rankLegal": false
+      "rankLegal": false,
+      "kitCanReach": false
     },
     "Antiquarian|1": {
       "heroClass": "Antiquarian",
@@ -111,36 +115,13 @@
       "skills": [
         "Festering Vapours",
         "Get Down!",
-        "Flashpowder",
+        "Invigorating Vapours",
         "Protect Me"
       ],
       "camp": [
         "Encourage",
+        "Wound Care",
         "Resupply",
-        "Strange Powders",
-        "Curious Incantation"
-      ],
-      "trinkets": [
-        "Smoking Skull",
-        "The Tempting Goblet"
-      ],
-      "source": "library",
-      "samples": 11,
-      "rankLegal": true
-    },
-    "Antiquarian|2": {
-      "heroClass": "Antiquarian",
-      "rank": 2,
-      "skills": [
-        "Festering Vapours",
-        "Get Down!",
-        "Fortifying Vapours",
-        "Protect Me"
-      ],
-      "camp": [
-        "Encourage",
-        "Resupply",
-        "Strange Powders",
         "Curious Incantation"
       ],
       "trinkets": [
@@ -149,39 +130,65 @@
       ],
       "source": "library",
       "samples": 15,
-      "rankLegal": true
+      "rankLegal": true,
+      "kitCanReach": true
+    },
+    "Antiquarian|2": {
+      "heroClass": "Antiquarian",
+      "rank": 2,
+      "skills": [
+        "Festering Vapours",
+        "Get Down!",
+        "Flashpowder",
+        "Protect Me"
+      ],
+      "camp": [
+        "Encourage",
+        "Wound Care",
+        "Resupply",
+        "Curious Incantation"
+      ],
+      "trinkets": [
+        "Smoking Skull",
+        "The Tempting Goblet"
+      ],
+      "source": "library",
+      "samples": 7,
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Antiquarian|3": {
       "heroClass": "Antiquarian",
       "rank": 3,
       "skills": [
         "Festering Vapours",
-        "Get Down!",
         "Fortifying Vapours",
-        "Invigorating Vapours"
+        "Invigorating Vapours",
+        "Protect Me"
       ],
       "camp": [
         "Encourage",
         "Wound Care",
         "Resupply",
-        "Strange Powders"
+        "Curious Incantation"
       ],
       "trinkets": [
         "Smoking Skull",
-        "Ancestor's Map"
+        "The Tempting Goblet"
       ],
       "source": "library",
-      "samples": 29,
-      "rankLegal": true
+      "samples": 89,
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Antiquarian|4": {
       "heroClass": "Antiquarian",
       "rank": 4,
       "skills": [
         "Festering Vapours",
-        "Get Down!",
         "Fortifying Vapours",
-        "Invigorating Vapours"
+        "Invigorating Vapours",
+        "Protect Me"
       ],
       "camp": [
         "Encourage",
@@ -194,8 +201,9 @@
         "Ancestor's Map"
       ],
       "source": "library",
-      "samples": 27,
-      "rankLegal": true
+      "samples": 50,
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Arbalest|1": {
       "heroClass": "Arbalest",
@@ -208,9 +216,9 @@
       ],
       "camp": [
         "Encourage",
-        "Wound Care",
-        "Pep Talk",
-        "Field Dressing"
+        "Marching Plan",
+        "Restring Crossbow",
+        "Triage"
       ],
       "trinkets": [
         "Ancestor's Map",
@@ -218,7 +226,8 @@
       ],
       "source": "model",
       "samples": 0,
-      "rankLegal": false
+      "rankLegal": false,
+      "kitCanReach": false
     },
     "Arbalest|2": {
       "heroClass": "Arbalest",
@@ -231,8 +240,8 @@
       ],
       "camp": [
         "Encourage",
-        "Wound Care",
-        "Field Dressing",
+        "Marching Plan",
+        "Restring Crossbow",
         "Triage"
       ],
       "trinkets": [
@@ -241,7 +250,8 @@
       ],
       "source": "model",
       "samples": 2,
-      "rankLegal": false
+      "rankLegal": false,
+      "kitCanReach": false
     },
     "Arbalest|3": {
       "heroClass": "Arbalest",
@@ -249,29 +259,6 @@
       "skills": [
         "Sniper Shot",
         "Blindfire",
-        "Battlefield Bandage",
-        "Rallying Flare"
-      ],
-      "camp": [
-        "Encourage",
-        "Wound Care",
-        "Marching Plan",
-        "Triage"
-      ],
-      "trinkets": [
-        "Ancestor's Map",
-        "Bedtime Story"
-      ],
-      "source": "library",
-      "samples": 8,
-      "rankLegal": true
-    },
-    "Arbalest|4": {
-      "heroClass": "Arbalest",
-      "rank": 4,
-      "skills": [
-        "Sniper Shot",
-        "Bola",
         "Battlefield Bandage",
         "Rallying Flare"
       ],
@@ -286,8 +273,33 @@
         "Bedtime Story"
       ],
       "source": "library",
-      "samples": 92,
-      "rankLegal": true
+      "samples": 7,
+      "rankLegal": true,
+      "kitCanReach": true
+    },
+    "Arbalest|4": {
+      "heroClass": "Arbalest",
+      "rank": 4,
+      "skills": [
+        "Sniper Shot",
+        "Suppressing Fire",
+        "Bola",
+        "Battlefield Bandage"
+      ],
+      "camp": [
+        "Encourage",
+        "Marching Plan",
+        "Restring Crossbow",
+        "Triage"
+      ],
+      "trinkets": [
+        "Ancestor's Map",
+        "Bedtime Story"
+      ],
+      "source": "library",
+      "samples": 150,
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Bounty Hunter|1": {
       "heroClass": "Bounty Hunter",
@@ -309,8 +321,9 @@
         "Hunter's Talon"
       ],
       "source": "library",
-      "samples": 34,
-      "rankLegal": true
+      "samples": 42,
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Bounty Hunter|2": {
       "heroClass": "Bounty Hunter",
@@ -332,8 +345,9 @@
         "Mask Of The Timeless"
       ],
       "source": "library",
-      "samples": 34,
-      "rankLegal": true
+      "samples": 71,
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Bounty Hunter|3": {
       "heroClass": "Bounty Hunter",
@@ -351,12 +365,13 @@
         "Tracking"
       ],
       "trinkets": [
-        "Hunter's Talons",
-        "Vengeful Kill List"
+        "Hunter's Talon",
+        "Mask Of The Timeless"
       ],
       "source": "library",
-      "samples": 20,
-      "rankLegal": true
+      "samples": 30,
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Bounty Hunter|4": {
       "heroClass": "Bounty Hunter",
@@ -379,15 +394,16 @@
       ],
       "source": "model",
       "samples": 2,
-      "rankLegal": true
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Crusader|1": {
       "heroClass": "Crusader",
       "rank": 1,
       "skills": [
         "Smite",
+        "Stunning Blow",
         "Battle Heal",
-        "Holy Lance",
         "Inspiring Cry"
       ],
       "camp": [
@@ -401,8 +417,9 @@
         "Signed Conscription"
       ],
       "source": "library",
-      "samples": 27,
-      "rankLegal": true
+      "samples": 36,
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Crusader|2": {
       "heroClass": "Crusader",
@@ -420,12 +437,13 @@
         "Zealous Vigil"
       ],
       "trinkets": [
-        "Ancestor's Map",
-        "Focus Ring"
+        "Ancestor's Scroll",
+        "Ancestor's Map"
       ],
       "source": "library",
-      "samples": 21,
-      "rankLegal": true
+      "samples": 24,
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Crusader|3": {
       "heroClass": "Crusader",
@@ -444,11 +462,12 @@
       ],
       "trinkets": [
         "Ancestor's Scroll",
-        "Commander's Orders"
+        "Signed Conscription"
       ],
-      "source": "model",
-      "samples": 3,
-      "rankLegal": true
+      "source": "library",
+      "samples": 6,
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Crusader|4": {
       "heroClass": "Crusader",
@@ -471,7 +490,8 @@
       ],
       "source": "library",
       "samples": 18,
-      "rankLegal": true
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Duelist|1": {
       "heroClass": "Duelist",
@@ -496,8 +516,9 @@
         "Overture Box"
       ],
       "source": "library",
-      "samples": 12,
-      "rankLegal": true
+      "samples": 21,
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Duelist|2": {
       "heroClass": "Duelist",
@@ -522,8 +543,9 @@
         "Ancestor's Candle"
       ],
       "source": "library",
-      "samples": 9,
-      "rankLegal": true
+      "samples": 10,
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Duelist|3": {
       "heroClass": "Duelist",
@@ -538,18 +560,19 @@
         "The Boot"
       ],
       "camp": [
-        "Pep Talk",
+        "Meditation",
         "Preparation",
         "Ruthless Instruction",
         "Again!"
       ],
       "trinkets": [
-        "Gilded Mantle",
-        "The Tempting Goblet"
+        "Ancestor's Candle",
+        "Champion's Mantle"
       ],
       "source": "model",
-      "samples": 3,
-      "rankLegal": true
+      "samples": 2,
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Duelist|4": {
       "heroClass": "Duelist",
@@ -564,9 +587,9 @@
         "The Boot"
       ],
       "camp": [
-        "Encourage",
-        "First Aid",
         "Meditation",
+        "Preparation",
+        "Ruthless Instruction",
         "Again!"
       ],
       "trinkets": [
@@ -575,7 +598,8 @@
       ],
       "source": "model",
       "samples": 2,
-      "rankLegal": true
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Flagellant|1": {
       "heroClass": "Flagellant",
@@ -587,18 +611,18 @@
         "Redeem"
       ],
       "camp": [
-        "Lash's Anger",
         "Lash's Solace",
         "Lash's Kiss",
         "Lash's Cure"
       ],
       "trinkets": [
         "Flesh's Heart",
-        "Ancestor's Map"
+        "Bleed Amulet"
       ],
       "source": "library",
-      "samples": 36,
-      "rankLegal": true
+      "samples": 90,
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Flagellant|2": {
       "heroClass": "Flagellant",
@@ -610,18 +634,18 @@
         "Redeem"
       ],
       "camp": [
-        "Lash's Anger",
         "Lash's Solace",
         "Lash's Kiss",
         "Lash's Cure"
       ],
       "trinkets": [
-        "Bleed Amulet",
-        "Flesh's Heart"
+        "Flesh's Heart",
+        "Bleed Amulet"
       ],
       "source": "library",
-      "samples": 7,
-      "rankLegal": true
+      "samples": 31,
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Flagellant|3": {
       "heroClass": "Flagellant",
@@ -633,7 +657,6 @@
         "Endure"
       ],
       "camp": [
-        "Lash's Anger",
         "Lash's Solace",
         "Lash's Kiss",
         "Lash's Cure"
@@ -644,7 +667,8 @@
       ],
       "source": "model",
       "samples": 3,
-      "rankLegal": true
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Flagellant|4": {
       "heroClass": "Flagellant",
@@ -656,7 +680,6 @@
         "Endure"
       ],
       "camp": [
-        "Lash's Anger",
         "Lash's Solace",
         "Lash's Kiss",
         "Lash's Cure"
@@ -667,15 +690,16 @@
       ],
       "source": "model",
       "samples": 2,
-      "rankLegal": true
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Grave Robber|1": {
       "heroClass": "Grave Robber",
       "rank": 1,
       "skills": [
         "Pick to the Face",
+        "Lunge",
         "Shadow Fade",
-        "Poison Darts",
         "Toxin Trickery"
       ],
       "camp": [
@@ -689,8 +713,9 @@
         "Topshelf Tonic"
       ],
       "source": "library",
-      "samples": 8,
-      "rankLegal": true
+      "samples": 16,
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Grave Robber|2": {
       "heroClass": "Grave Robber",
@@ -703,17 +728,18 @@
       ],
       "camp": [
         "Encourage",
+        "Wound Care",
         "Snuff Box",
-        "Gallows Humor",
-        "Night Moves"
+        "Gallows Humor"
       ],
       "trinkets": [
         "Lucky Talisman",
         "Sharpened Letter Opener"
       ],
       "source": "library",
-      "samples": 6,
-      "rankLegal": true
+      "samples": 7,
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Grave Robber|3": {
       "heroClass": "Grave Robber",
@@ -722,7 +748,7 @@
         "Pick to the Face",
         "Lunge",
         "Flashing Daggers",
-        "Toxin Trickery"
+        "Shadow Fade"
       ],
       "camp": [
         "Encourage",
@@ -736,7 +762,8 @@
       ],
       "source": "model",
       "samples": 3,
-      "rankLegal": true
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Grave Robber|4": {
       "heroClass": "Grave Robber",
@@ -759,7 +786,8 @@
       ],
       "source": "library",
       "samples": 18,
-      "rankLegal": true
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Hellion|1": {
       "heroClass": "Hellion",
@@ -767,8 +795,8 @@
       "skills": [
         "Wicked Hack",
         "Iron Swan",
-        "If It Bleeds",
-        "Breakthrough"
+        "Barbaric YAWP!",
+        "If It Bleeds"
       ],
       "camp": [
         "Encourage",
@@ -781,8 +809,9 @@
         "Ancestor's Candle"
       ],
       "source": "library",
-      "samples": 27,
-      "rankLegal": true
+      "samples": 45,
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Hellion|2": {
       "heroClass": "Hellion",
@@ -805,7 +834,8 @@
       ],
       "source": "model",
       "samples": 3,
-      "rankLegal": true
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Hellion|3": {
       "heroClass": "Hellion",
@@ -828,7 +858,8 @@
       ],
       "source": "model",
       "samples": 1,
-      "rankLegal": true
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Hellion|4": {
       "heroClass": "Hellion",
@@ -851,7 +882,8 @@
       ],
       "source": "model",
       "samples": 1,
-      "rankLegal": false
+      "rankLegal": false,
+      "kitCanReach": false
     },
     "Highwayman|1": {
       "heroClass": "Highwayman",
@@ -859,14 +891,14 @@
       "skills": [
         "Wicked Slice",
         "Pistol Shot",
-        "Point Blank Shot",
-        "Duelist's Advance"
+        "Duelist's Advance",
+        "Open Vein"
       ],
       "camp": [
         "Encourage",
-        "Wound Care",
-        "Pep Talk",
-        "Gallows Humor"
+        "Gallows Humor",
+        "Clean Guns",
+        "Bandit's Sense"
       ],
       "trinkets": [
         "Shameful Locket",
@@ -874,7 +906,8 @@
       ],
       "source": "model",
       "samples": 0,
-      "rankLegal": true
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Highwayman|2": {
       "heroClass": "Highwayman",
@@ -896,8 +929,9 @@
         "Bloodied Neckerchief"
       ],
       "source": "library",
-      "samples": 10,
-      "rankLegal": true
+      "samples": 11,
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Highwayman|3": {
       "heroClass": "Highwayman",
@@ -919,22 +953,23 @@
         "Bloodied Neckerchief"
       ],
       "source": "library",
-      "samples": 15,
-      "rankLegal": true
+      "samples": 18,
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Highwayman|4": {
       "heroClass": "Highwayman",
       "rank": 4,
       "skills": [
+        "Wicked Slice",
         "Pistol Shot",
-        "Point Blank Shot",
         "Tracking Shot",
         "Duelist's Advance"
       ],
       "camp": [
         "Encourage",
-        "Wound Care",
-        "Unparalleled Finesse",
+        "Gallows Humor",
+        "Clean Guns",
         "Bandit's Sense"
       ],
       "trinkets": [
@@ -943,7 +978,8 @@
       ],
       "source": "model",
       "samples": 3,
-      "rankLegal": false
+      "rankLegal": false,
+      "kitCanReach": false
     },
     "Houndmaster|1": {
       "heroClass": "Houndmaster",
@@ -966,7 +1002,8 @@
       ],
       "source": "model",
       "samples": 3,
-      "rankLegal": true
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Houndmaster|2": {
       "heroClass": "Houndmaster",
@@ -988,8 +1025,9 @@
         "Wilbur's Flag"
       ],
       "source": "library",
-      "samples": 83,
-      "rankLegal": true
+      "samples": 123,
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Houndmaster|3": {
       "heroClass": "Houndmaster",
@@ -1011,17 +1049,18 @@
         "Ancestor's Coat"
       ],
       "source": "library",
-      "samples": 66,
-      "rankLegal": true
+      "samples": 99,
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Houndmaster|4": {
       "heroClass": "Houndmaster",
       "rank": 4,
       "skills": [
         "Hound's Rush",
-        "Hound's Harry",
         "Target Whistle",
-        "Cry Havoc"
+        "Cry Havoc",
+        "Guard Dog"
       ],
       "camp": [
         "Encourage",
@@ -1030,12 +1069,13 @@
         "Man's Best Friend"
       ],
       "trinkets": [
-        "Ancestor's Map",
-        "Evidence of Corruption"
+        "Wilbur's Flag",
+        "Ancestor's Coat"
       ],
       "source": "library",
-      "samples": 14,
-      "rankLegal": true
+      "samples": 21,
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Jester|1": {
       "heroClass": "Jester",
@@ -1058,7 +1098,8 @@
       ],
       "source": "model",
       "samples": 1,
-      "rankLegal": false
+      "rankLegal": false,
+      "kitCanReach": false
     },
     "Jester|2": {
       "heroClass": "Jester",
@@ -1081,7 +1122,8 @@
       ],
       "source": "model",
       "samples": 2,
-      "rankLegal": true
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Jester|3": {
       "heroClass": "Jester",
@@ -1103,8 +1145,9 @@
         "Ancestor's Coat"
       ],
       "source": "library",
-      "samples": 30,
-      "rankLegal": true
+      "samples": 32,
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Jester|4": {
       "heroClass": "Jester",
@@ -1123,11 +1166,12 @@
       ],
       "trinkets": [
         "Ancestor's Coat",
-        "Camouflage Cloak"
+        "Barristan's Head"
       ],
       "source": "model",
-      "samples": 2,
-      "rankLegal": true
+      "samples": 3,
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Leper|1": {
       "heroClass": "Leper",
@@ -1145,12 +1189,13 @@
         "Quarantine"
       ],
       "trinkets": [
-        "Debuff Amulet",
-        "Focus Ring"
+        "Focus Ring",
+        "Debuff Amulet"
       ],
       "source": "library",
-      "samples": 29,
-      "rankLegal": true
+      "samples": 38,
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Leper|2": {
       "heroClass": "Leper",
@@ -1169,11 +1214,12 @@
       ],
       "trinkets": [
         "Focus Ring",
-        "Ancestor's Pen"
+        "Debuff Amulet"
       ],
       "source": "model",
-      "samples": 2,
-      "rankLegal": true
+      "samples": 0,
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Leper|3": {
       "heroClass": "Leper",
@@ -1186,9 +1232,9 @@
       ],
       "camp": [
         "Encourage",
-        "Wound Care",
-        "Pep Talk",
-        "Let the Mask Down"
+        "Bloody Shroud",
+        "Reflection",
+        "Quarantine"
       ],
       "trinkets": [
         "Focus Ring",
@@ -1196,7 +1242,8 @@
       ],
       "source": "model",
       "samples": 0,
-      "rankLegal": false
+      "rankLegal": false,
+      "kitCanReach": false
     },
     "Leper|4": {
       "heroClass": "Leper",
@@ -1209,9 +1256,9 @@
       ],
       "camp": [
         "Encourage",
-        "Wound Care",
-        "Pep Talk",
-        "Let the Mask Down"
+        "Bloody Shroud",
+        "Reflection",
+        "Quarantine"
       ],
       "trinkets": [
         "Focus Ring",
@@ -1219,7 +1266,8 @@
       ],
       "source": "model",
       "samples": 0,
-      "rankLegal": false
+      "rankLegal": false,
+      "kitCanReach": false
     },
     "Man at Arms|1": {
       "heroClass": "Man at Arms",
@@ -1241,8 +1289,9 @@
         "Wilbur's Flag"
       ],
       "source": "library",
-      "samples": 26,
-      "rankLegal": true
+      "samples": 27,
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Man at Arms|2": {
       "heroClass": "Man at Arms",
@@ -1261,11 +1310,12 @@
       ],
       "trinkets": [
         "Rampart Shield",
-        "Ancestor's Coat"
+        "Wilbur's Flag"
       ],
       "source": "library",
-      "samples": 10,
-      "rankLegal": true
+      "samples": 31,
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Man at Arms|3": {
       "heroClass": "Man at Arms",
@@ -1288,13 +1338,14 @@
       ],
       "source": "model",
       "samples": 3,
-      "rankLegal": true
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Man at Arms|4": {
       "heroClass": "Man at Arms",
       "rank": 4,
       "skills": [
-        "Rampart",
+        "Crush",
         "Bellow",
         "Command",
         "Bolster"
@@ -1311,7 +1362,8 @@
       ],
       "source": "model",
       "samples": 3,
-      "rankLegal": true
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Musketeer|1": {
       "heroClass": "Musketeer",
@@ -1325,8 +1377,8 @@
       "camp": [
         "Encourage",
         "Wound Care",
-        "Pep Talk",
-        "Field Dressing"
+        "Marching Plan",
+        "Clean Musket"
       ],
       "trinkets": [
         "Ancestor's Map",
@@ -1334,7 +1386,8 @@
       ],
       "source": "model",
       "samples": 0,
-      "rankLegal": false
+      "rankLegal": false,
+      "kitCanReach": false
     },
     "Musketeer|2": {
       "heroClass": "Musketeer",
@@ -1357,16 +1410,17 @@
       ],
       "source": "model",
       "samples": 2,
-      "rankLegal": false
+      "rankLegal": false,
+      "kitCanReach": false
     },
     "Musketeer|3": {
       "heroClass": "Musketeer",
       "rank": 3,
       "skills": [
         "Aimed Shot",
-        "Smokescreen",
         "Buckshot",
-        "Patch Up"
+        "Patch Up",
+        "Skeet Shot"
       ],
       "camp": [
         "Encourage",
@@ -1376,11 +1430,12 @@
       ],
       "trinkets": [
         "Fuseman's Matchstick",
-        "Silver Musket Ball"
+        "Ancestor's Musket Ball"
       ],
       "source": "library",
-      "samples": 13,
-      "rankLegal": true
+      "samples": 15,
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Musketeer|4": {
       "heroClass": "Musketeer",
@@ -1402,8 +1457,9 @@
         "Silver Musket Ball"
       ],
       "source": "library",
-      "samples": 47,
-      "rankLegal": true
+      "samples": 107,
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Occultist|1": {
       "heroClass": "Occultist",
@@ -1425,8 +1481,9 @@
         "Ancestor's Signet Ring"
       ],
       "source": "library",
-      "samples": 53,
-      "rankLegal": true
+      "samples": 101,
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Occultist|2": {
       "heroClass": "Occultist",
@@ -1448,8 +1505,9 @@
         "Ancestor's Pistol"
       ],
       "source": "library",
-      "samples": 27,
-      "rankLegal": true
+      "samples": 47,
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Occultist|3": {
       "heroClass": "Occultist",
@@ -1472,7 +1530,8 @@
       ],
       "source": "model",
       "samples": 1,
-      "rankLegal": true
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Occultist|4": {
       "heroClass": "Occultist",
@@ -1485,17 +1544,18 @@
       ],
       "camp": [
         "Encourage",
-        "Abandon Hope",
+        "Wound Care",
         "Dark Ritual",
-        "Dark Strength"
+        "Unspeakable Commune"
       ],
       "trinkets": [
-        "Eldritch Killing Incense",
-        "Evasion Incense"
+        "Ancestor's Pistol",
+        "Demon's Cauldron"
       ],
       "source": "model",
       "samples": 1,
-      "rankLegal": true
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Plague Doctor|1": {
       "heroClass": "Plague Doctor",
@@ -1509,8 +1569,8 @@
       "camp": [
         "Encourage",
         "Wound Care",
-        "Pep Talk",
-        "Experimental Vapours"
+        "Leeches",
+        "The Cure"
       ],
       "trinkets": [
         "Blasphemous Vial",
@@ -1518,7 +1578,8 @@
       ],
       "source": "model",
       "samples": 0,
-      "rankLegal": false
+      "rankLegal": false,
+      "kitCanReach": false
     },
     "Plague Doctor|2": {
       "heroClass": "Plague Doctor",
@@ -1532,8 +1593,8 @@
       "camp": [
         "Encourage",
         "Wound Care",
-        "Pep Talk",
-        "Experimental Vapours"
+        "Leeches",
+        "The Cure"
       ],
       "trinkets": [
         "Blasphemous Vial",
@@ -1541,7 +1602,8 @@
       ],
       "source": "model",
       "samples": 0,
-      "rankLegal": true
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Plague Doctor|3": {
       "heroClass": "Plague Doctor",
@@ -1563,17 +1625,18 @@
         "Ashen Distillation"
       ],
       "source": "library",
-      "samples": 41,
-      "rankLegal": true
+      "samples": 60,
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Plague Doctor|4": {
       "heroClass": "Plague Doctor",
       "rank": 4,
       "skills": [
         "Noxious Blast",
+        "Plague Grenade",
         "Blinding Gas",
-        "Battlefield Medicine",
-        "Disorienting Blast"
+        "Battlefield Medicine"
       ],
       "camp": [
         "Encourage",
@@ -1583,18 +1646,19 @@
       ],
       "trinkets": [
         "Blasphemous Vial",
-        "Ancestor's Map"
+        "Ashen Distillation"
       ],
       "source": "library",
-      "samples": 35,
-      "rankLegal": true
+      "samples": 52,
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Runaway|1": {
       "heroClass": "Runaway",
       "rank": 1,
       "skills": [
-        "Searing Strike",
         "Firefly",
+        "Run and Hide",
         "Controlled Burn",
         "Backdraft"
       ],
@@ -1605,35 +1669,37 @@
         "Play with Fire"
       ],
       "trinkets": [
-        "Ancestor's Coat",
-        "Camouflage Cloak"
+        "Carved Toy",
+        "Knitted Blanket"
       ],
-      "source": "model",
-      "samples": 2,
-      "rankLegal": true
+      "source": "library",
+      "samples": 6,
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Runaway|2": {
       "heroClass": "Runaway",
       "rank": 2,
       "skills": [
-        "Searing Strike",
         "Firefly",
+        "Run and Hide",
         "Controlled Burn",
         "Backdraft"
       ],
       "camp": [
         "Encourage",
+        "Kindle",
         "Cauterize",
-        "Play with Fire",
-        "Pick Pocket"
+        "Play with Fire"
       ],
       "trinkets": [
-        "Carved Toy",
-        "Knitted Blanket"
+        "Ancestor's Signet Ring",
+        "Searing Sunstone"
       ],
-      "source": "model",
-      "samples": 3,
-      "rankLegal": true
+      "source": "library",
+      "samples": 6,
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Runaway|3": {
       "heroClass": "Runaway",
@@ -1655,8 +1721,9 @@
         "Ancestor's Signet Ring"
       ],
       "source": "library",
-      "samples": 33,
-      "rankLegal": true
+      "samples": 61,
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Runaway|4": {
       "heroClass": "Runaway",
@@ -1674,12 +1741,13 @@
         "Play with Fire"
       ],
       "trinkets": [
-        "Camouflage Cloak",
-        "Ancestor's Coat"
+        "Ancestor's Coat",
+        "Ancestor's Signet Ring"
       ],
       "source": "model",
       "samples": 2,
-      "rankLegal": true
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Shieldbreaker|1": {
       "heroClass": "Shieldbreaker",
@@ -1701,8 +1769,9 @@
         "Surgical Gloves"
       ],
       "source": "library",
-      "samples": 22,
-      "rankLegal": true
+      "samples": 24,
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Shieldbreaker|2": {
       "heroClass": "Shieldbreaker",
@@ -1715,17 +1784,18 @@
       ],
       "camp": [
         "Encourage",
+        "Wound Care",
         "Snake Skin",
-        "Sandstorm",
-        "Adder's Embrace"
+        "Sandstorm"
       ],
       "trinkets": [
         "Ancestor's Pen",
         "Surgical Gloves"
       ],
       "source": "library",
-      "samples": 6,
-      "rankLegal": true
+      "samples": 26,
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Shieldbreaker|3": {
       "heroClass": "Shieldbreaker",
@@ -1739,16 +1809,17 @@
       "camp": [
         "Encourage",
         "Wound Care",
-        "Snake Eyes",
-        "Snake Skin"
+        "Snake Skin",
+        "Sandstorm"
       ],
       "trinkets": [
         "Camouflage Cloak",
         "Sun Cloak"
       ],
       "source": "model",
-      "samples": 1,
-      "rankLegal": true
+      "samples": 2,
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Shieldbreaker|4": {
       "heroClass": "Shieldbreaker",
@@ -1756,14 +1827,14 @@
       "skills": [
         "Pierce",
         "Puncture",
-        "Captivate",
+        "Expose",
         "Serpent Sway"
       ],
       "camp": [
         "Encourage",
         "Wound Care",
-        "Pep Talk",
-        "Snake Eyes"
+        "Snake Skin",
+        "Sandstorm"
       ],
       "trinkets": [
         "Ancestor's Pen",
@@ -1771,7 +1842,8 @@
       ],
       "source": "model",
       "samples": 0,
-      "rankLegal": false
+      "rankLegal": false,
+      "kitCanReach": false
     },
     "Vestal|1": {
       "heroClass": "Vestal",
@@ -1785,8 +1857,8 @@
       "camp": [
         "Encourage",
         "Wound Care",
-        "Pep Talk",
-        "Bless"
+        "Bless",
+        "Sanctuary"
       ],
       "trinkets": [
         "Salacious Diary",
@@ -1794,7 +1866,8 @@
       ],
       "source": "model",
       "samples": 0,
-      "rankLegal": true
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Vestal|2": {
       "heroClass": "Vestal",
@@ -1817,7 +1890,8 @@
       ],
       "source": "model",
       "samples": 2,
-      "rankLegal": true
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Vestal|3": {
       "heroClass": "Vestal",
@@ -1839,8 +1913,9 @@
         "Atonement Beads"
       ],
       "source": "library",
-      "samples": 10,
-      "rankLegal": true
+      "samples": 16,
+      "rankLegal": true,
+      "kitCanReach": true
     },
     "Vestal|4": {
       "heroClass": "Vestal",
@@ -1862,8 +1937,9 @@
         "Atonement Beads"
       ],
       "source": "library",
-      "samples": 22,
-      "rankLegal": true
+      "samples": 28,
+      "rankLegal": true,
+      "kitCanReach": true
     }
   }
 }
