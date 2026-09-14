@@ -892,6 +892,7 @@ Class trinkets were separately unreachable: 83.5% of them had their picture file
 | `alwaysActive` | `skill_selection: .can_select_combat_skills false` |
 | `stances` | the `mode:` ids, when there are two or more |
 | `heroId` | the mod's own folder/class id — the link back to the workshop folder |
+| `district` | the estate district's `tag: .id`, the same line the vanilla classes carry |
 | `MODDED_GENERAL_TRINKETS` | entries whose `hero_class_requirements` is **empty** — worn by anyone |
 
 Names come from the string tables and nowhere else. Four traps, each of which silently produced
@@ -1305,6 +1306,49 @@ data: attacks cluster at 102.5% and 112.5% ACC, with the main four regions weigh
 others at 0.2. A Crimson Court set bonus counts when the partner is worn, and half while the partner
 is still there to take.
 
+**The estate is part of the answer** (`districtEffects` in `src/data/estate.js`). A district row now
+carries `buffs` (what moves a stat bar, which `statBreakdown` draws) and `effects` (the rest, which
+nothing drew before). Both come from the game's own files, so this works for a modded class too: a
+hero's district is the `tag: .id "<district>"` in its `.info.darkest`, and the buff rows are in the
+Crimson Court and Fire's Edge district JSON.
+
+| District | Heroes | Outside the bars |
+| --- | --- | --- |
+| Training Ring | Arbalest, Houndmaster, Man at Arms, Musketeer, Shieldbreaker | +4 ACC |
+| Athenaeum (`library`) | Antiquarian, Occultist, Plague Doctor | +15% blight chance, +15% debuff chance |
+| House of the Yellow Hand | Bounty Hunter, Grave Robber, Highwayman | +5% scouting |
+| Altar of the Light | Crusader, Vestal, Flagellant | +10% healing dealt |
+| Performance Hall | Jester | −10% stress received, +20% DMG on Finale |
+| Académie Duello | **everyone** | +15% riposte damage (only the +1 SPD is the Duelist's) |
+
+Two of those are wired in, both because they are the same units as something already modelled:
+- **Training Ring's +4 ACC** enters `accNeed`, which is a gap in ACC points. It is why the Arbalest
+  dossier says she "doesn't desperately need ACC investments", and it lifts a riposte too, whose own
+  accuracy never improves on its own. On the bench the Houndmaster stops buying Steady Bracer and
+  takes the DODGE he lives on, and the one Focus Ring moves off the Shieldbreaker to the Highwayman,
+  who has no district ACC.
+- **Yellow Hand's +5% scouting** seeds `partyScouting`, the same pool a scouting trinket fills, so a
+  party of those three starts most of the way to the map and spends the slot elsewhere.
+
+`heroNeeds` and `reequipParty` take `estate` exactly as `statBreakdown` does: `true`, `false`, or the
+list of districts an imported save has really built.
+
+**This extrapolates to modded classes**, which is the point of doing it from data. A modded class
+declares its district with the same `tag: .id "<district>"` line, so `importModdedHeroes` keeps it as
+`district` on the class and `districtsFor(heroClass, districtId)` hands it the row the table only
+lists vanilla classes in. Of the mods installed here, 45 heroes tag one: Hedge Knight, Commandant and
+Legion take the Training Ring, the Veiled the Athenaeum, the Ringmaster the Performance Hall.
+
+**The modded data itself is not refreshed yet.** `modded_heroes.js` is generated, and re-running the
+importer would also bring in 16 classes installed since the last run and rebuild 7 — a roster change,
+which is Fran's call, not a side effect of this one:
+
+```
+node scripts/importModdedHeroes.js --workshop "<…/workshop/content/262060>" --game "<install>"
+```
+
+Until then a modded class simply has no `district` and nothing changes for it.
+
 **Bench:** `node scripts/benchReequip.js --save <profile folder> --out report.md` re-equips every
 four-hero expedition in the save's campaign log from the trinkets owned today. It runs the old
 substitution beside the new re-equip and gives every slot a tier and a reason. The log records
@@ -1315,7 +1359,11 @@ Pinned by `src/utils/__tests__/trinketReequip.test.js`.
 **Not modelled yet:**
 - Runaway's burn beyond `burn skill amount`;
 - prose clauses ("On Attack: …");
-- utility and resist weights, which are first guesses.
+- utility and resist weights, which are first guesses;
+- the other district effects. They are in the data and on `needs.district`, but blight/debuff chance,
+  healing dealt, stress received and riposte damage have no threshold in the code to be measured
+  against the way ACC and scouting do, and guessing one would be inventing Fran's judgement. Ask him
+  what 15 points of free blight chance is worth against a trinket's before weighting them.
 
 ## What a hero IS (`src/data/heroStats.js`)
 

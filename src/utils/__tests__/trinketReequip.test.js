@@ -40,6 +40,21 @@ describe('heroNeeds reads what a hero wants from its kit', () => {
     expect(needsOf('Leper', 1).roles.damageDealer).toBe(true);
     expect(needsOf('Antiquarian', 3).roles.damageDealer).toBe(false);
   });
+
+  it('lets the estate answer part of the accuracy question', () => {
+    // Training Ring's +4 ACC is why the Arbalest dossier says she "doesn't
+    // desperately need ACC investments", and the Houndmaster would rather have
+    // the DODGE he lives on than the ACC the district already gave him.
+    const built = heroNeeds(hero('Houndmaster', 2), { heroIndex: 1, estate: true });
+    const none = heroNeeds(hero('Houndmaster', 2), { heroIndex: 1, estate: false });
+    expect(built.district).toEqual({ acc: 4, riposteDamage: 15 });
+    expect(built.accNeed).toBeLessThan(none.accNeed);
+    expect(trinketValue('Steady Bracer', built).value)
+      .toBeLessThan(trinketValue('Steady Bracer', none).value);
+    // A hero with no ACC district is where it was.
+    expect(heroNeeds(hero('Leper', 1), { heroIndex: 0, estate: true }).accNeed)
+      .toBe(heroNeeds(hero('Leper', 1), { heroIndex: 0, estate: false }).accNeed);
+  });
 });
 
 describe('trinketValue follows Fran\'s rules', () => {
@@ -153,6 +168,21 @@ describe('reequipParty fills a party in Fran\'s order', () => {
   it('dresses the Vestal in her Crimson Court pair when both halves are owned', () => {
     const result = reequipParty([hero('Vestal', 4)], ['Salacious Diary', 'Atonement Beads', "Medic's Greaves"]);
     expect([result.heroes[0].trinket1, result.heroes[0].trinket2].sort()).toEqual(['Atonement Beads', 'Salacious Diary']);
+  });
+});
+
+describe('the estate is part of the party', () => {
+  const party = () => [hero('Highwayman', 1), hero('Grave Robber', 2), hero('Bounty Hunter', 3), hero('Vestal', 4)];
+
+  it('counts House of the Yellow Hand towards the map the party needs', () => {
+    // Three Yellow Hand heroes scout 5% each, so one Seer Stone finishes the
+    // job and the second scouting trinket is not worth a slot. Without the
+    // district the same party buys both.
+    const pool = ['Seer Stone', 'Caution Cloak'];
+    const built = reequipParty(party(), pool, { estate: true });
+    const none = reequipParty(party(), pool, { estate: false });
+    expect(built.picks.map((p) => p.name)).toEqual(['Seer Stone']);
+    expect(none.picks.map((p) => p.name)).toEqual(['Seer Stone', 'Caution Cloak']);
   });
 });
 

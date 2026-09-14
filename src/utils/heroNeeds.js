@@ -17,6 +17,7 @@ import { getModdedSkillEffect } from '../data/moddedEffects';
 import { HERO_CLASSES } from '../data/heroes';
 import { getModdedHeroClasses } from '../data/moddedRoster';
 import { getGearStats, MAX_GEAR_RANK } from '../data/heroStats';
+import { districtEffects } from '../data/estate';
 import { skillProfile } from './skillProfile';
 import { statPosition } from './heroStatLine';
 import { statBreakdown } from './statBreakdown';
@@ -121,10 +122,10 @@ const topOutput = () => {
 
 /**
  * @param {object} hero  a party slot: `heroClass`, `activeSkills`, trinkets
- * @param {{party?: object[], heroIndex?: number}} [options]
+ * @param {{party?: object[], heroIndex?: number, estate?: boolean|string[]}} [options]
  * @returns {null|object} the hero's needs; see the fields below
  */
-export const heroNeeds = (hero, { party = null, heroIndex = -1 } = {}) => {
+export const heroNeeds = (hero, { party = null, heroIndex = -1, estate = true } = {}) => {
   const heroClass = hero?.heroClass;
   const data = classData(heroClass);
   const gear = getGearStats(heroClass, MAX_GEAR_RANK);
@@ -153,8 +154,12 @@ export const heroNeeds = (hero, { party = null, heroIndex = -1 } = {}) => {
   if (count(tagged('riposte'))) attacks.push({ acc: RIPOSTE_ACC, dodge: FRONT_ENEMY_DODGE });
 
   const acc = attacks.length ? attacks.reduce((total, a) => total + a.acc, 0) / attacks.length : null;
+  // The estate answers part of the question before the trinkets do. Training
+  // Ring's +4 ACC is why the Arbalest dossier says she "doesn't desperately need
+  // ACC investments", and it lifts a riposte too, whose own accuracy is fixed.
+  const district = districtEffects(heroClass, estate, data.district || null);
   // 0 where an attack already lands 95% of the time, 1 at 80% or less.
-  const needOf = ({ acc: value, dodge }) => clamp01((95 - (value + 5 - dodge)) / 15);
+  const needOf = ({ acc: value, dodge }) => clamp01((95 - (value + (district.acc || 0) + 5 - dodge)) / 15);
   const accNeed = attacks.length
     ? attacks.reduce((total, attack) => total + needOf(attack), 0) / attacks.length
     : 0;
@@ -259,7 +264,7 @@ export const heroNeeds = (hero, { party = null, heroIndex = -1 } = {}) => {
   // buffs, which is what the trinkets have to top up to reach a bar.
   const bare = { ...hero, trinket1: '', trinket2: '' };
   const team = Array.isArray(party) ? party.map((member, i) => (i === heroIndex ? bare : member)) : null;
-  const line = statBreakdown(bare, { party: team, heroIndex });
+  const line = statBreakdown(bare, { party: team, heroIndex, estate });
   const reachableDodge = line ? line.stats.dodge.total + line.stats.dodge.potential : gear.dodge;
 
   return {
@@ -271,6 +276,7 @@ export const heroNeeds = (hero, { party = null, heroIndex = -1 } = {}) => {
     position,
     acc,
     accNeed,
+    district,
     damage,
     damageShare: { melee: typeShare('Melee'), ranged: typeShare('Ranged') },
     rollWidth: gear.dmgMax > 0 ? (gear.dmgMax - gear.dmgMin) / gear.dmgMax : 0,

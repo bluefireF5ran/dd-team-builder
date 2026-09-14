@@ -5,6 +5,7 @@
  * this needs has a vanilla counterpart and the same parser handles both:
  *
  *   heroes/<id>/<id>.info.darkest   the kit - combat skills in display order,
+ *                                   the estate district `tag:`,
  *                                   `skill_selection` (whether the player picks
  *                                   4 of 7 or fights with all of them) and
  *                                   `mode:` lines (stances)
@@ -111,6 +112,15 @@ function readDarkest(file, type) {
 const ICON_ORDINALS = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven',
   'eight', 'nine', 'ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen'];
 
+/**
+ * The estate districts a hero can belong to. A class declares its own the same
+ * way the vanilla ones do, with a `tag: .id "<district>"` in its info file, so
+ * this is the one thing about a modded class's town that needs no guessing.
+ * What each district gives is in `src/data/estate.js`.
+ */
+const DISTRICT_TAGS = new Set(['training_ring', 'library', 'altar_of_light',
+  'house_of_the_yellow_hand', 'theater', 'outsiders_bonfire', 'conservatory_of_steel']);
+
 const LANGS = ['english', 'brazilian', 'czech', 'french', 'german', 'italian', 'japanese',
   'koreana', 'koreanb', 'korean', 'polish', 'russian', 'schinese', 'tchinese', 'spanish'];
 
@@ -196,6 +206,9 @@ function readKit(hero) {
   // array; neither is a stance name.
   const modes = readDarkest(hero.info, 'mode').map((m) => m.id).filter((v) => typeof v === 'string' && v);
   const gen = readDarkest(hero.info, 'generation')[0] || {};
+  const district = readDarkest(hero.info, 'tag')
+    .map((t) => t.id)
+    .find((id) => typeof id === 'string' && DISTRICT_TAGS.has(id)) || null;
 
   // `.can_select_combat_skills false` is the game's own always-active flag: the
   // hero fights with the whole kit instead of four chosen skills.
@@ -208,7 +221,7 @@ function readKit(hero) {
   // what makes the class a stance class.
   const modeSkills = order.filter((id) => (byId.get(id) || []).some((s) => s.valid_modes));
 
-  return { order, artOrder, byId, alwaysActive, canSelectRaw: canSelect, maxSkills, modes, modeSkills };
+  return { order, artOrder, byId, alwaysActive, canSelectRaw: canSelect, maxSkills, modes, modeSkills, district };
 }
 
 /** Camp skills the mod grants to each of its hero ids, in file order. */

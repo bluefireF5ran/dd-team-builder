@@ -1,6 +1,10 @@
 import { statBreakdown, statScale, partyLight, barGeometry, segmentGradient, GROUP_COLOURS } from '../statBreakdown';
-import { cartographerBonus, districtsFor, classId, lightBonus } from '../../data/estate';
+import { cartographerBonus, districtsFor, districtEffects, classId, lightBonus } from '../../data/estate';
 import { TRINKET_EFFECTS } from '../../data/trinketEffects';
+import * as moddedHeroes from '../../data/modded_heroes';
+import * as moddedEffectsGenerated from '../../data/moddedEffectsGenerated';
+import { installModdedRoster } from '../../data/moddedRoster';
+import { heroNeeds } from '../heroNeeds';
 
 const partOf = (row, group) => row.parts.find((p) => p.group === group)?.amount ?? 0;
 
@@ -95,6 +99,45 @@ describe('the estate', () => {
     expect(classId('Man-at-Arms')).toBe('man_at_arms');
     expect(districtsFor('Man-at-Arms').map((d) => d.name)).toContain('Training Ring');
     expect(districtsFor('Jester').map((d) => d.name)).toEqual(['Académie Duello', 'Performance Hall']);
+  });
+
+  it('reads what a district gives outside the bars, and only where it is built', () => {
+    // Read off the game's own buff rows, not the dossiers' prose.
+    expect(districtEffects('Arbalest').acc).toBe(4);
+    expect(districtEffects('Plague Doctor')).toMatchObject({ blightChance: 15, debuffChance: 15 });
+    expect(districtEffects('Highwayman').scouting).toBe(5);
+    // Académie Duello's riposte damage is `hero_type_tags: []`: everyone's.
+    expect(districtEffects('Leper')).toEqual({ riposteDamage: 15 });
+    expect(districtEffects('Arbalest', false)).toEqual({});
+    expect(districtEffects('Arbalest', ['training_ring'])).toEqual({ acc: 4 });
+  });
+
+  it('gives a modded class the district its own mod files tag it with', () => {
+    // The table names no modded class, but the mod does: the same
+    // `tag: .id "training_ring"` the Arbalest carries, kept as `district` by
+    // `importModdedHeroes`. Installed here on a class that has stats, so the
+    // test does not depend on which mods are on this machine.
+    const CLASS = 'Hedge Knight';
+    const real = moddedHeroes.MODDED_HERO_CLASSES[CLASS];
+    const before = statBreakdown({ heroClass: CLASS }).stats.hp.total;
+    installModdedRoster(
+      {
+        ...moddedHeroes,
+        MODDED_HERO_CLASSES: {
+          ...moddedHeroes.MODDED_HERO_CLASSES,
+          [CLASS]: { ...real, district: 'training_ring' }
+        }
+      },
+      moddedEffectsGenerated
+    );
+    try {
+      const line = statBreakdown({ heroClass: CLASS });
+      expect(partOf(line.stats.hp, 'estate')).toBeGreaterThan(0);
+      expect(line.stats.hp.total).toBeGreaterThan(before);
+      expect(heroNeeds({ heroClass: CLASS }).district).toEqual({ acc: 4, riposteDamage: 15 });
+    } finally {
+      installModdedRoster(moddedHeroes, moddedEffectsGenerated);
+    }
   });
 
   it('multiplies HP for a Training Ring class and adds CRIT for a Yellow Hand one', () => {
