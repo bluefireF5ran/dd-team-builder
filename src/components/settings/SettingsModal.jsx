@@ -136,11 +136,26 @@ const SettingsModal = ({ isOpen, onClose, settings, setSetting, toggleSetting, r
                 onChange={() => toggleSetting('showModdedHeroes')}
               />
             </Row>
-            <Row icon={Star} title="Backer trinkets" hint="The Kickstarter backer trinkets.">
+            <Row
+              icon={Star}
+              title="Backer trinkets"
+              hint="The Kickstarter backer trinkets. Off, they are never suggested."
+            >
               <Toggle
                 label="Backer trinkets"
                 checked={settings.showBackerTrinkets}
                 onChange={() => toggleSetting('showBackerTrinkets')}
+              />
+            </Row>
+            <Row
+              icon={Swords}
+              title="Butcher's Circus trinkets"
+              hint="The PvP DLC's trinkets, the Ringmaster's among them. Strong and generic, so off they are never suggested."
+            >
+              <Toggle
+                label="Butcher's Circus trinkets"
+                checked={settings.showButchersCircus}
+                onChange={() => toggleSetting('showButchersCircus')}
               />
             </Row>
             <Row

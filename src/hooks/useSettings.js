@@ -29,6 +29,10 @@ export const DEFAULT_SETTINGS = {
   // already built, so turning one off never destroys anything.
   showModdedHeroes: false,
   showBackerTrinkets: false,
+  // El DLC de PvP. Sus trinkets son genericos y fuertes, asi que ganan
+  // cualquier comparacion y no se usan en una partida normal: apagado, como el
+  // resto del contenido opcional.
+  showButchersCircus: false,
   showDiseases: false,
   showCrimsonCourt: false,
 

@@ -23,6 +23,7 @@ import { getRecommendedTrinkets } from '../data/recommendations';
 import { canEquip } from './trinketSubstitution';
 import { trinketProfile, targetProfile, profileMatch } from './trinketProfile';
 import { nameKey } from './nameNormalizer';
+import { isTrinketAllowed } from '../data/optionalTrinkets';
 import { skillProfile } from './skillProfile';
 import { statBreakdown } from './statBreakdown';
 import { districtEffects } from '../data/estate';
@@ -77,8 +78,10 @@ const SLOTS = ['trinket1', 'trinket2'];
  */
 export const reequipParty = (heroes, owned, { lowTorch = false, estate = true } = {}) => {
   const party = Array.isArray(heroes) ? heroes : [];
+  // Aunque los tengas en el inventario: si el contenido esta apagado, no se
+  // recomienda. Apagarlo es decir "esto no cuenta en mi partida".
   const pool = new Map();
-  (owned || []).filter(Boolean).forEach((name) => {
+  (owned || []).filter(Boolean).filter(isTrinketAllowed).forEach((name) => {
     if (!pool.has(nameKey(name))) pool.set(nameKey(name), name);
   });
 

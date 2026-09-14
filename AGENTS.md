@@ -1413,6 +1413,57 @@ node scripts/importModdedHeroes.js --workshop "<…/workshop/content/262060>" --
 
 A class that tags no district has no `district` and nothing changes for it.
 
+### A thin best-in-slot cell picks its trinkets by value
+
+`bisIndex` has three sources for **skills** - the comp library where a cell has samples, then
+`modelUsage.json`, then rank legality as a filter - and had only one for **trinkets**: the library's
+own counts, falling back to the hand-written per-class list in `recommendations.js`. With 35 of the
+80 cells under four comps, that hand list was effectively the answer for nearly half the table, and
+it does not know about ranks: the same eight names for a Duelist whether she stands at 1 or at 4,
+which is how `Champion's Mantle` ended up recommended at rank 3 where it values at **-0.8**.
+
+So a cell under `MIN_LIBRARY_SAMPLES` now orders its trinkets by `trinketValue`, the same machinery
+the re-equip uses. The hero is valued **alone**, with no party: a cell is a general answer, not one
+for a particular comp. The whole queue is still returned with the old ordering behind it, because
+`resolveTrinketClashes` needs somewhere to fall when two heroes want the same unique item, and
+anything that values negative is dropped rather than ranked last.
+
+It reaches for the hero's own class trinkets, which is what a best-in-slot should say: the Flagellant
+goes from `Ancestor's Map + Flesh's Heart` to `Resurrection's Collar + Ancestor's Scroll`, the
+Arbalest to `Keening Bolts + Fuseman's Matchstick`. Seven of 160 party rows move on the bench.
+
+The 45 cells the library can answer are untouched, and so is the skill side.
+
+### Optional content is off until you say otherwise (`src/data/optionalTrinkets.js`)
+
+Picking by value is what made this necessary. Fran (2026-09-14): "it should only recommend backer
+trinkets or ringmaster ones if they are activated, but this should be on the options tab as optional
+content, by default lets go with both off". The Butcher's Circus pieces are generic and strong, so
+they win every comparison the moment values decide - `Monkey's Paw`, `Pitfighter's Helm`,
+`Silver Syringe`, `Eerie Eye` and `Durable Armlet` turned up across half a dozen classes, and the
+Vestal was told to wear two of the Ringmaster's - and none of it is any use to somebody playing a
+normal campaign.
+
+Two switches in Settings, **both off by default**: "Backer trinkets" (which already existed for the
+picker and now governs recommendations too) and "Butcher's Circus trinkets".
+
+**The group is read off the game's own rarity, not off a list.** `trinketEffects.js` carries
+`rarity` on every entry, and it is complete: the 294 `Kickstarter` entries are exactly
+`BACKER_TRINKETS`, and the 99 `Butcher's Circus` ones exactly what the data files list by hand.
+A list-based filter was tried first and leaked: `Durable Armlet` sits in its class's ordinary array
+with `rarity: "Butcher's Circus"` written beside it, so the list waved it through. `Ringmaster` is
+its own rarity - four trinkets - and belongs to the Circus group, which a list would also have
+missed.
+
+Three places obey it: a best-in-slot will not name switched-off content, the re-equip will not equip
+it **even out of an imported save's inventory** (switching it off says "this does not count in my
+campaign"), and the picker already did. `optionalTrinketsVersion` feeds `syncWithRoster`, so
+flipping a switch invalidates the memoised cells instead of waiting for a reload.
+
+It is a registry rather than a prop because the callers are not components: `bisIndex` derives a
+cell knowing nothing about the UI. `App` installs it from settings, the way the modded roster is
+installed.
+
 ### Whether a defensive stat is worth a slot (`src/data/enemyThreat.js`)
 
 **There is no list of dodge tanks.** Fran, 2026-09-14: "i dont want to hand pick what is a dodge or

@@ -43,6 +43,11 @@
 import { HERO_CLASSES } from './heroes';
 import { getModdedHeroClasses, getModdedRosterVersion } from './moddedRoster';
 import { getRawComps } from './compIndex';
+import { TRINKETS } from './trinkets';
+import { HERO_SPECIFIC_TRINKETS } from './hero_specific_trinkets';
+import { heroNeeds } from '../utils/heroNeeds';
+import { trinketValue } from '../utils/trinketValue';
+import { allowedTrinkets, isTrinketAllowed, optionalTrinketsVersion } from './optionalTrinkets';
 import { getModelUsageStats } from './modelUsageIndex';
 import { getRecommendedTrinkets, getRecommendedQuirks } from './recommendations';
 import { skillProfile } from '../utils/skillProfile';
@@ -58,10 +63,14 @@ const classData = (heroClass) => HERO_CLASSES[heroClass] || getModdedHeroClasses
 
 // Los barridos de abajo leen las clases, y uno hecho antes de que llegara el
 // roster modded no conoce las suyas: se tiran en cuanto cambia.
-let cachesVersion = getModdedRosterVersion();
+let cachesVersion = null;
 const syncWithRoster = () => {
-  if (cachesVersion === getModdedRosterVersion()) return;
-  cachesVersion = getModdedRosterVersion();
+  // El contenido opcional cuenta igual que el roster: encender el Butcher's
+  // Circus cambia lo que una celda flaca puede recomendar, asi que lo
+  // memoizado con el anterior ya no vale.
+  const stamp = getModdedRosterVersion() + '|' + optionalTrinketsVersion();
+  if (cachesVersion === stamp) return;
+  cachesVersion = stamp;
   resetBisCaches();
 };
 
@@ -430,6 +439,55 @@ const rankedFrom = (map, fallback = []) => {
 
 
 /**
+ * Los trinkets de una celda flaca, ordenados por lo que valen en ese heroe.
+ *
+ * La libreria manda cuando tiene muestras. Cuando no las tiene, para las skills
+ * ya se recurre a `modelUsage.json` -- y para los trinkets no habia equivalente:
+ * se caia en la lista recomendada a mano de la clase, que no sabe de rangos y
+ * daba cosas como un Champion's Mantle en la Duelist de rango 3, donde vale
+ * -0.8. `trinketValue` si sabe: lee el kit, el rango y lo que el heroe alcanza.
+ *
+ * El heroe se valora solo, sin party, porque una celda es una respuesta general
+ * y no una para una comp concreta. La cola entera se devuelve igual, con lo que
+ * la libreria y la lista a mano hayan dicho detras, porque `resolveTrinketClashes`
+ * necesita a donde bajar cuando dos heroes quieren el mismo objeto unico.
+ */
+const rankedByValue = (heroClass, rank, activeSkills, cell) => {
+  const hero = {
+    heroClass,
+    activeSkills,
+    activeCampSkills: [],
+    trinket1: '',
+    trinket2: '',
+    quirks: { positive: [], negative: [] },
+    diseases: []
+  };
+  const party = [0, 1, 2, 3].map((i) => (i === rank - 1 ? hero : {}));
+  const needs = heroNeeds(hero, { party, heroIndex: rank - 1 });
+  if (!needs) return rankedFrom(cell.trinkets, getRecommendedTrinkets(heroClass));
+
+  // Sin el contenido que el jugador no ha activado: los de Kickstarter y los
+  // del Butcher's Circus se recomiendan solo si dice que los tiene.
+  const pool = allowedTrinkets([...TRINKETS, ...(HERO_SPECIFIC_TRINKETS[heroClass] || [])]);
+  const seen = new Set();
+  const scored = [];
+  pool.forEach((name) => {
+    if (!name || seen.has(name)) return;
+    seen.add(name);
+    const { value } = trinketValue(name, needs);
+    // Lo que le hace daño no es un best-in-slot ni al final de la cola.
+    if (value > 0) scored.push({ name, value });
+  });
+  scored.sort((a, b) => b.value - a.value || a.name.localeCompare(b.name));
+
+  const ranked = scored.map((entry) => entry.name);
+  rankedFrom(cell.trinkets, getRecommendedTrinkets(heroClass)).forEach((name) => {
+    if (!ranked.includes(name) && isTrinketAllowed(name)) ranked.push(name);
+  });
+  return ranked;
+};
+
+/**
  * La loadout recomendada de `heroClass` en `rank` (1-4, frente a fondo).
  *
  * @returns {{heroClass, rank, activeSkills, activeCampSkills, trinket1, trinket2,
@@ -455,7 +513,10 @@ export const bisLoadout = (heroClass, rank) => {
   );
 
   const camp = sortToRoster(chooseCampSkills(heroClass, data), data.campSkills || []);
-  const trinketOptions = rankedFrom(cell.trinkets, getRecommendedTrinkets(heroClass));
+  // Con muestras manda la libreria; sin ellas, lo que el trinket vale aqui.
+  const trinketOptions = cell.n >= MIN_LIBRARY_SAMPLES
+    ? rankedFrom(cell.trinkets, getRecommendedTrinkets(heroClass))
+    : rankedByValue(heroClass, slot, activeSkills, cell);
   const trinkets = trinketOptions.slice(0, HERO_CONFIG.MAX_TRINKETS);
   const quirks = getRecommendedQuirks(heroClass);
 
