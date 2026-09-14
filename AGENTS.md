@@ -1231,6 +1231,92 @@ combat skills, 157 camp skills, 331 class trinkets.** The other 606 classes repo
 `main.js`: it loads with the modded roster (**The modded roster loads on demand**), so covering all
 644 classes grows that chunk, not the first download.
 
+## What a trinket is worth on a hero (`heroNeeds`, `trinketValue`, `trinketReequip`)
+
+**Status (2026-09-14): built and benchmarked, not yet wired into the app.** Suggest Comp still
+re-equips through `trinketSubstitution`, which only keeps a comp's trinkets or a close lookalike
+and otherwise leaves the slot empty. Fran is reviewing the bench report before it replaces that.
+
+**The fill order is Fran's** (`trinketReequip.js`):
+1. the comp's own trinkets;
+2. the character's best-in-slot (`bisLoadout` for class and rank);
+3. other trinkets the class uses: the next 4 of its BiS queue and its top 5 by library usage,
+   worth at least 0.3 on this hero;
+4. useful trinkets that resemble the BiS (value ≥ 0.6 and `profileMatch` ≥ 0.15);
+5. generically useful trinkets (value ≥ 0.6);
+6. net-positive ones (value > 0.05);
+7. an empty slot.
+
+A trinket that is net negative on the hero wearing it is never equipped; a character BiS is allowed
+down to −0.05. Picks are made one at a time, best tier then best value across the whole party, and
+recomputed after every pick. That is how two heroes share one Ancestor's Map. The loser falls to its
+next option, a worse DODGE trinket or the next BiS, which are Fran's two routes.
+
+**What a hero wants is read from the kit** (`heroNeeds.js`), not from a table per class:
+- roles come from the `skillProfile` tags of the chosen skills (or the whole kit);
+- `damage` is the mean of the two hardest-hitting skills at max gear, over the strongest vanilla class;
+- `accNeed` is the average over the hero's attacks of how far each falls short: a hit lands at
+  ACC + 5 − DODGE, so an attack needs nothing at 95% or more and everything at 80% or less. Each
+  attack faces the enemies it can reach — DODGE 25 in ranks 1-2, 30 in ranks 3-4, measured from the
+  champion mash tables, whose rows list a group in rank order. A riposte counts as one more attack
+  at its own fixed accuracy (`RIPOSTE_ACC` 85; Man at Arms' is 90), which does not scale with the
+  skill but does take trinkets;
+- `utilityBreadth` counts how many different jobs the kit does (stun, debuff, guard, riposte, enemy
+  moves, support), which is what makes SPD worth more;
+- a blight or bleed is primary when its total damage over time is at least the direct damage of the
+  skills that carry it, and it rides on at least half of the hero's damaging skills. Plague Doctor's
+  Noxious Blast counts. Houndmaster's Hound's Rush does not, and neither does the Highwayman's Open
+  Vein: it is real damage, but on one skill of four, and he wants DMG, CRIT and SPD (Fran);
+- a tank that wants HP and PROT has high HP (position ≥ 0.7) or marks itself. Guard is not a test
+  (Protect Me tags the guarded Antiquarian), riposte is not either, and a dodge tank never is one;
+- `guardAlly` is a skill that guards someone ("Guard Ally"): not being guarded ("Force Guard by
+  Ally" on Protect Me) and not bypassing guard;
+- the dodge tanks themselves are Fran's list: Jester, Houndmaster, Man at Arms, Antiquarian, Duelist,
+  Grave Robber, Bounty Hunter.
+
+**What a trinket is worth** (`trinketValue.js`): each clause's size over that stat's median across
+the corpus (capped at 3 units) × a per-hero weight × how often the clause is on. Fran's rules drive
+the weights:
+- lean into strengths: DODGE for dodge tanks, HP and PROT only for tanks;
+- ACC by need; CRIT higher on a damage dealer with a wide roll;
+- riposte heroes (Highwayman, Man at Arms, Duelist) value DMG and CRIT, because the riposte uses the
+  damage bonus and can crit; SPD, to set the riposte up before enemies hit; and DODGE or HP to stay
+  up (Fran);
+- stun resist is worth more on a hero who guards or ripostes: a stunned one stops doing it;
+- a "Melee Skills" or "Ranged Skills" clause counts for the share of the hero's damaging skills of
+  that type;
+- effect chance only where the hero relies on it;
+- reactive stats (stress, virtue, Death's Door) low;
+- scouting 0.45 until the party carries 20 from trinkets, then next to nothing.
+
+Build goals multiply in Fran's priority: sustain ×1.4, thresholds ×1.25, class-trinket synergy
+×1.15, damage ×1, the rest ×0.8. Downsides use the same weights, which is what makes Focus Ring
+negative on an Antiquarian and positive on a Hellion.
+
+How often a clause is on:
+- torch-above conditions count, as the stat bars do; torch-below ones count 0.25;
+- inventory conditions count;
+- a position clause counts where the hero stands, half for a dancer, 0.2 if few skills work there;
+- "vs Marked/Stunned/…" counts 0.5 when the party sets that state up, 0.15 otherwise;
+- "vs Beast" and other types count 0.3.
+
+Pushing a dodge tank over DODGE 85 (tank) or 95 (extreme) adds 0.6. Those bars come from champion
+data: attacks cluster at 102.5% and 112.5% ACC, with the main four regions weighted fully and the
+others at 0.2. A Crimson Court set bonus counts when the partner is worn, and half while the partner
+is still there to take.
+
+**Bench:** `node scripts/benchReequip.js --save <profile folder> --out report.md` re-equips every
+four-hero expedition in the save's campaign log from the trinkets owned today. It runs the old
+substitution beside the new re-equip and gives every slot a tier and a reason. The log records
+parties, not loadouts (`campaignHistory.js`, the game's `h*53+char` string hash). On Fran's
+profile_8 (26 expeditions): 208/208 slots filled against 186/208, and no net-negative picks.
+Pinned by `src/utils/__tests__/trinketReequip.test.js`.
+
+**Not modelled yet:**
+- Runaway's burn beyond `burn skill amount`;
+- prose clauses ("On Attack: …");
+- utility and resist weights, which are first guesses.
+
 ## What a hero IS (`src/data/heroStats.js`)
 
 **Generated — don't hand-edit.** `scripts/importHeroStats.js` reads
