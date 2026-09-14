@@ -16,6 +16,7 @@ import { afterModdedRosterFor } from './data/moddedRoster';
 import { useModdedRoster } from './hooks/useModdedRoster';
 import ConfirmDialog from './components/common/ConfirmDialog';
 import { StatSettingsContext, statSettingsFrom } from './hooks/useStatSettings';
+import { setOptionalTrinkets } from './data/optionalTrinkets';
 
 const ImageTester = lazy(() => import('./components/debug/ImageTester'));
 
@@ -62,6 +63,15 @@ const App = () => {
   useModdedRoster(settings.showModdedHeroes);
   // Dificultad y Hacienda para todas las estadisticas de la app (`useStatSettings`).
   const statSettings = useMemo(() => statSettingsFrom(settings, saveProfile), [settings, saveProfile]);
+
+  // Y que contenido opcional puede recomendar. Es un registro y no un contexto
+  // porque quien lo lee -- `bisIndex`, `trinketReequip`-- no es un componente.
+  useEffect(() => {
+    setOptionalTrinkets({
+      backer: !!settings.showBackerTrinkets,
+      circus: !!settings.showButchersCircus
+    });
+  }, [settings.showBackerTrinkets, settings.showButchersCircus]);
   const {
     teamName,
     setTeamName,

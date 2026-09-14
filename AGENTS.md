@@ -1434,6 +1434,36 @@ Arbalest to `Keening Bolts + Fuseman's Matchstick`. Seven of 160 party rows move
 
 The 45 cells the library can answer are untouched, and so is the skill side.
 
+### Optional content is off until you say otherwise (`src/data/optionalTrinkets.js`)
+
+Picking by value is what made this necessary. Fran (2026-09-14): "it should only recommend backer
+trinkets or ringmaster ones if they are activated, but this should be on the options tab as optional
+content, by default lets go with both off". The Butcher's Circus pieces are generic and strong, so
+they win every comparison the moment values decide - `Monkey's Paw`, `Pitfighter's Helm`,
+`Silver Syringe`, `Eerie Eye` and `Durable Armlet` turned up across half a dozen classes, and the
+Vestal was told to wear two of the Ringmaster's - and none of it is any use to somebody playing a
+normal campaign.
+
+Two switches in Settings, **both off by default**: "Backer trinkets" (which already existed for the
+picker and now governs recommendations too) and "Butcher's Circus trinkets".
+
+**The group is read off the game's own rarity, not off a list.** `trinketEffects.js` carries
+`rarity` on every entry, and it is complete: the 294 `Kickstarter` entries are exactly
+`BACKER_TRINKETS`, and the 99 `Butcher's Circus` ones exactly what the data files list by hand.
+A list-based filter was tried first and leaked: `Durable Armlet` sits in its class's ordinary array
+with `rarity: "Butcher's Circus"` written beside it, so the list waved it through. `Ringmaster` is
+its own rarity - four trinkets - and belongs to the Circus group, which a list would also have
+missed.
+
+Three places obey it: a best-in-slot will not name switched-off content, the re-equip will not equip
+it **even out of an imported save's inventory** (switching it off says "this does not count in my
+campaign"), and the picker already did. `optionalTrinketsVersion` feeds `syncWithRoster`, so
+flipping a switch invalidates the memoised cells instead of waiting for a reload.
+
+It is a registry rather than a prop because the callers are not components: `bisIndex` derives a
+cell knowing nothing about the UI. `App` installs it from settings, the way the modded roster is
+installed.
+
 ### Whether a defensive stat is worth a slot (`src/data/enemyThreat.js`)
 
 **There is no list of dodge tanks.** Fran, 2026-09-14: "i dont want to hand pick what is a dodge or

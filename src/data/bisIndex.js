@@ -47,6 +47,7 @@ import { TRINKETS } from './trinkets';
 import { HERO_SPECIFIC_TRINKETS } from './hero_specific_trinkets';
 import { heroNeeds } from '../utils/heroNeeds';
 import { trinketValue } from '../utils/trinketValue';
+import { allowedTrinkets, isTrinketAllowed, optionalTrinketsVersion } from './optionalTrinkets';
 import { getModelUsageStats } from './modelUsageIndex';
 import { getRecommendedTrinkets, getRecommendedQuirks } from './recommendations';
 import { skillProfile } from '../utils/skillProfile';
@@ -62,10 +63,14 @@ const classData = (heroClass) => HERO_CLASSES[heroClass] || getModdedHeroClasses
 
 // Los barridos de abajo leen las clases, y uno hecho antes de que llegara el
 // roster modded no conoce las suyas: se tiran en cuanto cambia.
-let cachesVersion = getModdedRosterVersion();
+let cachesVersion = null;
 const syncWithRoster = () => {
-  if (cachesVersion === getModdedRosterVersion()) return;
-  cachesVersion = getModdedRosterVersion();
+  // El contenido opcional cuenta igual que el roster: encender el Butcher's
+  // Circus cambia lo que una celda flaca puede recomendar, asi que lo
+  // memoizado con el anterior ya no vale.
+  const stamp = getModdedRosterVersion() + '|' + optionalTrinketsVersion();
+  if (cachesVersion === stamp) return;
+  cachesVersion = stamp;
   resetBisCaches();
 };
 
@@ -461,7 +466,9 @@ const rankedByValue = (heroClass, rank, activeSkills, cell) => {
   const needs = heroNeeds(hero, { party, heroIndex: rank - 1 });
   if (!needs) return rankedFrom(cell.trinkets, getRecommendedTrinkets(heroClass));
 
-  const pool = [...TRINKETS, ...(HERO_SPECIFIC_TRINKETS[heroClass] || [])];
+  // Sin el contenido que el jugador no ha activado: los de Kickstarter y los
+  // del Butcher's Circus se recomiendan solo si dice que los tiene.
+  const pool = allowedTrinkets([...TRINKETS, ...(HERO_SPECIFIC_TRINKETS[heroClass] || [])]);
   const seen = new Set();
   const scored = [];
   pool.forEach((name) => {
@@ -475,7 +482,7 @@ const rankedByValue = (heroClass, rank, activeSkills, cell) => {
 
   const ranked = scored.map((entry) => entry.name);
   rankedFrom(cell.trinkets, getRecommendedTrinkets(heroClass)).forEach((name) => {
-    if (!ranked.includes(name)) ranked.push(name);
+    if (!ranked.includes(name) && isTrinketAllowed(name)) ranked.push(name);
   });
   return ranked;
 };

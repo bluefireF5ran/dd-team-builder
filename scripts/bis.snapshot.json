@@ -1,5 +1,5 @@
 {
-  "takenAt": "2026-09-14T21:17:46.723Z",
+  "takenAt": "2026-09-14T21:47:16.388Z",
   "cells": {
     "Abomination|1": {
       "heroClass": "Abomination",
@@ -20,8 +20,8 @@
         "Eldritch Blood"
       ],
       "trinkets": [
-        "Ancestor's Pen",
-        "Focus Ring"
+        "Broken Key",
+        "Shameful Shroud"
       ],
       "source": "model",
       "samples": 2,
@@ -102,7 +102,7 @@
       ],
       "trinkets": [
         "Broken Key",
-        "Padlock of Transference"
+        "Shameful Shroud"
       ],
       "source": "model",
       "samples": 0,
@@ -221,8 +221,8 @@
         "Triage"
       ],
       "trinkets": [
-        "Ancestor's Map",
-        "Bedtime Story"
+        "Keening Bolts",
+        "Fuseman's Matchstick"
       ],
       "source": "model",
       "samples": 0,
@@ -245,7 +245,7 @@
         "Triage"
       ],
       "trinkets": [
-        "Ancestor's Map",
+        "Keening Bolts",
         "Fuseman's Matchstick"
       ],
       "source": "model",
@@ -389,8 +389,8 @@
         "Tracking"
       ],
       "trinkets": [
-        "Vengeful Kill List",
-        "Ancestor's Map"
+        "Prophet's Eye",
+        "Vengeful Kill List"
       ],
       "source": "model",
       "samples": 2,
@@ -566,8 +566,8 @@
         "Again!"
       ],
       "trinkets": [
-        "Ancestor's Candle",
-        "Champion's Mantle"
+        "Wilbur's Flag",
+        "Heavy Boots"
       ],
       "source": "model",
       "samples": 2,
@@ -593,8 +593,8 @@
         "Again!"
       ],
       "trinkets": [
-        "Ancestor's Candle",
-        "Gilded Mantle"
+        "Wilbur's Flag",
+        "Heavy Boots"
       ],
       "source": "model",
       "samples": 2,
@@ -662,8 +662,8 @@
         "Lash's Cure"
       ],
       "trinkets": [
-        "Ancestor's Map",
-        "Flesh's Heart"
+        "Resurrection's Collar",
+        "Ancestor's Scroll"
       ],
       "source": "model",
       "samples": 3,
@@ -685,8 +685,8 @@
         "Lash's Cure"
       ],
       "trinkets": [
-        "Ancestor's Map",
-        "Flesh's Heart"
+        "Resurrection's Collar",
+        "Ancestor's Scroll"
       ],
       "source": "model",
       "samples": 2,
@@ -757,8 +757,8 @@
         "Gallows Humor"
       ],
       "trinkets": [
-        "Sharpened Letter Opener",
-        "Ancestor's Map"
+        "Raider's Talisman",
+        "Topshelf Tonic"
       ],
       "source": "model",
       "samples": 3,
@@ -829,8 +829,8 @@
         "Sharpen Spear"
       ],
       "trinkets": [
-        "Ancestor's Candle",
-        "Thirsting Blade"
+        "Thirsting Blade",
+        "Heaven's Hairpin"
       ],
       "source": "model",
       "samples": 3,
@@ -853,7 +853,7 @@
         "Sharpen Spear"
       ],
       "trinkets": [
-        "Crescendo Box",
+        "Thirsting Blade",
         "Heaven's Hairpin"
       ],
       "source": "model",
@@ -877,7 +877,7 @@
         "Sharpen Spear"
       ],
       "trinkets": [
-        "Ancestor's Lantern",
+        "Thirsting Blade",
         "Heaven's Hairpin"
       ],
       "source": "model",
@@ -902,7 +902,7 @@
       ],
       "trinkets": [
         "Shameful Locket",
-        "Bloodied Neckerchief"
+        "Wilbur's Flag"
       ],
       "source": "model",
       "samples": 0,
@@ -973,8 +973,8 @@
         "Bandit's Sense"
       ],
       "trinkets": [
-        "Bloodied Neckerchief",
-        "Shameful Locket"
+        "Shameful Locket",
+        "Wilbur's Flag"
       ],
       "source": "model",
       "samples": 3,
@@ -1093,8 +1093,8 @@
         "Tiger's Eye"
       ],
       "trinkets": [
-        "Camouflage Cloak",
-        "Caution Cloak"
+        "Ancestor's Pen",
+        "Camouflage Cloak"
       ],
       "source": "model",
       "samples": 1,
@@ -1117,8 +1117,8 @@
         "Tiger's Eye"
       ],
       "trinkets": [
-        "Ancestor's Lantern",
-        "Camouflage Cloak"
+        "Heavy Boots",
+        "Ancestor's Signet Ring"
       ],
       "source": "model",
       "samples": 2,
@@ -1165,8 +1165,8 @@
         "Tiger's Eye"
       ],
       "trinkets": [
-        "Ancestor's Coat",
-        "Barristan's Head"
+        "Camouflage Cloak",
+        "Ancestor's Coat"
       ],
       "source": "model",
       "samples": 3,
@@ -1213,8 +1213,8 @@
         "Quarantine"
       ],
       "trinkets": [
-        "Focus Ring",
-        "Debuff Amulet"
+        "Petrified Amulet",
+        "Surgical Gloves"
       ],
       "source": "model",
       "samples": 0,
@@ -1237,8 +1237,8 @@
         "Quarantine"
       ],
       "trinkets": [
-        "Focus Ring",
-        "Debuff Amulet"
+        "Petrified Amulet",
+        "Surgical Gloves"
       ],
       "source": "model",
       "samples": 0,
@@ -1261,8 +1261,8 @@
         "Quarantine"
       ],
       "trinkets": [
-        "Focus Ring",
-        "Debuff Amulet"
+        "Petrified Amulet",
+        "Surgical Gloves"
       ],
       "source": "model",
       "samples": 0,
@@ -1333,8 +1333,8 @@
         "Weapons Practice"
       ],
       "trinkets": [
-        "Guardian's Shield",
-        "Mirror Shield"
+        "The Tempting Goblet",
+        "Camouflage Cloak"
       ],
       "source": "model",
       "samples": 3,
@@ -1358,7 +1358,7 @@
       ],
       "trinkets": [
         "Guardian's Shield",
-        "Ancestor's Map"
+        "Prophet's Eye"
       ],
       "source": "model",
       "samples": 3,
@@ -1381,8 +1381,8 @@
         "Clean Musket"
       ],
       "trinkets": [
-        "Ancestor's Map",
-        "Silver Musket Ball"
+        "Ancestor's Pistol",
+        "Bull's Eye Hat"
       ],
       "source": "model",
       "samples": 0,
@@ -1405,8 +1405,8 @@
         "Clean Musket"
       ],
       "trinkets": [
-        "Fuseman's Matchstick",
-        "Ancestor's Map"
+        "Ancestor's Pistol",
+        "Bull's Eye Hat"
       ],
       "source": "model",
       "samples": 2,
@@ -1526,7 +1526,7 @@
       ],
       "trinkets": [
         "Ancestor's Pistol",
-        "Crescendo Box"
+        "Distended Crowseye"
       ],
       "source": "model",
       "samples": 1,
@@ -1549,8 +1549,8 @@
         "Unspeakable Commune"
       ],
       "trinkets": [
-        "Ancestor's Pistol",
-        "Demon's Cauldron"
+        "Prophet's Eye",
+        "Ancestor's Pistol"
       ],
       "source": "model",
       "samples": 1,
@@ -1573,8 +1573,8 @@
         "The Cure"
       ],
       "trinkets": [
-        "Blasphemous Vial",
-        "Ashen Distillation"
+        "Ashen Distillation",
+        "Hag's Ladle"
       ],
       "source": "model",
       "samples": 0,
@@ -1597,8 +1597,8 @@
         "The Cure"
       ],
       "trinkets": [
-        "Blasphemous Vial",
-        "Ashen Distillation"
+        "Ashen Distillation",
+        "Hag's Ladle"
       ],
       "source": "model",
       "samples": 0,
@@ -1741,8 +1741,8 @@
         "Play with Fire"
       ],
       "trinkets": [
-        "Ancestor's Coat",
-        "Ancestor's Signet Ring"
+        "Prophet's Eye",
+        "Sniper's Ring"
       ],
       "source": "model",
       "samples": 2,
@@ -1814,7 +1814,7 @@
       ],
       "trinkets": [
         "Camouflage Cloak",
-        "Sun Cloak"
+        "Wilbur's Flag"
       ],
       "source": "model",
       "samples": 2,
@@ -1837,8 +1837,8 @@
         "Sandstorm"
       ],
       "trinkets": [
-        "Ancestor's Pen",
-        "Surgical Gloves"
+        "Camouflage Cloak",
+        "Wilbur's Flag"
       ],
       "source": "model",
       "samples": 0,
@@ -1861,8 +1861,8 @@
         "Sanctuary"
       ],
       "trinkets": [
-        "Salacious Diary",
-        "Atonement Beads"
+        "Ancestor's Pistol",
+        "Focus Ring"
       ],
       "source": "model",
       "samples": 0,
@@ -1885,8 +1885,8 @@
         "Sanctuary"
       ],
       "trinkets": [
-        "Ancestor's Signet Ring",
-        "Atonement Beads"
+        "Ancestor's Pistol",
+        "Focus Ring"
       ],
       "source": "model",
       "samples": 2,
