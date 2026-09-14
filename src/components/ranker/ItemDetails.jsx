@@ -1,5 +1,7 @@
 import React, { useMemo } from 'react';
 import HoverCard from '../common/HoverCard';
+import SkillIconFrame from '../common/SkillIconFrame';
+import { useStatSettings } from '../../hooks/useStatSettings';
 import Keywords from '../common/Keywords';
 import RankDots, { SKILL_TYPES } from '../common/RankDots';
 import { keywordColour } from '../../data/gameColours';
@@ -32,16 +34,18 @@ const SectionLabel = ({ children }) => (
   <span className="block text-[10px] uppercase tracking-wider text-gray-500 mb-1">{children}</span>
 );
 
-const IconStrip = ({ names, srcFor, hoverFor, size }) => (
+// `framed`: el icono lleva el marco de lo que hace la skill, el mismo que en la
+// carta de la party. Los trinkets no, que su borde es otra cosa (la rareza).
+const IconStrip = ({ names, srcFor, hoverFor, size, framed = null }) => (
   <span className="flex flex-wrap gap-1">
-    {names.map((name) => (
-      <HoverCard key={name} {...hoverFor(name)}>
+    {names.map((name) => {
+      const image = (
         <ImageWithFallback
           src={srcFor(name)}
           alt={name}
           loading="lazy"
           decoding="async"
-          className={`${size} object-contain rounded-sm border border-gray-700/80 bg-gray-900/60`}
+          className={`${size} object-contain rounded-sm ${framed ? 'block bg-gray-900' : 'border border-gray-700/80 bg-gray-900/60'}`}
           fallback={
             <span
               className={`${size} flex items-center justify-center rounded-sm border border-gray-700 bg-gray-900 text-[9px] text-gray-500`}
@@ -51,8 +55,17 @@ const IconStrip = ({ names, srcFor, hoverFor, size }) => (
             </span>
           }
         />
-      </HoverCard>
-    ))}
+      );
+      return (
+        <HoverCard key={name} {...hoverFor(name)}>
+          {framed ? (
+            <SkillIconFrame heroClass={framed} skill={name} className="p-[2px]">
+              {image}
+            </SkillIconFrame>
+          ) : image}
+        </HoverCard>
+      );
+    })}
   </span>
 );
 
@@ -66,7 +79,8 @@ export const HeroDetails = ({ heroClass }) => {
   // Sin loadout: base + Hacienda + luz radiante, que es lo que distingue a una
   // clase de otra antes de vestirla (el Training Ring da vida al Arbalest y no
   // al Leper).
-  const breakdown = useMemo(() => statBreakdown({ heroClass }), [heroClass]);
+  const statSettings = useStatSettings();
+  const breakdown = useMemo(() => statBreakdown({ heroClass }, statSettings), [heroClass, statSettings]);
   const def = getHeroDefinition(heroClass);
   const skills = (def?.skills || []).filter(Boolean);
   const trinkets = (def?.classSpecificTrinkets || []).filter(Boolean);
@@ -104,7 +118,8 @@ export const HeroDetails = ({ heroClass }) => {
             names={skills}
             size="w-7 h-7 sm:w-8 sm:h-8"
             srcFor={(name) => getSkillImagePath(name, heroClass)}
-            hoverFor={(name) => skillHover(name, heroClass)}
+            hoverFor={(name) => skillHover(name, heroClass, statSettings)}
+            framed={heroClass}
           />
         </span>
       )}
@@ -133,7 +148,8 @@ export const HeroDetails = ({ heroClass }) => {
  */
 export const SkillDetails = ({ item }) => {
   const heroClass = item.classes?.[0];
-  const hover = skillHover(item.name, heroClass);
+  const statSettings = useStatSettings();
+  const hover = skillHover(item.name, heroClass, statSettings);
   const lines = (hover.lines || []).filter(Boolean);
 
   if (!hover.subtitle && !lines.length) {

@@ -176,6 +176,46 @@ describe('parseSaveProfile', () => {
     expect(tinel.activeSkills).toContain('Vulnerability Hex');
   });
 
+  // An unmodded late-game save left 74 names out before gameIdNames.js existed:
+  // renames five hand-written entries could never keep up with. These are ids
+  // from that save, handed in decoded because it is not a fixture.
+  const houndmaster = (raw) => buildProfile({
+    roster: { heroes: { 1: { hero_file_data: { raw_data: {
+      heroClass: 'houndmaster', actor: { name: 'Hund' }, ...raw
+    } } } } },
+    estate: { trinkets: { items: { 0: { id: 'collector_1' } } } }
+  });
+
+  it('bridges every rename the game string tables record', () => {
+    const profile = houndmaster({
+      skills: {
+        selected_combat_skills: { howl: 0, whistle: 0 },
+        selected_camping_skills: { pet_the_hound: 0 }
+      },
+      quirks: { accurate: {}, fear_of_beast: {}, stomach_cramp: {} },
+      trinkets: { items: { 0: { id: 'agile_talon' } } }
+    });
+    const [hund] = profile.heroes;
+
+    expect(profile.unmatched).toEqual({ heroClasses: [], skills: [], campSkills: [], quirks: [], trinkets: [] });
+    expect(hund.activeSkills).toEqual(['Cry Havoc', 'Target Whistle']);
+    expect(hund.activeCampSkills).toEqual(["Man's Best Friend"]);
+    expect(hund.quirks).toEqual({ positive: ['Deadly'], negative: ['Fear of Beasts'] });
+    expect(hund.diseases).toEqual(['Spasm of the Entrails']);
+    expect(hund.trinket1).toBe('Agility Talon');
+    expect(profile.ownedTrinkets).toContain("Dismas' Head");
+  });
+
+  it('applies a skill rename only to the class the game gave it', () => {
+    // `focus` is the Leper's Purge. On a Houndmaster it is nothing, and saying
+    // so beats handing him a skill he cannot have. The class's own skill list is
+    // what refuses it: no renamed id is shared between classes today, so the
+    // table being keyed by class is a second line, not the one tested here.
+    const profile = houndmaster({ skills: { selected_combat_skills: { focus: 0 } } });
+    expect(profile.heroes[0].activeSkills).toEqual([]);
+    expect(profile.unmatched.skills).toEqual(['focus']);
+  });
+
   it('keeps every skill of an always-active class', () => {
     const profile = parseSaveProfile(buffers());
     const bele = profile.heroes.find((h) => h.name === 'Bele');

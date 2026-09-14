@@ -6,6 +6,7 @@ import StatRows from './StatRows';
 import { RESISTANCE_ORDER } from '../../utils/heroStatLine';
 import { statBreakdown, GROUP_COLOURS, GROUP_LABELS } from '../../utils/statBreakdown';
 import { keywordColour } from '../../data/gameColours';
+import { useStatSettings } from '../../hooks/useStatSettings';
 
 /**
  * Las estadisticas de un heroe a tamaño de leer, y de donde sale cada numero.
@@ -17,9 +18,10 @@ import { keywordColour } from '../../data/gameColours';
 const DIFFICULTY_LABEL = { darkest: 'Darkest', radiant: 'Radiant', stygian: 'Stygian', bloodmoon: 'Bloodmoon' };
 
 const HeroStatsDialog = ({ isOpen, onClose, hero, party = null, heroIndex = -1 }) => {
+  const statSettings = useStatSettings();
   const breakdown = useMemo(
-    () => (isOpen ? statBreakdown(hero, { party, heroIndex }) : null),
-    [isOpen, hero, party, heroIndex]
+    () => (isOpen ? statBreakdown(hero, { party, heroIndex, ...statSettings }) : null),
+    [isOpen, hero, party, heroIndex, statSettings]
   );
   if (!isOpen || !breakdown) return null;
 
@@ -40,7 +42,12 @@ const HeroStatsDialog = ({ isOpen, onClose, hero, party = null, heroIndex = -1 }
         <div>
           <h2 id={titleId} className="font-darkest text-2xl text-dd-gold tracking-wide">{hero.heroClass}</h2>
           <p className="text-xs text-gray-400 mt-0.5">
-            Max gear · estate built · {DIFFICULTY_LABEL[breakdown.difficulty] || breakdown.difficulty} ·{' '}
+            Max gear ·{' '}
+            {Array.isArray(breakdown.estate)
+              ? `${breakdown.estate.length} ${breakdown.estate.length === 1 ? 'district' : 'districts'} built`
+              : breakdown.estate ? 'estate built' : 'no estate'}
+            {statSettings.source === 'save' ? ' (from your save)' : ''} ·{' '}
+            {DIFFICULTY_LABEL[breakdown.difficulty] || breakdown.difficulty} ·{' '}
             <span style={{ color: GROUP_COLOURS.light }}>{light.label} light</span>
             {light.source ? ` (${light.source} wants the torch below ${light.below})` : ''}
           </p>

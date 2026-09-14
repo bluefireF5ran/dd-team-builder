@@ -119,7 +119,7 @@ const StatRows = ({ breakdown, size = 'sm', showLegend = true }) => {
   if (!breakdown) return null;
   const sizeKey = SIZES[size] ? size : 'sm';
   const s = SIZES[sizeKey];
-  const scale = statScale(breakdown.difficulty);
+  const scale = statScale(breakdown.difficulty, breakdown.estate);
 
   return (
     <span className={`block ${s.rows}`}>

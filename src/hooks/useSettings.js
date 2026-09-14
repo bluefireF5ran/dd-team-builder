@@ -44,7 +44,13 @@ export const DEFAULT_SETTINGS = {
   // Hero configuration
   autoSortSkills: false,
   showSkillTiers: false,
-  defaultLocation: 'The Ruins'
+  defaultLocation: 'The Ruins',
+
+  // Stat bars: the game's own numbers change with difficulty (torchlight) and
+  // with whether the estate districts are built. Darkest and a built estate
+  // are the baseline the bars were specified against.
+  difficulty: 'darkest',
+  estateBuilt: true
 };
 
 const read = () => {

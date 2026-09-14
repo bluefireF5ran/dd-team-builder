@@ -71,6 +71,15 @@ describe('PartyHeroCard hover cards', () => {
     });
   });
 
+  it('says which teammate a skill fits with, when it knows the party', () => {
+    const arbalest = { ...EMPTY_HERO, heroClass: 'Arbalest', activeSkills: ['Sniper Shot'] };
+    const party = [{ ...EMPTY_HERO, heroClass: 'Bounty Hunter', activeSkills: ['Mark for Death'] }, arbalest];
+    render(<PartyHeroCard hero={arbalest} position={2} party={party} heroIndex={1} />);
+    hover(screen.getByAltText('Sniper Shot'));
+
+    expect(screen.getByRole('tooltip')).toHaveTextContent('Synergy: Mark set up by Bounty Hunter (Mark for Death)');
+  });
+
   it('reads a skill against the hero holding it, not the name alone', () => {
     // Battle Ballad belongs to the Jester; the Crusader has no such skill, and
     // the lookup must not fall through to some other class's entry.

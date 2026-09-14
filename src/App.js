@@ -13,6 +13,7 @@ import KeyboardShortcuts from './components/common/KeyboardShortcuts';
 import { getAssetUrl } from './config/assets';
 import { compPayloadFromHash, decodeComp } from './utils/compLink';
 import ConfirmDialog from './components/common/ConfirmDialog';
+import { StatSettingsContext, statSettingsFrom } from './hooks/useStatSettings';
 
 const ImageTester = lazy(() => import('./components/debug/ImageTester'));
 
@@ -54,6 +55,8 @@ const App = () => {
   // saber en que mazmorra empieza una comp nueva.
   const { settings, setSetting, toggleSetting, resetSettings, cycleTheme } = useSettings();
   const { profile: saveProfile, importFiles: importSaveFiles, clearProfile: clearSaveProfile } = useSaveProfile();
+  // Dificultad y Hacienda para todas las estadisticas de la app (`useStatSettings`).
+  const statSettings = useMemo(() => statSettingsFrom(settings, saveProfile), [settings, saveProfile]);
   const {
     teamName,
     setTeamName,
@@ -245,6 +248,7 @@ const App = () => {
   }, []);
 
   return (
+    <StatSettingsContext.Provider value={statSettings}>
     <div
       className={`min-h-screen bg-gray-900 text-white p-3 sm:p-6 bg-cover bg-center bg-fixed vignette dd-grain ${settings.theme !== 'default' ? `theme-${settings.theme}` : ''}`}
       style={{
@@ -399,6 +403,7 @@ const App = () => {
               setSetting={setSetting}
               toggleSetting={toggleSetting}
               resetSettings={resetSettings}
+              saveProfile={saveProfile}
             />
           </Suspense>
         )}
@@ -426,6 +431,7 @@ const App = () => {
         )}
       </div>
     </div>
+    </StatSettingsContext.Provider>
   );
 };
 

@@ -40,7 +40,7 @@ import { HERO_SPECIFIC_TRINKETS, ALL_HERO_SPECIFIC_TRINKETS } from '../data/hero
 import { getSkillEffect } from '../data/skillEffects';
 import { HERO_CLASSES } from '../data/heroes';
 import {
-  DIFFICULTY, districtsFor, cartographerBonus, lightLabel, CARTOGRAPHER_NAME,
+  DIFFICULTY, districtsFor, lightBonus, lightLabel, CARTOGRAPHER_NAME,
 } from '../data/estate';
 import { parseClause } from './trinketProfile';
 import { skillProfile, splitClauses, scopeOf, stripPrefix } from './skillProfile';
@@ -235,7 +235,10 @@ export const skillBuffs = (heroClass, skill) => {
  *   total: {hp, dodge, prot, spd, crit, dmgMin, dmgMax}, resistances, sources, skipped
  * }}
  */
-export const statBreakdown = (hero, { party = null, heroIndex = -1, rank = MAX_GEAR_RANK, difficulty = DIFFICULTY } = {}) => {
+export const statBreakdown = (
+  hero,
+  { party = null, heroIndex = -1, rank = MAX_GEAR_RANK, difficulty = DIFFICULTY, estate = true } = {}
+) => {
   const heroClass = hero?.heroClass;
   const stats = getHeroStats(heroClass);
   const gear = getGearStats(heroClass, rank);
@@ -262,7 +265,10 @@ export const statBreakdown = (hero, { party = null, heroIndex = -1, rank = MAX_G
     else acc[stat].points[group] += amount;
   };
 
-  districtsFor(heroClass).forEach((district) => {
+  // `estate`: true (todo construido), false (nada) o la lista de distritos que
+  // una partida importada tiene construidos de verdad.
+  const built = (districtId) => (Array.isArray(estate) ? estate.includes(districtId) : !!estate);
+  districtsFor(heroClass).filter((district) => built(district.id)).forEach((district) => {
     district.buffs.forEach((buff) => {
       if (buff.resist) {
         if (resistances[buff.resist] !== undefined) resistances[buff.resist] += buff.amount;
@@ -280,14 +286,18 @@ export const statBreakdown = (hero, { party = null, heroIndex = -1, rank = MAX_G
     });
   });
 
-  const lightBonus = cartographerBonus(light.torch, difficulty);
-  if (lightBonus.dodge) {
-    push('light', 'dodge', lightBonus.dodge, false);
-    sources.push({ group: 'light', name: `${light.label} light`, stat: 'dodge', text: `+${lightBonus.dodge} DODGE (${CARTOGRAPHER_NAME})` });
+  // Cartographer's Camp REEMPLAZA la tabla de oscuridad del juego; sin estate
+  // cuenta la del juego base, que tambien da algo (ver `BASE_LIGHT`).
+  const cartographer = built('illuminators_guild');
+  const fromLight = lightBonus(light.torch, difficulty, cartographer);
+  const lightSource = cartographer ? CARTOGRAPHER_NAME : 'torchlight';
+  if (fromLight.dodge) {
+    push('light', 'dodge', fromLight.dodge, false);
+    sources.push({ group: 'light', name: `${light.label} light`, stat: 'dodge', text: `+${fromLight.dodge} DODGE (${lightSource})` });
   }
-  if (lightBonus.crit) {
-    push('light', 'crit', lightBonus.crit, false);
-    sources.push({ group: 'light', name: `${light.label} light`, stat: 'crit', text: `+${lightBonus.crit}% CRIT (${CARTOGRAPHER_NAME})` });
+  if (fromLight.crit) {
+    push('light', 'crit', fromLight.crit, false);
+    sources.push({ group: 'light', name: `${light.label} light`, stat: 'crit', text: `+${fromLight.crit}% CRIT (${lightSource})` });
   }
 
   const feed = (group, name, text) => {
@@ -367,7 +377,7 @@ export const statBreakdown = (hero, { party = null, heroIndex = -1, rank = MAX_G
     });
   }
 
-  return { light, stats: out, total, resistances, sources, skipped, difficulty };
+  return { light, stats: out, total, resistances, sources, skipped, difficulty, estate };
 };
 
 /**
@@ -389,8 +399,9 @@ export const statBreakdown = (hero, { party = null, heroIndex = -1, rank = MAX_G
  */
 const scaleCache = new Map();
 
-export const statScale = (difficulty = DIFFICULTY) => {
-  if (scaleCache.has(difficulty)) return scaleCache.get(difficulty);
+export const statScale = (difficulty = DIFFICULTY, estate = true) => {
+  const cacheKey = `${difficulty}|${Array.isArray(estate) ? [...estate].sort().join(',') : estate}`;
+  if (scaleCache.has(cacheKey)) return scaleCache.get(cacheKey);
 
   const specific = new Set(ALL_HERO_SPECIFIC_TRINKETS);
   const reads = (text) => clausesOf(text).map((c) => readClause(c, 100, 'any')).filter((r) => r.stat);
@@ -409,7 +420,7 @@ export const statScale = (difficulty = DIFFICULTY) => {
 
   const max = Object.fromEntries(KEYS.map((k) => [k, 0]));
   Object.keys(HERO_STATS).forEach((heroClass) => {
-    const kitted = statBreakdown({ heroClass }, { difficulty });
+    const kitted = statBreakdown({ heroClass }, { difficulty, estate });
     if (!kitted) return;
     const own = (HERO_SPECIFIC_TRINKETS[heroClass] || []).map((n) => reads(getTrinketEffect(n)?.effect));
     KEYS.forEach((key) => {
@@ -425,7 +436,7 @@ export const statScale = (difficulty = DIFFICULTY) => {
     });
   });
 
-  scaleCache.set(difficulty, max);
+  scaleCache.set(cacheKey, max);
   return max;
 };
 

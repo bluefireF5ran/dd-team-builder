@@ -12,8 +12,15 @@
  *
  * What is left over is not a spelling difference but a **rename**: the game
  * renamed the skill in the string table and kept the original id in saves, so
- * no rule can bridge the two. All 213 quirks and all 80 camp skills but one
- * come through the rules above; only these five need writing down.
+ * no rule can bridge the two.
+ *
+ * **These five are no longer the whole list.** This file once claimed they
+ * were, and a real unmodded save disproved it with 74 names left unmatched —
+ * `target_tag` (Mark for Death), `heroic_end` (Finale), `accurate` (Deadly),
+ * `collector_1` (Dismas' Head). The complete list is generated from the game's
+ * own string tables into `gameIdNames.js` (`scripts/importGameIds.js`), and the
+ * parser consults it after these. They stay because they were verified by hand
+ * and `first_aid` needs the class-aware rule described below.
  *
  * A rename is only applied when the class actually has that skill, so a flat
  * map cannot mis-resolve an id another class happens to reuse. Anything still

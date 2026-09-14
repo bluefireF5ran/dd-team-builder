@@ -17,6 +17,7 @@
  * | `persist.estate.json` | the trinket inventory |
  * | `persist.game.json` | estate name, game mode, DLC and applied mods |
  * | `persist.campaign_log.json` | the week number |
+ * | `persist.town.json` | which estate districts are built (`districts.buildings.<id>.built`) |
  *
  * Only the roster is required; a profile missing the rest still imports, with
  * the corresponding fields left empty.
@@ -37,12 +38,14 @@ import { POSITIVE_QUIRKS, NEGATIVE_QUIRKS } from '../data/quirks';
 import { ALL_DISEASES } from '../data/diseases';
 import { COMMON_VANILLA_CAMP_SKILLS, HERO_CONFIG, EMPTY_HERO } from '../constants';
 import { SKILL_ID_RENAMES, CAMP_SKILL_ID_RENAMES, TRINKET_ID_RENAMES } from '../data/gameIds';
+import { SKILL_NAMES_BY_HERO, CAMP_SKILL_NAMES, QUIRK_NAMES, TRINKET_NAMES } from '../data/gameIdNames';
 
 export const SAVE_FILES = {
   roster: 'persist.roster.json',
   estate: 'persist.estate.json',
   game: 'persist.game.json',
-  campaignLog: 'persist.campaign_log.json'
+  campaignLog: 'persist.campaign_log.json',
+  town: 'persist.town.json'
 };
 
 /**
@@ -184,16 +187,22 @@ const readHero = (guid, entry, unmatched) => {
 
   const indexes = getClassIndexes(heroClass);
 
+  // Three tries, cheapest first: the id itself, the five hand-written renames,
+  // then the name the game's own string tables give that id (`gameIdNames.js`,
+  // generated), which is where every other rename lives: `target_tag` is Mark
+  // for Death, `heroic_end` is Finale.
   const activeSkills = [];
   Object.keys(data.skills?.selected_combat_skills || {}).forEach((id) => {
-    const name = lookupWithRenames(indexes.skills, id, SKILL_ID_RENAMES);
+    const name = lookupWithRenames(indexes.skills, id, SKILL_ID_RENAMES)
+      || lookup(indexes.skills, SKILL_NAMES_BY_HERO[classId]?.[id]);
     if (name) activeSkills.push(name);
     else unmatched.skills.push(id);
   });
 
   const activeCampSkills = [];
   Object.keys(data.skills?.selected_camping_skills || {}).forEach((id) => {
-    const name = lookupWithRenames(indexes.campSkills, id, CAMP_SKILL_ID_RENAMES);
+    const name = lookupWithRenames(indexes.campSkills, id, CAMP_SKILL_ID_RENAMES)
+      || lookup(indexes.campSkills, CAMP_SKILL_NAMES[id]);
     if (name) activeCampSkills.push(name);
     else unmatched.campSkills.push(id);
   });
@@ -202,11 +211,13 @@ const readHero = (guid, entry, unmatched) => {
   const lockedQuirks = { positive: [], negative: [] };
   const diseases = [];
 
+  const findQuirk = (key) => QUIRK_INDEXES.reduce(
+    (found, [kind, index]) => found || (lookup(index, key) ? { kind, name: lookup(index, key) } : null),
+    null
+  );
   Object.entries(data.quirks || {}).forEach(([id, state]) => {
-    const hit = QUIRK_INDEXES.reduce(
-      (found, [kind, index]) => found || (lookup(index, id) ? { kind, name: lookup(index, id) } : null),
-      null
-    );
+    // `accurate` is Deadly, and `disease_vampire_passive` the Crimson Curse.
+    const hit = findQuirk(id) || findQuirk(QUIRK_NAMES[id]);
     if (!hit) {
       unmatched.quirks.push(id);
       return;
@@ -222,7 +233,8 @@ const readHero = (guid, entry, unmatched) => {
   });
 
   const equipped = readItemIds(data.trinkets).map((id) => {
-    const name = lookup(indexes.trinkets, id) || lookup(TRINKET_INDEX, id) || TRINKET_ID_RENAMES[id];
+    const name = lookup(indexes.trinkets, id) || lookup(TRINKET_INDEX, id) || TRINKET_ID_RENAMES[id]
+      || lookup(indexes.trinkets, TRINKET_NAMES[id]) || lookup(TRINKET_INDEX, TRINKET_NAMES[id]);
     if (!name) unmatched.trinkets.push(id);
     return name || null;
   }).filter(Boolean);
@@ -262,6 +274,35 @@ const readHero = (guid, entry, unmatched) => {
   };
 };
 
+/**
+ * `game_mode` in `persist.game.json` -> the difficulty the stat bars use.
+ *
+ * `base` is Darkest (read off a real Darkest save); the other three are the
+ * game's own mode folder names (`modes/radiant`, `modes/new_game_plus`, the
+ * Crimson Court `bloodmoon` mode), which is where their tables live. Anything
+ * else is left unknown rather than guessed.
+ */
+const DIFFICULTY_OF_MODE = {
+  base: 'darkest',
+  radiant: 'radiant',
+  new_game_plus: 'stygian',
+  bloodmoon: 'bloodmoon'
+};
+
+/**
+ * The districts a save has actually built, from `persist.town.json`:
+ * `districts.buildings.<id>.built`. Null when the file was not imported, which
+ * is different from "nothing built" and must stay so.
+ */
+const readBuiltDistricts = (town) => {
+  const buildings = town?.districts?.buildings;
+  if (!buildings || typeof buildings !== 'object') return null;
+  return Object.entries(buildings)
+    .filter(([, building]) => building?.built === true)
+    .map(([id]) => id)
+    .sort();
+};
+
 const readNamedList = (container) =>
   Object.values(container || {})
     .map((item) => (typeof item?.name === 'string' ? item.name : null))
@@ -295,12 +336,14 @@ export const parseSaveProfile = (buffers) => {
   const estateBuffer = get(SAVE_FILES.estate);
   const gameBuffer = get(SAVE_FILES.game);
   const logBuffer = get(SAVE_FILES.campaignLog);
+  const townBuffer = get(SAVE_FILES.town);
 
   return buildProfile({
     roster,
     estate: estateBuffer ? decode(estateBuffer, SAVE_FILES.estate) : null,
     game: gameBuffer ? decode(gameBuffer, SAVE_FILES.game) : null,
     log: logBuffer ? decode(logBuffer, SAVE_FILES.campaignLog) : null,
+    town: townBuffer ? decode(townBuffer, SAVE_FILES.town) : null,
     files: [...byName.keys()].sort()
   });
 };
@@ -312,7 +355,7 @@ export const parseSaveProfile = (buffers) => {
  * state can be tested without one: there is no DSON encoder here, so a case
  * the available saves do not cover has to be handed in already decoded.
  */
-export const buildProfile = ({ roster, estate = null, game = null, log = null, files = [] }) => {
+export const buildProfile = ({ roster, estate = null, game = null, log = null, town = null, files = [] }) => {
   const unmatched = { heroClasses: [], skills: [], campSkills: [], quirks: [], trinkets: [] };
 
   const allHeroes = Object.entries(roster.heroes || {})
@@ -330,7 +373,7 @@ export const buildProfile = ({ roster, estate = null, game = null, log = null, f
     .map(({ hero }) => ({ guid: hero.guid, name: hero.name, heroClass: hero.heroClass }));
 
   const inventory = readItemIds(estate?.trinkets).map((id) => {
-    const name = lookup(TRINKET_INDEX, id) || TRINKET_ID_RENAMES[id];
+    const name = lookup(TRINKET_INDEX, id) || TRINKET_ID_RENAMES[id] || lookup(TRINKET_INDEX, TRINKET_NAMES[id]);
     if (!name) unmatched.trinkets.push(id);
     return name || null;
   }).filter(Boolean);
@@ -349,6 +392,9 @@ export const buildProfile = ({ roster, estate = null, game = null, log = null, f
   return {
     estateName: typeof game?.estatename === 'string' ? game.estatename : '',
     gameMode: typeof game?.game_mode === 'string' ? game.game_mode : '',
+    // What the stat bars read instead of the settings when a save is imported.
+    difficulty: DIFFICULTY_OF_MODE[game?.game_mode] || null,
+    districts: readBuiltDistricts(town),
     savedAt: typeof game?.date_time === 'string' ? game.date_time : '',
     week: Number.isFinite(log?.total_weeks) ? log.total_weeks : null,
     inRaid: game?.inraid === true,
@@ -448,7 +494,7 @@ const chooseProfileFiles = (fileList) => {
 
 /**
  * Reads a `<input type="file" multiple webkitdirectory>` selection. Only the
- * four files above are read: a profile folder also holds map, quest and
+ * five files above are read: a profile folder also holds map, quest and
  * upgrade data that is of no use here and would be wasted work.
  */
 export const readSaveFiles = async (fileList) => {

@@ -263,6 +263,12 @@ describe('HeroConfiguration', () => {
   });
 
   describe('synergies and the larger stats window', () => {
+    test('paints what each skill does on a strip beside its name', () => {
+      render(<HeroConfiguration {...defaultProps} hero={{ ...EMPTY_HERO, heroClass: 'Crusader', activeSkills: ['Stunning Blow'] }} />);
+      const button = screen.getByRole('button', { name: /^Stunning Blow/ });
+      expect(within(button).getByTestId('skill-effects')).toHaveAttribute('data-effects', 'stun');
+    });
+
     test('marks a skill that cashes in a teammate\'s mark, and says whose', () => {
       const arbalest = { ...EMPTY_HERO, heroClass: 'Arbalest', activeSkills: ['Sniper Shot'] };
       const party = [

@@ -8,8 +8,15 @@ import { parseSaveProfile, SAVE_FILES } from '../../../utils/saveParser';
 const FIXTURES = path.join(__dirname, '..', '..', '..', 'utils', '__tests__', 'fixtures', 'save');
 const read = (name) => fs.readFileSync(path.join(FIXTURES, name));
 
+// Only the files the fixture actually has: it predates `persist.town.json`.
 const saveProfile = () =>
-  parseSaveProfile(Object.fromEntries(Object.values(SAVE_FILES).map((n) => [n, read(n)])));
+  parseSaveProfile(
+    Object.fromEntries(
+      Object.values(SAVE_FILES)
+        .filter((n) => fs.existsSync(path.join(FIXTURES, n)))
+        .map((n) => [n, read(n)])
+    )
+  );
 
 const setup = (props = {}) => {
   const handlers = { onClose: jest.fn(), onSuggest: jest.fn(), showToast: jest.fn() };

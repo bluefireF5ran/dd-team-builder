@@ -1,4 +1,7 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useSettings } from '../../hooks/useSettings';
+import { useSaveProfile } from '../../hooks/useSaveProfile';
+import { StatSettingsContext, statSettingsFrom } from '../../hooks/useStatSettings';
 import { ArrowLeft, Users, ChevronDown, ChevronUp, Library, Swords } from 'lucide-react';
 import Toast from '../common/Toast';
 import ConfirmDialog from '../common/ConfirmDialog';
@@ -105,7 +108,14 @@ const RankerApp = () => {
   const savedForCategory = savedResults[resultsKey];
   const showingSaved = view === 'saved' && savedForCategory;
 
+  // El ranker es otra pagina, pero los mismos ajustes y la misma partida
+  // importada: las barras de sus cartas se calculan igual que en el constructor.
+  const { settings } = useSettings();
+  const { profile: saveProfile } = useSaveProfile();
+  const statSettings = useMemo(() => statSettingsFrom(settings, saveProfile), [settings, saveProfile]);
+
   return (
+    <StatSettingsContext.Provider value={statSettings}>
     <div
       className="min-h-screen bg-gray-900 text-white p-3 sm:p-6 bg-cover bg-center bg-fixed vignette dd-grain"
       style={{
@@ -255,6 +265,7 @@ const RankerApp = () => {
         )}
       </div>
     </div>
+    </StatSettingsContext.Provider>
   );
 };
 

@@ -31,6 +31,7 @@ nothing under `src/` ever needs the game):
 | `scripts/importModdedHeroes.js` | `src/data/modded_heroes.js` + its manifest |
 | `scripts/importModdedEffects.js` | `src/data/moddedEffectsGenerated.js` (needs `--workshop`) |
 | `scripts/importHeroStats.js` | `src/data/heroStats.js` (`--workshop` adds the modded classes) |
+| `scripts/importGameIds.js` | `src/data/gameIdNames.js`, the save ids the game renamed |
 
 `prestart`, `prebuild` and `pretest` all regenerate `src/data/presetComps/index.js`, so run
 things through `npm` rather than calling `react-scripts` directly.
@@ -82,8 +83,8 @@ Constants like `MAX_SKILLS: 4`, `MAX_TRINKETS: 2`, `MAX_HEROES: 4`, `MAX_DISEASE
 - `diseases.js` — Disease roster, split into the plain ones and the four Crimson Court stages
 - `quirkEffects.js` — What each quirk and disease *does* (see below); generated, like `trinketEffects.js`
 - `skillTiers.js` — one community tier list for combat skills, off by default (see below)
-- `gameIds.js` — the five internal save ids that no naming rule can reach (see **Importing a
-  Darkest Dungeon save**)
+- `gameIds.js` — five hand-verified save-id renames; `gameIdNames.js` (generated) holds the rest
+  (see **Importing a Darkest Dungeon save**)
 - `locations.js` — Dungeon locations plus `LOCATION_THEME` (per-zone accent colour and short label)
 - `questMap.js` — where each zone sits on the game's Quest Select map (see below)
 - `presetComps/` — 163 community comps as JSON, wired up by an auto-generated `index.js`
@@ -245,10 +246,47 @@ and keeps the pins on a dark panel: the image is scenery, not the control.
 
 ## Comp naming taxonomy
 
-Every bundled comp is named `Family: Variant` — two slots, nothing else. `src/utils/compNaming.js`
-is the engine, `src/data/compTaxonomy.js` is the vocabulary (data only: that is where you tune it).
-Everything the taxonomy knows beyond those two slots lives in `tags`, which is what the library
-filters on.
+**Two engines ship, and only one of them names comps.**
+
+- **`src/utils/compNaming2.js` (by axes) owns every name and every filename**, in the app and in
+  the library on disk. The Save dialog names a new comp with `getCompNamer().nameFor(comp)` —
+  `compIndex` builds the namer once, against the whole library — and files it with
+  `toCompFileName2`. `scripts/nameComps.v2.js` is its batch report and `--apply` / `--undo`. The
+  measurement lives in `src/utils/compProfile.js`; the vocabulary and calibration in
+  `src/data/compAxes.js`, whose header explains why a second taxonomy had to exist.
+- **`src/utils/compNaming.js` (by signatures) no longer names anything.** It still ships because
+  the library grid reads three of its exports through `compFilters.js`: `analyzeComp` (families,
+  mechanics, tags), `parseCompName` (the `Family: Variant` split) and `heroAka` (search
+  synonyms). `src/data/compTaxonomy.js` is its vocabulary, and v2 still borrows its `HERO_TOKENS`.
+
+Keeping both is a decision, not an oversight: v1's naming half could go, but its analysis half
+feeds the filters, and removing it is a behaviour change nobody has asked for.
+
+### The axes engine (`compNaming2.js`)
+
+A name and an identifier pull in opposite directions — a description *wants* to repeat across
+similar comps, an identifier *cannot* — so v2 gives them separate slots:
+
+- **name** — what the comp does, **shared on purpose**: many names are worn by two or more comps,
+  and that is how the library is navigated. A fact earns a slot by how rare it is in *this*
+  library (`bits = -log2(share of comps that have it at least as much)`), so the vocabulary
+  recalibrates itself as the library grows.
+- **filename** — the roster, which is already the project's definition of identity
+  (`compIdentity.js`). Where four classes do not separate two comps, `compFileRungs` climbs a
+  ladder: rank order, then region, then camp. Whatever is still tied after that gets a numeric
+  suffix, and `nameComps.v2.js --changed` lists those pairs as near-duplicates worth a look.
+- **tags** — everything else.
+
+Renaming a plan therefore never moves a file.
+
+### The signature taxonomy (`compNaming.js`), which named the library before
+
+The rest of this section describes v1. Its analysis half is live and `compNaming.test.js` pins
+these rules, so they still hold for that code — they are just no longer how comps get their names.
+
+v1 names a comp `Family: Variant` — two slots, nothing else — with `src/data/compTaxonomy.js` as
+the vocabulary (data only: that is where you tune it). Everything beyond those two slots lives in
+`tags`, which is what the library filters on.
 
 - **Family** = the engine of the comp: a signature of 2-3 interacting classes (`Feral Contract` =
   Abomination + Houndmaster + Arbalest/Musketeer), a class stack (`Ballad Quartet`), or a strategy
@@ -306,6 +344,15 @@ through `--apply`.
 in `scripts/nameComps.manifest.json`. `rebuild_taxonomy.bat` wraps that with a confirmation. The
 warnings are the point of the report: `DUPLICADA` (identical body), `MISMO ROSTER` (same classes, so
 only an ordinal separates them) and `SIN FIRMA`.
+
+**The two `.bat` wrappers still call v1, and that is a trap.** `bat/rebuild_taxonomy.bat` runs
+`nameComps.js --check`, `--changed` and `--apply`; `bat/push_comps.bat` warns whenever
+`nameComps.js --check` finds renames pending. Against the library as it stands — named by v2 — v1
+proposes renaming **465 comps** (measured 2026-09-14). So `push_comps.bat` always warns, and
+accepting `rebuild_taxonomy.bat`'s prompt would rename the whole library back into the retired
+scheme. Rename with `node scripts/nameComps.v2.js --changed` and `--apply` (undo: `--undo`). The
+wrappers were left pointing at v1 on purpose: repointing them changes what they do, and that has
+not been decided.
 
 ## Names that only mean something next to a class
 
@@ -1037,12 +1084,13 @@ Four things worth not re-deriving:
    through the new library reproduces **all 14 Fire's Edge combat skills and all 77 camp skills
    in `skillEffects.js` field for field.**
 
-   **`importSkillEffects.js` still carries its own copies, and folding it onto the library is the
-   pending half of this.** It is left that way on purpose for now: that file's combat half comes
-   from a wiki CSV (`--csv`), running it without one drops 126 skills, and a refactor of a
-   generator nobody can re-run end to end is a change nobody can check. Do it with `Skills.csv`
-   to hand, and gate it on `--check` reporting exactly what it reported before. Until then, treat
-   the two as one thing that must move together — a fix to a renderer belongs in both.
+   **`importSkillEffects.js` runs on the library too now.** Its own loaders and its buff, effect,
+   Fire's Edge and camp renderers are gone (715 → 400 lines); what stays is only its business —
+   the wiki CSV, `CSV_CORRECTIONS`, self-movement and the emitter. It was done with `Skills.csv`
+   to hand and gated the way this note used to ask: regenerating writes a `skillEffects.js`
+   identical to the committed one, and `--check` says `al dia`. `--check` also used to report
+   `DESACTUALIZADO` on every Windows checkout, because it compared bytes and git checks the file
+   out with CRLF; it compares with line endings normalised now. A renderer fix is one edit again.
 2. **The id → name join comes from the manifest, never from a re-derivation.**
    `scripts/importModdedHeroes.manifest.json` already records, per class, the internal id paired
    with the display name that run settled on, and `exportModdedAssets.js` copies art from it for
@@ -1056,9 +1104,9 @@ Four things worth not re-deriving:
    away the entire kit of eight classes. `mergeRows` is the fix; it is off for the base game.
 4. **`extended` is about verification, not about features.** The wider rendering — the buff scale
    heuristic, stress and summons, the sentinel-chance and template clean-ups — is on for mods and
-   off for the base game. Vanilla's committed files are the contract, and `skillEffects.js`
-   cannot even be regenerated without the wiki CSV its combat half comes from, so a change here
-   that shifts it is a change nobody can check today.
+   off for the base game. Vanilla's committed files are the contract: `skillEffects.js` only
+   regenerates with the wiki CSV its combat half comes from, and `importSkillEffects.js --check`
+   is how a renderer change proves it moved nothing there.
 
 **The scale heuristic is the one judgement call.** The base game writes a percentage stat as a 0-1
 fraction and 2511 of its 2519 such buffs obey that; mods routinely write `-99` meaning -99%, and
@@ -1230,7 +1278,8 @@ quirks violet) blended into the next rather than cut; the base keeps the
 red-green roster colour; skill buffs the party *could* give are cyan stripes
 after the total; a negative layer is red hatching over what it takes away.
 
-**The estate is read from the game, and assumed fully built.** `estate.js`
+**The estate is read from the game.** By default every district counts as built (see the settings
+below). `estate.js`
 copies the districts that move a barred stat — Académie Duello (+3 DODGE all,
 +1 SPD Duelist), House of the Yellow Hand (+4% CRIT: Bounty Hunter, Grave
 Robber, Highwayman), Altar of the Light (+10% stun resist: Crusader, Vestal,
@@ -1250,10 +1299,31 @@ clause (the Camouflage Cloak's +15) and switches on the "below" ones. Only
 trinkets decide it: that is Fran's rule, and a quirk does not decide how a party
 plays.
 
-**The numbers are Darkest difficulty.** It is the game's baseline — the files
-with no `modes/` prefix. Radiant gives +10 / +2.5 DODGE in the top two bands and
-Stygian/Bloodmoon +3.5 CRIT in the 1-25 band; `CARTOGRAPHER_LIGHT` carries all
-four so a difficulty selector only has to pass the key.
+**Difficulty and estate are settings, and an imported save overrides them.**
+Settings → *Stat bars* holds a difficulty (Darkest by default: the game's
+baseline, the files with no `modes/` prefix) and an *Estate districts built*
+switch (on by default). Both reach every stat bar, stats window and skill hover
+through `StatSettingsContext` (`src/hooks/useStatSettings.js`), which `App` and
+the ranker each provide; a dozen components read it rather than threading two
+props through every level.
+
+- **The light tables are per difficulty and per estate.** `CARTOGRAPHER_LIGHT`
+  is Cartographer's Camp's table; `BASE_LIGHT` is the game's own `darkness`
+  table in `shared/rules.json` (and `modes/<mode>/shared/rules.json`). The Camp
+  **replaces** the base table rather than adding to it — with the estate off,
+  light is not zero: Darkest still gives +4 DODGE above 75 and +1/+2/+3 CRIT in
+  the dark.
+- **A save knows the real answer, so it wins.** `saveParser` now also reads
+  `persist.town.json`: `districts.buildings.<id>.built` gives the list of built
+  districts, and `persist.game.json`'s `game_mode` gives the difficulty (`base`
+  is Darkest, verified on Fran's profile; `radiant`, `new_game_plus` →
+  Stygian and `bloodmoon` follow the game's mode folder names). `estate` is then
+  that list instead of `true`/`false`, so a profile with only the Granary built
+  gets no stat district and the base torchlight. Each half comes from the save
+  only when the save has it: a profile imported before the town file was read
+  still takes its districts from the settings. While a save supplies a value,
+  Settings shows it (with the districts' game names, `DISTRICT_NAMES`) and
+  locks that control.
 
 **The bar runs from 0 to what the best class can be kitted to** (`statScale`),
 not to the best naked class — with that yardstick the best-dressed hero is the
@@ -1950,11 +2020,13 @@ while looking at one skill: *which skill in this party does this one fit with?*
   describes the loadout on screen, and "your Arbalest cashes in a mark from a
   skill the Bounty Hunter is not carrying" would be false.
 
-It shows in two places: a `⇄ Mark` chip in the keyword's colour on the skill
-button in the hero sheet (a synergy you have to hover seven skills to find does
-not stand out), and a `Synergy: Mark set up by Bounty Hunter (Mark for Death)`
-line at the bottom of the skill hover. `App` passes `party` and `heroIndex`
-(0 = rank 1) to `HeroConfiguration`; without them the sheet is unchanged.
+It shows as a `⇄ Mark` chip in the keyword's colour on the skill button in the
+hero sheet (a synergy you have to hover seven skills to find does not stand
+out), and as a `Synergy: Mark set up by Bounty Hunter (Mark for Death)` line at
+the bottom of every skill hover that knows its party: the hero sheet, the party
+card (`PartyComposition` passes `party` and `heroIndex`) and the ranker's comp
+cards, where the comp is the party. `App` passes `party` and `heroIndex`
+(0 = rank 1) to `HeroConfiguration`; without them a card is unchanged.
 
 ### A skill icon says what the skill does (`utils/skillColours.js`, `common/SkillIconFrame.jsx`)
 
@@ -1993,6 +2065,9 @@ Rules that are not obvious:
   a cleanse, even though `cleanseSpans` matches "Remove".
 - Camp skills keep their purple border: it is what separates them from combat
   skills on the card.
+- **The same frame is used wherever a combat skill is drawn**: the party card, the ranker's hero
+  and comp cards (`SkillIconFrame`), and a thin strip beside each name on the hero sheet, whose
+  skill buttons are text rather than icons (`data-effects` carries the categories for tests).
 
 #### Round two: prices, Block, burn, and a palette that was searched
 
@@ -2162,13 +2237,17 @@ regardless, that call is purely the browser's toll.
 One **Save** button, two destinations (`SaveTeamModal`):
 
 - **Browser storage** — localStorage, keeps the name you typed. Shows under "My Teams".
-- **Preset comp file** — runs the naming engine against the live library (`nameCompAgainst`) and
-  downloads `Family__Variant.json` ready to drop into `src/data/presetComps`. The taxonomic name
-  goes in `teamName`, yours is kept as `alias`. `toCompFileName` is shared with
-  `scripts/nameComps.js` so the app and the script agree on the filename.
+- **Preset comp file** — names the comp with the axes engine against the live library
+  (`getCompNamer().nameFor`, see *Comp naming taxonomy*) and downloads it ready to drop into
+  `src/data/presetComps`. The engine's name goes in `teamName`; the name you typed is kept as
+  `alias`, unless it already was a taxonomy name (yours or another comp's), because then it is not
+  yours and would record nothing.
 
-Naming against the library never renames anything already in it: if the engine picks a name a
-bundled comp already wears, the new comp is the one that cedes.
+The name and the file come from different places on purpose. Names are shared, so the name cannot
+be what keeps a file unique: `toCompFileName2` names the file by the **roster**, climbing its
+ladder (rank order, region, camp) against the files already on disk, and it is the same function
+`nameComps.v2.js` uses, so the app and the script agree. Saving never renames anything already in
+the library.
 
 ### Updating a comp instead of duplicating it
 
@@ -2329,13 +2408,27 @@ Three details are easy to get wrong and each has a test:
 `zealous_accusation`, and `nameKey` already folds those onto the display names for almost
 everything; a squashed variant of the same key closes the "one word or two" gap
 (`grape_shot_blast` → `Grapeshot Blast`). What is left is not spelling but **renames the game
-made after shipping**, and those five are written down in `src/data/gameIds.js`. A rename only
-applies when the class really has that skill, so a flat table cannot mis-resolve an id another
-class reuses — which is what makes `first_aid` work: it is one skill the app knows under two
-names (`Wound Care` for the eighteen classes the wiki CSV covered, `First Aid` for the two
-Fire's Edge ones rendered from the install), and the class decides which one it is. Anything
-still unresolved lands in `unmatched` and the modal says so, rather than being dropped
-silently.
+made after shipping**. A rename only applies when the class really has that skill, so a flat
+table cannot mis-resolve an id another class reuses — which is what makes `first_aid` work: it
+is one skill the app knows under two names (`Wound Care` for the eighteen classes the wiki CSV
+covered, `First Aid` for the two Fire's Edge ones rendered from the install), and the class
+decides which one it is. Anything still unresolved lands in `unmatched` and the modal says so,
+rather than being dropped silently.
+
+**The renames come from the game, not from a hand list.** `src/data/gameIds.js` once held five
+and claimed that was all of them. An unmodded late-game save disproved it with 74 names left
+out: `target_tag` (Mark for Death), `hook_and_slice` (Caltrops), `accurate` (Deadly),
+`suicidal` (Weak Grip on Life), `collector_1` (Dismas' Head), `stunning_satchel` (Sickening
+Satchel). The string tables already pair every id with its English name
+(`combat_skill_name_<hero>_<id>`, `camping_skill_name_<id>`, `str_quirk_name_<id>`,
+`str_inventory_title_trinket<id>`), so `scripts/importGameIds.js` writes
+`src/data/gameIdNames.js` from them, keeping only the ids the two key rules above do not already
+reach (27 skills over 13 classes, 18 camp skills, 45 quirks, 173 trinkets). Skill renames are
+keyed by the save's class id, because the string table key is per class. No renamed id is shared
+between two classes today, so what actually stops `focus` (the Leper's Purge) resolving on a
+Houndmaster is the same rule as above: the name must be on that class's own skill list. The parser tries the id, then the five hand renames
+(verified by hand, and `first_aid` needs the class rule), then the generated name. That same
+save now imports with nothing unmatched.
 
 **A directory pick is not just a filter.** A profile folder holds its own `backup/` copy of
 every file — same basenames, older bytes — and a player who picks `Darkest/` instead of

@@ -58,11 +58,47 @@ describe('SettingsModal', () => {
     ['Backer trinkets', 'showBackerTrinkets'],
     ['Diseases', 'showDiseases'],
     ['Auto-sort skills', 'autoSortSkills'],
-    ['Skill tiers', 'showSkillTiers']
+    ['Skill tiers', 'showSkillTiers'],
+    ['Estate districts built', 'estateBuilt']
   ])('toggles %s through its own key', (label, key) => {
     const { toggleSetting } = open();
     fireEvent.click(screen.getByLabelText(label));
     expect(toggleSetting).toHaveBeenCalledWith(key);
+  });
+
+  it('offers the four difficulties, Darkest by default, and sends the choice to setSetting', () => {
+    const { setSetting } = open();
+    const select = screen.getByLabelText('Difficulty');
+    expect(select).toHaveValue('darkest');
+    expect(screen.getAllByRole('option', { name: /^(Radiant|Darkest|Stygian|Bloodmoon)$/ })).toHaveLength(4);
+    fireEvent.change(select, { target: { value: 'radiant' } });
+    expect(setSetting).toHaveBeenCalledWith('difficulty', 'radiant');
+  });
+
+  it('starts with the estate built', () => {
+    open();
+    expect(screen.getByLabelText('Estate districts built')).toHaveAttribute('aria-checked', 'true');
+  });
+
+  // Con una partida importada, la dificultad y los distritos salen de ella y
+  // ganan a los ajustes: el control lo dice y no se deja tocar.
+  it('shows what an imported save says, and locks the controls it overrides', () => {
+    open({ saveProfile: { difficulty: 'radiant', districts: ['granary', 'spire_of_hope'] } });
+
+    const difficulty = screen.getByLabelText('Difficulty');
+    expect(difficulty).toHaveValue('radiant');
+    expect(difficulty).toBeDisabled();
+    expect(screen.getByText('From your imported save: Radiant.')).toBeInTheDocument();
+
+    expect(screen.getByLabelText('Estate districts built')).toBeDisabled();
+    // Los nombres del juego, no los ids: `spire_of_hope` es The Red Hook.
+    expect(screen.getByText('From your imported save: Granary, The Red Hook built.')).toBeInTheDocument();
+  });
+
+  it('keeps the settings in charge for a save imported before districts were read', () => {
+    open({ saveProfile: { difficulty: 'darkest', districts: null } });
+    expect(screen.getByLabelText('Difficulty')).toBeDisabled();
+    expect(screen.getByLabelText('Estate districts built')).toBeEnabled();
   });
 
   it('sends a chosen location to setSetting', () => {
