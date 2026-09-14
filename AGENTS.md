@@ -1457,6 +1457,34 @@ ways in near-equal numbers - 19 of its 38 Jester slots carry Solo (+30 DODGE on 
 Battle Ballad (buffing everyone else) - and at rank 3 the Solo build reads DODGE 87.5 with
 Ancestor's Coat at 4.25 while the Ballad build reads 57.5 and 1.86.
 
+**Armour is discounted twice, and both are Fran's reasons rather than arithmetic.**
+
+- **What he already heals back.** "Tank items are not that necesary for him given his already good
+  sustain with solemnity" - his general-purpose Leper runs a Debuff Amulet and an ACC trinket. The
+  Leper heals 10 a round against about 10 coming in, so HP and PROT buy him almost nothing; the code
+  used to pay 1.4x MORE for them on a hero who self-heals, which was backwards. `sustain.healShare`
+  is the share of incoming damage his own kit covers, and HP/PROT scale by `1 - 0.8 x healShare`.
+  Reading the heal needs the scope rule again: Solemnity is `Self: Stress -7 | Heal 10`, and the heal
+  clause carries no prefix - the skill's own target is what makes it a self heal.
+- **Whether anything is aimed at him.** "If you only build to tank there's no way outside self mark/
+  guard to redirect aggro towards you... the problem is that your leper survives while your team is
+  being obliterated by the enemy team." Armour on a hero nothing targets does not stop damage, it
+  moves it to someone squishier, and it was bought with tempo - "being too low tempo can become a
+  liability". So HP and PROT are halved (`ALONE`) unless the hero self-marks or guards an ally. Half
+  and not nothing, because "you'd want to reach a bit of sustain with each hero", and because mark is
+  not reliable either - not every enemy chases it.
+
+Of the twenty classes only five can pull the hits onto themselves: Duelist, Houndmaster, Jester,
+Leper and Man at Arms. That is why the Man at Arms keeps Heavy Boots at 4.52 while the Crusader's
+falls to 1.60 and the Abomination's to 0.
+
+**Tier still beats value, and it is nearly free.** Dressing Fran's 32 parties in his order and then
+by value alone, the order "costs" 15% - but most of that is one-of-a-kind trinkets (he owns one
+Ancestor's Map, one Hunter's Talon) that the value run hands to whoever scores highest and no real
+loadout can duplicate. What the comparison did find was weak tier-3 picks blocking much better ones,
+which is why `USAGE_FLOOR` went from 0.3 to 1.0: a Man at Arms was taking Ancestor's Pistol at 0.30
+because the floor allowed it. Three picks moved on the bench, all of them that shape.
+
 **Two constants are hand-set**, anchored so the picks Fran had already accepted survived the change
 (the Jester and the Antiquarian keep their cloaks, a Leper's dodge stays filler): `DODGE_RATE` 37.5
 and the PROT/HP scale in `trinketValue`. Everything else is measured. On Fran's save, same save and

@@ -48,8 +48,15 @@ const NOT_BAD = -0.05;
  * 0.09) were beating trinkets worth ten times more one tier down. So class usage
  * needs a modest value, and "like the BiS" means a useful trinket that also
  * resembles it.
+ *
+ * **Raised from 0.3 to 1.0 on 2026-09-14.** Measuring the order against picking
+ * on value alone over Fran's 32 parties, nearly every case where the order
+ * really cost something was a barely-positive tier 3 blocking something far
+ * better: a Man at Arms taking Ancestor's Pistol at 0.30 because the floor let
+ * it, or Rampart Shield at 0.99. Raising the floor takes those out without
+ * letting a lower tier reorder a comp, which is the part Fran wants kept.
  */
-const USAGE_FLOOR = 0.3;
+const USAGE_FLOOR = 1.0;
 /**
  * How far down a class's lists "trinkets it uses" reaches. The whole library
  * list is every trinket any comp ever put on the class, and taking all of it
