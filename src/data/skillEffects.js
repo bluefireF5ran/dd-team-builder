@@ -71,7 +71,7 @@ export const COMBAT_SKILL_EFFECTS = {
   "Duelist": {
     "Anticipation":   { type: "Ranged", launch: "1·2·3·4", target: "Self", effect: "Stance: defensive/aggressive | Self: Riposte (2 rds) | Change to mode: aggressive | +5% CRIT while Riposte active (4 rds) | Change to mode: defensive | +5 DODGE while Riposte active (4 rds)" },
     "Touché":         { type: "Melee", launch: "1·2·3·4", target: "1·2", move: 1, dmg: "+0%", acc: "110%", crit: "+5%", effect: "Stance: defensive | Self: +35 DODGE until next Dodge (4 rds)" },
-    "Feint":          { type: "Melee", launch: "1·2·3", target: "1·2", dmg: "-50%", acc: "115%", crit: "+7%", effect: "Stance: defensive | Self: Mark | Self: Riposte: +35% DMG (4 rds) | -10 ACC vs Marked (3 rds), -30% PROT (3 rds)" },
+    "Feint":          { type: "Melee", launch: "1·2·3", target: "1·2", dmg: "-50%", acc: "115%", crit: "+7%", effect: "Stance: defensive | Self: Mark | Self: Riposte: +35% DMG (4 rds) | -10 ACC vs Marked (150% base) (3 rds), -30% PROT (150% base) (3 rds)" },
     "Disengage":      { type: "Melee", launch: "1·2", target: "1·2", move: 3, dmg: "-50%", acc: "115%", crit: "+3%", effect: "Stance: defensive | Self: +10 ACC (4 rds), +6 SPD (4 rds) | Self: Attacks usable in any position (2 rds), Attacks can target any position (2 rds)" },
     "Flèche":         { type: "Melee", launch: "2·3·4", target: "1·2·3", move: -2, dmg: "+20%", acc: "110%", crit: "+13%", effect: "Stance: aggressive | Self: Mark" },
     "Coup de Grâce":  { type: "Ranged", launch: "1·2·3·4", target: "1·2·3·4", dmg: "-60%", acc: "115%", crit: "+11%", effect: "Stance: aggressive | Ignores PROT | Self: Bonus action next turn on kill | Self: +100% CRIT vs Stunned" },
@@ -178,7 +178,7 @@ export const COMBAT_SKILL_EFFECTS = {
   },
   "Runaway": {
     "Searing Strike":   { type: "Melee", launch: "1·2", target: "1·2·3", dmg: "+0%", acc: "105%", crit: "+7%", effect: "Burn 5 pts/rd | Self: +35% DMG vs Burning" },
-    "Firefly":          { type: "Ranged", launch: "3·4", target: "2·3·4", dmg: "-75%", acc: "105%", crit: "+10%", effect: "Burn 9 pts/rd (140% base), +50% Burn Decay (2 rds) | Self: +6 Torch" },
+    "Firefly":          { type: "Ranged", launch: "3·4", target: "2·3·4", dmg: "-75%", acc: "105%", crit: "+10%", effect: "Burn 9 pts/rd (140% base), +50% Burn Decay (140% base) (2 rds) | Self: +6 Torch" },
     "Run and Hide":     { type: "Ranged", launch: "1·2·3·4", target: "Self", move: 2, effect: "Self: Stealth (4 rds), Cannot be Stealthed while in position 1 (4 rds), Cannot be Stealthed while in position 2 (4 rds) | Self: Heal 5 pts/rd for 3 rds while Stealthed (3 rds) | Self: +50% Burn Skill Amount while Stealthed (4 rds)" },
     "Ransack":          { type: "Melee", launch: "1·2·3·4", target: "1·2·3·4", move: -1, dmg: "-10%", acc: "105%", crit: "+7%", effect: "Pull 1 (140% base) | Enemies: Clears corpses | Self: +10 ACC while Stealthed" },
     "Hearthlight":      { type: "Ranged", launch: "1·2·3·4", target: "1·2·3·4", aoe: true, dmg: "-100%", acc: "120%", crit: "+0%", effect: "Ignores Stealth | Removes Stealth | Self: +8 Torch | Party: +10 ACC (3 rds) | Party: +12% CRIT vs Burning (3 rds)" },

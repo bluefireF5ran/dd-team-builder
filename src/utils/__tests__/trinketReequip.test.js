@@ -4,6 +4,8 @@ import { reequipParty } from '../trinketReequip';
 import { readExpeditions, ddHash } from '../campaignHistory';
 import { bisLoadout } from '../../data/bisIndex';
 import { TRINKETS } from '../../data/trinkets';
+import { HERO_CLASSES } from '../../data/heroes';
+import { actsFirstChance, spdPointWorthAt, debuffRoundWorth } from '../../data/enemyThreat';
 
 // A hero as the library builds it for that rank: the kit is what the needs are
 // read from, so the tests use real kits rather than invented ones.
@@ -329,5 +331,101 @@ describe('readExpeditions', () => {
     expect(expeditions).toHaveLength(1);
     expect(expeditions[0].dungeon).toBe('The Ruins');
     expect(expeditions[0].heroes.map((h) => h.heroClass)).toEqual(['Crusader', 'Highwayman', 'Vestal', 'Plague Doctor']);
+  });
+});
+
+describe('a debuff is worth what it does, not how many there are', () => {
+  const needsFor = (heroClass, rank) => heroNeeds(hero(heroClass, rank), { heroIndex: rank - 1 });
+
+  /**
+   * `0.5 + 0.35 * n` gave every debuffer the same score. It cannot be right:
+   * the Leper takes a third off everything an enemy deals for three rounds and
+   * the Plague Doctor takes 7 ACC off it, and those are not the same purchase.
+   */
+  it('puts the Leper above the Plague Doctor, on one debuff skill each', () => {
+    const leper = needsFor('Leper', 1);
+    const doctor = needsFor('Plague Doctor', 3);
+    expect(leper.roles.debuff).toBe(doctor.roles.debuff);
+    expect(leper.debuffPower).toBeGreaterThan(4 * doctor.debuffPower);
+    expect(trinketValue('Debuff Amulet', leper).value)
+      .toBeGreaterThan(trinketValue('Debuff Amulet', doctor).value);
+  });
+
+  it('will not sell a Debuff Amulet on the strength of a -7 ACC', () => {
+    // It costs 4 DODGE. A debuff that small does not pay for it.
+    expect(trinketValue('Debuff Amulet', needsFor('Plague Doctor', 3)).value).toBeLessThan(0);
+  });
+
+  it('counts two small debuffs as less than one big one', () => {
+    // The Shieldbreaker has twice the Leper's debuff SKILLS and a fraction of
+    // his debuff, because both of hers are SPD and she is already fast.
+    const breaker = needsFor('Shieldbreaker', 1);
+    expect(breaker.roles.debuff).toBeGreaterThan(needsFor('Leper', 1).roles.debuff);
+    expect(breaker.debuffPower).toBeLessThan(needsFor('Leper', 1).debuffPower);
+  });
+
+  it('prices PROT shred below an equal DMG debuff, because most enemies are bare', () => {
+    // 45 of 119 champion enemies carry any PROT at all (`enemyThreat.js`), so
+    // stripping 20 points of it does nothing about two thirds of the time.
+    expect(debuffRoundWorth('prot', 20, 7)).toBeLessThan(debuffRoundWorth('dmg', 20, 7));
+  });
+
+  it('stops paying for DODGE shred past what the enemy has', () => {
+    // Champion DODGE averages 27, so -30 takes all of it and -60 takes no more.
+    expect(debuffRoundWorth('dodge', 60, 7)).toBeCloseTo(debuffRoundWorth('dodge', 30, 7), 5);
+  });
+});
+
+describe('who goes first, from the 1d8 rule', () => {
+  /**
+   * Fran (2026-09-15): initiative is `SPD + 1d8` and a hero wins ties against
+   * an enemy. Both halves of the rule of thumb he gave with it fall out of it.
+   */
+  it('makes 7 higher SPD certain against an enemy', () => {
+    expect(actsFirstChance(13, 6)).toBeCloseTo(1, 10);
+    expect(actsFirstChance(6, 6)).toBeCloseTo(36 / 64, 10);
+  });
+
+  it('pays most for the point that draws level, and nothing past the eighth', () => {
+    expect(spdPointWorthAt(6, 7)).toBeCloseTo(0.125, 10);
+    expect(spdPointWorthAt(14, 6)).toBe(0);
+  });
+
+  it('gives a slow hero more out of slowing somebody than a fast one', () => {
+    // The Grave Robber already moves first; the Crusader does not.
+    expect(debuffRoundWorth('spd', 3, 3)).toBeGreaterThan(debuffRoundWorth('spd', 3, 10));
+  });
+});
+
+describe('the base chance belongs to the clause that rolls it', () => {
+  const needsFor = (heroClass, rank) => heroNeeds(hero(heroClass, rank), { heroIndex: rank - 1 });
+
+  it('does not read a neighbour\'s 500% as the debuff\'s own', () => {
+    // Puncture writes `Can't be Guarded (500% base, 2 rds)` beside `-3 SPD
+    // (140% base, 4 rds)`. Taking the skill's largest number priced her debuff
+    // chance at zero, because 500% reads as "guaranteed against everything".
+    const breaker = needsFor('Shieldbreaker', 1);
+    expect(breaker.roles.debuff).toBeGreaterThan(0);
+    expect(breaker.chanceWorth.debuff).toBeGreaterThan(0.5);
+  });
+
+  it('never lets a chance escape the hit gate', () => {
+    /**
+     * The invariant the old fallback broke. A kit whose prose printed no base
+     * left `chanceWorth` unset, and `chanceFactor` then fell back to 1 - which
+     * skipped `hitRate` as well, so Fran's rule that the effect rolls only
+     * after the attack landed quietly did not apply to the skills whose text we
+     * can read least. Nothing may be worth more than a certainty.
+     */
+    Object.keys(HERO_CLASSES).forEach((heroClass) => {
+      [1, 2, 3, 4].forEach((rank) => {
+        const loadout = bisLoadout(heroClass, rank);
+        if (!loadout) return;
+        const needs = needsFor(heroClass, rank);
+        Object.values(needs.chanceWorth).forEach((worth) => {
+          expect(worth).toBeLessThanOrEqual(needs.hitRate + 1e-9);
+        });
+      });
+    });
   });
 });

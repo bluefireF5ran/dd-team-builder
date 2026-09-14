@@ -281,6 +281,21 @@ export const skillProfile = (heroClass, skillName) => {
  */
 export { splitClauses, scopeOf, stripPrefix, cleanseSpans, riposteSpans, applies, stressKinds };
 
+/**
+ * Las etiquetas de UNA clausula suelta, para quien pregunta por trozos.
+ *
+ * `heroNeeds` necesita saber que trozo del texto lleva el efecto para leer SU
+ * probabilidad base y no la del vecino: el `Puncture` de la Shieldbreaker
+ * escribe `Can't be Guarded (500% base)` al lado de `-3 SPD (140% base)`, y
+ * quedarse con el numero mas grande de la skill le ponia un 500% a un debuff
+ * que se tira al 140%. Preguntarlo por aqui evita copiar el vocabulario.
+ */
+export const clauseTags = (clause, scope = 'target') => {
+  const out = new Set();
+  tagsForClause(clause, scope, out);
+  return out;
+};
+
 /** Atajo: `true` si la skill lleva esa etiqueta. `null` cuenta como no. */
 export const skillHasTag = (heroClass, skillName, tag) => {
   const profile = skillProfile(heroClass, skillName);

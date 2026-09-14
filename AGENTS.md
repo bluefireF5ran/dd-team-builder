@@ -1464,6 +1464,100 @@ It is a registry rather than a prop because the callers are not components: `bis
 cell knowing nothing about the UI. `App` installs it from settings, the way the modded roster is
 installed.
 
+### What a debuff is worth (`src/data/enemyThreat.js`, `heroNeeds.debuffPower`)
+
+`0.5 + 0.35 * min(n, 2)` was the whole answer, and it could not tell the Leper's `-33% DMG
+(3 rds)` from the Shieldbreaker's `-3 SPD`. Fran's own loadout was the case that showed it:
+"I usually run Debuff Amulet + Focus Ring/Signet Ring for a general-purpose Leper", and the
+model priced that amulet at **0.59** because one debuff skill scored a flat `0.5 + 0.35`
+whatever the debuff did.
+
+The five stats a debuff can touch are five different questions, and the game files answer
+four outright - `.damage_low_multiply` takes a share off everything the enemy deals,
+`.protection_rating_add` and `.defense_rating_add` are flat points, `.speed_rating_add`
+moves who goes first. `debuffRoundWorth` prices one round of one clause in
+**champion-attack-damage equivalents** (one unit = one average swing, 6.2 HP), measured
+against the champion spread the same walk already gave us:
+
+| | measured | so |
+|---|---|---|
+| DODGE | mean **27** | `-30 DODGE` erases all of it; `-60` is no better than `-30` |
+| PROT | **45 of 119** enemies carry any, 35.4% of appearances, mean 33.4% where present | shredding armour does nothing about two thirds of the time |
+| SPD | deciles 2-12, mean 6.4 | see below |
+
+**Initiative is derived, not guessed.** Fran (2026-09-15): "SPD rolls are determined by
+SPD (base SPD + modifiers) + 1d8", and "heroes will win SPD ties vs. enemies". So a hero
+moves first when `h - e >= enemySpd - heroSpd` over two d8, a triangle on -7..7 - and it
+reproduces the rule of thumb it came with: at 7 higher SPD every one of the 64 pairs wins.
+A point is worth at most 12.5% (the one that draws level) and nothing once the gap is 8,
+so a fast hero gets little out of slowing anyone. `INITIATIVE_WORTH = 0.2` is **the one
+hand-set number in the model** - going first only removes an attack when the action
+converts - and the ordering barely moves across 0.1 to 0.3.
+
+What comes out, per hero, against the flat 0.85 they all used to score:
+
+```
+Occultist  8.45   Vestal 6.70   Abomination 6.20   Leper 6.13
+Duelist    3.64   Shieldbreaker 2.17   Plague Doctor 1.30   Highwayman 0.84
+```
+
+`DEBUFF_RATE = 0.212` only sets the scale: it is chosen so the mean debuffer keeps the
+weight the flat score gave him, which leaves every other stat's calibration alone and lets
+the **ordering** do the work. The Leper's Debuff Amulet goes 0.59 -> **0.97**; the Plague
+Doctor's and the Highwayman's go negative, which is right, because a `-7 ACC` does not pay
+for the amulet's `-4 DODGE`.
+
+Known gap: resist debuffs (`-33% Bleed Resist`, `-20% Stun Resist`) are not priced - they
+are not one of the five stats and nothing reads them yet.
+
+### The base chance belongs to the clause that rolls it
+
+Three bugs sat under the flat score, and the third is the one that mattered.
+
+**It read the wrong clause's number.** `baseChanceFor` took the largest `(N% base)`
+anywhere in a skill carrying the tag. The Shieldbreaker's `Puncture` writes `Can't be
+Guarded (500% base, 2 rds)` beside `-3 SPD (140% base, 4 rds)`, so her debuff chance was
+priced at **exactly zero** - `effectPointWorth` reads 500% as "already guaranteed against
+everything". Now it reads the segment that carries the effect, asking `skillProfile`'s own
+`clauseTags` rather than a second copy of the vocabulary. The split is paren-aware: a plain
+`split(',')` tears `(140% base, 4 rds)` in half and the surviving half keeps no duration,
+which had Puncture inheriting the `2 rds` of a clause three pieces earlier.
+
+**An unprinted chance escaped the hit gate.** With no number, `chanceWorth` was left unset
+and `chanceFactor` fell back to `1` - which skips the district *and* `hitRate`, so Fran's
+rule that the effect rolls only after the attack lands did not apply to the skills whose
+text we can read least. `carrier` and `base` are now two answers instead of one, and
+`ASSUMED_BASE = 140` fills the gap (84% of the base game's printed clauses, 54% of the
+mods'). A test pins the invariant across all 80 cells: no chance is worth more than a
+certainty.
+
+**And the prose was missing the number in the first place.** In `scripts/lib/effectRender.js`
+the `(N% base)` suffix reached DoTs, stuns, knockbacks and pulls but never the stat clauses
+- so every debuff rendered from the game files lost it. One `effect:` entry is one roll, so
+a bare stat change it renders shares that chance; a buff carrying its **own description** is
+free prose that may already name a number, so only the templated ones inherit it. `0%`
+joins the sentinel family beside the 1000%/negative ones: the base game writes it 0 times
+in 2.080 effects, and all 49 mod ones are `.has_description false` bookkeeping
+(`Ringmaster_Fan_Favourite_Fake_Mark`, `cer_vip_sway_fake`).
+
+The scale of it was almost entirely on the modded side:
+
+| | skills with the effect | base printed, before | after |
+|---|---|---|---|
+| modded debuff | 24 | **0** | 24 |
+| modded blight | 30 | 13 | - |
+| modded bleed | 38 | 22 | - |
+| modded stun | 31 | 23 | - |
+
+Vanilla moves by **two lines**: the Duelist's `Feint`, whose own file says `.chance 150%`
+and whose wiki prose never printed it, and the Runaway's `Firefly`. Modded moves by 113, of
+which 111 are purely base-chance text - 140 chances added, 34 meaningless `(0% base)`
+removed. The two that are not: a spurious `Stress +8 (0% base)` duplicate collapsing, and
+`Private Rations`, whose 100% and 50% effects used to render identically and now read apart.
+
+Both importers share the renderer, so `importSkillEffects.js` and `importModdedEffects.js`
+were regenerated together.
+
 ### Whether a defensive stat is worth a slot (`src/data/enemyThreat.js`)
 
 **There is no list of dodge tanks.** Fran, 2026-09-14: "i dont want to hand pick what is a dodge or
