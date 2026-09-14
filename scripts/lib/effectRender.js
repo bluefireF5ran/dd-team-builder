@@ -537,6 +537,20 @@ function makeRenderer(ctx, { extended = false } = {}) {
    */
   const ABSURD = 10000;
 
+  /**
+   * Whether a buff says what it does in its own words rather than through the
+   * generic stat template. It matters to the caller because the base chance of
+   * the effect can be nailed onto a bare `-30% PROT` and not onto free prose,
+   * which may already name a number of its own.
+   */
+  function hasOwnDescription(b) {
+    return !!(b && b.description_tooltip_id && STR.has(b.description_tooltip_id));
+  }
+  const buffIsStatTemplate = (id) => {
+    const b = BUFFS.get(id);
+    return !!b && !hasOwnDescription(b);
+  };
+
   function renderBuff(id) {
     const b = BUFFS.get(id);
     if (!b) return null;
@@ -548,7 +562,7 @@ function makeRenderer(ctx, { extended = false } = {}) {
     // Una descripcion propia dice mejor lo que hace un buff que la plantilla
     // generica. Tambien es donde un mod escribe lo que le da la gana, asi que
     // es el texto que mas necesita `tidy`.
-    if (b.description_tooltip_id && STR.has(b.description_tooltip_id)) {
+    if (hasOwnDescription(b)) {
       const own = house(plain(fillNumber(plain(STR.get(b.description_tooltip_id)), scaledBuff(b))));
       return extended ? tidy(own) : own;
     }
@@ -599,7 +613,14 @@ function makeRenderer(ctx, { extended = false } = {}) {
     // `Bleed 1 pts/rd (-1000% base)` reads as a broken number rather than as a
     // certainty. Above what the game itself ever writes, the figure says nothing
     // and is dropped; under `extended` only, so vanilla keeps all 500 of them.
-    const sentinel = extended && chance !== null && (chance < 0 || chance > 500);
+    //
+    // Zero is the same kind of lie at the other end. The base game never writes
+    // it - 0 of its 2.080 effects - while 49 mod ones do, and every one of them
+    // is bookkeeping the player never rolls for: `Ringmaster_Fan_Favourite_Fake_Mark`,
+    // `cer_vip_sway_fake`, `legion_centurio_self_stress`, all `.has_description
+    // false`. `(0% base)` reads as "this never lands", which is the opposite of
+    // what those effects do.
+    const sentinel = extended && chance !== null && (chance < 0 || chance > 500 || chance === 0);
     const at = chance !== null && chance !== 100 && !sentinel ? ` (${chance}% base)` : '';
 
     for (const [k, label] of [['dotBurn', 'Burn'], ['dotBleed', 'Bleed'], ['dotPoison', 'Blight'], ['dotStress', 'Stress']]) {
@@ -634,7 +655,7 @@ function makeRenderer(ctx, { extended = false } = {}) {
       const v = num(fx[k]);
       if (v === null) continue;
       const t = `${v >= 0 ? '+' : ''}${v}${isPct ? '%' : ''} ${label}`;
-      if (!bits.includes(t + dur)) bits.push(t + dur);
+      if (!bits.includes(t + at + dur)) bits.push(t + at + dur);
     }
     /**
      * Attributes the base game uses that the original renderer never read.
@@ -680,7 +701,13 @@ function makeRenderer(ctx, { extended = false } = {}) {
 
     for (const id of [].concat(fx.buff_ids || [])) {
       const t = renderBuff(id);
-      if (t && !bits.some((b) => b.startsWith(t))) bits.push(t + dur);
+      // One `effect:` entry is one roll, so a bare stat change it renders shares
+      // that chance - which is how the Duelist's Feint gets the `(150% base)`
+      // its own file states and the wiki prose never printed. A buff that came
+      // with its own description is free prose and may already name a number;
+      // a second `(140% base)` nailed to the end of it reads as a different one.
+      const rolled = buffIsStatTemplate(id) ? at : '';
+      if (t && !bits.some((b) => b.startsWith(t))) bits.push(t + rolled + dur);
     }
     if (!bits.length) return null;
 
