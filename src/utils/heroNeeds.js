@@ -23,7 +23,7 @@ import { getModdedHeroClasses } from '../data/moddedRoster';
 import { getGearStats, MAX_GEAR_RANK } from '../data/heroStats';
 import { districtEffects } from '../data/estate';
 import { effectPointWorth } from '../data/enemyResists';
-import { dodgeWorthAt, protWorthAt, CHAMPION_ATTACK_DAMAGE } from '../data/enemyThreat';
+import { dodgeWorthAt, protWorthAt, hitRateAt, CHAMPION_ATTACK_DAMAGE } from '../data/enemyThreat';
 import { HERO_SPECIFIC_TRINKETS } from '../data/hero_specific_trinkets';
 import { getTrinketEffect } from '../data/trinketEffects';
 import { getModdedTrinketEffect } from '../data/moddedEffects';
@@ -239,10 +239,54 @@ export const heroNeeds = (hero, { party = null, heroIndex = -1, estate = true } 
    * next point is worth - PROT scales what lands, and HP is a percentage of a
    * pool, so a percent of a big pool is more hits than a percent of a small one.
    */
+  /**
+   * What the hero already heals back on himself, per round.
+   *
+   * Fran on the Leper: "tank items are not that necesary for him given his
+   * already good sustain with solemnity" - he runs a Debuff Amulet and an ACC
+   * trinket instead. Solemnity heals 10 a round against about 10 coming in, so
+   * armour buys him almost nothing, and the model had it backwards: it paid
+   * MORE for HP and PROT on a hero who heals himself.
+   *
+   * Read scope-first, like the DoTs: `Self: Stress -7 | Heal 10` puts the heal
+   * in a clause with no prefix, and it is the skill's own target that makes it
+   * a self heal.
+   */
+  const HEAL_FLAT = /\bheal\s+(\d+(?:\.\d+)?)(?!\s*%)/i;
+  const HEAL_PERCENT = /\bheal\s+(\d+(?:\.\d+)?)%/i;
+  let selfHealPerRound = 0;
+  skills.forEach(({ entry, profile }) => {
+    const fallback = profile.targetKind === 'ally' ? 'ally' : profile.targetKind === 'self' ? 'self' : 'target';
+    splitClauses(entry.effect).forEach((clause) => {
+      if (scopeOf(clause, fallback) !== 'self') return;
+      const percent = clause.match(HEAL_PERCENT);
+      const flat = !percent && clause.match(HEAL_FLAT);
+      const amount = percent ? (Number(percent[1]) / 100) * gear.hp : flat ? Number(flat[1]) : 0;
+      if (amount > selfHealPerRound) selfHealPerRound = amount;
+    });
+  });
+
+  /**
+   * A hero being focused takes more than his even share, and it is the big hits
+   * that kill: champion p90 damage is 11 against a mean of 6.2. What the heal
+   * covers of that is what he no longer needs to buy in armour.
+   */
+  const FOCUS_ATTACKS = 1.6;
+  const BIG_HIT = 11;
+  const takenPerRound = FOCUS_ATTACKS * BIG_HIT * hitRateAt(reachableDodge) *
+    (1 - Math.max(0, Math.min(90, reachableProt)) / 100);
+  const healShare = takenPerRound > 0 ? clamp01(selfHealPerRound / takenPerRound) : 0;
+
   const sustain = {
     dodge: dodgeWorthAt(reachableDodge),
     prot: protWorthAt(reachableProt),
     hp: reachableHp > 0 ? (reachableHp / 100) / CHAMPION_ATTACK_DAMAGE : 0,
+    // DODGE is not discounted by it: a hero who dodges is buying more of the
+    // thing that is already working, and that one compounds (`enemyThreat`).
+    // HP and PROT are the flat ones a heal makes redundant.
+    healShare,
+    selfHealPerRound,
+    takenPerRound,
     reachableDodge,
     reachableProt,
     reachableHp

@@ -42,6 +42,8 @@ const PROT_RATE = 60;
 const HP_RATE = 8.9;
 /** The middle of the roster, so the scale sits around 1 for an ordinary hero. */
 const HP_REFERENCE = 0.58;
+/** What armour is worth on a hero nothing is aimed at: half, not nothing. */
+const ALONE = 0.5;
 
 /** Build-goal multipliers: Fran's priority order. */
 const SUSTAIN = 1.4;
@@ -181,13 +183,27 @@ const weightOf = (base, needs, context) => {
        */
       const sustain = needs.sustain || {};
       const worth = base === 'prot' ? (sustain.prot || 0.011) * PROT_RATE : (sustain.hp || 0.065) * HP_RATE;
-      const scale = worth / HP_REFERENCE;
-      if (roles.tank) {
-        return {
-          weight: 0.9 * scale * (roles.selfHealSustain ? SUSTAIN : 1),
-          goal: roles.selfHealSustain ? 'self-heal sustain' : 'frontline'
-        };
-      }
+      /**
+       * And minus what he already heals back. A hero who covers most of the
+       * damage with his own kit has little left for armour to save - the Leper
+       * heals 10 a round against about 10 coming in - which is why this is a
+       * discount and not the bonus it used to be.
+       */
+      const covered = 1 - 0.8 * (sustain.healShare || 0);
+      /**
+       * And halved on a hero who cannot pull the hits onto himself.
+       *
+       * Fran (2026-09-14): "if you only build to tank there's no way outside
+       * self mark/ guard to redirect aggro towards you... the problem is that
+       * your leper survives while your team is being obliterated". Armour on a
+       * hero nothing is aimed at does not stop the damage, it moves it to
+       * somebody squishier, and it was paid for with tempo the party needed.
+       * Not zero, because "you'd want to reach a bit of sustain with each hero"
+       * - and mark is not perfect either, since not every enemy chases it.
+       */
+      const redirects = roles.markSelf || roles.guardAlly ? 1 : ALONE;
+      const scale = (worth / HP_REFERENCE) * covered * redirects;
+      if (roles.tank) return { weight: 0.9 * scale, goal: 'frontline' };
       if (roles.riposte) return { weight: 0.5 * scale, goal: 'riposte sustain' };
       return { weight: 0.2 * GENERAL * scale };
     }
@@ -244,6 +260,8 @@ const weightOf = (base, needs, context) => {
     case 'healing skills':
     case 'healing':
       if (roles.partyHealSustain) return { weight: 1.1 * SUSTAIN, goal: 'party-heal sustain' };
+      // A hero whose own heal is what keeps him alive gets more out of it.
+      if (roles.selfHealSustain) return { weight: 0.45 * SUSTAIN, goal: 'self-heal sustain' };
       return { weight: roles.allyHeal || roles.selfHeal ? 0.45 : 0 };
     case 'stress skills':
       return { weight: roles.stressHeal ? 0.5 : 0 };
