@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { getSkillRanks, reachableRanks } from '../../utils/rankValidity';
 import { statBreakdown } from '../../utils/statBreakdown';
+import { useStatSettings } from '../../hooks/useStatSettings';
 import StatRows from './StatRows';
 import { AlertTriangle, ChevronDown, ChevronRight, ChevronUp, Copy, ClipboardPaste, Maximize2, RotateCcw, Sparkles, UserPlus, X } from 'lucide-react';
 import { HERO_CLASSES } from '../../data/heroes';
@@ -22,6 +23,7 @@ import HoverCard from '../common/HoverCard';
 import Keywords from '../common/Keywords';
 import HeroStatsDialog from './HeroStatsDialog';
 import { skillSynergies, synergyLines } from '../../utils/skillSynergy';
+import { skillFrame } from '../../utils/skillColours';
 import { keywordColour } from '../../data/gameColours';
 import HeroSelector from './HeroSelector';
 import TrinketPicker from './TrinketPicker';
@@ -102,6 +104,8 @@ const HeroConfiguration = ({
   const [isExpanded, setIsExpanded] = useState(true);
   const [confirmState, setConfirmState] = useState({ isOpen: false, action: null, title: '', message: '' });
   const [trinketPickerSlot, setTrinketPickerSlot] = useState(null); // 1 | 2 | null
+  // Dificultad y Hacienda: el CRIT y el daño del hover son los de las barras.
+  const statSettings = useStatSettings();
   const allHeroClasses = useMemo(() => {
     if (showModdedHeroes) {
       return { ...HERO_CLASSES, ...MODDED_HERO_CLASSES };
@@ -533,7 +537,7 @@ const HeroConfiguration = ({
                     <HoverCard
                       key={skill}
                       className="w-full"
-                      {...skillHover(skill, hero.heroClass, { showTier: showSkillTiers, hero, party, heroIndex })}
+                      {...skillHover(skill, hero.heroClass, { showTier: showSkillTiers, hero, party, heroIndex, ...statSettings })}
                     >
                       <button
                         onClick={() => toggleSkill(skill)}
@@ -545,7 +549,18 @@ const HeroConfiguration = ({
                             : 'bg-gray-700/80 hover:bg-gray-600 text-gray-300 border border-gray-600'
                         } ${isAlwaysActive ? 'cursor-not-allowed opacity-90' : 'cursor-pointer'}`}
                       >
-                        <span className="min-w-0 truncate">{skill}</span>
+                        {/* El boton es texto, no icono: lo que hace la skill va en
+                            una tira con los colores de su marco (`skillColours`). */}
+                        <span className="min-w-0 flex items-center gap-2">
+                          <span
+                            aria-hidden="true"
+                            data-testid="skill-effects"
+                            data-effects={skillFrame(hero.heroClass, skill).categories.join(' ')}
+                            className="w-1.5 self-stretch min-h-[1rem] rounded-sm shrink-0"
+                            style={{ background: skillFrame(hero.heroClass, skill).background }}
+                          />
+                          <span className="min-w-0 truncate">{skill}</span>
+                        </span>
                         <span className="flex items-center gap-1 shrink-0">
                           <SynergyChips synergies={party ? skillSynergies(party, heroIndex, skill) : []} />
                           {outOfRank && (
@@ -819,7 +834,11 @@ const QuirkList = ({
 const HeroStats = ({ hero, party, heroIndex }) => {
   const [open, setOpen] = useState(true);
   const [zoomed, setZoomed] = useState(false);
-  const breakdown = useMemo(() => statBreakdown(hero, { party, heroIndex }), [hero, party, heroIndex]);
+  const statSettings = useStatSettings();
+  const breakdown = useMemo(
+    () => statBreakdown(hero, { party, heroIndex, ...statSettings }),
+    [hero, party, heroIndex, statSettings]
+  );
   // Una clase modded que nadie ha importado no tiene estadisticas, y ahi la
   // respuesta honesta es no dibujar nada en vez de ceros.
   if (!breakdown) return null;

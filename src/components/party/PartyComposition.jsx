@@ -141,6 +141,8 @@ const PartyComposition = forwardRef(({ heroes, onSwapHeroes, teamName, location 
               <PartyHeroCard
                 hero={hero}
                 position={position}
+                party={heroes}
+                heroIndex={actualIndex}
               />
 
               {/* Excluded from the PNG by data-export-ignore: these are

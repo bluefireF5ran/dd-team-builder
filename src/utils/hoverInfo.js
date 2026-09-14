@@ -49,7 +49,11 @@ export function trinketHover(name, otherTrinket) {
  *   subtitle. Opt-in, because the tier is an opinion and the setting that
  *   turns it on is off by default; callers that never got it keep their card.
  */
-export function skillHover(name, heroClass, { showTier = false, hero = null, party = null, heroIndex = -1 } = {}) {
+export function skillHover(
+  name,
+  heroClass,
+  { showTier = false, hero = null, party = null, heroIndex = -1, difficulty, estate } = {}
+) {
   const entry = getSkillEffect(name, heroClass) || getModdedSkillEffect(name, heroClass);
   const tier = showTier ? getSkillTierMeta(getSkillTier(heroClass, name)) : null;
   const tierText = tier ? `Tier ${tier.id} — ${tier.label}` : null;
@@ -73,7 +77,7 @@ export function skillHover(name, heroClass, { showTier = false, hero = null, par
     // es lo que convierte `DMG -50%` en el daño que de verdad hace.
     // El mismo desglose que las barras, para que el CRIT del hover y el de la
     // ficha sean el mismo numero (Hacienda y luz incluidas).
-    line = statBreakdown(hero?.heroClass ? hero : { heroClass }, { party, heroIndex });
+    line = statBreakdown(hero?.heroClass ? hero : { heroClass }, { party, heroIndex, difficulty, estate });
     /**
      * Una skill que no tira para acertar trae TRES marcadores de posicion, no
      * uno: `ACC 1000%`, `DMG -100%` y `CRIT +0%`. Los tres invitan a compararlos

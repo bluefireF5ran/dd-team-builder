@@ -6,6 +6,7 @@ import { getHeroImagePath, getSkillImagePath, getCampSkillImagePath, getTrinketI
 import ImageWithFallback from '../common/ImageWithFallback';
 import HoverCard from '../common/HoverCard';
 import SkillIconFrame from '../common/SkillIconFrame';
+import { useStatSettings } from '../../hooks/useStatSettings';
 import { skillHover, trinketHover, quirkHover } from '../../utils/hoverInfo';
 import { quirkClasses } from '../../utils/quirkStyle';
 import { rarityBorderStyle, withAlpha } from '../../utils/trinketRarity';
@@ -17,8 +18,11 @@ const ICON = 'w-[40px] h-[40px] sm:w-[64px] sm:h-[64px]';
 // Una skill de combate lleva en el marco lo que HACE (`SkillIconFrame`): gris
 // si solo pega, plaga si envenena, degradado si hace dos cosas. Las de
 // campamento conservan el morado, que es lo que las separa de las de combate.
-const CombatSkillIcon = ({ name, heroClass, hero }) => (
-  <HoverCard {...skillHover(name, heroClass, { hero })}>
+// Con la party, el hover dice tambien con que skill de un companero encaja.
+const CombatSkillIcon = ({ name, heroClass, hero, party, heroIndex }) => {
+  const statSettings = useStatSettings();
+  return (
+  <HoverCard {...skillHover(name, heroClass, { hero, party, heroIndex, ...statSettings })}>
     <SkillIconFrame
       heroClass={heroClass}
       skill={name}
@@ -38,10 +42,11 @@ const CombatSkillIcon = ({ name, heroClass, hero }) => (
       />
     </SkillIconFrame>
   </HoverCard>
-);
+  );
+};
 
-const SkillIcon = ({ name, heroClass, camp, hero }) => {
-  if (!camp) return <CombatSkillIcon name={name} heroClass={heroClass} hero={hero} />;
+const SkillIcon = ({ name, heroClass, camp, hero, party, heroIndex }) => {
+  if (!camp) return <CombatSkillIcon name={name} heroClass={heroClass} hero={hero} party={party} heroIndex={heroIndex} />;
   const colour = 'border-purple-600';
   const fallbackColour = 'bg-purple-900/40 text-purple-300';
   return (
@@ -99,7 +104,7 @@ const TrinketIcon = ({ name, other, heroClass }) => {
   );
 };
 
-const PartyHeroCard = ({ hero, position }) => {
+const PartyHeroCard = ({ hero, position, party = null, heroIndex = -1 }) => {
   const heroData = HERO_CLASSES[hero.heroClass] || MODDED_HERO_CLASSES[hero.heroClass];
   const isAlwaysActive = heroData?.alwaysActive || false;
   const activeSkills = hero.activeSkills || [];
@@ -157,7 +162,7 @@ const PartyHeroCard = ({ hero, position }) => {
                 {/* Primera fila - 4 skills */}
                 <div className="flex justify-center gap-1 sm:gap-1.5">
                   {firstRowSkills.map((skill, idx) => (
-                    <SkillIcon key={`skill-${idx}-${skill}`} name={skill} heroClass={hero.heroClass} hero={hero} />
+                    <SkillIcon key={`skill-${idx}-${skill}`} name={skill} heroClass={hero.heroClass} hero={hero} party={party} heroIndex={heroIndex} />
                   ))}
                   {!isAlwaysActive && Array(Math.max(0, 4 - firstRowSkills.length)).fill(null).map((_, idx) => (
                     <div
@@ -173,7 +178,7 @@ const PartyHeroCard = ({ hero, position }) => {
                 {isAlwaysActive && secondRowSkills.length > 0 && (
                   <div className="flex justify-center gap-1 sm:gap-1.5">
                     {secondRowSkills.map((skill, idx) => (
-                      <SkillIcon key={`skill2-${idx}-${skill}`} name={skill} heroClass={hero.heroClass} hero={hero} />
+                      <SkillIcon key={`skill2-${idx}-${skill}`} name={skill} heroClass={hero.heroClass} hero={hero} party={party} heroIndex={heroIndex} />
                     ))}
                   </div>
                 )}

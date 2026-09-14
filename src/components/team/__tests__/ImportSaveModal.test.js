@@ -8,9 +8,15 @@ import { parseSaveProfile, SAVE_FILES } from '../../../utils/saveParser';
 const FIXTURES = path.join(__dirname, '..', '..', '..', 'utils', '__tests__', 'fixtures', 'save');
 const read = (name) => fs.readFileSync(path.join(FIXTURES, name));
 
+// Only the files the fixture actually has: a profile folder may lack any of
+// them except the roster, and the fixture predates `persist.town.json`.
 const profile = () =>
   parseSaveProfile(
-    Object.fromEntries(Object.values(SAVE_FILES).map((name) => [name, read(name)]))
+    Object.fromEntries(
+      Object.values(SAVE_FILES)
+        .filter((name) => fs.existsSync(path.join(FIXTURES, name)))
+        .map((name) => [name, read(name)])
+    )
   );
 
 const setup = (props = {}) => {

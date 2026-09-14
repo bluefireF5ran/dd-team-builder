@@ -2,6 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Undo2, Flag, Maximize2, X } from 'lucide-react';
 import ImageWithFallback from '../common/ImageWithFallback';
 import HeroStatsDialog from '../hero/HeroStatsDialog';
+import HoverCard from '../common/HoverCard';
+import SkillIconFrame from '../common/SkillIconFrame';
+import { skillHover, trinketHover } from '../../utils/hoverInfo';
+import { useStatSettings } from '../../hooks/useStatSettings';
 import { HeroDetails, SkillDetails } from './ItemDetails';
 import { getHeroStats } from '../../data/heroStats';
 import {
@@ -23,33 +27,50 @@ const isCompCategory = (category) => category === 'comps';
 // Quirks ride along as text because they are the layer that changes least.
 // ---------------------------------------------------------------------------
 
-const IconRow = ({ names, srcFor, size, title }) => {
+/**
+ * Una fila de iconos con su hover de verdad, no un `title` del navegador.
+ * `frameFor` marca las skills con lo que hacen, como en la carta de la party.
+ */
+const IconRow = ({ names, srcFor, size, hoverFor, frameFor = null }) => {
   const shown = (names || []).filter(Boolean);
   if (!shown.length) return null;
   return (
-    <span className="flex flex-wrap items-center gap-1" title={`${title}: ${shown.join(', ')}`}>
-      {shown.map((name, i) => (
-        <ImageWithFallback
-          key={`${name}-${i}`}
-          src={srcFor(name)}
-          alt={name}
-          title={name}
-          className={`${size} object-contain rounded-sm border border-gray-700/80 bg-gray-900/60`}
-          fallback={
-            <span
-              className={`${size} flex items-center justify-center rounded-sm border border-gray-700 bg-gray-900 text-[9px] text-gray-500`}
-              title={name}
-            >
-              {name.charAt(0)}
-            </span>
-          }
-        />
-      ))}
+    <span className="flex flex-wrap items-center gap-1">
+      {shown.map((name, i) => {
+        const image = (
+          <ImageWithFallback
+            src={srcFor(name)}
+            alt={name}
+            className={`${size} object-contain rounded-sm ${frameFor ? 'block bg-gray-900' : 'border border-gray-700/80 bg-gray-900/60'}`}
+            fallback={
+              <span
+                className={`${size} flex items-center justify-center rounded-sm border border-gray-700 bg-gray-900 text-[9px] text-gray-500`}
+                title={name}
+              >
+                {name.charAt(0)}
+              </span>
+            }
+          />
+        );
+        return (
+          <HoverCard key={`${name}-${i}`} {...hoverFor(name)}>
+            {frameFor ? (
+              <SkillIconFrame {...frameFor(name)} className="p-[2px]">
+                {image}
+              </SkillIconFrame>
+            ) : image}
+          </HoverCard>
+        );
+      })}
     </span>
   );
 };
 
-const CompRank = ({ hero, rank }) => (
+// La comp ES la party: el hover de cada skill dice con quien de las cuatro
+// encaja, igual que en el constructor.
+const CompRank = ({ hero, rank, party, heroIndex }) => {
+  const statSettings = useStatSettings();
+  return (
   <span className="flex items-start gap-2 py-1.5 border-b border-gray-700/50 last:border-b-0">
     <span className="w-4 shrink-0 pt-1 text-[10px] font-mono text-dd-gold/70 text-right">{rank}</span>
     <ImageWithFallback
@@ -70,13 +91,14 @@ const CompRank = ({ hero, rank }) => (
         names={hero.activeSkills}
         srcFor={(name) => getSkillImagePath(name, hero.heroClass)}
         size="w-6 h-6 sm:w-7 sm:h-7"
-        title="Skills"
+        hoverFor={(name) => skillHover(name, hero.heroClass, { hero, party, heroIndex, ...statSettings })}
+        frameFor={(name) => ({ heroClass: hero.heroClass, skill: name })}
       />
       <IconRow
         names={[hero.trinket1, hero.trinket2]}
         srcFor={(name) => getTrinketImagePath(name, hero.heroClass)}
         size="w-5 h-5 sm:w-6 sm:h-6"
-        title="Trinkets"
+        hoverFor={(name) => trinketHover(name, name === hero.trinket1 ? hero.trinket2 : hero.trinket1)}
       />
       {!!(hero.quirks?.positive || []).length && (
         <span className="block text-[9px] text-gray-500 leading-tight truncate">
@@ -85,9 +107,10 @@ const CompRank = ({ hero, rank }) => (
       )}
     </span>
   </span>
-);
+  );
+};
 
-const CompCard = ({ item, side, onPick }) => {
+const CompCard =({ item, side, onPick }) => {
   const hotkey = side === 'left' ? '1' : '2';
   return (
     <button
@@ -106,7 +129,7 @@ const CompCard = ({ item, side, onPick }) => {
         </span>
         <span className="block rounded border border-gray-700/60 bg-gray-900/40 px-2">
           {item.heroes.map((hero, i) => (
-            <CompRank key={`${hero.heroClass}-${i}`} hero={hero} rank={i + 1} />
+            <CompRank key={`${hero.heroClass}-${i}`} hero={hero} rank={i + 1} party={item.heroes} heroIndex={i} />
           ))}
         </span>
       </span>

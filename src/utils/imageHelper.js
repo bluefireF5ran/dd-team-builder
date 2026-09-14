@@ -3,6 +3,10 @@ import { MODDED_HERO_CLASSES, MODDED_GENERAL_TRINKETS, MODDED_GENERAL_TRINKET_MO
 import { COMMON_VANILLA_CAMP_SKILLS } from '../constants';
 import { getAssetUrl } from '../config/assets';
 
+// Un Set y no `includes` sobre el array: esto se pregunta una vez por ruta de
+// imagen de trinket, y el picker abre ~700 celdas contra ~460 genericos modded.
+const MODDED_GENERAL_TRINKET_SET = new Set(MODDED_GENERAL_TRINKETS);
+
 // Nombres cuyo asset está subido con otra grafía. La clave es el nombre
 // canónico que se muestra en la UI; el valor, el nombre de archivo real.
 const IMAGE_FILE_NAME_OVERRIDES = {
@@ -123,7 +127,7 @@ export const getTrinketImagePath = (trinketName, heroClass = null) => {
   
   // Verificar si es un trinket general modded. Lleva prefijo de modId igual que
   // el resto de assets modded: el nombre por sí solo no es único entre 800 mods.
-  if (MODDED_GENERAL_TRINKETS.includes(trinketName)) {
+  if (MODDED_GENERAL_TRINKET_SET.has(trinketName)) {
     const modId = MODDED_GENERAL_TRINKET_MODS[trinketName];
     return getAssetUrl(`/images/modded/trinkets/${modId ? `${modId}_` : ''}${fileName}.png`);
   }

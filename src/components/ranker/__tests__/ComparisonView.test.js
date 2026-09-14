@@ -91,6 +91,34 @@ describe('ComparisonView — hero cards', () => {
   });
 });
 
+describe('ComparisonView — comp cards', () => {
+  const hero = (heroClass, activeSkills, extra = {}) => ({
+    heroClass, activeSkills, activeCampSkills: [], trinket1: '', trinket2: '',
+    quirks: { positive: [], negative: [] }, ...extra,
+  });
+  const comp = (name, heroes) => ({ id: `comp:${name}`, name, subtitle: 'The Ruins', location: 'The Ruins', heroes });
+
+  const left = comp('Marked Volley', [
+    hero('Bounty Hunter', ['Mark for Death'], { trinket1: 'Holy Orders' }),
+    hero('Arbalest', ['Sniper Shot']),
+  ]);
+  const right = comp('Stone Wall', [hero('Crusader', ['Smite']), hero('Leper', ['Chop'])]);
+
+  it('hovers a skill with the real card, naming the teammate it fits with, without picking', () => {
+    const onPick = showPair(left, right, 'comps');
+    fireEvent.mouseEnter(within(cardFor('Marked Volley')).getByAltText('Sniper Shot'));
+
+    expect(screen.getByRole('tooltip')).toHaveTextContent('Synergy: Mark set up by Bounty Hunter (Mark for Death)');
+    expect(onPick).not.toHaveBeenCalled();
+  });
+
+  it('hovers a trinket with its rarity and effect', () => {
+    showPair(left, right, 'comps');
+    fireEvent.mouseEnter(within(cardFor('Marked Volley')).getByAltText('Holy Orders'));
+    expect(screen.getByRole('tooltip')).toHaveTextContent('Very Rare');
+  });
+});
+
 describe('ComparisonView — skill cards', () => {
   it('says what a combat skill does, not just its name', () => {
     const smite = itemNamed('skills', ['Crusader'], 'Smite');

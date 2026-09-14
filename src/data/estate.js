@@ -58,6 +58,37 @@ export const DISTRICTS = [
   { id: 'theater', name: 'Performance Hall', classes: ['jester'], buffs: [{ stat: 'spd', amount: 2 }] },
 ];
 
+/**
+ * El nombre de cada distrito, de `str_<id>_title` en las string tables. Los ids
+ * son los de `persist.town.json`, asi que esto es lo que traduce una partida
+ * importada a algo legible. Ojo con los que no se parecen a su id:
+ * `spire_of_hope` es The Red Hook y `buskers_corner` el Puppet Theatre.
+ */
+export const DISTRICT_NAMES = {
+  the_mill: 'The Mill',
+  geologic_studyhall: 'Geologic Studyhall',
+  tainted_well: 'Tainted Well',
+  miasmal_orchard: 'Miasmal Orchard',
+  spire_of_hope: 'The Red Hook',
+  bank: 'Bank',
+  illuminators_guild: "Cartographer's Camp",
+  granary: 'Granary',
+  buskers_corner: 'Puppet Theatre',
+  house_of_the_yellow_hand: 'House of the Yellow Hand',
+  altar_of_light: 'Altar of the Light',
+  training_ring: 'Training Ring',
+  library: 'Athenaeum',
+  theater: 'Performance Hall',
+  outsiders_bonfire: 'Outsiders Bonfire',
+  blood_bank: 'Sanguine Vintners',
+  conservatory_of_steel: 'Académie Duello',
+  craftworks: 'Craftworks',
+  archaeologic_salon: 'Archaeological Base Camp',
+};
+
+/** El nombre de un distrito, o su id legible si no esta en la tabla. */
+export const districtName = (id) => DISTRICT_NAMES[id] || String(id).replace(/_/g, ' ');
+
 /** Los distritos que tocan a esta clase. */
 export const districtsFor = (heroClass) => {
   const id = classId(heroClass);
@@ -105,11 +136,64 @@ export const CARTOGRAPHER_LIGHT = {
 
 export const CARTOGRAPHER_NAME = "Cartographer's Camp";
 
-/** Lo que da la luz a esta antorcha, con el Cartographer's Camp construido. */
-export const cartographerBonus = (torch, difficulty = DIFFICULTY) => {
-  const table = CARTOGRAPHER_LIGHT[difficulty] || CARTOGRAPHER_LIGHT.darkest;
+/**
+ * La tabla de oscuridad SIN Cartographer's Camp: la del juego base, bloque
+ * `darkness` de `shared/rules.json` (y `modes/<modo>/shared/rules.json`;
+ * Bloodmoon en `dlc/580100_crimson_court/features/crimson_court/modes/bloodmoon`).
+ * El distrito la REEMPLAZA, no se suma a ella: con el estate construido cuenta
+ * `CARTOGRAPHER_LIGHT` y sin el, esta.
+ */
+export const BASE_LIGHT = {
+  darkest: [
+    { above: 75, dodge: 4, crit: 0 },
+    { above: 50, dodge: 2.5, crit: 0 },
+    { above: 25, dodge: 0, crit: 1 },
+    { above: 0, dodge: 0, crit: 2 },
+    { above: -Infinity, dodge: 0, crit: 3 },
+  ],
+  radiant: [
+    { above: 75, dodge: 7.5, crit: 0 },
+    { above: 50, dodge: 4, crit: 0 },
+    { above: 25, dodge: 0, crit: 1 },
+    { above: 0, dodge: 0, crit: 2 },
+    { above: -Infinity, dodge: 0, crit: 3 },
+  ],
+  stygian: [
+    { above: 75, dodge: 2.5, crit: 0 },
+    { above: 50, dodge: 0, crit: 0 },
+    { above: 25, dodge: 0, crit: 1 },
+    { above: 0, dodge: 0, crit: 2.5 },
+    { above: -Infinity, dodge: 0, crit: 3 },
+  ],
+  bloodmoon: [
+    { above: 75, dodge: 2.5, crit: 0 },
+    { above: 50, dodge: 0, crit: 0 },
+    { above: 25, dodge: 0, crit: 1 },
+    { above: 0, dodge: 0, crit: 2.5 },
+    { above: -Infinity, dodge: 0, crit: 3 },
+  ],
+};
+
+/** Las cuatro dificultades, en el orden del juego. `stygian` es `new_game_plus` en los ficheros. */
+export const DIFFICULTIES = [
+  { id: 'radiant', label: 'Radiant' },
+  { id: 'darkest', label: 'Darkest' },
+  { id: 'stygian', label: 'Stygian' },
+  { id: 'bloodmoon', label: 'Bloodmoon' },
+];
+
+/**
+ * Lo que da la luz a esta antorcha: con Cartographer's Camp su tabla, sin el la
+ * del juego base.
+ */
+export const lightBonus = (torch, difficulty = DIFFICULTY, cartographer = true) => {
+  const tables = cartographer ? CARTOGRAPHER_LIGHT : BASE_LIGHT;
+  const table = tables[difficulty] || tables.darkest;
   return table.find((row) => torch > row.above) || table[table.length - 1];
 };
+
+/** Lo que da la luz a esta antorcha, con el Cartographer's Camp construido. */
+export const cartographerBonus = (torch, difficulty = DIFFICULTY) => lightBonus(torch, difficulty, true);
 
 /** El nombre de la banda de luz del medidor de antorcha. */
 export const lightLabel = (torch) => {

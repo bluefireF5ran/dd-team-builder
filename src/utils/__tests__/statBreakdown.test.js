@@ -1,5 +1,5 @@
 import { statBreakdown, statScale, partyLight, barGeometry, segmentGradient, GROUP_COLOURS } from '../statBreakdown';
-import { cartographerBonus, districtsFor, classId } from '../../data/estate';
+import { cartographerBonus, districtsFor, classId, lightBonus } from '../../data/estate';
 import { TRINKET_EFFECTS } from '../../data/trinketEffects';
 
 const partOf = (row, group) => row.parts.find((p) => p.group === group)?.amount ?? 0;
@@ -112,6 +112,42 @@ describe('the estate', () => {
     expect(cartographerBonus(100)).toMatchObject({ dodge: 7.5, crit: 1 });
     expect(cartographerBonus(100, 'radiant')).toMatchObject({ dodge: 10 });
     expect(cartographerBonus(25)).toMatchObject({ dodge: 0, crit: 3 });
+  });
+});
+
+describe('difficulty and estate settings', () => {
+  it('without the estate: no districts, and the base game torchlight instead of the Cartographer\'s', () => {
+    const bd = statBreakdown(fransJester, { party: [fransJester], heroIndex: 0, estate: false });
+    expect(partOf(bd.stats.dodge, 'estate')).toBe(0);
+    // shared/rules.json, darkness, above 75, Darkest: +4 DODGE (the Camp makes it 7.5).
+    expect(partOf(bd.stats.dodge, 'light')).toBe(4);
+    expect(bd.stats.dodge.total).toBe(35 + 4 + 30 + 16);
+    expect(partOf(bd.stats.spd, 'estate')).toBe(0);
+    expect(bd.estate).toBe(false);
+  });
+
+  it('reads the chosen difficulty\'s tables', () => {
+    expect(partOf(statBreakdown(fransJester, { difficulty: 'radiant' }).stats.dodge, 'light')).toBe(10);
+    expect(partOf(statBreakdown(fransJester, { difficulty: 'radiant', estate: false }).stats.dodge, 'light')).toBe(7.5);
+    expect(lightBonus(100, 'darkest', false)).toMatchObject({ dodge: 4, crit: 0 });
+    expect(lightBonus(25, 'stygian', false)).toMatchObject({ dodge: 0, crit: 2.5 });
+  });
+
+  it('counts only the districts a save has actually built', () => {
+    // Fran's profile_8: only the Granary, which moves no barred stat.
+    const granaryOnly = statBreakdown(fransJester, { estate: ['granary'] });
+    expect(partOf(granaryOnly.stats.dodge, 'estate')).toBe(0);
+    expect(partOf(granaryOnly.stats.dodge, 'light')).toBe(4);
+
+    const some = statBreakdown(fransJester, { estate: ['illuminators_guild', 'conservatory_of_steel'] });
+    expect(partOf(some.stats.dodge, 'estate')).toBe(3);
+    expect(partOf(some.stats.dodge, 'light')).toBe(7.5);
+    // Performance Hall is not in that list.
+    expect(partOf(some.stats.spd, 'estate')).toBe(0);
+  });
+
+  it('sizes the bar for the settings it is drawn with', () => {
+    expect(statScale('darkest', false).dodge).toBeLessThan(statScale('darkest', true).dodge);
   });
 });
 

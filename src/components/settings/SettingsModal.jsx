@@ -1,5 +1,6 @@
 import React from 'react';
-import { X, Palette, Puzzle, Star, Biohazard, Droplet, BookOpen, Swords, Trophy, RotateCcw, PackageCheck } from 'lucide-react';
+import { X, Palette, Puzzle, Star, Biohazard, Droplet, BookOpen, Swords, Trophy, RotateCcw, PackageCheck, Flame, Landmark } from 'lucide-react';
+import { DIFFICULTIES, districtName } from '../../data/estate';
 import Modal from '../common/Modal';
 import { THEMES } from '../../hooks/useSettings';
 import { SORT_OPTIONS } from '../../utils/compFilters';
@@ -51,12 +52,13 @@ const Toggle = ({ checked, onChange, label, disabled }) => (
   </button>
 );
 
-const Select = ({ value, onChange, label, children }) => (
+const Select = ({ value, onChange, label, disabled, children }) => (
   <select
     value={value}
     onChange={(e) => onChange(e.target.value)}
     aria-label={label}
-    className="bg-gray-900 text-dd-parchment px-2 py-1.5 rounded border border-gray-700 focus:outline-none focus:border-dd-gold text-xs max-w-[190px]"
+    disabled={disabled}
+    className="bg-gray-900 text-dd-parchment px-2 py-1.5 rounded border border-gray-700 focus:outline-none focus:border-dd-gold text-xs max-w-[190px] disabled:opacity-50 disabled:cursor-not-allowed"
   >
     {children}
   </select>
@@ -69,8 +71,15 @@ const Section = ({ title, children }) => (
   </div>
 );
 
-const SettingsModal = ({ isOpen, onClose, settings, setSetting, toggleSetting, resetSettings }) => {
+const SettingsModal = ({ isOpen, onClose, settings, setSetting, toggleSetting, resetSettings, saveProfile = null }) => {
   const sortOptions = SORT_OPTIONS.filter((o) => !o.savedOnly);
+
+  // Una partida importada sabe la dificultad y los distritos DE VERDAD, y gana a
+  // los ajustes (`statSettingsFrom`). Mientras la hay, el control correspondiente
+  // enseña lo de la partida y no se puede tocar: cambiarlo aqui no haria nada.
+  const saveDifficulty = typeof saveProfile?.difficulty === 'string' ? saveProfile.difficulty : null;
+  const saveDistricts = Array.isArray(saveProfile?.districts) ? saveProfile.districts : null;
+  const difficultyLabel = (id) => DIFFICULTIES.find((d) => d.id === id)?.label || id;
 
   return (
     <Modal
@@ -159,6 +168,47 @@ const SettingsModal = ({ isOpen, onClose, settings, setSetting, toggleSetting, r
                 disabled={!settings.showDiseases}
                 checked={settings.showDiseases && settings.showCrimsonCourt}
                 onChange={() => toggleSetting('showCrimsonCourt')}
+              />
+            </Row>
+          </Section>
+
+          <Section title="Stat bars">
+            <Row
+              icon={Flame}
+              title="Difficulty"
+              hint={
+                saveDifficulty
+                  ? `From your imported save: ${difficultyLabel(saveDifficulty)}.`
+                  : "Torchlight gives different DODGE and CRIT on each difficulty; the numbers come from the game's own tables."
+              }
+            >
+              <Select
+                value={saveDifficulty || settings.difficulty}
+                onChange={(v) => setSetting('difficulty', v)}
+                label="Difficulty"
+                disabled={!!saveDifficulty}
+              >
+                {DIFFICULTIES.map((d) => (
+                  <option key={d.id} value={d.id}>{d.label}</option>
+                ))}
+              </Select>
+            </Row>
+            <Row
+              icon={Landmark}
+              title="Estate districts built"
+              hint={
+                saveDistricts
+                  ? `From your imported save: ${
+                      saveDistricts.length ? saveDistricts.map(districtName).join(', ') : 'no districts'
+                    } built.`
+                  : "Counts the districts that raise a hero's stats (Académie Duello, Training Ring…) and Cartographer's Camp's torchlight. Off, torchlight uses the base game's table."
+              }
+            >
+              <Toggle
+                label="Estate districts built"
+                checked={saveDistricts ? saveDistricts.length > 0 : settings.estateBuilt}
+                onChange={() => toggleSetting('estateBuilt')}
+                disabled={!!saveDistricts}
               />
             </Row>
           </Section>
