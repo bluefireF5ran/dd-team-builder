@@ -57,12 +57,19 @@ if (!OUT && !DRY) {
 }
 
 // The app's own filename rule, not a copy of it.
+//
+// One stub per name `imageHelper` imports: a missing one loads as `{}` and only
+// fails when something calls it, which is how this script broke silently when
+// the modded roster moved behind getters. Only `toImageFileName` is wanted here
+// and it reads none of the roster, so the stubs are an empty one.
 const { toImageFileName } = loadDataModule('src/utils/imageHelper.js', {
   BACKER_TRINKETS: [],
-  MODDED_HERO_CLASSES: {},
-  MODDED_GENERAL_TRINKETS: [],
   COMMON_VANILLA_CAMP_SKILLS: [],
   getAssetUrl: (p) => p,
+  getModdedHeroClasses: () => ({}),
+  getModdedGeneralTrinkets: () => [],
+  getModdedGeneralTrinketMods: () => ({}),
+  memoByModdedRoster: (make) => make,
 });
 const APP = loadDataModule('src/data/modded_heroes.js').MODDED_HERO_CLASSES;
 

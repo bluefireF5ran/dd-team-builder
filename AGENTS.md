@@ -799,6 +799,17 @@ node scripts/exportModdedAssets.js --workshop … --game … --out "<assets>/ima
 `--game` is optional but wanted: it is what resolves the vanilla ids a mod reuses without
 redefining (`encourage`, `first_aid`) and what lets a rebalance mod borrow the base game's art.
 
+**The exporter reads `imageHelper.js` through `loadDataModule`, and a name it does not stub loads
+as `{}`.** Nothing fails at import time, so when the modded roster moved behind getters the script
+stayed silently broken until the first call: `memoByModdedRoster is not a function`, months later.
+The stub list is one entry per name `imageHelper` imports — keep the two in step when that file's
+imports change.
+
+**The images are keyed by mod id** (`images/modded/skills/<modId>_<name>.png`, same for camp skills
+and class trinkets), so anything that changes a class's `modId` — a pin in `modPins.js`, a
+re-import that re-points a class — owes an export, or the class draws nothing. Portraits are keyed
+by `image` instead and survive. `--only "<class>"` exports one class.
+
 ### The modded roster loads on demand (`src/data/moddedRoster.js`)
 
 The file is ~122 kB gzipped and `showModdedHeroes` is off by default, so most visitors never see a
