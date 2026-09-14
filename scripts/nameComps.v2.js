@@ -4,6 +4,7 @@
  *
  *   node scripts/nameComps.v2.js            informe completo
  *   node scripts/nameComps.v2.js --changed  solo las que cambiarian de nombre
+ *   node scripts/nameComps.v2.js --check    sale con 1 si --apply cambiaria algo
  *   node scripts/nameComps.v2.js --axes     el reparto de cada eje en la libreria
  *   node scripts/nameComps.v2.js --shared   los nombres que llevan 2+ comps
  *   node scripts/nameComps.v2.js --json     volcado legible por maquina
@@ -155,6 +156,21 @@ records.forEach((r) => {
 });
 
 const { stubborn } = assignFiles(records);
+
+// --check es lo que usan los .bat: sale con 1 si --apply cambiaria algo -- un
+// nombre O un fichero, que --changed solo cuenta los nombres-- y con 0 si la
+// libreria ya esta al dia.
+if (has('--check')) {
+  const renamed = records.filter((r) => r.was !== r.name);
+  const moved = records.filter((r) => r.file !== r.target);
+  if (!renamed.length && !moved.length) {
+    console.log('al dia');
+    process.exit(0);
+  }
+  console.log(`--apply cambiaria ${renamed.length} nombres y moveria ${moved.length} ficheros.`);
+  moved.forEach((r) => console.log(`  ${r.file} -> ${r.target}`));
+  process.exit(1);
+}
 
 if (has('--apply')) {
   const moves = records.map((r) => ({ from: r.file, to: r.target, wasName: r.was, name: r.name }));

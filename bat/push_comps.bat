@@ -28,7 +28,7 @@ echo.
 rem --check sale con 1 si hay renombrados pendientes. No se aborta por eso: una
 rem comp recien guardada ya viene con su nombre taxonomico, y si algo se ha
 rem descolocado es cosa de rebuild_taxonomy, no de este bat.
-node scripts\nameComps.js --check >nul 2>&1
+node scripts\nameComps.v2.js --check >nul 2>&1
 if not errorlevel 1 goto taxonomia_ok
 echo --------------------------------------------
 echo   AVISO: hay nombres de comp sin actualizar.

@@ -15,6 +15,16 @@ describe('skillHover — the roll, not the modifier', () => {
     expect(skillHover('Stunning Blow', 'Crusader').subtitle).toMatch(/^DMG 5-10 · /);
   });
 
+  it("adds the hero's +% DMG to the skill's modifier instead of multiplying the two", () => {
+    // Lock of Fury, +10% DMG. On Stunning Blow (-50%) that is -40% of the base:
+    // 10 x 0.6 = 6 and 19 x 0.6 = 11.4 -> 12. Multiplying would roll the
+    // trinket first (11-21) and halve that, 6-11.
+    const hero = { heroClass: 'Crusader', trinket1: 'Lock of Fury' };
+    expect(skillHover('Stunning Blow', 'Crusader', { hero }).subtitle).toMatch(/^DMG 6-12 · /);
+    // At +0% the two readings agree: 11-21.
+    expect(skillHover('Smite', 'Crusader', { hero }).subtitle).toMatch(/^DMG 11-21 · /);
+  });
+
   it('says nothing about damage or crit on a skill that does not roll', () => {
     const card = skillHover('Battle Heal', 'Crusader');
     expect(card.subtitle || '').not.toMatch(/DMG|CRIT/);

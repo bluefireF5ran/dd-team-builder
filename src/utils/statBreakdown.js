@@ -232,7 +232,8 @@ export const skillBuffs = (heroClass, skill) => {
  * @param {{ party?: object[], heroIndex?: number, rank?: number, difficulty?: string }} [options]
  * @returns {null|{
  *   light, stats: Object<string, {key, base, baseColour, parts, total, potential, potentialPercent, potentialSources}>,
- *   total: {hp, dodge, prot, spd, crit, dmgMin, dmgMax}, resistances, sources, skipped
+ *   total: {hp, dodge, prot, spd, crit, dmgMin, dmgMax, dmgBase, dmgPercent, dmgPoints},
+ *   resistances, sources, skipped
  * }}
  */
 export const statBreakdown = (
@@ -355,6 +356,14 @@ export const statBreakdown = (
     crit: out.crit.total,
     dmgMin: ceilClean(gear.dmgMin * (1 + sum(dmg.percent) / 100) + sum(dmg.points)),
     dmgMax: out.dmg.total,
+    // Lo que la tirada de una skill necesita por separado. El +% DMG del heroe
+    // se SUMA al modificador de la skill, no se multiplica sobre el daño ya
+    // subido (Fran, 2026-09-14): +10% de trinket en una skill a -50% es un -40%.
+    // Trinkets, quirks y distritos son el mismo buff en el juego
+    // (`combat_stat_multiply`), asi que cuentan todos igual. Ver `skillHover`.
+    dmgBase: { min: gear.dmgMin, max: gear.dmgMax },
+    dmgPercent: round1(sum(dmg.percent)),
+    dmgPoints: sum(dmg.points),
   };
 
   if (party && heroIndex >= 0) {

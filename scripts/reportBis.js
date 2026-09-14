@@ -136,14 +136,28 @@ if (!before) {
   if (!changed.length) {
     console.log('  Ninguno: las comps nuevas no han movido ningun best-in-slot.');
   }
+  // Todo campo que se movio, no solo las skills y las muestras: una celda cuyas
+  // trinkets cambiaron salia como dos lineas de skills identicas y sin explicar.
+  const FIELDS = [
+    ['skills', 'skills'], ['camp', 'camp'], ['trinkets', 'trinkets'],
+    ['source', 'fuente'], ['samples', 'muestras'], ['rankLegal', 'rango ok']
+  ];
+  const show = (value) => {
+    if (Array.isArray(value)) return value.join(', ') || '-';
+    return value === undefined ? '-' : String(value);
+  };
   changed.forEach((c) => {
     const cell = c.now || c.then;
     console.log(`  [${c.kind}] ${cell.heroClass} r${cell.rank}`);
-    if (c.then) console.log(`      antes:  ${c.then.skills.join(', ')}`);
-    if (c.now) console.log(`      ahora:  ${c.now.skills.join(', ')}`);
-    if (c.then && c.now && c.then.samples !== c.now.samples) {
-      console.log(`      muestras: ${c.then.samples} -> ${c.now.samples}`);
+    if (!c.then || !c.now) {
+      console.log(`      ${c.now ? 'ahora' : 'antes'}:  ${cell.skills.join(', ')}`);
+      return;
     }
+    FIELDS.forEach(([key, label]) => {
+      const was = show(c.then[key]);
+      const is = show(c.now[key]);
+      if (was !== is) console.log(`      ${label.padEnd(9)} ${was}  ->  ${is}`);
+    });
   });
   console.log('');
 }
