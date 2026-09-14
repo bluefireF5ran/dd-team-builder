@@ -171,6 +171,63 @@ describe('reequipParty fills a party in Fran\'s order', () => {
   });
 });
 
+describe('what a point of effect chance is worth', () => {
+  // Fran's rule: the effect rolls `chance - resist`, only after the attack has
+  // already hit, and a DoT is all or nothing. So a point of chance does nothing
+  // against an enemy already guaranteed, and the champion resists say how often
+  // that is (`enemyResists.js`).
+  const worthOf = (heroClass, rank, options) =>
+    heroNeeds(hero(heroClass, rank), { heroIndex: rank - 1, ...options }).chanceWorth;
+
+  it('costs the Athenaeum classes some of what more chance would buy', () => {
+    const built = worthOf('Plague Doctor', 3);
+    const none = worthOf('Plague Doctor', 3, { estate: false });
+    // 140% is a maxed skill's own roll: nearly every point still counts there.
+    expect(none.blight).toBeCloseTo(1, 1);
+    // +15% from the district, and the next point is worth a third less.
+    expect(built.blight).toBeLessThan(none.blight);
+    expect(built.blight).toBeCloseTo(0.7, 1);
+    // Debuff resists are lower, so the same 15% buys more of the way there.
+    expect(built.debuff).toBeLessThan(built.blight);
+  });
+
+  it('reads a hero\'s own bleed as his problem, not his offence', () => {
+    // Flagellant's Reclaim is `Self: Bleed (160% base)`, and it rolls against
+    // HIS bleed resist, not an enemy's. Counting it as his bleed chance said an
+    // enemy-facing clause had less left to buy than it does.
+    const flagellant = heroNeeds(hero('Flagellant', 2), { heroIndex: 1 });
+    expect(flagellant.chanceWorth.bleed).toBeCloseTo(flagellant.hitRate, 5);
+    expect(flagellant.roles.selfBleed).toBe(true);
+  });
+
+  it('makes bleed resist a real pick on the hero who bleeds himself', () => {
+    // Fran: the +Bleed Resist trinkets are worn on the Flagellant to cancel
+    // what his own kit charges him. On anyone else a resist is filler.
+    const flagellant = heroNeeds(hero('Flagellant', 2), { heroIndex: 1 });
+    const hellion = heroNeeds(hero('Hellion', 1), { heroIndex: 0 });
+    expect(hellion.roles.selfBleed).toBe(false);
+    expect(trinketValue('Bleed Charm', flagellant).value)
+      .toBeGreaterThan(trinketValue('Bleed Charm', hellion).value);
+    expect(trinketValue('Bleed Charm', flagellant).value).toBeGreaterThan(0.3);
+  });
+
+  it('gates it behind hitting at all', () => {
+    // The Training Ring's ACC makes the Man at Arms connect more often, and a
+    // chance he never gets to roll is worth nothing.
+    const built = heroNeeds(hero('Man at Arms', 2), { heroIndex: 1 });
+    const none = heroNeeds(hero('Man at Arms', 2), { heroIndex: 1, estate: false });
+    expect(built.hitRate).toBeGreaterThan(none.hitRate);
+    expect(built.chanceWorth.stun).toBeGreaterThan(none.chanceWorth.stun);
+  });
+
+  it('makes a blight trinket worth less to a Plague Doctor who already has the district', () => {
+    const built = heroNeeds(hero('Plague Doctor', 3), { heroIndex: 2 });
+    const none = heroNeeds(hero('Plague Doctor', 3), { heroIndex: 2, estate: false });
+    expect(trinketValue('Poisoned Herb', built).value)
+      .toBeLessThan(trinketValue('Poisoned Herb', none).value);
+  });
+});
+
 describe('the estate is part of the party', () => {
   const party = () => [hero('Highwayman', 1), hero('Grave Robber', 2), hero('Bounty Hunter', 3), hero('Vestal', 4)];
 

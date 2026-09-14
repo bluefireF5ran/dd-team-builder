@@ -1403,6 +1403,49 @@ node scripts/importModdedHeroes.js --workshop "<…/workshop/content/262060>" --
 
 A class that tags no district has no `district` and nothing changes for it.
 
+### What a point of effect chance buys (`src/data/enemyResists.js`)
+
+**Fran's rule** (2026-09-14): an effect lands on `chance - resist`, rolled only **after** the attack
+has already hit, and a DoT is all or nothing - the full amount or none of it, with a crit making the
+amount bigger. A 140% blight against an 80% resist therefore applies 60% of the time, on the hits.
+
+Two things follow as arithmetic, not judgement:
+
+- a point of chance changes nothing against an enemy already at `chance - resist >= 100`, so **what a
+  point is worth is the share of the enemies you meet that are still under that line**;
+- everything scales by how often the hero hits at all (`hitRate` in `heroNeeds`).
+
+`CHAMPION_RESIST_DECILES` is that population, measured by `scripts/measureEnemyResists.js` from the
+champion mash tables against each monster's `stats:` line - 119 enemies, weighted by mash appearances,
+the four main regions counting fully and the rest a fifth (the dodge-tank bar's weighting). Ten
+buckets answer within a point of all 119 (65.0% vs 65.0% landing at 140% blight, 88.8% vs 89.0% at
+175%).
+
+| the hero's own chance | blight lands | next point worth |
+| --- | --- | --- |
+| 140% (a maxed skill's own roll) | 65% | 0.99 |
+| 155% (the Athenaeum on top) | 78% | 0.73 |
+| 175% (and a Blasphemous Vial) | 89% | 0.45 |
+
+That last row is the Plague Doctor dossier's "more than enough", as a number. On Fran's 26 parties it
+moved four picks out of 130, all of them a Debuff Amulet leaving a hero who no longer needed it.
+
+**A DoT on your own side rolls against the resist of whoever takes it.** The Flagellant's Reclaim
+bleeds *him*, the Occultist's Wyrd Reconstruction bleeds the *ally* it heals, and that is why
++Bleed Resist is a real pick rather than filler - it cancels a cost the party charges itself.
+`roles.selfBleed` weights it at 0.5 on the hero who pays it; `context.partyDot` at 0.35 on everyone
+in a party that deals it, which is a first guess. Neither counts as the hero's offence: an
+enemy-facing chance clause is measured only against clauses aimed at the enemy.
+
+**A dodge tank is never a DoT primary.** Fran: blight chance is for "primary DoT dealers (Plague
+Doctor, Flagellant), not heroes that merely happen to apply one (Houndmaster, Antiquarian: she is a
+dodge-reliant support, so blight chance is filler)". Both of his examples are dodge tanks, so
+`dotPrimary` excludes them outright rather than damping them afterwards.
+
+**Two skills write the DoT singular** - the Antiquarian's Festering Vapours and the Occultist's Wyrd
+Reconstruction both read `pt/rd`, not `pts/rd`. `DOT_PATTERNS` missed both until 2026-09-14, which
+hid the Occultist's ally bleed entirely and kept the Antiquarian off the blight books by accident.
+
 **Bench:** `node scripts/benchReequip.js --save <profile folder> --out report.md` re-equips every
 four-hero expedition in the save's campaign log from the trinkets owned today. It runs the old
 substitution beside the new re-equip and gives every slot a tier and a reason. The log records
@@ -1414,11 +1457,6 @@ Pinned by `src/utils/__tests__/trinketReequip.test.js`.
 - Runaway's burn beyond `burn skill amount`;
 - prose clauses ("On Attack: …");
 - utility and resist weights, which are first guesses;
-- **what a district effect is WORTH when choosing a trinket.** The Athenaeum's 15% now shows on the
-  skill card, but `trinketValue` still weights a blight-chance clause the same whether the hero has
-  the district or not: there is no threshold in the code for effect chance the way `accNeed` is a gap
-  in ACC points, and inventing one would be inventing Fran's judgement. Ask him what 15 points of
-  free blight chance is worth against a trinket's before weighting it.
 - **healing dealt, stress received, riposte damage and the Jester's Finale.** These are in the data
   and on `needs.district`, and nothing uses them - not because they were skipped, but because the app
   computes no heal amount, no stress-received figure and no riposte damage for them to enter. They
