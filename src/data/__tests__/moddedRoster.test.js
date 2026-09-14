@@ -1,6 +1,9 @@
 import fs from 'fs';
 import path from 'path';
 import * as moddedHeroes from '../modded_heroes';
+import * as moddedEffectsGenerated from '../moddedEffectsGenerated';
+import { getModdedSkillEffect } from '../moddedEffects';
+import { skillProfile } from '../../utils/skillProfile';
 import {
   afterModdedRosterFor,
   getModdedHeroClasses,
@@ -22,7 +25,7 @@ import { loadTeamFromFile } from '../../utils/storageHelper';
 // setupTests installs the roster for every suite; these start without it, the
 // way the app does.
 beforeEach(() => resetModdedRosterForTests());
-afterAll(() => installModdedRoster(moddedHeroes));
+afterAll(() => installModdedRoster(moddedHeroes, moddedEffectsGenerated));
 
 const blankHero = () => ({
   heroClass: '',
@@ -101,6 +104,22 @@ describe('the modded roster registry', () => {
 });
 
 describe('what changes once the roster lands', () => {
+  it("describes a workshop class's skills only with the roster, and Sibyl without it", async () => {
+    const [heroClass, skills] = Object.entries(moddedEffectsGenerated.MODDED_COMBAT_SKILL_EFFECTS_GENERATED).find(
+      ([name, entries]) => name !== 'Sibyl' && Object.keys(entries).length
+    );
+    const skill = Object.keys(skills)[0];
+    expect(getModdedSkillEffect(skill, heroClass)).toBeNull();
+    expect(skillProfile(heroClass, skill)).toBeNull();
+    // Written by hand, and read by the library's Sibyl comps: never waits.
+    expect(getModdedSkillEffect('Alignment', 'Sibyl')).toMatchObject({ kind: 'combat' });
+
+    await loadModdedRoster();
+
+    expect(getModdedSkillEffect(skill, heroClass)).toMatchObject({ kind: 'combat' });
+    expect(skillProfile(heroClass, skill)).not.toBeNull();
+  });
+
   it('canonicalizes a modded class only with the roster', async () => {
     expect(canonicalizeHeroClass('sibyl')).toBe('sibyl');
     await loadModdedRoster();
@@ -143,8 +162,9 @@ describe('what changes once the roster lands', () => {
 });
 
 describe('the bundle boundary', () => {
-  // One static import of modded_heroes.js anywhere in the app puts all of it
-  // back into main.js. Tests may import it; the app goes through moddedRoster.
+  // One static import of modded_heroes.js or moddedEffectsGenerated.js anywhere
+  // in the app puts all of it back into main.js. Tests may import them; the app
+  // goes through moddedRoster.
   it('is crossed by no app module; the registry only imports it on demand', () => {
     const SRC = path.join(__dirname, '..', '..');
     const offenders = [];
@@ -157,7 +177,7 @@ describe('the bundle boundary', () => {
         }
         if (!/\.jsx?$/.test(entry.name) || entry.name === 'setupTests.js') return;
         const text = fs.readFileSync(full, 'utf8');
-        if (/from\s+['"][^'"]*modded_heroes['"]|require\(\s*['"][^'"]*modded_heroes['"]\s*\)/.test(text)) {
+        if (/from\s+['"][^'"]*(modded_heroes|moddedEffectsGenerated)['"]|require\(\s*['"][^'"]*(modded_heroes|moddedEffectsGenerated)['"]\s*\)/.test(text)) {
           offenders.push(path.relative(SRC, full));
         }
       });

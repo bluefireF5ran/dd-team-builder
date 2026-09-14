@@ -35,6 +35,7 @@
 import { HERO_STATS, getHeroStats, getGearStats, MAX_GEAR_RANK } from '../data/heroStats';
 import { TRINKET_EFFECTS, getTrinketEffect } from '../data/trinketEffects';
 import { getModdedTrinketEffect, getModdedSkillEffect } from '../data/moddedEffects';
+import { memoByModdedRoster } from '../data/moddedRoster';
 import { QUIRK_EFFECTS, getQuirkEffect } from '../data/quirkEffects';
 import { HERO_SPECIFIC_TRINKETS, ALL_HERO_SPECIFIC_TRINKETS } from '../data/hero_specific_trinkets';
 import { getSkillEffect } from '../data/skillEffects';
@@ -189,11 +190,13 @@ const piecesOf = (text) =>
  * el objetivo dice `/ self`. Un `Finale: +75% DMG` no entra: es un buff a otra
  * skill, no al heroe.
  */
-const buffCache = new Map();
+// Por version del roster modded: los efectos generados de las clases del
+// workshop llegan con el, y una respuesta calculada sin ellos no puede quedarse.
+const buffCache = memoByModdedRoster(() => new Map());
 
 export const skillBuffs = (heroClass, skill) => {
   const cacheKey = `${heroClass} ${skill}`;
-  if (buffCache.has(cacheKey)) return buffCache.get(cacheKey);
+  if (buffCache().has(cacheKey)) return buffCache().get(cacheKey);
 
   const out = [];
   const entry = getSkillEffect(skill, heroClass) || getModdedSkillEffect(skill, heroClass);
@@ -221,7 +224,7 @@ export const skillBuffs = (heroClass, skill) => {
     });
   }
 
-  buffCache.set(cacheKey, out);
+  buffCache().set(cacheKey, out);
   return out;
 };
 

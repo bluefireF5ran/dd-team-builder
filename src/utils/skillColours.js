@@ -40,6 +40,7 @@ import {
 } from './skillProfile';
 import { getSkillEffect } from '../data/skillEffects';
 import { getModdedSkillEffect } from '../data/moddedEffects';
+import { memoByModdedRoster } from '../data/moddedRoster';
 import { effectColour, EFFECT_COLOURS, RESIST_FAMILY } from '../data/gameColours';
 
 /**
@@ -180,7 +181,9 @@ export const frameBackground = (colours) => {
   return `linear-gradient(135deg, ${a} 0%, ${a} 42%, ${b} 54%, ${b} 70%, ${c} 80%, ${c} 100%)`;
 };
 
-const cache = new Map();
+// Por version del roster modded: los efectos generados de las clases del
+// workshop llegan con el, y una respuesta calculada sin ellos no puede quedarse.
+const cache = memoByModdedRoster(() => new Map());
 
 /**
  * @returns {{ categories: string[], colours: string[], background: string }}
@@ -189,7 +192,7 @@ const cache = new Map();
  */
 export const skillFrame = (heroClass, skill) => {
   const key = `${heroClass}|${skill}`;
-  if (cache.has(key)) return cache.get(key);
+  if (cache().has(key)) return cache().get(key);
 
   const entry = getSkillEffect(skill, heroClass) || getModdedSkillEffect(skill, heroClass);
   const found = new Set();
@@ -208,6 +211,6 @@ export const skillFrame = (heroClass, skill) => {
   const shown = categories.length ? categories.slice(0, MAX_STOPS) : ['plain'];
   const colours = shown.map(effectColour);
   const result = { categories: categories.length ? categories : ['plain'], colours, background: frameBackground(colours) };
-  cache.set(key, result);
+  cache().set(key, result);
   return result;
 };

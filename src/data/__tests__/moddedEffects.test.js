@@ -1,7 +1,7 @@
 import {
-  MODDED_COMBAT_SKILL_EFFECTS,
-  MODDED_CAMP_SKILL_EFFECTS,
-  MODDED_TRINKET_EFFECTS,
+  getModdedCombatSkillEffects,
+  getModdedCampSkillEffects,
+  getModdedTrinketEffects,
   MODDED_TRINKET_SETS,
   MODDED_HAND_AUTHORED,
   getModdedSkillEffect,
@@ -15,6 +15,12 @@ import {
 } from '../moddedEffectsGenerated';
 import { MODDED_HERO_CLASSES } from '../modded_heroes';
 import { COMMON_VANILLA_CAMP_SKILLS } from '../../constants';
+
+// Getters now: the generated half loads on demand. setupTests installs it, so
+// these are the full tables the constants used to be.
+const MODDED_COMBAT_SKILL_EFFECTS = getModdedCombatSkillEffects();
+const MODDED_CAMP_SKILL_EFFECTS = getModdedCampSkillEffects();
+const MODDED_TRINKET_EFFECTS = getModdedTrinketEffects();
 
 /**
  * Dos niveles de exigencia, porque hay dos formas de llegar a este fichero.

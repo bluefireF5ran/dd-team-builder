@@ -7,7 +7,9 @@ import { HERO_CLASSES } from './heroes';
  * first paint, and `showModdedHeroes` is off by default: most visitors never
  * see a modded class. So nothing imports that file directly any more. Every
  * reader goes through the getters below, which hand back empty data until
- * `loadModdedRoster` has fetched it as its own chunk.
+ * `loadModdedRoster` has fetched it as its own chunk, together with the
+ * generated effects that describe it (`moddedEffectsGenerated.js`, read through
+ * `moddedEffects.js`).
  *
  * The rule that keeps this correct: **a modded hero never enters app state
  * before the roster is there.** Components memoize what they derive from a
@@ -24,8 +26,16 @@ import { HERO_CLASSES } from './heroes';
 
 const EMPTY_OBJECT = Object.freeze({});
 const EMPTY_LIST = Object.freeze([]);
+const EMPTY_EFFECTS = Object.freeze({
+  MODDED_COMBAT_SKILL_EFFECTS_GENERATED: EMPTY_OBJECT,
+  MODDED_CAMP_SKILL_EFFECTS_GENERATED: EMPTY_OBJECT,
+  MODDED_TRINKET_EFFECTS_GENERATED: EMPTY_OBJECT
+});
 
 let roster = null;
+// The generated effects for workshop classes. They only describe modded content,
+// so they travel with the roster: same chunk, same moment, same version.
+let effects = null;
 let pending = null;
 let version = 0;
 const listeners = new Set();
@@ -33,6 +43,7 @@ const listeners = new Set();
 export const getModdedHeroClasses = () => (roster ? roster.MODDED_HERO_CLASSES : EMPTY_OBJECT);
 export const getModdedGeneralTrinkets = () => (roster ? roster.MODDED_GENERAL_TRINKETS : EMPTY_LIST);
 export const getModdedGeneralTrinketMods = () => (roster ? roster.MODDED_GENERAL_TRINKET_MODS : EMPTY_OBJECT);
+export const getModdedEffectsGenerated = () => effects || EMPTY_EFFECTS;
 
 export const isModdedRosterLoaded = () => roster !== null;
 
@@ -46,10 +57,14 @@ export const subscribeModdedRoster = (listener) => {
 
 const notify = () => listeners.forEach((listener) => listener());
 
-/** Hands the roster over. The app does it from `loadModdedRoster`; tests do it up front. */
-export const installModdedRoster = (module) => {
-  if (roster === module) return;
+/**
+ * Hands the roster, and the generated effects that describe it, over. The app
+ * does it from `loadModdedRoster`; tests do it up front.
+ */
+export const installModdedRoster = (module, generatedEffects = null) => {
+  if (roster === module && effects === generatedEffects) return;
   roster = module;
+  effects = generatedEffects;
   version += 1;
   notify();
 };
@@ -58,9 +73,13 @@ export const installModdedRoster = (module) => {
 export const loadModdedRoster = () => {
   if (roster) return Promise.resolve(roster);
   if (!pending) {
-    pending = import(/* webpackChunkName: "modded-heroes" */ './modded_heroes')
-      .then((module) => {
-        installModdedRoster(module);
+    // One chunk name for both, so webpack ships them as a single download.
+    pending = Promise.all([
+      import(/* webpackChunkName: "modded-heroes" */ './modded_heroes'),
+      import(/* webpackChunkName: "modded-heroes" */ './moddedEffectsGenerated')
+    ])
+      .then(([module, generatedEffects]) => {
+        installModdedRoster(module, generatedEffects);
         return module;
       })
       .catch((error) => {
@@ -131,6 +150,7 @@ export const afterModdedRosterFor = (heroes, task) => {
 /** Tests only: back to the unloaded state. */
 export const resetModdedRosterForTests = () => {
   roster = null;
+  effects = null;
   pending = null;
   version += 1;
   notify();
