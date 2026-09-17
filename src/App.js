@@ -77,6 +77,8 @@ const App = () => {
     setTeamName,
     location,
     setLocation,
+    video,
+    setVideo,
     heroes,
     updateHero,
     placeHeroes,
@@ -217,8 +219,8 @@ const App = () => {
   }, [showToast, takeSharedComp, partyIsEmpty]);
 
   // Global keyboard shortcuts (using refs to avoid re-registering on every state change)
-  const handlersRef = useRef({ undo, redo, saveTeam, exportToPNG, showToast, teamName, location, heroes });
-  handlersRef.current = { undo, redo, saveTeam, exportToPNG, showToast, teamName, location, heroes };
+  const handlersRef = useRef({ undo, redo, saveTeam, exportToPNG, showToast, teamName, location, video, heroes });
+  handlersRef.current = { undo, redo, saveTeam, exportToPNG, showToast, teamName, location, video, heroes };
 
   useEffect(() => {
     // Escribiendo en un campo, Ctrl+Z es deshacer TEXTO. Sin esta salida el
@@ -249,7 +251,12 @@ const App = () => {
         else if (e.key === 'e') { e.preventDefault(); h.exportToPNG(); }
         else if (e.shiftKey && e.key === 'C') {
           e.preventDefault();
-          const data = JSON.stringify({ teamName: h.teamName, location: h.location, heroes: h.heroes });
+          const data = JSON.stringify({
+            teamName: h.teamName,
+            location: h.location,
+            ...(h.video ? { video: h.video } : {}),
+            heroes: h.heroes
+          });
           // Via copyTextToClipboard, como el boton: trae el fallback de
           // execCommand y, sobre todo, no deja la promesa sin capturar cuando
           // el navegador deniega el portapapeles.
@@ -304,11 +311,14 @@ const App = () => {
             onTeamNameChange={setTeamName}
             location={location}
             onLocationChange={setLocation}
+            video={video}
+            onVideoChange={setVideo}
           />
           <TeamControls
             heroes={heroes}
             teamName={teamName}
             location={location}
+            video={video}
             onSave={saveTeam}
             onLoad={loadTeam}
             savedTeams={savedTeams}

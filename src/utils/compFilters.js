@@ -131,6 +131,7 @@ export const normalizeSavedTeam = (team) => ({
   alias: '',
   description: null,
   location: team.location || '',
+  video: team.video || '',
   heroes: team.heroes || [],
   savedAt: team.savedAt || '',
   source: 'saved'

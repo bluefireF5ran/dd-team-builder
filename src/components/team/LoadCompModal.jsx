@@ -5,6 +5,7 @@ import CompCard from './CompCard';
 import { toRosterCounts, missingForComp, rosterFromHeroes } from '../../utils/rosterAvailability';
 import CompFilters from './CompFilters';
 import ConfirmDialog from '../common/ConfirmDialog';
+import VideoModal from '../common/VideoModal';
 import { getCompEntries } from '../../data/compIndex';
 import { useModdedRoster } from '../../hooks/useModdedRoster';
 import {
@@ -48,6 +49,9 @@ const LoadCompModal = ({
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(defaultPageSize);
   const [deleteConfirm, setDeleteConfirm] = useState({ isOpen: false, teamName: '' });
+  // La comp que se esta viendo, no solo su enlace: el titulo del reproductor es
+  // el nombre de la comp, que es lo unico que dice de que party es ese video.
+  const [playing, setPlaying] = useState(null);
   const [onlyFieldable, setOnlyFieldable] = useState(false);
 
   // Cuenta por clase de los heroes vivos, incluidos los ocupados en el pueblo:
@@ -346,6 +350,9 @@ const LoadCompModal = ({
                       }
                       onClose();
                     }}
+                    // Ver como se juega una comp no es cargarla: el boton abre
+                    // el video sin tocar la party que tengas montada.
+                    onPlay={() => setPlaying(comp)}
                     onDelete={
                       comp.source === 'saved'
                         ? () => setDeleteConfirm({ isOpen: true, teamName: comp.name })
@@ -431,6 +438,13 @@ const LoadCompModal = ({
           setDeleteConfirm({ isOpen: false, teamName: '' });
         }}
         onCancel={() => setDeleteConfirm({ isOpen: false, teamName: '' })}
+      />
+
+      <VideoModal
+        isOpen={!!playing}
+        onClose={() => setPlaying(null)}
+        video={playing?.video}
+        title={playing?.name}
       />
     </>
   );

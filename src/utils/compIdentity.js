@@ -136,6 +136,9 @@ export const updatableComps = (comp) => {
       teamName: data.teamName || '',
       alias: data.alias || '',
       location: data.location || '',
+      // El video que ya tenia el fichero: sustituirla sin traer uno propio no
+      // deberia borrar el que alguien le puso.
+      video: data.video || '',
       heroes: data.heroes || [],
     }));
 };

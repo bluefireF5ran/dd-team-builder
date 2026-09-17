@@ -24,6 +24,7 @@ const emptyParty = () => Array(PARTY_CONFIG.MAX_HEROES).fill(null).map(createEmp
 const cloneComp = (comp) => ({
   teamName: comp.teamName,
   location: comp.location,
+  video: comp.video,
   heroes: JSON.parse(JSON.stringify(comp.heroes))
 });
 
@@ -36,6 +37,13 @@ export const useTeam = ({ defaultLocation = 'The Ruins' } = {}) => {
   const [location, setLocationState] = useState(() => draft?.location || defaultLocation);
   const [savedTeams, setSavedTeams] = useState([]);
   const [heroes, setHeroes] = useState(() => draft?.heroes || emptyParty());
+  /**
+   * El enlace al video de la comp, tal cual lo pegaste. Es de la COMP, no una
+   * preferencia: viaja con ella al guardarla, al compartirla y al cargarla, y
+   * por eso vive aqui y no en `useSettings`. Lo que se pinta de el no es esta
+   * cadena nunca: `videoLink.js` saca el id y reconstruye las dos URLs.
+   */
+  const [video, setVideoState] = useState(() => draft?.video || '');
 
   /**
    * Undo/redo sobre la COMP entera, no solo sobre los heroes.
@@ -64,7 +72,7 @@ export const useTeam = ({ defaultLocation = 'The Ruins' } = {}) => {
    * fuera (un `defaultLocation` nuevo, o React reusando el hook).
    */
   const compRef = useRef(null);
-  compRef.current = { teamName, location, heroes };
+  compRef.current = { teamName, location, video, heroes };
   const historyRef = useRef(history);
   historyRef.current = history;
 
@@ -89,6 +97,13 @@ export const useTeam = ({ defaultLocation = 'The Ruins' } = {}) => {
     setLocationState(next);
   }, []);
 
+  // Como el nombre, y por lo mismo: se teclea (o se pega y luego se corrige), y
+  // una entrada de historial por caracter no es deshacer nada.
+  const setVideo = useCallback((next) => {
+    compRef.current = { ...compRef.current, video: next };
+    setVideoState(next);
+  }, []);
+
   const commit = useCallback((producer) => {
     const current = compRef.current;
     const patch = typeof producer === 'function' ? producer(current) : producer;
@@ -102,6 +117,7 @@ export const useTeam = ({ defaultLocation = 'The Ruins' } = {}) => {
     }));
     setTeamNameState(next.teamName);
     setLocationState(next.location);
+    setVideoState(next.video || '');
     setHeroes(next.heroes);
   }, []);
 
@@ -120,6 +136,7 @@ export const useTeam = ({ defaultLocation = 'The Ruins' } = {}) => {
     );
     setTeamNameState(target.teamName);
     setLocationState(target.location);
+    setVideoState(target.video || '');
     setHeroes(target.heroes);
   }, []);
 
@@ -140,9 +157,9 @@ export const useTeam = ({ defaultLocation = 'The Ruins' } = {}) => {
    * queda escrito.
    */
   useEffect(() => {
-    const id = setTimeout(() => saveDraftTeam(teamName, location, heroes), 400);
+    const id = setTimeout(() => saveDraftTeam(teamName, location, heroes, video), 400);
     return () => clearTimeout(id);
-  }, [teamName, location, heroes]);
+  }, [teamName, location, heroes, video]);
 
   const updateHero = useCallback((index, updatedHero) => {
     commit(({ heroes: prev }) => {
@@ -187,10 +204,10 @@ export const useTeam = ({ defaultLocation = 'The Ruins' } = {}) => {
    * `savePresetFile`: son dos destinos con dos nombres, no dos formatos.
    */
   const saveTeam = useCallback(() => {
-    const result = saveTeamToLocalStorage(teamName, location, heroes);
+    const result = saveTeamToLocalStorage(teamName, location, heroes, video);
     setSavedTeams(loadTeamsFromLocalStorage());
     return result;
-  }, [teamName, location, heroes]);
+  }, [teamName, location, heroes, video]);
 
   /**
    * Que nombre le daria la taxonomia a este equipo, sin guardar nada. Es lo que
@@ -207,7 +224,7 @@ export const useTeam = ({ defaultLocation = 'The Ruins' } = {}) => {
    * la primera vez es medir los 16 ejes de las 461.
    */
   const describePreset = useCallback(() => {
-    const comp = { teamName, alias: '', location, heroes };
+    const comp = { teamName, alias: '', location, video, heroes };
     const record = getCompNamer().nameFor(comp);
     // El nombre que le pusiste no se pierde: pasa a alias. Salvo que ya fuera un
     // nombre de la taxonomia -- el suyo o el de otra comp, que ahora los nombres
@@ -223,12 +240,13 @@ export const useTeam = ({ defaultLocation = 'The Ruins' } = {}) => {
       kind: record.kind,
       fileName: toCompFileName2(comp, record.name, getCompFileKeys()),
       location,
+      video,
       heroes,
       // Las comps de la libreria que esta reescribiria en vez de duplicar:
       // misma region y las mismas cuatro clases. Ver `updatableComps`.
       updates: updatableComps(comp)
     };
-  }, [teamName, location, heroes]);
+  }, [teamName, location, video, heroes]);
 
   /**
    * Descarga el .json ya nombrado, listo para src/data/presetComps.
@@ -259,6 +277,10 @@ export const useTeam = ({ defaultLocation = 'The Ruins' } = {}) => {
         alias: update.alias,
         fileName: `${update.key}.json`,
         location: preset.location,
+        // El nombre lo decide la taxonomia y por eso se respeta el que habia; el
+        // video no lo decide nadie mas que tu, asi que el tuyo manda y el de la
+        // comp sustituida solo queda si no traes ninguno.
+        video: preset.video || update.video || '',
         heroes: preset.heroes,
         replaced: update.teamName,
         kind: preset.kind
@@ -282,6 +304,7 @@ export const useTeam = ({ defaultLocation = 'The Ruins' } = {}) => {
     commit({
       teamName: team.teamName || 'My Team',
       location: team.location || defaultLocation,
+      video: team.video || '',
       heroes: team.heroes || emptyParty()
     });
     return true;
@@ -302,6 +325,7 @@ export const useTeam = ({ defaultLocation = 'The Ruins' } = {}) => {
     afterModdedRosterFor(team.heroes, () => commit({
       teamName: team.teamName,
       location: team.location || defaultLocation,
+      video: team.video || '',
       heroes: team.heroes || emptyParty()
     }));
     return true;
@@ -314,7 +338,7 @@ export const useTeam = ({ defaultLocation = 'The Ruins' } = {}) => {
 
   /** El interruptor de modded es una preferencia, asi que llega como argumento. */
   const randomizeTeam = useCallback((showModdedHeroes = false) => {
-    commit({ heroes: generateRandomTeam(showModdedHeroes) });
+    commit({ heroes: generateRandomTeam(showModdedHeroes), video: '' });
   }, [commit]);
 
   /**
@@ -331,9 +355,13 @@ export const useTeam = ({ defaultLocation = 'The Ruins' } = {}) => {
     // Nombre, mazmorra y heroes entran como UN paso: los tres cambian a la vez
     // y deshacer tiene que devolver los tres, no dejarte la party anterior
     // firmada con el nombre de la sugerencia.
+    // El video se suelta aqui, y no en `updateHero` o `swapHeroes`: cambiar un
+    // trinket deja la comp del video en pie, pero una party entera que no has
+    // elegido tu ya no es la que se juega en el.
     commit((current) => ({
       teamName: suggestedHeroes.teamName || current.teamName,
       location: suggestedHeroes.location || current.location,
+      video: '',
       heroes: suggestedHeroes
     }));
 
@@ -368,6 +396,7 @@ export const useTeam = ({ defaultLocation = 'The Ruins' } = {}) => {
     commit({
       teamName: named.name,
       location: comp.location || defaultLocation,
+      video: '',
       heroes
     });
 
@@ -396,6 +425,7 @@ export const useTeam = ({ defaultLocation = 'The Ruins' } = {}) => {
     commit({
       teamName: team.teamName || 'My Team',
       location: team.location || defaultLocation,
+      video: team.video || '',
       heroes: team.heroes || emptyParty()
     });
     return team;
@@ -412,6 +442,7 @@ export const useTeam = ({ defaultLocation = 'The Ruins' } = {}) => {
     afterModdedRosterFor(preset.heroes, () => commit({
       teamName: preset.name,
       location: preset.location || defaultLocation,
+      video: preset.video || '',
       // Clonar: los heroes del preset son objetos compartidos del bundle.
       // Se canonicaliza por si el preset trae una grafía antigua de algún nombre.
       heroes: JSON.parse(JSON.stringify(preset.heroes)).map(canonicalizeHero)
@@ -429,7 +460,7 @@ export const useTeam = ({ defaultLocation = 'The Ruins' } = {}) => {
   }, []);
 
   const clearTeam = useCallback(() => {
-    commit({ teamName: 'My Team', location: defaultLocation, heroes: emptyParty() });
+    commit({ teamName: 'My Team', location: defaultLocation, video: '', heroes: emptyParty() });
   }, [commit, defaultLocation]);
 
   return {
@@ -437,6 +468,8 @@ export const useTeam = ({ defaultLocation = 'The Ruins' } = {}) => {
     setTeamName,
     location,
     setLocation,
+    video,
+    setVideo,
     heroes,
     updateHero,
     placeHeroes,

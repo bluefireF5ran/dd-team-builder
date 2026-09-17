@@ -2852,7 +2852,7 @@ are the key*.
 **`deflate` would roughly halve it again** (p95 736) and is deliberately not
 used: `CompressionStream` is async and does not exist in jsdom, so the encoder
 would be untestable in the suite whose job is to guarantee a link still opens.
-The leading version field is what keeps that door open - a `2` payload can be
+The leading version field is what keeps that door open - a `3` payload can be
 deflate, and `decodeComp` refuses a version it does not know rather than reading
 it with the wrong rules and handing back a plausible wrong party.
 
@@ -2874,10 +2874,59 @@ Four things not to re-derive:
 4. **Replacing a party that is already built asks first**, the same rule paste
    and best-in-slot follow; onto an empty party it just loads. Either way it is
    one `commit`, so Ctrl+Z gives back the whole previous comp.
+5. **A guide video makes it a `2`; everything else still goes out as a `1`.**
+   `2` is the same payload with the video between the region and the first hero,
+   and a comp without one keeps the old shape on purpose: the field is empty for
+   almost every party, so stamping the new version on all of them would refuse
+   every link for anyone still on the page they loaded yesterday, in exchange for
+   nothing. `decodeComp` reads both, and drops a video it cannot play rather than
+   carrying a stranger's string into the app.
 
 `compLink.test.js` round-trips 200 real library comps and pins the length
 ceiling; `src/__tests__/shareLink.test.js` covers the app side - the hash
 clearing, the confirm, and a payload that is not a comp.
+
+## The video a comp comes with
+
+A comp says what to bring. It does not say how the eight turns actually go, and a
+link to someone running it does. That is one field, `video`, **on the comp** -
+not a note in the name - so it survives everything else a comp survives:
+
+- **The builder** - "Guide Video" in `TeamHeader`, under the name and the region,
+  because it is a fact about the comp and not an action on it.
+- **Browser storage and the preset file** - `saveTeamToLocalStorage` and
+  `savePresetToFile` write the key **only when there is one**. 467 library comps
+  carrying `"video": ""` would be noise in every diff of the folder, and quota
+  spent to say nothing in a store that runs out for real (see the pruning there).
+- **The library card** - a play button on `CompCard`, which opens the video
+  *without* loading the comp: seeing how a party is played is not choosing it.
+- **The share link** - payload `2`, see *Sharing a comp as a link*.
+- **A bundled comp** takes one by hand: `"video": "https://youtu.be/…"` in its
+  `src/data/presetComps/*.json`, next to `alias`. Nothing to regenerate - the
+  barrel imports the file whole.
+
+**Nothing ever renders the string that was pasted.** `src/utils/videoLink.js`
+pulls out the eleven-character id - and the `t=` timestamp, because people link
+the fight and not the video - and rebuilds both URLs from it: the player is
+`youtube-nocookie.com/embed/<id>`, the way out is `youtube.com/watch?v=<id>`. A
+URL from a chat window has no business in an `href` (`javascript:` is a script)
+or an `<iframe src>` (any host is code running on the page); an id cannot be
+either of those. A link that does not parse is a play button that never appears,
+and the field says so rather than silently keeping a dead link.
+
+**The iframe exists only while the dialog is open.** `VideoModal` sits on the
+common `Modal`, which renders nothing when closed, so a card nobody clicked costs
+no third-party request and no cookie. It is also why the card offers a button
+rather than a thumbnail: a grid of 24 thumbnails is 24 requests to YouTube for
+comps you are scrolling past.
+
+**A party you did not build drops it.** `randomizeTeam`, `suggestTeam` and
+`placeGeneratedComp` clear the video; `updateHero`, `swapHeroes` and
+`placeHeroes` keep it. Swapping a trinket leaves the comp in the video standing -
+four heroes you did not choose do not. And **replacing a library comp keeps the
+video the file already had unless you brought your own**, which is the opposite
+of the rule for the name: the taxonomy owns the name, and nobody but you owns the
+video.
 
 ## Importing a Darkest Dungeon save
 

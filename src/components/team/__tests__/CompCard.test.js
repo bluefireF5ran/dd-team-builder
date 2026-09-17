@@ -92,4 +92,39 @@ describe('CompCard', () => {
     fireEvent.click(screen.getByTitle('Load Holy Hymn: Royal'));
     expect(onLoad).toHaveBeenCalledTimes(1);
   });
+  /**
+   * El video se ofrece, no se impone: la tarjeta sigue siendo un boton para
+   * cargar la comp, y el play tiene que poder pulsarse sin cargarla.
+   */
+  describe('the guide video', () => {
+    const watched = (video) => buildCompEntry({
+      id: 'watched',
+      name: 'Watched Comp',
+      location: 'The Cove',
+      video,
+      heroes: PARTY.map(hero)
+    });
+
+    test('plays it without loading the comp', () => {
+      const onLoad = jest.fn();
+      const onPlay = jest.fn();
+      render(<CompCard comp={watched('https://youtu.be/dQw4w9WgXcQ')} onLoad={onLoad} onPlay={onPlay} />);
+
+      fireEvent.click(screen.getByRole('button', { name: /watch how Watched Comp is played/i }));
+      expect(onPlay).toHaveBeenCalledTimes(1);
+      expect(onLoad).not.toHaveBeenCalled();
+    });
+
+    test('offers nothing for a comp that has no video', () => {
+      render(<CompCard comp={entry} onLoad={jest.fn()} onPlay={jest.fn()} />);
+      expect(screen.queryByRole('button', { name: /watch how/i })).toBeNull();
+    });
+
+    // Un enlace que no se puede reproducir es un boton que no lleva a ninguna
+    // parte: mejor no ensenarlo. Ver videoLink.js.
+    test('offers nothing for a link it could not play', () => {
+      render(<CompCard comp={watched('https://vimeo.com/123456789')} onLoad={jest.fn()} onPlay={jest.fn()} />);
+      expect(screen.queryByRole('button', { name: /watch how/i })).toBeNull();
+    });
+  });
 });
