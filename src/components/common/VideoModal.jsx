@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { ExternalLink, X } from 'lucide-react';
 import Modal from './Modal';
 import { parseVideoLink, embedUrlFor, watchUrlFor } from '../../utils/videoLink';
+import { useVideoCredit } from '../../hooks/useVideoCredit';
 
 /**
  * The guide video of a comp, played without leaving the comp.
@@ -20,9 +21,15 @@ import { parseVideoLink, embedUrlFor, watchUrlFor } from '../../utils/videoLink'
  *   eleven-character id (`videoLink.js`), so a link that is not a YouTube video
  *   cannot reach an `href` or a `src`; it simply has nothing to open and this
  *   renders null.
+ *
+ * Under the player goes the credit: the video's own title and the channel that
+ * made it, linked. The comp names the party; this names the person the comp came
+ * from, which is the point of carrying a video at all. It arrives from YouTube's
+ * oEmbed endpoint and only once the dialog is open - see `useVideoCredit`.
  */
 const VideoModal = ({ isOpen, onClose, video, title = 'Guide video' }) => {
   const parsed = useMemo(() => parseVideoLink(video), [video]);
+  const credit = useVideoCredit(video, isOpen && !!parsed);
 
   return (
     <Modal
@@ -65,6 +72,29 @@ const VideoModal = ({ isOpen, onClose, video, title = 'Guide video' }) => {
           allowFullScreen
         />
       </div>
+
+      {credit && (
+        <div className="px-3 sm:px-4 py-2 border-t border-gray-700 text-xs text-gray-400">
+          <span className="text-dd-parchment">{credit.title}</span>
+          {credit.author && (
+            <>
+              {' — by '}
+              {credit.authorUrl ? (
+                <a
+                  href={credit.authorUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-dd-gold hover:underline"
+                >
+                  {credit.author}
+                </a>
+              ) : (
+                <span className="text-dd-gold">{credit.author}</span>
+              )}
+            </>
+          )}
+        </div>
+      )}
     </Modal>
   );
 };

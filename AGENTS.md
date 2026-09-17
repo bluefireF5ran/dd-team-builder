@@ -2922,6 +2922,20 @@ or an `<iframe src>` (any host is code running on the page); an id cannot be
 either of those. A link that does not parse is a play button that never appears,
 and the field says so rather than silently keeping a dead link.
 
+**Under the player goes the credit, and it is the reason the feature exists.**
+`src/utils/videoCredit.js` asks `youtube.com/oembed` - public, no key, answers
+CORS, so nothing has to be kept secret in an app with no server - for the video's
+own title and the channel that made it, and `useVideoCredit` shows it with a link
+to that channel. The `author_url` is checked to be a YouTube address before it
+can reach an `href`: it arrives from the network, and a URL from the network is
+not clicked on faith. A refusal (private, deleted, embedding off) is remembered
+so a dialog opened twice asks once; a network failure is not, so it recovers.
+
+**The request is gated on `isOpen`**, which is the same rule as the player: a
+library page of 24 cards asks YouTube for nothing until one of them is played.
+That is also why the credit is not on the card - putting it there would mean a
+request per visible comp, for comps you are scrolling past.
+
 **The iframe exists only while the dialog is open.** `VideoModal` sits on the
 common `Modal`, which renders nothing when closed, so a card nobody clicked costs
 no third-party request and no cookie. It is also why the card offers a button
