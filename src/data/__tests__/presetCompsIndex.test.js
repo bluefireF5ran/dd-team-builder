@@ -47,4 +47,23 @@ describe('presetComps/index.js barrel', () => {
     expect(shared.length).toBeGreaterThan(0);
     expect(COMP_LIBRARY.length).toBeGreaterThan(byRoster.size);
   });
+
+  /**
+   * `compLibrary.js` no extiende la comp del fichero: construye un objeto con
+   * los campos que nombra, asi que lo que no nombre se queda en el .json. El
+   * video se perdia justo ahi -- se guardaba, se compartia y se cargaba desde
+   * fichero, pero cargarlo DESDE LA LIBRERIA no traia nada que reproducir.
+   */
+  describe('what the file says survives the normalizer', () => {
+    it('gives every comp the video field, empty or not', () => {
+      const shapeless = COMP_LIBRARY.filter((c) => typeof c.video !== 'string');
+      expect(shapeless.map((c) => c.id)).toEqual([]);
+    });
+
+    it('carries the video of every comp whose file has one', () => {
+      PRESET_COMP_ENTRIES.filter(({ data }) => data.video).forEach(({ key, data }) => {
+        expect(COMP_LIBRARY.find((c) => c.id === `set:${key}`)).toMatchObject({ video: data.video });
+      });
+    });
+  });
 });

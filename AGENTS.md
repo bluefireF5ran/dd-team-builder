@@ -2905,6 +2905,14 @@ not a note in the name - so it survives everything else a comp survives:
   `src/data/presetComps/*.json`, next to `alias`. Nothing to regenerate - the
   barrel imports the file whole.
 
+**`compLibrary.js` is where a new comp field goes to die.** Its two normalizers
+BUILD an object rather than spreading the one on disk, so a key they do not name
+never reaches the card or the party - the video shipped saving, sharing and
+loading from a file correctly, and loading from the library was the one path
+that came back empty. `presetCompsIndex.test.js` now pins the shape.
+`buildCompEntry` is the opposite (it spreads), which is why the trap is easy to
+miss: everything downstream of the normalizer carries whatever gets that far.
+
 **Nothing ever renders the string that was pasted.** `src/utils/videoLink.js`
 pulls out the eleven-character id - and the `t=` timestamp, because people link
 the fight and not the video - and rebuilds both URLs from it: the player is

@@ -639,6 +639,34 @@ describe('useTeam', () => {
       expect(result.current.video).toBe('');
     });
 
+    // La otra mitad de esto vive en presetCompsIndex.test.js: que el .json llegue
+    // a la libreria con su video. Aqui, que de la libreria llegue a la party.
+    test('comes with a comp loaded from the library', () => {
+      const { result } = renderHook(() => useTeam());
+      act(() => {
+        result.current.loadPreset({
+          name: 'Watched Preset',
+          location: 'The Warrens',
+          video: VIDEO,
+          heroes: [{ ...EMPTY_HERO, heroClass: 'Hellion' }]
+        });
+      });
+      expect(result.current.video).toBe(VIDEO);
+    });
+
+    test('a comp from the library without one leaves the box empty', () => {
+      const { result } = renderHook(() => useTeam());
+      act(() => { result.current.setVideo(VIDEO); });
+      act(() => {
+        result.current.loadPreset({
+          name: 'Plain Preset',
+          location: 'The Warrens',
+          heroes: [{ ...EMPTY_HERO, heroClass: 'Hellion' }]
+        });
+      });
+      expect(result.current.video).toBe('');
+    });
+
     test('undo puts it back, because it is part of the comp', () => {
       const { result } = renderHook(() => useTeam());
       act(() => { result.current.setVideo(VIDEO); });
