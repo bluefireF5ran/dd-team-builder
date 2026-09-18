@@ -1,25 +1,24 @@
 {
-  "teamName": "Toe to Toe: Duel",
-  "alias": "Dancing Lunge V3.0",
-  "location": "The Cove",
-  "video": "https://youtu.be/V6Md-gwXzlk",
+  "teamName": "Nowhere to Hide: Shadow",
+  "location": "The Ruins",
+  "video": "https://youtu.be/a7K0fVBBoyE?si=4WUfF8nbxMlwPd0i",
   "heroes": [
     {
-      "heroClass": "Man at Arms",
+      "heroClass": "Shieldbreaker",
       "activeSkills": [
-        "Crush",
-        "Rampart",
-        "Defender",
-        "Command"
+        "Pierce",
+        "Puncture",
+        "Expose",
+        "Serpent Sway"
       ],
       "activeCampSkills": [
         "Encourage",
-        "Maintain Equipment",
-        "Tactics",
-        "Weapons Practice"
+        "Wound Care",
+        "Snake Skin",
+        "Sandstorm"
       ],
-      "trinket1": "Rampart Shield",
-      "trinket2": "Fortifying Garlic",
+      "trinket1": "Camouflage Cloak",
+      "trinket2": "Sun Cloak",
       "quirks": {
         "positive": [
           "Corvids Eye",
@@ -32,63 +31,61 @@
       "lockedQuirks": {
         "positive": [],
         "negative": []
-      }
+      },
+      "diseases": []
     },
     {
-      "heroClass": "Duelist",
+      "heroClass": "Highwayman",
       "activeSkills": [
-        "Anticipation",
-        "Touché",
-        "Feint",
-        "Disengage",
-        "Flèche",
-        "Coup de Grâce",
-        "The Boot"
+        "Pistol Shot",
+        "Grapeshot Blast",
+        "Duelist's Advance",
+        "Open Vein"
       ],
       "activeCampSkills": [
-        "Meditation",
-        "Preparation",
-        "Ruthless Instruction",
-        "Again!"
+        "Encourage",
+        "Wound Care",
+        "Clean Guns",
+        "Bandit's Sense"
       ],
-      "trinket1": "Ancestor's Candle",
-      "trinket2": "Gilded Mantle",
+      "trinket1": "Shameful Locket",
+      "trinket2": "Ancestor's Coat",
       "quirks": {
         "positive": [
           "Corvids Eye",
           "Corvids Grace",
-          "Evasive",
-          "Luminous"
-        ],
-        "negative": []
-      },
-      "lockedQuirks": {
-        "positive": [],
-        "negative": []
-      }
-    },
-    {
-      "heroClass": "Plague Doctor",
-      "activeSkills": [
-        "Noxious Blast",
-        "Plague Grenade",
-        "Blinding Gas",
-        "Battlefield Medicine"
-      ],
-      "activeCampSkills": [
-        "Encourage",
-        "Experimental Vapours",
-        "Leeches",
-        "The Cure"
-      ],
-      "trinket1": "Blasphemous Vial",
-      "trinket2": "Ashen Distillation",
-      "quirks": {
-        "positive": [
-          "Corvids Eye",
-          "Early Riser",
           "Luminous",
-          "Quick Reflexes"
+          "Evasive"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Antiquarian",
+      "activeSkills": [
+        "Festering Vapours",
+        "Fortifying Vapours",
+        "Invigorating Vapours",
+        "Protect Me"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Strange Powders",
+        "Curious Incantation"
+      ],
+      "trinket1": "Smoking Skull",
+      "trinket2": "Candle of Life",
+      "quirks": {
+        "positive": [
+          "Corvids Grace",
+          "Evasive",
+          "Luminous",
+          "Corvids Eye"
         ],
         "negative": []
       },
@@ -102,29 +99,29 @@
       "activeSkills": [
         "Pick to the Face",
         "Lunge",
-        "Thrown Dagger",
-        "Toxin Trickery"
+        "Flashing Daggers",
+        "Thrown Dagger"
       ],
       "activeCampSkills": [
         "Encourage",
+        "Wound Care",
         "Snuff Box",
-        "Gallows Humor",
         "Night Moves"
       ],
-      "trinket1": "The Tempting Goblet",
+      "trinket1": "Lucky Talisman",
       "trinket2": "Sharpened Letter Opener",
       "quirks": {
         "positive": [
-          "Corvids Eye",
+          "Corvids Grace",
           "Evasive",
           "Luminous",
-          "Corvids Grace"
+          "Corvids Eye"
         ],
         "negative": [
           "Deviant Tastes",
-          "God Fearing",
           "Resolution",
-          "Bad Gambler"
+          "Bad Gambler",
+          "God Fearing"
         ]
       },
       "lockedQuirks": {

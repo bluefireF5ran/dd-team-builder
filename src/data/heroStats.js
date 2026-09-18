@@ -72,11 +72,11 @@ export const HERO_STATS = {
   'Duelist': {
     resistances: { stun: 30, blight: 30, bleed: 30, disease: 30, move: 30, debuff: 40, death: 67, trap: 10 },
     gear: [
-      { hp: 20, dodge: 5, prot: 0, spd: 6, crit: 5, dmgMin: 5, dmgMax: 7 },
-      { hp: 24, dodge: 10, prot: 0, spd: 6, crit: 6, dmgMin: 6, dmgMax: 8 },
-      { hp: 28, dodge: 15, prot: 0, spd: 7, crit: 7, dmgMin: 7, dmgMax: 10 },
-      { hp: 32, dodge: 20, prot: 0, spd: 7, crit: 8, dmgMin: 7, dmgMax: 11 },
-      { hp: 36, dodge: 25, prot: 0, spd: 8, crit: 9, dmgMin: 8, dmgMax: 13 },
+      { hp: 21, dodge: 5, prot: 0, spd: 6, crit: 5, dmgMin: 5, dmgMax: 7 },
+      { hp: 25, dodge: 10, prot: 0, spd: 6, crit: 6, dmgMin: 6, dmgMax: 8 },
+      { hp: 29, dodge: 15, prot: 0, spd: 7, crit: 7, dmgMin: 7, dmgMax: 10 },
+      { hp: 33, dodge: 20, prot: 0, spd: 7, crit: 8, dmgMin: 7, dmgMax: 11 },
+      { hp: 37, dodge: 25, prot: 0, spd: 8, crit: 9, dmgMin: 8, dmgMax: 13 },
     ],
   },
   'Flagellant': {
@@ -192,11 +192,11 @@ export const HERO_STATS = {
   'Runaway': {
     resistances: { stun: 20, blight: 40, bleed: 40, disease: 30, move: 30, debuff: 20, death: 67, trap: 30 },
     gear: [
-      { hp: 23, dodge: 5, prot: 0, spd: 5, crit: 4, dmgMin: 4, dmgMax: 7 },
-      { hp: 28, dodge: 10, prot: 0, spd: 5, crit: 5, dmgMin: 5, dmgMax: 8 },
-      { hp: 33, dodge: 15, prot: 0, spd: 6, crit: 6, dmgMin: 6, dmgMax: 10 },
-      { hp: 38, dodge: 20, prot: 0, spd: 6, crit: 7, dmgMin: 6, dmgMax: 11 },
-      { hp: 43, dodge: 25, prot: 0, spd: 7, crit: 8, dmgMin: 7, dmgMax: 13 },
+      { hp: 22, dodge: 5, prot: 0, spd: 5, crit: 4, dmgMin: 4, dmgMax: 7 },
+      { hp: 26, dodge: 10, prot: 0, spd: 5, crit: 5, dmgMin: 5, dmgMax: 8 },
+      { hp: 30, dodge: 15, prot: 0, spd: 6, crit: 6, dmgMin: 6, dmgMax: 10 },
+      { hp: 34, dodge: 20, prot: 0, spd: 6, crit: 7, dmgMin: 6, dmgMax: 11 },
+      { hp: 38, dodge: 25, prot: 0, spd: 7, crit: 8, dmgMin: 7, dmgMax: 13 },
     ],
   },
   'Shieldbreaker': {

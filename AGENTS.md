@@ -746,6 +746,12 @@ node scripts/importSkillEffects.js --game "D:/…/common/DarkestDungeon" --csv "
 node scripts/importSkillEffects.js --game … --csv … --check
 ```
 
+**Running it without `--csv` is safe**, the same way `importTrinketEffects.js` is: the 126 skills
+only the CSV knows are carried over from the file being rewritten, so a patch that only moves what
+the install knows - Fire's Edge numbers, camp skills - is one command away without hunting down the
+wiki export. The run prints `combat skills 140 (csv 0, game 14, kept 126)`, and a `kept` count where
+a `csv` one was expected is the warning that the export was not read.
+
 Combat entries are keyed **class then skill name**, because a skill name only means something next
 to its class; camp entries are keyed by name alone, since Encourage is shared by 16 classes and does
 the same thing for each. `launch` and `target` are written **rank 1 first**, matching the
@@ -1370,14 +1376,18 @@ Crimson Court and Fire's Edge district JSON.
 | House of the Yellow Hand | Bounty Hunter, Grave Robber, Highwayman | +5% scouting |
 | Altar of the Light | Crusader, Vestal, Flagellant | +10% healing dealt |
 | Performance Hall | Jester | −10% stress received, +20% DMG on Finale |
-| Académie Duello | **everyone** | +15% riposte damage (only the +1 SPD is the Duelist's) |
+| Académie Duello | **everyone** | +10 ACC while riposting (only the +1 SPD is the Duelist's) |
 
-Two of those are wired in, both because they are the same units as something already modelled:
+Three of those are wired in, each because it is the same units as something already modelled:
 - **Training Ring's +4 ACC** enters `accNeed`, which is a gap in ACC points. It is why the Arbalest
   dossier says she "doesn't desperately need ACC investments", and it lifts a riposte too, whose own
   accuracy never improves on its own. On the bench the Houndmaster stops buying Steady Bracer and
   takes the DODGE he lives on, and the one Focus Ring moves off the Shieldbreaker to the Highwayman,
   who has no district ACC.
+- **Académie Duello's +10 ACC while riposting** is added to `RIPOSTE_ACC` for a hero who ripostes,
+  and to nothing else: the game's buff carries `rule_type: riposte`, so unlike the Training Ring's it
+  lifts one attack rather than all of them. Hotfix 27987 (2026-09-16) is what put it there - the
+  district used to give +15% riposte damage, which the app had no number to spend it on.
 - **Yellow Hand's +5% scouting** seeds `partyScouting`, the same pool a scouting trinket fills, so a
   party of those three starts most of the way to the map and spends the slot elsewhere.
 
@@ -1689,10 +1699,11 @@ Pinned by `src/utils/__tests__/trinketReequip.test.js`.
 - Runaway's burn beyond `burn skill amount`;
 - prose clauses ("On Attack: …");
 - utility and resist weights, which are first guesses;
-- **healing dealt, stress received, riposte damage and the Jester's Finale.** These are in the data
-  and on `needs.district`, and nothing uses them - not because they were skipped, but because the app
-  computes no heal amount, no stress-received figure and no riposte damage for them to enter. They
-  wait on those numbers existing.
+- **healing dealt, stress received and the Jester's Finale.** These are in the data and on
+  `needs.district`, and nothing uses them - not because they were skipped, but because the app
+  computes no heal amount and no stress-received figure for them to enter. They wait on those
+  numbers existing. (Riposte damage was the fourth until hotfix 27987 replaced the Académie's
+  +15% riposte DMG with +10 riposte ACC, which `accNeed` could take.)
 
 ## What a hero IS (`src/data/heroStats.js`)
 
@@ -2852,7 +2863,7 @@ are the key*.
 **`deflate` would roughly halve it again** (p95 736) and is deliberately not
 used: `CompressionStream` is async and does not exist in jsdom, so the encoder
 would be untestable in the suite whose job is to guarantee a link still opens.
-The leading version field is what keeps that door open - a `2` payload can be
+The leading version field is what keeps that door open - a `3` payload can be
 deflate, and `decodeComp` refuses a version it does not know rather than reading
 it with the wrong rules and handing back a plausible wrong party.
 
@@ -2874,10 +2885,81 @@ Four things not to re-derive:
 4. **Replacing a party that is already built asks first**, the same rule paste
    and best-in-slot follow; onto an empty party it just loads. Either way it is
    one `commit`, so Ctrl+Z gives back the whole previous comp.
+5. **A guide video makes it a `2`; everything else still goes out as a `1`.**
+   `2` is the same payload with the video between the region and the first hero,
+   and a comp without one keeps the old shape on purpose: the field is empty for
+   almost every party, so stamping the new version on all of them would refuse
+   every link for anyone still on the page they loaded yesterday, in exchange for
+   nothing. `decodeComp` reads both, and drops a video it cannot play rather than
+   carrying a stranger's string into the app.
 
 `compLink.test.js` round-trips 200 real library comps and pins the length
 ceiling; `src/__tests__/shareLink.test.js` covers the app side - the hash
 clearing, the confirm, and a payload that is not a comp.
+
+## The video a comp comes with
+
+A comp says what to bring. It does not say how the eight turns actually go, and a
+link to someone running it does. That is one field, `video`, **on the comp** -
+not a note in the name - so it survives everything else a comp survives:
+
+- **The builder** - "Guide Video" in `TeamHeader`, under the name and the region,
+  because it is a fact about the comp and not an action on it.
+- **Browser storage and the preset file** - `saveTeamToLocalStorage` and
+  `savePresetToFile` write the key **only when there is one**. 467 library comps
+  carrying `"video": ""` would be noise in every diff of the folder, and quota
+  spent to say nothing in a store that runs out for real (see the pruning there).
+- **The library card** - a play button on `CompCard`, which opens the video
+  *without* loading the comp: seeing how a party is played is not choosing it.
+- **The share link** - payload `2`, see *Sharing a comp as a link*.
+- **A bundled comp** takes one by hand: `"video": "https://youtu.be/…"` in its
+  `src/data/presetComps/*.json`, next to `alias`. Nothing to regenerate - the
+  barrel imports the file whole.
+
+**`compLibrary.js` is where a new comp field goes to die.** Its two normalizers
+BUILD an object rather than spreading the one on disk, so a key they do not name
+never reaches the card or the party - the video shipped saving, sharing and
+loading from a file correctly, and loading from the library was the one path
+that came back empty. `presetCompsIndex.test.js` now pins the shape.
+`buildCompEntry` is the opposite (it spreads), which is why the trap is easy to
+miss: everything downstream of the normalizer carries whatever gets that far.
+
+**Nothing ever renders the string that was pasted.** `src/utils/videoLink.js`
+pulls out the eleven-character id - and the `t=` timestamp, because people link
+the fight and not the video - and rebuilds both URLs from it: the player is
+`youtube-nocookie.com/embed/<id>`, the way out is `youtube.com/watch?v=<id>`. A
+URL from a chat window has no business in an `href` (`javascript:` is a script)
+or an `<iframe src>` (any host is code running on the page); an id cannot be
+either of those. A link that does not parse is a play button that never appears,
+and the field says so rather than silently keeping a dead link.
+
+**Under the player goes the credit, and it is the reason the feature exists.**
+`src/utils/videoCredit.js` asks `youtube.com/oembed` - public, no key, answers
+CORS, so nothing has to be kept secret in an app with no server - for the video's
+own title and the channel that made it, and `useVideoCredit` shows it with a link
+to that channel. The `author_url` is checked to be a YouTube address before it
+can reach an `href`: it arrives from the network, and a URL from the network is
+not clicked on faith. A refusal (private, deleted, embedding off) is remembered
+so a dialog opened twice asks once; a network failure is not, so it recovers.
+
+**The request is gated on `isOpen`**, which is the same rule as the player: a
+library page of 24 cards asks YouTube for nothing until one of them is played.
+That is also why the credit is not on the card - putting it there would mean a
+request per visible comp, for comps you are scrolling past.
+
+**The iframe exists only while the dialog is open.** `VideoModal` sits on the
+common `Modal`, which renders nothing when closed, so a card nobody clicked costs
+no third-party request and no cookie. It is also why the card offers a button
+rather than a thumbnail: a grid of 24 thumbnails is 24 requests to YouTube for
+comps you are scrolling past.
+
+**A party you did not build drops it.** `randomizeTeam`, `suggestTeam` and
+`placeGeneratedComp` clear the video; `updateHero`, `swapHeroes` and
+`placeHeroes` keep it. Swapping a trinket leaves the comp in the video standing -
+four heroes you did not choose do not. And **replacing a library comp keeps the
+video the file already had unless you brought your own**, which is the opposite
+of the rule for the name: the taxonomy owns the name, and nobody but you owns the
+video.
 
 ## Importing a Darkest Dungeon save
 

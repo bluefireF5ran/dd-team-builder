@@ -1,6 +1,7 @@
 {
   "teamName": "Hammer Fall: Quickening",
   "location": "The Cove",
+  "video": "https://youtu.be/FF7rEBLz3RY",
   "heroes": [
     {
       "heroClass": "Occultist",
@@ -17,7 +18,7 @@
         "Unspeakable Commune"
       ],
       "trinket1": "Demon's Cauldron",
-      "trinket2": "Ancestor's Signet Ring",
+      "trinket2": "Ancestor's Coat",
       "quirks": {
         "positive": [],
         "negative": []
@@ -74,8 +75,8 @@
         "Therapy Dog",
         "Man's Best Friend"
       ],
-      "trinket1": "Ancestor's Scroll",
-      "trinket2": "Ancestor's Map",
+      "trinket1": "Wilbur's Flag",
+      "trinket2": "Sun Cloak",
       "quirks": {
         "positive": [],
         "negative": []
@@ -89,18 +90,18 @@
       "heroClass": "Plague Doctor",
       "activeSkills": [
         "Noxious Blast",
-        "Blinding Gas",
+        "Plague Grenade",
         "Battlefield Medicine",
         "Disorienting Blast"
       ],
       "activeCampSkills": [
-        "Encourage",
         "Wound Care",
+        "Experimental Vapours",
         "Leeches",
         "The Cure"
       ],
       "trinket1": "Blasphemous Vial",
-      "trinket2": "Prophet's Eye",
+      "trinket2": "Ashen Distillation",
       "quirks": {
         "positive": [],
         "negative": []

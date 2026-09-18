@@ -29,7 +29,7 @@
  * 736), and it is deliberately not used: `CompressionStream` is async, and it
  * does not exist in jsdom, so the encoder would be untestable in the suite that
  * has to guarantee a link still opens. **The version marker is what keeps that
- * door open** — a `2` payload can be deflate and old `1` links keep working.
+ * door open** — a `3` payload can be deflate and the shapes below keep working.
  *
  * ## Names, not indices
  *
@@ -40,11 +40,26 @@
  * app — see the rule in AGENTS.md, *Class names are the key*.
  */
 
+import { parseVideoLink } from './videoLink';
+
 /**
- * The payload's first field. Bump it when the SHAPE changes, and keep the old
- * reader: a link someone posted a year ago is a promise.
+ * The newest shape this build WRITES. Bump it when the shape changes, and keep
+ * the old reader: a link someone posted a year ago is a promise.
  */
-export const COMP_LINK_VERSION = '1';
+export const COMP_LINK_VERSION = '2';
+
+/**
+ * Every shape this build READS, and where the heroes start in each — the only
+ * thing the version changes. `2` puts the guide video between the region and
+ * the first hero.
+ *
+ * **A comp without a video still goes out as a `1`**, and that is the point: the
+ * field is empty for almost every party, so stamping `2` on all of them would
+ * refuse every link for anyone still on the page they loaded yesterday, in
+ * exchange for nothing. A link says `2` only when it carries something a `1`
+ * reader could not have shown.
+ */
+const HEROES_AT = { 1: 3, 2: 4 };
 
 /** The route a link lands on. */
 export const COMP_LINK_ROUTE = '#/comp/';
@@ -162,15 +177,20 @@ const unBase64url = (payload) => {
 /**
  * A comp as one URL-safe string.
  *
- * @param {{teamName?: string, location?: string, heroes?: object[]}} team
+ * @param {{teamName?: string, location?: string, video?: string, heroes?: object[]}} team
  * @returns {string} base64url payload, no scheme or host
  */
 export const encodeComp = (team) => {
   const t = team || {};
   const heroes = Array.isArray(t.heroes) ? t.heroes : [];
-  const body = [COMP_LINK_VERSION, esc(t.teamName), esc(t.location)]
-    .concat(heroes.map(encodeHero))
-    .join(HERO);
+  // Only a comp that HAS a video needs the shape that carries one. See
+  // COMP_LINK_VERSIONS: a party with nothing new to say still goes out as a `1`,
+  // which every build that ever read a link can open.
+  const video = parseVideoLink(t.video) ? String(t.video).trim() : '';
+  const head = video
+    ? ['2', esc(t.teamName), esc(t.location), esc(video)]
+    : ['1', esc(t.teamName), esc(t.location)];
+  const body = head.concat(heroes.map(encodeHero)).join(HERO);
   return base64url(body);
 };
 
@@ -197,13 +217,20 @@ export const decodeComp = (payload) => {
   const parts = splitEscaped(body, HERO);
   // An unknown version is a link from a newer build. Refusing it is the point:
   // reading it with these rules would produce a plausible wrong party.
-  if (parts[0] !== COMP_LINK_VERSION) return null;
+  const heroesAt = HEROES_AT[parts[0]];
+  if (!heroesAt) return null;
 
-  const heroes = parts.slice(3).map(decodeHero);
+  const heroes = parts.slice(heroesAt).map(decodeHero);
   if (!heroes.length) return null;
+  // The video is checked here and not only on the way in: this string came off a
+  // URL a stranger pasted, and a comp is not the place to keep something the
+  // player will never play. Absent rather than empty, so a `1` link and a `2`
+  // link with nothing in it decode to the same comp.
+  const video = heroesAt === 4 ? unesc(parts[3] || '') : '';
   return {
     teamName: unesc(parts[1] || ''),
     location: unesc(parts[2] || ''),
+    ...(parseVideoLink(video) ? { video } : {}),
     heroes,
   };
 };

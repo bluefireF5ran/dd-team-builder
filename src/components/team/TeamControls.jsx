@@ -16,6 +16,7 @@ const TeamControls = ({
   heroes,
   teamName,
   location,
+  video = '',
   onSave,
   onLoad,
   savedTeams = [],
@@ -124,7 +125,9 @@ const TeamControls = ({
   };
 
   const handleCopyToClipboard = async () => {
-    const ok = await copyTextToClipboard(JSON.stringify({ teamName, location, heroes }));
+    const ok = await copyTextToClipboard(
+      JSON.stringify({ teamName, location, ...(video ? { video } : {}), heroes })
+    );
     showToast?.(
       ok ? 'Team copied to clipboard!' : 'Failed to copy to clipboard.',
       ok ? 'success' : 'error'
@@ -136,7 +139,7 @@ const TeamControls = ({
    * asi que lo que no viaje en la URL no existe para quien la abre.
    */
   const handleCopyLink = async () => {
-    const url = compLinkFor({ teamName, location, heroes }, window.location.href);
+    const url = compLinkFor({ teamName, location, video, heroes }, window.location.href);
     const ok = await copyTextToClipboard(url);
     showToast?.(
       ok ? 'Share link copied — it carries the whole party.' : 'Could not access the clipboard.',

@@ -1,19 +1,20 @@
 {
   "teamName": "Open Season: Duel",
   "location": "The Ruins",
+  "video": "https://youtu.be/DsLeSWNMCNY?si=jaDPtBiS_8APw-Kb",
   "heroes": [
     {
       "heroClass": "Antiquarian",
       "activeSkills": [
         "Festering Vapours",
-        "Get Down!",
+        "Flashpowder",
         "Invigorating Vapours",
         "Protect Me"
       ],
       "activeCampSkills": [
         "Encourage",
-        "Wound Care",
         "Resupply",
+        "Strange Powders",
         "Curious Incantation"
       ],
       "trinket1": "Smoking Skull",

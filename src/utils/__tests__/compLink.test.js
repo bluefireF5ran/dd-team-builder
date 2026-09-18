@@ -20,6 +20,14 @@ const hero = (over = {}) => ({
   ...over,
 });
 
+const VIDEO = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ&t=90s';
+
+/** `atob` wants plain base64 back: the url alphabet and the padding undone. */
+const pad = (payload) => {
+  const plain = payload.replace(/-/g, '+').replace(/_/g, '/');
+  return plain + '='.repeat((4 - (plain.length % 4)) % 4);
+};
+
 const team = (over = {}) => ({
   teamName: 'Test Comp',
   location: 'The Ruins',
@@ -116,9 +124,49 @@ describe('a payload that is not a comp', () => {
     expect(decodeComp(future)).toBeNull();
   });
 
-  it('accepts the version it does know', () => {
-    expect(COMP_LINK_VERSION).toBe('1');
+  it('accepts the versions it does know', () => {
+    expect(COMP_LINK_VERSION).toBe('2');
     expect(decodeComp(encodeComp(team()))).not.toBeNull();
+    expect(decodeComp(encodeComp(team({ video: VIDEO })))).not.toBeNull();
+  });
+});
+
+/**
+ * The video is the only thing `2` adds, and the only reason to write a `2`.
+ */
+describe('the guide video a comp carries', () => {
+  it('comes back the way it went in', () => {
+    const t = team({ video: VIDEO });
+    expect(decodeComp(encodeComp(t))).toEqual(t);
+  });
+
+  it('only stamps the new version on a comp that has one', () => {
+    expect(atob(pad(encodeComp(team()))).startsWith('1~')).toBe(true);
+    expect(atob(pad(encodeComp(team({ video: VIDEO })))).startsWith('2~')).toBe(true);
+  });
+
+  // The whole point of holding the old shape back: a link written before this
+  // existed, and a link from a build that never learnt to write one.
+  it('still opens a link with no video in it', () => {
+    const v1 = btoa('1~Old Comp~The Weald~Crusader|Smite');
+    expect(decodeComp(v1)).toEqual({
+      teamName: 'Old Comp',
+      location: 'The Weald',
+      heroes: [expect.objectContaining({ heroClass: 'Crusader' })],
+    });
+  });
+
+  // Nothing renders the string itself (see videoLink.js), and a comp is not the
+  // place to keep something the player will never play.
+  it('drops a video it could not play rather than carrying it into the app', () => {
+    const decoded = decodeComp(encodeComp(team({ video: 'https://vimeo.com/123456789' })));
+    expect(decoded).not.toHaveProperty('video');
+  });
+
+  it('drops one that was hand-written into a payload', () => {
+    // eslint-disable-next-line no-script-url
+    const hostile = btoa('2~Comp~The Weald~javascript:alert(1)~Crusader|Smite');
+    expect(decodeComp(hostile)).not.toHaveProperty('video');
   });
 });
 

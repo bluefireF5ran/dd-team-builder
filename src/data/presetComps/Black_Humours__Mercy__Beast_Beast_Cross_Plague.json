@@ -1,6 +1,7 @@
 {
   "teamName": "Black Humours: Mercy",
   "location": "The Cove",
+  "video": "https://youtu.be/-kK6xYSViQk?si=0bWMr19Z5t-33zUP",
   "heroes": [
     {
       "heroClass": "Crusader",
@@ -61,7 +62,10 @@
         "Transform",
         "Manacles",
         "Beast's Bile",
-        "Absolution"
+        "Absolution",
+        "Rake",
+        "Rage",
+        "Slam"
       ],
       "activeCampSkills": [
         "Encourage",

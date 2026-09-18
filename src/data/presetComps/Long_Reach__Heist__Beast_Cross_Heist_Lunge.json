@@ -2,6 +2,7 @@
   "teamName": "Long Reach: Heist",
   "alias": "test",
   "location": "The Cove",
+  "video": "https://youtu.be/gU1l9Iej_aM",
   "heroes": [
     {
       "heroClass": "Crusader",

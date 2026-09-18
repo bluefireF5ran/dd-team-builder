@@ -576,4 +576,103 @@ describe('useTeam', () => {
       expect(getCompFileKeys()).not.toContain(fileName.replace(/.json$/, ''));
     });
   });
+  /**
+   * El video es de la COMP: se guarda con ella, vuelve con ella y se va cuando
+   * la party deja de ser la que se juega en el.
+   */
+  describe('the guide video travels with the comp', () => {
+    const VIDEO = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ&t=90s';
+
+    test('starts empty', () => {
+      const { result } = renderHook(() => useTeam());
+      expect(result.current.video).toBe('');
+    });
+
+    test('is saved with the team and comes back with it', () => {
+      const { result } = renderHook(() => useTeam());
+      act(() => {
+        result.current.setTeamName('Watched');
+        result.current.setVideo(VIDEO);
+      });
+      act(() => { result.current.saveTeam(); });
+
+      const stored = JSON.parse(localStorage.getItem('dd_team_builder_teams'));
+      expect(stored[0].video).toBe(VIDEO);
+
+      act(() => { result.current.setVideo(''); });
+      act(() => { result.current.loadSavedTeam('Watched'); });
+      expect(result.current.video).toBe(VIDEO);
+    });
+
+    test('a team saved without one does not carry an empty key', () => {
+      const { result } = renderHook(() => useTeam());
+      act(() => { result.current.setTeamName('Plain'); });
+      act(() => { result.current.saveTeam(); });
+      expect(JSON.parse(localStorage.getItem('dd_team_builder_teams'))[0])
+        .not.toHaveProperty('video');
+    });
+
+    test('survives a reload with the rest of the draft', () => {
+      const { result, unmount } = renderHook(() => useTeam());
+      act(() => { result.current.setVideo(VIDEO); });
+      act(() => jest.advanceTimersByTime(500));
+      unmount();
+
+      expect(renderHook(() => useTeam()).result.current.video).toBe(VIDEO);
+    });
+
+    test('goes down with the comp into the preset file', () => {
+      const { result } = renderHook(() => useTeam());
+      act(() => { result.current.setVideo(VIDEO); });
+      expect(result.current.describePreset().video).toBe(VIDEO);
+    });
+
+    // Cambiar un trinket deja la comp del video en pie; una party que no has
+    // elegido tu, no.
+    test('a party you did not build drops it', () => {
+      const { result } = renderHook(() => useTeam());
+      act(() => { result.current.setVideo(VIDEO); });
+      act(() => { result.current.updateHero(0, { ...EMPTY_HERO, heroClass: 'Crusader' }); });
+      expect(result.current.video).toBe(VIDEO);
+
+      act(() => { result.current.randomizeTeam(); });
+      expect(result.current.video).toBe('');
+    });
+
+    // La otra mitad de esto vive en presetCompsIndex.test.js: que el .json llegue
+    // a la libreria con su video. Aqui, que de la libreria llegue a la party.
+    test('comes with a comp loaded from the library', () => {
+      const { result } = renderHook(() => useTeam());
+      act(() => {
+        result.current.loadPreset({
+          name: 'Watched Preset',
+          location: 'The Warrens',
+          video: VIDEO,
+          heroes: [{ ...EMPTY_HERO, heroClass: 'Hellion' }]
+        });
+      });
+      expect(result.current.video).toBe(VIDEO);
+    });
+
+    test('a comp from the library without one leaves the box empty', () => {
+      const { result } = renderHook(() => useTeam());
+      act(() => { result.current.setVideo(VIDEO); });
+      act(() => {
+        result.current.loadPreset({
+          name: 'Plain Preset',
+          location: 'The Warrens',
+          heroes: [{ ...EMPTY_HERO, heroClass: 'Hellion' }]
+        });
+      });
+      expect(result.current.video).toBe('');
+    });
+
+    test('undo puts it back, because it is part of the comp', () => {
+      const { result } = renderHook(() => useTeam());
+      act(() => { result.current.setVideo(VIDEO); });
+      act(() => { result.current.randomizeTeam(); });
+      act(() => { result.current.undo(); });
+      expect(result.current.video).toBe(VIDEO);
+    });
+  });
 });

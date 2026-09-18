@@ -347,14 +347,14 @@ export const TRINKET_EFFECTS = {
   "Warm Scarf":          { rarity: "Common", effect: "+10 DODGE | On Dodge: Shuffle target" },
   "Pyro Accelerant":     { rarity: "Uncommon", effect: "On Attack: Enemies: -6% CRIT while Burning (3 rds), Crits Received Chance: +6% while Burning (3 rds) | On Attack: Self: Burn 2 pts/rd" },
   "Charcoal Effigy":     { rarity: "Uncommon", effect: "When Hit: Self: Heal 3" },
-  "Rescuer's Rucksack":  { rarity: "Rare", effect: "+20% MAX HP | -10% CRIT | -50% Restoration Duration Received | On Friendly Skill: Other Heroes: Restoration 3 pts/rd for 1 rd" },
+  "Rescuer's Rucksack":  { rarity: "Rare", effect: "+20% MAX HP | -10% CRIT | -50% Restoration Duration Received | On Friendly Skill: Other Heroes: Restoration 5 pts/rd for 1 rd" },
   "Infernal Coalstone":  { rarity: "Very Rare", effect: "+3 SPD while Any Character is Burning | Wildfire applies to both adjacent targets | On Attack: Knockback 1 (130% base) if target in rank 1 | On Attack: Pull 1 (130% base) if target in rank 4" },
-  "Carved Toy":          { rarity: "Set", limit: 1, effect: "+15 ACC while Stealthed | +12% CRIT vs Burning | -15% Stun Resist | -15% Bleed Resist" },
-  "Knitted Blanket":     { rarity: "Set", limit: 1, effect: "+25% PROT | +25% Healing Received | When Hit: Self: Burn 2 pts/rd" },
+  "Carved Toy":          { rarity: "Set", limit: 1, effect: "+15 ACC Ranged Skills | +12% CRIT vs Burning | -15% Stun Resist | -15% Bleed Resist" },
+  "Knitted Blanket":     { rarity: "Set", limit: 1, effect: "+33% PROT | +33% Healing Received while Stealthed | When Hit: Self: Burn 1 pts/rd" },
   "Inert Sunstone":      { rarity: null, limit: 1, effect: "-2 SPD | Transforms into Heated Sunstone" },
   "Heated Sunstone":     { rarity: null, limit: 1, effect: "+1 SPD | Transforms into Scorching Sunstone" },
   "Scorching Sunstone":  { rarity: null, limit: 1, effect: "+2 SPD | +33% Burn Skill Amount | Transforms into Searing Sunstone" },
-  "Searing Sunstone":    { rarity: null, limit: 1, effect: "+4 SPD | +50% Burn Skill Amount | On Attack: Self: Burn 1 pts/rd (75% base) | Final form - perilous to bear" },
+  "Searing Sunstone":    { rarity: null, limit: 1, effect: "+4 SPD | +50% Burn Skill Amount | On Attack: Self: Burn 2 pts/rd | Final form - perilous to bear" },
 
   // ===== Generic trinkets =====
   "Accuracy Stone":               { rarity: "Very Common", effect: "+4 ACC | -1 SPD" },
@@ -535,7 +535,7 @@ export const TRINKET_EFFECTS = {
   "Slumber Pendant":              { rarity: "Rare", effect: "-20% Stress | -4 SPD on First Round" },
   "Waking Pendant":               { rarity: "Fire's Edge", effect: "+15% DMG | +4 SPD | +20% Stress" },
   "Tinker Box":                   { rarity: "Very Rare", effect: "+5 ACC | +5% PROT | On Quest Complete: This trinket: Gain a random trinket" },
-  "Flickering Lamplight":         { rarity: "Very Rare", effect: "On Turn End: Self: Heal 4 | After Battle: This trinket: +6 uses" },
+  "Flickering Lamplight":         { rarity: "Very Rare", effect: "On Turn End: Self: Heal 6 | After Battle: This trinket: +6 uses" },
   "Crumbling Timekeeper":         { rarity: "Very Rare", effect: "+10 ACC | -10% MAX HP | On Death: This trinket: Destroys this trinket | On Quest Complete: This trinket: +3% DMG | On Quest Complete: This trinket: -3% MAX HP" },
   "Dark Catalyst":                { rarity: "Very Rare", limit: 1, effect: "+20% Stress" },
 

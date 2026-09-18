@@ -2,12 +2,20 @@ import { TEAM_PRESETS } from './teamPresets';
 import { PRESET_COMP_ENTRIES } from './presetComps/index';
 import { canonicalizeHero } from '../utils/nameNormalizer';
 
+/**
+ * Ojo: esto CONSTRUYE un objeto nuevo, no extiende el de origen. Todo campo que
+ * no se nombre aqui existe en el .json y no llega ni a la tarjeta ni a la party:
+ * es lo que le paso al video, que se guardaba, se compartia y se cargaba bien
+ * por todas partes menos justo por la libreria. Campo nuevo en una comp, linea
+ * nueva en los dos normalizadores.
+ */
 const normalizeOfficialPreset = (preset, index) => ({
   id: `preset:${index}`,
   name: preset.name,
   alias: '',
   description: preset.description || null,
   location: preset.location || 'The Ruins',
+  video: preset.video || '',
   heroes: (preset.heroes || []).map(canonicalizeHero),
   source: 'official'
 });
@@ -20,6 +28,10 @@ const normalizeCommunityComp = (raw, key) => ({
   alias: raw.alias || '',
   description: null,
   location: raw.location || 'The Ruins',
+  // El enlace a alguien jugandola, si el fichero lo trae. Ver el aviso de
+  // arriba: sin esta linea la comp se carga sin video y no hay nada que
+  // reproducir en ninguna parte de la pagina.
+  video: raw.video || '',
   heroes: (raw.heroes || []).map(canonicalizeHero),
   source: 'community'
 });

@@ -19,7 +19,7 @@
         "Ruthless Instruction",
         "Again!"
       ],
-      "trinket1": "The Tempting Goblet",
+      "trinket1": "Champion's Mantle",
       "trinket2": "Gilded Mantle",
       "quirks": {
         "positive": [
@@ -68,35 +68,6 @@
       }
     },
     {
-      "heroClass": "Runaway",
-      "activeSkills": [
-        "Firefly",
-        "Run and Hide",
-        "Controlled Burn",
-        "Backdraft"
-      ],
-      "activeCampSkills": [
-        "Kindle",
-        "Cauterize",
-        "Play with Fire",
-        "Pick Pocket"
-      ],
-      "trinket1": "Searing Sunstone",
-      "trinket2": "Ancestor's Signet Ring",
-      "quirks": {
-        "positive": [
-          "Corvids Eye",
-          "Evasive",
-          "Luminous"
-        ],
-        "negative": []
-      },
-      "lockedQuirks": {
-        "positive": [],
-        "negative": []
-      }
-    },
-    {
       "heroClass": "Houndmaster",
       "activeSkills": [
         "Hound's Rush",
@@ -116,6 +87,35 @@
         "positive": [
           "Corvids Eye",
           "Corvids Grace",
+          "Evasive",
+          "Luminous"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Runaway",
+      "activeSkills": [
+        "Firefly",
+        "Run and Hide",
+        "Controlled Burn",
+        "Backdraft"
+      ],
+      "activeCampSkills": [
+        "Kindle",
+        "Cauterize",
+        "Play with Fire",
+        "Pick Pocket"
+      ],
+      "trinket1": "Carved Toy",
+      "trinket2": "Rescuer's Rucksack",
+      "quirks": {
+        "positive": [
+          "Corvids Eye",
           "Evasive",
           "Luminous"
         ],

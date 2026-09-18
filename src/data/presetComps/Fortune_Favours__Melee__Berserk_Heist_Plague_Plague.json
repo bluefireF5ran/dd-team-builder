@@ -1,0 +1,109 @@
+{
+  "teamName": "Fortune Favours: Melee",
+  "location": "The Darkest Dungeon III",
+  "video": "https://youtu.be/ueDsCGiXdJU",
+  "heroes": [
+    {
+      "heroClass": "Hellion",
+      "activeSkills": [
+        "Wicked Hack",
+        "Iron Swan",
+        "Barbaric YAWP!",
+        "If It Bleeds"
+      ],
+      "activeCampSkills": [
+        "Wound Care",
+        "Battle Trance",
+        "Reject the Gods",
+        "Sharpen Spear"
+      ],
+      "trinket1": "Hell's Hairpin",
+      "trinket2": "Moon Ring",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Highwayman",
+      "activeSkills": [
+        "Pistol Shot",
+        "Point Blank Shot",
+        "Duelist's Advance",
+        "Open Vein"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Clean Guns",
+        "Bandit's Sense"
+      ],
+      "trinket1": "Gunslinger's Buckle",
+      "trinket2": "Moon Ring",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    },
+    {
+      "heroClass": "Plague Doctor",
+      "activeSkills": [
+        "Noxious Blast",
+        "Plague Grenade",
+        "Incision",
+        "Disorienting Blast"
+      ],
+      "activeCampSkills": [
+        "Wound Care",
+        "Experimental Vapours",
+        "The Cure",
+        "Self Medicate"
+      ],
+      "trinket1": "Blasphemous Vial",
+      "trinket2": "Witch's Vial",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Plague Doctor",
+      "activeSkills": [
+        "Noxious Blast",
+        "Plague Grenade",
+        "Incision",
+        "Disorienting Blast"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Experimental Vapours",
+        "The Cure"
+      ],
+      "trinket1": "Blasphemous Vial",
+      "trinket2": "Witch's Vial",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    }
+  ]
+}

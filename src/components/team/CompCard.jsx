@@ -1,7 +1,8 @@
 import React, { memo } from 'react';
-import { Trash2 } from 'lucide-react';
+import { Play, Trash2 } from 'lucide-react';
 import { getHeroImagePath } from '../../utils/imageHelper';
 import ImageWithFallback from '../common/ImageWithFallback';
+import { isVideoLink } from '../../utils/videoLink';
 
 // Los retratos van en una rejilla de 4 columnas, NO en una fila de anchos fijos:
 // asi cada uno mide un cuarto de la tarjeta y nunca se sale de ella, aunque la
@@ -36,11 +37,15 @@ const flagChipsFor = (flags = []) => {
  * imported, which is why the whole thing is absent rather than empty - with no
  * roster to compare against there is no claim to make.
  */
-const CompCard = ({ comp, onLoad, onDelete, missing = null }) => {
-  const { name, family, variant, alias, location, heroes = [], theme, mechanics = [], flags = [] } = comp;
+const CompCard = ({ comp, onLoad, onPlay, onDelete, missing = null }) => {
+  const { name, family, variant, alias, location, video, heroes = [], theme, mechanics = [], flags = [] } = comp;
   const chips = flagChipsFor(flags);
   const mechChips = mechanics.slice(0, 2);
   const short = missing && missing.length ? missing : null;
+  // Play y borrar comparten la esquina, asi que el nombre tiene que apartarse de
+  // los dos: sin esto se mete debajo del segundo boton en vez de truncarse.
+  const playable = !!onPlay && isVideoLink(video);
+  const cornerPad = playable && onDelete ? 'pr-10' : playable || onDelete ? 'pr-4' : '';
 
   return (
     <div
@@ -51,19 +56,34 @@ const CompCard = ({ comp, onLoad, onDelete, missing = null }) => {
       // basta para agrupar de un vistazo sin competir con los retratos.
       style={{ borderLeft: `3px solid ${theme.accent}`, background: `linear-gradient(100deg, ${theme.accent}14, transparent 55%)` }}
     >
-      {onDelete && (
-        <button
-          onClick={(e) => { e.stopPropagation(); onDelete(); }}
-          className="absolute top-1 right-1 p-1 rounded text-gray-500 hover:text-red-400 hover:bg-black/40 transition-colors z-10"
-          title="Delete team"
-          type="button"
-        >
-          <Trash2 size={13} />
-        </button>
+      {(playable || onDelete) && (
+        <div className="absolute top-1 right-1 z-10 flex items-center gap-0.5">
+          {playable && (
+            <button
+              onClick={(e) => { e.stopPropagation(); onPlay(); }}
+              className="p-1 rounded text-gray-500 hover:text-dd-gold hover:bg-black/40 transition-colors"
+              title={`Watch how ${name} is played`}
+              aria-label={`Watch how ${name} is played`}
+              type="button"
+            >
+              <Play size={13} />
+            </button>
+          )}
+          {onDelete && (
+            <button
+              onClick={(e) => { e.stopPropagation(); onDelete(); }}
+              className="p-1 rounded text-gray-500 hover:text-red-400 hover:bg-black/40 transition-colors"
+              title="Delete team"
+              type="button"
+            >
+              <Trash2 size={13} />
+            </button>
+          )}
+        </div>
       )}
 
       <button onClick={onLoad} className="w-full text-left p-2.5" type="button" title={`Load ${name}`}>
-        <div className="font-darkest text-[13px] leading-tight truncate pr-4" title={name}>
+        <div className={`font-darkest text-[13px] leading-tight truncate ${cornerPad}`} title={name}>
           <span className="text-dd-parchment">{family || name}</span>
           {variant && <span className="text-dd-gold">: {variant}</span>}
         </div>

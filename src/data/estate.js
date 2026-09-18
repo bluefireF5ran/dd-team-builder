@@ -16,8 +16,13 @@
  * un heroe de sus trinkets: Training Ring +4 ACC, Athenaeum +15% de blight y
  * de debuff, Altar of the Light +10% de curacion, Yellow Hand +5% de
  * exploracion, Performance Hall -10% de estres recibido y +20% DMG a Finale, y
- * la Académie +15% al daño de riposte A TODO EL MUNDO (`hero_type_tags: []`),
- * no solo a la Duelist, que lo unico suyo es el +1 SPD.
+ * la Académie +10 ACC al riposte A TODO EL MUNDO (`hero_type_tags: []`), no
+ * solo a la Duelist, que lo unico suyo es el +1 SPD.
+ *
+ * El hotfix 27987 (16-09-2026) cambio ese +15% al daño de riposte por el +10
+ * ACC (`conservatory_riposte_acc`, `attack_rating` +0.10 con `rule_type:
+ * riposte`), que a diferencia del daño SI entra en el modelo: `heroNeeds` se
+ * lo suma a la punteria fija del riposte.
  *
  * Granary (+15% a lo que cura la comida) y Outsiders Bonfire (+2 puntos de
  * descanso) no estan: no tocan a un heroe en combate.
@@ -45,7 +50,7 @@ export const DISTRICTS = [
     name: 'Académie Duello',
     classes: null,
     buffs: [{ stat: 'dodge', amount: 3 }],
-    effects: [{ kind: 'riposteDamage', amount: 15 }],
+    effects: [{ kind: 'riposteAcc', amount: 10 }],
   },
   { id: 'conservatory_of_steel', name: 'Académie Duello', classes: ['duelist'], buffs: [{ stat: 'spd', amount: 1 }] },
   {

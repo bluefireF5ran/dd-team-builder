@@ -1,7 +1,6 @@
 {
-  "teamName": "Open Season: Upheaval",
-  "location": "The Ruins",
-  "video": "https://youtu.be/9aCuSw2wa_4",
+  "teamName": "Open Season: Reach",
+  "location": "The Weald",
   "heroes": [
     {
       "heroClass": "Bounty Hunter",
@@ -20,7 +19,42 @@
       "trinket1": "Mask Of The Timeless",
       "trinket2": "Hunter's Talon",
       "quirks": {
+        "positive": [
+          "Corvids Grace",
+          "Luminous",
+          "Evasive"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
         "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    },
+    {
+      "heroClass": "Highwayman",
+      "activeSkills": [
+        "Pistol Shot",
+        "Grapeshot Blast",
+        "Duelist's Advance",
+        "Open Vein"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Clean Guns",
+        "Bandit's Sense"
+      ],
+      "trinket1": "Shameful Locket",
+      "trinket2": "Ancestor's Coat",
+      "quirks": {
+        "positive": [
+          "Corvids Eye",
+          "Corvids Grace",
+          "Luminous",
+          "Evasive"
+        ],
         "negative": []
       },
       "lockedQuirks": {
@@ -29,29 +63,26 @@
       }
     },
     {
-      "heroClass": "Abomination",
+      "heroClass": "Antiquarian",
       "activeSkills": [
-        "Transform",
-        "Manacles",
-        "Beast's Bile",
-        "Absolution",
-        "Rake",
-        "Rage",
-        "Slam"
+        "Festering Vapours",
+        "Fortifying Vapours",
+        "Invigorating Vapours",
+        "Protect Me"
       ],
       "activeCampSkills": [
-        "Anger Management",
-        "Psych Up",
-        "The Quickening",
-        "Eldritch Blood"
+        "Encourage",
+        "Wound Care",
+        "Strange Powders",
+        "Curious Incantation"
       ],
-      "trinket1": "Broken Key",
-      "trinket2": "Padlock of Transference",
+      "trinket1": "Smoking Skull",
+      "trinket2": "Candle of Life",
       "quirks": {
         "positive": [
+          "Corvids Grace",
+          "Evasive",
           "Luminous",
-          "Precise Striker",
-          "Slugger",
           "Corvids Eye"
         ],
         "negative": []
@@ -62,61 +93,33 @@
       }
     },
     {
-      "heroClass": "Houndmaster",
+      "heroClass": "Grave Robber",
       "activeSkills": [
-        "Hound's Rush",
-        "Target Whistle",
-        "Cry Havoc",
-        "Guard Dog"
+        "Pick to the Face",
+        "Lunge",
+        "Flashing Daggers",
+        "Thrown Dagger"
       ],
       "activeCampSkills": [
         "Encourage",
         "Wound Care",
-        "Therapy Dog",
-        "Man's Best Friend"
+        "Snuff Box",
+        "Night Moves"
       ],
-      "trinket1": "Ancestor's Coat",
-      "trinket2": "Wilbur's Flag",
+      "trinket1": "Lucky Talisman",
+      "trinket2": "Sharpened Letter Opener",
       "quirks": {
         "positive": [
-          "Corvids Eye",
+          "Corvids Grace",
           "Evasive",
           "Luminous",
-          "Corvids Grace"
-        ],
-        "negative": []
-      },
-      "lockedQuirks": {
-        "positive": [],
-        "negative": []
-      }
-    },
-    {
-      "heroClass": "Arbalest",
-      "activeSkills": [
-        "Sniper Shot",
-        "Suppressing Fire",
-        "Bola",
-        "Battlefield Bandage"
-      ],
-      "activeCampSkills": [
-        "Encourage",
-        "Wound Care",
-        "Marching Plan",
-        "Restring Crossbow"
-      ],
-      "trinket1": "Bedtime Story",
-      "trinket2": "Ancestor's Map",
-      "quirks": {
-        "positive": [
-          "Corvids Eye",
-          "Hippocratic",
-          "Eagle Eye",
-          "Luminous"
+          "Corvids Eye"
         ],
         "negative": [
+          "Deviant Tastes",
+          "Resolution",
           "Bad Gambler",
-          "Enlightened"
+          "God Fearing"
         ]
       },
       "lockedQuirks": {

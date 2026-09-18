@@ -1,0 +1,129 @@
+{
+  "teamName": "Sound Company: Snuffed",
+  "location": "The Warrens",
+  "video": "https://youtu.be/Cu87ELtbdyU?si=qK0gOo6FVLvYWy9p",
+  "heroes": [
+    {
+      "heroClass": "Flagellant",
+      "activeSkills": [
+        "Punish",
+        "Rain of Sorrows",
+        "Reclaim",
+        "Redeem"
+      ],
+      "activeCampSkills": [
+        "Lash's Solace",
+        "Lash's Kiss",
+        "Lash's Cure"
+      ],
+      "trinket1": "Blood Charm",
+      "trinket2": "Fasting Seal",
+      "quirks": {
+        "positive": [
+          "Quick Reflexes",
+          "Unerring"
+        ],
+        "negative": [
+          "Perfectionist"
+        ]
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    },
+    {
+      "heroClass": "Man at Arms",
+      "activeSkills": [
+        "Crush",
+        "Rampart",
+        "Bellow",
+        "Defender"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Maintain Equipment",
+        "Tactics",
+        "Instruction"
+      ],
+      "trinket1": "Dazzling Charm",
+      "trinket2": "Swift Cloak",
+      "quirks": {
+        "positive": [
+          "Armor Tinker",
+          "Hippocratic",
+          "Luminous"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    },
+    {
+      "heroClass": "Arbalest",
+      "activeSkills": [
+        "Sniper Shot",
+        "Suppressing Fire",
+        "Battlefield Bandage",
+        "Rallying Flare"
+      ],
+      "activeCampSkills": [
+        "Wound Care",
+        "Pep Talk",
+        "Field Dressing",
+        "Restring Crossbow"
+      ],
+      "trinket1": "Survival Guide",
+      "trinket2": "Medic's Greaves",
+      "quirks": {
+        "positive": [
+          "Hard Noggin",
+          "Natural Swing",
+          "On Guard"
+        ],
+        "negative": [
+          "Bad Gambler"
+        ]
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    },
+    {
+      "heroClass": "Grave Robber",
+      "activeSkills": [
+        "Lunge",
+        "Thrown Dagger",
+        "Poison Darts",
+        "Toxin Trickery"
+      ],
+      "activeCampSkills": [
+        "Wound Care",
+        "Snuff Box",
+        "Gallows Humor",
+        "Night Moves"
+      ],
+      "trinket1": "Lucky Talisman",
+      "trinket2": "Crescendo Box",
+      "quirks": {
+        "positive": [
+          "Luminous",
+          "Corvids Grace",
+          "Evasive"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    }
+  ]
+}

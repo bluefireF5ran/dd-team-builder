@@ -23,10 +23,13 @@ const DRAFT_KEY = 'dd_draft_team_v1';
  * El formato es el mismo que lee `loadTeamFromFile`, asi que tambien se puede
  * volver a importar sin pasar por el repo.
  */
-export const savePresetToFile = ({ name, alias, fileName, location, heroes }) => {
+export const savePresetToFile = ({ name, alias, fileName, location, heroes, video }) => {
   const body = { teamName: name };
   if (alias) body.alias = alias;
   body.location = location;
+  // Solo si lo hay: las 467 comps de la libreria no tienen video, y una clave
+  // vacia en todas ellas seria ruido en cada diff de la carpeta.
+  if (video) body.video = video;
   body.heroes = heroes;
 
   downloadJSON(fileName, body);
@@ -76,7 +79,7 @@ export const loadTeamFromFile = (file) => {
  *
  * @returns {{ok: boolean, prunedTeam: string|null}}
  */
-export const saveTeamToLocalStorage = (teamName, location, heroes) => {
+export const saveTeamToLocalStorage = (teamName, location, heroes, video = '') => {
   try {
     const existingTeams = loadTeamsFromLocalStorage();
     const teamIndex = existingTeams.findIndex(t => t.teamName === teamName);
@@ -84,6 +87,10 @@ export const saveTeamToLocalStorage = (teamName, location, heroes) => {
       teamName,
       location,
       heroes,
+      // La clave solo existe si el equipo tiene video. Guardarla vacia en todos
+      // los demas gasta cuota --que aqui se acaba de verdad: mira el podado de
+      // mas abajo-- para no decir nada.
+      ...(video ? { video } : {}),
       savedAt: new Date().toISOString()
     };
 
@@ -140,9 +147,9 @@ export const loadTeamsFromLocalStorage = () => {
  * con un toast cada vez que el disco esta lleno mientras escribes seria peor
  * que perderlo. El guardado explicito (`saveTeamToLocalStorage`) si lo cuenta.
  */
-export const saveDraftTeam = (teamName, location, heroes) => {
+export const saveDraftTeam = (teamName, location, heroes, video = '') => {
   try {
-    localStorage.setItem(DRAFT_KEY, JSON.stringify({ teamName, location, heroes }));
+    localStorage.setItem(DRAFT_KEY, JSON.stringify({ teamName, location, heroes, video }));
     return true;
   } catch (error) {
     return false;

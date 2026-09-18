@@ -159,6 +159,16 @@ export const validateTeamSchema = (data) => {
     errors.push('location must be a string');
   }
 
+  // video
+  //
+  // Solo el TIPO. Que el enlace apunte a un video de verdad lo decide
+  // `videoLink.parseVideoLink` en el unico sitio que lo pinta, y ahi un enlace
+  // ilegible es un boton que no sale; aqui rechazaria la comp entera --cuatro
+  // heroes, sus trinkets y sus quirks-- por un campo que no juega nada.
+  if (data.video !== undefined && typeof data.video !== 'string') {
+    errors.push('video must be a string');
+  }
+
   // heroes array
   if (!Array.isArray(data.heroes)) {
     errors.push('heroes must be an array');

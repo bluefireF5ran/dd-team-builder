@@ -16,6 +16,7 @@ A team composition planner for **Darkest Dungeon 1**. Build and save your party 
 - 💾 **Auto-Save** - The party you are building survives a reload; named teams are saved to localStorage on demand
 - 📊 **Hero Stats** - HP, dodge, prot, speed, crit and damage, with what your trinkets and quirks do to them
 - 🔗 **Share Links** - Copy a link that carries the whole party; opening it loads the comp
+- ▶️ **Guide Video** - Attach a YouTube link to a comp and watch it in the app, from the builder or from the library card
 - 📱 **Responsive Design** - Works on desktop and mobile
 - 🎨 **Darkest Dungeon Theme** - Gothic styling with the DwarvenAxe font
 

@@ -1,37 +1,35 @@
 {
-  "teamName": "Open Season: Aegis",
-  "location": "The Ruins",
-  "video": "https://youtu.be/SxSDALxtH8A?si=1z4aq4WaBC3XSr6c",
+  "teamName": "Keen Edge: Ballad",
+  "location": "The Weald",
+  "video": "https://youtu.be/Cu87ELtbdyU?si=CehxzCMl9Qyw2Nvi",
   "heroes": [
     {
       "heroClass": "Bounty Hunter",
       "activeSkills": [
         "Collect Bounty",
-        "Come Hither",
+        "Mark for Death",
         "Uppercut",
         "Finish Him"
       ],
       "activeCampSkills": [
         "Encourage",
-        "Wound Care",
         "This Is How We Do It",
-        "Tracking"
+        "Scout Ahead"
       ],
-      "trinket1": "Hunter's Talon",
-      "trinket2": "Mask Of The Timeless",
+      "trinket1": "Agility Talon",
+      "trinket2": "Dazzling Charm",
       "quirks": {
         "positive": [
-          "Corvids Eye",
-          "Corvids Grace",
-          "Luminous"
+          "Eagle Eye"
         ],
-        "negative": []
+        "negative": [
+          "Thanatophobia"
+        ]
       },
       "lockedQuirks": {
         "positive": [],
         "negative": []
-      },
-      "diseases": []
+      }
     },
     {
       "heroClass": "Houndmaster",
@@ -43,25 +41,23 @@
       ],
       "activeCampSkills": [
         "Encourage",
+        "Wound Care",
         "Hound's Watch",
-        "Therapy Dog",
-        "Man's Best Friend"
+        "Therapy Dog"
       ],
-      "trinket1": "Sun Cloak",
-      "trinket2": "Wilbur's Flag",
+      "trinket1": "Camouflage Cloak",
+      "trinket2": "Fasting Seal",
       "quirks": {
         "positive": [
-          "Luminous",
-          "Evasive",
-          "Corvids Grace"
+          "Early Riser",
+          "Slugger"
         ],
         "negative": []
       },
       "lockedQuirks": {
         "positive": [],
         "negative": []
-      },
-      "diseases": []
+      }
     },
     {
       "heroClass": "Jester",
@@ -72,56 +68,53 @@
         "Inspiring Tune"
       ],
       "activeCampSkills": [
-        "Encourage",
-        "Wound Care",
-        "Every Rose Has Its Thorn",
-        "Tiger's Eye"
+        "Turn Back Time",
+        "Tiger's Eye",
+        "Mockery"
       ],
-      "trinket1": "Ancestor's Coat",
-      "trinket2": "Camouflage Cloak",
+      "trinket1": "Feather Crystal",
+      "trinket2": "Lucky Dice",
       "quirks": {
         "positive": [
-          "Corvids Grace",
-          "Luminous",
           "Evasive"
         ],
-        "negative": []
+        "negative": [
+          "Weald Phobe"
+        ]
       },
       "lockedQuirks": {
         "positive": [],
         "negative": []
-      },
-      "diseases": []
+      }
     },
     {
-      "heroClass": "Antiquarian",
+      "heroClass": "Arbalest",
       "activeSkills": [
-        "Festering Vapours",
-        "Fortifying Vapours",
-        "Invigorating Vapours",
-        "Protect Me"
+        "Sniper Shot",
+        "Suppressing Fire",
+        "Bola",
+        "Battlefield Bandage"
       ],
       "activeCampSkills": [
-        "Encourage",
         "Wound Care",
-        "Strange Powders",
-        "Curious Incantation"
+        "Pep Talk",
+        "Field Dressing",
+        "Restring Crossbow"
       ],
-      "trinket1": "Smoking Skull",
-      "trinket2": "Candle of Life",
+      "trinket1": "Medic's Greaves",
+      "trinket2": "Survival Guide",
       "quirks": {
         "positive": [
-          "Luminous",
-          "Corvids Grace",
-          "Evasive"
+          "Hard Noggin",
+          "Natural Swing",
+          "On Guard"
         ],
         "negative": []
       },
       "lockedQuirks": {
         "positive": [],
         "negative": []
-      },
-      "diseases": []
+      }
     }
   ]
 }
