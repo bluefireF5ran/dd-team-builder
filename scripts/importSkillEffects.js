@@ -13,6 +13,10 @@
  *  - Camp skills are not in the CSV at all, so all 80 come from
  *    `*.camping_skills.json` plus the `camping_skill_*` localization templates.
  *
+ * Running without `--csv` is safe: the skills only the CSV knows are carried
+ * over from the file being rewritten, so refreshing what the install knows
+ * (Fire's Edge, camp skills) after a patch does not need the wiki export.
+ *
  * Usage:
  *   node scripts/importSkillEffects.js --game "<DarkestDungeon install>" --csv "<Skills.csv>"
  *   node scripts/importSkillEffects.js --game … --csv … --check    (report, write nothing)
@@ -244,11 +248,21 @@ for (const id of ctx.camps.keys()) {
 // The Duelist's sheet calls Wound Care "First Aid"; it is the same game skill.
 campByName.set(norm('First Aid'), 'first_aid');
 
+// ------------------------------------------------------- previous entries
+// The CSV is a wiki export that lives outside the repo, and the game does not
+// carry its prose, so a run without `--csv` would delete the 126 skills only
+// the CSV knows. They are carried over from the file instead - the same pact
+// `importTrinketEffects.js` makes with the encrypted Butcher's Circus tables.
+// A refresh of what the install DOES know (Fire's Edge, camp skills) therefore
+// does not need the export.
+const { loadEsm } = require('./lib/loadEsm');
+const previous = fs.existsSync(OUT) ? loadEsm(OUT).COMBAT_SKILL_EFFECTS || {} : {};
+
 // ================================================================== assembly
 const feCache = {};
 const combat = new Map();   // class -> Map(name -> entry)
 const camp = new Map();     // name -> entry
-const stats = { csv: 0, game: 0 };
+const stats = { csv: 0, game: 0, kept: 0 };
 const missing = { combat: [], camp: [] };
 
 for (const r of roster) {
@@ -270,6 +284,8 @@ for (const r of roster) {
         const e = feCache[r.cls].get(name);
         if (e) { bucket.set(name, e); stats.game++; continue; }
       }
+      const prev = previous[r.cls] && previous[r.cls][name];
+      if (prev) { bucket.set(name, { ...prev }); stats.kept++; continue; }
       missing.combat.push(`${r.cls}: ${name}`);
     }
     // El movimiento sale SIEMPRE del install, venga la skill del CSV o de ahi:
@@ -387,7 +403,7 @@ const prevText = fs.existsSync(OUT) ? fs.readFileSync(OUT, 'utf8') : '';
 // Line endings are git's business (autocrlf), not content.
 const sameText = prevText.replace(/\r\n/g, '\n') === text;
 const total = [...combat.values()].reduce((a, m) => a + m.size, 0);
-console.log(`combat skills ${total} (csv ${stats.csv}, game ${stats.game}) across ${combat.size} classes`);
+console.log(`combat skills ${total} (csv ${stats.csv}, game ${stats.game}, kept ${stats.kept}) across ${combat.size} classes`);
 console.log(`camp skills ${camp.size}`);
 if (missing.combat.length) console.log('MISSING combat:', missing.combat.join(' | '));
 if (missing.camp.length) console.log('MISSING camp:', missing.camp.join(' | '));

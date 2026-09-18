@@ -746,6 +746,12 @@ node scripts/importSkillEffects.js --game "D:/…/common/DarkestDungeon" --csv "
 node scripts/importSkillEffects.js --game … --csv … --check
 ```
 
+**Running it without `--csv` is safe**, the same way `importTrinketEffects.js` is: the 126 skills
+only the CSV knows are carried over from the file being rewritten, so a patch that only moves what
+the install knows - Fire's Edge numbers, camp skills - is one command away without hunting down the
+wiki export. The run prints `combat skills 140 (csv 0, game 14, kept 126)`, and a `kept` count where
+a `csv` one was expected is the warning that the export was not read.
+
 Combat entries are keyed **class then skill name**, because a skill name only means something next
 to its class; camp entries are keyed by name alone, since Encourage is shared by 16 classes and does
 the same thing for each. `launch` and `target` are written **rank 1 first**, matching the
