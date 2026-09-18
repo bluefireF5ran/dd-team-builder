@@ -375,6 +375,8 @@ export const useTeam = ({ defaultLocation = 'The Ruins' } = {}) => {
       trinketFills: suggestedHeroes.trinketFills || 0,
       unequipped: suggestedHeroes.unequipped || 0,
       warning: suggestedHeroes.warning || '',
+      missionTier: suggestedHeroes.missionTier || null,
+      missionNote: suggestedHeroes.missionNote || '',
       fromPreset: !!suggestedHeroes.fromPreset
     };
   }, [commit]);

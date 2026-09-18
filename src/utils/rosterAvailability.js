@@ -19,6 +19,7 @@
  */
 
 import { nameKey } from './nameNormalizer';
+import { missionRosterHeroes } from './missionLevel';
 import { PARTY_CONFIG } from '../constants';
 
 /** A hero's class, whether it arrives on a save hero, a comp hero or a bare name. */
@@ -124,9 +125,26 @@ export const rosterCoversComp = (comp, counts) => missingForComp(comp, counts).l
  */
 export const isHeroAvailable = (hero) => !hero?.activity && !hero?.isMissing;
 
-/** The roster list an imported save implies, as class names with repeats. */
-export const rosterFromHeroes = (heroes, { includeBusy = false } = {}) =>
-  (heroes || [])
-    .filter((hero) => includeBusy || isHeroAvailable(hero))
+/**
+ * The roster list an imported save implies, as class names with repeats.
+ *
+ * `missionTier` narrows it to the heroes that mission can draw on — its own
+ * Resolve band, widened to the heroes who may still embark when the band is too
+ * small for a party (see `missionLevel.js`). A save holds the whole Hamlet at
+ * once, and a party mixing a Resolve 1 recruit with a Resolve 5 veteran is one
+ * the game will not let you take. Left out, the roster is every hero, as it
+ * always was.
+ *
+ * `difficulty` is the campaign the save was started in: Radiant levels heroes
+ * faster and lets them go two levels lower, so the same XP is a different
+ * answer.
+ */
+export const rosterFromHeroes = (heroes, options = {}) => {
+  const { includeBusy = false, missionTier = null, difficulty } = options;
+  const free = (heroes || []).filter((hero) => includeBusy || isHeroAvailable(hero));
+  // The mission is applied to the heroes who can actually go, not the other way
+  // round: someone in the Abbey must not count towards "you have four Veterans".
+  return missionRosterHeroes(free, missionTier, { difficulty })
     .map((hero) => hero.heroClass)
     .filter(Boolean);
+};

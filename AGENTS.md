@@ -3079,8 +3079,8 @@ Three places consume the profile:
   the end alone.
 - **`SuggestCompModal`** gains a *Use Save Roster* button and accepts a one-shot
   `initialRoster` hand-over from the import modal. It is cleared on close: left set, it would
-  overwrite whatever the player edited by hand next time. See **A roster is a multiset** and
-  **Stress bends the draw**.
+  overwrite whatever the player edited by hand next time. See **A roster is a multiset**,
+  **The mission decides who may go** and **Stress bends the draw**.
 - **`TrinketPicker`** gains an *Owned only* filter, behind the `ownedTrinketsOnly` setting.
   Owned means the estate inventory plus whatever is already equipped, matched on `nameKey`.
   It only appears once a save is imported, and — like every optional-content switch — it never
@@ -3118,6 +3118,90 @@ Two rules that are not obvious:
 In the Suggest modal a hero tile **cycles 0 → 1 → 2 → 3 → 4 → 0**, with `×N` on the badge
 past one. The mount effect normalizes rather than deduplicates: a `Set` there would flatten
 "I have two Plague Doctors" back to one every time the modal reopened.
+
+### The mission decides who may go (`src/utils/missionLevel.js`)
+
+**A quest is a difficulty as well as a place.** The game writes a dungeon level on it — 1, 3 or
+5 — and Resolve decides who embarks. A save carries the whole Hamlet at once, so "what can my
+roster field?" is the wrong question on its own: week 40 is twenty heroes across every level, and
+a comp drawn from all of them is a party that cannot go anywhere. The Suggest modal therefore has
+a **Mission** row — *Any level*, Apprentice, Veteran, Champion, each carrying how many heroes that
+band holds — and picking one re-cuts the roster to it.
+
+**Three numbers, and conflating them is the whole bug surface.**
+
+| mission | dungeon level | the band it is FOR | Darkest cap | Radiant cap |
+| --- | --- | --- | --- | --- |
+| Apprentice | 1 | Resolve 0-2 | 2 | 4 |
+| Veteran | 3 | Resolve 3-4 | 4 | 6 |
+| Champion | 5 | Resolve 5-6 | none | none |
+
+- **The band** is who the quest is *for*, and it is the recommendation.
+- **The cap** is `QUEST_RESOLVE_CAPS`, the game's own `campaign/quest/quest.restriction.json`.
+  It is a MAXIMUM, never a minimum: a Resolve 3 hero refuses an Apprentice quest, and nothing
+  stops a Resolve 0 recruit walking into a Champion dungeon and dying there. 99 in that table
+  means no restriction, so it is read as `Infinity` rather than compared against 99.
+- **The cost** is `UNDER_LEVEL_COST`, out of `shared/rules.json`, where the game calls it
+  effective difficulty: **+20 stress on entering one level short, 30 at two, 40 at three** (not
+  the flat 20-a-level the wiki rounds it to) and a quarter again on every stress hit per level.
+  It is why the band is preferred rather than merely tidy.
+
+So a mission's roster is **the band, widened only when the band cannot make a party**. Four
+Veterans are a Veteran party; three Veterans and nobody else is not an answer, so the heroes the
+game would still let embark come along, cheapest first. Apprentice can never widen — everyone
+outside its band is above it — which is why "you have no Apprentice party" is still a real answer.
+
+**The suggestion then fields as much of the band as exists**, and this is the part that had to be
+rebuilt. A hard filter is wrong: with three Veterans no comp is all-Veteran and refusing to answer
+is not what was asked. A weight is wrong too — it would hand back an all-recruit party now and
+then with nothing to explain it. So comps are **ranked by `bandDepth`, how many of their four
+slots your in-band heroes could fill, and only the deepest rank survives**: four when the band can
+field a whole party, three when that is all you have. Two rules hang off it:
+
+- **`bandDepth` counts against the roster, not just the save.** Owning two in-band Crusaders must
+  not put two Crusaders in a party when the roster lists one (`intersectCounts`).
+- **A comp that uses *none* of your in-band heroes is not an answer.** `deepest === 0` with a
+  non-empty band means the library was the wrong place to look — being handed four Apprentices
+  while two Veterans sit in the Hamlet is the exact complaint this exists to fix — so the preset
+  path is skipped and the party is *built* around them, the fallback roll taking the band first.
+
+Assignment follows the same order: `byMission` sorts in-band heroes ahead of everyone, then
+`bySuitability`. It is passed to **both** `stressPool` and `assignSaveHeroes`, because those two
+have to queue the same hero for the same slot (see **Stress bends the draw**).
+
+Whoever does come in under level is named in the toast with what it costs them — `missionNote`,
+e.g. *"Not enough Veteran heroes (Resolve 3-4), so Rookie starts at +20 stress."* The mission was
+a promise about who is in the party; where it could not be kept, the player hears the price rather
+than finding out in the dungeon.
+
+Two more rules that are not obvious:
+
+- **A short band replaces the roster anyway.** Everywhere else a roster of under four is refused
+  and the previous one kept — pressing a button should not wipe your list to hand back three
+  heroes. A chosen difficulty is the opposite: keeping the old roster would go on suggesting
+  heroes of the wrong level with nothing on screen saying the mission was ignored.
+- **The tier is stored beside the roster** (`SUGGEST_MISSION_KEY`), because the stored roster *is*
+  that band. It drops back to *Any level* in the two cases where the roster on screen is no longer
+  a band's: a hand-over from the Import Save modal (an explicit list of classes), and no save.
+
+#### The campaign changes the answer (2026-09-15)
+
+Radiant is not Darkest with easier fights. It **levels heroes faster** — `resolve_level_thresholds`
+is `[0,2,7,13,21,29,40]` against Darkest's `[0,2,8,14,24,36,48]`, so 7 XP is Resolve 2 there and
+Resolve 1 here — and it **relaxes both caps by two levels**. Stygian (`new_game_plus`) overrides
+neither file, so it levels exactly like Darkest; Crimson Court's `bloodmoon` has no mode folder at
+all and falls back the same way. `saveParser` already read `game_mode`, so `difficulty` is threaded
+from the profile through the modal into `rosterFromHeroes`, `generateRandomTeamFromRoster` and the
+Import Save modal's `Lv` badge.
+
+**The table this all rests on was the wrong one, for months.** `importRegionProfiles.js` read
+`campaign/progression/progression.json`'s `dungeon.level_threshold_table` —
+`[0,2,6,10,16,22,32,42]`, eight entries for a hero who has seven levels, every one of them reached
+too early. A Resolve 2 hero read as 3 and walked straight into the Veteran band, which is what
+"it recommends level 2 heroes for Veteran missions" turned out to be. The hero table is
+`campaign/roster/roster.variables.json`; the dungeon one belongs to the quest ladder. Both the
+`Lv` badge in the Import Save modal and every band here were wrong until this was fixed, and
+`regionProfiles.test.js` now pins the table by value so it cannot drift back.
 
 ### Stress bends the draw (`src/utils/heroStress.js`)
 
@@ -3219,6 +3303,10 @@ you do not own.
 
 - **Counts come from your heroes, not your classes.** *Use Save Roster* expands the roster
   one entry per hero, so two Plague Doctors unlock the comps that field two.
+- **The mission prefers one Resolve band.** Apprentice takes 0-2, Veteran 3-4, Champion 5-6, and
+  the suggestion fields as many of them as the library allows; someone under level comes only when
+  there are not enough, and is named with what it costs them — see **The mission decides who may
+  go**.
 - **Heroes busy in town are left out.** A hero locked into the Abbey, Tavern or Sanitarium,
   or missing after a town event, cannot go out this week — `isHeroAvailable`. The switch is
   on by default and only appears when somebody actually is busy.
@@ -3233,8 +3321,8 @@ you do not own.
   comes back; *Only comps I can fully equip* filters to comps you own every trinket for, and
   when that leaves nothing it says so and suggests the best fit anyway rather than refusing.
 
-`suggestTeam` returns `{ teamName, assignedHeroes, missingTrinkets, warning, fromPreset }` so
-the toast can name the heroes that went in.
+`suggestTeam` returns `{ teamName, assignedHeroes, missingTrinkets, warning, missionTier,
+missionNote, fromPreset }` so the toast can name the heroes that went in.
 
 
 ## Second app: Ranking Engine (`#/ranker`)

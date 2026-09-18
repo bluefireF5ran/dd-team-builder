@@ -98,11 +98,14 @@ export const bySuitability = (a, b) =>
  * fields *your two* — the calm one and the wreck — and the second slot has to
  * be judged on the second hero. Sorted by `bySuitability` so this list is the
  * same queue `assignSaveHeroes` pulls from; weighing a comp against heroes it
- * would not actually field would be weighing the wrong thing.
+ * would not actually field would be weighing the wrong thing. `order` exists
+ * for the one thing that outranks suitability — a mission's Resolve band,
+ * which both this and the assignment have to agree on or they queue different
+ * heroes.
  */
-export const stressPool = (saveHeroes) => {
+export const stressPool = (saveHeroes, order = bySuitability) => {
   const pool = new Map();
-  [...(saveHeroes || [])].sort(bySuitability).forEach((hero) => {
+  [...(saveHeroes || [])].sort(order).forEach((hero) => {
     const key = nameKey(heroClassOf(hero));
     if (!key) return;
     if (!pool.has(key)) pool.set(key, []);
