@@ -1,4 +1,13 @@
-import { REGION_PROFILES, RESOLVE_THRESHOLDS, resolveLevel, getRegionProfile } from '../regionProfiles';
+import {
+  REGION_PROFILES,
+  RESOLVE_THRESHOLDS,
+  RESOLVE_THRESHOLDS_BY_MODE,
+  QUEST_RESOLVE_CAPS,
+  QUEST_RESOLVE_CAPS_BY_MODE,
+  UNDER_LEVEL_COST,
+  resolveLevel,
+  getRegionProfile
+} from '../regionProfiles';
 import { LOCATIONS } from '../locations';
 import { COMP_REGIONS } from '../../config/rankerRoster';
 
@@ -80,17 +89,49 @@ describe('region profiles', () => {
 });
 
 describe('resolveLevel', () => {
-  it('reads the game thresholds', () => {
-    expect(RESOLVE_THRESHOLDS[0]).toBe(0);
-    expect(RESOLVE_THRESHOLDS.length).toBeGreaterThan(5);
+  it('reads the HERO table, which has one entry per Resolve level', () => {
+    // Seven, for Resolve 0-6. This read `progression.json`'s
+    // `dungeon.level_threshold_table` for months -- eight entries of the
+    // *dungeon* ladder -- and every imported hero came out a level or two
+    // above what the game showed them as.
+    expect(RESOLVE_THRESHOLDS).toEqual([0, 2, 8, 14, 24, 36, 48]);
   });
 
   it('turns raw XP into the level the game shows', () => {
     expect(resolveLevel(0)).toBe(0);
     expect(resolveLevel(2)).toBe(1);
-    expect(resolveLevel(5)).toBe(1);
-    expect(resolveLevel(6)).toBe(2);
+    expect(resolveLevel(7)).toBe(1);
+    expect(resolveLevel(8)).toBe(2);
+    expect(resolveLevel(14)).toBe(3);
     expect(resolveLevel(1000)).toBe(RESOLVE_THRESHOLDS.length - 1);
+  });
+
+  it('levels a Radiant save on Radiant’s own table', () => {
+    // Radiant needs 7 for Resolve 2 where Darkest needs 8, so the same save XP
+    // is a different hero depending on the campaign it was started in.
+    expect(RESOLVE_THRESHOLDS_BY_MODE.radiant).toEqual([0, 2, 7, 13, 21, 29, 40]);
+    expect(resolveLevel(7, 'radiant')).toBe(2);
+    expect(resolveLevel(7, 'darkest')).toBe(1);
+    // Stygian overrides neither table, so it levels exactly like Darkest.
+    expect(RESOLVE_THRESHOLDS_BY_MODE.stygian).toEqual(RESOLVE_THRESHOLDS);
+    // And an unknown mode falls back rather than guessing.
+    expect(resolveLevel(7, 'bloodmoon')).toBe(1);
+  });
+
+  it('carries the game’s own quest caps, which are a maximum', () => {
+    // Indexed by dungeon level: Apprentice is 1, Veteran 3, Champion 5. 99 is
+    // the game's way of writing "no restriction".
+    expect(QUEST_RESOLVE_CAPS[1]).toBe(2);
+    expect(QUEST_RESOLVE_CAPS[3]).toBe(4);
+    expect(QUEST_RESOLVE_CAPS[5]).toBe(99);
+    // Radiant lets a hero two levels above the quest in.
+    expect(QUEST_RESOLVE_CAPS_BY_MODE.radiant[1]).toBe(4);
+    expect(QUEST_RESOLVE_CAPS_BY_MODE.radiant[3]).toBe(6);
+  });
+
+  it('prices going in under-levelled, and it is not a flat 20 a level', () => {
+    expect(UNDER_LEVEL_COST.starting).toEqual([0, 20, 30, 40, 50, 60, 70]);
+    expect(UNDER_LEVEL_COST.stressTaken).toEqual([0, 0.25, 0.5, 0.75, 1, 1.25, 1.5]);
   });
 
   it('says nothing when it has nothing to read', () => {

@@ -346,13 +346,87 @@ function summarise(rows, monsters, unknown) {
 }
 
 // ============================================================== progression
-function readResolveThresholds() {
-  const file = path.join(GAME, 'campaign/progression/progression.json');
+/** The game's JSON is hand-written: BOM, `//` comments and trailing commas. */
+function readGameJson(relative) {
+  const file = path.join(GAME, relative);
   if (!fs.existsSync(file)) return null;
   const raw = fs.readFileSync(file, 'utf8').replace(/^﻿/, '');
-  const json = JSON.parse(raw.replace(/\/\/[^\n\r]*/g, '').replace(/,(\s*[}\]])/g, '$1'));
-  return json?.dungeon?.level_threshold_table || null;
+  return JSON.parse(raw.replace(/\/\/[^\n\r]*/g, '').replace(/,(\s*[}\]])/g, '$1'));
 }
+
+/**
+ * A campaign mode's copy of a file, falling back to the base game's.
+ *
+ * This is how the game layers them: `modes/radiant/` holds only the files that
+ * mode overrides, and everything it does not name is the root `campaign/` copy.
+ * Stygian (`new_game_plus`) overrides neither of the two files read here, so it
+ * levels heroes exactly like Darkest -- discovered, not assumed, because the
+ * folder exists and could gain an override in a patch.
+ */
+function readModeJson(mode, relative) {
+  return (mode === 'base' ? null : readGameJson(`modes/${mode}/${relative}`)) || readGameJson(relative);
+}
+
+/** Mode folder -> the difficulty name `saveParser` reads out of a save. */
+const MODE_DIFFICULTY = { base: 'darkest', new_game_plus: 'stygian', radiant: 'radiant' };
+
+const ROSTER_VARS = 'campaign/roster/roster.variables.json';
+const QUEST_RESTRICTION = 'campaign/quest/quest.restriction.json';
+
+/**
+ * XP per resolve level, per mode, from the ROSTER's own table.
+ *
+ * **Not `progression.json`.** That file's `dungeon.level_threshold_table`
+ * ([0, 2, 6, 10, 16, 22, 32, 42]) is the *dungeon* ladder, and this script read
+ * it for months: eight entries for a hero who only has seven levels, each one
+ * reached too early, so an imported save showed every hero above the level the
+ * game showed -- a Resolve 2 hero read as 3 and walked into the Veteran band.
+ * The hero table is `roster.variables.json`, seven entries for Resolve 0-6, and
+ * Radiant really does level faster ([0,2,7,13,21,29,40] against [0,2,8,14,24,
+ * 36,48]), so the mode a save was started in changes what its XP means.
+ */
+function readResolveThresholds(mode) {
+  return readModeJson(mode, ROSTER_VARS)?.resolve_level_thresholds || null;
+}
+
+/**
+ * The highest Resolve allowed on a quest of each dungeon level, per mode.
+ *
+ * The game's own restriction table, and the reason a levelled hero refuses a
+ * low quest: index by dungeon level and Darkest caps Apprentice (1) at 2 and
+ * Veteran (3) at 4, while Radiant relaxes both to 4 and 6. 99 is the game's way
+ * of writing "no restriction", which is what Champion (5) has everywhere.
+ *
+ * The limit is a MAXIMUM, never a minimum: a recruit may walk into a Champion
+ * dungeon and die there, which is why this is the boundary and not the
+ * recommendation.
+ */
+function readQuestResolveCaps(mode) {
+  const table = readModeJson(mode, QUEST_RESTRICTION)?.restriction?.difficulty
+    ?.resolve_level_threshold_table;
+  return Array.isArray(table) ? table : null;
+}
+
+/**
+ * What going in under-levelled costs, by how many levels short you are.
+ *
+ * `shared/rules.json`, where the game calls it "effective difficulty": the
+ * dungeon level minus the hero's resolve level. The starting stress is NOT the
+ * flat 20-per-level the wiki rounds it to -- it is 0, 20, 30, 40, 50, 60, 70 --
+ * and every level short also adds a quarter again to all stress taken.
+ */
+function readUnderLevelCosts() {
+  const rules = readGameJson('shared/rules.json');
+  const starting = rules?.effectiveDifficultyDungeonStartingStress;
+  const taken = rules?.effectiveDifficultyStressDmgModifiers;
+  return Array.isArray(starting) && Array.isArray(taken) ? { starting, stressTaken: taken } : null;
+}
+
+const byMode = (read) =>
+  Object.fromEntries(
+    Object.entries(MODE_DIFFICULTY).map(([mode, difficulty]) => [difficulty, read(mode)])
+  );
+
 
 // ===================================================================== write
 const monsters = readMonsters(readMarkEffects());
@@ -386,7 +460,11 @@ Object.entries(zones).forEach(([zone, rows]) => {
   });
 });
 
-const thresholds = readResolveThresholds();
+const thresholds = readResolveThresholds('base');
+const questCaps = readQuestResolveCaps('base');
+const thresholdsByMode = byMode(readResolveThresholds);
+const capsByMode = byMode(readQuestResolveCaps);
+const underLevel = readUnderLevelCosts();
 
 console.log(`monsters ${Object.keys(monsters).length}`);
 console.log(`zones    ${Object.keys(zones).length} -> ${Object.keys(profiles).length} locations`);
@@ -405,7 +483,13 @@ if (unknown.size) {
   console.log(`\n${unknown.size} enemy ids named by a table with no info file:`);
   console.log('  ' + [...unknown].sort().join(', '));
 }
-console.log(`resolve thresholds: ${thresholds ? thresholds.join(', ') : 'NOT FOUND'}`);
+Object.entries(thresholdsByMode).forEach(([difficulty, table]) => {
+  console.log(
+    `${difficulty.padEnd(8)} resolve ${table ? table.join(', ') : 'NOT FOUND'}` +
+    `  |  caps ${capsByMode[difficulty] ? capsByMode[difficulty].join(', ') : 'NOT FOUND'}`
+  );
+});
+console.log(`under-level stress: ${underLevel ? underLevel.starting.join(', ') : 'NOT FOUND'}`);
 
 const body = `/**
  * What you actually fight in each region, and the resolve level thresholds.
@@ -425,14 +509,48 @@ export const REGION_PROFILES = ${JSON.stringify(profiles, null, 2)};
 /**
  * XP needed for each resolve level, 0-indexed. Lives in the game install, which
  * is why the save importer could only ever show raw XP.
+ *
+ * The roster's own table, not the dungeon ladder in \`progression.json\` - see
+ * the script for the difference, and for what reading the wrong one did. This
+ * is Darkest's; Radiant levels faster, so read \`RESOLVE_THRESHOLDS_BY_MODE\`
+ * when you know which campaign the save is.
  */
 export const RESOLVE_THRESHOLDS = ${JSON.stringify(thresholds)};
 
-/** The resolve level a hero with this much XP has reached. */
-export const resolveLevel = (xp) => {
+/** The same table per campaign mode, keyed as \`saveParser\` names them. */
+export const RESOLVE_THRESHOLDS_BY_MODE = ${JSON.stringify(thresholdsByMode)};
+
+/**
+ * The highest Resolve the game lets on a quest, by dungeon level: Darkest caps
+ * Apprentice (1) at 2 and Veteran (3) at 4, Radiant relaxes them to 4 and 6,
+ * and 99 means no restriction at all. A MAXIMUM, not a band - the game stops a
+ * levelled hero going down, never a recruit going up.
+ */
+export const QUEST_RESOLVE_CAPS = ${JSON.stringify(questCaps)};
+
+/** The same caps per campaign mode. */
+export const QUEST_RESOLVE_CAPS_BY_MODE = ${JSON.stringify(capsByMode)};
+
+/**
+ * What a hero pays for being under-levelled, indexed by how many levels short
+ * of the dungeon they are: \`starting\` stress on entering, and \`stressTaken\`
+ * as a share added to every stress hit after that.
+ */
+export const UNDER_LEVEL_COST = ${JSON.stringify(underLevel)};
+
+/**
+ * The resolve level a hero with this much XP has reached.
+ *
+ * \`difficulty\` is the campaign the save was started in (\`saveParser\` reads
+ * it): the same XP is a different level in Radiant, which needs 7 for Resolve 2
+ * where Darkest needs 8. Unknown modes fall back to Darkest rather than
+ * guessing a table.
+ */
+export const resolveLevel = (xp, difficulty) => {
   if (typeof xp !== 'number' || Number.isNaN(xp)) return null;
+  const thresholds = RESOLVE_THRESHOLDS_BY_MODE[difficulty] || RESOLVE_THRESHOLDS;
   let level = 0;
-  RESOLVE_THRESHOLDS.forEach((threshold, index) => {
+  thresholds.forEach((threshold, index) => {
     if (xp >= threshold) level = index;
   });
   return level;
@@ -463,8 +581,13 @@ export const REGION_ENEMIES = ${JSON.stringify(monsters, null, 1)};
 `;
 
 if (CHECK) {
-  const read = (file) => (fs.existsSync(file) ? fs.readFileSync(file, 'utf8') : '');
-  const fresh = read(OUT) === body && read(OUT_ENEMIES) === enemiesBody;
+  // Line endings are normalised on both sides. Git checks these files out with
+  // CRLF on Windows and this script writes LF, so a straight comparison says
+  // DESACTUALIZADO on a tree where nothing has moved -- which is worse than
+  // useless: it invites someone to "fix" it by committing whole-file churn.
+  const lf = (text) => text.split('\r\n').join('\n');
+  const read = (file) => (fs.existsSync(file) ? lf(fs.readFileSync(file, 'utf8')) : '');
+  const fresh = read(OUT) === lf(body) && read(OUT_ENEMIES) === lf(enemiesBody);
   console.log(fresh ? 'al dia' : 'DESACTUALIZADO - rerun without --check');
   process.exit(fresh ? 0 : 1);
 }

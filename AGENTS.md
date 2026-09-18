@@ -3004,7 +3004,10 @@ neither a hero list nor a save is an error with a message, not a guess.
 Only the roster is required. `resolveXp` is shown as **a resolve level and the raw XP**.
 The threshold table lives in the game install, which this app used not to read;
 `scripts/importRegionProfiles.js` extracts it and commits it, so `resolveLevel` works
-without the game (see **What you fight in each region**).
+without the game (see **What you fight in each region**). It is
+`campaign/roster/roster.variables.json` — **not** `progression.json`, whose table is the dungeon
+ladder and was read here by mistake for months — and it is per campaign, so the badge takes the
+save's own `difficulty` (see **The campaign changes the answer**).
 
 **The dead are subtracted from the roster.** A hero who dies is *not* moved anywhere: they
 stay in `persist.roster.json` carrying `roster.status: 3`. Do not go looking in
