@@ -47,7 +47,7 @@ const QuirkChip = ({ name, fallback, locked }) => (
   </span>
 );
 
-const HeroRow = ({ hero, rank, onToggle, dimmed }) => {
+const HeroRow = ({ hero, rank, onToggle, dimmed, difficulty }) => {
   const modded = isModdedHero(hero.heroClass);
   return (
     <button
@@ -84,10 +84,12 @@ const HeroRow = ({ hero, rank, onToggle, dimmed }) => {
           {modded && <Badge className="border-purple-700/50 bg-purple-900/40 text-purple-300">modded</Badge>}
           {/* El nivel sale de `level_threshold_table`, que vive en la instalacion
               del juego: hasta que se extrajo, aqui solo se podia poner el XP
-              crudo y que cada uno lo tradujera de memoria. */}
+              crudo y que cada uno lo tradujera de memoria. Y la tabla depende
+              del modo -- en Radiant se sube antes -- asi que sin la campana de
+              la partida el numero seria el de otra. */}
           <Badge className="border-gray-600 bg-gray-800 text-gray-300">
-            {resolveLevel(hero.resolveXp) !== null
-              ? `Lv ${resolveLevel(hero.resolveXp)} · XP ${hero.resolveXp}`
+            {resolveLevel(hero.resolveXp, difficulty) !== null
+              ? `Lv ${resolveLevel(hero.resolveXp, difficulty)} · XP ${hero.resolveXp}`
               : `XP ${hero.resolveXp}`}
           </Badge>
           {hero.stress > 0 && (
@@ -368,6 +370,7 @@ const ImportSaveModal = ({
                     rank={rank || 0}
                     onToggle={() => togglePick(hero.guid)}
                     dimmed={!rank && picked.length >= PARTY_CONFIG.MAX_HEROES}
+                    difficulty={profile?.difficulty}
                   />
                 );
               })}

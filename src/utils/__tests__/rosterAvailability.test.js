@@ -10,6 +10,7 @@ import {
   rosterFromHeroes
 } from '../rosterAvailability';
 import { PARTY_CONFIG } from '../../constants';
+import { RESOLVE_THRESHOLDS } from '../../data/regionProfiles';
 
 const comp = (...classes) => ({ heroes: classes.map((heroClass) => ({ heroClass })) });
 
@@ -104,6 +105,10 @@ describe('missingForComp', () => {
   });
 });
 
+/** Heroes of these classes, all at exactly this resolve level. */
+const atLevel = (level, ...classes) =>
+  classes.map((heroClass) => ({ heroClass, resolveXp: RESOLVE_THRESHOLDS[level] }));
+
 describe('rosterFromHeroes', () => {
   const heroes = [
     { heroClass: 'Crusader', activity: '', isMissing: false },
@@ -124,6 +129,62 @@ describe('rosterFromHeroes', () => {
     const counts = toRosterCounts(rosterFromHeroes(heroes));
     expect(countOf(counts, 'Plague Doctor')).toBe(1);
     expect(countOf(counts, 'Vestal')).toBe(0);
+  });
+
+  it('cuts the roster down to the mission’s own resolve band', () => {
+    // A save holds the whole Hamlet at once. A Veteran quest is four Veterans,
+    // not the best four names in the list — while there are four of them.
+    const levelled = [
+      ...atLevel(3, 'Vestal', 'Hellion', 'Occultist', 'Jester'),
+      ...atLevel(1, 'Crusader'),
+      ...atLevel(6, 'Leper')
+    ];
+    expect(rosterFromHeroes(levelled, { missionTier: 'veteran' })).toEqual([
+      'Vestal',
+      'Hellion',
+      'Occultist',
+      'Jester'
+    ]);
+    // Apprentice cannot widen at all: everyone outside its band is ABOVE it,
+    // and a Resolve 3 hero refuses the quest. One hero is the honest answer.
+    expect(rosterFromHeroes(levelled, { missionTier: 'apprentice' })).toEqual(['Crusader']);
+  });
+
+  it('widens to whoever may still embark when the band is too small', () => {
+    // Three Veterans is not a party, and refusing to answer is not what was
+    // asked. The heroes the game still lets on a Veteran run come along.
+    const levelled = [...atLevel(3, 'Vestal', 'Hellion', 'Occultist'), ...atLevel(1, 'Crusader')];
+    expect(rosterFromHeroes(levelled, { missionTier: 'veteran' })).toEqual([
+      'Vestal',
+      'Hellion',
+      'Occultist',
+      'Crusader'
+    ]);
+  });
+
+  it('will not widen past the cap the game enforces', () => {
+    // Resolve 5 refuses a Veteran quest outright, so a short band stays short
+    // rather than taking someone who would not go.
+    const levelled = [...atLevel(3, 'Vestal', 'Hellion'), ...atLevel(5, 'Crusader', 'Leper')];
+    expect(rosterFromHeroes(levelled, { missionTier: 'veteran' })).toEqual(['Vestal', 'Hellion']);
+    // Radiant relaxes that by two levels, and then they can come.
+    expect(
+      rosterFromHeroes(levelled, { missionTier: 'veteran', difficulty: 'radiant' }).sort()
+    ).toEqual(['Crusader', 'Hellion', 'Leper', 'Vestal']);
+  });
+
+  it('is the whole roster when no mission is named', () => {
+    expect(rosterFromHeroes(heroes, { includeBusy: true, missionTier: null })).toHaveLength(4);
+  });
+
+  it('still leaves the busy behind inside a band', () => {
+    // Being Veteran does not get you out of the Sanitarium — and the two who
+    // are free are not four, so nothing widens them back in either.
+    const levelled = heroes.map((hero) => ({ ...hero, resolveXp: RESOLVE_THRESHOLDS[3] }));
+    expect(rosterFromHeroes(levelled, { missionTier: 'veteran' })).toEqual([
+      'Crusader',
+      'Plague Doctor'
+    ]);
   });
 });
 

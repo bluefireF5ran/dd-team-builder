@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Dice5, X, Check, Users, RotateCcw, Sparkles, Upload, FolderOpen, PackageCheck, BedDouble, Gem, Brain } from 'lucide-react';
+import { Dice5, X, Check, Users, RotateCcw, Sparkles, Upload, FolderOpen, PackageCheck, BedDouble, Gem, Brain, Swords } from 'lucide-react';
 import Modal from '../common/Modal';
 import ImageWithFallback from '../common/ImageWithFallback';
 import {
@@ -14,12 +14,25 @@ import { ROSTER_STORAGE_KEY } from '../../config/rankerRoster';
 import { parseRosterFile } from '../../utils/rosterLoader';
 import { toRosterCounts, countOf, rosterFromHeroes, isHeroAvailable } from '../../utils/rosterAvailability';
 import { STRESS_CONFIG, clampStress, isStrained } from '../../utils/heroStress';
+import {
+  ANY_MISSION,
+  MISSION_TIERS,
+  getMissionTier,
+  isMissionTier,
+  missionCap,
+  missionResolveLabel,
+  missionTierCounts
+} from '../../utils/missionLevel';
 import { PARTY_CONFIG } from '../../constants';
 
 import { generateComp, generateComps } from '../../utils/compGenerator';
 import { clearPendingComps, pendingCompKeys } from '../../utils/pendingComps';
 
 export const SUGGEST_ROSTER_KEY = 'dd_team_builder_suggest_roster_v1';
+// Remembered beside the roster, and for the same reason: the stored roster IS
+// the band, so a tier that reset on every open would leave the two describing
+// different things — a Veteran list of classes with no level filter behind it.
+export const SUGGEST_MISSION_KEY = 'dd_team_builder_suggest_mission_v1';
 
 const readJSON = (key, fallback) => {
   try {
@@ -69,6 +82,32 @@ const OptionToggle = ({ on, onClick, icon: Icon, label, title }) => (
   </button>
 );
 
+/** One difficulty on the mission row: exclusive, unlike the on/off switches. */
+const MissionPill = ({ on, onClick, label, count, title }) => (
+  <button
+    type="button"
+    onClick={onClick}
+    aria-pressed={on}
+    title={title}
+    className={`px-2.5 py-1.5 text-xs rounded border transition-colors inline-flex items-center gap-1.5 ${
+      on
+        ? 'border-dd-gold/70 bg-dd-gold/15 text-dd-gold'
+        : 'border-gray-600 bg-gray-800 text-gray-400 hover:text-gray-200'
+    }`}
+  >
+    {label}
+    {typeof count === 'number' && (
+      <span
+        className={`rounded-full min-w-[16px] px-1 text-[10px] font-bold leading-4 ${
+          on ? 'bg-dd-gold text-gray-900' : 'bg-gray-900 text-gray-400'
+        }`}
+      >
+        {count}
+      </span>
+    )}
+  </button>
+);
+
 const SuggestCompModal = ({
   isOpen,
   onClose,
@@ -89,6 +128,10 @@ const SuggestCompModal = ({
   const [requireOwnedTrinkets, setRequireOwnedTrinkets] = useState(false);
   const [reequip, setReequip] = useState(true);
   const [preferRested, setPreferRested] = useState(true);
+  // The difficulty of the run you are about to take, which decides who may go
+  // at all: Apprentice is Resolve 0-2, Veteran 3-4, Champion 5-6. `ANY_MISSION`
+  // is the whole Hamlet at once, which is what this modal did before.
+  const [missionTier, setMissionTier] = useState(ANY_MISSION);
   // Comps que has guardado con la pagina abierta y que la app todavia no lleva
   // dentro (ver `pendingComps`). Se ensena porque el apunte se hace al
   // DESCARGAR el .json, y descargar no es quedarselo: si el fichero acabo en la
@@ -112,6 +155,22 @@ const SuggestCompModal = ({
     [saveProfile, skipBusy]
   );
   const strainedCount = useMemo(() => stressedHeroes.filter(isStrained).length, [stressedHeroes]);
+
+  // How many heroes each difficulty can call on, before the button is pressed.
+  // It follows "skip busy" for the same reason the stress count does: a hero in
+  // the Abbey is not going anywhere this week, so counting them under Veteran
+  // would promise a party that cannot embark.
+  // The campaign changes what a hero's XP means and how far down a quest will
+  // reach, so it travels with every level question asked here.
+  const difficulty = saveProfile?.difficulty || null;
+  const freeHeroes = useMemo(
+    () => (saveProfile?.heroes || []).filter((hero) => !skipBusy || isHeroAvailable(hero)),
+    [saveProfile, skipBusy]
+  );
+  const tierCounts = useMemo(
+    () => missionTierCounts(freeHeroes, difficulty),
+    [freeHeroes, difficulty]
+  );
 
   // A getter, not a constant: the modded roster loads on demand. It keeps one
   // array per roster version, so `heroPool` is stable between renders and
@@ -159,7 +218,17 @@ const SuggestCompModal = ({
     const valid = normalizeRoster(initial);
     setRoster(valid.length ? valid : fallback);
     if (Array.isArray(initialRoster) && valid.length) writeJSON(SUGGEST_ROSTER_KEY, valid);
-  }, [isOpen, heroPool, showModdedHeroes, initialRoster, normalizeRoster]);
+
+    // The difficulty comes back with the roster it produced. Two exceptions,
+    // both cases where the roster on screen is no longer that band's: a
+    // hand-over from the Import Save modal is an explicit list of classes, and
+    // without a save there are no levels to read at all.
+    const storedTier = readJSON(SUGGEST_MISSION_KEY, ANY_MISSION);
+    const handedOver = Array.isArray(initialRoster) && initialRoster.length;
+    setMissionTier(
+      !handedOver && saveProfile && isMissionTier(storedTier) ? storedTier : ANY_MISSION
+    );
+  }, [isOpen, heroPool, showModdedHeroes, initialRoster, normalizeRoster, saveProfile]);
 
   // Al abrir, no en cada render: la lista solo cambia al guardar una comp, que
   // es algo que pasa con este modal cerrado.
@@ -197,33 +266,95 @@ const SuggestCompModal = ({
   // here, and comps that field two of a class become available.
   const applySaveRoster = useCallback(
     (options = {}) => {
-      const { quiet = false, includeBusy = !skipBusy } = options;
-      const names = rosterFromHeroes(saveProfile?.heroes, { includeBusy });
+      const {
+        quiet = false,
+        includeBusy = !skipBusy,
+        tier = missionTier,
+        // A short roster normally means "leave what you had" — pressing the
+        // button should not wipe a roster to hand back three heroes. A chosen
+        // difficulty is the opposite: "you have no Veteran party" is the true
+        // answer, and keeping the old list would quietly go on suggesting
+        // heroes of the wrong level.
+        force = tier !== ANY_MISSION
+      } = options;
+      const chosen = getMissionTier(tier);
+      const names = rosterFromHeroes(saveProfile?.heroes, {
+        includeBusy,
+        missionTier: tier,
+        difficulty
+      });
       const valid = normalizeRoster(names);
-      if (valid.length < PARTY_CONFIG.MAX_HEROES) {
-        if (!quiet) {
-          showToast?.(
-            busyCount && !includeBusy
-              ? `Only ${valid.length} heroes are free this week — turn off "Skip busy" to include the rest.`
-              : 'The imported save has too few usable heroes',
-            'warning'
-          );
-        }
+      const short = valid.length < PARTY_CONFIG.MAX_HEROES;
+      // The band, and what the roster ended up being: they differ exactly when
+      // the band was too small and the heroes who may still embark came along.
+      const inBand = chosen ? tierCounts[chosen.id] : 0;
+      const widened = chosen && valid.length > inBand;
+      const cap = chosen ? missionCap(chosen, difficulty) : Infinity;
+
+      const shortMessage = chosen
+        ? `Only ${valid.length} of your heroes can go on a ${chosen.label} run — not enough for a party.`
+        : busyCount && !includeBusy
+        ? `Only ${valid.length} heroes are free this week — turn off "Skip busy" to include the rest.`
+        : 'The imported save has too few usable heroes';
+
+      if (short && !force) {
+        if (!quiet) showToast?.(shortMessage, 'warning');
         return false;
       }
       setRosterAndSave(valid);
-      if (!quiet) {
+      // A short roster is worth saying even on a quiet call: `quiet` means "do
+      // not announce success", not "hide the reason the button is disabled".
+      // So is a widened one — the player asked for one level and is getting a
+      // roster that is partly below it, which they should hear before the draw
+      // rather than read off the toast afterwards.
+      if (short) showToast?.(shortMessage, 'warning');
+      else if (widened) {
         showToast?.(
-          `Roster loaded from your ${saveProfile.estateName || 'imported'} save (${valid.length} heroes)`,
+          `Only ${inBand} ${chosen.label} hero${inBand === 1 ? '' : 'es'} (${missionResolveLabel(
+            chosen
+          )}), so ${valid.length - inBand} more the game still lets in joined them` +
+            `${Number.isFinite(cap) ? ` (up to Resolve ${cap})` : ''}. They go in under level.`,
+          'warning'
+        );
+      } else if (!quiet) {
+        showToast?.(
+          chosen
+            ? `${valid.length} ${chosen.label} heroes (${missionResolveLabel(chosen)}) from your ${
+                saveProfile.estateName || 'imported'
+              } save`
+            : `Roster loaded from your ${saveProfile.estateName || 'imported'} save (${valid.length} heroes)`,
           'success'
         );
       }
-      return true;
+      return !short;
     },
-    [saveProfile, skipBusy, busyCount, normalizeRoster, setRosterAndSave, showToast]
+    [
+      saveProfile,
+      skipBusy,
+      missionTier,
+      difficulty,
+      tierCounts,
+      busyCount,
+      normalizeRoster,
+      setRosterAndSave,
+      showToast
+    ]
   );
 
   const useSaveRoster = () => applySaveRoster();
+
+  /**
+   * Pick the difficulty, and re-cut the roster to the heroes who can go on it.
+   *
+   * The roster is replaced rather than merely filtered at suggest time because
+   * the tiles are the answer to "who is coming": seeing your Champions greyed
+   * into a Veteran run is the whole point of the switch.
+   */
+  const chooseMission = (tier) => {
+    setMissionTier(tier);
+    writeJSON(SUGGEST_MISSION_KEY, tier);
+    applySaveRoster({ tier, quiet: true, force: true });
+  };
 
   const resetToVanilla = () => setRosterAndSave([...VANILLA_HERO_NAMES]);
   const selectAll = () => setRosterAndSave([...heroPool]);
@@ -234,7 +365,15 @@ const SuggestCompModal = ({
       showToast?.('Select at least 4 heroes in your roster', 'warning');
       return;
     }
-    onSuggest?.(roster, { requireOwnedTrinkets, reequip, preferRested });
+    onSuggest?.(roster, {
+      requireOwnedTrinkets,
+      reequip,
+      preferRested,
+      // `null`, not `'any'`: downstream this is "is there a band at all", and a
+      // string that happens to mean no band would read as one.
+      missionTier: missionTier === ANY_MISSION ? null : missionTier,
+      difficulty
+    });
     onClose?.();
   };
 
@@ -348,6 +487,11 @@ const SuggestCompModal = ({
             {counts.size !== roster.length && (
               <span className="text-gray-500 ml-1.5">({counts.size} classes)</span>
             )}
+            {getMissionTier(missionTier) && (
+              <span className="text-dd-gold/80 ml-1.5">
+                · {getMissionTier(missionTier).label} ({missionResolveLabel(getMissionTier(missionTier))})
+              </span>
+            )}
             {roster.length < PARTY_CONFIG.MAX_HEROES && (
               <span className="text-amber-400 ml-2">(need at least 4)</span>
             )}
@@ -399,6 +543,41 @@ const SuggestCompModal = ({
             </button>
           </div>
         </div>
+
+        {saveProfile ? (
+          <div className="flex flex-wrap items-center gap-2 mb-3">
+            <span
+              className="text-xs text-gray-400 inline-flex items-center gap-1.5 mr-0.5"
+              title="A quest is a difficulty as well as a place, and Resolve decides who may embark on it"
+            >
+              <Swords size={12} className="text-dd-gold" />
+              Mission
+            </span>
+            <MissionPill
+              on={missionTier === ANY_MISSION}
+              onClick={() => chooseMission(ANY_MISSION)}
+              label="Any level"
+              count={freeHeroes.length}
+              title="Every hero on the roster, whatever their Resolve"
+            />
+            {MISSION_TIERS.map((tier) => (
+              <MissionPill
+                key={tier.id}
+                on={missionTier === tier.id}
+                onClick={() => chooseMission(tier.id)}
+                label={tier.label}
+                count={tierCounts[tier.id]}
+                title={`${tier.label} quests (dungeon level ${tier.dungeonLevel}) — ${missionResolveLabel(
+                  tier
+                )}. The comp is built from these. With fewer than four of them, the heroes the game still lets in${
+                  Number.isFinite(missionCap(tier, difficulty))
+                    ? ` (up to Resolve ${missionCap(tier, difficulty)})`
+                    : ''
+                } come along, under level and paying for it.`}
+              />
+            ))}
+          </div>
+        ) : null}
 
         {saveProfile ? (
           <div className="flex flex-wrap items-center gap-2 mb-3">

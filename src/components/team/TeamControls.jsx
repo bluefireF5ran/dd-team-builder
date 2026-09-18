@@ -550,11 +550,15 @@ const TeamControls = ({
                 .map((hero) => `${hero.name} (${hero.stress})`)
                 .join(', ')}.`
             : '';
+          // A mission level is a promise about who is in the party, so the one
+          // case where it could not be kept — a class you own nobody of at that
+          // Resolve — is said out loud rather than left to the card.
+          const level = result?.missionNote ? ` ${result.missionNote}` : '';
           if (result?.warning) {
-            showToast?.(result.warning + swapped + strained, 'warning');
+            showToast?.(result.warning + swapped + strained + level, 'warning');
           } else if (result?.assignedHeroes?.length) {
             showToast?.(
-              `Suggested "${result.teamName}" with ${result.assignedHeroes.join(', ')}.${swapped}${strained}`,
+              `Suggested "${result.teamName}" with ${result.assignedHeroes.join(', ')}.${swapped}${strained}${level}`,
               'success'
             );
           } else {

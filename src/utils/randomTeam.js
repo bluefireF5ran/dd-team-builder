@@ -8,9 +8,18 @@ import {
   toRosterCounts,
   expandRoster,
   compFitsRoster,
+  heroClassOf,
   rosterSize
 } from './rosterAvailability';
 import { nameKey } from './nameNormalizer';
+import {
+  getMissionTier,
+  heroFitsMission,
+  heroesAllowedOn,
+  heroesForMission,
+  missionResolveLabel,
+  underLevelCost
+} from './missionLevel';
 import { reequipParty } from './trinketReequip';
 import {
   bySuitability,
@@ -100,24 +109,32 @@ const formatPresetHeroes = (heroes) => {
  * Also reports back who came in strained, so the suggestion can say "this is
  * the comp, but Dismas is at 78" instead of letting the player find out in the
  * dungeon.
+ *
+ * `order` is how the queue for a class is sorted, and it has to be the same one
+ * `stressPool` was built with or the two disagree about who fills the second
+ * slot. A mission passes one that puts its own Resolve band first.
  */
-const assignSaveHeroes = (heroes, saveHeroes) => {
-  if (!Array.isArray(saveHeroes) || !saveHeroes.length) return { heroes, assigned: [], stressed: [] };
+const assignSaveHeroes = (heroes, saveHeroes, order = bySuitability) => {
+  if (!Array.isArray(saveHeroes) || !saveHeroes.length) {
+    return { heroes, assigned: [], placed: [], stressed: [] };
+  }
 
   const pool = new Map();
-  [...saveHeroes].sort(bySuitability).forEach((hero) => {
+  [...saveHeroes].sort(order).forEach((hero) => {
     const key = nameKey(hero.heroClass);
     if (!pool.has(key)) pool.set(key, []);
     pool.get(key).push(hero);
   });
 
   const assigned = [];
+  const placed = [];
   const stressed = [];
   const merged = heroes.map((hero) => {
     // `shift` is what stops one hero filling two slots of a doubled comp.
     const mine = pool.get(nameKey(hero.heroClass))?.shift();
     if (!mine) return hero;
     assigned.push(mine.name || hero.heroClass);
+    placed.push(mine);
     if (isStrained(mine)) {
       stressed.push({ name: mine.name || hero.heroClass, stress: clampStress(mine.stress) });
     }
@@ -135,11 +152,39 @@ const assignSaveHeroes = (heroes, saveHeroes) => {
     };
   });
 
-  return { heroes: merged, assigned, stressed };
+  return { heroes: merged, assigned, placed, stressed };
 };
 
 const trinketsOf = (comp) =>
   (comp?.heroes || []).flatMap((hero) => [hero.trinket1, hero.trinket2]).filter(Boolean);
+
+/** The smaller of two counted rosters, class by class. */
+const intersectCounts = (a, b) => {
+  const both = new Map();
+  a.forEach(({ name, count }, key) => {
+    const have = b.get(key)?.count || 0;
+    if (have) both.set(key, { name, count: Math.min(count, have) });
+  });
+  return both;
+};
+
+/**
+ * How many of this comp's four slots your in-band heroes could fill.
+ *
+ * Counted like a roster, not like a set: a comp fielding two Highwaymen scores
+ * two only if the band holds two of them. It is the number the mission ranks
+ * comps by, so "mostly the band" has something to be mostly *about*.
+ */
+const bandDepth = (comp, bandCounts) => {
+  const used = new Map();
+  return (comp?.heroes || []).reduce((total, hero) => {
+    const key = nameKey(heroClassOf(hero));
+    const taken = used.get(key) || 0;
+    if (!key || taken >= (bandCounts.get(key)?.count || 0)) return total;
+    used.set(key, taken + 1);
+    return total + 1;
+  }, 0);
+};
 
 /** The trinkets a comp calls for that are not in your inventory. */
 const missingTrinketsFor = (comp, ownedKeys) => [
@@ -170,6 +215,15 @@ const missingTrinketsFor = (comp, ownedKeys) => [
  * @param options.estate  la Hacienda, como en `statBreakdown`: `true`, `false`
  *   o la lista de distritos construidos, que cambia lo que un heroe necesita
  * @param options.preferRested  sesga el sorteo hacia los héroes descansados
+ * @param options.missionTier  la dificultad de la misión (`apprentice`,
+ *   `veteran`, `champion`). La banda de Resolve manda: se prefieren las comps
+ *   que puedan llenar MÁS huecos con tus héroes de ese nivel, y sólo entra
+ *   alguien por debajo cuando no hay bastantes -- que es lo que el juego
+ *   permite, porque el tope es un máximo (ver utils/missionLevel.js). Sin
+ *   partida importada no hay niveles que mirar, así que no hace nada.
+ * @param options.difficulty  la campaña de la partida (`darkest`, `radiant`,
+ *   `stygian`): en Radiant se sube de nivel antes y se baja dos niveles más,
+ *   así que el mismo XP no es el mismo nivel
  */
 const SLOTS = ['trinket1', 'trinket2'];
 
@@ -230,29 +284,103 @@ export const generateRandomTeamFromRoster = (roster = [], includeModded = false,
     requireOwnedTrinkets = false,
     reequip = false,
     estate = true,
-    preferRested = true
+    preferRested = true,
+    missionTier = null,
+    difficulty = null
   } = options;
   const counts = toRosterCounts(roster);
+  const mission = getMissionTier(missionTier);
+
+  // The mission is applied before anything else looks at your heroes, because
+  // it is the only hard rule here: the game refuses a hero two levels above the
+  // quest outright. `missionHeroes` is everyone it would let embark, ordered so
+  // the band the quest is FOR comes first — `byMission` below is what makes
+  // that ordering bite, and both the stress pool and the assignment sort with
+  // it so they queue the same hero for the same slot.
+  const missionHeroes = heroesAllowedOn(saveHeroes, missionTier, difficulty);
+  const onLevel = heroesForMission(saveHeroes, missionTier, difficulty);
+  const byMission = mission
+    ? (a, b) =>
+        (heroFitsMission(a, missionTier, difficulty) ? 0 : 1) -
+          (heroFitsMission(b, missionTier, difficulty) ? 0 : 1) || bySuitability(a, b)
+    : bySuitability;
+
+  /**
+   * What the mission could not give you, in the words the player needs.
+   *
+   * Two different disappointments. A hero **below the band** is a real cost the
+   * game charges — 20 stress on entering one level short, 30 at two, and a
+   * quarter again on everything after — so they are named with it. A slot with
+   * **nobody** in it kept the comp's own hero, which is what happens for any
+   * class you do not own, but it is worth saying when the player asked for a
+   * party of one level and part of it is not theirs.
+   */
+  const missionNote = (assigned, placed) => {
+    if (!mission || !saveHeroes?.length) return '';
+    const notes = [];
+    const under = placed
+      .map((hero) => ({ hero, cost: underLevelCost(hero, missionTier, difficulty) }))
+      .filter((entry) => entry.cost && !heroFitsMission(entry.hero, missionTier, difficulty));
+    if (under.length) {
+      notes.push(
+        `Not enough ${mission.label} heroes (${missionResolveLabel(mission)}), so ` +
+          `${under
+            .map(({ hero, cost }) => `${hero.name || hero.heroClass} starts at +${cost.stress} stress`)
+            .join(' and ')}.`
+      );
+    }
+    if (assigned.length < PARTY_CONFIG.MAX_HEROES) {
+      notes.push(
+        `Only ${assigned.length} of the four slots could be filled from your roster.`
+      );
+    }
+    return notes.join(' ');
+  };
   // Empty without a save, and an empty pool weighs everything at 1 — so the
   // draw below is the old uniform one until there is stress to know about.
-  const stress = preferRested ? stressPool(saveHeroes) : new Map();
+  const stress = preferRested ? stressPool(missionHeroes, byMission) : new Map();
 
   const allPresets = (PRESET_COMP_ENTRIES || []).map((entry) => entry.data);
   const fieldable = allPresets.filter((comp) => compFitsRoster(comp, counts));
 
+  // **The band first, as deep as it goes.** A hard filter is wrong here: with
+  // three Veterans no comp is all-Veteran, and refusing to answer is not what a
+  // player asked for. A weight is wrong too — it would hand back an all-recruit
+  // party now and then with nothing to explain it. So comps are ranked by how
+  // many slots your in-band heroes could actually fill and only the best rank
+  // survives: four when the band can field a whole party, three when that is
+  // all you have. Under-levelled heroes get in exactly as far as they must.
+  // Counted against the roster, not just off the save: the roster is what the
+  // player actually asked for, and owning two in-band Crusaders must not put
+  // two Crusaders in a party when the roster lists one.
+  const bandCounts = mission && onLevel.length
+    ? intersectCounts(toRosterCounts(onLevel.map(heroClassOf)), counts)
+    : null;
+  const deepest = bandCounts
+    ? fieldable.reduce((best, comp) => Math.max(best, bandDepth(comp, bandCounts)), 0)
+    : 0;
+  const onBand = bandCounts
+    ? fieldable.filter((comp) => bandDepth(comp, bandCounts) === deepest)
+    : fieldable;
+
   const ownedKeys = new Set((ownedTrinkets || []).map(nameKey));
   const wantsTrinketFilter = requireOwnedTrinkets && ownedKeys.size > 0;
   const fullyEquippable = wantsTrinketFilter
-    ? fieldable.filter((comp) => missingTrinketsFor(comp, ownedKeys).length === 0)
-    : fieldable;
+    ? onBand.filter((comp) => missingTrinketsFor(comp, ownedKeys).length === 0)
+    : onBand;
 
   // Asking for comps you can fully equip and getting none is worth saying out
   // loud rather than silently ignoring: the answer is still the best comp your
   // roster can field, just not one you own every trinket for.
-  const trinketWarning = wantsTrinketFilter && !fullyEquippable.length && fieldable.length
+  const trinketWarning = wantsTrinketFilter && !fullyEquippable.length && onBand.length
     ? 'No comp could be fully equipped from your trinkets — suggesting the best fit instead.'
     : '';
-  const candidates = fullyEquippable.length ? fullyEquippable : fieldable;
+  // **A comp that uses none of your in-band heroes is not an answer.** Asked
+  // for a Veteran party and handed four Apprentices while two Veterans sit in
+  // the Hamlet, the library was the wrong place to look: the roll below takes
+  // the band first, so building one is better advice than looking one up.
+  const bandIgnored = deepest === 0 && bandCounts?.size > 0;
+  const candidates = bandIgnored ? [] : fullyEquippable.length ? fullyEquippable : onBand;
 
   if (candidates.length > 0) {
     // Two steps, because a weight alone is not enough: it only makes the tired
@@ -264,9 +392,10 @@ export const generateRandomTeamFromRoster = (roster = [], includeModded = false,
     const chosenComp = stress.size
       ? weightedPick(rested, (comp) => compStressWeight(comp, stress))
       : pickRandom(candidates, 1)[0];
-    const { heroes: dressed, assigned, stressed } = assignSaveHeroes(
+    const { heroes: dressed, assigned, placed, stressed } = assignSaveHeroes(
       formatPresetHeroes(chosenComp.heroes),
-      saveHeroes
+      missionHeroes,
+      byMission
     );
 
     // Re-equipping happens after the heroes are chosen, because a trinket that
@@ -287,6 +416,8 @@ export const generateRandomTeamFromRoster = (roster = [], includeModded = false,
     heroes.trinketFills = reequipped ? reequipped.filled : 0;
     heroes.unequipped = reequipped ? reequipped.unfilled : 0;
     heroes.warning = trinketWarning;
+    heroes.missionTier = missionTier || null;
+    heroes.missionNote = missionNote(assigned, placed);
     heroes.fromPreset = true;
 
     return heroes;
@@ -294,27 +425,44 @@ export const generateRandomTeamFromRoster = (roster = [], includeModded = false,
 
   // Fallback aleatorio: se reparte sobre el roster expandido, así que sólo
   // repite una clase si de verdad tienes dos.
-  const validNames = expandRoster(counts).filter(
-    (name) => !!(HERO_CLASSES[name] || getModdedHeroClasses()[name])
-  );
+  const known = (name) => !!(HERO_CLASSES[name] || getModdedHeroClasses()[name]);
+  const validNames = expandRoster(counts).filter(known);
   const namePool = validNames.length >= PARTY_CONFIG.MAX_HEROES ? validNames : Object.keys(HERO_CLASSES);
+
+  // The band is not drawn for, it is taken. Nothing bundled fits, so the party
+  // is being built from scratch — and a mission that has three Veterans wants
+  // all three of them in it, with the roll only deciding who comes along. Take
+  // them off the pool so the roll cannot hand the slot to the same class again.
+  const bandNames = bandCounts && validNames.length >= PARTY_CONFIG.MAX_HEROES
+    ? expandRoster(bandCounts).filter(known).slice(0, PARTY_CONFIG.MAX_HEROES)
+    : [];
+  const rollPool = bandNames.reduce((pool, name) => {
+    const at = pool.indexOf(name);
+    return at < 0 ? pool : [...pool.slice(0, at), ...pool.slice(at + 1)];
+  }, namePool);
+  const rollFor = PARTY_CONFIG.MAX_HEROES - bandNames.length;
 
   // Same two steps on the fallback roll. `expandRoster` already listed your
   // second copy of a class separately, so the second draw of a class is judged
   // on your second hero — and the strained are set aside only while enough
   // rested heroes remain to fill a party without them.
-  const weighed = stress.size ? stressWeightsFor(namePool, stress) : null;
+  const weighed = stress.size ? stressWeightsFor(rollPool, stress) : null;
   const restedNames = weighed
     ? weighed.filter((entry) => (entry.stress || 0) < STRESS_CONFIG.STRAINED)
     : null;
-  const drawFrom = restedNames?.length >= PARTY_CONFIG.MAX_HEROES ? restedNames : weighed;
-  const selectedClasses = drawFrom
-    ? weightedSample(drawFrom, PARTY_CONFIG.MAX_HEROES, (entry) => entry.weight).map(
-        (entry) => entry.heroClass
-      )
-    : pickRandom(namePool, PARTY_CONFIG.MAX_HEROES);
+  const drawFrom = restedNames?.length >= rollFor ? restedNames : weighed;
+  const selectedClasses = [
+    ...bandNames,
+    ...(drawFrom
+      ? weightedSample(drawFrom, rollFor, (entry) => entry.weight).map((entry) => entry.heroClass)
+      : pickRandom(rollPool, rollFor))
+  ];
   const rolled = selectedClasses.map((heroClass) => buildHeroFromClass(heroClass, includeModded));
-  const { heroes: withHeroes, assigned, stressed } = assignSaveHeroes(rolled, saveHeroes);
+  const { heroes: withHeroes, assigned, placed, stressed } = assignSaveHeroes(
+    rolled,
+    missionHeroes,
+    byMission
+  );
   const rolledReequipped = reequip && ownedTrinkets
     ? reequipFrom(withHeroes, ownedTrinkets, { estate })
     : null;
@@ -326,9 +474,13 @@ export const generateRandomTeamFromRoster = (roster = [], includeModded = false,
   dressed.trinketSwaps = rolledReequipped ? rolledReequipped.swaps : [];
   dressed.trinketFills = rolledReequipped ? rolledReequipped.filled : 0;
   dressed.unequipped = rolledReequipped ? rolledReequipped.unfilled : 0;
-  dressed.warning = rosterSize(counts) >= PARTY_CONFIG.MAX_HEROES
-    ? 'No bundled comp fits your roster — rolled a random party from it instead.'
-    : '';
+  dressed.warning = rosterSize(counts) < PARTY_CONFIG.MAX_HEROES
+    ? ''
+    : bandIgnored
+    ? `No bundled comp uses your ${mission.label} heroes — built a party around them instead.`
+    : `No bundled comp fits your ${mission ? `${mission.label} ` : ''}roster — rolled a random party from it instead.`;
+  dressed.missionTier = missionTier || null;
+  dressed.missionNote = missionNote(assigned, placed);
   dressed.fromPreset = false;
   return dressed;
 };

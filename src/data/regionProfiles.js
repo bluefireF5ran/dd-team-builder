@@ -168,14 +168,48 @@ export const REGION_PROFILES = {
 /**
  * XP needed for each resolve level, 0-indexed. Lives in the game install, which
  * is why the save importer could only ever show raw XP.
+ *
+ * The roster's own table, not the dungeon ladder in `progression.json` - see
+ * the script for the difference, and for what reading the wrong one did. This
+ * is Darkest's; Radiant levels faster, so read `RESOLVE_THRESHOLDS_BY_MODE`
+ * when you know which campaign the save is.
  */
-export const RESOLVE_THRESHOLDS = [0,2,6,10,16,22,32,42];
+export const RESOLVE_THRESHOLDS = [0,2,8,14,24,36,48];
 
-/** The resolve level a hero with this much XP has reached. */
-export const resolveLevel = (xp) => {
+/** The same table per campaign mode, keyed as `saveParser` names them. */
+export const RESOLVE_THRESHOLDS_BY_MODE = {"darkest":[0,2,8,14,24,36,48],"stygian":[0,2,8,14,24,36,48],"radiant":[0,2,7,13,21,29,40]};
+
+/**
+ * The highest Resolve the game lets on a quest, by dungeon level: Darkest caps
+ * Apprentice (1) at 2 and Veteran (3) at 4, Radiant relaxes them to 4 and 6,
+ * and 99 means no restriction at all. A MAXIMUM, not a band - the game stops a
+ * levelled hero going down, never a recruit going up.
+ */
+export const QUEST_RESOLVE_CAPS = [2,2,3,4,5,99,99];
+
+/** The same caps per campaign mode. */
+export const QUEST_RESOLVE_CAPS_BY_MODE = {"darkest":[2,2,3,4,5,99,99],"stygian":[2,2,3,4,5,99,99],"radiant":[4,4,4,6,99,99,99]};
+
+/**
+ * What a hero pays for being under-levelled, indexed by how many levels short
+ * of the dungeon they are: `starting` stress on entering, and `stressTaken`
+ * as a share added to every stress hit after that.
+ */
+export const UNDER_LEVEL_COST = {"starting":[0,20,30,40,50,60,70],"stressTaken":[0,0.25,0.5,0.75,1,1.25,1.5]};
+
+/**
+ * The resolve level a hero with this much XP has reached.
+ *
+ * `difficulty` is the campaign the save was started in (`saveParser` reads
+ * it): the same XP is a different level in Radiant, which needs 7 for Resolve 2
+ * where Darkest needs 8. Unknown modes fall back to Darkest rather than
+ * guessing a table.
+ */
+export const resolveLevel = (xp, difficulty) => {
   if (typeof xp !== 'number' || Number.isNaN(xp)) return null;
+  const thresholds = RESOLVE_THRESHOLDS_BY_MODE[difficulty] || RESOLVE_THRESHOLDS;
   let level = 0;
-  RESOLVE_THRESHOLDS.forEach((threshold, index) => {
+  thresholds.forEach((threshold, index) => {
     if (xp >= threshold) level = index;
   });
   return level;

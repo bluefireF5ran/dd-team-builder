@@ -1,6 +1,8 @@
 import { generateRandomTeam, generateRandomTeamFromRoster } from '../randomTeam';
 import { PARTY_CONFIG, HERO_CONFIG } from '../../constants';
 import { TRINKETS } from '../../data/trinkets';
+import { RESOLVE_THRESHOLDS } from '../../data/regionProfiles';
+import { heroCanEmbark } from '../missionLevel';
 
 describe('generateRandomTeam', () => {
   test('generates 4 heroes', () => {
@@ -353,6 +355,187 @@ describe('generateRandomTeamFromRoster', () => {
         // Four of the six are rested, which is a whole party, so the two spent
         // ones are simply not in the draw.
         expect(picked).toBe(0);
+      });
+    });
+
+    /**
+     * A mission is a difficulty as well as a place, and Resolve decides who is
+     * allowed on it. A save carries the whole Hamlet at once, so without this
+     * the suggester would happily field your Resolve 5 veteran next to a
+     * recruit - a party the game will not let you embark.
+     *
+     * The band is a preference, not a wall: the game's cap is a MAXIMUM, so a
+     * lower hero may come along when there are not enough of the right level.
+     * What is not allowed is a comp that leaves your Veterans at home.
+     */
+    describe('the missions resolve band', () => {
+      const at = (level, heroClass, name, extra = {}) => ({
+        ...saveHeroes[0],
+        name,
+        heroClass,
+        resolveXp: RESOLVE_THRESHOLDS[level],
+        stress: 0,
+        ...extra
+      });
+      const banded = [
+        at(0, 'Crusader', 'Recruit'),
+        at(3, 'Crusader', 'Sergeant'),
+        at(1, 'Vestal', 'Green'),
+        at(4, 'Vestal', 'Sister'),
+        at(2, 'Hellion', 'Rookie'),
+        at(4, 'Hellion', 'Warlord'),
+        at(0, 'Jester', 'Fool'),
+        at(3, 'Jester', 'Maestro')
+      ];
+      const roster = ['Crusader', 'Vestal', 'Hellion', 'Jester'];
+
+      test('fields only the heroes of that band when the band can fill it', () => {
+        for (let i = 0; i < 20; i++) {
+          const team = generateRandomTeamFromRoster(roster, false, {
+            saveHeroes: banded,
+            missionTier: 'veteran'
+          });
+          expect(team.assignedHeroes.sort()).toEqual(['Maestro', 'Sergeant', 'Sister', 'Warlord']);
+          expect(team.missionNote).toBe('');
+        }
+      });
+
+      test('and the other band when the other band is asked for', () => {
+        const team = generateRandomTeamFromRoster(roster, false, {
+          saveHeroes: banded,
+          missionTier: 'apprentice'
+        });
+        expect(team.assignedHeroes.sort()).toEqual(['Fool', 'Green', 'Recruit', 'Rookie']);
+      });
+
+      test('takes the lot when no mission is named, as it always did', () => {
+        const team = generateRandomTeamFromRoster(roster, false, { saveHeroes: banded });
+        expect(team.assignedHeroes).toHaveLength(PARTY_CONFIG.MAX_HEROES);
+        expect(team.missionTier).toBeNull();
+        expect(team.missionNote).toBe('');
+      });
+
+      test('picks the readiest hero inside the band, not the best one overall', () => {
+        // The band decides first and stress decides inside it: Sergeant is the
+        // Veteran Crusader, and the Resolve 0 Recruit is not an alternative to
+        // him however fresh he is.
+        const team = generateRandomTeamFromRoster(roster, false, {
+          saveHeroes: banded.map((hero) =>
+            hero.name === 'Sergeant' ? { ...hero, stress: 40 } : hero
+          ),
+          missionTier: 'veteran'
+        });
+        expect(team.assignedHeroes).toContain('Sergeant');
+        expect(team.assignedHeroes).not.toContain('Recruit');
+      });
+
+      /**
+       * The complaint this was rebuilt for: a Veteran run must not be handed to
+       * Apprentices while Veterans are sitting in the Hamlet.
+       *
+       * These eight classes are chosen because the comp library actually has
+       * depth here - four comps fit them, using 0, 1, 1 and 2 of the band. A
+       * roster the library barely covers would pass whatever the rule was.
+       */
+      describe('when the band cannot fill a party', () => {
+        const wide = [
+          'Crusader',
+          'Vestal',
+          'Highwayman',
+          'Plague Doctor',
+          'Hellion',
+          'Occultist',
+          'Man at Arms',
+          'Jester'
+        ];
+        // Two Veterans, six more the game would still let on a Veteran run.
+        const thin = [
+          at(3, 'Crusader', 'Sergeant'),
+          at(4, 'Vestal', 'Sister'),
+          at(1, 'Highwayman', 'Rookie'),
+          at(0, 'Plague Doctor', 'Fool'),
+          at(2, 'Occultist', 'Novice'),
+          at(1, 'Man at Arms', 'Trainee'),
+          at(0, 'Hellion', 'Cub'),
+          at(2, 'Jester', 'Busker')
+        ];
+
+        test('takes the comp that uses the most of your Veterans', () => {
+          // One of the four fitting comps fields both; it is the only answer.
+          for (let i = 0; i < 25; i++) {
+            const team = generateRandomTeamFromRoster(wide, false, {
+              saveHeroes: thin,
+              missionTier: 'veteran'
+            });
+            expect(team.assignedHeroes).toEqual(expect.arrayContaining(['Sergeant', 'Sister']));
+          }
+        });
+
+        test('and says who came in under level, and what it costs them', () => {
+          const team = generateRandomTeamFromRoster(wide, false, {
+            saveHeroes: thin,
+            missionTier: 'veteran'
+          });
+          // The game's own table: one level short is +20 stress on entering,
+          // two is +30 - not the flat 20 a level the wiki rounds it to.
+          expect(team.missionNote).toMatch(/Not enough Veteran heroes \(Resolve 3-4\)/);
+          expect(team.missionNote).toMatch(/starts at \+(20|30|40) stress/);
+        });
+
+        test('builds a party instead of handing back one with no Veteran in it', () => {
+          // A single Veteran of a class no fitting comp calls for. Taking the
+          // library's answer would leave them home, which is the whole
+          // complaint - so the party is built around them instead.
+          const oneOff = [
+            at(3, 'Leper', 'Sergeant'),
+            ...thin.filter((hero) => hero.name !== 'Sergeant' && hero.name !== 'Sister')
+          ];
+          for (let i = 0; i < 25; i++) {
+            const team = generateRandomTeamFromRoster([...wide, 'Leper'], false, {
+              saveHeroes: oneOff,
+              missionTier: 'veteran'
+            });
+            expect(team.assignedHeroes).toContain('Sergeant');
+          }
+        });
+
+        test('never takes a hero the game would turn away', () => {
+          // Resolve 5 refuses a Veteran quest outright, so a short band is
+          // topped up from below and never from above.
+          const withChampions = [...thin, at(5, 'Leper', 'Legend'), at(6, 'Arbalest', 'Master')];
+          for (let i = 0; i < 25; i++) {
+            const team = generateRandomTeamFromRoster([...wide, 'Leper', 'Arbalest'], false, {
+              saveHeroes: withChampions,
+              missionTier: 'veteran'
+            });
+            expect(team.assignedHeroes).not.toContain('Legend');
+            expect(team.assignedHeroes).not.toContain('Master');
+          }
+        });
+
+        test('Radiant would let those same heroes in, because the game does', () => {
+          // Not that they are preferred - only that the wall is where the
+          // campaign puts it. Resolve 5 is two levels above a Veteran quest,
+          // which Radiant allows and Darkest does not.
+          const legend = at(5, 'Leper', 'Legend');
+          expect(heroCanEmbark(legend, 'veteran', 'darkest')).toBe(false);
+          expect(heroCanEmbark(legend, 'veteran', 'radiant')).toBe(true);
+        });
+      });
+
+      test('weighs stress on the heroes who can come, not on the ones who cannot', () => {
+        // The in-band Jester is calm and the out-of-band one is at 100. Reading
+        // the wrong one would push the Jester comps down for no reason.
+        const calmInBand = banded.map((hero) =>
+          hero.name === 'Fool' ? { ...hero, stress: 100 } : hero
+        );
+        const team = generateRandomTeamFromRoster(roster, false, {
+          saveHeroes: calmInBand,
+          missionTier: 'veteran',
+          preferRested: true
+        });
+        expect(team.assignedHeroes).toContain('Maestro');
+        expect(team.stressedHeroes).toEqual([]);
       });
     });
 
