@@ -106,8 +106,8 @@ describe('the estate', () => {
     expect(districtEffects('Arbalest').acc).toBe(4);
     expect(districtEffects('Plague Doctor')).toMatchObject({ blightChance: 15, debuffChance: 15 });
     expect(districtEffects('Highwayman').scouting).toBe(5);
-    // Académie Duello's riposte damage is `hero_type_tags: []`: everyone's.
-    expect(districtEffects('Leper')).toEqual({ riposteDamage: 15 });
+    // Académie Duello's riposte ACC is `hero_type_tags: []`: everyone's.
+    expect(districtEffects('Leper')).toEqual({ riposteAcc: 10 });
     expect(districtEffects('Arbalest', false)).toEqual({});
     expect(districtEffects('Arbalest', ['training_ring'])).toEqual({ acc: 4 });
   });
@@ -139,7 +139,7 @@ describe('the estate', () => {
       const line = statBreakdown({ heroClass: CLASS });
       expect(partOf(line.stats.hp, 'estate')).toBeGreaterThan(0);
       expect(line.stats.hp.total).toBeGreaterThan(before);
-      expect(heroNeeds({ heroClass: CLASS }).district).toEqual({ acc: 4, riposteDamage: 15 });
+      expect(heroNeeds({ heroClass: CLASS }).district).toEqual({ acc: 4, riposteAcc: 10 });
     } finally {
       installModdedRoster(moddedHeroes, moddedEffectsGenerated);
     }

@@ -1376,14 +1376,18 @@ Crimson Court and Fire's Edge district JSON.
 | House of the Yellow Hand | Bounty Hunter, Grave Robber, Highwayman | +5% scouting |
 | Altar of the Light | Crusader, Vestal, Flagellant | +10% healing dealt |
 | Performance Hall | Jester | −10% stress received, +20% DMG on Finale |
-| Académie Duello | **everyone** | +15% riposte damage (only the +1 SPD is the Duelist's) |
+| Académie Duello | **everyone** | +10 ACC while riposting (only the +1 SPD is the Duelist's) |
 
-Two of those are wired in, both because they are the same units as something already modelled:
+Three of those are wired in, each because it is the same units as something already modelled:
 - **Training Ring's +4 ACC** enters `accNeed`, which is a gap in ACC points. It is why the Arbalest
   dossier says she "doesn't desperately need ACC investments", and it lifts a riposte too, whose own
   accuracy never improves on its own. On the bench the Houndmaster stops buying Steady Bracer and
   takes the DODGE he lives on, and the one Focus Ring moves off the Shieldbreaker to the Highwayman,
   who has no district ACC.
+- **Académie Duello's +10 ACC while riposting** is added to `RIPOSTE_ACC` for a hero who ripostes,
+  and to nothing else: the game's buff carries `rule_type: riposte`, so unlike the Training Ring's it
+  lifts one attack rather than all of them. Hotfix 27987 (2026-09-16) is what put it there - the
+  district used to give +15% riposte damage, which the app had no number to spend it on.
 - **Yellow Hand's +5% scouting** seeds `partyScouting`, the same pool a scouting trinket fills, so a
   party of those three starts most of the way to the map and spends the slot elsewhere.
 
@@ -1695,10 +1699,11 @@ Pinned by `src/utils/__tests__/trinketReequip.test.js`.
 - Runaway's burn beyond `burn skill amount`;
 - prose clauses ("On Attack: …");
 - utility and resist weights, which are first guesses;
-- **healing dealt, stress received, riposte damage and the Jester's Finale.** These are in the data
-  and on `needs.district`, and nothing uses them - not because they were skipped, but because the app
-  computes no heal amount, no stress-received figure and no riposte damage for them to enter. They
-  wait on those numbers existing.
+- **healing dealt, stress received and the Jester's Finale.** These are in the data and on
+  `needs.district`, and nothing uses them - not because they were skipped, but because the app
+  computes no heal amount and no stress-received figure for them to enter. They wait on those
+  numbers existing. (Riposte damage was the fourth until hotfix 27987 replaced the Académie's
+  +15% riposte DMG with +10 riposte ACC, which `accNeed` could take.)
 
 ## What a hero IS (`src/data/heroStats.js`)
 

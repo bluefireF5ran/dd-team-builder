@@ -149,7 +149,7 @@ describe('getTrinketEffect', () => {
     // No `buffs` at all - everything it does hangs off a trigger field, which
     // the importer used to ignore entirely.
     expect(getTrinketEffect('Flickering Lamplight').effect)
-      .toBe('On Turn End: Self: Heal 4 | After Battle: This trinket: +6 uses');
+      .toBe('On Turn End: Self: Heal 6 | After Battle: This trinket: +6 uses');
   });
 
   it('reads the triggered half of a trinket that also has passive buffs', () => {
@@ -157,7 +157,7 @@ describe('getTrinketEffect', () => {
     // MAX HP and CRIT and said nothing about healing the party.
     expect(getTrinketEffect("Rescuer's Rucksack").effect).toBe(
       '+20% MAX HP | -10% CRIT | -50% Restoration Duration Received'
-      + ' | On Friendly Skill: Other Heroes: Restoration 3 pts/rd for 1 rd'
+      + ' | On Friendly Skill: Other Heroes: Restoration 5 pts/rd for 1 rd'
     );
   });
 

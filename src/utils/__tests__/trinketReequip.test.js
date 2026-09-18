@@ -113,7 +113,7 @@ describe('heroNeeds reads what a hero wants from its kit', () => {
     // the DODGE he lives on than the ACC the district already gave him.
     const built = heroNeeds(hero('Houndmaster', 2), { heroIndex: 1, estate: true });
     const none = heroNeeds(hero('Houndmaster', 2), { heroIndex: 1, estate: false });
-    expect(built.district).toEqual({ acc: 4, riposteDamage: 15 });
+    expect(built.district).toEqual({ acc: 4, riposteAcc: 10 });
     expect(built.accNeed).toBeLessThan(none.accNeed);
     expect(trinketValue('Steady Bracer', built).value)
       .toBeLessThan(trinketValue('Steady Bracer', none).value);

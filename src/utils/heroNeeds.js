@@ -56,9 +56,12 @@ export const BACK_ENEMY_DODGE = 30;
 
 /**
  * A riposte's own accuracy. It is fixed and does not scale with the skill level
- * (Highwayman 85, Man at Arms 90), but trinkets, quirks and buffs do raise it,
- * which is why the Highwayman dossier says he "strongly wants solid +ACC
- * investments". The lower of the two is used for every riposte hero.
+ * (`riposte_skill: .atk` - Highwayman 85, Man at Arms 90, Duelist 100 since
+ * hotfix 27987), but trinkets, quirks and buffs do raise it, which is why the
+ * Highwayman dossier says he "strongly wants solid +ACC investments". The
+ * lowest of the three is what every riposte hero is measured at: the number is
+ * not on `heroStats` (no importer reads the riposte row), so this is a floor on
+ * purpose and errs towards saying a riposte hero still wants ACC.
  */
 export const RIPOSTE_ACC = 85;
 
@@ -191,14 +194,18 @@ export const heroNeeds = (hero, { party = null, heroIndex = -1, estate = true } 
       acc: value,
       dodge: target.some((rank) => rank >= 3) ? BACK_ENEMY_DODGE : FRONT_ENEMY_DODGE
     }));
-  // A riposte is an attack too, and a poor one: fixed accuracy that trinkets fix.
-  if (count(tagged('riposte'))) attacks.push({ acc: RIPOSTE_ACC, dodge: FRONT_ENEMY_DODGE });
-
-  const acc = attacks.length ? attacks.reduce((total, a) => total + a.acc, 0) / attacks.length : null;
   // The estate answers part of the question before the trinkets do. Training
   // Ring's +4 ACC is why the Arbalest dossier says she "doesn't desperately need
   // ACC investments", and it lifts a riposte too, whose own accuracy is fixed.
   const district = districtEffects(heroClass, estate, data.district || null);
+  // A riposte is an attack too, and a poor one: fixed accuracy that trinkets fix.
+  // Académie Duello's +10 ACC only lifts THIS attack (`rule_type: riposte`), so
+  // it rides on the riposte instead of on `district.acc`, which lifts them all.
+  if (count(tagged('riposte'))) {
+    attacks.push({ acc: RIPOSTE_ACC + (district.riposteAcc || 0), dodge: FRONT_ENEMY_DODGE });
+  }
+
+  const acc = attacks.length ? attacks.reduce((total, a) => total + a.acc, 0) / attacks.length : null;
   // 0 where an attack already lands 95% of the time, 1 at 80% or less.
   const needOf = ({ acc: value, dodge }) => clamp01((95 - (value + (district.acc || 0) + 5 - dodge)) / 15);
   const accNeed = attacks.length
