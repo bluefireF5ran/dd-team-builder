@@ -1,6 +1,7 @@
 {
   "teamName": "Silent Choir: Cross",
   "location": "The Ruins",
+  "video": "https://youtu.be/CE6kok2Vy68?si=KUm0JmBFSBwz3W2z",
   "heroes": [
     {
       "heroClass": "Occultist",
@@ -19,8 +20,14 @@
       "trinket1": "Demon's Cauldron",
       "trinket2": "Steady Bracer",
       "quirks": {
-        "positive": [],
-        "negative": []
+        "positive": [
+          "Eagle Eye",
+          "Hot to Trot",
+          "Quick Reflexes"
+        ],
+        "negative": [
+          "Deviant Tastes"
+        ]
       },
       "lockedQuirks": {
         "positive": [],
@@ -44,7 +51,11 @@
       "trinket1": "Seer Stone",
       "trinket2": "Survival Guide",
       "quirks": {
-        "positive": [],
+        "positive": [
+          "Clutch Hitter",
+          "Ruins Explorer",
+          "Second Wind"
+        ],
         "negative": []
       },
       "lockedQuirks": {
@@ -69,7 +80,11 @@
       "trinket1": "Blasphemous Vial",
       "trinket2": "Swift Cloak",
       "quirks": {
-        "positive": [],
+        "positive": [
+          "Early Riser",
+          "Hot to Trot",
+          "Natural Swing"
+        ],
         "negative": []
       },
       "lockedQuirks": {
@@ -94,7 +109,11 @@
       "trinket1": "Warrior's Cap",
       "trinket2": "Seer Stone",
       "quirks": {
-        "positive": [],
+        "positive": [
+          "Meditator",
+          "Natural Eye",
+          "Warrens Adventurer"
+        ],
         "negative": []
       },
       "lockedQuirks": {

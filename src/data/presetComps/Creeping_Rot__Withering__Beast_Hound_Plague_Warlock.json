@@ -1,11 +1,12 @@
 {
   "teamName": "Creeping Rot: Withering",
   "location": "The Cove",
+  "video": "https://youtu.be/YsJTmzAg3tA?si=qbNmKDCn34BkWeL4",
   "heroes": [
     {
       "heroClass": "Occultist",
       "activeSkills": [
-        "Weakening Curse",
+        "Sacrificial Stab",
         "Wyrd Reconstruction",
         "Vulnerability Hex",
         "Hands from the Abyss"
@@ -13,18 +14,13 @@
       "activeCampSkills": [
         "Encourage",
         "Wound Care",
-        "Dark Ritual",
+        "Dark Strength",
         "Unspeakable Commune"
       ],
       "trinket1": "Demon's Cauldron",
-      "trinket2": "Ancestor's Coat",
+      "trinket2": "Ancestor's Signet Ring",
       "quirks": {
-        "positive": [
-          "Corvids Eye",
-          "Corvids Grace",
-          "Luminous",
-          "Evasive"
-        ],
+        "positive": [],
         "negative": []
       },
       "lockedQuirks": {
@@ -79,15 +75,10 @@
         "Therapy Dog",
         "Man's Best Friend"
       ],
-      "trinket1": "Wilbur's Flag",
-      "trinket2": "Sun Cloak",
+      "trinket1": "Ancestor's Scroll",
+      "trinket2": "Ancestor's Map",
       "quirks": {
-        "positive": [
-          "Corvids Eye",
-          "Corvids Grace",
-          "Luminous",
-          "Evasive"
-        ],
+        "positive": [],
         "negative": []
       },
       "lockedQuirks": {
@@ -99,24 +90,20 @@
       "heroClass": "Plague Doctor",
       "activeSkills": [
         "Noxious Blast",
-        "Plague Grenade",
         "Blinding Gas",
-        "Battlefield Medicine"
+        "Battlefield Medicine",
+        "Disorienting Blast"
       ],
       "activeCampSkills": [
+        "Encourage",
         "Wound Care",
-        "Experimental Vapours",
         "Leeches",
         "The Cure"
       ],
       "trinket1": "Blasphemous Vial",
-      "trinket2": "Ashen Distillation",
+      "trinket2": "Prophet's Eye",
       "quirks": {
-        "positive": [
-          "Early Riser",
-          "Luminous",
-          "Corvids Eye"
-        ],
+        "positive": [],
         "negative": []
       },
       "lockedQuirks": {

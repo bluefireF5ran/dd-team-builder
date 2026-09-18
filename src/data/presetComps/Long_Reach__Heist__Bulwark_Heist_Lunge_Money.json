@@ -1,8 +1,6 @@
 {
-  "teamName": "Toe to Toe: Duel",
-  "alias": "Dancing Lunge V3.0",
-  "location": "The Cove",
-  "video": "https://youtu.be/V6Md-gwXzlk",
+  "teamName": "Long Reach: Heist",
+  "location": "The Ruins",
   "heroes": [
     {
       "heroClass": "Man at Arms",
@@ -14,81 +12,78 @@
       ],
       "activeCampSkills": [
         "Encourage",
-        "Maintain Equipment",
+        "Wound Care",
         "Tactics",
         "Weapons Practice"
       ],
       "trinket1": "Rampart Shield",
-      "trinket2": "Fortifying Garlic",
+      "trinket2": "Wilbur's Flag",
       "quirks": {
         "positive": [
-          "Corvids Eye",
+          "Luminous",
           "Corvids Grace",
-          "Evasive",
-          "Luminous"
+          "Evasive"
         ],
         "negative": []
       },
       "lockedQuirks": {
         "positive": [],
         "negative": []
-      }
-    },
-    {
-      "heroClass": "Duelist",
-      "activeSkills": [
-        "Anticipation",
-        "Touché",
-        "Feint",
-        "Disengage",
-        "Flèche",
-        "Coup de Grâce",
-        "The Boot"
-      ],
-      "activeCampSkills": [
-        "Meditation",
-        "Preparation",
-        "Ruthless Instruction",
-        "Again!"
-      ],
-      "trinket1": "Ancestor's Candle",
-      "trinket2": "Gilded Mantle",
-      "quirks": {
-        "positive": [
-          "Corvids Eye",
-          "Corvids Grace",
-          "Evasive",
-          "Luminous"
-        ],
-        "negative": []
       },
-      "lockedQuirks": {
-        "positive": [],
-        "negative": []
-      }
+      "diseases": []
     },
     {
-      "heroClass": "Plague Doctor",
+      "heroClass": "Highwayman",
       "activeSkills": [
-        "Noxious Blast",
-        "Plague Grenade",
-        "Blinding Gas",
-        "Battlefield Medicine"
+        "Pistol Shot",
+        "Grapeshot Blast",
+        "Duelist's Advance",
+        "Open Vein"
       ],
       "activeCampSkills": [
         "Encourage",
-        "Experimental Vapours",
-        "Leeches",
-        "The Cure"
+        "Wound Care",
+        "Clean Guns",
+        "Bandit's Sense"
       ],
-      "trinket1": "Blasphemous Vial",
-      "trinket2": "Ashen Distillation",
+      "trinket1": "Shameful Locket",
+      "trinket2": "Ancestor's Coat",
       "quirks": {
         "positive": [
           "Corvids Eye",
-          "Early Riser",
+          "Corvids Grace",
           "Luminous",
-          "Quick Reflexes"
+          "Evasive"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      }
+    },
+    {
+      "heroClass": "Antiquarian",
+      "activeSkills": [
+        "Festering Vapours",
+        "Fortifying Vapours",
+        "Invigorating Vapours",
+        "Protect Me"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Strange Powders",
+        "Curious Incantation"
+      ],
+      "trinket1": "Smoking Skull",
+      "trinket2": "Candle of Life",
+      "quirks": {
+        "positive": [
+          "Corvids Grace",
+          "Evasive",
+          "Luminous",
+          "Corvids Eye"
         ],
         "negative": []
       },
@@ -102,29 +97,29 @@
       "activeSkills": [
         "Pick to the Face",
         "Lunge",
-        "Thrown Dagger",
-        "Toxin Trickery"
+        "Flashing Daggers",
+        "Thrown Dagger"
       ],
       "activeCampSkills": [
         "Encourage",
+        "Wound Care",
         "Snuff Box",
-        "Gallows Humor",
         "Night Moves"
       ],
-      "trinket1": "The Tempting Goblet",
+      "trinket1": "Lucky Talisman",
       "trinket2": "Sharpened Letter Opener",
       "quirks": {
         "positive": [
-          "Corvids Eye",
+          "Corvids Grace",
           "Evasive",
           "Luminous",
-          "Corvids Grace"
+          "Corvids Eye"
         ],
         "negative": [
           "Deviant Tastes",
-          "God Fearing",
           "Resolution",
-          "Bad Gambler"
+          "Bad Gambler",
+          "God Fearing"
         ]
       },
       "lockedQuirks": {

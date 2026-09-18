@@ -1,0 +1,95 @@
+{
+  "teamName": "Thornfield: Scatter",
+  "location": "The Darkest Dungeon IV",
+  "video": "https://youtu.be/ueDsCGiXdJU",
+  "heroes": [
+    {
+      "heroClass": "Man at Arms",
+      "activeSkills": [
+        "Crush",
+        "Retribution",
+        "Command",
+        "Bolster"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Tactics",
+        "Weapons Practice"
+      ],
+      "trinket1": "Sun Cloak",
+      "trinket2": "Camouflage Cloak",
+      "quirks": {
+        "positive": [
+          "Luminous"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    },
+    {
+      "heroClass": "Man at Arms",
+      "activeSkills": [
+        "Crush",
+        "Retribution",
+        "Command",
+        "Bolster"
+      ],
+      "activeCampSkills": [
+        "Encourage",
+        "Wound Care",
+        "Tactics",
+        "Weapons Practice"
+      ],
+      "trinket1": "Sun Cloak",
+      "trinket2": "Camouflage Cloak",
+      "quirks": {
+        "positive": [
+          "Luminous"
+        ],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    },
+    {
+      "heroClass": "",
+      "activeSkills": [],
+      "activeCampSkills": [],
+      "trinket1": "",
+      "trinket2": "",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    },
+    {
+      "heroClass": "",
+      "activeSkills": [],
+      "activeCampSkills": [],
+      "trinket1": "",
+      "trinket2": "",
+      "quirks": {
+        "positive": [],
+        "negative": []
+      },
+      "lockedQuirks": {
+        "positive": [],
+        "negative": []
+      },
+      "diseases": []
+    }
+  ]
+}

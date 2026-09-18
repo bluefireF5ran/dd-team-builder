@@ -1,6 +1,7 @@
 {
   "teamName": "Open Season: Duel",
   "location": "The Ruins",
+  "video": "https://youtu.be/vbJmmhSKSfc",
   "heroes": [
     {
       "heroClass": "Antiquarian",
@@ -50,7 +51,7 @@
         "Again!"
       ],
       "trinket1": "Champion's Mantle",
-      "trinket2": "Overture Box",
+      "trinket2": "Ancestor's Signet Ring",
       "quirks": {
         "positive": [
           "Corvids Eye",

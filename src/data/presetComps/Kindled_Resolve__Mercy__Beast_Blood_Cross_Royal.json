@@ -2,6 +2,7 @@
   "teamName": "Kindled Resolve: Mercy",
   "alias": "Penance Wall",
   "location": "The Cove",
+  "video": "https://youtu.be/8AmtH0a-FFo?si=E3wLLga2v-SaueeE",
   "heroes": [
     {
       "heroClass": "Leper",
@@ -20,8 +21,17 @@
       "trinket1": "Ancestor's Signet Ring",
       "trinket2": "Heavy Boots",
       "quirks": {
-        "positive": [],
-        "negative": []
+        "positive": [
+          "Corvids Eye",
+          "Corvids Grace",
+          "Slugger",
+          "Prismatic Eye",
+          "Prismatic Force"
+        ],
+        "negative": [
+          "Known Cheat",
+          "Risktaker"
+        ]
       },
       "lockedQuirks": {
         "positive": [],
@@ -48,7 +58,12 @@
       "trinket1": "Broken Key",
       "trinket2": "Padlock of Transference",
       "quirks": {
-        "positive": [],
+        "positive": [
+          "Luminous",
+          "Precise Striker",
+          "Slugger",
+          "Corvids Eye"
+        ],
         "negative": []
       },
       "lockedQuirks": {
@@ -72,8 +87,16 @@
       "trinket1": "Flesh's Heart",
       "trinket2": "Ancestor's Map",
       "quirks": {
-        "positive": [],
-        "negative": []
+        "positive": [
+          "Corvids Eye",
+          "Corvids Grace",
+          "Tough",
+          "Prismatic Calm",
+          "Prismatic Coagulation"
+        ],
+        "negative": [
+          "Flawed Release"
+        ]
       },
       "lockedQuirks": {
         "positive": [],
@@ -97,8 +120,16 @@
       "trinket1": "Ancestor's Scroll",
       "trinket2": "Signed Conscription",
       "quirks": {
-        "positive": [],
-        "negative": []
+        "positive": [
+          "Corvids Eye",
+          "Hippocratic",
+          "Hot to Trot",
+          "Natural Swing"
+        ],
+        "negative": [
+          "Bad Gambler",
+          "Resolution"
+        ]
       },
       "lockedQuirks": {
         "positive": [],

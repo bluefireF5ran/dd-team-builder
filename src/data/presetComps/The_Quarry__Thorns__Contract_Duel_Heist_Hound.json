@@ -2,6 +2,7 @@
   "teamName": "The Quarry: Thorns",
   "alias": "Riposte Style (Duel)",
   "location": "The Ruins",
+  "video": "https://youtu.be/zZuExgGF5x4",
   "heroes": [
     {
       "heroClass": "Bounty Hunter",
@@ -18,7 +19,7 @@
         "Tracking"
       ],
       "trinket1": "Mask Of The Timeless",
-      "trinket2": "Hunter's Talons",
+      "trinket2": "Hunter's Talon",
       "quirks": {
         "positive": [
           "Corvids Grace",
@@ -104,7 +105,7 @@
         "Again!"
       ],
       "trinket1": "Ancestor's Candle",
-      "trinket2": "Tempting Goblet",
+      "trinket2": "The Tempting Goblet",
       "quirks": {
         "positive": [
           "Corvids Grace",

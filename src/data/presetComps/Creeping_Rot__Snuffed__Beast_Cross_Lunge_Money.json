@@ -1,6 +1,7 @@
 {
   "teamName": "Creeping Rot: Snuffed",
   "location": "The Ruins",
+  "video": "https://youtu.be/4V02Ixup9gc?si=EAa7bzkZwMDm6_8L",
   "heroes": [
     {
       "heroClass": "Crusader",
@@ -19,7 +20,12 @@
       "trinket1": "Ancestor's Scroll",
       "trinket2": "Signed Conscription",
       "quirks": {
-        "positive": [],
+        "positive": [
+          "Early Riser",
+          "Luminous",
+          "Quick Reflexes",
+          "Corvids Eye"
+        ],
         "negative": []
       },
       "lockedQuirks": {
@@ -40,14 +46,19 @@
       ],
       "activeCampSkills": [
         "Encourage",
-        "Wound Care",
+        "Psych Up",
         "The Quickening",
         "Eldritch Blood"
       ],
       "trinket1": "Broken Key",
       "trinket2": "Padlock of Transference",
       "quirks": {
-        "positive": [],
+        "positive": [
+          "Corvids Eye",
+          "Luminous",
+          "Quick Reflexes",
+          "Precise Striker"
+        ],
         "negative": []
       },
       "lockedQuirks": {
@@ -72,7 +83,12 @@
       "trinket1": "Smoking Skull",
       "trinket2": "Ancestor's Map",
       "quirks": {
-        "positive": [],
+        "positive": [
+          "Corvids Grace",
+          "Evasive",
+          "Luminous",
+          "Corvids Eye"
+        ],
         "negative": []
       },
       "lockedQuirks": {
@@ -97,7 +113,12 @@
       "trinket1": "Lucky Talisman",
       "trinket2": "Topshelf Tonic",
       "quirks": {
-        "positive": [],
+        "positive": [
+          "Corvids Grace",
+          "Evasive",
+          "Luminous",
+          "Corvids Eye"
+        ],
         "negative": []
       },
       "lockedQuirks": {

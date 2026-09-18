@@ -1,24 +1,24 @@
 {
-  "teamName": "Cinder Wake: Melee",
-  "location": "The Ruins",
-  "video": "https://youtu.be/hNx5QYfPF4s",
+  "teamName": "Hammer Fall: Darkest Dungeon II",
+  "location": "The Darkest Dungeon II",
+  "video": "https://youtu.be/GIpmvPfsJAE",
   "heroes": [
     {
-      "heroClass": "Crusader",
+      "heroClass": "Shieldbreaker",
       "activeSkills": [
-        "Smite",
-        "Stunning Blow",
-        "Battle Heal",
-        "Inspiring Cry"
+        "Pierce",
+        "Puncture",
+        "Impale",
+        "Serpent Sway"
       ],
       "activeCampSkills": [
         "Encourage",
-        "Stand Tall",
-        "Zealous Speech",
-        "Zealous Vigil"
+        "Snake Eyes",
+        "Snake Skin",
+        "Adder's Embrace"
       ],
-      "trinket1": "Ancestor's Scroll",
-      "trinket2": "Ancestor's Map",
+      "trinket1": "Moon Cloak",
+      "trinket2": "Talisman of the Flame",
       "quirks": {
         "positive": [],
         "negative": []
@@ -32,19 +32,19 @@
     {
       "heroClass": "Man at Arms",
       "activeSkills": [
-        "Crush",
         "Rampart",
         "Defender",
+        "Retribution",
         "Bolster"
       ],
       "activeCampSkills": [
         "Encourage",
-        "Maintain Equipment",
+        "Wound Care",
         "Tactics",
-        "Instruction"
+        "Weapons Practice"
       ],
-      "trinket1": "Rampart Shield",
-      "trinket2": "Mildred's Locket",
+      "trinket1": "Moon Cloak",
+      "trinket2": "Talisman of the Flame",
       "quirks": {
         "positive": [],
         "negative": []
@@ -56,21 +56,21 @@
       "diseases": []
     },
     {
-      "heroClass": "Runaway",
+      "heroClass": "Jester",
       "activeSkills": [
-        "Firefly",
-        "Run and Hide",
-        "Controlled Burn",
-        "Backdraft"
+        "Dirk Stab",
+        "Harvest",
+        "Battle Ballad",
+        "Inspiring Tune"
       ],
       "activeCampSkills": [
         "Encourage",
-        "Kindle",
-        "Play with Fire",
-        "Pick Pocket"
+        "Wound Care",
+        "Every Rose Has Its Thorn",
+        "Tiger's Eye"
       ],
-      "trinket1": "Searing Sunstone",
-      "trinket2": "Ancestor's Signet Ring",
+      "trinket1": "Moon Cloak",
+      "trinket2": "Talisman of the Flame",
       "quirks": {
         "positive": [],
         "negative": []
@@ -85,18 +85,18 @@
       "heroClass": "Plague Doctor",
       "activeSkills": [
         "Noxious Blast",
-        "Plague Grenade",
         "Blinding Gas",
-        "Battlefield Medicine"
+        "Emboldening Vapours",
+        "Disorienting Blast"
       ],
       "activeCampSkills": [
         "Encourage",
+        "Wound Care",
         "Experimental Vapours",
-        "Leeches",
         "Self Medicate"
       ],
-      "trinket1": "Ashen Distillation",
-      "trinket2": "Blasphemous Vial",
+      "trinket1": "Blasphemous Vial",
+      "trinket2": "Recovery Charm",
       "quirks": {
         "positive": [],
         "negative": []
