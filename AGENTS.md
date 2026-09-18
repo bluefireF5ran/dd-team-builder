@@ -2746,6 +2746,13 @@ one the RL project reads**, and it would have failed by being silently refused. 
 no such ceiling. The `data:` path survives only as a fallback for environments without
 `URL.createObjectURL` (jsdom), so the storage tests still exercise the real function.
 
+The file **ends with a newline**, which `JSON.stringify` does not write: a comp exported
+here is meant to be dropped into `src/data/presetComps` and committed, and without it the
+new file lands a line short of the 477 already there — a whole-line diff on `}` the next
+time anyone touches it. Nothing reads these by byte count, and the two scripts that rewrite
+comps keep whatever ending they find (`raw.endsWith('\n')` in `sortPresetCompSkills`,
+`hadEol` in `nameComps.v2`), so the folder stays uniform on its own.
+
 ## The comp you are building, and undoing it
 
 Two different things live in localStorage and it is worth keeping them apart.

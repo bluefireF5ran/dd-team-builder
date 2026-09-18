@@ -59,7 +59,7 @@ describe('downloadJSON', () => {
 
     downloadJSON('dd_ranking_comps.json', { ranking });
 
-    const text = JSON.stringify({ ranking }, null, 2);
+    const text = JSON.stringify({ ranking }, null, 2) + '\n';
     // The blob carries the JSON verbatim...
     expect(createdBlobs[0].size).toBe(text.length);
     // ...whereas the data: URI this replaced ran it through
@@ -76,6 +76,15 @@ describe('downloadJSON', () => {
     jest.runAllTimers();
     expect(URL.revokeObjectURL).toHaveBeenCalledWith('blob:stub-url');
     jest.useRealTimers();
+  });
+
+  it('ends the file with a newline, so an exported comp lands like the other 477', () => {
+    // Read off the data: fallback because that is the path whose text jsdom can
+    // hand back; the blob carries the same string.
+    downloadJSON('Some_Comp.json', { teamName: 'Some Comp' });
+    const text = decodeURIComponent(clicked[0].href.split(',')[1]);
+    expect(text.endsWith('}\n')).toBe(true);
+    expect(JSON.parse(text)).toEqual({ teamName: 'Some Comp' });
   });
 
   it('falls back to a data: URI where blobs are unavailable', () => {

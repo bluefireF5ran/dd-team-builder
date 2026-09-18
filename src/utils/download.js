@@ -26,12 +26,19 @@ const supportsObjectUrl = () =>
   typeof URL !== 'undefined' && typeof URL.createObjectURL === 'function';
 
 /**
+ * The file ends with a newline, because a comp exported here is meant to be
+ * dropped into `src/data/presetComps` and committed: `JSON.stringify` stops at
+ * the closing brace, so every downloaded comp used to land a line short of the
+ * 477 already there and show up as a whole-line diff on `}` the next time it
+ * was touched. Nothing reads these files by byte count, and a trailing newline
+ * is whitespace to every JSON parser.
+ *
  * @param {string} fileName what the browser should call it
  * @param {unknown} payload anything JSON-serialisable; written pretty-printed
  * @returns {boolean} whether the download was started
  */
 export const downloadJSON = (fileName, payload) => {
-  const text = JSON.stringify(payload, null, 2);
+  const text = JSON.stringify(payload, null, 2) + '\n';
   const link = document.createElement('a');
   link.setAttribute('download', fileName);
 
